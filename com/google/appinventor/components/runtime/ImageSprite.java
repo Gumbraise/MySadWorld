@@ -124,14 +124,14 @@ public class ImageSprite extends Sprite {
 
     @SimpleProperty(description = "The horizontal coordinate of the left edge of the ImageSprite, increasing as the ImageSprite moves right.")
     /* renamed from: X */
-    public double mo6392X() {
-        return super.mo6392X();
+    public double mo6415X() {
+        return super.mo6415X();
     }
 
     @SimpleProperty(description = "The vertical coordinate of the top edge of the ImageSprite, increasing as the ImageSprite moves down.")
     /* renamed from: Y */
-    public double mo6393Y() {
-        return super.mo6393Y();
+    public double mo6416Y() {
+        return super.mo6416Y();
     }
 
     @SimpleFunction(description = "Moves the ImageSprite so that its left top corner is at the specified x and y coordinates.")

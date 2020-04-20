@@ -26,28 +26,28 @@ public class MiscAttr extends Attribute {
 
     /* access modifiers changed from: protected */
     /* renamed from: u1 */
-    public int mo9263u1(int offset2) {
+    public int mo9286u1(int offset2) {
         return this.data[offset2] & Opcode.TST;
     }
 
     /* access modifiers changed from: protected */
     /* renamed from: u2 */
-    public int mo9265u2(int offset2) {
+    public int mo9288u2(int offset2) {
         return ((this.data[offset2] & Opcode.TST) << 8) + (this.data[offset2 + 1] & Opcode.TST);
     }
 
     /* access modifiers changed from: protected */
     /* renamed from: u1 */
-    public int mo9262u1() {
+    public int mo9285u1() {
         int i = this.offset;
         this.offset = i + 1;
-        return mo9263u1(i);
+        return mo9286u1(i);
     }
 
     /* access modifiers changed from: protected */
     /* renamed from: u2 */
-    public int mo9264u2() {
-        int v = mo9265u2(this.offset);
+    public int mo9287u2() {
+        int v = mo9288u2(this.offset);
         this.offset += 2;
         return v;
     }

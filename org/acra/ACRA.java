@@ -35,18 +35,18 @@ public class ACRA {
         mApplication = app;
         mReportsCrashes = (ReportsCrashes) mApplication.getClass().getAnnotation(ReportsCrashes.class);
         if (mReportsCrashes == null) {
-            log.mo12682e(LOG_TAG, "ACRA#init called but no ReportsCrashes annotation on Application " + mApplication.getPackageName());
+            log.mo12705e(LOG_TAG, "ACRA#init called but no ReportsCrashes annotation on Application " + mApplication.getPackageName());
             return;
         }
         SharedPreferences prefs = getACRASharedPreferences();
         try {
             checkCrashResources();
-            log.mo12680d(LOG_TAG, "ACRA is enabled for " + mApplication.getPackageName() + ", intializing...");
+            log.mo12703d(LOG_TAG, "ACRA is enabled for " + mApplication.getPackageName() + ", intializing...");
             ErrorReporter errorReporter = new ErrorReporter(mApplication.getApplicationContext(), prefs, !shouldDisableACRA(prefs));
             errorReporter.setDefaultReportSenders();
             errorReporterSingleton = errorReporter;
         } catch (ACRAConfigurationException e) {
-            log.mo12690w(LOG_TAG, "Error : ", e);
+            log.mo12713w(LOG_TAG, "Error : ", e);
         }
         mPrefListener = new OnSharedPreferenceChangeListener() {
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -114,7 +114,7 @@ public class ACRA {
     public static ACRAConfiguration getConfig() {
         if (configProxy == null) {
             if (mApplication == null) {
-                log.mo12689w(LOG_TAG, "Calling ACRA.getConfig() before ACRA.init() gives you an empty configuration instance. You might prefer calling ACRA.getNewDefaultConfig(Application) to get an instance with default values taken from a @ReportsCrashes annotation.");
+                log.mo12712w(LOG_TAG, "Calling ACRA.getConfig() before ACRA.init() gives you an empty configuration instance. You might prefer calling ACRA.getNewDefaultConfig(Application) to get an instance with default values taken from a @ReportsCrashes annotation.");
             }
             configProxy = getNewDefaultConfig(mApplication);
         }

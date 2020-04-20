@@ -66,7 +66,7 @@ public abstract class Sprite extends VisibleComponent implements AlarmHandler, O
         Interval(100);
         Speed(0.0f);
         Visible(true);
-        mo7934Z(DEFAULT_Z);
+        mo7957Z(DEFAULT_Z);
         container.$form().registerForOnDestroy(this);
     }
 
@@ -141,7 +141,7 @@ public abstract class Sprite extends VisibleComponent implements AlarmHandler, O
     }
 
     /* renamed from: X */
-    public double mo6392X() {
+    public double mo6415X() {
         return this.originAtCenter ? this.xCenter : this.xLeft;
     }
 
@@ -166,7 +166,7 @@ public abstract class Sprite extends VisibleComponent implements AlarmHandler, O
     @DesignerProperty(defaultValue = "0.0", editorType = "float")
     @SimpleProperty(category = PropertyCategory.APPEARANCE)
     /* renamed from: X */
-    public void mo7931X(double x) {
+    public void mo7954X(double x) {
         updateX(x);
         registerChange();
     }
@@ -192,27 +192,27 @@ public abstract class Sprite extends VisibleComponent implements AlarmHandler, O
     @DesignerProperty(defaultValue = "0.0", editorType = "float")
     @SimpleProperty
     /* renamed from: Y */
-    public void mo7932Y(double y) {
+    public void mo7955Y(double y) {
         updateY(y);
         registerChange();
     }
 
     /* renamed from: Y */
-    public double mo6393Y() {
+    public double mo6416Y() {
         return this.originAtCenter ? this.yCenter : this.yTop;
     }
 
     @DesignerProperty(defaultValue = "1.0", editorType = "float")
     @SimpleProperty
     /* renamed from: Z */
-    public void mo7934Z(double layer) {
+    public void mo7957Z(double layer) {
         this.zLayer = layer;
         this.canvas.changeSpriteLayer(this);
     }
 
     @SimpleProperty(description = "How the %type% should be layered relative to other Balls and ImageSprites, with higher-numbered layers in front of lower-numbered layers.")
     /* renamed from: Z */
-    public double mo7933Z() {
+    public double mo7956Z() {
         return this.zLayer;
     }
 

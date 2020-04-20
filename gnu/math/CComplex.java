@@ -18,12 +18,12 @@ public class CComplex extends Complex implements Externalizable {
     }
 
     /* renamed from: re */
-    public RealNum mo11721re() {
+    public RealNum mo11744re() {
         return this.real;
     }
 
     /* renamed from: im */
-    public RealNum mo11720im() {
+    public RealNum mo11743im() {
         return this.imag;
     }
 

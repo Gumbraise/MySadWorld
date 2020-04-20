@@ -99,14 +99,14 @@ public final class Ball extends Sprite {
 
     @SimpleProperty(description = "The horizontal coordinate of the Ball, increasing as the Ball moves right. If the property OriginAtCenter is true, the coordinate is for the center of the Ball; otherwise, it is for the leftmost point of the Ball.")
     /* renamed from: X */
-    public double mo6392X() {
-        return super.mo6392X();
+    public double mo6415X() {
+        return super.mo6415X();
     }
 
     @SimpleProperty(description = "The vertical coordinate of the Ball, increasing as the Ball moves down. If the property OriginAtCenter is true, the coordinate is for the center of the Ball; otherwise, it is for the uppermost point of the Ball.")
     /* renamed from: Y */
-    public double mo6393Y() {
-        return super.mo6393Y();
+    public double mo6416Y() {
+        return super.mo6416Y();
     }
 
     @SimpleFunction(description = "Sets the x and y coordinates of the Ball. If CenterAtOrigin is true, the center of the Ball will be placed here. Otherwise, the top left edge of the Ball will be placed at the specified coordinates.")

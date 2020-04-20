@@ -62,7 +62,7 @@ public class Connexion extends Form implements Runnable {
     static final SimpleSymbol Lit10;
     static final IntNum Lit100;
     static final FString Lit101 = new FString("com.google.appinventor.components.runtime.Button");
-    static final PairWithPosition Lit102 = PairWithPosition.make(Lit12, LList.Empty, "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 794706);
+    static final PairWithPosition Lit102 = PairWithPosition.make(Lit12, LList.Empty, "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 794706);
     static final SimpleSymbol Lit103 = ((SimpleSymbol) new SimpleSymbol("Button2$Click").readResolve());
     static final FString Lit104 = new FString("com.google.appinventor.components.runtime.HorizontalArrangement");
     static final SimpleSymbol Lit105 = ((SimpleSymbol) new SimpleSymbol("HorizontalArrangement6").readResolve());
@@ -72,61 +72,62 @@ public class Connexion extends Form implements Runnable {
     static final FString Lit109 = new FString("com.google.appinventor.components.runtime.Notifier");
     static final SimpleSymbol Lit11 = ((SimpleSymbol) new SimpleSymbol("AppName").readResolve());
     static final SimpleSymbol Lit110 = ((SimpleSymbol) new SimpleSymbol("$choice").readResolve());
-    static final PairWithPosition Lit111 = PairWithPosition.make(Lit160, PairWithPosition.make(Lit160, LList.Empty, "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 860263), "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 860258);
-    static final PairWithPosition Lit112 = PairWithPosition.make(Lit12, LList.Empty, "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 860451);
+    static final PairWithPosition Lit111 = PairWithPosition.make(Lit161, PairWithPosition.make(Lit161, LList.Empty, "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 860263), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 860258);
+    static final PairWithPosition Lit112 = PairWithPosition.make(Lit12, LList.Empty, "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 860451);
     static final SimpleSymbol Lit113 = ((SimpleSymbol) new SimpleSymbol("Notifier1$AfterChoosing").readResolve());
     static final SimpleSymbol Lit114 = ((SimpleSymbol) new SimpleSymbol("AfterChoosing").readResolve());
     static final FString Lit115 = new FString("com.google.appinventor.components.runtime.Web");
     static final FString Lit116 = new FString("com.google.appinventor.components.runtime.Web");
     static final SimpleSymbol Lit117 = ((SimpleSymbol) new SimpleSymbol("$responseCode").readResolve());
-    static final PairWithPosition Lit118 = PairWithPosition.make(Lit160, PairWithPosition.make(Lit160, LList.Empty, "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 888937), "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 888932);
+    static final PairWithPosition Lit118 = PairWithPosition.make(Lit161, PairWithPosition.make(Lit161, LList.Empty, "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 888937), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 888932);
     static final SimpleSymbol Lit119 = ((SimpleSymbol) new SimpleSymbol("$responseContent").readResolve());
     static final SimpleSymbol Lit12;
-    static final PairWithPosition Lit120 = PairWithPosition.make(Lit12, PairWithPosition.make(Lit12, LList.Empty, "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889076), "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889070);
-    static final PairWithPosition Lit121 = PairWithPosition.make(Lit159, PairWithPosition.make(Lit8, LList.Empty, "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889239), "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889233);
-    static final PairWithPosition Lit122 = PairWithPosition.make(Lit160, PairWithPosition.make(Lit160, LList.Empty, "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889280), "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889275);
-    static final PairWithPosition Lit123 = PairWithPosition.make(Lit159, PairWithPosition.make(Lit8, LList.Empty, "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889447), "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889441);
-    static final PairWithPosition Lit124 = PairWithPosition.make(Lit160, PairWithPosition.make(Lit160, LList.Empty, "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889486), "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889481);
+    static final PairWithPosition Lit120 = PairWithPosition.make(Lit12, PairWithPosition.make(Lit12, LList.Empty, "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889076), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889070);
+    static final PairWithPosition Lit121 = PairWithPosition.make(Lit160, PairWithPosition.make(Lit8, LList.Empty, "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889239), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889233);
+    static final PairWithPosition Lit122 = PairWithPosition.make(Lit161, PairWithPosition.make(Lit161, LList.Empty, "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889280), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889275);
+    static final PairWithPosition Lit123 = PairWithPosition.make(Lit160, PairWithPosition.make(Lit8, LList.Empty, "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889447), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889441);
+    static final PairWithPosition Lit124 = PairWithPosition.make(Lit161, PairWithPosition.make(Lit161, LList.Empty, "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889486), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889481);
     static final IntNum Lit125 = IntNum.make(4);
-    static final PairWithPosition Lit126 = PairWithPosition.make(Lit159, PairWithPosition.make(Lit8, LList.Empty, "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889653), "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889647);
-    static final PairWithPosition Lit127 = PairWithPosition.make(Lit160, PairWithPosition.make(Lit160, LList.Empty, "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889692), "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889687);
+    static final PairWithPosition Lit126 = PairWithPosition.make(Lit160, PairWithPosition.make(Lit8, LList.Empty, "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889653), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889647);
+    static final PairWithPosition Lit127 = PairWithPosition.make(Lit161, PairWithPosition.make(Lit161, LList.Empty, "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889692), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889687);
     static final SimpleSymbol Lit128 = ((SimpleSymbol) new SimpleSymbol(TinyDB.DEFAULT_NAMESPACE).readResolve());
     static final SimpleSymbol Lit129 = ((SimpleSymbol) new SimpleSymbol("StoreValue").readResolve());
     static final SimpleSymbol Lit13 = ((SimpleSymbol) new SimpleSymbol("BackgroundColor").readResolve());
-    static final PairWithPosition Lit130 = PairWithPosition.make(Lit159, PairWithPosition.make(Lit8, LList.Empty, "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889877), "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889871);
-    static final PairWithPosition Lit131 = PairWithPosition.make(Lit12, PairWithPosition.make(Lit160, LList.Empty, "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889913), "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889907);
-    static final PairWithPosition Lit132 = PairWithPosition.make(Lit12, LList.Empty, "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889991);
+    static final PairWithPosition Lit130 = PairWithPosition.make(Lit160, PairWithPosition.make(Lit8, LList.Empty, "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889877), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889871);
+    static final PairWithPosition Lit131 = PairWithPosition.make(Lit12, PairWithPosition.make(Lit161, LList.Empty, "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889913), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889907);
+    static final PairWithPosition Lit132 = PairWithPosition.make(Lit12, LList.Empty, "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 889991);
     static final SimpleSymbol Lit133 = ((SimpleSymbol) new SimpleSymbol("ShowChooseDialog").readResolve());
-    static final PairWithPosition Lit134;
-    static final PairWithPosition Lit135 = PairWithPosition.make(Lit12, PairWithPosition.make(Lit12, PairWithPosition.make(Lit12, LList.Empty, "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890303), "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890298), "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890292);
-    static final PairWithPosition Lit136 = PairWithPosition.make(Lit12, PairWithPosition.make(Lit12, PairWithPosition.make(Lit12, PairWithPosition.make(Lit12, PairWithPosition.make(Lit10, LList.Empty, "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890407), "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890402), "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890397), "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890392), "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890386);
-    static final PairWithPosition Lit137 = PairWithPosition.make(Lit12, LList.Empty, "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890501);
-    static final SimpleSymbol Lit138 = ((SimpleSymbol) new SimpleSymbol("ShowAlert").readResolve());
-    static final PairWithPosition Lit139 = PairWithPosition.make(Lit12, LList.Empty, "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890643);
+    static final IntNum Lit134 = IntNum.make(5);
+    static final PairWithPosition Lit135;
+    static final PairWithPosition Lit136 = PairWithPosition.make(Lit12, PairWithPosition.make(Lit12, PairWithPosition.make(Lit12, LList.Empty, "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890303), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890298), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890292);
+    static final PairWithPosition Lit137 = PairWithPosition.make(Lit12, PairWithPosition.make(Lit12, PairWithPosition.make(Lit12, PairWithPosition.make(Lit12, PairWithPosition.make(Lit10, LList.Empty, "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890407), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890402), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890397), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890392), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890386);
+    static final PairWithPosition Lit138 = PairWithPosition.make(Lit12, LList.Empty, "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890501);
+    static final SimpleSymbol Lit139 = ((SimpleSymbol) new SimpleSymbol("ShowAlert").readResolve());
     static final IntNum Lit14;
-    static final PairWithPosition Lit140;
-    static final SimpleSymbol Lit141 = ((SimpleSymbol) new SimpleSymbol("Web1$GotText").readResolve());
-    static final SimpleSymbol Lit142 = ((SimpleSymbol) new SimpleSymbol("GotText").readResolve());
-    static final FString Lit143 = new FString("com.google.appinventor.components.runtime.TinyDB");
+    static final PairWithPosition Lit140 = PairWithPosition.make(Lit12, LList.Empty, "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890643);
+    static final PairWithPosition Lit141;
+    static final SimpleSymbol Lit142 = ((SimpleSymbol) new SimpleSymbol("Web1$GotText").readResolve());
+    static final SimpleSymbol Lit143 = ((SimpleSymbol) new SimpleSymbol("GotText").readResolve());
     static final FString Lit144 = new FString("com.google.appinventor.components.runtime.TinyDB");
-    static final SimpleSymbol Lit145 = ((SimpleSymbol) new SimpleSymbol("get-simple-name").readResolve());
-    static final SimpleSymbol Lit146 = ((SimpleSymbol) new SimpleSymbol("android-log-form").readResolve());
-    static final SimpleSymbol Lit147 = ((SimpleSymbol) new SimpleSymbol("add-to-form-environment").readResolve());
-    static final SimpleSymbol Lit148 = ((SimpleSymbol) new SimpleSymbol("lookup-in-form-environment").readResolve());
-    static final SimpleSymbol Lit149 = ((SimpleSymbol) new SimpleSymbol("is-bound-in-form-environment").readResolve());
+    static final FString Lit145 = new FString("com.google.appinventor.components.runtime.TinyDB");
+    static final SimpleSymbol Lit146 = ((SimpleSymbol) new SimpleSymbol("get-simple-name").readResolve());
+    static final SimpleSymbol Lit147 = ((SimpleSymbol) new SimpleSymbol("android-log-form").readResolve());
+    static final SimpleSymbol Lit148 = ((SimpleSymbol) new SimpleSymbol("add-to-form-environment").readResolve());
+    static final SimpleSymbol Lit149 = ((SimpleSymbol) new SimpleSymbol("lookup-in-form-environment").readResolve());
     static final SimpleSymbol Lit15 = ((SimpleSymbol) new SimpleSymbol("CloseScreenAnimation").readResolve());
-    static final SimpleSymbol Lit150 = ((SimpleSymbol) new SimpleSymbol("add-to-global-var-environment").readResolve());
-    static final SimpleSymbol Lit151 = ((SimpleSymbol) new SimpleSymbol("add-to-events").readResolve());
-    static final SimpleSymbol Lit152 = ((SimpleSymbol) new SimpleSymbol("add-to-components").readResolve());
-    static final SimpleSymbol Lit153 = ((SimpleSymbol) new SimpleSymbol("add-to-global-vars").readResolve());
-    static final SimpleSymbol Lit154 = ((SimpleSymbol) new SimpleSymbol("add-to-form-do-after-creation").readResolve());
-    static final SimpleSymbol Lit155 = ((SimpleSymbol) new SimpleSymbol("send-error").readResolve());
-    static final SimpleSymbol Lit156 = ((SimpleSymbol) new SimpleSymbol("dispatchEvent").readResolve());
-    static final SimpleSymbol Lit157 = ((SimpleSymbol) new SimpleSymbol("dispatchGenericEvent").readResolve());
-    static final SimpleSymbol Lit158 = ((SimpleSymbol) new SimpleSymbol("lookup-handler").readResolve());
-    static final SimpleSymbol Lit159 = ((SimpleSymbol) new SimpleSymbol("list").readResolve());
+    static final SimpleSymbol Lit150 = ((SimpleSymbol) new SimpleSymbol("is-bound-in-form-environment").readResolve());
+    static final SimpleSymbol Lit151 = ((SimpleSymbol) new SimpleSymbol("add-to-global-var-environment").readResolve());
+    static final SimpleSymbol Lit152 = ((SimpleSymbol) new SimpleSymbol("add-to-events").readResolve());
+    static final SimpleSymbol Lit153 = ((SimpleSymbol) new SimpleSymbol("add-to-components").readResolve());
+    static final SimpleSymbol Lit154 = ((SimpleSymbol) new SimpleSymbol("add-to-global-vars").readResolve());
+    static final SimpleSymbol Lit155 = ((SimpleSymbol) new SimpleSymbol("add-to-form-do-after-creation").readResolve());
+    static final SimpleSymbol Lit156 = ((SimpleSymbol) new SimpleSymbol("send-error").readResolve());
+    static final SimpleSymbol Lit157 = ((SimpleSymbol) new SimpleSymbol("dispatchEvent").readResolve());
+    static final SimpleSymbol Lit158 = ((SimpleSymbol) new SimpleSymbol("dispatchGenericEvent").readResolve());
+    static final SimpleSymbol Lit159 = ((SimpleSymbol) new SimpleSymbol("lookup-handler").readResolve());
     static final SimpleSymbol Lit16 = ((SimpleSymbol) new SimpleSymbol("OpenScreenAnimation").readResolve());
-    static final SimpleSymbol Lit160 = ((SimpleSymbol) new SimpleSymbol("any").readResolve());
+    static final SimpleSymbol Lit160 = ((SimpleSymbol) new SimpleSymbol("list").readResolve());
+    static final SimpleSymbol Lit161 = ((SimpleSymbol) new SimpleSymbol("any").readResolve());
     static final SimpleSymbol Lit17 = ((SimpleSymbol) new SimpleSymbol("PrimaryColor").readResolve());
     static final IntNum Lit18 = IntNum.make(16777215);
     static final SimpleSymbol Lit19 = ((SimpleSymbol) new SimpleSymbol("PrimaryColorDark").readResolve());
@@ -195,9 +196,9 @@ public class Connexion extends Form implements Runnable {
     static final SimpleSymbol Lit76 = ((SimpleSymbol) new SimpleSymbol("Image").readResolve());
     static final SimpleSymbol Lit77 = ((SimpleSymbol) new SimpleSymbol("Text").readResolve());
     static final FString Lit78 = new FString("com.google.appinventor.components.runtime.Button");
-    static final PairWithPosition Lit79 = PairWithPosition.make(Lit12, PairWithPosition.make(Lit12, PairWithPosition.make(Lit12, PairWithPosition.make(Lit12, LList.Empty, "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 590065), "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 590060), "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 590055), "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 590049);
+    static final PairWithPosition Lit79 = PairWithPosition.make(Lit12, PairWithPosition.make(Lit12, PairWithPosition.make(Lit12, PairWithPosition.make(Lit12, LList.Empty, "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 590065), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 590060), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 590055), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 590049);
     static final SimpleSymbol Lit8;
-    static final PairWithPosition Lit80 = PairWithPosition.make(Lit12, PairWithPosition.make(Lit12, PairWithPosition.make(Lit12, LList.Empty, "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 590202), "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 590197), "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 590191);
+    static final PairWithPosition Lit80 = PairWithPosition.make(Lit12, PairWithPosition.make(Lit12, PairWithPosition.make(Lit12, LList.Empty, "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 590202), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 590197), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 590191);
     static final SimpleSymbol Lit81 = ((SimpleSymbol) new SimpleSymbol("Web1").readResolve());
     static final SimpleSymbol Lit82 = ((SimpleSymbol) new SimpleSymbol("Url").readResolve());
     static final SimpleSymbol Lit83 = ((SimpleSymbol) new SimpleSymbol("Get").readResolve());
@@ -836,11 +837,11 @@ public class Connexion extends Form implements Runnable {
         SimpleSymbol simpleSymbol4 = Lit12;
         SimpleSymbol simpleSymbol5 = (SimpleSymbol) new SimpleSymbol(PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN).readResolve();
         Lit10 = simpleSymbol5;
-        Lit140 = PairWithPosition.make(simpleSymbol, PairWithPosition.make(simpleSymbol2, PairWithPosition.make(simpleSymbol3, PairWithPosition.make(simpleSymbol4, PairWithPosition.make(simpleSymbol5, LList.Empty, "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890900), "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890895), "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890890), "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890885), "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890879);
-        SimpleSymbol simpleSymbol6 = Lit159;
+        Lit141 = PairWithPosition.make(simpleSymbol, PairWithPosition.make(simpleSymbol2, PairWithPosition.make(simpleSymbol3, PairWithPosition.make(simpleSymbol4, PairWithPosition.make(simpleSymbol5, LList.Empty, "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890900), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890895), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890890), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890885), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890879);
+        SimpleSymbol simpleSymbol6 = Lit160;
         SimpleSymbol simpleSymbol7 = (SimpleSymbol) new SimpleSymbol("number").readResolve();
         Lit8 = simpleSymbol7;
-        Lit134 = PairWithPosition.make(simpleSymbol6, PairWithPosition.make(simpleSymbol7, LList.Empty, "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890254), "/tmp/1587332366508_0.12046123580516566-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890248);
+        Lit135 = PairWithPosition.make(simpleSymbol6, PairWithPosition.make(simpleSymbol7, LList.Empty, "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890254), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Connexion.yail", 890248);
         int[] iArr = new int[2];
         iArr[0] = -16739081;
         Lit100 = IntNum.make(iArr);
@@ -867,24 +868,24 @@ public class Connexion extends Form implements Runnable {
     public Connexion() {
         ModuleInfo.register(this);
         frame frame2 = new frame();
-        this.get$Mnsimple$Mnname = new ModuleMethod(frame2, 1, Lit145, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        this.get$Mnsimple$Mnname = new ModuleMethod(frame2, 1, Lit146, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         this.onCreate = new ModuleMethod(frame2, 2, "onCreate", FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        this.android$Mnlog$Mnform = new ModuleMethod(frame2, 3, Lit146, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        this.add$Mnto$Mnform$Mnenvironment = new ModuleMethod(frame2, 4, Lit147, 8194);
-        this.lookup$Mnin$Mnform$Mnenvironment = new ModuleMethod(frame2, 5, Lit148, 8193);
-        this.is$Mnbound$Mnin$Mnform$Mnenvironment = new ModuleMethod(frame2, 7, Lit149, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        this.add$Mnto$Mnglobal$Mnvar$Mnenvironment = new ModuleMethod(frame2, 8, Lit150, 8194);
-        this.add$Mnto$Mnevents = new ModuleMethod(frame2, 9, Lit151, 8194);
-        this.add$Mnto$Mncomponents = new ModuleMethod(frame2, 10, Lit152, 16388);
-        this.add$Mnto$Mnglobal$Mnvars = new ModuleMethod(frame2, 11, Lit153, 8194);
-        this.add$Mnto$Mnform$Mndo$Mnafter$Mncreation = new ModuleMethod(frame2, 12, Lit154, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        this.send$Mnerror = new ModuleMethod(frame2, 13, Lit155, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        this.android$Mnlog$Mnform = new ModuleMethod(frame2, 3, Lit147, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        this.add$Mnto$Mnform$Mnenvironment = new ModuleMethod(frame2, 4, Lit148, 8194);
+        this.lookup$Mnin$Mnform$Mnenvironment = new ModuleMethod(frame2, 5, Lit149, 8193);
+        this.is$Mnbound$Mnin$Mnform$Mnenvironment = new ModuleMethod(frame2, 7, Lit150, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        this.add$Mnto$Mnglobal$Mnvar$Mnenvironment = new ModuleMethod(frame2, 8, Lit151, 8194);
+        this.add$Mnto$Mnevents = new ModuleMethod(frame2, 9, Lit152, 8194);
+        this.add$Mnto$Mncomponents = new ModuleMethod(frame2, 10, Lit153, 16388);
+        this.add$Mnto$Mnglobal$Mnvars = new ModuleMethod(frame2, 11, Lit154, 8194);
+        this.add$Mnto$Mnform$Mndo$Mnafter$Mncreation = new ModuleMethod(frame2, 12, Lit155, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        this.send$Mnerror = new ModuleMethod(frame2, 13, Lit156, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         this.process$Mnexception = new ModuleMethod(frame2, 14, "process-exception", FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        this.dispatchEvent = new ModuleMethod(frame2, 15, Lit156, 16388);
-        this.dispatchGenericEvent = new ModuleMethod(frame2, 16, Lit157, 16388);
-        this.lookup$Mnhandler = new ModuleMethod(frame2, 17, Lit158, 8194);
+        this.dispatchEvent = new ModuleMethod(frame2, 15, Lit157, 16388);
+        this.dispatchGenericEvent = new ModuleMethod(frame2, 16, Lit158, 16388);
+        this.lookup$Mnhandler = new ModuleMethod(frame2, 17, Lit159, 8194);
         ModuleMethod moduleMethod = new ModuleMethod(frame2, 18, null, 0);
-        moduleMethod.setProperty("source-location", "/tmp/runtime6981015161475740401.scm:622");
+        moduleMethod.setProperty("source-location", "/tmp/runtime8442570147866654509.scm:622");
         lambda$Fn1 = moduleMethod;
         this.$define = new ModuleMethod(frame2, 19, "$define", 0);
         lambda$Fn2 = new ModuleMethod(frame2, 20, null, 0);
@@ -920,7 +921,7 @@ public class Connexion extends Form implements Runnable {
         lambda$Fn30 = new ModuleMethod(frame2, 50, null, 0);
         lambda$Fn31 = new ModuleMethod(frame2, 51, null, 0);
         this.Notifier1$AfterChoosing = new ModuleMethod(frame2, 52, Lit113, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        this.Web1$GotText = new ModuleMethod(frame2, 53, Lit141, 16388);
+        this.Web1$GotText = new ModuleMethod(frame2, 53, Lit142, 16388);
     }
 
     public Object lookupInFormEnvironment(Symbol symbol) {
@@ -1114,20 +1115,20 @@ public class Connexion extends Form implements Runnable {
             addToComponents(Lit0, Lit116, Lit81, Boolean.FALSE);
         }
         if (C0608runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
-            C0608runtime.addToCurrentFormEnvironment(Lit141, this.Web1$GotText);
+            C0608runtime.addToCurrentFormEnvironment(Lit142, this.Web1$GotText);
         } else {
-            addToFormEnvironment(Lit141, this.Web1$GotText);
+            addToFormEnvironment(Lit142, this.Web1$GotText);
         }
         if (C0608runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
             EventDispatcher.registerEventForDelegation((HandlesEventDispatching) C0608runtime.$Stthis$Mnform$St, "Web1", "GotText");
         } else {
-            addToEvents(Lit81, Lit142);
+            addToEvents(Lit81, Lit143);
         }
         this.TinyDB1 = null;
         if (C0608runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
-            Values.writeValues(C0608runtime.addComponentWithinRepl(Lit0, Lit143, Lit128, Boolean.FALSE), $result);
+            Values.writeValues(C0608runtime.addComponentWithinRepl(Lit0, Lit144, Lit128, Boolean.FALSE), $result);
         } else {
-            addToComponents(Lit0, Lit144, Lit128, Boolean.FALSE);
+            addToComponents(Lit0, Lit145, Lit128, Boolean.FALSE);
         }
         C0608runtime.initRuntime();
     }
@@ -1390,13 +1391,13 @@ public class Connexion extends Form implements Runnable {
             C0608runtime.addGlobalVarToCurrentFormEnvironment(simpleSymbol, C0608runtime.callYailPrimitive(moduleMethod2, LList.list2(obj, "/"), Lit120, "split"));
             if (C0608runtime.callYailPrimitive(C0608runtime.yail$Mnequal$Qu, LList.list2(C0608runtime.callYailPrimitive(C0608runtime.yail$Mnlist$Mnget$Mnitem, LList.list2(C0608runtime.lookupGlobalVarInCurrentFormEnvironment(Lit5, C0608runtime.$Stthe$Mnnull$Mnvalue$St), Lit52), Lit121, "select list item"), "yes"), Lit122, "=") == Boolean.FALSE) {
                 SimpleSymbol simpleSymbol2 = Lit108;
-                SimpleSymbol simpleSymbol3 = Lit138;
+                SimpleSymbol simpleSymbol3 = Lit139;
                 if ($responseContent2 instanceof Package) {
                     $responseContent2 = C0608runtime.signalRuntimeError(strings.stringAppend("The variable ", C0608runtime.getDisplayRepresentation(Lit119), " is not bound in the current context"), "Unbound Variable");
                 }
-                return C0608runtime.callComponentMethod(simpleSymbol2, simpleSymbol3, LList.list1($responseContent2), Lit139);
+                return C0608runtime.callComponentMethod(simpleSymbol2, simpleSymbol3, LList.list1($responseContent2), Lit140);
             } else if (C0608runtime.callYailPrimitive(C0608runtime.yail$Mnequal$Qu, LList.list2(C0608runtime.callYailPrimitive(C0608runtime.yail$Mnlist$Mnget$Mnitem, LList.list2(C0608runtime.lookupGlobalVarInCurrentFormEnvironment(Lit5, C0608runtime.$Stthe$Mnnull$Mnvalue$St), Lit36), Lit123, "select list item"), "1"), Lit124, "=") == Boolean.FALSE) {
-                return C0608runtime.callYailPrimitive(C0608runtime.open$Mnanother$Mnscreen, LList.list1("Etape1"), Lit137, "open another screen");
+                return C0608runtime.callYailPrimitive(C0608runtime.open$Mnanother$Mnscreen, LList.list1("Etape1"), Lit138, "open another screen");
             } else {
                 if (C0608runtime.callYailPrimitive(C0608runtime.yail$Mnequal$Qu, LList.list2(C0608runtime.callYailPrimitive(C0608runtime.yail$Mnlist$Mnget$Mnitem, LList.list2(C0608runtime.lookupGlobalVarInCurrentFormEnvironment(Lit5, C0608runtime.$Stthe$Mnnull$Mnvalue$St), Lit125), Lit126, "select list item"), "1"), Lit127, "=") != Boolean.FALSE) {
                     C0608runtime.callComponentMethod(Lit128, Lit129, LList.list2("user_id", C0608runtime.callYailPrimitive(C0608runtime.yail$Mnlist$Mnget$Mnitem, LList.list2(C0608runtime.lookupGlobalVarInCurrentFormEnvironment(Lit5, C0608runtime.$Stthe$Mnnull$Mnvalue$St), Lit38), Lit130, "select list item")), Lit131);
@@ -1404,16 +1405,16 @@ public class Connexion extends Form implements Runnable {
                 }
                 SimpleSymbol simpleSymbol4 = Lit108;
                 SimpleSymbol simpleSymbol5 = Lit133;
-                Pair list1 = LList.list1(C0608runtime.callYailPrimitive(C0608runtime.string$Mnreplace$Mnall, LList.list3(C0608runtime.callYailPrimitive(C0608runtime.yail$Mnlist$Mnget$Mnitem, LList.list2(C0608runtime.lookupGlobalVarInCurrentFormEnvironment(Lit5, C0608runtime.$Stthe$Mnnull$Mnvalue$St), Lit125), Lit134, "select list item"), "-", "/"), Lit135, "replace all"));
+                Pair list1 = LList.list1(C0608runtime.callYailPrimitive(C0608runtime.string$Mnreplace$Mnall, LList.list3(C0608runtime.callYailPrimitive(C0608runtime.yail$Mnlist$Mnget$Mnitem, LList.list2(C0608runtime.lookupGlobalVarInCurrentFormEnvironment(Lit5, C0608runtime.$Stthe$Mnnull$Mnvalue$St), Lit134), Lit135, "select list item"), "-", "/"), Lit136, "replace all"));
                 LList.chain4(list1, "Attention !", "Accéder à l'application", "", Boolean.FALSE);
-                return C0608runtime.callComponentMethod(simpleSymbol4, simpleSymbol5, list1, Lit136);
+                return C0608runtime.callComponentMethod(simpleSymbol4, simpleSymbol5, list1, Lit137);
             }
         } else {
             SimpleSymbol simpleSymbol6 = Lit108;
             SimpleSymbol simpleSymbol7 = Lit133;
             Pair list12 = LList.list1("Une grave erreur s'est produite lors du traitement de vos données. Réessayez dans quelques instants.");
             LList.chain4(list12, "Erreur", "Quitter", "", Boolean.FALSE);
-            return C0608runtime.callComponentMethod(simpleSymbol6, simpleSymbol7, list12, Lit140);
+            return C0608runtime.callComponentMethod(simpleSymbol6, simpleSymbol7, list12, Lit141);
         }
     }
 

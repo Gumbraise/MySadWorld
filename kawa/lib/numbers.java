@@ -1043,11 +1043,11 @@ public class numbers extends ModuleBody {
     }
 
     public static RealNum realPart(Complex x) {
-        return x.mo11721re();
+        return x.mo11744re();
     }
 
     public static RealNum imagPart(Complex x) {
-        return x.mo11720im();
+        return x.mo11743im();
     }
 
     public static Number magnitude(Number x) {

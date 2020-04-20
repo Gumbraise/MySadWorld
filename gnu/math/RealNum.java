@@ -14,12 +14,12 @@ public abstract class RealNum extends Complex implements Comparable {
     public abstract int sign();
 
     /* renamed from: re */
-    public final RealNum mo11721re() {
+    public final RealNum mo11744re() {
         return this;
     }
 
     /* renamed from: im */
-    public final RealNum mo11720im() {
+    public final RealNum mo11743im() {
         return IntNum.zero();
     }
 
