@@ -135,7 +135,7 @@ public class Reinit extends Form implements Runnable {
         this.dispatchGenericEvent = new ModuleMethod(frame2, 16, Lit36, 16388);
         this.lookup$Mnhandler = new ModuleMethod(frame2, 17, Lit37, 8194);
         ModuleMethod moduleMethod = new ModuleMethod(frame2, 18, (Object) null, 0);
-        moduleMethod.setProperty("source-location", "/tmp/runtime4614685546883446523.scm:622");
+        moduleMethod.setProperty("source-location", "/tmp/runtime5061084233371746619.scm:622");
         lambda$Fn1 = moduleMethod;
         this.$define = new ModuleMethod(frame2, 19, "$define", 0);
         lambda$Fn2 = new ModuleMethod(frame2, 20, (Object) null, 0);
@@ -186,7 +186,7 @@ public class Reinit extends Form implements Runnable {
             runtime.setAndCoerceProperty$Ex(Lit0, Lit10, Lit11, Lit5);
             runtime.setAndCoerceProperty$Ex(Lit0, Lit12, Lit13, Lit5);
             runtime.setAndCoerceProperty$Ex(Lit0, Lit14, Boolean.TRUE, Lit7);
-            runtime.setAndCoerceProperty$Ex(Lit0, Lit15, "Fixed", Lit9);
+            runtime.setAndCoerceProperty$Ex(Lit0, Lit15, "Responsive", Lit9);
             runtime.setAndCoerceProperty$Ex(Lit0, Lit16, "AppTheme", Lit9);
             Values.writeValues(runtime.setAndCoerceProperty$Ex(Lit0, Lit17, "Reinit", Lit9), $result);
         } else {
@@ -218,7 +218,7 @@ public class Reinit extends Form implements Runnable {
         runtime.setAndCoerceProperty$Ex(Lit0, Lit10, Lit11, Lit5);
         runtime.setAndCoerceProperty$Ex(Lit0, Lit12, Lit13, Lit5);
         runtime.setAndCoerceProperty$Ex(Lit0, Lit14, Boolean.TRUE, Lit7);
-        runtime.setAndCoerceProperty$Ex(Lit0, Lit15, "Fixed", Lit9);
+        runtime.setAndCoerceProperty$Ex(Lit0, Lit15, "Responsive", Lit9);
         runtime.setAndCoerceProperty$Ex(Lit0, Lit16, "AppTheme", Lit9);
         return runtime.setAndCoerceProperty$Ex(Lit0, Lit17, "Reinit", Lit9);
     }
