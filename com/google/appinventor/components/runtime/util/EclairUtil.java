@@ -2,11 +2,8 @@ package com.google.appinventor.components.runtime.util;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.webkit.GeolocationPermissions;
-import android.webkit.GeolocationPermissions.Callback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.EditText;
@@ -24,25 +21,25 @@ public class EclairUtil {
         webview.getSettings().setGeolocationDatabasePath(activity.getFilesDir().getAbsolutePath());
         webview.getSettings().setDatabaseEnabled(true);
         webview.setWebChromeClient(new WebChromeClient() {
-            public void onGeolocationPermissionsShowPrompt(String origin, Callback callback) {
-                final Callback theCallback = callback;
+            public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
+                final GeolocationPermissions.Callback theCallback = callback;
                 final String theOrigin = origin;
                 if (!caller.PromptforPermission()) {
                     callback.invoke(origin, true, true);
                     return;
                 }
-                AlertDialog alertDialog = new Builder(activity).create();
+                AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
                 alertDialog.setTitle("Permission Request");
                 if (origin.equals("file://")) {
                     origin = "This Application";
                 }
                 alertDialog.setMessage(origin + " would like to access your location.");
-                alertDialog.setButton(-1, "Allow", new OnClickListener() {
+                alertDialog.setButton(-1, "Allow", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         theCallback.invoke(theOrigin, true, true);
                     }
                 });
-                alertDialog.setButton(-2, "Refuse", new OnClickListener() {
+                alertDialog.setButton(-2, "Refuse", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         theCallback.invoke(theOrigin, false, true);
                     }

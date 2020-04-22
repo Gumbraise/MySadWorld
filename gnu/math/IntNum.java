@@ -1,5 +1,6 @@
 package gnu.math;
 
+import android.support.v7.widget.ActivityChooserView;
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
@@ -663,9 +664,8 @@ public class IntNum extends RatNum implements Externalizable {
             int nshift = MPN.count_leading_zeros(ywords[ylen - 1]);
             if (nshift != 0) {
                 MPN.lshift(ywords, 0, ywords, ylen, nshift);
-                int xlen4 = xlen + 1;
                 xwords[xlen] = MPN.lshift(xwords, 0, xwords, xlen, nshift);
-                xlen = xlen4;
+                xlen++;
             }
             if (xlen == ylen) {
                 xlen2 = xlen + 1;
@@ -933,9 +933,8 @@ public class IntNum extends RatNum implements Externalizable {
         int len2 = MPN.gcd(xwords, ywords, len);
         IntNum result = new IntNum(0);
         if (xwords[len2 - 1] < 0) {
-            int len3 = len2 + 1;
             xwords[len2] = 0;
-            len2 = len3;
+            len2++;
         }
         result.ival = len2;
         result.words = xwords;
@@ -953,7 +952,7 @@ public class IntNum extends RatNum implements Externalizable {
         return quotient.canonicalize();
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void setInvert() {
         if (this.words == null) {
             this.ival ^= -1;
@@ -970,7 +969,7 @@ public class IntNum extends RatNum implements Externalizable {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void setShiftLeft(IntNum x, int count) {
         int[] xwords;
         int xlen;
@@ -1016,7 +1015,7 @@ public class IntNum extends RatNum implements Externalizable {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void setShiftRight(IntNum x, int count) {
         int i = -1;
         if (x.words == null) {
@@ -1053,7 +1052,7 @@ public class IntNum extends RatNum implements Externalizable {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void setShift(IntNum x, int count) {
         if (count > 0) {
             setShiftLeft(x, count);
@@ -1377,9 +1376,8 @@ public class IntNum extends RatNum implements Externalizable {
             return zero();
         }
         if (words2[size - 1] < 0) {
-            int size2 = size + 1;
             words2[size] = 0;
-            size = size2;
+            size++;
         }
         if (negative) {
             negate(words2, words2, size);
@@ -1404,7 +1402,7 @@ public class IntNum extends RatNum implements Externalizable {
         return roundToDouble(0, false, false);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public boolean checkBits(int n) {
         boolean z = true;
         if (n <= 0) {
@@ -1430,6 +1428,7 @@ public class IntNum extends RatNum implements Externalizable {
     }
 
     public double roundToDouble(int exp, boolean neg, boolean remainder) {
+        long m;
         int il = intLength();
         int exp2 = exp + (il - 1);
         if (exp2 < -1075) {
@@ -1442,7 +1441,11 @@ public class IntNum extends RatNum implements Externalizable {
         } else {
             int ml = exp2 >= -1022 ? 53 : exp2 + 53 + 1022;
             int excess_bits = il - (ml + 1);
-            long m = excess_bits > 0 ? this.words == null ? (long) (this.ival >> excess_bits) : MPN.rshift_long(this.words, this.ival, excess_bits) : longValue() << (-excess_bits);
+            if (excess_bits > 0) {
+                m = this.words == null ? (long) (this.ival >> excess_bits) : MPN.rshift_long(this.words, this.ival, excess_bits);
+            } else {
+                m = longValue() << (-excess_bits);
+            }
             if (exp2 == 1023 && (m >> 1) == 9007199254740991L) {
                 if (!remainder) {
                     if (!checkBits(il - ml)) {
@@ -1553,9 +1556,8 @@ public class IntNum extends RatNum implements Externalizable {
         if (x.words != null) {
             realloc(len + 1);
             if (negate(this.words, x.words, len)) {
-                int len2 = len + 1;
                 this.words[len] = 0;
-                len = len2;
+                len++;
             }
             this.ival = len;
         } else if (len == Integer.MIN_VALUE) {
@@ -1624,7 +1626,7 @@ public class IntNum extends RatNum implements Externalizable {
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         int i = in.readInt();
         if (i <= -1073741824) {
-            i &= ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED;
+            i &= ActivityChooserView.ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED;
             if (i == 1) {
                 i = in.readInt();
             } else {

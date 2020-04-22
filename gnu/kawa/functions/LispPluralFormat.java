@@ -9,17 +9,15 @@ import java.text.FieldPosition;
 /* compiled from: LispFormat */
 class LispPluralFormat extends ReportFormat {
     boolean backup;
-
-    /* renamed from: y */
-    boolean f61y;
+    boolean y;
 
     LispPluralFormat() {
     }
 
-    public static LispPluralFormat getInstance(boolean backup2, boolean y) {
+    public static LispPluralFormat getInstance(boolean backup2, boolean y2) {
         LispPluralFormat fmt = new LispPluralFormat();
         fmt.backup = backup2;
-        fmt.f61y = y;
+        fmt.y = y2;
         return fmt;
     }
 
@@ -29,7 +27,7 @@ class LispPluralFormat extends ReportFormat {
         }
         int start2 = start + 1;
         boolean plural = args[start] != IntNum.one();
-        if (this.f61y) {
+        if (this.y) {
             print(dst, plural ? "ies" : "y");
         } else if (plural) {
             dst.write(115);

@@ -30,7 +30,7 @@ public class thisRef extends Syntax {
                 tr.error('e', "use of 'this' in a static method");
             } else {
                 firstParam = new Declaration((Object) ThisExp.THIS_NAME);
-                method.add(null, firstParam);
+                method.add((Declaration) null, firstParam);
                 method.nameDecl.setFlag(4096);
             }
         }

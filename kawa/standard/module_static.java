@@ -12,8 +12,8 @@ public class module_static extends Syntax {
         module_static.setName("module-static");
     }
 
-    /* JADX WARNING: Removed duplicated region for block: B:14:0x005d  */
-    /* JADX WARNING: Removed duplicated region for block: B:52:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+    /* JADX WARNING: Removed duplicated region for block: B:16:0x0063  */
+    /* JADX WARNING: Removed duplicated region for block: B:53:? A[RETURN, SYNTHETIC] */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public boolean scanForDefinitions(gnu.lists.Pair r12, java.util.Vector r13, gnu.expr.ScopeExp r14, kawa.lang.Translator r15) {
         /*
@@ -143,7 +143,7 @@ public class module_static extends Syntax {
             r6 = 512(0x200, double:2.53E-321)
             boolean r6 = r0.getFlag(r6)
             if (r6 == 0) goto L_0x012e
-            kawa.lang.Translator.setLine(r0, r12)
+            kawa.lang.Translator.setLine((gnu.expr.Declaration) r0, (java.lang.Object) r12)
         L_0x012e:
             r6 = 2048(0x800, double:1.0118E-320)
             r0.setFlag(r6)

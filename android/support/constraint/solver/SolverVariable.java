@@ -20,9 +20,7 @@ public class SolverVariable {
     private static int uniqueUnrestrictedId = 1;
     public float computedValue;
     int definitionId = -1;
-
-    /* renamed from: id */
-    public int f3id = -1;
+    public int id = -1;
     ArrayRow[] mClientEquations = new ArrayRow[8];
     int mClientEquationsCount = 0;
     private String mName;
@@ -87,14 +85,14 @@ public class SolverVariable {
         this.mType = type;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void clearStrengths() {
         for (int i = 0; i < 7; i++) {
             this.strengthVector[i] = 0.0f;
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public String strengthsToString() {
         String representation = this + "[";
         boolean negative = false;
@@ -165,7 +163,7 @@ public class SolverVariable {
         this.mName = null;
         this.mType = Type.UNKNOWN;
         this.strength = 0;
-        this.f3id = -1;
+        this.id = -1;
         this.definitionId = -1;
         this.computedValue = 0.0f;
         this.mClientEquationsCount = 0;

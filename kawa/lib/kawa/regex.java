@@ -1,7 +1,7 @@
 package kawa.lib.kawa;
 
-import android.support.p000v4.app.FragmentTransaction;
-import android.support.p000v4.view.InputDeviceCompat;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.InputDeviceCompat;
 import gnu.expr.ModuleBody;
 import gnu.expr.ModuleInfo;
 import gnu.expr.ModuleMethod;
@@ -12,7 +12,7 @@ import gnu.mapping.SimpleSymbol;
 import gnu.mapping.WrongType;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import kawa.lib.C0620lists;
+import kawa.lib.lists;
 import kawa.lib.misc;
 import kawa.standard.Scheme;
 
@@ -34,38 +34,6 @@ public class regex extends ModuleBody {
     public static final ModuleMethod regex$Mnreplace;
     public static final ModuleMethod regex$Mnreplace$St;
     public static final ModuleMethod regex$Mnsplit;
-
-    /* compiled from: regex.scm */
-    public class frame extends ModuleBody {
-        Object loop = new ModuleMethod(this, 1, regex.Lit0, 0);
-        Matcher matcher;
-        Object repl;
-        StringBuffer sbuf;
-
-        public Object apply0(ModuleMethod moduleMethod) {
-            return moduleMethod.selector == 1 ? lambda1loop() : super.apply0(moduleMethod);
-        }
-
-        public int match0(ModuleMethod moduleMethod, CallContext callContext) {
-            if (moduleMethod.selector != 1) {
-                return super.match0(moduleMethod, callContext);
-            }
-            callContext.proc = moduleMethod;
-            callContext.f236pc = 0;
-            return 0;
-        }
-
-        public String lambda1loop() {
-            if (this.matcher.find()) {
-                Matcher matcher2 = this.matcher;
-                StringBuffer stringBuffer = this.sbuf;
-                Object apply2 = Scheme.applyToArgs.apply2(this.repl, this.matcher.group());
-                matcher2.appendReplacement(stringBuffer, Matcher.quoteReplacement(apply2 == null ? null : apply2.toString()));
-            }
-            this.matcher.appendTail(this.sbuf);
-            return this.sbuf.toString();
-        }
-    }
 
     static {
         regex regex = $instance;
@@ -135,7 +103,7 @@ public class regex extends ModuleBody {
         }
         callContext.value1 = obj;
         callContext.proc = moduleMethod;
-        callContext.f236pc = 1;
+        callContext.pc = 1;
         return 0;
     }
 
@@ -164,7 +132,7 @@ public class regex extends ModuleBody {
                 }
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 6:
                 callContext.value1 = obj;
@@ -173,7 +141,7 @@ public class regex extends ModuleBody {
                 }
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 9:
                 callContext.value1 = obj;
@@ -182,7 +150,7 @@ public class regex extends ModuleBody {
                 }
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 12:
                 callContext.value1 = obj;
@@ -191,7 +159,7 @@ public class regex extends ModuleBody {
                 }
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             default:
                 return super.match2(moduleMethod, obj, obj2, callContext);
@@ -208,7 +176,7 @@ public class regex extends ModuleBody {
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 6:
                 callContext.value1 = obj;
@@ -218,7 +186,7 @@ public class regex extends ModuleBody {
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 9:
                 callContext.value1 = obj;
@@ -228,7 +196,7 @@ public class regex extends ModuleBody {
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 13:
                 callContext.value1 = obj;
@@ -238,7 +206,7 @@ public class regex extends ModuleBody {
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 14:
                 callContext.value1 = obj;
@@ -248,7 +216,7 @@ public class regex extends ModuleBody {
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             default:
                 return super.match3(moduleMethod, obj, obj2, obj3, callContext);
@@ -266,7 +234,7 @@ public class regex extends ModuleBody {
                 callContext.value3 = obj3;
                 callContext.value4 = obj4;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 4;
+                callContext.pc = 4;
                 return 0;
             case 6:
                 callContext.value1 = obj;
@@ -277,7 +245,7 @@ public class regex extends ModuleBody {
                 callContext.value3 = obj3;
                 callContext.value4 = obj4;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 4;
+                callContext.pc = 4;
                 return 0;
             case 9:
                 callContext.value1 = obj;
@@ -288,7 +256,7 @@ public class regex extends ModuleBody {
                 callContext.value3 = obj3;
                 callContext.value4 = obj4;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 4;
+                callContext.pc = 4;
                 return 0;
             default:
                 return super.match4(moduleMethod, obj, obj2, obj3, obj4, callContext);
@@ -322,7 +290,7 @@ public class regex extends ModuleBody {
                 subSequence = str.subSequence(start2, matcher.end(igroup));
             }
             igroup--;
-            lList = C0620lists.cons(subSequence, lList);
+            lList = lists.cons(subSequence, lList);
         }
         return lList;
     }
@@ -351,10 +319,10 @@ public class regex extends ModuleBody {
             if (start2 < 0) {
                 cons = Boolean.FALSE;
             } else {
-                cons = C0620lists.cons(Integer.valueOf(start2), Integer.valueOf(matcher.end(igroup)));
+                cons = lists.cons(Integer.valueOf(start2), Integer.valueOf(matcher.end(igroup)));
             }
             igroup--;
-            lList = C0620lists.cons(cons, lList);
+            lList = lists.cons(cons, lList);
         }
         return lList;
     }
@@ -554,6 +522,38 @@ public class regex extends ModuleBody {
                 }
             default:
                 return super.apply3(moduleMethod, obj, obj2, obj3);
+        }
+    }
+
+    /* compiled from: regex.scm */
+    public class frame extends ModuleBody {
+        Object loop = new ModuleMethod(this, 1, regex.Lit0, 0);
+        Matcher matcher;
+        Object repl;
+        StringBuffer sbuf;
+
+        public Object apply0(ModuleMethod moduleMethod) {
+            return moduleMethod.selector == 1 ? lambda1loop() : super.apply0(moduleMethod);
+        }
+
+        public int match0(ModuleMethod moduleMethod, CallContext callContext) {
+            if (moduleMethod.selector != 1) {
+                return super.match0(moduleMethod, callContext);
+            }
+            callContext.proc = moduleMethod;
+            callContext.pc = 0;
+            return 0;
+        }
+
+        public String lambda1loop() {
+            if (this.matcher.find()) {
+                Matcher matcher2 = this.matcher;
+                StringBuffer stringBuffer = this.sbuf;
+                Object apply2 = Scheme.applyToArgs.apply2(this.repl, this.matcher.group());
+                matcher2.appendReplacement(stringBuffer, Matcher.quoteReplacement(apply2 == null ? null : apply2.toString()));
+            }
+            this.matcher.appendTail(this.sbuf);
+            return this.sbuf.toString();
         }
     }
 }

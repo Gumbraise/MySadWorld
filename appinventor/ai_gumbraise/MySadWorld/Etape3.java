@@ -1,7 +1,7 @@
 package appinventor.ai_gumbraise.MySadWorld;
 
 import android.os.Bundle;
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import com.google.appinventor.components.common.PropertyTypeConstants;
 import com.google.appinventor.components.runtime.AppInventorCompatActivity;
 import com.google.appinventor.components.runtime.Button;
@@ -19,7 +19,7 @@ import com.google.appinventor.components.runtime.errors.PermissionException;
 import com.google.appinventor.components.runtime.errors.YailRuntimeError;
 import com.google.appinventor.components.runtime.util.RetValManager;
 import com.google.appinventor.components.runtime.util.RuntimeErrorAlert;
-import com.google.youngandroid.C0608runtime;
+import com.google.youngandroid.runtime;
 import gnu.expr.Language;
 import gnu.expr.ModuleBody;
 import gnu.expr.ModuleInfo;
@@ -45,7 +45,7 @@ import gnu.mapping.Values;
 import gnu.mapping.WrongType;
 import gnu.math.IntNum;
 import kawa.lang.Promise;
-import kawa.lib.C0620lists;
+import kawa.lib.lists;
 import kawa.lib.misc;
 import kawa.lib.strings;
 import kawa.standard.Scheme;
@@ -60,7 +60,7 @@ public class Etape3 extends Form implements Runnable {
     static final IntNum Lit101 = IntNum.make(40);
     static final SimpleSymbol Lit102 = ((SimpleSymbol) new SimpleSymbol("Image").readResolve());
     static final FString Lit103 = new FString("com.google.appinventor.components.runtime.Button");
-    static final PairWithPosition Lit104 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit142, LList.Empty, "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 630892), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 630886);
+    static final PairWithPosition Lit104 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit142, LList.Empty, "/tmp/1587573145105_0.18160129936130687-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 630892), "/tmp/1587573145105_0.18160129936130687-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 630886);
     static final PairWithPosition Lit105;
     static final SimpleSymbol Lit106 = ((SimpleSymbol) new SimpleSymbol("Button1$Click").readResolve());
     static final SimpleSymbol Lit107 = ((SimpleSymbol) new SimpleSymbol("Click").readResolve());
@@ -116,15 +116,15 @@ public class Etape3 extends Form implements Runnable {
     static final SimpleSymbol Lit24 = ((SimpleSymbol) new SimpleSymbol("TitleVisible").readResolve());
     static final SimpleSymbol Lit25 = ((SimpleSymbol) new SimpleSymbol(TinyDB.DEFAULT_NAMESPACE).readResolve());
     static final SimpleSymbol Lit26 = ((SimpleSymbol) new SimpleSymbol("StoreValue").readResolve());
-    static final PairWithPosition Lit27 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit142, LList.Empty, "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 114782), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 114776);
+    static final PairWithPosition Lit27 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit142, LList.Empty, "/tmp/1587573145105_0.18160129936130687-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 114782), "/tmp/1587573145105_0.18160129936130687-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 114776);
     static final SimpleSymbol Lit28 = ((SimpleSymbol) new SimpleSymbol("GetValue").readResolve());
-    static final PairWithPosition Lit29 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit142, LList.Empty, "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 114943), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 114937);
+    static final PairWithPosition Lit29 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit142, LList.Empty, "/tmp/1587573145105_0.18160129936130687-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 114943), "/tmp/1587573145105_0.18160129936130687-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 114937);
     static final SimpleSymbol Lit3 = ((SimpleSymbol) new SimpleSymbol("g$happy").readResolve());
-    static final PairWithPosition Lit30 = PairWithPosition.make(Lit142, PairWithPosition.make(Lit142, LList.Empty, "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 114974), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 114969);
-    static final PairWithPosition Lit31 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit142, LList.Empty, "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 115094), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 115088);
+    static final PairWithPosition Lit30 = PairWithPosition.make(Lit142, PairWithPosition.make(Lit142, LList.Empty, "/tmp/1587573145105_0.18160129936130687-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 114974), "/tmp/1587573145105_0.18160129936130687-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 114969);
+    static final PairWithPosition Lit31 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit142, LList.Empty, "/tmp/1587573145105_0.18160129936130687-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 115094), "/tmp/1587573145105_0.18160129936130687-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 115088);
     static final SimpleSymbol Lit32 = ((SimpleSymbol) new SimpleSymbol("Image1").readResolve());
     static final SimpleSymbol Lit33 = ((SimpleSymbol) new SimpleSymbol("Picture").readResolve());
-    static final PairWithPosition Lit34 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit142, LList.Empty, "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 115243), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 115237);
+    static final PairWithPosition Lit34 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit142, LList.Empty, "/tmp/1587573145105_0.18160129936130687-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 115243), "/tmp/1587573145105_0.18160129936130687-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 115237);
     static final SimpleSymbol Lit35 = ((SimpleSymbol) new SimpleSymbol("Etape3$Initialize").readResolve());
     static final SimpleSymbol Lit36 = ((SimpleSymbol) new SimpleSymbol("Initialize").readResolve());
     static final FString Lit37 = new FString("com.google.appinventor.components.runtime.HorizontalArrangement");
@@ -187,7 +187,7 @@ public class Etape3 extends Form implements Runnable {
     static final SimpleSymbol Lit89 = ((SimpleSymbol) new SimpleSymbol("$thumbPosition").readResolve());
     static final SimpleSymbol Lit9 = ((SimpleSymbol) new SimpleSymbol("AppName").readResolve());
     static final SimpleSymbol Lit90 = ((SimpleSymbol) new SimpleSymbol("Label2").readResolve());
-    static final PairWithPosition Lit91 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit10, LList.Empty, "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 487606), "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 487600);
+    static final PairWithPosition Lit91 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit10, LList.Empty, "/tmp/1587573145105_0.18160129936130687-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 487606), "/tmp/1587573145105_0.18160129936130687-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 487600);
     static final SimpleSymbol Lit92 = ((SimpleSymbol) new SimpleSymbol("Slider1$PositionChanged").readResolve());
     static final SimpleSymbol Lit93 = ((SimpleSymbol) new SimpleSymbol("PositionChanged").readResolve());
     static final FString Lit94 = new FString("com.google.appinventor.components.runtime.Label");
@@ -274,16 +274,528 @@ public class Etape3 extends Form implements Runnable {
     public final ModuleMethod process$Mnexception;
     public final ModuleMethod send$Mnerror;
 
+    static {
+        int[] iArr = new int[2];
+        iArr[0] = -6019137;
+        Lit121 = IntNum.make(iArr);
+        int[] iArr2 = new int[2];
+        iArr2[0] = -6019137;
+        Lit117 = IntNum.make(iArr2);
+        int[] iArr3 = new int[2];
+        iArr3[0] = -6019137;
+        Lit113 = IntNum.make(iArr3);
+        SimpleSymbol simpleSymbol = (SimpleSymbol) new SimpleSymbol(PropertyTypeConstants.PROPERTY_TYPE_TEXT).readResolve();
+        Lit10 = simpleSymbol;
+        Lit105 = PairWithPosition.make(simpleSymbol, LList.Empty, "/tmp/1587573145105_0.18160129936130687-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 630969);
+        int[] iArr4 = new int[2];
+        iArr4[0] = -1154152;
+        Lit80 = IntNum.make(iArr4);
+        int[] iArr5 = new int[2];
+        iArr5[0] = -6019137;
+        Lit78 = IntNum.make(iArr5);
+        int[] iArr6 = new int[2];
+        iArr6[0] = -1;
+        Lit69 = IntNum.make(iArr6);
+        int[] iArr7 = new int[2];
+        iArr7[0] = -16777216;
+        Lit12 = IntNum.make(iArr7);
+    }
+
+    public Etape3() {
+        ModuleInfo.register(this);
+        frame frame2 = new frame();
+        frame2.$main = this;
+        this.get$Mnsimple$Mnname = new ModuleMethod(frame2, 1, Lit128, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        this.onCreate = new ModuleMethod(frame2, 2, "onCreate", FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        this.android$Mnlog$Mnform = new ModuleMethod(frame2, 3, Lit129, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        this.add$Mnto$Mnform$Mnenvironment = new ModuleMethod(frame2, 4, Lit130, 8194);
+        this.lookup$Mnin$Mnform$Mnenvironment = new ModuleMethod(frame2, 5, Lit131, 8193);
+        this.is$Mnbound$Mnin$Mnform$Mnenvironment = new ModuleMethod(frame2, 7, Lit132, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        this.add$Mnto$Mnglobal$Mnvar$Mnenvironment = new ModuleMethod(frame2, 8, Lit133, 8194);
+        this.add$Mnto$Mnevents = new ModuleMethod(frame2, 9, Lit134, 8194);
+        this.add$Mnto$Mncomponents = new ModuleMethod(frame2, 10, Lit135, 16388);
+        this.add$Mnto$Mnglobal$Mnvars = new ModuleMethod(frame2, 11, Lit136, 8194);
+        this.add$Mnto$Mnform$Mndo$Mnafter$Mncreation = new ModuleMethod(frame2, 12, Lit137, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        this.send$Mnerror = new ModuleMethod(frame2, 13, Lit138, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        this.process$Mnexception = new ModuleMethod(frame2, 14, "process-exception", FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        this.dispatchEvent = new ModuleMethod(frame2, 15, Lit139, 16388);
+        this.dispatchGenericEvent = new ModuleMethod(frame2, 16, Lit140, 16388);
+        this.lookup$Mnhandler = new ModuleMethod(frame2, 17, Lit141, 8194);
+        ModuleMethod moduleMethod = new ModuleMethod(frame2, 18, (Object) null, 0);
+        moduleMethod.setProperty("source-location", "/tmp/runtime6870800576779939148.scm:622");
+        lambda$Fn1 = moduleMethod;
+        this.$define = new ModuleMethod(frame2, 19, "$define", 0);
+        lambda$Fn2 = new ModuleMethod(frame2, 20, (Object) null, 0);
+        lambda$Fn3 = new ModuleMethod(frame2, 21, (Object) null, 0);
+        this.Etape3$Initialize = new ModuleMethod(frame2, 22, Lit35, 0);
+        lambda$Fn4 = new ModuleMethod(frame2, 23, (Object) null, 0);
+        lambda$Fn5 = new ModuleMethod(frame2, 24, (Object) null, 0);
+        lambda$Fn6 = new ModuleMethod(frame2, 25, (Object) null, 0);
+        lambda$Fn7 = new ModuleMethod(frame2, 26, (Object) null, 0);
+        lambda$Fn8 = new ModuleMethod(frame2, 27, (Object) null, 0);
+        lambda$Fn9 = new ModuleMethod(frame2, 28, (Object) null, 0);
+        lambda$Fn10 = new ModuleMethod(frame2, 29, (Object) null, 0);
+        lambda$Fn11 = new ModuleMethod(frame2, 30, (Object) null, 0);
+        lambda$Fn12 = new ModuleMethod(frame2, 31, (Object) null, 0);
+        lambda$Fn13 = new ModuleMethod(frame2, 32, (Object) null, 0);
+        lambda$Fn14 = new ModuleMethod(frame2, 33, (Object) null, 0);
+        lambda$Fn15 = new ModuleMethod(frame2, 34, (Object) null, 0);
+        lambda$Fn16 = new ModuleMethod(frame2, 35, (Object) null, 0);
+        lambda$Fn17 = new ModuleMethod(frame2, 36, (Object) null, 0);
+        this.Slider1$PositionChanged = new ModuleMethod(frame2, 37, Lit92, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        lambda$Fn18 = new ModuleMethod(frame2, 38, (Object) null, 0);
+        lambda$Fn19 = new ModuleMethod(frame2, 39, (Object) null, 0);
+        lambda$Fn20 = new ModuleMethod(frame2, 40, (Object) null, 0);
+        lambda$Fn21 = new ModuleMethod(frame2, 41, (Object) null, 0);
+        lambda$Fn22 = new ModuleMethod(frame2, 42, (Object) null, 0);
+        lambda$Fn23 = new ModuleMethod(frame2, 43, (Object) null, 0);
+        this.Button1$Click = new ModuleMethod(frame2, 44, Lit106, 0);
+        lambda$Fn24 = new ModuleMethod(frame2, 45, (Object) null, 0);
+        lambda$Fn25 = new ModuleMethod(frame2, 46, (Object) null, 0);
+        lambda$Fn26 = new ModuleMethod(frame2, 47, (Object) null, 0);
+        lambda$Fn27 = new ModuleMethod(frame2, 48, (Object) null, 0);
+        lambda$Fn28 = new ModuleMethod(frame2, 49, (Object) null, 0);
+        lambda$Fn29 = new ModuleMethod(frame2, 50, (Object) null, 0);
+        lambda$Fn30 = new ModuleMethod(frame2, 51, (Object) null, 0);
+        lambda$Fn31 = new ModuleMethod(frame2, 52, (Object) null, 0);
+        lambda$Fn32 = new ModuleMethod(frame2, 53, (Object) null, 0);
+        lambda$Fn33 = new ModuleMethod(frame2, 54, (Object) null, 0);
+    }
+
+    public Object lookupInFormEnvironment(Symbol symbol) {
+        return lookupInFormEnvironment(symbol, Boolean.FALSE);
+    }
+
+    public void run() {
+        CallContext instance = CallContext.getInstance();
+        Consumer consumer = instance.consumer;
+        instance.consumer = VoidConsumer.instance;
+        try {
+            run(instance);
+            th = null;
+        } catch (Throwable th) {
+            th = th;
+        }
+        ModuleBody.runCleanup(instance, th, consumer);
+    }
+
+    public final void run(CallContext $ctx) {
+        String obj;
+        Consumer $result = $ctx.consumer;
+        runtime.$instance.run();
+        this.$Stdebug$Mnform$St = Boolean.FALSE;
+        this.form$Mnenvironment = Environment.make(misc.symbol$To$String(Lit0));
+        FString stringAppend = strings.stringAppend(misc.symbol$To$String(Lit0), "-global-vars");
+        if (stringAppend == null) {
+            obj = null;
+        } else {
+            obj = stringAppend.toString();
+        }
+        this.global$Mnvar$Mnenvironment = Environment.make(obj);
+        Etape3 = null;
+        this.form$Mnname$Mnsymbol = Lit0;
+        this.events$Mnto$Mnregister = LList.Empty;
+        this.components$Mnto$Mncreate = LList.Empty;
+        this.global$Mnvars$Mnto$Mncreate = LList.Empty;
+        this.form$Mndo$Mnafter$Mncreation = LList.Empty;
+        runtime.$instance.run();
+        if (runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
+            Values.writeValues(runtime.addGlobalVarToCurrentFormEnvironment(Lit3, ""), $result);
+        } else {
+            addToGlobalVars(Lit3, lambda$Fn2);
+        }
+        if (runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
+            runtime.setAndCoerceProperty$Ex(Lit0, Lit4, Lit5, Lit6);
+            runtime.setAndCoerceProperty$Ex(Lit0, Lit7, Boolean.TRUE, Lit8);
+            runtime.setAndCoerceProperty$Ex(Lit0, Lit9, "MySadWorld", Lit10);
+            runtime.setAndCoerceProperty$Ex(Lit0, Lit11, Lit12, Lit6);
+            runtime.setAndCoerceProperty$Ex(Lit0, Lit13, "slidehorizontal", Lit10);
+            runtime.setAndCoerceProperty$Ex(Lit0, Lit14, "slidehorizontal", Lit10);
+            runtime.setAndCoerceProperty$Ex(Lit0, Lit15, Lit16, Lit6);
+            runtime.setAndCoerceProperty$Ex(Lit0, Lit17, Lit18, Lit6);
+            runtime.setAndCoerceProperty$Ex(Lit0, Lit19, "portrait", Lit10);
+            runtime.setAndCoerceProperty$Ex(Lit0, Lit20, Boolean.TRUE, Lit8);
+            runtime.setAndCoerceProperty$Ex(Lit0, Lit21, "Fixed", Lit10);
+            runtime.setAndCoerceProperty$Ex(Lit0, Lit22, "AppTheme", Lit10);
+            runtime.setAndCoerceProperty$Ex(Lit0, Lit23, "Etape3", Lit10);
+            Values.writeValues(runtime.setAndCoerceProperty$Ex(Lit0, Lit24, Boolean.FALSE, Lit8), $result);
+        } else {
+            addToFormDoAfterCreation(new Promise(lambda$Fn3));
+        }
+        if (runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
+            runtime.addToCurrentFormEnvironment(Lit35, this.Etape3$Initialize);
+        } else {
+            addToFormEnvironment(Lit35, this.Etape3$Initialize);
+        }
+        if (runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
+            EventDispatcher.registerEventForDelegation((HandlesEventDispatching) runtime.$Stthis$Mnform$St, "Etape3", "Initialize");
+        } else {
+            addToEvents(Lit0, Lit36);
+        }
+        this.HorizontalArrangement1 = null;
+        if (runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
+            Values.writeValues(runtime.addComponentWithinRepl(Lit0, Lit37, Lit38, lambda$Fn4), $result);
+        } else {
+            addToComponents(Lit0, Lit42, Lit38, lambda$Fn5);
+        }
+        this.VerticalArrangement1 = null;
+        if (runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
+            Values.writeValues(runtime.addComponentWithinRepl(Lit38, Lit43, Lit44, lambda$Fn6), $result);
+        } else {
+            addToComponents(Lit38, Lit49, Lit44, lambda$Fn7);
+        }
+        this.Image1 = null;
+        if (runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
+            Values.writeValues(runtime.addComponentWithinRepl(Lit44, Lit50, Lit32, lambda$Fn8), $result);
+        } else {
+            addToComponents(Lit44, Lit53, Lit32, lambda$Fn9);
+        }
+        this.HorizontalArrangement9 = null;
+        if (runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
+            Values.writeValues(runtime.addComponentWithinRepl(Lit44, Lit54, Lit55, lambda$Fn10), $result);
+        } else {
+            addToComponents(Lit44, Lit57, Lit55, lambda$Fn11);
+        }
+        this.Label1 = null;
+        if (runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
+            Values.writeValues(runtime.addComponentWithinRepl(Lit44, Lit58, Lit59, lambda$Fn12), $result);
+        } else {
+            addToComponents(Lit44, Lit70, Lit59, lambda$Fn13);
+        }
+        this.HorizontalArrangement2 = null;
+        if (runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
+            Values.writeValues(runtime.addComponentWithinRepl(Lit44, Lit71, Lit72, lambda$Fn14), $result);
+        } else {
+            addToComponents(Lit44, Lit74, Lit72, lambda$Fn15);
+        }
+        this.Slider1 = null;
+        if (runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
+            Values.writeValues(runtime.addComponentWithinRepl(Lit44, Lit75, Lit76, lambda$Fn16), $result);
+        } else {
+            addToComponents(Lit44, Lit88, Lit76, lambda$Fn17);
+        }
+        if (runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
+            runtime.addToCurrentFormEnvironment(Lit92, this.Slider1$PositionChanged);
+        } else {
+            addToFormEnvironment(Lit92, this.Slider1$PositionChanged);
+        }
+        if (runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
+            EventDispatcher.registerEventForDelegation((HandlesEventDispatching) runtime.$Stthis$Mnform$St, "Slider1", "PositionChanged");
+        } else {
+            addToEvents(Lit76, Lit93);
+        }
+        this.Label2 = null;
+        if (runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
+            Values.writeValues(runtime.addComponentWithinRepl(Lit44, Lit94, Lit90, lambda$Fn18), $result);
+        } else {
+            addToComponents(Lit44, Lit95, Lit90, lambda$Fn19);
+        }
+        this.HorizontalArrangement3 = null;
+        if (runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
+            Values.writeValues(runtime.addComponentWithinRepl(Lit44, Lit96, Lit97, lambda$Fn20), $result);
+        } else {
+            addToComponents(Lit44, Lit98, Lit97, lambda$Fn21);
+        }
+        this.Button1 = null;
+        if (runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
+            Values.writeValues(runtime.addComponentWithinRepl(Lit44, Lit99, Lit100, lambda$Fn22), $result);
+        } else {
+            addToComponents(Lit44, Lit103, Lit100, lambda$Fn23);
+        }
+        if (runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
+            runtime.addToCurrentFormEnvironment(Lit106, this.Button1$Click);
+        } else {
+            addToFormEnvironment(Lit106, this.Button1$Click);
+        }
+        if (runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
+            EventDispatcher.registerEventForDelegation((HandlesEventDispatching) runtime.$Stthis$Mnform$St, "Button1", "Click");
+        } else {
+            addToEvents(Lit100, Lit107);
+        }
+        this.HorizontalArrangement4 = null;
+        if (runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
+            Values.writeValues(runtime.addComponentWithinRepl(Lit0, Lit108, Lit109, lambda$Fn24), $result);
+        } else {
+            addToComponents(Lit0, Lit110, Lit109, lambda$Fn25);
+        }
+        this.HorizontalArrangement5 = null;
+        if (runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
+            Values.writeValues(runtime.addComponentWithinRepl(Lit109, Lit111, Lit112, lambda$Fn26), $result);
+        } else {
+            addToComponents(Lit109, Lit114, Lit112, lambda$Fn27);
+        }
+        this.HorizontalArrangement6 = null;
+        if (runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
+            Values.writeValues(runtime.addComponentWithinRepl(Lit109, Lit115, Lit116, lambda$Fn28), $result);
+        } else {
+            addToComponents(Lit109, Lit118, Lit116, lambda$Fn29);
+        }
+        this.HorizontalArrangement8 = null;
+        if (runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
+            Values.writeValues(runtime.addComponentWithinRepl(Lit109, Lit119, Lit120, lambda$Fn30), $result);
+        } else {
+            addToComponents(Lit109, Lit122, Lit120, lambda$Fn31);
+        }
+        this.HorizontalArrangement7 = null;
+        if (runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
+            Values.writeValues(runtime.addComponentWithinRepl(Lit109, Lit123, Lit124, lambda$Fn32), $result);
+        } else {
+            addToComponents(Lit109, Lit125, Lit124, lambda$Fn33);
+        }
+        this.TinyDB1 = null;
+        if (runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
+            Values.writeValues(runtime.addComponentWithinRepl(Lit0, Lit126, Lit25, Boolean.FALSE), $result);
+        } else {
+            addToComponents(Lit0, Lit127, Lit25, Boolean.FALSE);
+        }
+        runtime.initRuntime();
+    }
+
+    static String lambda3() {
+        return "";
+    }
+
+    static Object lambda4() {
+        runtime.setAndCoerceProperty$Ex(Lit0, Lit4, Lit5, Lit6);
+        runtime.setAndCoerceProperty$Ex(Lit0, Lit7, Boolean.TRUE, Lit8);
+        runtime.setAndCoerceProperty$Ex(Lit0, Lit9, "MySadWorld", Lit10);
+        runtime.setAndCoerceProperty$Ex(Lit0, Lit11, Lit12, Lit6);
+        runtime.setAndCoerceProperty$Ex(Lit0, Lit13, "slidehorizontal", Lit10);
+        runtime.setAndCoerceProperty$Ex(Lit0, Lit14, "slidehorizontal", Lit10);
+        runtime.setAndCoerceProperty$Ex(Lit0, Lit15, Lit16, Lit6);
+        runtime.setAndCoerceProperty$Ex(Lit0, Lit17, Lit18, Lit6);
+        runtime.setAndCoerceProperty$Ex(Lit0, Lit19, "portrait", Lit10);
+        runtime.setAndCoerceProperty$Ex(Lit0, Lit20, Boolean.TRUE, Lit8);
+        runtime.setAndCoerceProperty$Ex(Lit0, Lit21, "Fixed", Lit10);
+        runtime.setAndCoerceProperty$Ex(Lit0, Lit22, "AppTheme", Lit10);
+        runtime.setAndCoerceProperty$Ex(Lit0, Lit23, "Etape3", Lit10);
+        return runtime.setAndCoerceProperty$Ex(Lit0, Lit24, Boolean.FALSE, Lit8);
+    }
+
+    public Object Etape3$Initialize() {
+        runtime.setThisForm();
+        runtime.callComponentMethod(Lit25, Lit26, LList.list2("happiness", "5"), Lit27);
+        if (runtime.callYailPrimitive(runtime.yail$Mnequal$Qu, LList.list2(runtime.callComponentMethod(Lit25, Lit28, LList.list2("picture", "user-circle.png"), Lit29), "user-circle.png"), Lit30, "=") != Boolean.FALSE) {
+            runtime.callComponentMethod(Lit25, Lit26, LList.list2("picture", "user-circle.png"), Lit31);
+        }
+        return runtime.setAndCoerceProperty$Ex(Lit32, Lit33, runtime.callComponentMethod(Lit25, Lit28, LList.list2("picture", "user-circle.png"), Lit34), Lit10);
+    }
+
+    static Object lambda5() {
+        runtime.setAndCoerceProperty$Ex(Lit38, Lit39, Lit40, Lit6);
+        return runtime.setAndCoerceProperty$Ex(Lit38, Lit41, Lit40, Lit6);
+    }
+
+    static Object lambda6() {
+        runtime.setAndCoerceProperty$Ex(Lit38, Lit39, Lit40, Lit6);
+        return runtime.setAndCoerceProperty$Ex(Lit38, Lit41, Lit40, Lit6);
+    }
+
+    static Object lambda7() {
+        runtime.setAndCoerceProperty$Ex(Lit44, Lit45, Lit46, Lit6);
+        runtime.setAndCoerceProperty$Ex(Lit44, Lit47, Lit48, Lit6);
+        runtime.setAndCoerceProperty$Ex(Lit44, Lit39, Lit40, Lit6);
+        return runtime.setAndCoerceProperty$Ex(Lit44, Lit41, Lit40, Lit6);
+    }
+
+    static Object lambda8() {
+        runtime.setAndCoerceProperty$Ex(Lit44, Lit45, Lit46, Lit6);
+        runtime.setAndCoerceProperty$Ex(Lit44, Lit47, Lit48, Lit6);
+        runtime.setAndCoerceProperty$Ex(Lit44, Lit39, Lit40, Lit6);
+        return runtime.setAndCoerceProperty$Ex(Lit44, Lit41, Lit40, Lit6);
+    }
+
+    static Object lambda10() {
+        runtime.setAndCoerceProperty$Ex(Lit32, Lit39, Lit51, Lit6);
+        runtime.setAndCoerceProperty$Ex(Lit32, Lit33, "user-circle.png", Lit10);
+        runtime.setAndCoerceProperty$Ex(Lit32, Lit52, Boolean.TRUE, Lit8);
+        return runtime.setAndCoerceProperty$Ex(Lit32, Lit41, Lit51, Lit6);
+    }
+
+    static Object lambda9() {
+        runtime.setAndCoerceProperty$Ex(Lit32, Lit39, Lit51, Lit6);
+        runtime.setAndCoerceProperty$Ex(Lit32, Lit33, "user-circle.png", Lit10);
+        runtime.setAndCoerceProperty$Ex(Lit32, Lit52, Boolean.TRUE, Lit8);
+        return runtime.setAndCoerceProperty$Ex(Lit32, Lit41, Lit51, Lit6);
+    }
+
+    static Object lambda11() {
+        runtime.setAndCoerceProperty$Ex(Lit55, Lit39, Lit56, Lit6);
+        return runtime.setAndCoerceProperty$Ex(Lit55, Lit41, Lit40, Lit6);
+    }
+
+    static Object lambda12() {
+        runtime.setAndCoerceProperty$Ex(Lit55, Lit39, Lit56, Lit6);
+        return runtime.setAndCoerceProperty$Ex(Lit55, Lit41, Lit40, Lit6);
+    }
+
+    static Object lambda13() {
+        runtime.setAndCoerceProperty$Ex(Lit59, Lit60, Boolean.TRUE, Lit8);
+        runtime.setAndCoerceProperty$Ex(Lit59, Lit61, Lit62, Lit6);
+        runtime.setAndCoerceProperty$Ex(Lit59, Lit63, Lit64, Lit6);
+        runtime.setAndCoerceProperty$Ex(Lit59, Lit65, Boolean.TRUE, Lit8);
+        runtime.setAndCoerceProperty$Ex(Lit59, Lit66, "Vous êtes 😍 waw ! <br> Dernière question: comment vous allez en ce moment ?", Lit10);
+        runtime.setAndCoerceProperty$Ex(Lit59, Lit67, Lit64, Lit6);
+        return runtime.setAndCoerceProperty$Ex(Lit59, Lit68, Lit69, Lit6);
+    }
+
+    static Object lambda14() {
+        runtime.setAndCoerceProperty$Ex(Lit59, Lit60, Boolean.TRUE, Lit8);
+        runtime.setAndCoerceProperty$Ex(Lit59, Lit61, Lit62, Lit6);
+        runtime.setAndCoerceProperty$Ex(Lit59, Lit63, Lit64, Lit6);
+        runtime.setAndCoerceProperty$Ex(Lit59, Lit65, Boolean.TRUE, Lit8);
+        runtime.setAndCoerceProperty$Ex(Lit59, Lit66, "Vous êtes 😍 waw ! <br> Dernière question: comment vous allez en ce moment ?", Lit10);
+        runtime.setAndCoerceProperty$Ex(Lit59, Lit67, Lit64, Lit6);
+        return runtime.setAndCoerceProperty$Ex(Lit59, Lit68, Lit69, Lit6);
+    }
+
+    static Object lambda15() {
+        runtime.setAndCoerceProperty$Ex(Lit72, Lit39, Lit73, Lit6);
+        return runtime.setAndCoerceProperty$Ex(Lit72, Lit41, Lit40, Lit6);
+    }
+
+    static Object lambda16() {
+        runtime.setAndCoerceProperty$Ex(Lit72, Lit39, Lit73, Lit6);
+        return runtime.setAndCoerceProperty$Ex(Lit72, Lit41, Lit40, Lit6);
+    }
+
+    static Object lambda17() {
+        runtime.setAndCoerceProperty$Ex(Lit76, Lit77, Lit78, Lit6);
+        runtime.setAndCoerceProperty$Ex(Lit76, Lit79, Lit80, Lit6);
+        runtime.setAndCoerceProperty$Ex(Lit76, Lit81, Lit82, Lit6);
+        runtime.setAndCoerceProperty$Ex(Lit76, Lit83, Lit84, Lit6);
+        runtime.setAndCoerceProperty$Ex(Lit76, Lit85, Lit86, Lit6);
+        return runtime.setAndCoerceProperty$Ex(Lit76, Lit41, Lit87, Lit6);
+    }
+
+    static Object lambda18() {
+        runtime.setAndCoerceProperty$Ex(Lit76, Lit77, Lit78, Lit6);
+        runtime.setAndCoerceProperty$Ex(Lit76, Lit79, Lit80, Lit6);
+        runtime.setAndCoerceProperty$Ex(Lit76, Lit81, Lit82, Lit6);
+        runtime.setAndCoerceProperty$Ex(Lit76, Lit83, Lit84, Lit6);
+        runtime.setAndCoerceProperty$Ex(Lit76, Lit85, Lit86, Lit6);
+        return runtime.setAndCoerceProperty$Ex(Lit76, Lit41, Lit87, Lit6);
+    }
+
+    public Object Slider1$PositionChanged(Object $thumbPosition) {
+        Object $thumbPosition2 = runtime.sanitizeComponentData($thumbPosition);
+        runtime.setThisForm();
+        SimpleSymbol simpleSymbol = Lit3;
+        if ($thumbPosition2 instanceof Package) {
+            $thumbPosition2 = runtime.signalRuntimeError(strings.stringAppend("The variable ", runtime.getDisplayRepresentation(Lit89), " is not bound in the current context"), "Unbound Variable");
+        }
+        runtime.addGlobalVarToCurrentFormEnvironment(simpleSymbol, $thumbPosition2);
+        return runtime.setAndCoerceProperty$Ex(Lit90, Lit66, runtime.callYailPrimitive(strings.string$Mnappend, LList.list2(runtime.lookupGlobalVarInCurrentFormEnvironment(Lit3, runtime.$Stthe$Mnnull$Mnvalue$St), "/10"), Lit91, "join"), Lit10);
+    }
+
+    static Object lambda19() {
+        runtime.setAndCoerceProperty$Ex(Lit90, Lit60, Boolean.TRUE, Lit8);
+        return runtime.setAndCoerceProperty$Ex(Lit90, Lit63, Lit64, Lit6);
+    }
+
+    static Object lambda20() {
+        runtime.setAndCoerceProperty$Ex(Lit90, Lit60, Boolean.TRUE, Lit8);
+        return runtime.setAndCoerceProperty$Ex(Lit90, Lit63, Lit64, Lit6);
+    }
+
+    static Object lambda21() {
+        runtime.setAndCoerceProperty$Ex(Lit97, Lit39, Lit73, Lit6);
+        return runtime.setAndCoerceProperty$Ex(Lit97, Lit41, Lit40, Lit6);
+    }
+
+    static Object lambda22() {
+        runtime.setAndCoerceProperty$Ex(Lit97, Lit39, Lit73, Lit6);
+        return runtime.setAndCoerceProperty$Ex(Lit97, Lit41, Lit40, Lit6);
+    }
+
+    static Object lambda23() {
+        runtime.setAndCoerceProperty$Ex(Lit100, Lit60, Boolean.TRUE, Lit8);
+        runtime.setAndCoerceProperty$Ex(Lit100, Lit39, Lit101, Lit6);
+        runtime.setAndCoerceProperty$Ex(Lit100, Lit102, "therare_b.png", Lit10);
+        runtime.setAndCoerceProperty$Ex(Lit100, Lit66, "Valider", Lit10);
+        return runtime.setAndCoerceProperty$Ex(Lit100, Lit41, Lit87, Lit6);
+    }
+
+    static Object lambda24() {
+        runtime.setAndCoerceProperty$Ex(Lit100, Lit60, Boolean.TRUE, Lit8);
+        runtime.setAndCoerceProperty$Ex(Lit100, Lit39, Lit101, Lit6);
+        runtime.setAndCoerceProperty$Ex(Lit100, Lit102, "therare_b.png", Lit10);
+        runtime.setAndCoerceProperty$Ex(Lit100, Lit66, "Valider", Lit10);
+        return runtime.setAndCoerceProperty$Ex(Lit100, Lit41, Lit87, Lit6);
+    }
+
+    public Object Button1$Click() {
+        runtime.setThisForm();
+        runtime.callComponentMethod(Lit25, Lit26, LList.list2("happiness", runtime.lookupGlobalVarInCurrentFormEnvironment(Lit3, runtime.$Stthe$Mnnull$Mnvalue$St)), Lit104);
+        return runtime.callYailPrimitive(runtime.open$Mnanother$Mnscreen, LList.list1("Etape4"), Lit105, "open another screen");
+    }
+
+    static Object lambda25() {
+        runtime.setAndCoerceProperty$Ex(Lit109, Lit39, Lit73, Lit6);
+        return runtime.setAndCoerceProperty$Ex(Lit109, Lit41, Lit40, Lit6);
+    }
+
+    static Object lambda26() {
+        runtime.setAndCoerceProperty$Ex(Lit109, Lit39, Lit73, Lit6);
+        return runtime.setAndCoerceProperty$Ex(Lit109, Lit41, Lit40, Lit6);
+    }
+
+    static Object lambda27() {
+        runtime.setAndCoerceProperty$Ex(Lit112, Lit11, Lit113, Lit6);
+        runtime.setAndCoerceProperty$Ex(Lit112, Lit39, Lit73, Lit6);
+        return runtime.setAndCoerceProperty$Ex(Lit112, Lit41, Lit40, Lit6);
+    }
+
+    static Object lambda28() {
+        runtime.setAndCoerceProperty$Ex(Lit112, Lit11, Lit113, Lit6);
+        runtime.setAndCoerceProperty$Ex(Lit112, Lit39, Lit73, Lit6);
+        return runtime.setAndCoerceProperty$Ex(Lit112, Lit41, Lit40, Lit6);
+    }
+
+    static Object lambda29() {
+        runtime.setAndCoerceProperty$Ex(Lit116, Lit11, Lit117, Lit6);
+        runtime.setAndCoerceProperty$Ex(Lit116, Lit39, Lit73, Lit6);
+        return runtime.setAndCoerceProperty$Ex(Lit116, Lit41, Lit40, Lit6);
+    }
+
+    static Object lambda30() {
+        runtime.setAndCoerceProperty$Ex(Lit116, Lit11, Lit117, Lit6);
+        runtime.setAndCoerceProperty$Ex(Lit116, Lit39, Lit73, Lit6);
+        return runtime.setAndCoerceProperty$Ex(Lit116, Lit41, Lit40, Lit6);
+    }
+
+    static Object lambda31() {
+        runtime.setAndCoerceProperty$Ex(Lit120, Lit11, Lit121, Lit6);
+        runtime.setAndCoerceProperty$Ex(Lit120, Lit39, Lit73, Lit6);
+        return runtime.setAndCoerceProperty$Ex(Lit120, Lit41, Lit40, Lit6);
+    }
+
+    static Object lambda32() {
+        runtime.setAndCoerceProperty$Ex(Lit120, Lit11, Lit121, Lit6);
+        runtime.setAndCoerceProperty$Ex(Lit120, Lit39, Lit73, Lit6);
+        return runtime.setAndCoerceProperty$Ex(Lit120, Lit41, Lit40, Lit6);
+    }
+
+    static Object lambda33() {
+        runtime.setAndCoerceProperty$Ex(Lit124, Lit39, Lit73, Lit6);
+        return runtime.setAndCoerceProperty$Ex(Lit124, Lit41, Lit40, Lit6);
+    }
+
+    static Object lambda34() {
+        runtime.setAndCoerceProperty$Ex(Lit124, Lit39, Lit73, Lit6);
+        return runtime.setAndCoerceProperty$Ex(Lit124, Lit41, Lit40, Lit6);
+    }
+
     /* compiled from: Etape3.yail */
     public class frame extends ModuleBody {
-        Etape3 $main = this;
+        Etape3 $main;
 
         public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
             switch (moduleMethod.selector) {
                 case 1:
                     callContext.value1 = obj;
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 1;
+                    callContext.pc = 1;
                     return 0;
                 case 2:
                     if (!(obj instanceof Etape3)) {
@@ -291,12 +803,12 @@ public class Etape3 extends Form implements Runnable {
                     }
                     callContext.value1 = obj;
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 1;
+                    callContext.pc = 1;
                     return 0;
                 case 3:
                     callContext.value1 = obj;
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 1;
+                    callContext.pc = 1;
                     return 0;
                 case 5:
                     if (!(obj instanceof Symbol)) {
@@ -304,7 +816,7 @@ public class Etape3 extends Form implements Runnable {
                     }
                     callContext.value1 = obj;
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 1;
+                    callContext.pc = 1;
                     return 0;
                 case 7:
                     if (!(obj instanceof Symbol)) {
@@ -312,17 +824,17 @@ public class Etape3 extends Form implements Runnable {
                     }
                     callContext.value1 = obj;
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 1;
+                    callContext.pc = 1;
                     return 0;
                 case 12:
                     callContext.value1 = obj;
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 1;
+                    callContext.pc = 1;
                     return 0;
                 case 13:
                     callContext.value1 = obj;
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 1;
+                    callContext.pc = 1;
                     return 0;
                 case 14:
                     if (!(obj instanceof Etape3)) {
@@ -330,12 +842,12 @@ public class Etape3 extends Form implements Runnable {
                     }
                     callContext.value1 = obj;
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 1;
+                    callContext.pc = 1;
                     return 0;
                 case 37:
                     callContext.value1 = obj;
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 1;
+                    callContext.pc = 1;
                     return 0;
                 default:
                     return super.match1(moduleMethod, obj, callContext);
@@ -351,7 +863,7 @@ public class Etape3 extends Form implements Runnable {
                     callContext.value1 = obj;
                     callContext.value2 = obj2;
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 2;
+                    callContext.pc = 2;
                     return 0;
                 case 5:
                     if (!(obj instanceof Symbol)) {
@@ -360,7 +872,7 @@ public class Etape3 extends Form implements Runnable {
                     callContext.value1 = obj;
                     callContext.value2 = obj2;
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 2;
+                    callContext.pc = 2;
                     return 0;
                 case 8:
                     if (!(obj instanceof Symbol)) {
@@ -369,25 +881,25 @@ public class Etape3 extends Form implements Runnable {
                     callContext.value1 = obj;
                     callContext.value2 = obj2;
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 2;
+                    callContext.pc = 2;
                     return 0;
                 case 9:
                     callContext.value1 = obj;
                     callContext.value2 = obj2;
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 2;
+                    callContext.pc = 2;
                     return 0;
                 case 11:
                     callContext.value1 = obj;
                     callContext.value2 = obj2;
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 2;
+                    callContext.pc = 2;
                     return 0;
                 case 17:
                     callContext.value1 = obj;
                     callContext.value2 = obj2;
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 2;
+                    callContext.pc = 2;
                     return 0;
                 default:
                     return super.match2(moduleMethod, obj, obj2, callContext);
@@ -402,7 +914,7 @@ public class Etape3 extends Form implements Runnable {
                     callContext.value3 = obj3;
                     callContext.value4 = obj4;
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 4;
+                    callContext.pc = 4;
                     return 0;
                 case 15:
                     if (!(obj instanceof Etape3)) {
@@ -422,7 +934,7 @@ public class Etape3 extends Form implements Runnable {
                     }
                     callContext.value4 = obj4;
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 4;
+                    callContext.pc = 4;
                     return 0;
                 case 16:
                     if (!(obj instanceof Etape3)) {
@@ -439,7 +951,7 @@ public class Etape3 extends Form implements Runnable {
                     callContext.value3 = obj3;
                     callContext.value4 = obj4;
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 4;
+                    callContext.pc = 4;
                     return 0;
                 default:
                     return super.match4(moduleMethod, obj, obj2, obj3, obj4, callContext);
@@ -661,663 +1173,152 @@ public class Etape3 extends Form implements Runnable {
             switch (moduleMethod.selector) {
                 case 18:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 19:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 20:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 21:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 22:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 23:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 24:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 25:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 26:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 27:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 28:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 29:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 30:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 31:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 32:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 33:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 34:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 35:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 36:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 38:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 39:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 40:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 41:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 42:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 43:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 44:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 45:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 46:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 47:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 48:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 49:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 50:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 51:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 52:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 53:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 case 54:
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
+                    callContext.pc = 0;
                     return 0;
                 default:
                     return super.match0(moduleMethod, callContext);
             }
         }
-    }
-
-    static {
-        int[] iArr = new int[2];
-        iArr[0] = -6019137;
-        Lit121 = IntNum.make(iArr);
-        int[] iArr2 = new int[2];
-        iArr2[0] = -6019137;
-        Lit117 = IntNum.make(iArr2);
-        int[] iArr3 = new int[2];
-        iArr3[0] = -6019137;
-        Lit113 = IntNum.make(iArr3);
-        SimpleSymbol simpleSymbol = (SimpleSymbol) new SimpleSymbol(PropertyTypeConstants.PROPERTY_TYPE_TEXT).readResolve();
-        Lit10 = simpleSymbol;
-        Lit105 = PairWithPosition.make(simpleSymbol, LList.Empty, "/tmp/1587408489630_0.5804644978554321-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 630969);
-        int[] iArr4 = new int[2];
-        iArr4[0] = -1154152;
-        Lit80 = IntNum.make(iArr4);
-        int[] iArr5 = new int[2];
-        iArr5[0] = -6019137;
-        Lit78 = IntNum.make(iArr5);
-        int[] iArr6 = new int[2];
-        iArr6[0] = -1;
-        Lit69 = IntNum.make(iArr6);
-        int[] iArr7 = new int[2];
-        iArr7[0] = -16777216;
-        Lit12 = IntNum.make(iArr7);
-    }
-
-    public Etape3() {
-        ModuleInfo.register(this);
-        frame frame2 = new frame();
-        this.get$Mnsimple$Mnname = new ModuleMethod(frame2, 1, Lit128, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        this.onCreate = new ModuleMethod(frame2, 2, "onCreate", FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        this.android$Mnlog$Mnform = new ModuleMethod(frame2, 3, Lit129, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        this.add$Mnto$Mnform$Mnenvironment = new ModuleMethod(frame2, 4, Lit130, 8194);
-        this.lookup$Mnin$Mnform$Mnenvironment = new ModuleMethod(frame2, 5, Lit131, 8193);
-        this.is$Mnbound$Mnin$Mnform$Mnenvironment = new ModuleMethod(frame2, 7, Lit132, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        this.add$Mnto$Mnglobal$Mnvar$Mnenvironment = new ModuleMethod(frame2, 8, Lit133, 8194);
-        this.add$Mnto$Mnevents = new ModuleMethod(frame2, 9, Lit134, 8194);
-        this.add$Mnto$Mncomponents = new ModuleMethod(frame2, 10, Lit135, 16388);
-        this.add$Mnto$Mnglobal$Mnvars = new ModuleMethod(frame2, 11, Lit136, 8194);
-        this.add$Mnto$Mnform$Mndo$Mnafter$Mncreation = new ModuleMethod(frame2, 12, Lit137, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        this.send$Mnerror = new ModuleMethod(frame2, 13, Lit138, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        this.process$Mnexception = new ModuleMethod(frame2, 14, "process-exception", FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        this.dispatchEvent = new ModuleMethod(frame2, 15, Lit139, 16388);
-        this.dispatchGenericEvent = new ModuleMethod(frame2, 16, Lit140, 16388);
-        this.lookup$Mnhandler = new ModuleMethod(frame2, 17, Lit141, 8194);
-        ModuleMethod moduleMethod = new ModuleMethod(frame2, 18, null, 0);
-        moduleMethod.setProperty("source-location", "/tmp/runtime8442570147866654509.scm:622");
-        lambda$Fn1 = moduleMethod;
-        this.$define = new ModuleMethod(frame2, 19, "$define", 0);
-        lambda$Fn2 = new ModuleMethod(frame2, 20, null, 0);
-        lambda$Fn3 = new ModuleMethod(frame2, 21, null, 0);
-        this.Etape3$Initialize = new ModuleMethod(frame2, 22, Lit35, 0);
-        lambda$Fn4 = new ModuleMethod(frame2, 23, null, 0);
-        lambda$Fn5 = new ModuleMethod(frame2, 24, null, 0);
-        lambda$Fn6 = new ModuleMethod(frame2, 25, null, 0);
-        lambda$Fn7 = new ModuleMethod(frame2, 26, null, 0);
-        lambda$Fn8 = new ModuleMethod(frame2, 27, null, 0);
-        lambda$Fn9 = new ModuleMethod(frame2, 28, null, 0);
-        lambda$Fn10 = new ModuleMethod(frame2, 29, null, 0);
-        lambda$Fn11 = new ModuleMethod(frame2, 30, null, 0);
-        lambda$Fn12 = new ModuleMethod(frame2, 31, null, 0);
-        lambda$Fn13 = new ModuleMethod(frame2, 32, null, 0);
-        lambda$Fn14 = new ModuleMethod(frame2, 33, null, 0);
-        lambda$Fn15 = new ModuleMethod(frame2, 34, null, 0);
-        lambda$Fn16 = new ModuleMethod(frame2, 35, null, 0);
-        lambda$Fn17 = new ModuleMethod(frame2, 36, null, 0);
-        this.Slider1$PositionChanged = new ModuleMethod(frame2, 37, Lit92, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        lambda$Fn18 = new ModuleMethod(frame2, 38, null, 0);
-        lambda$Fn19 = new ModuleMethod(frame2, 39, null, 0);
-        lambda$Fn20 = new ModuleMethod(frame2, 40, null, 0);
-        lambda$Fn21 = new ModuleMethod(frame2, 41, null, 0);
-        lambda$Fn22 = new ModuleMethod(frame2, 42, null, 0);
-        lambda$Fn23 = new ModuleMethod(frame2, 43, null, 0);
-        this.Button1$Click = new ModuleMethod(frame2, 44, Lit106, 0);
-        lambda$Fn24 = new ModuleMethod(frame2, 45, null, 0);
-        lambda$Fn25 = new ModuleMethod(frame2, 46, null, 0);
-        lambda$Fn26 = new ModuleMethod(frame2, 47, null, 0);
-        lambda$Fn27 = new ModuleMethod(frame2, 48, null, 0);
-        lambda$Fn28 = new ModuleMethod(frame2, 49, null, 0);
-        lambda$Fn29 = new ModuleMethod(frame2, 50, null, 0);
-        lambda$Fn30 = new ModuleMethod(frame2, 51, null, 0);
-        lambda$Fn31 = new ModuleMethod(frame2, 52, null, 0);
-        lambda$Fn32 = new ModuleMethod(frame2, 53, null, 0);
-        lambda$Fn33 = new ModuleMethod(frame2, 54, null, 0);
-    }
-
-    public Object lookupInFormEnvironment(Symbol symbol) {
-        return lookupInFormEnvironment(symbol, Boolean.FALSE);
-    }
-
-    public void run() {
-        CallContext instance = CallContext.getInstance();
-        Consumer consumer = instance.consumer;
-        instance.consumer = VoidConsumer.instance;
-        try {
-            run(instance);
-            th = null;
-        } catch (Throwable th) {
-            th = th;
-        }
-        ModuleBody.runCleanup(instance, th, consumer);
-    }
-
-    public final void run(CallContext $ctx) {
-        String obj;
-        Consumer $result = $ctx.consumer;
-        C0608runtime.$instance.run();
-        this.$Stdebug$Mnform$St = Boolean.FALSE;
-        this.form$Mnenvironment = Environment.make(misc.symbol$To$String(Lit0));
-        FString stringAppend = strings.stringAppend(misc.symbol$To$String(Lit0), "-global-vars");
-        if (stringAppend == null) {
-            obj = null;
-        } else {
-            obj = stringAppend.toString();
-        }
-        this.global$Mnvar$Mnenvironment = Environment.make(obj);
-        Etape3 = null;
-        this.form$Mnname$Mnsymbol = Lit0;
-        this.events$Mnto$Mnregister = LList.Empty;
-        this.components$Mnto$Mncreate = LList.Empty;
-        this.global$Mnvars$Mnto$Mncreate = LList.Empty;
-        this.form$Mndo$Mnafter$Mncreation = LList.Empty;
-        C0608runtime.$instance.run();
-        if (C0608runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
-            Values.writeValues(C0608runtime.addGlobalVarToCurrentFormEnvironment(Lit3, ""), $result);
-        } else {
-            addToGlobalVars(Lit3, lambda$Fn2);
-        }
-        if (C0608runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
-            C0608runtime.setAndCoerceProperty$Ex(Lit0, Lit4, Lit5, Lit6);
-            C0608runtime.setAndCoerceProperty$Ex(Lit0, Lit7, Boolean.TRUE, Lit8);
-            C0608runtime.setAndCoerceProperty$Ex(Lit0, Lit9, "MySadWorld", Lit10);
-            C0608runtime.setAndCoerceProperty$Ex(Lit0, Lit11, Lit12, Lit6);
-            C0608runtime.setAndCoerceProperty$Ex(Lit0, Lit13, "slidehorizontal", Lit10);
-            C0608runtime.setAndCoerceProperty$Ex(Lit0, Lit14, "slidehorizontal", Lit10);
-            C0608runtime.setAndCoerceProperty$Ex(Lit0, Lit15, Lit16, Lit6);
-            C0608runtime.setAndCoerceProperty$Ex(Lit0, Lit17, Lit18, Lit6);
-            C0608runtime.setAndCoerceProperty$Ex(Lit0, Lit19, "portrait", Lit10);
-            C0608runtime.setAndCoerceProperty$Ex(Lit0, Lit20, Boolean.TRUE, Lit8);
-            C0608runtime.setAndCoerceProperty$Ex(Lit0, Lit21, "Fixed", Lit10);
-            C0608runtime.setAndCoerceProperty$Ex(Lit0, Lit22, "AppTheme", Lit10);
-            C0608runtime.setAndCoerceProperty$Ex(Lit0, Lit23, "Etape3", Lit10);
-            Values.writeValues(C0608runtime.setAndCoerceProperty$Ex(Lit0, Lit24, Boolean.FALSE, Lit8), $result);
-        } else {
-            addToFormDoAfterCreation(new Promise(lambda$Fn3));
-        }
-        if (C0608runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
-            C0608runtime.addToCurrentFormEnvironment(Lit35, this.Etape3$Initialize);
-        } else {
-            addToFormEnvironment(Lit35, this.Etape3$Initialize);
-        }
-        if (C0608runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
-            EventDispatcher.registerEventForDelegation((HandlesEventDispatching) C0608runtime.$Stthis$Mnform$St, "Etape3", "Initialize");
-        } else {
-            addToEvents(Lit0, Lit36);
-        }
-        this.HorizontalArrangement1 = null;
-        if (C0608runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
-            Values.writeValues(C0608runtime.addComponentWithinRepl(Lit0, Lit37, Lit38, lambda$Fn4), $result);
-        } else {
-            addToComponents(Lit0, Lit42, Lit38, lambda$Fn5);
-        }
-        this.VerticalArrangement1 = null;
-        if (C0608runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
-            Values.writeValues(C0608runtime.addComponentWithinRepl(Lit38, Lit43, Lit44, lambda$Fn6), $result);
-        } else {
-            addToComponents(Lit38, Lit49, Lit44, lambda$Fn7);
-        }
-        this.Image1 = null;
-        if (C0608runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
-            Values.writeValues(C0608runtime.addComponentWithinRepl(Lit44, Lit50, Lit32, lambda$Fn8), $result);
-        } else {
-            addToComponents(Lit44, Lit53, Lit32, lambda$Fn9);
-        }
-        this.HorizontalArrangement9 = null;
-        if (C0608runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
-            Values.writeValues(C0608runtime.addComponentWithinRepl(Lit44, Lit54, Lit55, lambda$Fn10), $result);
-        } else {
-            addToComponents(Lit44, Lit57, Lit55, lambda$Fn11);
-        }
-        this.Label1 = null;
-        if (C0608runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
-            Values.writeValues(C0608runtime.addComponentWithinRepl(Lit44, Lit58, Lit59, lambda$Fn12), $result);
-        } else {
-            addToComponents(Lit44, Lit70, Lit59, lambda$Fn13);
-        }
-        this.HorizontalArrangement2 = null;
-        if (C0608runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
-            Values.writeValues(C0608runtime.addComponentWithinRepl(Lit44, Lit71, Lit72, lambda$Fn14), $result);
-        } else {
-            addToComponents(Lit44, Lit74, Lit72, lambda$Fn15);
-        }
-        this.Slider1 = null;
-        if (C0608runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
-            Values.writeValues(C0608runtime.addComponentWithinRepl(Lit44, Lit75, Lit76, lambda$Fn16), $result);
-        } else {
-            addToComponents(Lit44, Lit88, Lit76, lambda$Fn17);
-        }
-        if (C0608runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
-            C0608runtime.addToCurrentFormEnvironment(Lit92, this.Slider1$PositionChanged);
-        } else {
-            addToFormEnvironment(Lit92, this.Slider1$PositionChanged);
-        }
-        if (C0608runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
-            EventDispatcher.registerEventForDelegation((HandlesEventDispatching) C0608runtime.$Stthis$Mnform$St, "Slider1", "PositionChanged");
-        } else {
-            addToEvents(Lit76, Lit93);
-        }
-        this.Label2 = null;
-        if (C0608runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
-            Values.writeValues(C0608runtime.addComponentWithinRepl(Lit44, Lit94, Lit90, lambda$Fn18), $result);
-        } else {
-            addToComponents(Lit44, Lit95, Lit90, lambda$Fn19);
-        }
-        this.HorizontalArrangement3 = null;
-        if (C0608runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
-            Values.writeValues(C0608runtime.addComponentWithinRepl(Lit44, Lit96, Lit97, lambda$Fn20), $result);
-        } else {
-            addToComponents(Lit44, Lit98, Lit97, lambda$Fn21);
-        }
-        this.Button1 = null;
-        if (C0608runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
-            Values.writeValues(C0608runtime.addComponentWithinRepl(Lit44, Lit99, Lit100, lambda$Fn22), $result);
-        } else {
-            addToComponents(Lit44, Lit103, Lit100, lambda$Fn23);
-        }
-        if (C0608runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
-            C0608runtime.addToCurrentFormEnvironment(Lit106, this.Button1$Click);
-        } else {
-            addToFormEnvironment(Lit106, this.Button1$Click);
-        }
-        if (C0608runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
-            EventDispatcher.registerEventForDelegation((HandlesEventDispatching) C0608runtime.$Stthis$Mnform$St, "Button1", "Click");
-        } else {
-            addToEvents(Lit100, Lit107);
-        }
-        this.HorizontalArrangement4 = null;
-        if (C0608runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
-            Values.writeValues(C0608runtime.addComponentWithinRepl(Lit0, Lit108, Lit109, lambda$Fn24), $result);
-        } else {
-            addToComponents(Lit0, Lit110, Lit109, lambda$Fn25);
-        }
-        this.HorizontalArrangement5 = null;
-        if (C0608runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
-            Values.writeValues(C0608runtime.addComponentWithinRepl(Lit109, Lit111, Lit112, lambda$Fn26), $result);
-        } else {
-            addToComponents(Lit109, Lit114, Lit112, lambda$Fn27);
-        }
-        this.HorizontalArrangement6 = null;
-        if (C0608runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
-            Values.writeValues(C0608runtime.addComponentWithinRepl(Lit109, Lit115, Lit116, lambda$Fn28), $result);
-        } else {
-            addToComponents(Lit109, Lit118, Lit116, lambda$Fn29);
-        }
-        this.HorizontalArrangement8 = null;
-        if (C0608runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
-            Values.writeValues(C0608runtime.addComponentWithinRepl(Lit109, Lit119, Lit120, lambda$Fn30), $result);
-        } else {
-            addToComponents(Lit109, Lit122, Lit120, lambda$Fn31);
-        }
-        this.HorizontalArrangement7 = null;
-        if (C0608runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
-            Values.writeValues(C0608runtime.addComponentWithinRepl(Lit109, Lit123, Lit124, lambda$Fn32), $result);
-        } else {
-            addToComponents(Lit109, Lit125, Lit124, lambda$Fn33);
-        }
-        this.TinyDB1 = null;
-        if (C0608runtime.$Stthis$Mnis$Mnthe$Mnrepl$St != Boolean.FALSE) {
-            Values.writeValues(C0608runtime.addComponentWithinRepl(Lit0, Lit126, Lit25, Boolean.FALSE), $result);
-        } else {
-            addToComponents(Lit0, Lit127, Lit25, Boolean.FALSE);
-        }
-        C0608runtime.initRuntime();
-    }
-
-    static String lambda3() {
-        return "";
-    }
-
-    static Object lambda4() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit0, Lit4, Lit5, Lit6);
-        C0608runtime.setAndCoerceProperty$Ex(Lit0, Lit7, Boolean.TRUE, Lit8);
-        C0608runtime.setAndCoerceProperty$Ex(Lit0, Lit9, "MySadWorld", Lit10);
-        C0608runtime.setAndCoerceProperty$Ex(Lit0, Lit11, Lit12, Lit6);
-        C0608runtime.setAndCoerceProperty$Ex(Lit0, Lit13, "slidehorizontal", Lit10);
-        C0608runtime.setAndCoerceProperty$Ex(Lit0, Lit14, "slidehorizontal", Lit10);
-        C0608runtime.setAndCoerceProperty$Ex(Lit0, Lit15, Lit16, Lit6);
-        C0608runtime.setAndCoerceProperty$Ex(Lit0, Lit17, Lit18, Lit6);
-        C0608runtime.setAndCoerceProperty$Ex(Lit0, Lit19, "portrait", Lit10);
-        C0608runtime.setAndCoerceProperty$Ex(Lit0, Lit20, Boolean.TRUE, Lit8);
-        C0608runtime.setAndCoerceProperty$Ex(Lit0, Lit21, "Fixed", Lit10);
-        C0608runtime.setAndCoerceProperty$Ex(Lit0, Lit22, "AppTheme", Lit10);
-        C0608runtime.setAndCoerceProperty$Ex(Lit0, Lit23, "Etape3", Lit10);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit0, Lit24, Boolean.FALSE, Lit8);
-    }
-
-    public Object Etape3$Initialize() {
-        C0608runtime.setThisForm();
-        C0608runtime.callComponentMethod(Lit25, Lit26, LList.list2("happiness", "5"), Lit27);
-        if (C0608runtime.callYailPrimitive(C0608runtime.yail$Mnequal$Qu, LList.list2(C0608runtime.callComponentMethod(Lit25, Lit28, LList.list2("picture", "user-circle.png"), Lit29), "user-circle.png"), Lit30, "=") != Boolean.FALSE) {
-            C0608runtime.callComponentMethod(Lit25, Lit26, LList.list2("picture", "user-circle.png"), Lit31);
-        }
-        return C0608runtime.setAndCoerceProperty$Ex(Lit32, Lit33, C0608runtime.callComponentMethod(Lit25, Lit28, LList.list2("picture", "user-circle.png"), Lit34), Lit10);
-    }
-
-    static Object lambda5() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit38, Lit39, Lit40, Lit6);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit38, Lit41, Lit40, Lit6);
-    }
-
-    static Object lambda6() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit38, Lit39, Lit40, Lit6);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit38, Lit41, Lit40, Lit6);
-    }
-
-    static Object lambda7() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit44, Lit45, Lit46, Lit6);
-        C0608runtime.setAndCoerceProperty$Ex(Lit44, Lit47, Lit48, Lit6);
-        C0608runtime.setAndCoerceProperty$Ex(Lit44, Lit39, Lit40, Lit6);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit44, Lit41, Lit40, Lit6);
-    }
-
-    static Object lambda8() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit44, Lit45, Lit46, Lit6);
-        C0608runtime.setAndCoerceProperty$Ex(Lit44, Lit47, Lit48, Lit6);
-        C0608runtime.setAndCoerceProperty$Ex(Lit44, Lit39, Lit40, Lit6);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit44, Lit41, Lit40, Lit6);
-    }
-
-    static Object lambda10() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit32, Lit39, Lit51, Lit6);
-        C0608runtime.setAndCoerceProperty$Ex(Lit32, Lit33, "user-circle.png", Lit10);
-        C0608runtime.setAndCoerceProperty$Ex(Lit32, Lit52, Boolean.TRUE, Lit8);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit32, Lit41, Lit51, Lit6);
-    }
-
-    static Object lambda9() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit32, Lit39, Lit51, Lit6);
-        C0608runtime.setAndCoerceProperty$Ex(Lit32, Lit33, "user-circle.png", Lit10);
-        C0608runtime.setAndCoerceProperty$Ex(Lit32, Lit52, Boolean.TRUE, Lit8);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit32, Lit41, Lit51, Lit6);
-    }
-
-    static Object lambda11() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit55, Lit39, Lit56, Lit6);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit55, Lit41, Lit40, Lit6);
-    }
-
-    static Object lambda12() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit55, Lit39, Lit56, Lit6);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit55, Lit41, Lit40, Lit6);
-    }
-
-    static Object lambda13() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit59, Lit60, Boolean.TRUE, Lit8);
-        C0608runtime.setAndCoerceProperty$Ex(Lit59, Lit61, Lit62, Lit6);
-        C0608runtime.setAndCoerceProperty$Ex(Lit59, Lit63, Lit64, Lit6);
-        C0608runtime.setAndCoerceProperty$Ex(Lit59, Lit65, Boolean.TRUE, Lit8);
-        C0608runtime.setAndCoerceProperty$Ex(Lit59, Lit66, "Vous êtes 😍 waw ! <br> Dernière question: comment vous allez en ce moment ?", Lit10);
-        C0608runtime.setAndCoerceProperty$Ex(Lit59, Lit67, Lit64, Lit6);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit59, Lit68, Lit69, Lit6);
-    }
-
-    static Object lambda14() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit59, Lit60, Boolean.TRUE, Lit8);
-        C0608runtime.setAndCoerceProperty$Ex(Lit59, Lit61, Lit62, Lit6);
-        C0608runtime.setAndCoerceProperty$Ex(Lit59, Lit63, Lit64, Lit6);
-        C0608runtime.setAndCoerceProperty$Ex(Lit59, Lit65, Boolean.TRUE, Lit8);
-        C0608runtime.setAndCoerceProperty$Ex(Lit59, Lit66, "Vous êtes 😍 waw ! <br> Dernière question: comment vous allez en ce moment ?", Lit10);
-        C0608runtime.setAndCoerceProperty$Ex(Lit59, Lit67, Lit64, Lit6);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit59, Lit68, Lit69, Lit6);
-    }
-
-    static Object lambda15() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit72, Lit39, Lit73, Lit6);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit72, Lit41, Lit40, Lit6);
-    }
-
-    static Object lambda16() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit72, Lit39, Lit73, Lit6);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit72, Lit41, Lit40, Lit6);
-    }
-
-    static Object lambda17() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit76, Lit77, Lit78, Lit6);
-        C0608runtime.setAndCoerceProperty$Ex(Lit76, Lit79, Lit80, Lit6);
-        C0608runtime.setAndCoerceProperty$Ex(Lit76, Lit81, Lit82, Lit6);
-        C0608runtime.setAndCoerceProperty$Ex(Lit76, Lit83, Lit84, Lit6);
-        C0608runtime.setAndCoerceProperty$Ex(Lit76, Lit85, Lit86, Lit6);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit76, Lit41, Lit87, Lit6);
-    }
-
-    static Object lambda18() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit76, Lit77, Lit78, Lit6);
-        C0608runtime.setAndCoerceProperty$Ex(Lit76, Lit79, Lit80, Lit6);
-        C0608runtime.setAndCoerceProperty$Ex(Lit76, Lit81, Lit82, Lit6);
-        C0608runtime.setAndCoerceProperty$Ex(Lit76, Lit83, Lit84, Lit6);
-        C0608runtime.setAndCoerceProperty$Ex(Lit76, Lit85, Lit86, Lit6);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit76, Lit41, Lit87, Lit6);
-    }
-
-    public Object Slider1$PositionChanged(Object $thumbPosition) {
-        Object $thumbPosition2 = C0608runtime.sanitizeComponentData($thumbPosition);
-        C0608runtime.setThisForm();
-        SimpleSymbol simpleSymbol = Lit3;
-        if ($thumbPosition2 instanceof Package) {
-            $thumbPosition2 = C0608runtime.signalRuntimeError(strings.stringAppend("The variable ", C0608runtime.getDisplayRepresentation(Lit89), " is not bound in the current context"), "Unbound Variable");
-        }
-        C0608runtime.addGlobalVarToCurrentFormEnvironment(simpleSymbol, $thumbPosition2);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit90, Lit66, C0608runtime.callYailPrimitive(strings.string$Mnappend, LList.list2(C0608runtime.lookupGlobalVarInCurrentFormEnvironment(Lit3, C0608runtime.$Stthe$Mnnull$Mnvalue$St), "/10"), Lit91, "join"), Lit10);
-    }
-
-    static Object lambda19() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit90, Lit60, Boolean.TRUE, Lit8);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit90, Lit63, Lit64, Lit6);
-    }
-
-    static Object lambda20() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit90, Lit60, Boolean.TRUE, Lit8);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit90, Lit63, Lit64, Lit6);
-    }
-
-    static Object lambda21() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit97, Lit39, Lit73, Lit6);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit97, Lit41, Lit40, Lit6);
-    }
-
-    static Object lambda22() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit97, Lit39, Lit73, Lit6);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit97, Lit41, Lit40, Lit6);
-    }
-
-    static Object lambda23() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit100, Lit60, Boolean.TRUE, Lit8);
-        C0608runtime.setAndCoerceProperty$Ex(Lit100, Lit39, Lit101, Lit6);
-        C0608runtime.setAndCoerceProperty$Ex(Lit100, Lit102, "therare_b.png", Lit10);
-        C0608runtime.setAndCoerceProperty$Ex(Lit100, Lit66, "Valider", Lit10);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit100, Lit41, Lit87, Lit6);
-    }
-
-    static Object lambda24() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit100, Lit60, Boolean.TRUE, Lit8);
-        C0608runtime.setAndCoerceProperty$Ex(Lit100, Lit39, Lit101, Lit6);
-        C0608runtime.setAndCoerceProperty$Ex(Lit100, Lit102, "therare_b.png", Lit10);
-        C0608runtime.setAndCoerceProperty$Ex(Lit100, Lit66, "Valider", Lit10);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit100, Lit41, Lit87, Lit6);
-    }
-
-    public Object Button1$Click() {
-        C0608runtime.setThisForm();
-        C0608runtime.callComponentMethod(Lit25, Lit26, LList.list2("happiness", C0608runtime.lookupGlobalVarInCurrentFormEnvironment(Lit3, C0608runtime.$Stthe$Mnnull$Mnvalue$St)), Lit104);
-        return C0608runtime.callYailPrimitive(C0608runtime.open$Mnanother$Mnscreen, LList.list1("Etape4"), Lit105, "open another screen");
-    }
-
-    static Object lambda25() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit109, Lit39, Lit73, Lit6);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit109, Lit41, Lit40, Lit6);
-    }
-
-    static Object lambda26() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit109, Lit39, Lit73, Lit6);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit109, Lit41, Lit40, Lit6);
-    }
-
-    static Object lambda27() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit112, Lit11, Lit113, Lit6);
-        C0608runtime.setAndCoerceProperty$Ex(Lit112, Lit39, Lit73, Lit6);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit112, Lit41, Lit40, Lit6);
-    }
-
-    static Object lambda28() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit112, Lit11, Lit113, Lit6);
-        C0608runtime.setAndCoerceProperty$Ex(Lit112, Lit39, Lit73, Lit6);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit112, Lit41, Lit40, Lit6);
-    }
-
-    static Object lambda29() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit116, Lit11, Lit117, Lit6);
-        C0608runtime.setAndCoerceProperty$Ex(Lit116, Lit39, Lit73, Lit6);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit116, Lit41, Lit40, Lit6);
-    }
-
-    static Object lambda30() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit116, Lit11, Lit117, Lit6);
-        C0608runtime.setAndCoerceProperty$Ex(Lit116, Lit39, Lit73, Lit6);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit116, Lit41, Lit40, Lit6);
-    }
-
-    static Object lambda31() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit120, Lit11, Lit121, Lit6);
-        C0608runtime.setAndCoerceProperty$Ex(Lit120, Lit39, Lit73, Lit6);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit120, Lit41, Lit40, Lit6);
-    }
-
-    static Object lambda32() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit120, Lit11, Lit121, Lit6);
-        C0608runtime.setAndCoerceProperty$Ex(Lit120, Lit39, Lit73, Lit6);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit120, Lit41, Lit40, Lit6);
-    }
-
-    static Object lambda33() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit124, Lit39, Lit73, Lit6);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit124, Lit41, Lit40, Lit6);
-    }
-
-    static Object lambda34() {
-        C0608runtime.setAndCoerceProperty$Ex(Lit124, Lit39, Lit73, Lit6);
-        return C0608runtime.setAndCoerceProperty$Ex(Lit124, Lit41, Lit40, Lit6);
     }
 
     public String getSimpleName(Object object) {
@@ -1359,19 +1360,19 @@ public class Etape3 extends Form implements Runnable {
     }
 
     public void addToEvents(Object component$Mnname, Object event$Mnname) {
-        this.events$Mnto$Mnregister = C0620lists.cons(C0620lists.cons(component$Mnname, event$Mnname), this.events$Mnto$Mnregister);
+        this.events$Mnto$Mnregister = lists.cons(lists.cons(component$Mnname, event$Mnname), this.events$Mnto$Mnregister);
     }
 
     public void addToComponents(Object container$Mnname, Object component$Mntype, Object component$Mnname, Object init$Mnthunk) {
-        this.components$Mnto$Mncreate = C0620lists.cons(LList.list4(container$Mnname, component$Mntype, component$Mnname, init$Mnthunk), this.components$Mnto$Mncreate);
+        this.components$Mnto$Mncreate = lists.cons(LList.list4(container$Mnname, component$Mntype, component$Mnname, init$Mnthunk), this.components$Mnto$Mncreate);
     }
 
     public void addToGlobalVars(Object var, Object val$Mnthunk) {
-        this.global$Mnvars$Mnto$Mncreate = C0620lists.cons(LList.list2(var, val$Mnthunk), this.global$Mnvars$Mnto$Mncreate);
+        this.global$Mnvars$Mnto$Mncreate = lists.cons(LList.list2(var, val$Mnthunk), this.global$Mnvars$Mnto$Mncreate);
     }
 
     public void addToFormDoAfterCreation(Object thunk) {
-        this.form$Mndo$Mnafter$Mncreation = C0620lists.cons(thunk, this.form$Mndo$Mnafter$Mncreation);
+        this.form$Mndo$Mnafter$Mncreation = lists.cons(thunk, this.form$Mndo$Mnafter$Mncreation);
     }
 
     public void sendError(Object error) {
@@ -1429,7 +1430,7 @@ public class Etape3 extends Form implements Runnable {
                 } else {
                     bool = Boolean.FALSE;
                 }
-                apply.apply2(handler, C0620lists.cons(componentObject, C0620lists.cons(bool, LList.makeList(args, 0))));
+                apply.apply2(handler, lists.cons(componentObject, lists.cons(bool, LList.makeList(args, 0))));
             } catch (PermissionException exception) {
                 exception.printStackTrace();
                 if (this != componentObject) {
@@ -1480,20 +1481,19 @@ public class Etape3 extends Form implements Runnable {
             try {
                 Pair arg0 = (Pair) obj5;
                 Object event$Mninfo = arg0.getCar();
-                Object apply1 = C0620lists.car.apply1(event$Mninfo);
+                Object apply1 = lists.car.apply1(event$Mninfo);
                 String obj6 = apply1 == null ? null : apply1.toString();
-                Object apply12 = C0620lists.cdr.apply1(event$Mninfo);
+                Object apply12 = lists.cdr.apply1(event$Mninfo);
                 EventDispatcher.registerEventForDelegation(this, obj6, apply12 == null ? null : apply12.toString());
                 obj5 = arg0.getCdr();
             } catch (ClassCastException e) {
-                WrongType wrongType = new WrongType(e, "arg0", -2, obj5);
-                throw wrongType;
+                throw new WrongType(e, "arg0", -2, obj5);
             }
         }
         try {
-            LList components = C0620lists.reverse(this.components$Mnto$Mncreate);
+            LList components = lists.reverse(this.components$Mnto$Mncreate);
             addToGlobalVars(Lit2, lambda$Fn1);
-            reverse = C0620lists.reverse(this.form$Mndo$Mnafter$Mncreation);
+            reverse = lists.reverse(this.form$Mndo$Mnafter$Mncreation);
             while (reverse != LList.Empty) {
                 Pair arg02 = (Pair) reverse;
                 misc.force(arg02.getCar());
@@ -1503,66 +1503,58 @@ public class Etape3 extends Form implements Runnable {
             while (obj != LList.Empty) {
                 Pair arg03 = (Pair) obj;
                 Object component$Mninfo = arg03.getCar();
-                component$Mnname = C0620lists.caddr.apply1(component$Mninfo);
-                C0620lists.cadddr.apply1(component$Mninfo);
-                Object component$Mnobject = Invoke.make.apply2(C0620lists.cadr.apply1(component$Mninfo), lookupInFormEnvironment((Symbol) C0620lists.car.apply1(component$Mninfo)));
+                component$Mnname = lists.caddr.apply1(component$Mninfo);
+                lists.cadddr.apply1(component$Mninfo);
+                Object component$Mnobject = Invoke.make.apply2(lists.cadr.apply1(component$Mninfo), lookupInFormEnvironment((Symbol) lists.car.apply1(component$Mninfo)));
                 SlotSet.set$Mnfield$Ex.apply3(this, component$Mnname, component$Mnobject);
                 addToFormEnvironment((Symbol) component$Mnname, component$Mnobject);
                 obj = arg03.getCdr();
             }
-            reverse2 = C0620lists.reverse(this.global$Mnvars$Mnto$Mncreate);
+            reverse2 = lists.reverse(this.global$Mnvars$Mnto$Mncreate);
             while (reverse2 != LList.Empty) {
                 Pair arg04 = (Pair) reverse2;
                 Object var$Mnval = arg04.getCar();
-                var = C0620lists.car.apply1(var$Mnval);
-                addToGlobalVarEnvironment((Symbol) var, Scheme.applyToArgs.apply1(C0620lists.cadr.apply1(var$Mnval)));
+                var = lists.car.apply1(var$Mnval);
+                addToGlobalVarEnvironment((Symbol) var, Scheme.applyToArgs.apply1(lists.cadr.apply1(var$Mnval)));
                 reverse2 = arg04.getCdr();
             }
-            Object obj7 = components;
-            obj2 = obj7;
+            LList component$Mndescriptors = components;
+            obj2 = component$Mndescriptors;
             while (obj2 != LList.Empty) {
                 Pair arg05 = (Pair) obj2;
                 Object component$Mninfo2 = arg05.getCar();
-                C0620lists.caddr.apply1(component$Mninfo2);
-                Object init$Mnthunk = C0620lists.cadddr.apply1(component$Mninfo2);
+                lists.caddr.apply1(component$Mninfo2);
+                Object init$Mnthunk = lists.cadddr.apply1(component$Mninfo2);
                 if (init$Mnthunk != Boolean.FALSE) {
                     Scheme.applyToArgs.apply1(init$Mnthunk);
                 }
                 obj2 = arg05.getCdr();
             }
-            obj3 = obj7;
+            obj3 = component$Mndescriptors;
             while (obj3 != LList.Empty) {
                 Pair arg06 = (Pair) obj3;
                 Object component$Mninfo3 = arg06.getCar();
-                Object component$Mnname2 = C0620lists.caddr.apply1(component$Mninfo3);
-                C0620lists.cadddr.apply1(component$Mninfo3);
+                Object component$Mnname2 = lists.caddr.apply1(component$Mninfo3);
+                lists.cadddr.apply1(component$Mninfo3);
                 callInitialize(SlotGet.field.apply2(this, component$Mnname2));
                 obj3 = arg06.getCdr();
             }
         } catch (ClassCastException e2) {
-            WrongType wrongType2 = new WrongType(e2, "arg0", -2, obj3);
-            throw wrongType2;
+            throw new WrongType(e2, "arg0", -2, obj3);
         } catch (ClassCastException e3) {
-            WrongType wrongType3 = new WrongType(e3, "arg0", -2, obj2);
-            throw wrongType3;
+            throw new WrongType(e3, "arg0", -2, obj2);
         } catch (ClassCastException e4) {
-            WrongType wrongType4 = new WrongType(e4, "add-to-global-var-environment", 0, var);
-            throw wrongType4;
+            throw new WrongType(e4, "add-to-global-var-environment", 0, var);
         } catch (ClassCastException e5) {
-            WrongType wrongType5 = new WrongType(e5, "arg0", -2, reverse2);
-            throw wrongType5;
+            throw new WrongType(e5, "arg0", -2, reverse2);
         } catch (ClassCastException e6) {
-            WrongType wrongType6 = new WrongType(e6, "add-to-form-environment", 0, component$Mnname);
-            throw wrongType6;
+            throw new WrongType(e6, "add-to-form-environment", 0, component$Mnname);
         } catch (ClassCastException e7) {
-            WrongType wrongType7 = new WrongType(e7, "lookup-in-form-environment", 0, obj4);
-            throw wrongType7;
+            throw new WrongType(e7, "lookup-in-form-environment", 0, obj4);
         } catch (ClassCastException e8) {
-            WrongType wrongType8 = new WrongType(e8, "arg0", -2, obj);
-            throw wrongType8;
+            throw new WrongType(e8, "arg0", -2, obj);
         } catch (ClassCastException e9) {
-            WrongType wrongType9 = new WrongType(e9, "arg0", -2, reverse);
-            throw wrongType9;
+            throw new WrongType(e9, "arg0", -2, reverse);
         } catch (YailRuntimeError exception2) {
             processException(exception2);
         }
@@ -1573,20 +1565,20 @@ public class Etape3 extends Form implements Runnable {
         Apply apply = Scheme.apply;
         ModuleMethod moduleMethod = strings.string$Mnappend;
         Object obj = LList.Empty;
-        Object obj2 = symbols;
-        while (obj2 != LList.Empty) {
+        LList lList = symbols;
+        while (lList != LList.Empty) {
             try {
-                Pair arg0 = (Pair) obj2;
+                Pair arg0 = (Pair) lList;
                 Object arg02 = arg0.getCdr();
                 Object car = arg0.getCar();
                 try {
                     obj = Pair.make(misc.symbol$To$String((Symbol) car), obj);
-                    obj2 = arg02;
+                    lList = arg02;
                 } catch (ClassCastException e) {
                     throw new WrongType(e, "symbol->string", 1, car);
                 }
             } catch (ClassCastException e2) {
-                throw new WrongType(e2, "arg0", -2, obj2);
+                throw new WrongType(e2, "arg0", -2, lList);
             }
         }
         Object apply2 = apply.apply2(moduleMethod, LList.reverseInPlace(obj));

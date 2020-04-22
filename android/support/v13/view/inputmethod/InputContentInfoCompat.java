@@ -2,7 +2,7 @@ package android.support.v13.view.inputmethod;
 
 import android.content.ClipDescription;
 import android.net.Uri;
-import android.os.Build.VERSION;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -11,46 +11,22 @@ import android.view.inputmethod.InputContentInfo;
 public final class InputContentInfoCompat {
     private final InputContentInfoCompatImpl mImpl;
 
-    @RequiresApi(25)
-    private static final class InputContentInfoCompatApi25Impl implements InputContentInfoCompatImpl {
+    private interface InputContentInfoCompatImpl {
         @NonNull
-        final InputContentInfo mObject;
-
-        InputContentInfoCompatApi25Impl(@NonNull Object inputContentInfo) {
-            this.mObject = (InputContentInfo) inputContentInfo;
-        }
-
-        InputContentInfoCompatApi25Impl(@NonNull Uri contentUri, @NonNull ClipDescription description, @Nullable Uri linkUri) {
-            this.mObject = new InputContentInfo(contentUri, description, linkUri);
-        }
+        Uri getContentUri();
 
         @NonNull
-        public Uri getContentUri() {
-            return this.mObject.getContentUri();
-        }
-
-        @NonNull
-        public ClipDescription getDescription() {
-            return this.mObject.getDescription();
-        }
+        ClipDescription getDescription();
 
         @Nullable
-        public Uri getLinkUri() {
-            return this.mObject.getLinkUri();
-        }
+        Object getInputContentInfo();
 
         @Nullable
-        public Object getInputContentInfo() {
-            return this.mObject;
-        }
+        Uri getLinkUri();
 
-        public void requestPermission() {
-            this.mObject.requestPermission();
-        }
+        void releasePermission();
 
-        public void releasePermission() {
-            this.mObject.releasePermission();
-        }
+        void requestPermission();
     }
 
     private static final class InputContentInfoCompatBaseImpl implements InputContentInfoCompatImpl {
@@ -94,26 +70,50 @@ public final class InputContentInfoCompat {
         }
     }
 
-    private interface InputContentInfoCompatImpl {
+    @RequiresApi(25)
+    private static final class InputContentInfoCompatApi25Impl implements InputContentInfoCompatImpl {
         @NonNull
-        Uri getContentUri();
+        final InputContentInfo mObject;
+
+        InputContentInfoCompatApi25Impl(@NonNull Object inputContentInfo) {
+            this.mObject = (InputContentInfo) inputContentInfo;
+        }
+
+        InputContentInfoCompatApi25Impl(@NonNull Uri contentUri, @NonNull ClipDescription description, @Nullable Uri linkUri) {
+            this.mObject = new InputContentInfo(contentUri, description, linkUri);
+        }
 
         @NonNull
-        ClipDescription getDescription();
+        public Uri getContentUri() {
+            return this.mObject.getContentUri();
+        }
+
+        @NonNull
+        public ClipDescription getDescription() {
+            return this.mObject.getDescription();
+        }
 
         @Nullable
-        Object getInputContentInfo();
+        public Uri getLinkUri() {
+            return this.mObject.getLinkUri();
+        }
 
         @Nullable
-        Uri getLinkUri();
+        public Object getInputContentInfo() {
+            return this.mObject;
+        }
 
-        void releasePermission();
+        public void requestPermission() {
+            this.mObject.requestPermission();
+        }
 
-        void requestPermission();
+        public void releasePermission() {
+            this.mObject.releasePermission();
+        }
     }
 
     public InputContentInfoCompat(@NonNull Uri contentUri, @NonNull ClipDescription description, @Nullable Uri linkUri) {
-        if (VERSION.SDK_INT >= 25) {
+        if (Build.VERSION.SDK_INT >= 25) {
             this.mImpl = new InputContentInfoCompatApi25Impl(contentUri, description, linkUri);
         } else {
             this.mImpl = new InputContentInfoCompatBaseImpl(contentUri, description, linkUri);
@@ -141,7 +141,7 @@ public final class InputContentInfoCompat {
 
     @Nullable
     public static InputContentInfoCompat wrap(@Nullable Object inputContentInfo) {
-        if (inputContentInfo != null && VERSION.SDK_INT >= 25) {
+        if (inputContentInfo != null && Build.VERSION.SDK_INT >= 25) {
             return new InputContentInfoCompat(new InputContentInfoCompatApi25Impl(inputContentInfo));
         }
         return null;

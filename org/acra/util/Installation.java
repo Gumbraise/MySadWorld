@@ -13,8 +13,7 @@ public class Installation {
     private static final String INSTALLATION = "ACRA-INSTALLATION";
     private static String sID;
 
-    /* renamed from: id */
-    public static synchronized String m56id(Context context) {
+    public static synchronized String id(Context context) {
         String str;
         synchronized (Installation.class) {
             if (sID == null) {

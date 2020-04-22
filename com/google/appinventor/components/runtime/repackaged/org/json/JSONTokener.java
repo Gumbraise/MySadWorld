@@ -17,10 +17,7 @@ public class JSONTokener {
     private boolean usePrevious;
 
     public JSONTokener(Reader reader2) {
-        if (!reader2.markSupported()) {
-            reader2 = new BufferedReader(reader2);
-        }
-        this.reader = reader2;
+        this.reader = !reader2.markSupported() ? new BufferedReader(reader2) : reader2;
         this.eof = false;
         this.usePrevious = false;
         this.previous = 0;
@@ -129,15 +126,23 @@ public class JSONTokener {
         return new String(chars);
     }
 
-    public char nextClean() throws JSONException {
-        char c;
-        do {
-            c = next();
-            if (c == 0) {
-                break;
-            }
-        } while (c <= ' ');
-        return c;
+    /*  JADX ERROR: StackOverflow in pass: RegionMakerVisitor
+        jadx.core.utils.exceptions.JadxOverflowException: 
+        	at jadx.core.utils.ErrorsCounter.addError(ErrorsCounter.java:47)
+        	at jadx.core.utils.ErrorsCounter.methodError(ErrorsCounter.java:81)
+        */
+    public char nextClean() throws com.google.appinventor.components.runtime.repackaged.org.json.JSONException {
+        /*
+            r2 = this;
+        L_0x0000:
+            char r0 = r2.next()
+            if (r0 == 0) goto L_0x000a
+            r1 = 32
+            if (r0 <= r1) goto L_0x0000
+        L_0x000a:
+            return r0
+        */
+        throw new UnsupportedOperationException("Method not decompiled: com.google.appinventor.components.runtime.repackaged.org.json.JSONTokener.nextClean():char");
     }
 
     public String nextString(char quote) throws JSONException {

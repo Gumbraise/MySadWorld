@@ -64,12 +64,10 @@ public class ExpVisitor<R, D> implements SourceLocator {
 
     /* access modifiers changed from: protected */
     public final void visitDeclarationType(Declaration decl) {
+        Expression texp2;
         Expression texp1 = decl.typeExp;
-        if (texp1 != null) {
-            Expression texp2 = visitAndUpdate(texp1, null);
-            if (texp2 != texp1) {
-                decl.setTypeExp(texp2);
-            }
+        if (texp1 != null && (texp2 = visitAndUpdate(texp1, (Object) null)) != texp1) {
+            decl.setTypeExp(texp2);
         }
     }
 

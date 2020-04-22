@@ -27,7 +27,7 @@ public abstract class Procedure extends PropertySet {
     }
 
     public String getSourceLocation() {
-        Object value = getProperty(sourceLocationKey, null);
+        Object value = getProperty(sourceLocationKey, (Object) null);
         if (value == null) {
             return null;
         }
@@ -286,7 +286,7 @@ public abstract class Procedure extends PropertySet {
 
     public Procedure getSetter() {
         if (!(this instanceof HasSetter)) {
-            Object setter = getProperty(setterKey, null);
+            Object setter = getProperty(setterKey, (Object) null);
             if (setter instanceof Procedure) {
                 return (Procedure) setter;
             }

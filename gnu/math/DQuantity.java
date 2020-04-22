@@ -17,8 +17,7 @@ public class DQuantity extends Quantity implements Externalizable {
         return new DFloNum(this.factor);
     }
 
-    /* renamed from: re */
-    public final RealNum mo11744re() {
+    public final RealNum re() {
         return new DFloNum(this.factor);
     }
 

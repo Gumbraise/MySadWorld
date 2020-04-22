@@ -65,11 +65,11 @@ public class fluid_let extends Syntax {
         L_0x0025:
             gnu.expr.Expression r12 = r15.defaultInit     // Catch:{ all -> 0x0120 }
         L_0x0027:
-            gnu.expr.Declaration r4 = r9.addDeclaration(r10)     // Catch:{ all -> 0x0120 }
+            gnu.expr.Declaration r4 = r9.addDeclaration((java.lang.Object) r10)     // Catch:{ all -> 0x0120 }
             r0 = r18
             gnu.expr.NameLookup r13 = r0.lexical     // Catch:{ all -> 0x0120 }
             r14 = 0
-            gnu.expr.Declaration r6 = r13.lookup(r10, r14)     // Catch:{ all -> 0x0120 }
+            gnu.expr.Declaration r6 = r13.lookup((java.lang.Object) r10, (boolean) r14)     // Catch:{ all -> 0x0120 }
             if (r6 == 0) goto L_0x0045
             r0 = r18
             r6.maybeIndirectBinding(r0)     // Catch:{ all -> 0x0120 }
@@ -87,7 +87,7 @@ public class fluid_let extends Syntax {
             r4.setIndirectBinding(r13)     // Catch:{ all -> 0x0120 }
             if (r12 != 0) goto L_0x0058
             gnu.expr.ReferenceExp r12 = new gnu.expr.ReferenceExp     // Catch:{ all -> 0x0120 }
-            r12.<init>(r10)     // Catch:{ all -> 0x0120 }
+            r12.<init>((java.lang.Object) r10)     // Catch:{ all -> 0x0120 }
         L_0x0058:
             r8[r7] = r12     // Catch:{ all -> 0x0120 }
             r13 = 0
@@ -180,7 +180,7 @@ public class fluid_let extends Syntax {
             throw r13
         L_0x0127:
             r0 = r18
-            r0.push(r9)
+            r0.push((gnu.expr.ScopeExp) r9)
             boolean r13 = r15.star
             if (r13 == 0) goto L_0x0142
             gnu.lists.LList r13 = gnu.lists.LList.Empty

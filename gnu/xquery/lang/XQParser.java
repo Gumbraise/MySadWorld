@@ -183,7 +183,7 @@ public class XQParser extends Lexer {
     public static QuoteExp makeDescendantAxisStep = QuoteExp.getInstance(new PrimProcedure("gnu.kawa.xml.DescendantAxis", "make", 1));
     public static Expression makeText = makeFunctionExp("gnu.kawa.xml.MakeText", "makeText");
     static PrimProcedure proc_OccurrenceType_getInstance = new PrimProcedure(ClassType.make("gnu.kawa.reflect.OccurrenceType").getDeclaredMethod("getInstance", 3));
-    public static final Convert treatAs = Convert.f60as;
+    public static final Convert treatAs = Convert.as;
     public static boolean warnHidePreviousDeclaration = false;
     public static boolean warnOldVersion = true;
     Path baseURI = null;
@@ -262,19 +262,17 @@ public class XQParser extends Lexer {
     }
 
     public String getStaticBaseUri() {
+        LineBufferedReader port;
         Path path = this.baseURI;
         if (path == null) {
-            Object value = Environment.getCurrent().get(Symbol.make("", "base-uri"), null, null);
+            Object value = Environment.getCurrent().get(Symbol.make("", "base-uri"), (Object) null, (Object) null);
             if (value != null && !(value instanceof Path)) {
                 path = URIPath.valueOf(value.toString());
             }
-            if (path == null) {
-                LineBufferedReader port = getPort();
-                if (port != null) {
-                    path = port.getPath();
-                    if ((path instanceof FilePath) && (!path.exists() || (port instanceof TtyInPort) || (port instanceof CharArrayInPort))) {
-                        path = null;
-                    }
+            if (path == null && (port = getPort()) != null) {
+                path = port.getPath();
+                if ((path instanceof FilePath) && (!path.exists() || (port instanceof TtyInPort) || (port instanceof CharArrayInPort))) {
+                    path = null;
                 }
             }
             if (path == null) {
@@ -290,12 +288,12 @@ public class XQParser extends Lexer {
         return Path.uriSchemeSpecified(uri) ? uri : Path.valueOf(getStaticBaseUri()).resolve(uri).toString();
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public final int skipSpace() throws IOException, SyntaxException {
         return skipSpace(true);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public final int skipSpace(boolean verticalToo) throws IOException, SyntaxException {
         int ch;
         while (true) {
@@ -332,18 +330,26 @@ public class XQParser extends Lexer {
         return ch;
     }
 
-    /* access modifiers changed from: 0000 */
-    public final void skipToSemicolon() throws IOException {
-        int next;
-        do {
-            next = read();
-            if (next < 0) {
-                return;
-            }
-        } while (next != 59);
+    /*  JADX ERROR: StackOverflow in pass: RegionMakerVisitor
+        jadx.core.utils.exceptions.JadxOverflowException: 
+        	at jadx.core.utils.ErrorsCounter.addError(ErrorsCounter.java:47)
+        	at jadx.core.utils.ErrorsCounter.methodError(ErrorsCounter.java:81)
+        */
+    final void skipToSemicolon() throws java.io.IOException {
+        /*
+            r2 = this;
+        L_0x0000:
+            int r0 = r2.read()
+            if (r0 < 0) goto L_0x000a
+            r1 = 59
+            if (r0 != r1) goto L_0x0000
+        L_0x000a:
+            return
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.xquery.lang.XQParser.skipToSemicolon():void");
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public final void skipOldComment() throws IOException, SyntaxException {
         int seenDashes = 0;
         int startLine = getLineNumber() + 1;
@@ -367,7 +373,7 @@ public class XQParser extends Lexer {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public final void skipComment() throws IOException, SyntaxException {
         this.commentCount++;
         int startLine = getLineNumber() + 1;
@@ -402,7 +408,7 @@ public class XQParser extends Lexer {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public final int peekNonSpace(String message) throws IOException, SyntaxException {
         int ch = skipSpace();
         if (ch < 0) {
@@ -431,14 +437,14 @@ public class XQParser extends Lexer {
         return token;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void checkSeparator(char ch) {
         if (XName.isNameStart(ch)) {
             error('e', "missing separator", "XPST0003");
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public int getRawToken() throws IOException, SyntaxException {
         int next;
         int next2;
@@ -712,7 +718,7 @@ public class XQParser extends Lexer {
         tokenBufferAppend(ch);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public boolean match(String word1, String word2, boolean force) throws IOException, SyntaxException {
         if (match(word1)) {
             mark();
@@ -731,7 +737,7 @@ public class XQParser extends Lexer {
         return false;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public int peekOperator() throws IOException, SyntaxException {
         while (this.curToken == 10) {
             if (this.nesting == 0) {
@@ -913,24 +919,27 @@ public class XQParser extends Lexer {
         return false;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public int getAxis() {
         String name = new String(this.tokenBuffer, 0, this.tokenBufferLength).intern();
         int i = 13;
         do {
             i--;
-            if (i < 0) {
-                break;
+            if (i < 0 || axisNames[i] == name) {
+                if (i < 0 || i == 8) {
+                    error('e', "unknown axis name '" + name + '\'', "XPST0003");
+                    i = 3;
+                }
             }
-        } while (axisNames[i] != name);
-        if (i < 0 || i == 8) {
-            error('e', "unknown axis name '" + name + '\'', "XPST0003");
-            i = 3;
-        }
+            i--;
+            break;
+        } while (axisNames[i] == name);
+        error('e', "unknown axis name '" + name + '\'', "XPST0003");
+        i = 3;
         return (char) (i + 100);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public int peekOperand() throws IOException, SyntaxException {
         while (this.curToken == 10) {
             getRawToken();
@@ -1217,7 +1226,7 @@ public class XQParser extends Lexer {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void checkAllowedNamespaceDeclaration(String prefix, String uri, boolean inConstructor) {
         boolean xmlPrefix = "xml".equals(prefix);
         if (NamespaceBinding.XML_NAMESPACE.equals(uri)) {
@@ -1229,7 +1238,7 @@ public class XQParser extends Lexer {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void pushNamespace(String prefix, String uri) {
         if (uri.length() == 0) {
             uri = null;
@@ -1314,7 +1323,7 @@ public class XQParser extends Lexer {
         return makeBinary(makeFunctionExp("gnu.kawa.functions.AppendValues", "appendValues"), exp1, exp2);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Expression makeBinary(int op, Expression exp1, Expression exp2) throws IOException, SyntaxException {
         Expression func;
         switch (op) {
@@ -1578,7 +1587,7 @@ public class XQParser extends Lexer {
         return QuoteExp.getInstance(type);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Object parseURILiteral() throws IOException, SyntaxException {
         getRawToken();
         if (this.curToken != 34) {
@@ -1587,12 +1596,12 @@ public class XQParser extends Lexer {
         return TextUtils.replaceWhitespace(new String(this.tokenBuffer, 0, this.tokenBufferLength), true);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Expression parseExpr() throws IOException, SyntaxException {
         return parseExprSingle();
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public final Expression parseExprSingle() throws IOException, SyntaxException {
         int i = this.curLine;
         int i2 = this.curColumn;
@@ -1615,67 +1624,66 @@ public class XQParser extends Lexer {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Expression parseBinaryExpr(int prio) throws IOException, SyntaxException {
+        int tokPriority;
         Expression func;
         Expression exp = parseUnaryExpr();
         while (true) {
             int token = peekOperator();
-            if (!(token == 10 || (token == 404 && peek() == 47))) {
-                int tokPriority = priority(token);
-                if (tokPriority >= prio) {
-                    char saveReadState = pushNesting('%');
-                    getRawToken();
-                    popNesting(saveReadState);
-                    if (token >= OP_INSTANCEOF && token <= OP_CAST_AS) {
-                        if (token == OP_CAST_AS || token == OP_CASTABLE_AS) {
-                            this.parseContext = 67;
-                        }
-                        Expression type = parseDataType();
-                        this.parseContext = 0;
-                        Expression[] args = new Expression[2];
-                        switch (token) {
-                            case OP_INSTANCEOF /*422*/:
-                                args[0] = exp;
-                                args[1] = type;
-                                func = makeFunctionExp("gnu.xquery.lang.XQParser", "instanceOf");
-                                break;
-                            case OP_TREAT_AS /*423*/:
-                                args[0] = type;
-                                args[1] = exp;
-                                func = makeFunctionExp("gnu.xquery.lang.XQParser", "treatAs");
-                                break;
-                            case OP_CASTABLE_AS /*424*/:
-                                args[0] = exp;
-                                args[1] = type;
-                                func = new ReferenceExp(XQResolveNames.castableAsDecl);
-                                break;
-                            default:
-                                args[0] = type;
-                                args[1] = exp;
-                                func = new ReferenceExp(XQResolveNames.castAsDecl);
-                                break;
-                        }
-                        exp = new ApplyExp(func, args);
-                    } else if (token == OP_INSTANCEOF) {
-                        exp = new ApplyExp(makeFunctionExp("gnu.xquery.lang.XQParser", "instanceOf"), exp, parseDataType());
-                    } else {
-                        Expression exp2 = parseBinaryExpr(tokPriority + 1);
-                        if (token == 401) {
-                            exp = new IfExp(booleanValue(exp), booleanValue(exp2), XQuery.falseExp);
-                        } else if (token == 400) {
-                            exp = new IfExp(booleanValue(exp), XQuery.trueExp, booleanValue(exp2));
-                        } else {
-                            exp = makeBinary(token, exp, exp2);
-                        }
-                    }
+            if (token == 10 || ((token == 404 && peek() == 47) || (tokPriority = priority(token)) < prio)) {
+                return exp;
+            }
+            char saveReadState = pushNesting('%');
+            getRawToken();
+            popNesting(saveReadState);
+            if (token >= OP_INSTANCEOF && token <= OP_CAST_AS) {
+                if (token == OP_CAST_AS || token == OP_CASTABLE_AS) {
+                    this.parseContext = 67;
+                }
+                Expression type = parseDataType();
+                this.parseContext = 0;
+                Expression[] args = new Expression[2];
+                switch (token) {
+                    case OP_INSTANCEOF /*422*/:
+                        args[0] = exp;
+                        args[1] = type;
+                        func = makeFunctionExp("gnu.xquery.lang.XQParser", "instanceOf");
+                        break;
+                    case OP_TREAT_AS /*423*/:
+                        args[0] = type;
+                        args[1] = exp;
+                        func = makeFunctionExp("gnu.xquery.lang.XQParser", "treatAs");
+                        break;
+                    case OP_CASTABLE_AS /*424*/:
+                        args[0] = exp;
+                        args[1] = type;
+                        func = new ReferenceExp(XQResolveNames.castableAsDecl);
+                        break;
+                    default:
+                        args[0] = type;
+                        args[1] = exp;
+                        func = new ReferenceExp(XQResolveNames.castAsDecl);
+                        break;
+                }
+                exp = new ApplyExp(func, args);
+            } else if (token == OP_INSTANCEOF) {
+                exp = new ApplyExp(makeFunctionExp("gnu.xquery.lang.XQParser", "instanceOf"), exp, parseDataType());
+            } else {
+                Expression exp2 = parseBinaryExpr(tokPriority + 1);
+                if (token == 401) {
+                    exp = new IfExp(booleanValue(exp), booleanValue(exp2), XQuery.falseExp);
+                } else if (token == 400) {
+                    exp = new IfExp(booleanValue(exp), XQuery.trueExp, booleanValue(exp2));
+                } else {
+                    exp = makeBinary(token, exp, exp2);
                 }
             }
         }
         return exp;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Expression parseUnaryExpr() throws IOException, SyntaxException {
         if (this.curToken != 414 && this.curToken != 413) {
             return parseUnionExpr();
@@ -1685,7 +1693,7 @@ public class XQParser extends Lexer {
         return new ApplyExp(makeFunctionExp("gnu.xquery.util.ArithOp", op == 413 ? "plus" : "minus", op == 413 ? "+" : "-"), parseUnaryExpr());
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Expression parseUnionExpr() throws IOException, SyntaxException {
         Expression exp = parseIntersectExceptExpr();
         while (true) {
@@ -1698,7 +1706,7 @@ public class XQParser extends Lexer {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Expression parseIntersectExceptExpr() throws IOException, SyntaxException {
         Expression exp = parsePathExpr();
         while (true) {
@@ -1711,7 +1719,7 @@ public class XQParser extends Lexer {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Expression parsePathExpr() throws IOException, SyntaxException {
         Expression step1;
         Expression dot;
@@ -1739,7 +1747,7 @@ public class XQParser extends Lexer {
         return parseRelativePathExpr(step1);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Expression parseNameTest(boolean attribute) throws IOException, SyntaxException {
         String str;
         String local = null;
@@ -1774,7 +1782,7 @@ public class XQParser extends Lexer {
                     syntaxError("missing local-name after '*:'");
                 }
             }
-            return QuoteExp.getInstance(new Symbol(null, local2));
+            return QuoteExp.getInstance(new Symbol((Namespace) null, local2));
         } else if (this.curToken == 65) {
             local = new String(this.tokenBuffer, 0, this.tokenBufferLength);
             if (attribute) {
@@ -1805,7 +1813,7 @@ public class XQParser extends Lexer {
         return make;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Expression parseNodeTest(int axis) throws IOException, SyntaxException {
         Expression dot;
         Expression makeAxisStep;
@@ -1816,7 +1824,7 @@ public class XQParser extends Lexer {
         if (etype != null) {
             args[0] = etype;
         } else if (this.curToken == 65 || this.curToken == 81 || this.curToken == 67 || this.curToken == 415) {
-            args[0] = makeNamedNodeType(axis == 2, parseNameTest(axis == 2), null);
+            args[0] = makeNamedNodeType(axis == 2, parseNameTest(axis == 2), (Expression) null);
         } else if (axis >= 0) {
             return syntaxError("unsupported axis '" + axisNames[axis] + "::'");
         } else {
@@ -1877,7 +1885,7 @@ public class XQParser extends Lexer {
         return new ApplyExp((Expression) mkAxis, dot);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Expression parseRelativePathExpr(Expression exp) throws IOException, SyntaxException {
         Expression beforeSlashSlash = null;
         while (true) {
@@ -1889,7 +1897,7 @@ public class XQParser extends Lexer {
             Declaration dotDecl = lexp.addDeclaration((Object) DOT_VARNAME);
             dotDecl.setFlag(262144);
             dotDecl.setType(NodeType.anyNodeTest);
-            dotDecl.noteValue(null);
+            dotDecl.noteValue((Expression) null);
             lexp.addDeclaration(POSITION_VARNAME, LangPrimType.intType);
             lexp.addDeclaration(LAST_VARNAME, LangPrimType.intType);
             this.comp.push((ScopeExp) lexp);
@@ -1918,7 +1926,7 @@ public class XQParser extends Lexer {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Expression parseStepExpr() throws IOException, SyntaxException {
         int axis;
         Expression exp;
@@ -1970,7 +1978,7 @@ public class XQParser extends Lexer {
         return parseStepQualifiers(unqualifiedStep, axis2);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Expression parseStepQualifiers(Expression exp, int axis) throws IOException, SyntaxException {
         Procedure valuesFilter;
         while (this.curToken == 91) {
@@ -1990,7 +1998,7 @@ public class XQParser extends Lexer {
             lexp.addDeclaration(POSITION_VARNAME, Type.intType);
             lexp.addDeclaration(LAST_VARNAME, Type.intType);
             this.comp.push((ScopeExp) lexp);
-            dot.noteValue(null);
+            dot.noteValue((Expression) null);
             Expression cond = parseExprSequence(93, false);
             if (this.curToken == -1) {
                 eofError("missing ']' - unexpected end-of-file");
@@ -2011,7 +2019,7 @@ public class XQParser extends Lexer {
         return exp;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Expression parsePrimaryExpr() throws IOException, SyntaxException {
         Expression exp = parseMaybePrimaryExpr();
         if (exp != null) {
@@ -2024,7 +2032,7 @@ public class XQParser extends Lexer {
         return exp2;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void parseEntityOrCharRef() throws IOException, SyntaxException {
         int base;
         int next = read();
@@ -2074,7 +2082,7 @@ public class XQParser extends Lexer {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     /* JADX WARNING: Removed duplicated region for block: B:61:0x0170  */
     /* JADX WARNING: Removed duplicated region for block: B:94:0x008c A[SYNTHETIC] */
     /* Code decompiled incorrectly, please refer to instructions dump. */
@@ -2136,7 +2144,7 @@ public class XQParser extends Lexer {
             gnu.expr.Expression r17 = makeText
             r0 = r16
             r1 = r17
-            r0.<init>(r1, r4)
+            r0.<init>((gnu.expr.Expression) r1, (gnu.expr.Expression[]) r4)
         L_0x0073:
             r17 = 0
             r0 = r17
@@ -2268,7 +2276,7 @@ public class XQParser extends Lexer {
             gnu.expr.Expression r18 = makeText
             r0 = r17
             r1 = r18
-            r0.<init>(r1, r4)
+            r0.<init>((gnu.expr.Expression) r1, (gnu.expr.Expression[]) r4)
             r0 = r22
             r1 = r17
             r0.addElement(r1)
@@ -2385,7 +2393,7 @@ public class XQParser extends Lexer {
         throw new UnsupportedOperationException("Method not decompiled: gnu.xquery.lang.XQParser.parseContent(char, java.util.Vector):void");
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Expression parseEnclosedExpr() throws IOException, SyntaxException {
         String saveErrorIfComment = this.errorIfComment;
         this.errorIfComment = null;
@@ -2420,7 +2428,7 @@ public class XQParser extends Lexer {
         return new ApplyExp(makeFunctionExp("gnu.xquery.util.BooleanValue", "booleanValue"), exp);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Expression parseXMLConstructor(int next, boolean inElementContent) throws IOException, SyntaxException {
         if (next == 33) {
             int next2 = read();
@@ -2447,14 +2455,14 @@ public class XQParser extends Lexer {
                     return syntaxError("consecutive or final hyphen in XML comment");
                 }
                 return new ApplyExp(makeFunctionExp("gnu.kawa.xml.CommentConstructor", "commentConstructor"), new QuoteExp(new String(this.tokenBuffer, 0, this.tokenBufferLength)));
-            } else if (next2 == 91 && read() == 67 && read() == 68 && read() == 65 && read() == 84 && read() == 65 && read() == 91) {
+            } else if (next2 != 91 || read() != 67 || read() != 68 || read() != 65 || read() != 84 || read() != 65 || read() != 91) {
+                return syntaxError("'<!' must be followed by '--' or '[CDATA['");
+            } else {
                 if (!inElementContent) {
                     error('e', "CDATA section must be in element content");
                 }
                 getDelimited("]]>");
                 return new ApplyExp(makeCDATA, new QuoteExp(new String(this.tokenBuffer, 0, this.tokenBufferLength)));
-            } else {
-                return syntaxError("'<!' must be followed by '--' or '[CDATA['");
             }
         } else if (next == 63) {
             int next3 = peek();
@@ -2498,13 +2506,13 @@ public class XQParser extends Lexer {
         return new ApplyExp((Expression) new ReferenceExp(element ? XQResolveNames.xsQNameDecl : XQResolveNames.xsQNameIgnoreDefaultDecl), value);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Expression parseElementConstructor() throws IOException, SyntaxException {
         int ch;
+        ApplyExp ax;
         String str = new String(this.tokenBuffer, 0, this.tokenBufferLength);
         Vector vec = new Vector();
-        QuoteExp quoteExp = new QuoteExp(str);
-        vec.addElement(castQName(quoteExp, true));
+        vec.addElement(castQName(new QuoteExp(str), true));
         this.errorIfComment = "comment not allowed in element start tag";
         NamespaceBinding nsBindings = null;
         while (true) {
@@ -2536,8 +2544,7 @@ public class XQParser extends Lexer {
                     definingNamespace = attrName.substring(6).intern();
                 }
                 Expression makeAttr = definingNamespace != null ? null : MakeAttribute.makeAttributeExp;
-                QuoteExp quoteExp2 = new QuoteExp(attrName);
-                vec.addElement(castQName(quoteExp2, false));
+                vec.addElement(castQName(new QuoteExp(attrName), false));
                 if (skipSpace() != 61) {
                     this.errorIfComment = null;
                     return syntaxError("missing '=' after attribute");
@@ -2559,11 +2566,8 @@ public class XQParser extends Lexer {
                         syntaxError("enclosed expression not allowed in namespace declaration");
                     } else {
                         Object x = vec.elementAt(vecSize + 1);
-                        if (x instanceof ApplyExp) {
-                            ApplyExp ax = (ApplyExp) x;
-                            if (ax.getFunction() == makeText) {
-                                x = ax.getArg(0);
-                            }
+                        if ((x instanceof ApplyExp) && (ax = (ApplyExp) x).getFunction() == makeText) {
+                            x = ax.getArg(0);
                         }
                         ns = ((QuoteExp) x).getValue().toString().intern();
                     }
@@ -2585,8 +2589,7 @@ public class XQParser extends Lexer {
                     if (ns == "") {
                         ns = null;
                     }
-                    NamespaceBinding namespaceBinding = new NamespaceBinding(definingNamespace, ns, nsBindings);
-                    nsBindings = namespaceBinding;
+                    nsBindings = new NamespaceBinding(definingNamespace, ns, nsBindings);
                 } else {
                     Expression[] args = new Expression[n];
                     int i = n;
@@ -2644,12 +2647,10 @@ public class XQParser extends Lexer {
         MakeElement mkElement = new MakeElement();
         mkElement.copyNamespacesMode = this.copyNamespacesMode;
         mkElement.setNamespaceNodes(nsBindings);
-        QuoteExp quoteExp3 = new QuoteExp(mkElement);
-        ApplyExp applyExp = new ApplyExp((Expression) quoteExp3, args2);
-        return applyExp;
+        return new ApplyExp((Expression) new QuoteExp(mkElement), args2);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Expression wrapWithBaseUri(Expression exp) {
         if (getStaticBaseUri() == null) {
             return exp;
@@ -2657,7 +2658,7 @@ public class XQParser extends Lexer {
         return new ApplyExp((Procedure) MakeWithBaseUri.makeWithBaseUri, new ApplyExp((Expression) new ReferenceExp(XQResolveNames.staticBaseUriDecl), Expression.noExpressions), exp).setLine(exp);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Expression parseParenExpr() throws IOException, SyntaxException {
         getRawToken();
         char saveReadState = pushNesting('(');
@@ -2669,7 +2670,7 @@ public class XQParser extends Lexer {
         return exp;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Expression parseExprSequence(int rightToken, boolean optional) throws IOException, SyntaxException {
         String str;
         if (this.curToken == rightToken || this.curToken == -1) {
@@ -2700,7 +2701,7 @@ public class XQParser extends Lexer {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Expression parseTypeSwitch() throws IOException, SyntaxException {
         Declaration decl;
         Declaration decl2;
@@ -2777,47 +2778,19 @@ public class XQParser extends Lexer {
         return new ApplyExp(makeFunctionExp("gnu.kawa.reflect.TypeSwitch", "typeSwitch"), args);
     }
 
-    /* JADX WARNING: type inference failed for: r25v0, types: [gnu.expr.Expression] */
-    /* JADX WARNING: type inference failed for: r9v6, types: [gnu.expr.Expression] */
-    /* JADX WARNING: type inference failed for: r25v1, types: [gnu.expr.Expression] */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r25v0, resolved type: gnu.expr.Expression} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r25v1, resolved type: gnu.expr.Expression} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r25v3, resolved type: gnu.expr.QuoteExp} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r25v4, resolved type: gnu.expr.QuoteExp} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v192, resolved type: gnu.expr.QuoteExp} */
     /* JADX WARNING: type inference failed for: r25v2 */
-    /* JADX WARNING: type inference failed for: r1v35, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r0v71, types: [gnu.expr.QuoteExp] */
-    /* JADX WARNING: type inference failed for: r0v108, types: [java.lang.Double] */
     /* JADX WARNING: type inference failed for: r27v1 */
-    /* JADX WARNING: type inference failed for: r0v109, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r0v112, types: [java.math.BigDecimal] */
-    /* JADX WARNING: type inference failed for: r25v4 */
-    /* JADX WARNING: type inference failed for: r0v192, types: [gnu.expr.QuoteExp] */
     /* JADX WARNING: type inference failed for: r0v193, types: [java.lang.Double] */
     /* JADX WARNING: type inference failed for: r0v194, types: [java.math.BigDecimal] */
-    /* access modifiers changed from: 0000 */
-    /* JADX WARNING: Multi-variable type inference failed. Error: jadx.core.utils.exceptions.JadxRuntimeException: No candidate types for var: r25v0, names: [target], types: [gnu.expr.Expression]
-      assigns: [gnu.expr.Expression, gnu.expr.QuoteExp]
-      uses: [?[OBJECT, ARRAY], gnu.expr.QuoteExp]
-      mth insns count: 503
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.fillTypeCandidates(TypeSearch.java:237)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.run(TypeSearch.java:53)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.runMultiVariableSearch(TypeInferenceVisitor.java:99)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.visit(TypeInferenceVisitor.java:92)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:27)
-    	at jadx.core.dex.visitors.DepthTraversal.lambda$visit$1(DepthTraversal.java:14)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:14)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:30)
-    	at jadx.core.ProcessClass.lambda$processDependencies$0(ProcessClass.java:49)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.ProcessClass.processDependencies(ProcessClass.java:49)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:35)
-    	at jadx.api.JadxDecompiler.processClass(JadxDecompiler.java:311)
-    	at jadx.api.JavaClass.decompile(JavaClass.java:62)
-    	at jadx.api.JadxDecompiler.lambda$appendSourcesSave$0(JadxDecompiler.java:217)
-     */
-    /* JADX WARNING: Removed duplicated region for block: B:159:0x0090 A[SYNTHETIC] */
-    /* JADX WARNING: Removed duplicated region for block: B:21:0x007c  */
-    /* JADX WARNING: Removed duplicated region for block: B:23:0x0087  */
-    /* JADX WARNING: Unknown variable types count: 9 */
+    /* access modifiers changed from: package-private */
+    /* JADX WARNING: Multi-variable type inference failed */
+    /* JADX WARNING: Removed duplicated region for block: B:157:0x00b9 A[SYNTHETIC] */
+    /* JADX WARNING: Removed duplicated region for block: B:20:0x007a  */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public gnu.expr.Expression parseMaybePrimaryExpr() throws java.io.IOException, gnu.text.SyntaxException {
         /*
@@ -3001,9 +2974,9 @@ public class XQParser extends Lexer {
             gnu.expr.ApplyExp r9 = new gnu.expr.ApplyExp
             gnu.expr.ReferenceExp r29 = new gnu.expr.ReferenceExp
             gnu.expr.Declaration r30 = gnu.xquery.lang.XQResolveNames.handleExtensionDecl
-            r29.<init>(r30)
+            r29.<init>((gnu.expr.Declaration) r30)
             r0 = r29
-            r9.<init>(r0, r5)
+            r9.<init>((gnu.expr.Expression) r0, (gnu.expr.Expression[]) r5)
             goto L_0x0019
         L_0x014f:
             java.lang.String r29 = "missing '{' after pragma"
@@ -3107,7 +3080,7 @@ public class XQParser extends Lexer {
             r0 = r34
             r1 = r23
             r2 = r22
-            r0.maybeSetLine(r9, r1, r2)
+            r0.maybeSetLine((gnu.expr.Expression) r9, (int) r1, (int) r2)
             goto L_0x0019
         L_0x0225:
             gnu.expr.QuoteExp r9 = new gnu.expr.QuoteExp
@@ -3198,7 +3171,7 @@ public class XQParser extends Lexer {
             goto L_0x0014
         L_0x02dd:
             gnu.expr.ReferenceExp r9 = new gnu.expr.ReferenceExp
-            r9.<init>(r14)
+            r9.<init>((java.lang.Object) r14)
             r0 = r34
             int r0 = r0.curLine
             r29 = r0
@@ -3208,7 +3181,7 @@ public class XQParser extends Lexer {
             r0 = r34
             r1 = r29
             r2 = r30
-            r0.maybeSetLine(r9, r1, r2)
+            r0.maybeSetLine((gnu.expr.Expression) r9, (int) r1, (int) r2)
             goto L_0x0019
         L_0x02f9:
             java.lang.String r14 = new java.lang.String
@@ -3266,11 +3239,11 @@ public class XQParser extends Lexer {
             r0.setProcedureName(r1)
             gnu.expr.ApplyExp r9 = new gnu.expr.ApplyExp
             r0 = r17
-            r9.<init>(r0, r5)
+            r9.<init>((gnu.expr.Expression) r0, (gnu.expr.Expression[]) r5)
             r0 = r34
             r1 = r23
             r2 = r22
-            r0.maybeSetLine(r9, r1, r2)
+            r0.maybeSetLine((gnu.expr.Expression) r9, (int) r1, (int) r2)
             r0 = r34
             r1 = r18
             r0.popNesting(r1)
@@ -3556,11 +3529,11 @@ public class XQParser extends Lexer {
             r0 = r28
             r0.copyInto(r5)
             gnu.expr.ApplyExp r9 = new gnu.expr.ApplyExp
-            r9.<init>(r11, r5)
+            r9.<init>((gnu.expr.Expression) r11, (gnu.expr.Expression[]) r5)
             r0 = r34
             r1 = r23
             r2 = r22
-            r0.maybeSetLine(r9, r1, r2)
+            r0.maybeSetLine((gnu.expr.Expression) r9, (int) r1, (int) r2)
             r29 = 256(0x100, float:3.59E-43)
             r0 = r26
             r1 = r29
@@ -3612,11 +3585,8 @@ public class XQParser extends Lexer {
     }
 
     public boolean match(String word) {
-        if (this.curToken != 65) {
-            return false;
-        }
-        int len = word.length();
-        if (this.tokenBufferLength != len) {
+        int len;
+        if (this.curToken != 65 || this.tokenBufferLength != (len = word.length())) {
             return false;
         }
         int i = len;
@@ -3697,8 +3667,7 @@ public class XQParser extends Lexer {
                         error("'empty' sequence order must be 'greatest' or 'least'");
                     }
                 }
-                QuoteExp quoteExp = new QuoteExp((descending ? "D" : "A") + emptyOrder);
-                specs.push(quoteExp);
+                specs.push(new QuoteExp((descending ? "D" : "A") + emptyOrder));
                 NamedCollator collation = this.defaultCollator;
                 if (match("collation")) {
                     Object uri = parseURILiteral();
@@ -3711,8 +3680,7 @@ public class XQParser extends Lexer {
                     }
                     getRawToken();
                 }
-                QuoteExp quoteExp2 = new QuoteExp(collation);
-                specs.push(quoteExp2);
+                specs.push(new QuoteExp(collation));
                 if (this.curToken != 44) {
                     break;
                 }
@@ -3744,11 +3712,12 @@ public class XQParser extends Lexer {
         return exp;
     }
 
-    /* JADX WARNING: type inference failed for: r25v7 */
-    /* JADX WARNING: type inference failed for: r25v9 */
-    /* JADX WARNING: type inference failed for: r25v10 */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r25v0, resolved type: gnu.expr.LetExp} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r25v1, resolved type: gnu.expr.LetExp} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r8v2, resolved type: gnu.expr.ApplyExp} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v102, resolved type: gnu.expr.LambdaExp} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r25v7, resolved type: gnu.expr.LetExp} */
     /* JADX WARNING: Multi-variable type inference failed */
-    /* JADX WARNING: Unknown variable types count: 1 */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public gnu.expr.Expression parseFLWRInner(boolean r33) throws java.io.IOException, gnu.text.SyntaxException {
         /*
@@ -3821,7 +3790,7 @@ public class XQParser extends Lexer {
         L_0x008a:
             r0 = r16
             r1 = r28
-            r0.<init>(r1)
+            r0.<init>((int) r1)
             if (r21 == 0) goto L_0x00b6
             r32.getRawToken()
             r0 = r32
@@ -3858,7 +3827,7 @@ public class XQParser extends Lexer {
             r29 = r14[r29]
             r0 = r29
             r1 = r27
-            gnu.expr.ApplyExp r29 = gnu.expr.Compilation.makeCoercion(r0, r1)
+            gnu.expr.ApplyExp r29 = gnu.expr.Compilation.makeCoercion((gnu.expr.Expression) r0, (gnu.expr.Expression) r1)
             r14[r28] = r29
         L_0x00e3:
             r0 = r32
@@ -3869,9 +3838,9 @@ public class XQParser extends Lexer {
             r28 = r0
             r0 = r28
             r1 = r25
-            r0.push(r1)
+            r0.push((gnu.expr.ScopeExp) r1)
             r0 = r25
-            r0.addDeclaration(r12)
+            r0.addDeclaration((gnu.expr.Declaration) r12)
             if (r27 == 0) goto L_0x0103
             r0 = r27
             r12.setTypeExp(r0)
@@ -3887,7 +3856,7 @@ public class XQParser extends Lexer {
             if (r18 == 0) goto L_0x0139
             r0 = r25
             r1 = r18
-            r0.addDeclaration(r1)
+            r0.addDeclaration((gnu.expr.Declaration) r1)
             gnu.bytecode.PrimType r28 = gnu.kawa.lispexpr.LangPrimType.intType
             r0 = r18
             r1 = r28
@@ -4043,7 +4012,7 @@ public class XQParser extends Lexer {
             gnu.expr.Expression r28 = makeFunctionExp(r0, r1)
             r0 = r25
             r1 = r28
-            r0.<init>(r1, r6)
+            r0.<init>((gnu.expr.Expression) r1, (gnu.expr.Expression[]) r6)
             goto L_0x0039
         L_0x0253:
             java.lang.String r28 = "for"
@@ -4193,7 +4162,7 @@ public class XQParser extends Lexer {
             r30 = r0
             int r30 = r30 + r13
             r29 = r29[r30]
-            r28.<init>(r29)
+            r28.<init>((gnu.expr.Declaration) r29)
             r6[r13] = r28
             int r13 = r13 + 1
             goto L_0x0372
@@ -4203,9 +4172,9 @@ public class XQParser extends Lexer {
             java.lang.String r29 = "gnu.xquery.util.OrderedMap"
             java.lang.String r30 = "makeTuple$V"
             r31 = 1
-            r28.<init>(r29, r30, r31)
+            r28.<init>((java.lang.String) r29, (java.lang.String) r30, (int) r31)
             r0 = r28
-            r7.<init>(r0, r6)
+            r7.<init>((gnu.mapping.Procedure) r0, (gnu.expr.Expression[]) r6)
             r8 = r7
         L_0x03a3:
             if (r11 == 0) goto L_0x03d0
@@ -4217,7 +4186,7 @@ public class XQParser extends Lexer {
             r7.<init>(r0, r8, r1)
         L_0x03b4:
             r0 = r32
-            r0.maybeSetLine(r7, r10, r9)
+            r0.maybeSetLine((gnu.expr.Expression) r7, (int) r10, (int) r9)
             goto L_0x0205
         L_0x03bb:
             gnu.expr.Expression r7 = r32.parseExprSingle()
@@ -4251,7 +4220,7 @@ public class XQParser extends Lexer {
         getRawToken();
         LambdaExp lexp = new LambdaExp(1);
         lexp.addDeclaration(decl);
-        decl.noteValue(null);
+        decl.noteValue((Expression) null);
         decl.setFlag(262144);
         decl.setTypeExp(parseOptionalTypeDeclaration());
         if (match("in")) {
@@ -4288,13 +4257,12 @@ public class XQParser extends Lexer {
         this.comp.pop(lexp);
         lexp.body = body;
         Expression[] args = {lexp, inits[0]};
-        String str2 = "gnu.xquery.util.ValuesEvery";
         if (isEvery) {
             str = "every";
         } else {
             str = "some";
         }
-        return new ApplyExp(makeFunctionExp(str2, str), args);
+        return new ApplyExp(makeFunctionExp("gnu.xquery.util.ValuesEvery", str), args);
     }
 
     /* JADX WARNING: Code restructure failed: missing block: B:74:?, code lost:
@@ -4399,11 +4367,11 @@ public class XQParser extends Lexer {
             r13.getRawToken()
             gnu.expr.LambdaExp r2 = new gnu.expr.LambdaExp
             r2.<init>()
-            r13.maybeSetLine(r2, r14, r15)
+            r13.maybeSetLine((gnu.expr.Expression) r2, (int) r14, (int) r15)
             r2.setName(r3)
             gnu.expr.Compilation r9 = r13.comp
             gnu.expr.ScopeExp r9 = r9.currentScope()
-            gnu.expr.Declaration r0 = r9.addDeclaration(r7)
+            gnu.expr.Declaration r0 = r9.addDeclaration((java.lang.Object) r7)
             gnu.expr.Compilation r9 = r13.comp
             boolean r9 = r9.isStatic()
             if (r9 == 0) goto L_0x00ea
@@ -4416,9 +4384,9 @@ public class XQParser extends Lexer {
             r0.setCanRead(r9)
             r9 = 1
             r0.setProcedureDecl(r9)
-            r13.maybeSetLine(r0, r14, r15)
+            r13.maybeSetLine((gnu.expr.Declaration) r0, (int) r14, (int) r15)
             gnu.expr.Compilation r9 = r13.comp
-            r9.push(r2)
+            r9.push((gnu.expr.ScopeExp) r2)
             int r9 = r13.curToken
             r10 = 41
             if (r9 == r10) goto L_0x0116
@@ -4443,13 +4411,13 @@ public class XQParser extends Lexer {
             r2.setCoercedReturnValue(r5, r9)
         L_0x012f:
             gnu.expr.SetExp r6 = new gnu.expr.SetExp
-            r6.<init>(r0, r2)
+            r6.<init>((gnu.expr.Declaration) r0, (gnu.expr.Expression) r2)
             r9 = 1
             r6.setDefining(r9)
             r0.noteValue(r2)
             goto L_0x0012
         L_0x013d:
-            r2.addDeclaration(r4)
+            r2.addDeclaration((gnu.expr.Declaration) r4)
             r13.getRawToken()
             int r9 = r2.min_args
             int r9 = r9 + 1
@@ -4495,7 +4463,7 @@ public class XQParser extends Lexer {
     }
 
     public Object readObject() throws IOException, SyntaxException {
-        return parse(null);
+        return parse((Compilation) null);
     }
 
     /* access modifiers changed from: protected */
@@ -4508,7 +4476,7 @@ public class XQParser extends Lexer {
                 uri = "";
             } else if (!this.comp.isPedantic()) {
                 try {
-                    Class cls = Class.forName(prefix);
+                    Class<?> cls = Class.forName(prefix);
                     uri = "class:" + prefix;
                 } catch (Exception e) {
                     uri = null;
@@ -4522,7 +4490,7 @@ public class XQParser extends Lexer {
         return Symbol.make(uri, colon < 0 ? name : name.substring(colon + 1), prefix);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void parseSeparator() throws IOException, SyntaxException {
         int startLine = this.port.getLineNumber() + 1;
         int startColumn = this.port.getColumnNumber() + 1;
@@ -4539,51 +4507,19 @@ public class XQParser extends Lexer {
         }
     }
 
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r30v8, resolved type: gnu.expr.ApplyExp} */
     /* JADX WARNING: type inference failed for: r30v1, types: [gnu.expr.Expression] */
-    /* JADX WARNING: type inference failed for: r25v0 */
-    /* JADX WARNING: type inference failed for: r25v1 */
     /* JADX WARNING: type inference failed for: r30v2 */
-    /* JADX WARNING: type inference failed for: r25v2, types: [gnu.expr.Expression] */
-    /* JADX WARNING: type inference failed for: r0v252, types: [gnu.expr.ApplyExp] */
-    /* JADX WARNING: type inference failed for: r1v21, types: [gnu.expr.Expression] */
     /* JADX WARNING: type inference failed for: r30v4 */
     /* JADX WARNING: type inference failed for: r30v5 */
-    /* JADX WARNING: type inference failed for: r1v22, types: [gnu.expr.Expression] */
-    /* JADX WARNING: type inference failed for: r1v23, types: [gnu.expr.Expression] */
-    /* JADX WARNING: type inference failed for: r0v260, types: [gnu.expr.Expression] */
-    /* JADX WARNING: type inference failed for: r30v6, types: [gnu.expr.ApplyExp] */
-    /* JADX WARNING: type inference failed for: r30v7, types: [gnu.expr.Expression] */
-    /* JADX WARNING: type inference failed for: r25v3 */
     /* JADX WARNING: type inference failed for: r0v303, types: [gnu.expr.ApplyExp] */
-    /* JADX WARNING: type inference failed for: r30v8 */
     /* JADX WARNING: type inference failed for: r30v9 */
     /* JADX WARNING: Code restructure failed: missing block: B:12:0x0051, code lost:
         if (r18 != 47) goto L_0x0053;
      */
-    /* JADX WARNING: Multi-variable type inference failed. Error: jadx.core.utils.exceptions.JadxRuntimeException: No candidate types for var: r30v1, names: [init], types: [gnu.expr.Expression]
-      assigns: [gnu.expr.Expression, ?[OBJECT, ARRAY], gnu.expr.ApplyExp]
-      uses: [?[int, boolean, OBJECT, ARRAY, byte, short, char], ?[OBJECT, ARRAY], gnu.expr.ApplyExp]
-      mth insns count: 1130
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.fillTypeCandidates(TypeSearch.java:237)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.run(TypeSearch.java:53)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.runMultiVariableSearch(TypeInferenceVisitor.java:99)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.visit(TypeInferenceVisitor.java:92)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:27)
-    	at jadx.core.dex.visitors.DepthTraversal.lambda$visit$1(DepthTraversal.java:14)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:14)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:30)
-    	at jadx.core.ProcessClass.lambda$processDependencies$0(ProcessClass.java:49)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.ProcessClass.processDependencies(ProcessClass.java:49)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:35)
-    	at jadx.api.JadxDecompiler.processClass(JadxDecompiler.java:311)
-    	at jadx.api.JavaClass.decompile(JavaClass.java:62)
-    	at jadx.api.JadxDecompiler.lambda$appendSourcesSave$0(JadxDecompiler.java:217)
-     */
+    /* JADX WARNING: Failed to insert additional move for type inference */
+    /* JADX WARNING: Multi-variable type inference failed */
     /* JADX WARNING: Removed duplicated region for block: B:373:0x0b46  */
-    /* JADX WARNING: Unknown variable types count: 9 */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public gnu.expr.Expression parse(gnu.expr.Compilation r52) throws java.io.IOException, gnu.text.SyntaxException {
         /*
@@ -4710,7 +4646,7 @@ public class XQParser extends Lexer {
             r1 = r27
             r2 = r44
             r3 = r43
-            r0.maybeSetLine(r1, r2, r3)
+            r0.maybeSetLine((gnu.expr.Expression) r1, (int) r2, (int) r3)
             r0 = r51
             java.lang.String r6 = r0.libraryModuleNamespace
             if (r6 == 0) goto L_0x000e
@@ -4771,7 +4707,7 @@ public class XQParser extends Lexer {
             r1 = r27
             r2 = r44
             r3 = r43
-            r0.maybeSetLine(r1, r2, r3)
+            r0.maybeSetLine((gnu.expr.Expression) r1, (int) r2, (int) r3)
             r6 = 1
             r0 = r51
             r0.seenDeclaration = r6
@@ -4831,7 +4767,7 @@ public class XQParser extends Lexer {
         L_0x01d7:
             gnu.expr.ScopeExp r6 = r52.currentScope()
             r0 = r21
-            r6.addDeclaration(r0)
+            r6.addDeclaration((gnu.expr.Declaration) r0)
             r51.getRawToken()
             gnu.expr.Expression r47 = r51.parseOptionalTypeDeclaration()
             r6 = 1
@@ -4875,19 +4811,19 @@ public class XQParser extends Lexer {
             if (r47 == 0) goto L_0x023c
             r0 = r30
             r1 = r47
-            gnu.expr.ApplyExp r30 = gnu.expr.Compilation.makeCoercion(r0, r1)
+            gnu.expr.ApplyExp r30 = gnu.expr.Compilation.makeCoercion((gnu.expr.Expression) r0, (gnu.expr.Expression) r1)
         L_0x023c:
             r0 = r21
             r1 = r30
             r0.noteValue(r1)
             r0 = r21
             r1 = r30
-            gnu.expr.SetExp r27 = gnu.expr.SetExp.makeDefinition(r0, r1)
+            gnu.expr.SetExp r27 = gnu.expr.SetExp.makeDefinition((gnu.expr.Declaration) r0, (gnu.expr.Expression) r1)
             r0 = r51
             r1 = r27
             r2 = r44
             r3 = r43
-            r0.maybeSetLine(r1, r2, r3)
+            r0.maybeSetLine((gnu.expr.Expression) r1, (int) r2, (int) r3)
             r6 = 1
             r0 = r51
             r0.seenDeclaration = r6
@@ -4914,14 +4850,14 @@ public class XQParser extends Lexer {
             gnu.expr.ApplyExp r30 = new gnu.expr.ApplyExp
             gnu.expr.QuoteExp r6 = getExternalFunction
             r0 = r30
-            r0.<init>(r6, r15)
+            r0.<init>((gnu.expr.Expression) r6, (gnu.expr.Expression[]) r15)
             r0 = r51
             int r6 = r0.curLine
             r0 = r51
             int r9 = r0.curColumn
             r0 = r51
             r1 = r30
-            r0.maybeSetLine(r1, r6, r9)
+            r0.maybeSetLine((gnu.expr.Expression) r1, (int) r6, (int) r9)
             r51.getRawToken()
             goto L_0x0232
         L_0x029e:
@@ -5288,7 +5224,7 @@ public class XQParser extends Lexer {
             r31 = r0
             r0 = r31
             r7.toArray(r0)
-            gnu.expr.Expression r27 = gnu.expr.BeginExp.canonicalize(r31)
+            gnu.expr.Expression r27 = gnu.expr.BeginExp.canonicalize((gnu.expr.Expression[]) r31)
             goto L_0x000e
         L_0x05c3:
             r6 = 0
@@ -6075,7 +6011,7 @@ public class XQParser extends Lexer {
         return new ReferenceExp(name, Declaration.getDeclarationValueFromStatic(className, fieldName, name));
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public String tokenString() {
         switch (this.curToken) {
             case -1:
@@ -6116,7 +6052,7 @@ public class XQParser extends Lexer {
     }
 
     public void error(char severity, String message) {
-        error(severity, message, null);
+        error(severity, message, (String) null);
     }
 
     public Expression declError(String message) throws IOException, SyntaxException {
@@ -6189,7 +6125,7 @@ public class XQParser extends Lexer {
         throw new SyntaxException(messages);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void warnOldVersion(String message) {
         if (warnOldVersion || this.comp.isPedantic()) {
             error(this.comp.isPedantic() ? 'e' : 'w', message);

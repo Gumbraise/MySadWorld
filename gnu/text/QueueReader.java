@@ -26,7 +26,7 @@ public class QueueReader extends Reader implements Appendable {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void resize(int len) {
         int cur_size = this.limit - this.pos;
         if (this.readAheadLimit <= 0 || this.pos - this.mark > this.readAheadLimit) {

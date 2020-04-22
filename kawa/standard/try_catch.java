@@ -36,7 +36,7 @@ public class try_catch {
         if (try_part_exp instanceof ErrorExp) {
             return try_part_exp;
         }
-        TryExp texp = new TryExp(try_part_exp, null);
+        TryExp texp = new TryExp(try_part_exp, (Expression) null);
         texp.setCatchClauses(chain);
         return texp;
     }

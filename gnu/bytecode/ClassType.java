@@ -1,6 +1,6 @@
 package gnu.bytecode;
 
-import android.support.p000v4.internal.view.SupportMenu;
+import android.support.v4.internal.view.SupportMenu;
 import com.google.appinventor.components.runtime.util.FullScreenVideoUtil;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -54,17 +54,6 @@ public class ClassType extends ObjectType implements AttrContainer, Externalizab
     ClassType superClass;
     int superClassIndex = -1;
     int thisClassIndex;
-
-    static class AbstractMethodFilter implements Filter {
-        public static final AbstractMethodFilter instance = new AbstractMethodFilter();
-
-        AbstractMethodFilter() {
-        }
-
-        public boolean select(Object value) {
-            return ((Method) value).isAbstract();
-        }
-    }
 
     public short getClassfileMajorVersion() {
         return (short) (this.classfileFormatVersion >> 16);
@@ -214,7 +203,7 @@ public class ClassType extends ObjectType implements AttrContainer, Externalizab
         this.enclosingMember = member;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public synchronized void addEnclosingMember() {
         if ((this.flags & 24) == 16) {
             Class clas = getReflectClass();
@@ -239,9 +228,10 @@ public class ClassType extends ObjectType implements AttrContainer, Externalizab
 
     public synchronized void addMemberClasses() {
         if ((this.flags & 20) == 16) {
+            Class clas = getReflectClass();
             this.flags |= 4;
             if (numMembers > 0) {
-                for (Class make : getReflectClass().getClasses()) {
+                for (Class make : clas.getClasses()) {
                     addMemberClass((ClassType) Type.make(make));
                 }
             }
@@ -532,7 +522,7 @@ public class ClassType extends ObjectType implements AttrContainer, Externalizab
         return this.methods_count;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Method addMethod() {
         return new Method(this, 0);
     }
@@ -637,7 +627,7 @@ public class ClassType extends ObjectType implements AttrContainer, Externalizab
         int count = vec.size();
         Method[] result = new Method[count];
         for (int i = 0; i < count; i++) {
-            result[i] = (Method) vec.elementAt(i);
+            result[i] = vec.elementAt(i);
         }
         return result;
     }
@@ -647,12 +637,13 @@ public class ClassType extends ObjectType implements AttrContainer, Externalizab
         getMethods(filter, searchSupers, vec);
         int count = vec.size();
         for (int i = 0; i < count; i++) {
-            result[offset + i] = (Method) vec.elementAt(i);
+            result[offset + i] = vec.elementAt(i);
         }
         return count;
     }
 
     public int getMethods(Filter filter, int searchSupers, List<Method> result) {
+        ClassType[] interfaces2;
         int count = 0;
         String inheritingPackage = null;
         for (ClassType ctype = this; ctype != null; ctype = ctype.getSuperclass()) {
@@ -676,55 +667,87 @@ public class ClassType extends ObjectType implements AttrContainer, Externalizab
             if (searchSupers == 0) {
                 break;
             }
-            if (searchSupers > 1) {
-                ClassType[] interfaces2 = ctype.getInterfaces();
-                if (interfaces2 != null) {
-                    for (ClassType methods2 : interfaces2) {
-                        count += methods2.getMethods(filter, searchSupers, result);
-                    }
+            if (searchSupers > 1 && (interfaces2 = ctype.getInterfaces()) != null) {
+                for (ClassType methods2 : interfaces2) {
+                    count += methods2.getMethods(filter, searchSupers, result);
                 }
             }
         }
         return count;
     }
 
+    static class AbstractMethodFilter implements Filter {
+        public static final AbstractMethodFilter instance = new AbstractMethodFilter();
+
+        AbstractMethodFilter() {
+        }
+
+        public boolean select(Object value) {
+            return ((Method) value).isAbstract();
+        }
+    }
+
     public Method[] getAbstractMethods() {
         return getMethods((Filter) AbstractMethodFilter.instance, 2);
     }
 
-    public Method getDeclaredMethod(String name, Type[] arg_types) {
-        int needOuterLinkArg = (!"<init>".equals(name) || !hasOuterLink()) ? 0 : 1;
-        for (Method method = getDeclaredMethods(); method != null; method = method.next) {
-            if (name.equals(method.getName())) {
-                Type[] method_args = method.getParameterTypes();
-                if (arg_types == null) {
-                    return method;
-                }
-                if (arg_types == method_args && needOuterLinkArg == 0) {
-                    return method;
-                }
-                int i = arg_types.length;
-                if (i == method_args.length - needOuterLinkArg) {
-                    while (true) {
-                        i--;
-                        if (i < 0) {
-                            break;
-                        }
-                        Type meth_type = method_args[i + needOuterLinkArg];
-                        Type need_type = arg_types[i];
-                        if (meth_type != need_type && need_type != null && !meth_type.getSignature().equals(need_type.getSignature())) {
-                            break;
-                        }
-                    }
-                    if (i < 0) {
-                        return method;
-                    }
-                } else {
-                    continue;
-                }
-            }
-        }
-        return null;
+    /* JADX WARNING: Removed duplicated region for block: B:28:0x002e A[SYNTHETIC] */
+    /* JADX WARNING: Removed duplicated region for block: B:32:0x001f A[SYNTHETIC] */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public gnu.bytecode.Method getDeclaredMethod(java.lang.String r10, gnu.bytecode.Type[] r11) {
+        /*
+            r9 = this;
+            java.lang.String r8 = "<init>"
+            boolean r8 = r8.equals(r10)
+            if (r8 == 0) goto L_0x0022
+            boolean r8 = r9.hasOuterLink()
+            if (r8 == 0) goto L_0x0022
+            r5 = 1
+        L_0x000f:
+            gnu.bytecode.Method r3 = r9.getDeclaredMethods()
+        L_0x0013:
+            if (r3 == 0) goto L_0x0053
+            java.lang.String r8 = r3.getName()
+            boolean r8 = r10.equals(r8)
+            if (r8 != 0) goto L_0x0024
+        L_0x001f:
+            gnu.bytecode.Method r3 = r3.next
+            goto L_0x0013
+        L_0x0022:
+            r5 = 0
+            goto L_0x000f
+        L_0x0024:
+            gnu.bytecode.Type[] r4 = r3.getParameterTypes()
+            if (r11 == 0) goto L_0x002e
+            if (r11 != r4) goto L_0x002f
+            if (r5 != 0) goto L_0x002f
+        L_0x002e:
+            return r3
+        L_0x002f:
+            int r0 = r11.length
+            int r8 = r4.length
+            int r8 = r8 - r5
+            if (r0 != r8) goto L_0x001f
+        L_0x0034:
+            int r0 = r0 + -1
+            if (r0 < 0) goto L_0x0050
+            int r8 = r0 + r5
+            r2 = r4[r8]
+            r7 = r11[r0]
+            if (r2 == r7) goto L_0x0034
+            if (r7 == 0) goto L_0x0034
+            java.lang.String r1 = r2.getSignature()
+            java.lang.String r6 = r7.getSignature()
+            boolean r8 = r1.equals(r6)
+            if (r8 != 0) goto L_0x0034
+        L_0x0050:
+            if (r0 >= 0) goto L_0x001f
+            goto L_0x002e
+        L_0x0053:
+            r3 = 0
+            goto L_0x002e
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.bytecode.ClassType.getDeclaredMethod(java.lang.String, gnu.bytecode.Type[]):gnu.bytecode.Method");
     }
 
     public synchronized Method getDeclaredMethod(String name, int argCount) {
@@ -964,16 +987,15 @@ public class ClassType extends ObjectType implements AttrContainer, Externalizab
             } else if (c2 <= 2047) {
                 int j3 = j2 + 1;
                 buffer[j2] = (byte) (((c2 >> 6) & 31) | FullScreenVideoUtil.FULLSCREEN_VIDEO_ACTION_PAUSE);
-                int j4 = j3 + 1;
                 buffer[j3] = (byte) (((c2 >> 0) & 63) | 128);
-                j = j4;
+                j = j3 + 1;
             } else {
-                int j5 = j2 + 1;
+                int j4 = j2 + 1;
                 buffer[j2] = (byte) (((c2 >> 12) & 15) | 224);
-                int j6 = j5 + 1;
-                buffer[j5] = (byte) (((c2 >> 6) & 63) | 128);
-                j = j6 + 1;
-                buffer[j6] = (byte) (((c2 >> 0) & 63) | 128);
+                int j5 = j4 + 1;
+                buffer[j4] = (byte) (((c2 >> 6) & 63) | 128);
+                j = j5 + 1;
+                buffer[j5] = (byte) (((c2 >> 0) & 63) | 128);
             }
             i2++;
             j2 = j;
@@ -1092,7 +1114,7 @@ public class ClassType extends ObjectType implements AttrContainer, Externalizab
         String name = getName();
         HashMap<String, Type> map = mapNameToType;
         synchronized (map) {
-            Type found = (Type) map.get(name);
+            Type found = map.get(name);
             if (found != null) {
                 return found;
             }
@@ -1111,7 +1133,6 @@ public class ClassType extends ObjectType implements AttrContainer, Externalizab
     }
 
     public Method checkSingleAbstractMethod() {
-        Method[] methods2;
         Method result = null;
         for (Method meth : getAbstractMethods()) {
             Method mimpl = getMethod(meth.getName(), meth.getParameterTypes());

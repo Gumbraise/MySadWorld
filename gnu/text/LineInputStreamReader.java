@@ -1,6 +1,6 @@
 package gnu.text;
 
-import com.google.appinventor.components.runtime.util.Ev3Constants.Opcode;
+import com.google.appinventor.components.runtime.util.Ev3Constants;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
@@ -40,8 +40,8 @@ public class LineInputStreamReader extends LineBufferedReader {
     }
 
     public void close() throws IOException {
-        if (this.f244in != null) {
-            this.f244in.close();
+        if (this.in != null) {
+            this.in.close();
         }
         this.istrm.close();
     }
@@ -67,7 +67,7 @@ public class LineInputStreamReader extends LineBufferedReader {
 
     public int getByte() throws IOException {
         if (this.bbuf.hasRemaining() || fillBytes(0) > 0) {
-            return this.bbuf.get() & Opcode.TST;
+            return this.bbuf.get() & Ev3Constants.Opcode.TST;
         }
         return -1;
     }

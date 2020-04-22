@@ -4,13 +4,12 @@ import android.arch.core.executor.ArchTaskExecutor;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.RestrictTo;
-import android.support.annotation.RestrictTo.Scope;
 import android.support.annotation.VisibleForTesting;
 import android.support.annotation.WorkerThread;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-@RestrictTo({Scope.LIBRARY_GROUP})
+@RestrictTo({RestrictTo.Scope.LIBRARY_GROUP})
 public abstract class ComputableLiveData<T> {
     /* access modifiers changed from: private */
     public AtomicBoolean mComputing;
@@ -37,28 +36,57 @@ public abstract class ComputableLiveData<T> {
         this.mInvalid = new AtomicBoolean(true);
         this.mComputing = new AtomicBoolean(false);
         this.mRefreshRunnable = new Runnable() {
-            @WorkerThread
+            /* JADX WARNING: Removed duplicated region for block: B:3:0x000f  */
+            @android.support.annotation.WorkerThread
+            /* Code decompiled incorrectly, please refer to instructions dump. */
             public void run() {
-                do {
-                    boolean computed = false;
-                    if (ComputableLiveData.this.mComputing.compareAndSet(false, true)) {
-                        Object obj = null;
-                        while (ComputableLiveData.this.mInvalid.compareAndSet(true, false)) {
-                            try {
-                                computed = true;
-                                obj = ComputableLiveData.this.compute();
-                            } finally {
-                                ComputableLiveData.this.mComputing.set(false);
-                            }
-                        }
-                        if (computed) {
-                            ComputableLiveData.this.mLiveData.postValue(obj);
-                        }
-                    }
-                    if (!computed) {
-                        return;
-                    }
-                } while (ComputableLiveData.this.mInvalid.get());
+                /*
+                    r7 = this;
+                    r6 = 1
+                    r5 = 0
+                L_0x0002:
+                    r0 = 0
+                    android.arch.lifecycle.ComputableLiveData r2 = android.arch.lifecycle.ComputableLiveData.this
+                    java.util.concurrent.atomic.AtomicBoolean r2 = r2.mComputing
+                    boolean r2 = r2.compareAndSet(r5, r6)
+                    if (r2 == 0) goto L_0x003a
+                    r1 = 0
+                L_0x0010:
+                    android.arch.lifecycle.ComputableLiveData r2 = android.arch.lifecycle.ComputableLiveData.this     // Catch:{ all -> 0x0049 }
+                    java.util.concurrent.atomic.AtomicBoolean r2 = r2.mInvalid     // Catch:{ all -> 0x0049 }
+                    r3 = 1
+                    r4 = 0
+                    boolean r2 = r2.compareAndSet(r3, r4)     // Catch:{ all -> 0x0049 }
+                    if (r2 == 0) goto L_0x0026
+                    r0 = 1
+                    android.arch.lifecycle.ComputableLiveData r2 = android.arch.lifecycle.ComputableLiveData.this     // Catch:{ all -> 0x0049 }
+                    java.lang.Object r1 = r2.compute()     // Catch:{ all -> 0x0049 }
+                    goto L_0x0010
+                L_0x0026:
+                    if (r0 == 0) goto L_0x0031
+                    android.arch.lifecycle.ComputableLiveData r2 = android.arch.lifecycle.ComputableLiveData.this     // Catch:{ all -> 0x0049 }
+                    android.arch.lifecycle.LiveData r2 = r2.mLiveData     // Catch:{ all -> 0x0049 }
+                    r2.postValue(r1)     // Catch:{ all -> 0x0049 }
+                L_0x0031:
+                    android.arch.lifecycle.ComputableLiveData r2 = android.arch.lifecycle.ComputableLiveData.this
+                    java.util.concurrent.atomic.AtomicBoolean r2 = r2.mComputing
+                    r2.set(r5)
+                L_0x003a:
+                    if (r0 == 0) goto L_0x0048
+                    android.arch.lifecycle.ComputableLiveData r2 = android.arch.lifecycle.ComputableLiveData.this
+                    java.util.concurrent.atomic.AtomicBoolean r2 = r2.mInvalid
+                    boolean r2 = r2.get()
+                    if (r2 != 0) goto L_0x0002
+                L_0x0048:
+                    return
+                L_0x0049:
+                    r2 = move-exception
+                    android.arch.lifecycle.ComputableLiveData r3 = android.arch.lifecycle.ComputableLiveData.this
+                    java.util.concurrent.atomic.AtomicBoolean r3 = r3.mComputing
+                    r3.set(r5)
+                    throw r2
+                */
+                throw new UnsupportedOperationException("Method not decompiled: android.arch.lifecycle.ComputableLiveData.AnonymousClass2.run():void");
             }
         };
         this.mInvalidationRunnable = new Runnable() {

@@ -1,6 +1,6 @@
 package kawa.lib;
 
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import gnu.bytecode.ClassType;
 import gnu.bytecode.Type;
 import gnu.expr.Compilation;
@@ -86,45 +86,6 @@ public class reflection extends ModuleBody {
     public static final ModuleMethod record$Qu;
     public static final ModuleMethod subtype$Qu;
 
-    /* compiled from: reflection.scm */
-    public class frame extends ModuleBody {
-        final ModuleMethod lambda$Fn1;
-        Object rtype;
-
-        public frame() {
-            ModuleMethod moduleMethod = new ModuleMethod(this, 1, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/kawa/lib/reflection.scm:30");
-            this.lambda$Fn1 = moduleMethod;
-        }
-
-        public Object apply1(ModuleMethod moduleMethod, Object obj) {
-            if (moduleMethod.selector == 1) {
-                return lambda1(obj) ? Boolean.TRUE : Boolean.FALSE;
-            }
-            return super.apply1(moduleMethod, obj);
-        }
-
-        /* access modifiers changed from: 0000 */
-        public boolean lambda1(Object object) {
-            Object obj = this.rtype;
-            try {
-                return ((Type) obj).isInstance(object);
-            } catch (ClassCastException e) {
-                throw new WrongType(e, "gnu.bytecode.Type.isInstance(java.lang.Object)", 1, obj);
-            }
-        }
-
-        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
-            if (moduleMethod.selector != 1) {
-                return super.match1(moduleMethod, obj, callContext);
-            }
-            callContext.value1 = obj;
-            callContext.proc = moduleMethod;
-            callContext.f236pc = 1;
-            return 0;
-        }
-    }
-
     static {
         SimpleSymbol simpleSymbol = (SimpleSymbol) new SimpleSymbol("primitive-set-static").readResolve();
         Lit28 = simpleSymbol;
@@ -152,7 +113,7 @@ public class reflection extends ModuleBody {
         Lit15 = new SyntaxRules(new Object[]{simpleSymbol8}, new SyntaxRule[]{new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\b", new Object[0], 1), "\u0001", "\u0011\u0018\u0004\u0011\u0018\f\u0011\u0018\u0014\b\u0003", new Object[]{Lit31, Lit32, (SimpleSymbol) new SimpleSymbol("<gnu.kawa.reflect.ArrayNew>").readResolve()}, 0)}, 1);
         SimpleSymbol simpleSymbol9 = Lit0;
         reflection reflection = $instance;
-        primitive$Mnconstructor = Macro.make(simpleSymbol9, new ModuleMethod(reflection, 2, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN), $instance);
+        primitive$Mnconstructor = Macro.make(simpleSymbol9, new ModuleMethod(reflection, 2, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN), $instance);
         make$Mnrecord$Mntype = new ModuleMethod(reflection, 3, Lit5, 8194);
         record$Mnconstructor = new ModuleMethod(reflection, 4, Lit6, 8193);
         record$Mnaccessor = new ModuleMethod(reflection, 6, Lit7, 8194);
@@ -171,7 +132,7 @@ public class reflection extends ModuleBody {
     }
 
     public static RecordConstructor recordConstructor(ClassType classType) {
-        return recordConstructor(classType, null);
+        return recordConstructor(classType, (Object) null);
     }
 
     public final void run(CallContext $ctx) {
@@ -179,7 +140,7 @@ public class reflection extends ModuleBody {
     }
 
     static Object lambda2(Object form) {
-        Object[] allocVars = SyntaxPattern.allocVars(3, null);
+        Object[] allocVars = SyntaxPattern.allocVars(3, (Object[]) null);
         if (!Lit1.match(form, allocVars, 0)) {
             return syntax_case.error("syntax-case", form);
         }
@@ -204,7 +165,7 @@ public class reflection extends ModuleBody {
                 }
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 4:
                 if (LangObjType.coerceToClassTypeOrNull(obj) == null) {
@@ -213,7 +174,7 @@ public class reflection extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 6:
                 if (LangObjType.coerceToClassTypeOrNull(obj) == null) {
@@ -222,7 +183,7 @@ public class reflection extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 7:
                 if (LangObjType.coerceToClassTypeOrNull(obj) == null) {
@@ -231,7 +192,7 @@ public class reflection extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 13:
                 if (LangObjType.coerceToTypeOrNull(obj) == null) {
@@ -243,7 +204,7 @@ public class reflection extends ModuleBody {
                 }
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             default:
                 return super.match2(moduleMethod, obj, obj2, callContext);
@@ -259,7 +220,7 @@ public class reflection extends ModuleBody {
             case 2:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 4:
                 if (LangObjType.coerceToClassTypeOrNull(obj) == null) {
@@ -267,22 +228,22 @@ public class reflection extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 8:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 9:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 10:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 11:
                 if (LangObjType.coerceToClassTypeOrNull(obj) == null) {
@@ -290,12 +251,12 @@ public class reflection extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 12:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             default:
                 return super.match1(moduleMethod, obj, callContext);
@@ -312,6 +273,45 @@ public class reflection extends ModuleBody {
 
     public static boolean isRecord(Object obj) {
         return obj instanceof Record;
+    }
+
+    /* compiled from: reflection.scm */
+    public class frame extends ModuleBody {
+        final ModuleMethod lambda$Fn1;
+        Object rtype;
+
+        public frame() {
+            ModuleMethod moduleMethod = new ModuleMethod(this, 1, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/kawa/lib/reflection.scm:30");
+            this.lambda$Fn1 = moduleMethod;
+        }
+
+        public Object apply1(ModuleMethod moduleMethod, Object obj) {
+            if (moduleMethod.selector == 1) {
+                return lambda1(obj) ? Boolean.TRUE : Boolean.FALSE;
+            }
+            return super.apply1(moduleMethod, obj);
+        }
+
+        /* access modifiers changed from: package-private */
+        public boolean lambda1(Object object) {
+            Object obj = this.rtype;
+            try {
+                return ((Type) obj).isInstance(object);
+            } catch (ClassCastException e) {
+                throw new WrongType(e, "gnu.bytecode.Type.isInstance(java.lang.Object)", 1, obj);
+            }
+        }
+
+        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
+            if (moduleMethod.selector != 1) {
+                return super.match1(moduleMethod, obj, callContext);
+            }
+            callContext.value1 = obj;
+            callContext.proc = moduleMethod;
+            callContext.pc = 1;
+            return 0;
+        }
     }
 
     public static Procedure recordPredicate(Object rtype) {

@@ -51,19 +51,19 @@ final class DropBoxCollector {
                     dropboxContent.append("Nothing.").append(10);
                 } else {
                     Method getText = entry.getClass().getMethod("getText", new Class[]{Integer.TYPE});
-                    Method getTimeMillis = entry.getClass().getMethod("getTimeMillis", null);
-                    Method close = entry.getClass().getMethod("close", null);
+                    Method getTimeMillis = entry.getClass().getMethod("getTimeMillis", (Class[]) null);
+                    Method close = entry.getClass().getMethod("close", (Class[]) null);
                     while (entry != null) {
-                        long msec = ((Long) getTimeMillis.invoke(entry, null)).longValue();
+                        long msec = ((Long) getTimeMillis.invoke(entry, (Object[]) null)).longValue();
                         timer.set(msec);
                         dropboxContent.append(GetNamedPart.CAST_METHOD_NAME).append(timer.format2445()).append(10);
-                        String text = (String) getText.invoke(entry, new Object[]{Integer.valueOf(500)});
+                        String text = (String) getText.invoke(entry, new Object[]{500});
                         if (text != null) {
                             dropboxContent.append("Text: ").append(text).append(10);
                         } else {
                             dropboxContent.append("Not Text!").append(10);
                         }
-                        close.invoke(entry, null);
+                        close.invoke(entry, (Object[]) null);
                         entry = getNextEntry.invoke(dropbox, new Object[]{tag, Long.valueOf(msec)});
                     }
                 }

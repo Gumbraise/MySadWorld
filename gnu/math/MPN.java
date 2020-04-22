@@ -129,10 +129,9 @@ class MPN {
         if ((4294967295L & r2) >= (((long) divisor) & 4294967295L)) {
             r = 0;
         } else {
-            int i2 = i - 1;
             quotient[i] = 0;
             r = r2 << 32;
-            i = i2;
+            i--;
         }
         while (i >= 0) {
             r = udiv_qrnnd((-4294967296L & r) | (((long) dividend[i]) & 4294967295L), divisor);
@@ -502,9 +501,8 @@ class MPN {
         } else {
             int sh_out = lshift(x, initShiftWords, x, len2, initShiftBits);
             if (sh_out != 0) {
-                int len3 = len2 + 1;
                 x[len2 + initShiftWords] = sh_out;
-                len2 = len3;
+                len2++;
             }
         }
         int i6 = initShiftWords;

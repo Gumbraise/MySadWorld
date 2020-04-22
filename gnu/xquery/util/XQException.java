@@ -1,6 +1,6 @@
 package gnu.xquery.util;
 
-import android.support.p000v4.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 import gnu.mapping.Symbol;
 import gnu.mapping.Values;
 
@@ -18,18 +18,18 @@ public class XQException extends RuntimeException {
     }
 
     public static void error() {
-        throw new XQException(FOER0000_QNAME, null, null);
+        throw new XQException(FOER0000_QNAME, (String) null, (Object) null);
     }
 
     public static void error(Symbol error) {
-        throw new XQException(error, null, null);
+        throw new XQException(error, (String) null, (Object) null);
     }
 
     public static void error(Object error, String description2) {
         if (error == null || error == Values.empty) {
             error = FOER0000_QNAME;
         }
-        throw new XQException((Symbol) error, description2, null);
+        throw new XQException((Symbol) error, description2, (Object) null);
     }
 
     public static void error(Object error, String description2, Object errorValue2) {

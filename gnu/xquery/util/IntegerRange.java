@@ -1,5 +1,6 @@
 package gnu.xquery.util;
 
+import android.support.v7.widget.ActivityChooserView;
 import gnu.kawa.xml.KNode;
 import gnu.kawa.xml.UntypedAtomic;
 import gnu.lists.Consumer;
@@ -9,7 +10,7 @@ import gnu.mapping.Values;
 import gnu.math.IntNum;
 
 public class IntegerRange extends MethodProc {
-    public static final IntNum MAX_INT = IntNum.make((int) ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED);
+    public static final IntNum MAX_INT = IntNum.make((int) ActivityChooserView.ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED);
     public static final IntNum MIN_INT = IntNum.make(Integer.MIN_VALUE);
     public static final IntegerRange integerRange = new IntegerRange("to");
 

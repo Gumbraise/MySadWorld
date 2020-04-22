@@ -4,8 +4,7 @@ import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.provider.Contacts.People;
-import android.provider.Contacts.Phones;
+import android.provider.Contacts;
 import android.util.Log;
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.PropertyCategory;
@@ -33,7 +32,7 @@ public class PhoneNumberPicker extends ContactPicker {
     private static final String[] PROJECTION = {"name", "number", "person", "primary_email"};
 
     public PhoneNumberPicker(ComponentContainer container) {
-        super(container, Phones.CONTENT_URI);
+        super(container, Contacts.Phones.CONTENT_URI);
     }
 
     @SimpleProperty(category = PropertyCategory.BEHAVIOR)
@@ -46,7 +45,6 @@ public class PhoneNumberPicker extends ContactPicker {
         if (requestCode == this.requestCode && resultCode == -1) {
             Log.i(LOG_TAG, "received intent is " + data);
             Uri phoneUri = data.getData();
-            String str = "";
             if (SdkLevel.getLevel() >= 12) {
                 desiredPhoneUri = "//com.android.contacts/data";
             } else {
@@ -58,13 +56,13 @@ public class PhoneNumberPicker extends ContactPicker {
                 try {
                     if (SdkLevel.getLevel() >= 12) {
                         NAME_PROJECTION = HoneycombMR1Util.getNameProjection();
-                        contactCursor = this.activityContext.getContentResolver().query(phoneUri, NAME_PROJECTION, null, null, null);
+                        contactCursor = this.activityContext.getContentResolver().query(phoneUri, NAME_PROJECTION, (String) null, (String[]) null, (String) null);
                         String id = postHoneycombGetContactNameAndPicture(contactCursor);
                         DATA_PROJECTION = HoneycombMR1Util.getDataProjection();
                         dataCursor = HoneycombMR1Util.getDataCursor(id, this.activityContext, DATA_PROJECTION);
                         postHoneycombGetContactEmailsAndPhones(dataCursor);
                     } else {
-                        contactCursor = this.activityContext.getContentResolver().query(phoneUri, PROJECTION, null, null, null);
+                        contactCursor = this.activityContext.getContentResolver().query(phoneUri, PROJECTION, (String) null, (String[]) null, (String) null);
                         preHoneycombGetContactInfo(contactCursor);
                     }
                     Log.i(LOG_TAG, "Contact name = " + this.contactName + ", phone number = " + this.phoneNumber + ", emailAddress = " + this.emailAddress + ", contactPhotoUri = " + this.contactPictureUri);
@@ -101,24 +99,23 @@ public class PhoneNumberPicker extends ContactPicker {
         if (cursor.moveToFirst()) {
             this.contactName = guardCursorGetString(cursor, 0);
             this.phoneNumber = guardCursorGetString(cursor, 1);
-            this.contactPictureUri = ContentUris.withAppendedId(People.CONTENT_URI, (long) cursor.getInt(2)).toString();
+            this.contactPictureUri = ContentUris.withAppendedId(Contacts.People.CONTENT_URI, (long) cursor.getInt(2)).toString();
             this.emailAddress = getEmailAddress(guardCursorGetString(cursor, 3));
         }
     }
 
     public String postHoneycombGetContactNameAndPicture(Cursor contactCursor) {
-        String id = "";
         if (!contactCursor.moveToFirst()) {
-            return id;
+            return "";
         }
         int CONTACT_ID_INDEX = HoneycombMR1Util.getContactIdIndex(contactCursor);
         int NAME_INDEX2 = HoneycombMR1Util.getNameIndex(contactCursor);
         int PHOTO_INDEX = HoneycombMR1Util.getThumbnailIndex(contactCursor);
         this.phoneNumber = guardCursorGetString(contactCursor, HoneycombMR1Util.getPhoneIndex(contactCursor));
-        String id2 = guardCursorGetString(contactCursor, CONTACT_ID_INDEX);
+        String id = guardCursorGetString(contactCursor, CONTACT_ID_INDEX);
         this.contactName = guardCursorGetString(contactCursor, NAME_INDEX2);
         this.contactPictureUri = guardCursorGetString(contactCursor, PHOTO_INDEX);
-        return id2;
+        return id;
     }
 
     public void postHoneycombGetContactEmailsAndPhones(Cursor dataCursor) {

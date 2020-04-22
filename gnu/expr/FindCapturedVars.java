@@ -111,7 +111,7 @@ public class FindCapturedVars extends ExpExpVisitor<Void> {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void maybeWarnNoDeclarationSeen(Object name, Compilation comp, SourceLocator location) {
         if (comp.warnUndefinedVariable()) {
             comp.error('w', "no declaration seen for " + name, location);
@@ -312,7 +312,7 @@ public class FindCapturedVars extends ExpExpVisitor<Void> {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Declaration allocUnboundDecl(Object name, boolean function) {
         Declaration decl;
         Object key = name;
@@ -362,24 +362,50 @@ public class FindCapturedVars extends ExpExpVisitor<Void> {
         return exp;
     }
 
-    /* access modifiers changed from: 0000 */
-    public void capture(Declaration containing, Declaration decl) {
-        if (decl.isAlias() && (decl.value instanceof ReferenceExp)) {
-            ReferenceExp rexp = (ReferenceExp) decl.value;
-            Declaration orig = rexp.binding;
-            if (orig != null && (containing == null || !orig.needsContext())) {
-                capture(rexp.contextDecl(), orig);
-                return;
-            }
-        }
-        while (decl.isFluid() && (decl.context instanceof FluidLetExp)) {
-            decl = decl.base;
-        }
-        if (containing == null || !decl.needsContext()) {
-            capture(decl);
-        } else {
-            capture(containing);
-        }
+    /* access modifiers changed from: package-private */
+    /* JADX WARNING: Code restructure failed: missing block: B:4:0x000c, code lost:
+        r1 = (gnu.expr.ReferenceExp) r5.value;
+     */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public void capture(gnu.expr.Declaration r4, gnu.expr.Declaration r5) {
+        /*
+            r3 = this;
+            boolean r2 = r5.isAlias()
+            if (r2 == 0) goto L_0x0024
+            gnu.expr.Expression r2 = r5.value
+            boolean r2 = r2 instanceof gnu.expr.ReferenceExp
+            if (r2 == 0) goto L_0x0024
+            gnu.expr.Expression r1 = r5.value
+            gnu.expr.ReferenceExp r1 = (gnu.expr.ReferenceExp) r1
+            gnu.expr.Declaration r0 = r1.binding
+            if (r0 == 0) goto L_0x0024
+            if (r4 == 0) goto L_0x001c
+            boolean r2 = r0.needsContext()
+            if (r2 != 0) goto L_0x0024
+        L_0x001c:
+            gnu.expr.Declaration r2 = r1.contextDecl()
+            r3.capture(r2, r0)
+        L_0x0023:
+            return
+        L_0x0024:
+            boolean r2 = r5.isFluid()
+            if (r2 == 0) goto L_0x0033
+            gnu.expr.ScopeExp r2 = r5.context
+            boolean r2 = r2 instanceof gnu.expr.FluidLetExp
+            if (r2 == 0) goto L_0x0033
+            gnu.expr.Declaration r5 = r5.base
+            goto L_0x0024
+        L_0x0033:
+            if (r4 == 0) goto L_0x003f
+            boolean r2 = r5.needsContext()
+            if (r2 == 0) goto L_0x003f
+            r3.capture(r4)
+            goto L_0x0023
+        L_0x003f:
+            r3.capture(r5)
+            goto L_0x0023
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.expr.FindCapturedVars.capture(gnu.expr.Declaration, gnu.expr.Declaration):void");
     }
 
     /* access modifiers changed from: protected */

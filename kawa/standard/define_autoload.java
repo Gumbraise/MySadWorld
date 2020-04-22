@@ -102,8 +102,7 @@ public class define_autoload extends Syntax {
 
     public static void findAutoloadComments(LispReader in, String filename, ScopeExp defs, Translator tr) throws IOException, SyntaxException {
         boolean lineStart = true;
-        String magic = ";;;###autoload";
-        int magicLength = magic.length();
+        int magicLength = ";;;###autoload".length();
         while (true) {
             int ch = in.peek();
             if (ch >= 0) {
@@ -123,7 +122,7 @@ public class define_autoload extends Syntax {
                                     lineStart = true;
                                 } else if (i >= 0) {
                                     int i2 = i + 1;
-                                    if (ch == magic.charAt(i)) {
+                                    if (ch == ";;;###autoload".charAt(i)) {
                                         i = i2;
                                     } else {
                                         i = -1;
@@ -136,8 +135,7 @@ public class define_autoload extends Syntax {
                                     AutoloadProcedure autoloadProcedure = null;
                                     String name = null;
                                     Object car = pair.getCar();
-                                    String command = car instanceof String ? car.toString() : car instanceof Symbol ? ((Symbol) car).getName() : null;
-                                    if (command == "defun") {
+                                    if ((car instanceof String ? car.toString() : car instanceof Symbol ? ((Symbol) car).getName() : null) == "defun") {
                                         name = ((Pair) pair.getCdr()).getCar().toString();
                                         autoloadProcedure = new AutoloadProcedure(name, filename, tr.getLanguage());
                                     } else {
@@ -172,33 +170,72 @@ public class define_autoload extends Syntax {
         }
     }
 
-    public static boolean process(Object names, Object filename, Vector forms, ScopeExp defs, Translator tr) {
-        if (names instanceof Pair) {
-            Pair p = (Pair) names;
-            if (!process(p.getCar(), filename, forms, defs, tr) || !process(p.getCdr(), filename, forms, defs, tr)) {
-                return false;
-            }
-            return true;
-        } else if (names == LList.Empty) {
-            return true;
-        } else {
-            if (!(names instanceof String) && !(names instanceof Symbol)) {
-                return false;
-            }
-            String name = names.toString();
-            Declaration decl = defs.getDefine(name, 'w', tr);
-            if (filename instanceof String) {
-                String fn = (String) filename;
-                int len = fn.length();
-                if (len > 2 && fn.charAt(0) == '<' && fn.charAt(len - 1) == '>') {
-                    filename = fn.substring(1, len - 1);
-                }
-            }
-            Expression ex = new QuoteExp(new AutoloadProcedure(name, filename.toString(), tr.getLanguage()));
-            decl.setFlag(JSONzip.int14);
-            decl.noteValue(ex);
-            return true;
-        }
+    /* JADX WARNING: Code restructure failed: missing block: B:15:0x003a, code lost:
+        r2 = (java.lang.String) r11;
+     */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public static boolean process(java.lang.Object r10, java.lang.Object r11, java.util.Vector r12, gnu.expr.ScopeExp r13, kawa.lang.Translator r14) {
+        /*
+            r8 = 0
+            r7 = 1
+            boolean r9 = r10 instanceof gnu.lists.Pair
+            if (r9 == 0) goto L_0x0020
+            r5 = r10
+            gnu.lists.Pair r5 = (gnu.lists.Pair) r5
+            java.lang.Object r9 = r5.getCar()
+            boolean r9 = process(r9, r11, r12, r13, r14)
+            if (r9 == 0) goto L_0x001e
+            java.lang.Object r9 = r5.getCdr()
+            boolean r9 = process(r9, r11, r12, r13, r14)
+            if (r9 == 0) goto L_0x001e
+        L_0x001d:
+            return r7
+        L_0x001e:
+            r7 = r8
+            goto L_0x001d
+        L_0x0020:
+            gnu.lists.LList r9 = gnu.lists.LList.Empty
+            if (r10 == r9) goto L_0x001d
+            boolean r9 = r10 instanceof java.lang.String
+            if (r9 != 0) goto L_0x002c
+            boolean r9 = r10 instanceof gnu.mapping.Symbol
+            if (r9 == 0) goto L_0x0077
+        L_0x002c:
+            java.lang.String r4 = r10.toString()
+            r9 = 119(0x77, float:1.67E-43)
+            gnu.expr.Declaration r0 = r13.getDefine(r4, r9, r14)
+            boolean r9 = r11 instanceof java.lang.String
+            if (r9 == 0) goto L_0x005c
+            r2 = r11
+            java.lang.String r2 = (java.lang.String) r2
+            int r3 = r2.length()
+            r9 = 2
+            if (r3 <= r9) goto L_0x005c
+            char r8 = r2.charAt(r8)
+            r9 = 60
+            if (r8 != r9) goto L_0x005c
+            int r8 = r3 + -1
+            char r8 = r2.charAt(r8)
+            r9 = 62
+            if (r8 != r9) goto L_0x005c
+            int r8 = r3 + -1
+            java.lang.String r11 = r2.substring(r7, r8)
+        L_0x005c:
+            kawa.lang.AutoloadProcedure r6 = new kawa.lang.AutoloadProcedure
+            java.lang.String r8 = r11.toString()
+            gnu.expr.Language r9 = r14.getLanguage()
+            r6.<init>(r4, r8, r9)
+            gnu.expr.QuoteExp r1 = new gnu.expr.QuoteExp
+            r1.<init>(r6)
+            r8 = 16384(0x4000, double:8.0948E-320)
+            r0.setFlag(r8)
+            r0.noteValue(r1)
+            goto L_0x001d
+        L_0x0077:
+            r7 = r8
+            goto L_0x001d
+        */
+        throw new UnsupportedOperationException("Method not decompiled: kawa.standard.define_autoload.process(java.lang.Object, java.lang.Object, java.util.Vector, gnu.expr.ScopeExp, kawa.lang.Translator):boolean");
     }
 
     public Expression rewriteForm(Pair form, Translator tr) {

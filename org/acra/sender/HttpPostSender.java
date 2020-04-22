@@ -58,7 +58,6 @@ public class HttpPostSender implements ReportSender {
     }
 
     private Map<String, String> remap(Map<ReportField, String> report) {
-        ReportField[] arr$;
         ReportField[] fields = ACRA.getConfig().customReportContent();
         if (fields.length == 0) {
             fields = ACRA.DEFAULT_REPORT_FIELDS;

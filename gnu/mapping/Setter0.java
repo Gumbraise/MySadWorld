@@ -1,6 +1,6 @@
 package gnu.mapping;
 
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 
 public class Setter0 extends Setter {
     public Setter0(Procedure getter) {

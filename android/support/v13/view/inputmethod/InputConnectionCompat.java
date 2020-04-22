@@ -1,13 +1,10 @@
 package android.support.v13.view.inputmethod;
 
 import android.content.ClipDescription;
-import android.net.Uri;
-import android.os.Build.VERSION;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.ResultReceiver;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputConnectionWrapper;
@@ -27,38 +24,69 @@ public final class InputConnectionCompat {
         boolean onCommitContent(InputContentInfoCompat inputContentInfoCompat, int i, Bundle bundle);
     }
 
-    static boolean handlePerformPrivateCommand(@Nullable String action, @NonNull Bundle data, @NonNull OnCommitContentListener onCommitContentListener) {
-        int i;
-        int i2 = 1;
-        if (!TextUtils.equals(COMMIT_CONTENT_ACTION, action) || data == null) {
-            return false;
-        }
-        ResultReceiver resultReceiver = null;
-        boolean result = false;
-        try {
-            resultReceiver = (ResultReceiver) data.getParcelable(COMMIT_CONTENT_RESULT_RECEIVER);
-            Uri contentUri = (Uri) data.getParcelable(COMMIT_CONTENT_CONTENT_URI_KEY);
-            ClipDescription description = (ClipDescription) data.getParcelable(COMMIT_CONTENT_DESCRIPTION_KEY);
-            Uri linkUri = (Uri) data.getParcelable(COMMIT_CONTENT_LINK_URI_KEY);
-            boolean result2 = onCommitContentListener.onCommitContent(new InputContentInfoCompat(contentUri, description, linkUri), data.getInt(COMMIT_CONTENT_FLAGS_KEY), (Bundle) data.getParcelable(COMMIT_CONTENT_OPTS_KEY));
-            if (resultReceiver != null) {
-                if (result2) {
-                    i = 1;
-                } else {
-                    i = 0;
-                }
-                resultReceiver.send(i, null);
-            }
-            return result2;
-        } catch (Throwable th) {
-            if (resultReceiver != null) {
-                if (!result) {
-                    i2 = 0;
-                }
-                resultReceiver.send(i2, null);
-            }
-            throw th;
-        }
+    /* JADX WARNING: type inference failed for: r9v4, types: [android.os.Parcelable] */
+    /* JADX WARNING: Multi-variable type inference failed */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    static boolean handlePerformPrivateCommand(@android.support.annotation.Nullable java.lang.String r13, @android.support.annotation.NonNull android.os.Bundle r14, @android.support.annotation.NonNull android.support.v13.view.inputmethod.InputConnectionCompat.OnCommitContentListener r15) {
+        /*
+            r12 = 0
+            r10 = 1
+            r11 = 0
+            java.lang.String r9 = "android.support.v13.view.inputmethod.InputConnectionCompat.COMMIT_CONTENT"
+            boolean r9 = android.text.TextUtils.equals(r9, r13)
+            if (r9 != 0) goto L_0x000c
+        L_0x000b:
+            return r11
+        L_0x000c:
+            if (r14 == 0) goto L_0x000b
+            r8 = 0
+            r7 = 0
+            java.lang.String r9 = "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_RESULT_RECEIVER"
+            android.os.Parcelable r9 = r14.getParcelable(r9)     // Catch:{ all -> 0x0055 }
+            r0 = r9
+            android.os.ResultReceiver r0 = (android.os.ResultReceiver) r0     // Catch:{ all -> 0x0055 }
+            r8 = r0
+            java.lang.String r9 = "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_URI"
+            android.os.Parcelable r1 = r14.getParcelable(r9)     // Catch:{ all -> 0x0055 }
+            android.net.Uri r1 = (android.net.Uri) r1     // Catch:{ all -> 0x0055 }
+            java.lang.String r9 = "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_DESCRIPTION"
+            android.os.Parcelable r2 = r14.getParcelable(r9)     // Catch:{ all -> 0x0055 }
+            android.content.ClipDescription r2 = (android.content.ClipDescription) r2     // Catch:{ all -> 0x0055 }
+            java.lang.String r9 = "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_LINK_URI"
+            android.os.Parcelable r5 = r14.getParcelable(r9)     // Catch:{ all -> 0x0055 }
+            android.net.Uri r5 = (android.net.Uri) r5     // Catch:{ all -> 0x0055 }
+            java.lang.String r9 = "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_FLAGS"
+            int r3 = r14.getInt(r9)     // Catch:{ all -> 0x0055 }
+            java.lang.String r9 = "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_OPTS"
+            android.os.Parcelable r6 = r14.getParcelable(r9)     // Catch:{ all -> 0x0055 }
+            android.os.Bundle r6 = (android.os.Bundle) r6     // Catch:{ all -> 0x0055 }
+            android.support.v13.view.inputmethod.InputContentInfoCompat r4 = new android.support.v13.view.inputmethod.InputContentInfoCompat     // Catch:{ all -> 0x0055 }
+            r4.<init>(r1, r2, r5)     // Catch:{ all -> 0x0055 }
+            boolean r7 = r15.onCommitContent(r4, r3, r6)     // Catch:{ all -> 0x0055 }
+            if (r8 == 0) goto L_0x0051
+            if (r7 == 0) goto L_0x0053
+            r9 = r10
+        L_0x004e:
+            r8.send(r9, r12)
+        L_0x0051:
+            r11 = r7
+            goto L_0x000b
+        L_0x0053:
+            r9 = r11
+            goto L_0x004e
+        L_0x0055:
+            r9 = move-exception
+            if (r8 == 0) goto L_0x005d
+            if (r7 == 0) goto L_0x005e
+        L_0x005a:
+            r8.send(r10, r12)
+        L_0x005d:
+            throw r9
+        L_0x005e:
+            r10 = r11
+            goto L_0x005a
+        */
+        throw new UnsupportedOperationException("Method not decompiled: android.support.v13.view.inputmethod.InputConnectionCompat.handlePerformPrivateCommand(java.lang.String, android.os.Bundle, android.support.v13.view.inputmethod.InputConnectionCompat$OnCommitContentListener):boolean");
     }
 
     public static boolean commitContent(@NonNull InputConnection inputConnection, @NonNull EditorInfo editorInfo, @NonNull InputContentInfoCompat inputContentInfo, int flags, @Nullable Bundle opts) {
@@ -80,7 +108,7 @@ public final class InputConnectionCompat {
         if (!supported) {
             return false;
         }
-        if (VERSION.SDK_INT >= 25) {
+        if (Build.VERSION.SDK_INT >= 25) {
             return inputConnection.commitContent((InputContentInfo) inputContentInfo.unwrap(), flags, opts);
         }
         Bundle params = new Bundle();
@@ -100,7 +128,7 @@ public final class InputConnectionCompat {
             throw new IllegalArgumentException("editorInfo must be non-null");
         } else if (onCommitContentListener == null) {
             throw new IllegalArgumentException("onCommitContentListener must be non-null");
-        } else if (VERSION.SDK_INT >= 25) {
+        } else if (Build.VERSION.SDK_INT >= 25) {
             final OnCommitContentListener listener = onCommitContentListener;
             return new InputConnectionWrapper(inputConnection, false) {
                 public boolean commitContent(InputContentInfo inputContentInfo, int flags, Bundle opts) {

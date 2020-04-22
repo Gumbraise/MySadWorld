@@ -1,6 +1,6 @@
 package gnu.text;
 
-import android.support.p000v4.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 import gnu.lists.Consumer;
 import java.io.Externalizable;
 import java.io.IOException;
@@ -75,6 +75,7 @@ public class Char implements Comparable, Externalizable {
     }
 
     public static int nameToChar(String name) {
+        char ch;
         int i = charNames.length;
         do {
             i--;
@@ -96,11 +97,8 @@ public class Char implements Comparable, Externalizable {
                             }
                             return value2;
                         }
-                        if (len == 3 && name.charAt(1) == '-') {
-                            char ch = name.charAt(0);
-                            if (ch == 'c' || ch == 'C') {
-                                return name.charAt(2) & 31;
-                            }
+                        if (len == 3 && name.charAt(1) == '-' && ((ch = name.charAt(0)) == 'c' || ch == 'C')) {
+                            return name.charAt(2) & 31;
                         }
                         return -1;
                     }
@@ -187,12 +185,10 @@ public class Char implements Comparable, Externalizable {
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        char next;
         this.value = in.readChar();
-        if (this.value >= 55296 && this.value < 56319) {
-            char next = in.readChar();
-            if (next >= 56320 && next <= 57343) {
-                this.value = ((this.value - 55296) << 10) + (next - 56320) + 65536;
-            }
+        if (this.value >= 55296 && this.value < 56319 && (next = in.readChar()) >= 56320 && next <= 57343) {
+            this.value = ((this.value - 55296) << 10) + (next - 56320) + 65536;
         }
     }
 

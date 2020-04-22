@@ -98,7 +98,7 @@ public class read_line {
         L_0x0048:
             gnu.lists.FString r3 = new gnu.lists.FString
             int r15 = r10 - r13
-            r3.<init>(r1, r13, r15)
+            r3.<init>((char[]) r1, (int) r13, (int) r15)
             goto L_0x0008
         L_0x0050:
             int r15 = r10 + 1
@@ -152,13 +152,13 @@ public class read_line {
         L_0x00a0:
             gnu.lists.FString r3 = new gnu.lists.FString
             r15 = 0
-            r3.<init>(r12, r15, r7)
+            r3.<init>((java.lang.StringBuffer) r12, (int) r15, (int) r7)
             java.lang.String r15 = "split"
             r0 = r18
             if (r0 != r15) goto L_0x0008
             gnu.lists.FString r5 = new gnu.lists.FString
             int r15 = r7 - r4
-            r5.<init>(r12, r15, r4)
+            r5.<init>((java.lang.StringBuffer) r12, (int) r15, (int) r4)
             r15 = 2
             java.lang.Object[] r14 = new java.lang.Object[r15]
             r15 = 0

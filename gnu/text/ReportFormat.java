@@ -63,9 +63,8 @@ public abstract class ReportFormat extends Format {
         if (fmt instanceof MessageFormat) {
             start2 = format(fmt, args, start, sbuf, fpos);
         } else {
-            int start3 = start + 1;
             fmt.format(args[start], sbuf, fpos);
-            start2 = start3;
+            start2 = start + 1;
         }
         int slen = sbuf.length();
         char[] cbuf = new char[slen];

@@ -7,21 +7,15 @@ import gnu.bytecode.Member;
 import gnu.bytecode.Method;
 import gnu.bytecode.ObjectType;
 import gnu.bytecode.Type;
-import gnu.expr.ApplyExp;
 import gnu.expr.CheckedTarget;
 import gnu.expr.ClassExp;
 import gnu.expr.Compilation;
 import gnu.expr.Expression;
 import gnu.expr.Inlineable;
 import gnu.expr.Language;
-import gnu.expr.QuoteExp;
-import gnu.expr.Target;
-import gnu.lists.FString;
 import gnu.mapping.Procedure;
 import gnu.mapping.Procedure3;
-import gnu.mapping.Symbol;
 import gnu.mapping.Values;
-import kawa.standard.Scheme;
 
 public class SlotSet extends Procedure3 implements Inlineable {
     public static final SlotSet set$Mnfield$Ex = new SlotSet("set-field!", false);
@@ -295,60 +289,210 @@ public class SlotSet extends Procedure3 implements Inlineable {
         }
     }
 
-    public void compile(ApplyExp exp, Compilation comp, Target target) {
-        ClassType caller;
-        String name;
-        Expression[] args = exp.getArgs();
-        int nargs = args.length;
-        if (nargs != 3) {
-            comp.error('e', (nargs < 3 ? "too few" : "too many") + " arguments to `" + getName() + '\'');
-            comp.compileConstant(null, target);
-            return;
-        }
-        Expression arg0 = args[0];
-        Expression arg1 = args[1];
-        Expression expression = args[2];
-        Type type = this.isStatic ? Scheme.exp2Type(arg0) : arg0.getType();
-        Member part = null;
-        if ((type instanceof ObjectType) && (arg1 instanceof QuoteExp)) {
-            Object val1 = ((QuoteExp) arg1).getValue();
-            ObjectType ctype = (ObjectType) type;
-            if (comp.curClass != null) {
-                caller = comp.curClass;
-            } else {
-                caller = comp.mainClass;
-            }
-            if ((val1 instanceof String) || (val1 instanceof FString) || (val1 instanceof Symbol)) {
-                name = val1.toString();
-                part = lookupMember(ctype, name, caller);
-                if (part == null && type != Type.pointer_type && comp.warnUnknownMember()) {
-                    comp.error('w', "no slot `" + name + "' in " + ctype.getName());
-                }
-            } else if (val1 instanceof Member) {
-                part = (Member) val1;
-                name = part.getName();
-            } else {
-                name = null;
-            }
-            if (part != null) {
-                boolean isStaticField = (part.getModifiers() & 8) != 0;
-                if (caller != null && !caller.isAccessible(part, ctype)) {
-                    comp.error('e', "slot '" + name + "' in " + part.getDeclaringClass().getName() + " not accessible here");
-                }
-                args[0].compile(comp, isStaticField ? Target.Ignore : Target.pushValue(ctype));
-                if (this.returnSelf) {
-                    comp.getCode().emitDup(ctype.getImplementationType());
-                }
-                compileSet(this, ctype, args[2], part, comp);
-                if (this.returnSelf) {
-                    target.compileFromStack(comp, ctype);
-                    return;
-                } else {
-                    comp.compileConstant(Values.empty, target);
-                    return;
-                }
-            }
-        }
-        ApplyExp.compile(exp, comp, target);
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r15v0, resolved type: java.lang.Object} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r13v3, resolved type: gnu.bytecode.Member} */
+    /* JADX WARNING: Multi-variable type inference failed */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public void compile(gnu.expr.ApplyExp r21, gnu.expr.Compilation r22, gnu.expr.Target r23) {
+        /*
+            r20 = this;
+            gnu.expr.Expression[] r5 = r21.getArgs()
+            int r12 = r5.length
+            r17 = 3
+            r0 = r17
+            if (r12 == r0) goto L_0x0050
+            r17 = 3
+            r0 = r17
+            if (r12 >= r0) goto L_0x004d
+            java.lang.String r10 = "too few"
+        L_0x0013:
+            r17 = 101(0x65, float:1.42E-43)
+            java.lang.StringBuilder r18 = new java.lang.StringBuilder
+            r18.<init>()
+            r0 = r18
+            java.lang.StringBuilder r18 = r0.append(r10)
+            java.lang.String r19 = " arguments to `"
+            java.lang.StringBuilder r18 = r18.append(r19)
+            java.lang.String r19 = r20.getName()
+            java.lang.StringBuilder r18 = r18.append(r19)
+            r19 = 39
+            java.lang.StringBuilder r18 = r18.append(r19)
+            java.lang.String r18 = r18.toString()
+            r0 = r22
+            r1 = r17
+            r2 = r18
+            r0.error(r1, r2)
+            r17 = 0
+            r0 = r22
+            r1 = r17
+            r2 = r23
+            r0.compileConstant(r1, r2)
+        L_0x004c:
+            return
+        L_0x004d:
+            java.lang.String r10 = "too many"
+            goto L_0x0013
+        L_0x0050:
+            r17 = 0
+            r3 = r5[r17]
+            r17 = 1
+            r4 = r5[r17]
+            r17 = 2
+            r16 = r5[r17]
+            r0 = r20
+            boolean r0 = r0.isStatic
+            r17 = r0
+            if (r17 == 0) goto L_0x016d
+            gnu.bytecode.Type r14 = kawa.standard.Scheme.exp2Type(r3)
+        L_0x0068:
+            r13 = 0
+            boolean r0 = r14 instanceof gnu.bytecode.ObjectType
+            r17 = r0
+            if (r17 == 0) goto L_0x01a0
+            boolean r0 = r4 instanceof gnu.expr.QuoteExp
+            r17 = r0
+            if (r17 == 0) goto L_0x01a0
+            gnu.expr.QuoteExp r4 = (gnu.expr.QuoteExp) r4
+            java.lang.Object r15 = r4.getValue()
+            r7 = r14
+            gnu.bytecode.ObjectType r7 = (gnu.bytecode.ObjectType) r7
+            r0 = r22
+            gnu.bytecode.ClassType r0 = r0.curClass
+            r17 = r0
+            if (r17 == 0) goto L_0x0173
+            r0 = r22
+            gnu.bytecode.ClassType r6 = r0.curClass
+        L_0x008a:
+            boolean r0 = r15 instanceof java.lang.String
+            r17 = r0
+            if (r17 != 0) goto L_0x009c
+            boolean r0 = r15 instanceof gnu.lists.FString
+            r17 = r0
+            if (r17 != 0) goto L_0x009c
+            boolean r0 = r15 instanceof gnu.mapping.Symbol
+            r17 = r0
+            if (r17 == 0) goto L_0x0179
+        L_0x009c:
+            java.lang.String r11 = r15.toString()
+            gnu.bytecode.Member r13 = lookupMember(r7, r11, r6)
+            if (r13 != 0) goto L_0x00e0
+            gnu.bytecode.ClassType r17 = gnu.bytecode.Type.pointer_type
+            r0 = r17
+            if (r14 == r0) goto L_0x00e0
+            boolean r17 = r22.warnUnknownMember()
+            if (r17 == 0) goto L_0x00e0
+            r17 = 119(0x77, float:1.67E-43)
+            java.lang.StringBuilder r18 = new java.lang.StringBuilder
+            r18.<init>()
+            java.lang.String r19 = "no slot `"
+            java.lang.StringBuilder r18 = r18.append(r19)
+            r0 = r18
+            java.lang.StringBuilder r18 = r0.append(r11)
+            java.lang.String r19 = "' in "
+            java.lang.StringBuilder r18 = r18.append(r19)
+            java.lang.String r19 = r7.getName()
+            java.lang.StringBuilder r18 = r18.append(r19)
+            java.lang.String r18 = r18.toString()
+            r0 = r22
+            r1 = r17
+            r2 = r18
+            r0.error(r1, r2)
+        L_0x00e0:
+            if (r13 == 0) goto L_0x01a0
+            int r9 = r13.getModifiers()
+            r17 = r9 & 8
+            if (r17 == 0) goto L_0x018b
+            r8 = 1
+        L_0x00eb:
+            if (r6 == 0) goto L_0x012b
+            boolean r17 = r6.isAccessible(r13, r7)
+            if (r17 != 0) goto L_0x012b
+            r17 = 101(0x65, float:1.42E-43)
+            java.lang.StringBuilder r18 = new java.lang.StringBuilder
+            r18.<init>()
+            java.lang.String r19 = "slot '"
+            java.lang.StringBuilder r18 = r18.append(r19)
+            r0 = r18
+            java.lang.StringBuilder r18 = r0.append(r11)
+            java.lang.String r19 = "' in "
+            java.lang.StringBuilder r18 = r18.append(r19)
+            gnu.bytecode.ClassType r19 = r13.getDeclaringClass()
+            java.lang.String r19 = r19.getName()
+            java.lang.StringBuilder r18 = r18.append(r19)
+            java.lang.String r19 = " not accessible here"
+            java.lang.StringBuilder r18 = r18.append(r19)
+            java.lang.String r18 = r18.toString()
+            r0 = r22
+            r1 = r17
+            r2 = r18
+            r0.error(r1, r2)
+        L_0x012b:
+            r17 = 0
+            r18 = r5[r17]
+            if (r8 == 0) goto L_0x018e
+            gnu.expr.Target r17 = gnu.expr.Target.Ignore
+        L_0x0133:
+            r0 = r18
+            r1 = r22
+            r2 = r17
+            r0.compile((gnu.expr.Compilation) r1, (gnu.expr.Target) r2)
+            r0 = r20
+            boolean r0 = r0.returnSelf
+            r17 = r0
+            if (r17 == 0) goto L_0x014f
+            gnu.bytecode.CodeAttr r17 = r22.getCode()
+            gnu.bytecode.Type r18 = r7.getImplementationType()
+            r17.emitDup((gnu.bytecode.Type) r18)
+        L_0x014f:
+            r17 = 2
+            r17 = r5[r17]
+            r0 = r20
+            r1 = r17
+            r2 = r22
+            compileSet(r0, r7, r1, r13, r2)
+            r0 = r20
+            boolean r0 = r0.returnSelf
+            r17 = r0
+            if (r17 == 0) goto L_0x0193
+            r0 = r23
+            r1 = r22
+            r0.compileFromStack(r1, r7)
+            goto L_0x004c
+        L_0x016d:
+            gnu.bytecode.Type r14 = r3.getType()
+            goto L_0x0068
+        L_0x0173:
+            r0 = r22
+            gnu.bytecode.ClassType r6 = r0.mainClass
+            goto L_0x008a
+        L_0x0179:
+            boolean r0 = r15 instanceof gnu.bytecode.Member
+            r17 = r0
+            if (r17 == 0) goto L_0x0188
+            r13 = r15
+            gnu.bytecode.Member r13 = (gnu.bytecode.Member) r13
+            java.lang.String r11 = r13.getName()
+            goto L_0x00e0
+        L_0x0188:
+            r11 = 0
+            goto L_0x00e0
+        L_0x018b:
+            r8 = 0
+            goto L_0x00eb
+        L_0x018e:
+            gnu.expr.Target r17 = gnu.expr.Target.pushValue(r7)
+            goto L_0x0133
+        L_0x0193:
+            gnu.mapping.Values r17 = gnu.mapping.Values.empty
+            r0 = r22
+            r1 = r17
+            r2 = r23
+            r0.compileConstant(r1, r2)
+            goto L_0x004c
+        L_0x01a0:
+            gnu.expr.ApplyExp.compile(r21, r22, r23)
+            goto L_0x004c
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.reflect.SlotSet.compile(gnu.expr.ApplyExp, gnu.expr.Compilation, gnu.expr.Target):void");
     }
 }

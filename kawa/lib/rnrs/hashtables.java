@@ -1,6 +1,6 @@
 package kawa.lib.rnrs;
 
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import gnu.expr.ModuleBody;
 import gnu.expr.ModuleInfo;
 import gnu.expr.ModuleMethod;
@@ -15,9 +15,8 @@ import gnu.mapping.SimpleSymbol;
 import gnu.mapping.Symbol;
 import gnu.mapping.Values;
 import gnu.mapping.WrongType;
-import kawa.lib.C0620lists;
 import kawa.lib.kawa.hashtable;
-import kawa.lib.kawa.hashtable.HashTable;
+import kawa.lib.lists;
 import kawa.lib.misc;
 import kawa.standard.Scheme;
 
@@ -103,23 +102,23 @@ public class hashtables extends ModuleBody {
         ModuleInfo.register(this);
     }
 
-    public static void hashtableClear$Ex(HashTable hashTable) {
+    public static void hashtableClear$Ex(hashtable.HashTable hashTable) {
         hashtableClear$Ex(hashTable, 64);
     }
 
-    public static HashTable hashtableCopy(HashTable hashTable) {
+    public static hashtable.HashTable hashtableCopy(hashtable.HashTable hashTable) {
         return hashtableCopy(hashTable, false);
     }
 
-    public static HashTable makeEqHashtable() {
+    public static hashtable.HashTable makeEqHashtable() {
         return makeEqHashtable(AbstractHashTable.DEFAULT_INITIAL_SIZE);
     }
 
-    public static HashTable makeEqvHashtable() {
+    public static hashtable.HashTable makeEqvHashtable() {
         return makeEqvHashtable(AbstractHashTable.DEFAULT_INITIAL_SIZE);
     }
 
-    public static HashTable makeHashtable(Procedure procedure, Procedure procedure2) {
+    public static hashtable.HashTable makeHashtable(Procedure procedure, Procedure procedure2) {
         return makeHashtable(procedure, procedure2, AbstractHashTable.DEFAULT_INITIAL_SIZE);
     }
 
@@ -136,96 +135,96 @@ public class hashtables extends ModuleBody {
             case 1:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 2:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 3:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 5:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 9:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 10:
-                if (!(obj instanceof HashTable)) {
+                if (!(obj instanceof hashtable.HashTable)) {
                     return -786431;
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 16:
-                if (!(obj instanceof HashTable)) {
+                if (!(obj instanceof hashtable.HashTable)) {
                     return -786431;
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 18:
-                if (!(obj instanceof HashTable)) {
+                if (!(obj instanceof hashtable.HashTable)) {
                     return -786431;
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 20:
-                if (!(obj instanceof HashTable)) {
+                if (!(obj instanceof hashtable.HashTable)) {
                     return -786431;
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 21:
-                if (!(obj instanceof HashTable)) {
+                if (!(obj instanceof hashtable.HashTable)) {
                     return -786431;
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 22:
-                if (!(obj instanceof HashTable)) {
+                if (!(obj instanceof hashtable.HashTable)) {
                     return -786431;
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 23:
-                if (!(obj instanceof HashTable)) {
+                if (!(obj instanceof hashtable.HashTable)) {
                     return -786431;
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 24:
-                if (!(obj instanceof HashTable)) {
+                if (!(obj instanceof hashtable.HashTable)) {
                     return -786431;
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 25:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 26:
                 if (!(obj instanceof CharSequence)) {
@@ -233,7 +232,7 @@ public class hashtables extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 27:
                 if (!(obj instanceof CharSequence)) {
@@ -241,7 +240,7 @@ public class hashtables extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 28:
                 if (!(obj instanceof Symbol)) {
@@ -249,7 +248,7 @@ public class hashtables extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             default:
                 return super.match1(moduleMethod, obj, callContext);
@@ -260,27 +259,27 @@ public class hashtables extends ModuleBody {
         return obj.hashCode();
     }
 
-    public static HashTable makeEqHashtable(int k) {
-        return new HashTable(Scheme.isEq, hash$Mnby$Mnidentity, AbstractHashTable.DEFAULT_INITIAL_SIZE);
+    public static hashtable.HashTable makeEqHashtable(int k) {
+        return new hashtable.HashTable(Scheme.isEq, hash$Mnby$Mnidentity, AbstractHashTable.DEFAULT_INITIAL_SIZE);
     }
 
     public int match0(ModuleMethod moduleMethod, CallContext callContext) {
         switch (moduleMethod.selector) {
             case 3:
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 0;
+                callContext.pc = 0;
                 return 0;
             case 5:
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 0;
+                callContext.pc = 0;
                 return 0;
             default:
                 return super.match0(moduleMethod, callContext);
         }
     }
 
-    public static HashTable makeEqvHashtable(int k) {
-        return new HashTable(Scheme.isEqv, hash$Mnfor$Mneqv, AbstractHashTable.DEFAULT_INITIAL_SIZE);
+    public static hashtable.HashTable makeEqvHashtable(int k) {
+        return new hashtable.HashTable(Scheme.isEqv, hash$Mnfor$Mneqv, AbstractHashTable.DEFAULT_INITIAL_SIZE);
     }
 
     public Object apply0(ModuleMethod moduleMethod) {
@@ -294,8 +293,8 @@ public class hashtables extends ModuleBody {
         }
     }
 
-    public static HashTable makeHashtable(Procedure comparison, Procedure hash, int size) {
-        return new HashTable(comparison, hash, size);
+    public static hashtable.HashTable makeHashtable(Procedure comparison, Procedure hash, int size) {
+        return new hashtable.HashTable(comparison, hash, size);
     }
 
     public int match2(ModuleMethod moduleMethod, Object obj, Object obj2, CallContext callContext) {
@@ -310,43 +309,43 @@ public class hashtables extends ModuleBody {
                 }
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 13:
-                if (!(obj instanceof HashTable)) {
+                if (!(obj instanceof hashtable.HashTable)) {
                     return -786431;
                 }
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 14:
-                if (!(obj instanceof HashTable)) {
+                if (!(obj instanceof hashtable.HashTable)) {
                     return -786431;
                 }
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 16:
-                if (!(obj instanceof HashTable)) {
+                if (!(obj instanceof hashtable.HashTable)) {
                     return -786431;
                 }
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 18:
-                if (!(obj instanceof HashTable)) {
+                if (!(obj instanceof hashtable.HashTable)) {
                     return -786431;
                 }
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             default:
                 return super.match2(moduleMethod, obj, obj2, callContext);
@@ -366,27 +365,27 @@ public class hashtables extends ModuleBody {
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 11:
-                if (!(obj instanceof HashTable)) {
+                if (!(obj instanceof hashtable.HashTable)) {
                     return -786431;
                 }
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 12:
-                if (!(obj instanceof HashTable)) {
+                if (!(obj instanceof hashtable.HashTable)) {
                     return -786431;
                 }
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             default:
                 return super.match3(moduleMethod, obj, obj2, obj3, callContext);
@@ -394,19 +393,19 @@ public class hashtables extends ModuleBody {
     }
 
     public static boolean isHashtable(Object obj) {
-        return obj instanceof HashTable;
+        return obj instanceof hashtable.HashTable;
     }
 
-    public static int hashtableSize(HashTable ht) {
+    public static int hashtableSize(hashtable.HashTable ht) {
         return ht.size();
     }
 
-    public static Object hashtableRef(HashTable ht, Object key, Object obj) {
+    public static Object hashtableRef(hashtable.HashTable ht, Object key, Object obj) {
         HashNode node = ht.getNode(key);
         return node == null ? obj : node.getValue();
     }
 
-    public static void hashtableSet$Ex(HashTable ht, Object key, Object value) {
+    public static void hashtableSet$Ex(hashtable.HashTable ht, Object key, Object value) {
         hashtable.hashtableCheckMutable(ht);
         ht.put(key, value);
     }
@@ -429,13 +428,13 @@ public class hashtables extends ModuleBody {
                 }
             case 11:
                 try {
-                    return hashtableRef((HashTable) obj, obj2, obj3);
+                    return hashtableRef((hashtable.HashTable) obj, obj2, obj3);
                 } catch (ClassCastException e4) {
                     throw new WrongType(e4, "hashtable-ref", 1, obj);
                 }
             case 12:
                 try {
-                    hashtableSet$Ex((HashTable) obj, obj2, obj3);
+                    hashtableSet$Ex((hashtable.HashTable) obj, obj2, obj3);
                     return Values.empty;
                 } catch (ClassCastException e5) {
                     throw new WrongType(e5, "hashtable-set!", 1, obj);
@@ -445,16 +444,16 @@ public class hashtables extends ModuleBody {
         }
     }
 
-    public static void hashtableDelete$Ex(HashTable ht, Object key) {
+    public static void hashtableDelete$Ex(hashtable.HashTable ht, Object key) {
         hashtable.hashtableCheckMutable(ht);
         ht.remove(key);
     }
 
-    public static boolean isHashtableContains(HashTable ht, Object key) {
+    public static boolean isHashtableContains(hashtable.HashTable ht, Object key) {
         return ((ht.getNode(key) == null ? 1 : 0) + 1) & true;
     }
 
-    public static Object hashtableUpdate$Ex(HashTable ht, Object key, Procedure proc, Object obj) {
+    public static Object hashtableUpdate$Ex(hashtable.HashTable ht, Object key, Procedure proc, Object obj) {
         hashtable.hashtableCheckMutable(ht);
         HashNode node = ht.getNode(key);
         if (node != null) {
@@ -470,7 +469,7 @@ public class hashtables extends ModuleBody {
         }
         try {
             try {
-                return hashtableUpdate$Ex((HashTable) obj, obj2, (Procedure) obj3, obj4);
+                return hashtableUpdate$Ex((hashtable.HashTable) obj, obj2, (Procedure) obj3, obj4);
             } catch (ClassCastException e) {
                 throw new WrongType(e, "hashtable-update!", 3, obj3);
             }
@@ -483,7 +482,7 @@ public class hashtables extends ModuleBody {
         if (moduleMethod.selector != 15) {
             return super.match4(moduleMethod, obj, obj2, obj3, obj4, callContext);
         }
-        if (!(obj instanceof HashTable)) {
+        if (!(obj instanceof hashtable.HashTable)) {
             return -786431;
         }
         callContext.value1 = obj;
@@ -494,15 +493,15 @@ public class hashtables extends ModuleBody {
         callContext.value3 = obj3;
         callContext.value4 = obj4;
         callContext.proc = moduleMethod;
-        callContext.f236pc = 4;
+        callContext.pc = 4;
         return 0;
     }
 
-    public static HashTable hashtableCopy(HashTable ht, boolean mutable) {
-        return new HashTable(ht, mutable);
+    public static hashtable.HashTable hashtableCopy(hashtable.HashTable ht, boolean mutable) {
+        return new hashtable.HashTable(ht, mutable);
     }
 
-    public static void hashtableClear$Ex(HashTable ht, int k) {
+    public static void hashtableClear$Ex(hashtable.HashTable ht, int k) {
         hashtable.hashtableCheckMutable(ht);
         ht.clear();
     }
@@ -522,20 +521,20 @@ public class hashtables extends ModuleBody {
                 }
             case 13:
                 try {
-                    hashtableDelete$Ex((HashTable) obj, obj2);
+                    hashtableDelete$Ex((hashtable.HashTable) obj, obj2);
                     return Values.empty;
                 } catch (ClassCastException e3) {
                     throw new WrongType(e3, "hashtable-delete!", 1, obj);
                 }
             case 14:
                 try {
-                    return isHashtableContains((HashTable) obj, obj2) ? Boolean.TRUE : Boolean.FALSE;
+                    return isHashtableContains((hashtable.HashTable) obj, obj2) ? Boolean.TRUE : Boolean.FALSE;
                 } catch (ClassCastException e4) {
                     throw new WrongType(e4, "hashtable-contains?", 1, obj);
                 }
             case 16:
                 try {
-                    HashTable hashTable = (HashTable) obj;
+                    hashtable.HashTable hashTable = (hashtable.HashTable) obj;
                     try {
                         if (obj2 == Boolean.FALSE) {
                             z = false;
@@ -550,7 +549,7 @@ public class hashtables extends ModuleBody {
             case 18:
                 try {
                     try {
-                        hashtableClear$Ex((HashTable) obj, ((Number) obj2).intValue());
+                        hashtableClear$Ex((hashtable.HashTable) obj, ((Number) obj2).intValue());
                         return Values.empty;
                     } catch (ClassCastException e7) {
                         throw new WrongType(e7, "hashtable-clear!", 2, obj2);
@@ -563,20 +562,20 @@ public class hashtables extends ModuleBody {
         }
     }
 
-    public static FVector hashtableKeys(HashTable ht) {
+    public static FVector hashtableKeys(hashtable.HashTable ht) {
         return ht.keysVector();
     }
 
-    public static Object hashtableEntries(HashTable ht) {
+    public static Object hashtableEntries(hashtable.HashTable ht) {
         Pair pair = ht.entriesVectorPair();
-        return misc.values(C0620lists.car.apply1(pair), C0620lists.cdr.apply1(pair));
+        return misc.values(lists.car.apply1(pair), lists.cdr.apply1(pair));
     }
 
-    public static Procedure hashtableEquivalenceFunction(HashTable ht) {
+    public static Procedure hashtableEquivalenceFunction(hashtable.HashTable ht) {
         return (Procedure) ht.equivalenceFunction.apply1(ht);
     }
 
-    public static Object hashtableHashFunction(HashTable ht) {
+    public static Object hashtableHashFunction(hashtable.HashTable ht) {
         Object hasher = ht.hashFunction.apply1(ht);
         Object x = Scheme.isEqv.apply2(hasher, hash$Mnby$Mnidentity);
         if (x != Boolean.FALSE) {
@@ -589,7 +588,7 @@ public class hashtables extends ModuleBody {
         return Boolean.FALSE;
     }
 
-    public static Object isHashtableMutable(HashTable ht) {
+    public static Object isHashtableMutable(hashtable.HashTable ht) {
         return Scheme.applyToArgs.apply1(ht.mutable ? Boolean.TRUE : Boolean.FALSE);
     }
 
@@ -631,50 +630,50 @@ public class hashtables extends ModuleBody {
                 return isHashtable(obj) ? Boolean.TRUE : Boolean.FALSE;
             case 10:
                 try {
-                    return Integer.valueOf(hashtableSize((HashTable) obj));
+                    return Integer.valueOf(hashtableSize((hashtable.HashTable) obj));
                 } catch (ClassCastException e3) {
                     throw new WrongType(e3, "hashtable-size", 1, obj);
                 }
             case 16:
                 try {
-                    return hashtableCopy((HashTable) obj);
+                    return hashtableCopy((hashtable.HashTable) obj);
                 } catch (ClassCastException e4) {
                     throw new WrongType(e4, "hashtable-copy", 1, obj);
                 }
             case 18:
                 try {
-                    hashtableClear$Ex((HashTable) obj);
+                    hashtableClear$Ex((hashtable.HashTable) obj);
                     return Values.empty;
                 } catch (ClassCastException e5) {
                     throw new WrongType(e5, "hashtable-clear!", 1, obj);
                 }
             case 20:
                 try {
-                    return hashtableKeys((HashTable) obj);
+                    return hashtableKeys((hashtable.HashTable) obj);
                 } catch (ClassCastException e6) {
                     throw new WrongType(e6, "hashtable-keys", 1, obj);
                 }
             case 21:
                 try {
-                    return hashtableEntries((HashTable) obj);
+                    return hashtableEntries((hashtable.HashTable) obj);
                 } catch (ClassCastException e7) {
                     throw new WrongType(e7, "hashtable-entries", 1, obj);
                 }
             case 22:
                 try {
-                    return hashtableEquivalenceFunction((HashTable) obj);
+                    return hashtableEquivalenceFunction((hashtable.HashTable) obj);
                 } catch (ClassCastException e8) {
                     throw new WrongType(e8, "hashtable-equivalence-function", 1, obj);
                 }
             case 23:
                 try {
-                    return hashtableHashFunction((HashTable) obj);
+                    return hashtableHashFunction((hashtable.HashTable) obj);
                 } catch (ClassCastException e9) {
                     throw new WrongType(e9, "hashtable-hash-function", 1, obj);
                 }
             case 24:
                 try {
-                    return isHashtableMutable((HashTable) obj);
+                    return isHashtableMutable((hashtable.HashTable) obj);
                 } catch (ClassCastException e10) {
                     throw new WrongType(e10, "hashtable-mutable?", 1, obj);
                 }

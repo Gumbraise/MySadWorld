@@ -2,10 +2,9 @@ package android.support.constraint.solver.widgets;
 
 import android.support.constraint.solver.Cache;
 import android.support.constraint.solver.LinearSystem;
-import android.support.constraint.solver.Metrics;
 import android.support.constraint.solver.SolverVariable;
-import android.support.constraint.solver.widgets.ConstraintAnchor.Strength;
-import android.support.constraint.solver.widgets.ConstraintAnchor.Type;
+import android.support.constraint.solver.widgets.ConstraintAnchor;
+import android.support.v7.widget.ActivityChooserView;
 import java.util.ArrayList;
 
 public class ConstraintWidget {
@@ -113,12 +112,8 @@ public class ConstraintWidget {
     int mWidth;
     private int mWrapHeight;
     private int mWrapWidth;
-
-    /* renamed from: mX */
-    protected int f5mX;
-
-    /* renamed from: mY */
-    protected int f6mY;
+    protected int mX;
+    protected int mY;
 
     public enum ContentAlignment {
         BEGIN,
@@ -177,8 +172,8 @@ public class ConstraintWidget {
         this.mHeight = 0;
         this.mDimensionRatio = 0.0f;
         this.mDimensionRatioSide = -1;
-        this.f5mX = 0;
-        this.f6mY = 0;
+        this.mX = 0;
+        this.mY = 0;
         this.mDrawX = 0;
         this.mDrawY = 0;
         this.mDrawWidth = 0;
@@ -214,8 +209,8 @@ public class ConstraintWidget {
         this.mMatchConstraintDefaultHeight = 0;
         this.mMatchConstraintPercentWidth = 1.0f;
         this.mMatchConstraintPercentHeight = 1.0f;
-        this.mMatchConstraintMaxWidth = ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED;
-        this.mMatchConstraintMaxHeight = ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED;
+        this.mMatchConstraintMaxWidth = ActivityChooserView.ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED;
+        this.mMatchConstraintMaxHeight = ActivityChooserView.ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED;
         this.mMatchConstraintMinWidth = 0;
         this.mMatchConstraintMinHeight = 0;
         this.mResolvedDimensionRatioSide = -1;
@@ -287,16 +282,16 @@ public class ConstraintWidget {
         this.mResolvedDimensionRatioSide = -1;
         this.mResolvedDimensionRatio = 1.0f;
         this.mBelongingGroup = null;
-        this.mMaxDimension = new int[]{ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED, ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED};
+        this.mMaxDimension = new int[]{ActivityChooserView.ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED, ActivityChooserView.ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED};
         this.mCircleConstraintAngle = 0.0f;
-        this.mLeft = new ConstraintAnchor(this, Type.LEFT);
-        this.mTop = new ConstraintAnchor(this, Type.TOP);
-        this.mRight = new ConstraintAnchor(this, Type.RIGHT);
-        this.mBottom = new ConstraintAnchor(this, Type.BOTTOM);
-        this.mBaseline = new ConstraintAnchor(this, Type.BASELINE);
-        this.mCenterX = new ConstraintAnchor(this, Type.CENTER_X);
-        this.mCenterY = new ConstraintAnchor(this, Type.CENTER_Y);
-        this.mCenter = new ConstraintAnchor(this, Type.CENTER);
+        this.mLeft = new ConstraintAnchor(this, ConstraintAnchor.Type.LEFT);
+        this.mTop = new ConstraintAnchor(this, ConstraintAnchor.Type.TOP);
+        this.mRight = new ConstraintAnchor(this, ConstraintAnchor.Type.RIGHT);
+        this.mBottom = new ConstraintAnchor(this, ConstraintAnchor.Type.BOTTOM);
+        this.mBaseline = new ConstraintAnchor(this, ConstraintAnchor.Type.BASELINE);
+        this.mCenterX = new ConstraintAnchor(this, ConstraintAnchor.Type.CENTER_X);
+        this.mCenterY = new ConstraintAnchor(this, ConstraintAnchor.Type.CENTER_Y);
+        this.mCenter = new ConstraintAnchor(this, ConstraintAnchor.Type.CENTER);
         this.mListAnchors = new ConstraintAnchor[]{this.mLeft, this.mRight, this.mTop, this.mBottom, this.mBaseline, this.mCenter};
         this.mAnchors = new ArrayList<>();
         this.mListDimensionBehaviors = new DimensionBehaviour[]{DimensionBehaviour.FIXED, DimensionBehaviour.FIXED};
@@ -305,8 +300,8 @@ public class ConstraintWidget {
         this.mHeight = 0;
         this.mDimensionRatio = 0.0f;
         this.mDimensionRatioSide = -1;
-        this.f5mX = 0;
-        this.f6mY = 0;
+        this.mX = 0;
+        this.mY = 0;
         this.mRelX = 0;
         this.mRelY = 0;
         this.mDrawX = 0;
@@ -350,16 +345,16 @@ public class ConstraintWidget {
         this.mResolvedDimensionRatioSide = -1;
         this.mResolvedDimensionRatio = 1.0f;
         this.mBelongingGroup = null;
-        this.mMaxDimension = new int[]{ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED, ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED};
+        this.mMaxDimension = new int[]{ActivityChooserView.ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED, ActivityChooserView.ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED};
         this.mCircleConstraintAngle = 0.0f;
-        this.mLeft = new ConstraintAnchor(this, Type.LEFT);
-        this.mTop = new ConstraintAnchor(this, Type.TOP);
-        this.mRight = new ConstraintAnchor(this, Type.RIGHT);
-        this.mBottom = new ConstraintAnchor(this, Type.BOTTOM);
-        this.mBaseline = new ConstraintAnchor(this, Type.BASELINE);
-        this.mCenterX = new ConstraintAnchor(this, Type.CENTER_X);
-        this.mCenterY = new ConstraintAnchor(this, Type.CENTER_Y);
-        this.mCenter = new ConstraintAnchor(this, Type.CENTER);
+        this.mLeft = new ConstraintAnchor(this, ConstraintAnchor.Type.LEFT);
+        this.mTop = new ConstraintAnchor(this, ConstraintAnchor.Type.TOP);
+        this.mRight = new ConstraintAnchor(this, ConstraintAnchor.Type.RIGHT);
+        this.mBottom = new ConstraintAnchor(this, ConstraintAnchor.Type.BOTTOM);
+        this.mBaseline = new ConstraintAnchor(this, ConstraintAnchor.Type.BASELINE);
+        this.mCenterX = new ConstraintAnchor(this, ConstraintAnchor.Type.CENTER_X);
+        this.mCenterY = new ConstraintAnchor(this, ConstraintAnchor.Type.CENTER_Y);
+        this.mCenter = new ConstraintAnchor(this, ConstraintAnchor.Type.CENTER);
         this.mListAnchors = new ConstraintAnchor[]{this.mLeft, this.mRight, this.mTop, this.mBottom, this.mBaseline, this.mCenter};
         this.mAnchors = new ArrayList<>();
         this.mListDimensionBehaviors = new DimensionBehaviour[]{DimensionBehaviour.FIXED, DimensionBehaviour.FIXED};
@@ -368,8 +363,8 @@ public class ConstraintWidget {
         this.mHeight = 0;
         this.mDimensionRatio = 0.0f;
         this.mDimensionRatioSide = -1;
-        this.f5mX = 0;
-        this.f6mY = 0;
+        this.mX = 0;
+        this.mY = 0;
         this.mRelX = 0;
         this.mRelY = 0;
         this.mDrawX = 0;
@@ -395,8 +390,8 @@ public class ConstraintWidget {
         this.mNextChainWidget = new ConstraintWidget[]{null, null};
         this.mHorizontalNextWidget = null;
         this.mVerticalNextWidget = null;
-        this.f5mX = x;
-        this.f6mY = y;
+        this.mX = x;
+        this.mY = y;
         this.mWidth = width;
         this.mHeight = height;
         addAnchors();
@@ -504,7 +499,7 @@ public class ConstraintWidget {
     }
 
     public void connectCircularConstraint(ConstraintWidget target, float angle, int radius) {
-        immediateConnect(Type.CENTER, target, Type.CENTER, radius, 0);
+        immediateConnect(ConstraintAnchor.Type.CENTER, target, ConstraintAnchor.Type.CENTER, radius, 0);
         this.mCircleConstraintAngle = angle;
     }
 
@@ -558,15 +553,15 @@ public class ConstraintWidget {
     }
 
     public String toString() {
-        return (this.mType != null ? "type: " + this.mType + " " : "") + (this.mDebugName != null ? "id: " + this.mDebugName + " " : "") + "(" + this.f5mX + ", " + this.f6mY + ") - (" + this.mWidth + " x " + this.mHeight + ") wrap: (" + this.mWrapWidth + " x " + this.mWrapHeight + ")";
+        return (this.mType != null ? "type: " + this.mType + " " : "") + (this.mDebugName != null ? "id: " + this.mDebugName + " " : "") + "(" + this.mX + ", " + this.mY + ") - (" + this.mWidth + " x " + this.mHeight + ") wrap: (" + this.mWrapWidth + " x " + this.mWrapHeight + ")";
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public int getInternalDrawX() {
         return this.mDrawX;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public int getInternalDrawY() {
         return this.mDrawY;
     }
@@ -580,11 +575,11 @@ public class ConstraintWidget {
     }
 
     public int getX() {
-        return this.f5mX;
+        return this.mX;
     }
 
     public int getY() {
-        return this.f6mY;
+        return this.mY;
     }
 
     public int getWidth() {
@@ -685,12 +680,12 @@ public class ConstraintWidget {
 
     /* access modifiers changed from: protected */
     public int getRootX() {
-        return this.f5mX + this.mOffsetX;
+        return this.mX + this.mOffsetX;
     }
 
     /* access modifiers changed from: protected */
     public int getRootY() {
-        return this.f6mY + this.mOffsetY;
+        return this.mY + this.mOffsetY;
     }
 
     public int getMinWidth() {
@@ -752,16 +747,16 @@ public class ConstraintWidget {
     }
 
     public void setX(int x) {
-        this.f5mX = x;
+        this.mX = x;
     }
 
     public void setY(int y) {
-        this.f6mY = y;
+        this.mY = y;
     }
 
     public void setOrigin(int x, int y) {
-        this.f5mX = x;
-        this.f6mY = y;
+        this.mX = x;
+        this.mY = y;
     }
 
     public void setOffset(int x, int y) {
@@ -769,7 +764,7 @@ public class ConstraintWidget {
         this.mOffsetY = y;
     }
 
-    public void setGoneMargin(Type type, int goneMargin) {
+    public void setGoneMargin(ConstraintAnchor.Type type, int goneMargin) {
         switch (type) {
             case LEFT:
                 this.mLeft.mGoneMargin = goneMargin;
@@ -789,10 +784,10 @@ public class ConstraintWidget {
     }
 
     public void updateDrawPosition() {
-        int left = this.f5mX;
-        int top = this.f6mY;
-        int right = this.f5mX + this.mWidth;
-        int bottom = this.f6mY + this.mHeight;
+        int left = this.mX;
+        int top = this.mY;
+        int right = this.mX + this.mWidth;
+        int bottom = this.mY + this.mHeight;
         this.mDrawX = left;
         this.mDrawY = top;
         this.mDrawWidth = right - left;
@@ -800,10 +795,10 @@ public class ConstraintWidget {
     }
 
     public void forceUpdateDrawPosition() {
-        int left = this.f5mX;
-        int top = this.f6mY;
-        int right = this.f5mX + this.mWidth;
-        int bottom = this.f6mY + this.mHeight;
+        int left = this.mX;
+        int top = this.mY;
+        int right = this.mX + this.mWidth;
+        int bottom = this.mY + this.mHeight;
         this.mDrawX = left;
         this.mDrawY = top;
         this.mDrawWidth = right - left;
@@ -813,18 +808,18 @@ public class ConstraintWidget {
     public void setDrawOrigin(int x, int y) {
         this.mDrawX = x - this.mOffsetX;
         this.mDrawY = y - this.mOffsetY;
-        this.f5mX = this.mDrawX;
-        this.f6mY = this.mDrawY;
+        this.mX = this.mDrawX;
+        this.mY = this.mDrawY;
     }
 
     public void setDrawX(int x) {
         this.mDrawX = x - this.mOffsetX;
-        this.f5mX = this.mDrawX;
+        this.mX = this.mDrawX;
     }
 
     public void setDrawY(int y) {
         this.mDrawY = y - this.mOffsetY;
-        this.f6mY = this.mDrawY;
+        this.mY = this.mDrawY;
     }
 
     public void setDrawWidth(int drawWidth) {
@@ -986,8 +981,8 @@ public class ConstraintWidget {
     public void setFrame(int left, int top, int right, int bottom) {
         int w = right - left;
         int h = bottom - top;
-        this.f5mX = left;
-        this.f6mY = top;
+        this.mX = left;
+        this.mY = top;
         if (this.mVisibility == 8) {
             this.mWidth = 0;
             this.mHeight = 0;
@@ -1020,7 +1015,7 @@ public class ConstraintWidget {
     }
 
     public void setHorizontalDimension(int left, int right) {
-        this.f5mX = left;
+        this.mX = left;
         this.mWidth = right - left;
         if (this.mWidth < this.mMinWidth) {
             this.mWidth = this.mMinWidth;
@@ -1028,14 +1023,14 @@ public class ConstraintWidget {
     }
 
     public void setVerticalDimension(int top, int bottom) {
-        this.f6mY = top;
+        this.mY = top;
         this.mHeight = bottom - top;
         if (this.mHeight < this.mMinHeight) {
             this.mHeight = this.mMinHeight;
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public int getRelativePositioning(int orientation) {
         if (orientation == 0) {
             return this.mRelX;
@@ -1046,7 +1041,7 @@ public class ConstraintWidget {
         return 0;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void setRelativePositioning(int offset, int orientation) {
         if (orientation == 0) {
             this.mRelX = offset;
@@ -1106,98 +1101,98 @@ public class ConstraintWidget {
     public void connectedTo(ConstraintWidget source) {
     }
 
-    public void immediateConnect(Type startType, ConstraintWidget target, Type endType, int margin, int goneMargin) {
-        getAnchor(startType).connect(target.getAnchor(endType), margin, goneMargin, Strength.STRONG, 0, true);
+    public void immediateConnect(ConstraintAnchor.Type startType, ConstraintWidget target, ConstraintAnchor.Type endType, int margin, int goneMargin) {
+        getAnchor(startType).connect(target.getAnchor(endType), margin, goneMargin, ConstraintAnchor.Strength.STRONG, 0, true);
     }
 
     public void connect(ConstraintAnchor from, ConstraintAnchor to, int margin, int creator) {
-        connect(from, to, margin, Strength.STRONG, creator);
+        connect(from, to, margin, ConstraintAnchor.Strength.STRONG, creator);
     }
 
     public void connect(ConstraintAnchor from, ConstraintAnchor to, int margin) {
-        connect(from, to, margin, Strength.STRONG, 0);
+        connect(from, to, margin, ConstraintAnchor.Strength.STRONG, 0);
     }
 
-    public void connect(ConstraintAnchor from, ConstraintAnchor to, int margin, Strength strength, int creator) {
+    public void connect(ConstraintAnchor from, ConstraintAnchor to, int margin, ConstraintAnchor.Strength strength, int creator) {
         if (from.getOwner() == this) {
             connect(from.getType(), to.getOwner(), to.getType(), margin, strength, creator);
         }
     }
 
-    public void connect(Type constraintFrom, ConstraintWidget target, Type constraintTo, int margin) {
-        connect(constraintFrom, target, constraintTo, margin, Strength.STRONG);
+    public void connect(ConstraintAnchor.Type constraintFrom, ConstraintWidget target, ConstraintAnchor.Type constraintTo, int margin) {
+        connect(constraintFrom, target, constraintTo, margin, ConstraintAnchor.Strength.STRONG);
     }
 
-    public void connect(Type constraintFrom, ConstraintWidget target, Type constraintTo) {
-        connect(constraintFrom, target, constraintTo, 0, Strength.STRONG);
+    public void connect(ConstraintAnchor.Type constraintFrom, ConstraintWidget target, ConstraintAnchor.Type constraintTo) {
+        connect(constraintFrom, target, constraintTo, 0, ConstraintAnchor.Strength.STRONG);
     }
 
-    public void connect(Type constraintFrom, ConstraintWidget target, Type constraintTo, int margin, Strength strength) {
+    public void connect(ConstraintAnchor.Type constraintFrom, ConstraintWidget target, ConstraintAnchor.Type constraintTo, int margin, ConstraintAnchor.Strength strength) {
         connect(constraintFrom, target, constraintTo, margin, strength, 0);
     }
 
-    public void connect(Type constraintFrom, ConstraintWidget target, Type constraintTo, int margin, Strength strength, int creator) {
-        if (constraintFrom == Type.CENTER) {
-            if (constraintTo == Type.CENTER) {
-                ConstraintAnchor left = getAnchor(Type.LEFT);
-                ConstraintAnchor right = getAnchor(Type.RIGHT);
-                ConstraintAnchor top = getAnchor(Type.TOP);
-                ConstraintAnchor bottom = getAnchor(Type.BOTTOM);
+    public void connect(ConstraintAnchor.Type constraintFrom, ConstraintWidget target, ConstraintAnchor.Type constraintTo, int margin, ConstraintAnchor.Strength strength, int creator) {
+        if (constraintFrom == ConstraintAnchor.Type.CENTER) {
+            if (constraintTo == ConstraintAnchor.Type.CENTER) {
+                ConstraintAnchor left = getAnchor(ConstraintAnchor.Type.LEFT);
+                ConstraintAnchor right = getAnchor(ConstraintAnchor.Type.RIGHT);
+                ConstraintAnchor top = getAnchor(ConstraintAnchor.Type.TOP);
+                ConstraintAnchor bottom = getAnchor(ConstraintAnchor.Type.BOTTOM);
                 boolean centerX = false;
                 boolean centerY = false;
                 if ((left == null || !left.isConnected()) && (right == null || !right.isConnected())) {
-                    connect(Type.LEFT, target, Type.LEFT, 0, strength, creator);
-                    connect(Type.RIGHT, target, Type.RIGHT, 0, strength, creator);
+                    connect(ConstraintAnchor.Type.LEFT, target, ConstraintAnchor.Type.LEFT, 0, strength, creator);
+                    connect(ConstraintAnchor.Type.RIGHT, target, ConstraintAnchor.Type.RIGHT, 0, strength, creator);
                     centerX = true;
                 }
                 if ((top == null || !top.isConnected()) && (bottom == null || !bottom.isConnected())) {
-                    connect(Type.TOP, target, Type.TOP, 0, strength, creator);
-                    connect(Type.BOTTOM, target, Type.BOTTOM, 0, strength, creator);
+                    connect(ConstraintAnchor.Type.TOP, target, ConstraintAnchor.Type.TOP, 0, strength, creator);
+                    connect(ConstraintAnchor.Type.BOTTOM, target, ConstraintAnchor.Type.BOTTOM, 0, strength, creator);
                     centerY = true;
                 }
                 if (centerX && centerY) {
-                    getAnchor(Type.CENTER).connect(target.getAnchor(Type.CENTER), 0, creator);
+                    getAnchor(ConstraintAnchor.Type.CENTER).connect(target.getAnchor(ConstraintAnchor.Type.CENTER), 0, creator);
                 } else if (centerX) {
-                    getAnchor(Type.CENTER_X).connect(target.getAnchor(Type.CENTER_X), 0, creator);
+                    getAnchor(ConstraintAnchor.Type.CENTER_X).connect(target.getAnchor(ConstraintAnchor.Type.CENTER_X), 0, creator);
                 } else if (centerY) {
-                    getAnchor(Type.CENTER_Y).connect(target.getAnchor(Type.CENTER_Y), 0, creator);
+                    getAnchor(ConstraintAnchor.Type.CENTER_Y).connect(target.getAnchor(ConstraintAnchor.Type.CENTER_Y), 0, creator);
                 }
-            } else if (constraintTo == Type.LEFT || constraintTo == Type.RIGHT) {
-                connect(Type.LEFT, target, constraintTo, 0, strength, creator);
-                connect(Type.RIGHT, target, constraintTo, 0, strength, creator);
-                getAnchor(Type.CENTER).connect(target.getAnchor(constraintTo), 0, creator);
-            } else if (constraintTo == Type.TOP || constraintTo == Type.BOTTOM) {
-                connect(Type.TOP, target, constraintTo, 0, strength, creator);
-                connect(Type.BOTTOM, target, constraintTo, 0, strength, creator);
-                getAnchor(Type.CENTER).connect(target.getAnchor(constraintTo), 0, creator);
+            } else if (constraintTo == ConstraintAnchor.Type.LEFT || constraintTo == ConstraintAnchor.Type.RIGHT) {
+                connect(ConstraintAnchor.Type.LEFT, target, constraintTo, 0, strength, creator);
+                connect(ConstraintAnchor.Type.RIGHT, target, constraintTo, 0, strength, creator);
+                getAnchor(ConstraintAnchor.Type.CENTER).connect(target.getAnchor(constraintTo), 0, creator);
+            } else if (constraintTo == ConstraintAnchor.Type.TOP || constraintTo == ConstraintAnchor.Type.BOTTOM) {
+                connect(ConstraintAnchor.Type.TOP, target, constraintTo, 0, strength, creator);
+                connect(ConstraintAnchor.Type.BOTTOM, target, constraintTo, 0, strength, creator);
+                getAnchor(ConstraintAnchor.Type.CENTER).connect(target.getAnchor(constraintTo), 0, creator);
             }
-        } else if (constraintFrom == Type.CENTER_X && (constraintTo == Type.LEFT || constraintTo == Type.RIGHT)) {
-            ConstraintAnchor left2 = getAnchor(Type.LEFT);
+        } else if (constraintFrom == ConstraintAnchor.Type.CENTER_X && (constraintTo == ConstraintAnchor.Type.LEFT || constraintTo == ConstraintAnchor.Type.RIGHT)) {
+            ConstraintAnchor left2 = getAnchor(ConstraintAnchor.Type.LEFT);
             ConstraintAnchor targetAnchor = target.getAnchor(constraintTo);
-            ConstraintAnchor right2 = getAnchor(Type.RIGHT);
+            ConstraintAnchor right2 = getAnchor(ConstraintAnchor.Type.RIGHT);
             left2.connect(targetAnchor, 0, creator);
             right2.connect(targetAnchor, 0, creator);
-            getAnchor(Type.CENTER_X).connect(targetAnchor, 0, creator);
-        } else if (constraintFrom == Type.CENTER_Y && (constraintTo == Type.TOP || constraintTo == Type.BOTTOM)) {
+            getAnchor(ConstraintAnchor.Type.CENTER_X).connect(targetAnchor, 0, creator);
+        } else if (constraintFrom == ConstraintAnchor.Type.CENTER_Y && (constraintTo == ConstraintAnchor.Type.TOP || constraintTo == ConstraintAnchor.Type.BOTTOM)) {
             ConstraintAnchor targetAnchor2 = target.getAnchor(constraintTo);
-            getAnchor(Type.TOP).connect(targetAnchor2, 0, creator);
-            getAnchor(Type.BOTTOM).connect(targetAnchor2, 0, creator);
-            getAnchor(Type.CENTER_Y).connect(targetAnchor2, 0, creator);
-        } else if (constraintFrom == Type.CENTER_X && constraintTo == Type.CENTER_X) {
-            getAnchor(Type.LEFT).connect(target.getAnchor(Type.LEFT), 0, creator);
-            getAnchor(Type.RIGHT).connect(target.getAnchor(Type.RIGHT), 0, creator);
-            getAnchor(Type.CENTER_X).connect(target.getAnchor(constraintTo), 0, creator);
-        } else if (constraintFrom == Type.CENTER_Y && constraintTo == Type.CENTER_Y) {
-            getAnchor(Type.TOP).connect(target.getAnchor(Type.TOP), 0, creator);
-            getAnchor(Type.BOTTOM).connect(target.getAnchor(Type.BOTTOM), 0, creator);
-            getAnchor(Type.CENTER_Y).connect(target.getAnchor(constraintTo), 0, creator);
+            getAnchor(ConstraintAnchor.Type.TOP).connect(targetAnchor2, 0, creator);
+            getAnchor(ConstraintAnchor.Type.BOTTOM).connect(targetAnchor2, 0, creator);
+            getAnchor(ConstraintAnchor.Type.CENTER_Y).connect(targetAnchor2, 0, creator);
+        } else if (constraintFrom == ConstraintAnchor.Type.CENTER_X && constraintTo == ConstraintAnchor.Type.CENTER_X) {
+            getAnchor(ConstraintAnchor.Type.LEFT).connect(target.getAnchor(ConstraintAnchor.Type.LEFT), 0, creator);
+            getAnchor(ConstraintAnchor.Type.RIGHT).connect(target.getAnchor(ConstraintAnchor.Type.RIGHT), 0, creator);
+            getAnchor(ConstraintAnchor.Type.CENTER_X).connect(target.getAnchor(constraintTo), 0, creator);
+        } else if (constraintFrom == ConstraintAnchor.Type.CENTER_Y && constraintTo == ConstraintAnchor.Type.CENTER_Y) {
+            getAnchor(ConstraintAnchor.Type.TOP).connect(target.getAnchor(ConstraintAnchor.Type.TOP), 0, creator);
+            getAnchor(ConstraintAnchor.Type.BOTTOM).connect(target.getAnchor(ConstraintAnchor.Type.BOTTOM), 0, creator);
+            getAnchor(ConstraintAnchor.Type.CENTER_Y).connect(target.getAnchor(constraintTo), 0, creator);
         } else {
             ConstraintAnchor fromAnchor = getAnchor(constraintFrom);
             ConstraintAnchor toAnchor = target.getAnchor(constraintTo);
             if (fromAnchor.isValidConnection(toAnchor)) {
-                if (constraintFrom == Type.BASELINE) {
-                    ConstraintAnchor top2 = getAnchor(Type.TOP);
-                    ConstraintAnchor bottom2 = getAnchor(Type.BOTTOM);
+                if (constraintFrom == ConstraintAnchor.Type.BASELINE) {
+                    ConstraintAnchor top2 = getAnchor(ConstraintAnchor.Type.TOP);
+                    ConstraintAnchor bottom2 = getAnchor(ConstraintAnchor.Type.BOTTOM);
                     if (top2 != null) {
                         top2.reset();
                     }
@@ -1205,28 +1200,28 @@ public class ConstraintWidget {
                         bottom2.reset();
                     }
                     margin = 0;
-                } else if (constraintFrom == Type.TOP || constraintFrom == Type.BOTTOM) {
-                    ConstraintAnchor baseline = getAnchor(Type.BASELINE);
+                } else if (constraintFrom == ConstraintAnchor.Type.TOP || constraintFrom == ConstraintAnchor.Type.BOTTOM) {
+                    ConstraintAnchor baseline = getAnchor(ConstraintAnchor.Type.BASELINE);
                     if (baseline != null) {
                         baseline.reset();
                     }
-                    ConstraintAnchor center = getAnchor(Type.CENTER);
+                    ConstraintAnchor center = getAnchor(ConstraintAnchor.Type.CENTER);
                     if (center.getTarget() != toAnchor) {
                         center.reset();
                     }
                     ConstraintAnchor opposite = getAnchor(constraintFrom).getOpposite();
-                    ConstraintAnchor centerY2 = getAnchor(Type.CENTER_Y);
+                    ConstraintAnchor centerY2 = getAnchor(ConstraintAnchor.Type.CENTER_Y);
                     if (centerY2.isConnected()) {
                         opposite.reset();
                         centerY2.reset();
                     }
-                } else if (constraintFrom == Type.LEFT || constraintFrom == Type.RIGHT) {
-                    ConstraintAnchor center2 = getAnchor(Type.CENTER);
+                } else if (constraintFrom == ConstraintAnchor.Type.LEFT || constraintFrom == ConstraintAnchor.Type.RIGHT) {
+                    ConstraintAnchor center2 = getAnchor(ConstraintAnchor.Type.CENTER);
                     if (center2.getTarget() != toAnchor) {
                         center2.reset();
                     }
                     ConstraintAnchor opposite2 = getAnchor(constraintFrom).getOpposite();
-                    ConstraintAnchor centerX2 = getAnchor(Type.CENTER_X);
+                    ConstraintAnchor centerX2 = getAnchor(ConstraintAnchor.Type.CENTER_X);
                     if (centerX2.isConnected()) {
                         opposite2.reset();
                         centerX2.reset();
@@ -1263,13 +1258,13 @@ public class ConstraintWidget {
 
     public void resetAnchor(ConstraintAnchor anchor) {
         if (getParent() == null || !(getParent() instanceof ConstraintWidgetContainer) || !((ConstraintWidgetContainer) getParent()).handlesInternalConstraints()) {
-            ConstraintAnchor left = getAnchor(Type.LEFT);
-            ConstraintAnchor right = getAnchor(Type.RIGHT);
-            ConstraintAnchor top = getAnchor(Type.TOP);
-            ConstraintAnchor bottom = getAnchor(Type.BOTTOM);
-            ConstraintAnchor center = getAnchor(Type.CENTER);
-            ConstraintAnchor centerX = getAnchor(Type.CENTER_X);
-            ConstraintAnchor centerY = getAnchor(Type.CENTER_Y);
+            ConstraintAnchor left = getAnchor(ConstraintAnchor.Type.LEFT);
+            ConstraintAnchor right = getAnchor(ConstraintAnchor.Type.RIGHT);
+            ConstraintAnchor top = getAnchor(ConstraintAnchor.Type.TOP);
+            ConstraintAnchor bottom = getAnchor(ConstraintAnchor.Type.BOTTOM);
+            ConstraintAnchor center = getAnchor(ConstraintAnchor.Type.CENTER);
+            ConstraintAnchor centerX = getAnchor(ConstraintAnchor.Type.CENTER_X);
+            ConstraintAnchor centerY = getAnchor(ConstraintAnchor.Type.CENTER_Y);
             if (anchor == center) {
                 if (left.isConnected() && right.isConnected() && left.getTarget() == right.getTarget()) {
                     left.reset();
@@ -1309,7 +1304,7 @@ public class ConstraintWidget {
         if (parent == null || !(parent instanceof ConstraintWidgetContainer) || !((ConstraintWidgetContainer) getParent()).handlesInternalConstraints()) {
             int mAnchorsSize = this.mAnchors.size();
             for (int i = 0; i < mAnchorsSize; i++) {
-                ((ConstraintAnchor) this.mAnchors.get(i)).reset();
+                this.mAnchors.get(i).reset();
             }
         }
     }
@@ -1319,7 +1314,7 @@ public class ConstraintWidget {
         if (parent == null || !(parent instanceof ConstraintWidgetContainer) || !((ConstraintWidgetContainer) getParent()).handlesInternalConstraints()) {
             int mAnchorsSize = this.mAnchors.size();
             for (int i = 0; i < mAnchorsSize; i++) {
-                ConstraintAnchor anchor = (ConstraintAnchor) this.mAnchors.get(i);
+                ConstraintAnchor anchor = this.mAnchors.get(i);
                 if (connectionCreator == anchor.getConnectionCreator()) {
                     if (anchor.isVerticalAnchor()) {
                         setVerticalBiasPercent(DEFAULT_BIAS);
@@ -1336,7 +1331,7 @@ public class ConstraintWidget {
         ArrayList<ConstraintAnchor> anchors = getAnchors();
         int anchorsSize = anchors.size();
         for (int i = 0; i < anchorsSize; i++) {
-            ConstraintAnchor anchor = (ConstraintAnchor) anchors.get(i);
+            ConstraintAnchor anchor = anchors.get(i);
             if (anchor.isConnected() && anchor.getTarget().getOwner() == widget) {
                 anchor.reset();
             }
@@ -1347,14 +1342,14 @@ public class ConstraintWidget {
         ArrayList<ConstraintAnchor> anchors = getAnchors();
         int anchorsSize = anchors.size();
         for (int i = 0; i < anchorsSize; i++) {
-            ConstraintAnchor anchor = (ConstraintAnchor) anchors.get(i);
+            ConstraintAnchor anchor = anchors.get(i);
             if (anchor.isConnected() && anchor.getTarget().getOwner() == widget && anchor.getConnectionCreator() == 2) {
                 anchor.reset();
             }
         }
     }
 
-    public ConstraintAnchor getAnchor(Type anchorType) {
+    public ConstraintAnchor getAnchor(ConstraintAnchor.Type anchorType) {
         switch (anchorType) {
             case LEFT:
                 return this.mLeft;
@@ -1425,13 +1420,13 @@ public class ConstraintWidget {
         }
         ConstraintWidget tmp = this;
         while (found == null && tmp != null) {
-            ConstraintAnchor anchor = tmp.getAnchor(Type.LEFT);
+            ConstraintAnchor anchor = tmp.getAnchor(ConstraintAnchor.Type.LEFT);
             ConstraintAnchor targetOwner = anchor == null ? null : anchor.getTarget();
             ConstraintWidget target = targetOwner == null ? null : targetOwner.getOwner();
             if (target == getParent()) {
                 return tmp;
             }
-            ConstraintAnchor targetAnchor = target == null ? null : target.getAnchor(Type.RIGHT).getTarget();
+            ConstraintAnchor targetAnchor = target == null ? null : target.getAnchor(ConstraintAnchor.Type.RIGHT).getTarget();
             if (targetAnchor == null || targetAnchor.getOwner() == tmp) {
                 tmp = target;
             } else {
@@ -1455,13 +1450,13 @@ public class ConstraintWidget {
         }
         ConstraintWidget tmp = this;
         while (found == null && tmp != null) {
-            ConstraintAnchor anchor = tmp.getAnchor(Type.TOP);
+            ConstraintAnchor anchor = tmp.getAnchor(ConstraintAnchor.Type.TOP);
             ConstraintAnchor targetOwner = anchor == null ? null : anchor.getTarget();
             ConstraintWidget target = targetOwner == null ? null : targetOwner.getOwner();
             if (target == getParent()) {
                 return tmp;
             }
-            ConstraintAnchor targetAnchor = target == null ? null : target.getAnchor(Type.BOTTOM).getTarget();
+            ConstraintAnchor targetAnchor = target == null ? null : target.getAnchor(ConstraintAnchor.Type.BOTTOM).getTarget();
             if (targetAnchor == null || targetAnchor.getOwner() == tmp) {
                 tmp = target;
             } else {
@@ -1561,7 +1556,7 @@ public class ConstraintWidget {
             applyPosition = false;
         }
         if (this.mHorizontalResolution != 2) {
-            applyConstraints(system, horizontalParentWrapContent, this.mParent != null ? system.createObjectVariable(this.mParent.mLeft) : null, this.mParent != null ? system.createObjectVariable(this.mParent.mRight) : null, this.mListDimensionBehaviors[0], wrapContent, this.mLeft, this.mRight, this.f5mX, width, this.mMinWidth, this.mMaxDimension[0], this.mHorizontalBiasPercent, useHorizontalRatio, inHorizontalChain, matchConstraintDefaultWidth, this.mMatchConstraintMinWidth, this.mMatchConstraintMaxWidth, this.mMatchConstraintPercentWidth, applyPosition);
+            applyConstraints(system, horizontalParentWrapContent, this.mParent != null ? system.createObjectVariable(this.mParent.mLeft) : null, this.mParent != null ? system.createObjectVariable(this.mParent.mRight) : null, this.mListDimensionBehaviors[0], wrapContent, this.mLeft, this.mRight, this.mX, width, this.mMinWidth, this.mMaxDimension[0], this.mHorizontalBiasPercent, useHorizontalRatio, inHorizontalChain, matchConstraintDefaultWidth, this.mMatchConstraintMinWidth, this.mMatchConstraintMaxWidth, this.mMatchConstraintPercentWidth, applyPosition);
         }
         if (this.mVerticalResolution != 2) {
             boolean wrapContent2 = this.mListDimensionBehaviors[1] == DimensionBehaviour.WRAP_CONTENT && (this instanceof ConstraintWidgetContainer);
@@ -1577,7 +1572,7 @@ public class ConstraintWidget {
                     }
                 }
             }
-            applyConstraints(system, verticalParentWrapContent, this.mParent != null ? system.createObjectVariable(this.mParent.mTop) : null, this.mParent != null ? system.createObjectVariable(this.mParent.mBottom) : null, this.mListDimensionBehaviors[1], wrapContent2, this.mTop, this.mBottom, this.f6mY, height, this.mMinHeight, this.mMaxDimension[1], this.mVerticalBiasPercent, useVerticalRatio, inVerticalChain, matchConstraintDefaultHeight, this.mMatchConstraintMinHeight, this.mMatchConstraintMaxHeight, this.mMatchConstraintPercentHeight, applyPosition);
+            applyConstraints(system, verticalParentWrapContent, this.mParent != null ? system.createObjectVariable(this.mParent.mTop) : null, this.mParent != null ? system.createObjectVariable(this.mParent.mBottom) : null, this.mListDimensionBehaviors[1], wrapContent2, this.mTop, this.mBottom, this.mY, height, this.mMinHeight, this.mMaxDimension[1], this.mVerticalBiasPercent, useVerticalRatio, inVerticalChain, matchConstraintDefaultHeight, this.mMatchConstraintMinHeight, this.mMatchConstraintMaxHeight, this.mMatchConstraintPercentHeight, applyPosition);
             if (useRatio) {
                 if (this.mResolvedDimensionRatioSide == 1) {
                     system.addRatio(bottom, top, right, left, this.mResolvedDimensionRatio, 6);
@@ -1646,8 +1641,7 @@ public class ConstraintWidget {
         SolverVariable endTarget = system.createObjectVariable(endAnchor.getTarget());
         if (system.graphOptimizer && beginAnchor.getResolutionNode().state == 1 && endAnchor.getResolutionNode().state == 1) {
             if (LinearSystem.getMetrics() != null) {
-                Metrics metrics = LinearSystem.getMetrics();
-                metrics.resolvedWidgets++;
+                LinearSystem.getMetrics().resolvedWidgets++;
             }
             beginAnchor.getResolutionNode().addResolvedValue(system);
             endAnchor.getResolutionNode().addResolvedValue(system);
@@ -1658,8 +1652,7 @@ public class ConstraintWidget {
             return;
         }
         if (LinearSystem.getMetrics() != null) {
-            Metrics metrics2 = LinearSystem.getMetrics();
-            metrics2.nonresolvedWidgets++;
+            LinearSystem.getMetrics().nonresolvedWidgets++;
         }
         boolean isBeginConnected = beginAnchor.isConnected();
         boolean isEndConnected = endAnchor.isConnected();
@@ -1731,12 +1724,12 @@ public class ConstraintWidget {
                     system.addEquality(end, begin, dimension, 1);
                 }
             } else if (matchConstraintDefault == 2) {
-                if (beginAnchor.getType() == Type.TOP || beginAnchor.getType() == Type.BOTTOM) {
-                    percentBegin = system.createObjectVariable(this.mParent.getAnchor(Type.TOP));
-                    percentEnd = system.createObjectVariable(this.mParent.getAnchor(Type.BOTTOM));
+                if (beginAnchor.getType() == ConstraintAnchor.Type.TOP || beginAnchor.getType() == ConstraintAnchor.Type.BOTTOM) {
+                    percentBegin = system.createObjectVariable(this.mParent.getAnchor(ConstraintAnchor.Type.TOP));
+                    percentEnd = system.createObjectVariable(this.mParent.getAnchor(ConstraintAnchor.Type.BOTTOM));
                 } else {
-                    percentBegin = system.createObjectVariable(this.mParent.getAnchor(Type.LEFT));
-                    percentEnd = system.createObjectVariable(this.mParent.getAnchor(Type.RIGHT));
+                    percentBegin = system.createObjectVariable(this.mParent.getAnchor(ConstraintAnchor.Type.LEFT));
+                    percentEnd = system.createObjectVariable(this.mParent.getAnchor(ConstraintAnchor.Type.RIGHT));
                 }
                 system.addConstraint(system.createRow().createRowDimensionRatio(end, begin, percentEnd, percentBegin, matchPercentDimension));
                 variableSize = false;

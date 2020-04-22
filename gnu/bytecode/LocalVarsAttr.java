@@ -1,6 +1,6 @@
 package gnu.bytecode;
 
-import android.support.p000v4.p002os.EnvironmentCompat;
+import android.support.v4.os.EnvironmentCompat;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
@@ -14,12 +14,14 @@ public class LocalVarsAttr extends Attribute {
         super("LocalVariableTable");
         addToFrontOf(code);
         this.method = (Method) code.getContainer();
+        code.locals = this;
     }
 
     public LocalVarsAttr(Method method2) {
         super("LocalVariableTable");
         CodeAttr code = method2.code;
         this.method = method2;
+        code.locals = this;
     }
 
     public final Method getMethod() {
@@ -126,6 +128,8 @@ public class LocalVarsAttr extends Attribute {
     }
 
     public void print(ClassTypeWriter dst) {
+        int start_pc;
+        int end_pc;
         VarEnumerator vars = allVars();
         dst.print("Attribute \"");
         dst.print(getName());
@@ -150,19 +154,13 @@ public class LocalVarsAttr extends Attribute {
                 dst.printSignature(var.getType());
                 dst.print(" (pc: ");
                 Scope scope = var.scope;
-                if (!(scope == null || scope.start == null || scope.end == null)) {
-                    int start_pc = scope.start.position;
-                    if (start_pc >= 0) {
-                        int end_pc = scope.end.position;
-                        if (end_pc >= 0) {
-                            dst.print(start_pc);
-                            dst.print(" length: ");
-                            dst.print(end_pc - start_pc);
-                            dst.println(')');
-                        }
-                    }
+                if (scope == null || scope.start == null || scope.end == null || (start_pc = scope.start.position) < 0 || (end_pc = scope.end.position) < 0) {
+                    dst.print(EnvironmentCompat.MEDIA_UNKNOWN);
+                } else {
+                    dst.print(start_pc);
+                    dst.print(" length: ");
+                    dst.print(end_pc - start_pc);
                 }
-                dst.print(EnvironmentCompat.MEDIA_UNKNOWN);
                 dst.println(')');
             }
         }

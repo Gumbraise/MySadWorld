@@ -1,9 +1,8 @@
 package com.google.appinventor.components.runtime;
 
-import android.os.Build.VERSION;
+import android.os.Build;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.DesignerProperty;
@@ -19,7 +18,7 @@ import com.google.appinventor.components.runtime.util.YailList;
 
 @SimpleObject
 @DesignerComponent(category = ComponentCategory.USERINTERFACE, description = "<p>A spinner component that displays a pop-up with a list of elements. These elements can be set in the Designer or Blocks Editor by setting the<code>ElementsFromString</code> property to a string-separated concatenation (for example, <em>choice 1, choice 2, choice 3</em>) or by setting the <code>Elements</code> property to a List in the Blocks editor. Spinners are created with the first item already selected. So selecting  it does not generate an After Picking event. Consequently it's useful to make the  first Spinner item be a non-choice like \"Select from below...\". </p>", iconName = "images/spinner.png", nonVisible = false, version = 1)
-public final class Spinner extends AndroidViewComponent implements OnItemSelectedListener {
+public final class Spinner extends AndroidViewComponent implements AdapterView.OnItemSelectedListener {
     private ArrayAdapter<String> adapter;
     private YailList items = new YailList();
     private int oldAdapterCount;
@@ -28,7 +27,7 @@ public final class Spinner extends AndroidViewComponent implements OnItemSelecte
 
     public Spinner(ComponentContainer container) {
         super(container);
-        if (VERSION.SDK_INT < 11) {
+        if (Build.VERSION.SDK_INT < 11) {
             this.view = new android.widget.Spinner(container.$context());
         } else {
             this.view = HoneycombUtil.makeSpinner(container.$context());

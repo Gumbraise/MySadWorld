@@ -1,6 +1,7 @@
 package gnu.kawa.slib;
 
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.ActivityChooserView;
 import gnu.expr.ModuleBody;
 import gnu.expr.ModuleInfo;
 import gnu.expr.ModuleMethod;
@@ -13,7 +14,7 @@ import gnu.math.IntNum;
 /* compiled from: XStrings.scm */
 public class XStrings extends ModuleBody {
     public static final XStrings $instance = new XStrings();
-    static final IntNum Lit0 = IntNum.make((int) ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED);
+    static final IntNum Lit0 = IntNum.make((int) ActivityChooserView.ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED);
     static final SimpleSymbol Lit1 = ((SimpleSymbol) new SimpleSymbol("substring").readResolve());
     static final SimpleSymbol Lit2 = ((SimpleSymbol) new SimpleSymbol("string-length").readResolve());
     public static final ModuleMethod string$Mnlength;
@@ -100,19 +101,19 @@ public class XStrings extends ModuleBody {
             r9 = move-exception
             gnu.mapping.WrongType r10 = new gnu.mapping.WrongType
             java.lang.String r11 = "s"
-            r10.<init>(r9, r11, r12, r13)
+            r10.<init>((java.lang.ClassCastException) r9, (java.lang.String) r11, (int) r12, (java.lang.Object) r13)
             throw r10
         L_0x0052:
             r9 = move-exception
             gnu.mapping.WrongType r10 = new gnu.mapping.WrongType
             java.lang.String r11 = "sindex"
-            r10.<init>(r9, r11, r12, r14)
+            r10.<init>((java.lang.ClassCastException) r9, (java.lang.String) r11, (int) r12, (java.lang.Object) r14)
             throw r10
         L_0x005b:
             r9 = move-exception
             gnu.mapping.WrongType r10 = new gnu.mapping.WrongType
             java.lang.String r11 = "len"
-            r10.<init>(r9, r11, r12, r15)
+            r10.<init>((java.lang.ClassCastException) r9, (java.lang.String) r11, (int) r12, (java.lang.Object) r15)
             throw r10
         */
         throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.slib.XStrings.substring(java.lang.Object, java.lang.Object, java.lang.Object):java.lang.Object");
@@ -133,7 +134,7 @@ public class XStrings extends ModuleBody {
         callContext.value1 = obj;
         callContext.value2 = obj2;
         callContext.proc = moduleMethod;
-        callContext.f236pc = 2;
+        callContext.pc = 2;
         return 0;
     }
 
@@ -145,7 +146,7 @@ public class XStrings extends ModuleBody {
         callContext.value2 = obj2;
         callContext.value3 = obj3;
         callContext.proc = moduleMethod;
-        callContext.f236pc = 3;
+        callContext.pc = 3;
         return 0;
     }
 
@@ -170,7 +171,7 @@ public class XStrings extends ModuleBody {
         }
         callContext.value1 = obj;
         callContext.proc = moduleMethod;
-        callContext.f236pc = 1;
+        callContext.pc = 1;
         return 0;
     }
 }

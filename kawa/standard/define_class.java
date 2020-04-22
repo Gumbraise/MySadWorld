@@ -3,9 +3,7 @@ package kawa.standard;
 import gnu.expr.ClassExp;
 import gnu.expr.Compilation;
 import gnu.expr.Declaration;
-import gnu.expr.Expression;
 import gnu.expr.ScopeExp;
-import gnu.expr.SetExp;
 import gnu.lists.Pair;
 import gnu.lists.PairWithPosition;
 import gnu.mapping.Symbol;
@@ -92,21 +90,51 @@ public class define_class extends Syntax {
         return false;
     }
 
-    public Expression rewriteForm(Pair form, Translator tr) {
-        Declaration decl = null;
-        Object form_cdr = form.getCdr();
-        if (form_cdr instanceof Pair) {
-            form = (Pair) form_cdr;
-            Object form_car = form.getCar();
-            if (!(form_car instanceof Declaration)) {
-                return tr.syntaxError(getName() + " can only be used in <body>");
-            }
-            decl = (Declaration) form_car;
-        }
-        ClassExp oexp = (ClassExp) decl.getValue();
-        this.objectSyntax.rewriteClassDef((Object[]) form.getCdr(), tr);
-        SetExp sexp = new SetExp(decl, (Expression) oexp);
-        sexp.setDefining(true);
-        return sexp;
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r2v0, resolved type: java.lang.Object} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r8v2, resolved type: gnu.lists.Pair} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r1v0, resolved type: java.lang.Object} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v2, resolved type: gnu.expr.Declaration} */
+    /* JADX WARNING: Multi-variable type inference failed */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public gnu.expr.Expression rewriteForm(gnu.lists.Pair r8, kawa.lang.Translator r9) {
+        /*
+            r7 = this;
+            r0 = 0
+            java.lang.Object r2 = r8.getCdr()
+            boolean r5 = r2 instanceof gnu.lists.Pair
+            if (r5 == 0) goto L_0x0033
+            r8 = r2
+            gnu.lists.Pair r8 = (gnu.lists.Pair) r8
+            java.lang.Object r1 = r8.getCar()
+            boolean r5 = r1 instanceof gnu.expr.Declaration
+            if (r5 != 0) goto L_0x0030
+            java.lang.StringBuilder r5 = new java.lang.StringBuilder
+            r5.<init>()
+            java.lang.String r6 = r7.getName()
+            java.lang.StringBuilder r5 = r5.append(r6)
+            java.lang.String r6 = " can only be used in <body>"
+            java.lang.StringBuilder r5 = r5.append(r6)
+            java.lang.String r5 = r5.toString()
+            gnu.expr.Expression r4 = r9.syntaxError(r5)
+        L_0x002f:
+            return r4
+        L_0x0030:
+            r0 = r1
+            gnu.expr.Declaration r0 = (gnu.expr.Declaration) r0
+        L_0x0033:
+            gnu.expr.Expression r3 = r0.getValue()
+            gnu.expr.ClassExp r3 = (gnu.expr.ClassExp) r3
+            kawa.standard.object r6 = r7.objectSyntax
+            java.lang.Object r5 = r8.getCdr()
+            java.lang.Object[] r5 = (java.lang.Object[]) r5
+            java.lang.Object[] r5 = (java.lang.Object[]) r5
+            r6.rewriteClassDef(r5, r9)
+            gnu.expr.SetExp r4 = new gnu.expr.SetExp
+            r4.<init>((gnu.expr.Declaration) r0, (gnu.expr.Expression) r3)
+            r5 = 1
+            r4.setDefining(r5)
+            goto L_0x002f
+        */
+        throw new UnsupportedOperationException("Method not decompiled: kawa.standard.define_class.rewriteForm(gnu.lists.Pair, kawa.lang.Translator):gnu.expr.Expression");
     }
 }

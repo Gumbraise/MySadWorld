@@ -1,19 +1,15 @@
 package gnu.xquery.util;
 
-import gnu.bytecode.ClassType;
-import gnu.kawa.reflect.ClassMethods;
 import gnu.kawa.xml.Document;
 import gnu.kawa.xml.KDocument;
 import gnu.kawa.xml.KElement;
 import gnu.kawa.xml.KNode;
 import gnu.kawa.xml.Nodes;
 import gnu.kawa.xml.SortedNodes;
-import gnu.kawa.xml.UntypedAtomic;
 import gnu.lists.Consumer;
 import gnu.lists.PositionConsumer;
 import gnu.mapping.CallContext;
 import gnu.mapping.Environment;
-import gnu.mapping.Procedure;
 import gnu.mapping.Symbol;
 import gnu.mapping.Values;
 import gnu.mapping.WrongType;
@@ -47,11 +43,8 @@ public class NodeUtils {
     }
 
     public static String name(Object node) {
-        if (node == Values.empty || node == null) {
-            return "";
-        }
-        Object name = ((KNode) node).getNodeNameObject();
-        if (name == null || name == Values.empty) {
+        Object name;
+        if (node == Values.empty || node == null || (name = ((KNode) node).getNodeNameObject()) == null || name == Values.empty) {
             return "";
         }
         return name.toString();
@@ -227,136 +220,68 @@ public class NodeUtils {
         return uri;
     }
 
-    /* JADX WARNING: type inference failed for: r13v0, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r9v3 */
-    /* JADX WARNING: type inference failed for: r9v4, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r13v1, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r9v5 */
-    /* JADX WARNING: type inference failed for: r9v6 */
-    /* JADX WARNING: type inference failed for: r5v0, types: [java.lang.Object, java.lang.String] */
-    /* JADX WARNING: type inference failed for: r6v0, types: [java.util.Stack] */
-    /* JADX WARNING: type inference failed for: r13v2 */
-    /* JADX WARNING: type inference failed for: r9v7 */
-    /* JADX WARNING: type inference failed for: r9v8 */
-    /* JADX WARNING: type inference failed for: r6v1, types: [java.util.Stack] */
-    /* JADX WARNING: type inference failed for: r6v2 */
-    /* JADX WARNING: type inference failed for: r6v3, types: [java.util.Stack] */
-    /* JADX WARNING: type inference failed for: r13v3 */
-    /* JADX WARNING: type inference failed for: r9v9 */
-    /* JADX WARNING: type inference failed for: r13v4, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r13v5, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r13v6 */
-    /* JADX WARNING: type inference failed for: r9v11 */
-    /* JADX WARNING: type inference failed for: r9v12 */
-    /* JADX WARNING: type inference failed for: r6v4 */
-    /* JADX WARNING: type inference failed for: r9v13 */
-    /* JADX WARNING: type inference failed for: r6v5 */
-    /* JADX WARNING: type inference failed for: r13v7 */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=java.lang.Object, code=null, for r13v0, types: [java.lang.Object] */
-    /* JADX WARNING: Multi-variable type inference failed. Error: jadx.core.utils.exceptions.JadxRuntimeException: No candidate types for var: r9v5
-      assigns: []
-      uses: []
-      mth insns count: 63
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.fillTypeCandidates(TypeSearch.java:237)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.run(TypeSearch.java:53)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.runMultiVariableSearch(TypeInferenceVisitor.java:99)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.visit(TypeInferenceVisitor.java:92)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:27)
-    	at jadx.core.dex.visitors.DepthTraversal.lambda$visit$1(DepthTraversal.java:14)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:14)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:30)
-    	at jadx.api.JadxDecompiler.processClass(JadxDecompiler.java:311)
-    	at jadx.api.JavaClass.decompile(JavaClass.java:62)
-    	at jadx.api.JadxDecompiler.lambda$appendSourcesSave$0(JadxDecompiler.java:217)
-     */
-    /* JADX WARNING: Unknown variable types count: 13 */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    static java.lang.Object getIDs(java.lang.Object r12, java.lang.Object r13) {
-        /*
-            boolean r9 = r12 instanceof gnu.kawa.xml.KNode
-            if (r9 == 0) goto L_0x0008
-            java.lang.Object r12 = gnu.kawa.xml.KNode.atomicValue(r12)
-        L_0x0008:
-            boolean r9 = r12 instanceof gnu.mapping.Values
-            if (r9 == 0) goto L_0x001e
-            gnu.mapping.Values r12 = (gnu.mapping.Values) r12
-            java.lang.Object[] r0 = r12.getValues()
-            int r2 = r0.length
-        L_0x0013:
-            int r2 = r2 + -1
-            if (r2 < 0) goto L_0x0085
-            r9 = r0[r2]
-            java.lang.Object r13 = getIDs(r9, r13)
-            goto L_0x0013
-        L_0x001e:
-            java.lang.String r9 = "fn:id"
-            r10 = 1
-            java.lang.String r11 = ""
-            java.lang.String r8 = gnu.xquery.util.StringUtils.coerceToString(r12, r9, r10, r11)
-            int r4 = r8.length()
-            r2 = 0
-            r3 = r2
-            r9 = r13
-        L_0x002e:
-            if (r3 >= r4) goto L_0x0084
-            int r2 = r3 + 1
-            char r1 = r8.charAt(r3)
-            boolean r10 = java.lang.Character.isWhitespace(r1)
-            if (r10 == 0) goto L_0x003e
-            r3 = r2
-            goto L_0x002e
-        L_0x003e:
-            boolean r10 = gnu.xml.XName.isNameStart(r1)
-            if (r10 == 0) goto L_0x0060
-            int r7 = r2 + -1
-        L_0x0046:
-            if (r2 >= r4) goto L_0x0052
-            char r1 = r8.charAt(r2)
-            boolean r10 = java.lang.Character.isWhitespace(r1)
-            if (r10 == 0) goto L_0x0062
-        L_0x0052:
-            if (r7 >= r4) goto L_0x005c
-            java.lang.String r5 = r8.substring(r7, r2)
-            if (r9 != 0) goto L_0x006e
-            r13 = r5
-            r9 = r13
-        L_0x005c:
-            int r2 = r2 + 1
-            r3 = r2
-            goto L_0x002e
-        L_0x0060:
-            r7 = r4
-            goto L_0x0046
-        L_0x0062:
-            int r2 = r2 + 1
-            if (r7 >= r4) goto L_0x0046
-            boolean r10 = gnu.xml.XName.isNamePart(r1)
-            if (r10 != 0) goto L_0x0046
-            r7 = r4
-            goto L_0x0046
-        L_0x006e:
-            boolean r10 = r9 instanceof java.util.Stack
-            if (r10 == 0) goto L_0x0079
-            r6 = r9
-            java.util.Stack r6 = (java.util.Stack) r6
-        L_0x0075:
-            r6.push(r5)
-            goto L_0x005c
-        L_0x0079:
-            java.util.Stack r6 = new java.util.Stack
-            r6.<init>()
-            r6.push(r9)
-            r13 = r6
-            r9 = r13
-            goto L_0x0075
-        L_0x0084:
-            r13 = r9
-        L_0x0085:
-            return r13
-        */
-        throw new UnsupportedOperationException("Method not decompiled: gnu.xquery.util.NodeUtils.getIDs(java.lang.Object, java.lang.Object):java.lang.Object");
+    static Object getIDs(Object arg, Object collector) {
+        int start;
+        Stack st;
+        if (arg instanceof KNode) {
+            arg = KNode.atomicValue(arg);
+        }
+        if (arg instanceof Values) {
+            Object[] ar = ((Values) arg).getValues();
+            int i = ar.length;
+            while (true) {
+                i--;
+                if (i < 0) {
+                    return collector;
+                }
+                collector = getIDs(ar[i], collector);
+            }
+        } else {
+            String str = StringUtils.coerceToString(arg, "fn:id", 1, "");
+            int len = str.length();
+            int i2 = 0;
+            Stack stack = collector;
+            while (i2 < len) {
+                int i3 = i2 + 1;
+                char ch = str.charAt(i2);
+                if (Character.isWhitespace(ch)) {
+                    i2 = i3;
+                } else {
+                    if (XName.isNameStart(ch)) {
+                        start = i3 - 1;
+                    } else {
+                        start = len;
+                    }
+                    while (i3 < len) {
+                        char ch2 = str.charAt(i3);
+                        if (Character.isWhitespace(ch2)) {
+                            break;
+                        }
+                        i3++;
+                        if (start < len && !XName.isNamePart(ch2)) {
+                            start = len;
+                        }
+                    }
+                    if (start < len) {
+                        String ref = str.substring(start, i3);
+                        if (stack == null) {
+                            stack = ref;
+                        } else {
+                            if (stack instanceof Stack) {
+                                st = (Stack) stack;
+                            } else {
+                                st = new Stack();
+                                st.push(stack);
+                                stack = st;
+                            }
+                            st.push(ref);
+                        }
+                    }
+                    i2 = i3 + 1;
+                }
+            }
+            return stack;
+        }
     }
 
     public static void id$X(Object arg1, Object arg2, CallContext ctx) {
@@ -364,7 +289,7 @@ public class NodeUtils {
         NodeTree ntree = (NodeTree) node.sequence;
         KDocument kDocument = (KDocument) Nodes.root(ntree, node.ipos);
         Consumer out = ctx.consumer;
-        Object idrefs = getIDs(arg1, null);
+        Object idrefs = getIDs(arg1, (Object) null);
         if (idrefs != null) {
             ntree.makeIDtableIfNeeded();
             if ((out instanceof PositionConsumer) && ((idrefs instanceof String) || (out instanceof SortedNodes))) {
@@ -407,7 +332,7 @@ public class NodeUtils {
         if (uri == null) {
             uri = "#default";
         }
-        env.put(Symbol.make(collectionNamespace, uri.toString()), null, value);
+        env.put(Symbol.make(collectionNamespace, uri.toString()), (Object) null, value);
     }
 
     public static void setSavedCollection(Object uri, Object value) {
@@ -418,7 +343,7 @@ public class NodeUtils {
         if (uri == null) {
             uri = "#default";
         }
-        Object coll = env.get(Symbol.make(collectionNamespace, uri.toString()), null, null);
+        Object coll = env.get(Symbol.make(collectionNamespace, uri.toString()), (Object) null, (Object) null);
         if (coll != null) {
             return coll;
         }
@@ -429,44 +354,107 @@ public class NodeUtils {
         return getSavedCollection(uri, Environment.getCurrent());
     }
 
-    public static Object collection(Object uri, Object base) throws Throwable {
-        Object uri2 = resolve(uri, base, "collection");
-        Environment env = Environment.getCurrent();
-        Symbol rsym = collectionResolverSymbol;
-        Object rvalue = env.get(rsym, null, null);
-        if (rvalue == null) {
-            rvalue = env.get(Symbol.makeWithUnknownNamespace(rsym.getLocalName(), rsym.getPrefix()), null, null);
-        }
-        if (rvalue == null) {
-            return getSavedCollection(uri2);
-        }
-        if ((rvalue instanceof String) || (rvalue instanceof UntypedAtomic)) {
-            String str = rvalue.toString();
-            int colon = str.indexOf(58);
-            if (colon > 0) {
-                String cname = str.substring(0, colon);
-                String mname = str.substring(colon + 1);
-                try {
-                    rvalue = ClassMethods.apply((ClassType) ClassType.make(Class.forName(cname)), mname, 0, XQuery.instance);
-                    if (rvalue == null) {
-                        throw new RuntimeException("invalid collection-resolver: no method " + mname + " in " + cname);
-                    }
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException("invalid collection-resolver: class " + cname + " not found");
-                } catch (Throwable ex) {
-                    throw new RuntimeException("invalid collection-resolver: " + ex);
-                }
-            }
-        }
-        if (rvalue instanceof Procedure) {
-            return ((Procedure) rvalue).apply1(uri2);
-        }
-        throw new RuntimeException("invalid collection-resolver: " + rvalue);
+    /* JADX WARNING: Code restructure failed: missing block: B:9:0x0033, code lost:
+        r9 = r8.toString();
+     */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public static java.lang.Object collection(java.lang.Object r14, java.lang.Object r15) throws java.lang.Throwable {
+        /*
+            r13 = 0
+            r12 = 0
+            java.lang.String r10 = "collection"
+            java.lang.Object r14 = resolve(r14, r15, r10)
+            gnu.mapping.Environment r2 = gnu.mapping.Environment.getCurrent()
+            gnu.mapping.Symbol r7 = collectionResolverSymbol
+            java.lang.Object r8 = r2.get(r7, r12, r12)
+            if (r8 != 0) goto L_0x0024
+            java.lang.String r10 = r7.getLocalName()
+            java.lang.String r11 = r7.getPrefix()
+            gnu.mapping.Symbol r10 = gnu.mapping.Symbol.makeWithUnknownNamespace(r10, r11)
+            java.lang.Object r8 = r2.get(r10, r12, r12)
+        L_0x0024:
+            if (r8 != 0) goto L_0x002b
+            java.lang.Object r10 = getSavedCollection(r14)
+        L_0x002a:
+            return r10
+        L_0x002b:
+            boolean r10 = r8 instanceof java.lang.String
+            if (r10 != 0) goto L_0x0033
+            boolean r10 = r8 instanceof gnu.kawa.xml.UntypedAtomic
+            if (r10 == 0) goto L_0x00b8
+        L_0x0033:
+            java.lang.String r9 = r8.toString()
+            r10 = 58
+            int r1 = r9.indexOf(r10)
+            if (r1 <= 0) goto L_0x00b8
+            java.lang.String r0 = r9.substring(r13, r1)
+            int r10 = r1 + 1
+            java.lang.String r4 = r9.substring(r10)
+            java.lang.Class r5 = java.lang.Class.forName(r0)     // Catch:{ ClassNotFoundException -> 0x007e, Throwable -> 0x009e }
+            gnu.bytecode.Type r6 = gnu.bytecode.ClassType.make(r5)
+            gnu.bytecode.ClassType r6 = (gnu.bytecode.ClassType) r6
+            gnu.xquery.lang.XQuery r10 = gnu.xquery.lang.XQuery.instance
+            gnu.mapping.MethodProc r8 = gnu.kawa.reflect.ClassMethods.apply(r6, r4, r13, r10)
+            if (r8 != 0) goto L_0x00b8
+            java.lang.RuntimeException r10 = new java.lang.RuntimeException
+            java.lang.StringBuilder r11 = new java.lang.StringBuilder
+            r11.<init>()
+            java.lang.String r12 = "invalid collection-resolver: no method "
+            java.lang.StringBuilder r11 = r11.append(r12)
+            java.lang.StringBuilder r11 = r11.append(r4)
+            java.lang.String r12 = " in "
+            java.lang.StringBuilder r11 = r11.append(r12)
+            java.lang.StringBuilder r11 = r11.append(r0)
+            java.lang.String r11 = r11.toString()
+            r10.<init>(r11)
+            throw r10
+        L_0x007e:
+            r3 = move-exception
+            java.lang.RuntimeException r10 = new java.lang.RuntimeException
+            java.lang.StringBuilder r11 = new java.lang.StringBuilder
+            r11.<init>()
+            java.lang.String r12 = "invalid collection-resolver: class "
+            java.lang.StringBuilder r11 = r11.append(r12)
+            java.lang.StringBuilder r11 = r11.append(r0)
+            java.lang.String r12 = " not found"
+            java.lang.StringBuilder r11 = r11.append(r12)
+            java.lang.String r11 = r11.toString()
+            r10.<init>(r11)
+            throw r10
+        L_0x009e:
+            r3 = move-exception
+            java.lang.RuntimeException r10 = new java.lang.RuntimeException
+            java.lang.StringBuilder r11 = new java.lang.StringBuilder
+            r11.<init>()
+            java.lang.String r12 = "invalid collection-resolver: "
+            java.lang.StringBuilder r11 = r11.append(r12)
+            java.lang.StringBuilder r11 = r11.append(r3)
+            java.lang.String r11 = r11.toString()
+            r10.<init>(r11)
+            throw r10
+        L_0x00b8:
+            boolean r10 = r8 instanceof gnu.mapping.Procedure
+            if (r10 != 0) goto L_0x00d5
+            java.lang.RuntimeException r10 = new java.lang.RuntimeException
+            java.lang.StringBuilder r11 = new java.lang.StringBuilder
+            r11.<init>()
+            java.lang.String r12 = "invalid collection-resolver: "
+            java.lang.StringBuilder r11 = r11.append(r12)
+            java.lang.StringBuilder r11 = r11.append(r8)
+            java.lang.String r11 = r11.toString()
+            r10.<init>(r11)
+            throw r10
+        L_0x00d5:
+            gnu.mapping.Procedure r8 = (gnu.mapping.Procedure) r8
+            java.lang.Object r10 = r8.apply1(r14)
+            goto L_0x002a
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.xquery.util.NodeUtils.collection(java.lang.Object, java.lang.Object):java.lang.Object");
     }
 
     static Object resolve(Object uri, Object base, String fname) throws Throwable {
         if (!(uri instanceof File) && !(uri instanceof Path) && !(uri instanceof URI) && !(uri instanceof URL)) {
-            uri = StringUtils.coerceToString(uri, fname, 1, null);
+            uri = StringUtils.coerceToString(uri, fname, 1, (String) null);
         }
         if (uri == Values.empty || uri == null) {
             return null;

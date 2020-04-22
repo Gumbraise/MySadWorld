@@ -19,7 +19,6 @@ class LispPrettyFormat extends ReportFormat {
     LispPrettyFormat() {
     }
 
-    /* JADX INFO: finally extract failed */
     public int format(Object[] args, int start, Writer dst, FieldPosition fpos) throws IOException {
         int start2;
         String pre = this.prefix;
@@ -48,15 +47,11 @@ class LispPrettyFormat extends ReportFormat {
                 }
                 start2 = start + 1;
             }
-            if (out != null) {
-                out.endLogicalBlock(suf);
-            }
             return start2;
-        } catch (Throwable th) {
+        } finally {
             if (out != null) {
                 out.endLogicalBlock(suf);
             }
-            throw th;
         }
     }
 

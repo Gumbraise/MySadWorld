@@ -58,7 +58,7 @@ public class MakeProcInst extends NodeConstructor {
     }
 
     public void apply(CallContext ctx) {
-        procInst$X(ctx.getNextArg(null), ctx.getNextArg(null), ctx);
+        procInst$X(ctx.getNextArg((Object) null), ctx.getNextArg((Object) null), ctx);
     }
 
     public void compileToNode(ApplyExp exp, Compilation comp, ConsumerTarget target) {

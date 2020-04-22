@@ -28,7 +28,7 @@ class ReplEditorKit extends StyledEditorKit {
                         /* access modifiers changed from: protected */
                         public Component createComponent() {
                             AttributeSet attr = getElement().getAttributes();
-                            JPanel panel = new JPanel();
+                            Component panel = new JPanel();
                             ((Viewable) attr.getAttribute(ReplPane.ViewableAttribute)).makeView(SwingDisplay.getInstance(), panel);
                             if (panel.getComponentCount() == 1) {
                                 Component comp = panel.getComponent(0);

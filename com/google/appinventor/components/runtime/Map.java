@@ -13,22 +13,12 @@ import com.google.appinventor.components.annotations.UsesAssets;
 import com.google.appinventor.components.annotations.UsesLibraries;
 import com.google.appinventor.components.annotations.UsesPermissions;
 import com.google.appinventor.components.common.ComponentCategory;
-import com.google.appinventor.components.runtime.LocationSensor.LocationSensorListener;
+import com.google.appinventor.components.runtime.LocationSensor;
 import com.google.appinventor.components.runtime.util.AsynchUtil;
 import com.google.appinventor.components.runtime.util.ErrorMessages;
 import com.google.appinventor.components.runtime.util.GeoJSONUtil;
 import com.google.appinventor.components.runtime.util.GeometryUtil;
 import com.google.appinventor.components.runtime.util.MapFactory;
-import com.google.appinventor.components.runtime.util.MapFactory.MapCircle;
-import com.google.appinventor.components.runtime.util.MapFactory.MapController;
-import com.google.appinventor.components.runtime.util.MapFactory.MapEventListener;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeature;
-import com.google.appinventor.components.runtime.util.MapFactory.MapLineString;
-import com.google.appinventor.components.runtime.util.MapFactory.MapMarker;
-import com.google.appinventor.components.runtime.util.MapFactory.MapPolygon;
-import com.google.appinventor.components.runtime.util.MapFactory.MapRectangle;
-import com.google.appinventor.components.runtime.util.MapFactory.MapScaleUnits;
-import com.google.appinventor.components.runtime.util.MapFactory.MapType;
 import com.google.appinventor.components.runtime.util.YailList;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,12 +30,12 @@ import org.osmdroid.util.BoundingBox;
 @SimpleObject
 @UsesAssets(fileNames = "location.png, marker.svg")
 @UsesPermissions(permissionNames = "android.permission.INTERNET, android.permission.ACCESS_FINE_LOCATION, android.permission.ACCESS_COARSE_LOCATION, android.permission.ACCESS_WIFI_STATE, android.permission.ACCESS_NETWORK_STATE, android.permission.WRITE_EXTERNAL_STORAGE, android.permission.READ_EXTERNAL_STORAGE")
-public class Map extends MapFeatureContainerBase implements MapEventListener {
+public class Map extends MapFeatureContainerBase implements MapFactory.MapEventListener {
     private static final String ERROR_INVALID_NUMBER = "%s is not a valid number.";
     private static final String ERROR_LATITUDE_OUT_OF_BOUNDS = "Latitude %f is out of bounds.";
     private static final String ERROR_LONGITUDE_OUT_OF_BOUNDS = "Longitude %f is out of bounds.";
     private static final String TAG = Map.class.getSimpleName();
-    private MapController mapController = null;
+    private MapFactory.MapController mapController = null;
     private LocationSensor sensor = null;
 
     public Map(ComponentContainer container) {
@@ -152,7 +142,7 @@ public class Map extends MapFeatureContainerBase implements MapEventListener {
     @DesignerProperty(defaultValue = "1", editorType = "map_type")
     @SimpleProperty
     public void MapType(int type) {
-        this.mapController.setMapType(MapType.values()[type]);
+        this.mapController.setMapType(MapFactory.MapType.values()[type]);
     }
 
     @SimpleProperty(category = PropertyCategory.APPEARANCE, description = "The type of tile layer to use as the base of the map. Valid values are: 1 (Roads), 2 (Aerial), 3 (Terrain)")
@@ -237,7 +227,7 @@ public class Map extends MapFeatureContainerBase implements MapEventListener {
     @DesignerProperty(editorType = "component:com.google.appinventor.components.runtime.LocationSensor")
     @SimpleProperty(category = PropertyCategory.BEHAVIOR, description = "Uses the provided LocationSensor for user location data rather than the built-in location provider.")
     public void LocationSensor(LocationSensor sensor2) {
-        LocationSensorListener listener = this.mapController.getLocationListener();
+        LocationSensor.LocationSensorListener listener = this.mapController.getLocationListener();
         if (this.sensor != null) {
             this.sensor.removeListener(listener);
         }
@@ -265,11 +255,11 @@ public class Map extends MapFeatureContainerBase implements MapEventListener {
     @DesignerProperty(defaultValue = "1", editorType = "map_unit_system")
     @SimpleProperty
     public void ScaleUnits(int units) {
-        if (1 > units || units >= MapScaleUnits.values().length) {
+        if (1 > units || units >= MapFactory.MapScaleUnits.values().length) {
             $form().dispatchErrorOccurredEvent(this, "ScaleUnits", ErrorMessages.ERROR_INVALID_UNIT_SYSTEM, Integer.valueOf(units));
             return;
         }
-        this.mapController.setScaleUnits(MapScaleUnits.values()[units]);
+        this.mapController.setScaleUnits(MapFactory.MapScaleUnits.values()[units]);
     }
 
     @SimpleProperty
@@ -314,7 +304,7 @@ public class Map extends MapFeatureContainerBase implements MapEventListener {
 
     @SimpleFunction(description = "Save the contents of the Map to the specified path.")
     public void Save(final String path) {
-        final List<MapFeature> featuresToSave = new ArrayList<>(this.features);
+        final List<MapFactory.MapFeature> featuresToSave = new ArrayList<>(this.features);
         AsynchUtil.runAsynchronously(new Runnable() {
             public void run() {
                 try {
@@ -366,11 +356,11 @@ public class Map extends MapFeatureContainerBase implements MapEventListener {
         EventDispatcher.dispatchEvent(this, "LongPressAtPoint", Double.valueOf(latitude), Double.valueOf(longitude));
     }
 
-    public MapController getController() {
+    public MapFactory.MapController getController() {
         return this.mapController;
     }
 
-    public void onReady(MapController map) {
+    public void onReady(MapFactory.MapController map) {
         this.container.$form().runOnUiThread(new Runnable() {
             public void run() {
                 Map.this.Ready();
@@ -424,7 +414,7 @@ public class Map extends MapFeatureContainerBase implements MapEventListener {
         });
     }
 
-    public void onFeatureClick(final MapFeature feature) {
+    public void onFeatureClick(final MapFactory.MapFeature feature) {
         this.container.$form().runOnUiThread(new Runnable() {
             public void run() {
                 feature.Click();
@@ -432,7 +422,7 @@ public class Map extends MapFeatureContainerBase implements MapEventListener {
         });
     }
 
-    public void onFeatureLongPress(final MapFeature feature) {
+    public void onFeatureLongPress(final MapFactory.MapFeature feature) {
         this.container.$form().runOnUiThread(new Runnable() {
             public void run() {
                 feature.LongClick();
@@ -440,7 +430,7 @@ public class Map extends MapFeatureContainerBase implements MapEventListener {
         });
     }
 
-    public void onFeatureStartDrag(final MapFeature feature) {
+    public void onFeatureStartDrag(final MapFactory.MapFeature feature) {
         this.container.$form().runOnUiThread(new Runnable() {
             public void run() {
                 feature.StartDrag();
@@ -448,7 +438,7 @@ public class Map extends MapFeatureContainerBase implements MapEventListener {
         });
     }
 
-    public void onFeatureDrag(final MapFeature feature) {
+    public void onFeatureDrag(final MapFactory.MapFeature feature) {
         this.container.$form().runOnUiThread(new Runnable() {
             public void run() {
                 feature.Drag();
@@ -456,7 +446,7 @@ public class Map extends MapFeatureContainerBase implements MapEventListener {
         });
     }
 
-    public void onFeatureStopDrag(final MapFeature feature) {
+    public void onFeatureStopDrag(final MapFactory.MapFeature feature) {
         this.container.$form().runOnUiThread(new Runnable() {
             public void run() {
                 feature.StopDrag();
@@ -468,42 +458,42 @@ public class Map extends MapFeatureContainerBase implements MapEventListener {
         return this;
     }
 
-    /* access modifiers changed from: 0000 */
-    public void addFeature(MapMarker marker) {
+    /* access modifiers changed from: package-private */
+    public void addFeature(MapFactory.MapMarker marker) {
         this.features.add(marker);
         marker.setMap(this);
         this.mapController.addFeature(marker);
     }
 
-    /* access modifiers changed from: 0000 */
-    public void addFeature(MapLineString lineString) {
+    /* access modifiers changed from: package-private */
+    public void addFeature(MapFactory.MapLineString lineString) {
         this.features.add(lineString);
         lineString.setMap(this);
         this.mapController.addFeature(lineString);
     }
 
-    /* access modifiers changed from: 0000 */
-    public void addFeature(MapPolygon polygon) {
+    /* access modifiers changed from: package-private */
+    public void addFeature(MapFactory.MapPolygon polygon) {
         this.features.add(polygon);
         polygon.setMap(this);
         this.mapController.addFeature(polygon);
     }
 
-    /* access modifiers changed from: 0000 */
-    public void addFeature(MapRectangle rectangle) {
+    /* access modifiers changed from: package-private */
+    public void addFeature(MapFactory.MapRectangle rectangle) {
         this.features.add(rectangle);
         rectangle.setMap(this);
         this.mapController.addFeature(rectangle);
     }
 
-    /* access modifiers changed from: 0000 */
-    public void addFeature(MapCircle circle) {
+    /* access modifiers changed from: package-private */
+    public void addFeature(MapFactory.MapCircle circle) {
         this.features.add(circle);
         circle.setMap(this);
         this.mapController.addFeature(circle);
     }
 
-    public void removeFeature(MapFeature feature) {
+    public void removeFeature(MapFactory.MapFeature feature) {
         this.features.remove(feature);
         this.mapController.removeFeature(feature);
     }

@@ -135,7 +135,7 @@ public class LambdaExp extends ScopeExp {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void setCallersNeedStaticLink() {
         LambdaExp outer = outerLambda();
         for (ApplyExp app = this.nameDecl.firstCall; app != null; app = app.nextCall) {
@@ -246,7 +246,7 @@ public class LambdaExp extends ScopeExp {
         return this.max_args;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public int getSelectorValue(Compilation comp) {
         int s = this.selectorValue;
         if (s != 0) {
@@ -260,14 +260,11 @@ public class LambdaExp extends ScopeExp {
     }
 
     public final Method getMethod(int argCount) {
+        int index;
         if (this.primMethods == null) {
             return null;
         }
-        if (this.max_args >= 0 && argCount > this.max_args) {
-            return null;
-        }
-        int index = argCount - this.min_args;
-        if (index < 0) {
+        if ((this.max_args >= 0 && argCount > this.max_args) || (index = argCount - this.min_args) < 0) {
             return null;
         }
         int length = this.primMethods.length;
@@ -329,7 +326,7 @@ public class LambdaExp extends ScopeExp {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public boolean inlinedIn(LambdaExp outer) {
         for (LambdaExp exp = this; exp.getInlineOnly(); exp = exp.getCaller()) {
             if (exp == outer) {
@@ -346,7 +343,7 @@ public class LambdaExp extends ScopeExp {
     public Variable declareThis(ClassType clas) {
         if (this.thisVariable == null) {
             this.thisVariable = new Variable("this");
-            getVarScope().addVariableAfter(null, this.thisVariable);
+            getVarScope().addVariableAfter((Variable) null, this.thisVariable);
             this.thisVariable.setParameter(true);
         }
         if (this.thisVariable.getType() == null) {
@@ -435,7 +432,7 @@ public class LambdaExp extends ScopeExp {
         code.emitLoad(curLambda.heapFrame);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Declaration getArg(int i) {
         for (Declaration var = firstDecl(); var != null; var = var.nextDecl()) {
             if (i == 0) {
@@ -474,7 +471,7 @@ public class LambdaExp extends ScopeExp {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Field allocFieldFor(Compilation comp) {
         if (this.nameDecl != null && this.nameDecl.field != null) {
             return this.nameDecl.field;
@@ -527,16 +524,17 @@ public class LambdaExp extends ScopeExp {
         return field;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public final void addApplyMethod(Compilation comp, Field field) {
         LambdaExp owner = this;
         if (field == null || !field.getStaticFlag()) {
             do {
                 owner = owner.outerLambda();
-                if (owner instanceof ModuleExp) {
-                    break;
+                if ((owner instanceof ModuleExp) || owner.heapFrame != null) {
                 }
-            } while (owner.heapFrame == null);
+                owner = owner.outerLambda();
+                break;
+            } while (owner.heapFrame != null);
             if (!owner.getHeapFrameType().getSuperclass().isSubtype(Compilation.typeModuleBody)) {
                 owner = comp.getModule();
             }
@@ -573,7 +571,7 @@ public class LambdaExp extends ScopeExp {
                     allocMethod(outerLambda(), comp);
                 }
                 compileAsMethod(comp);
-                addApplyMethod(comp, null);
+                addApplyMethod(comp, (Field) null);
                 ProcInitializer.emitLoadModuleMethod(this, comp);
             } else {
                 Field field = compileSetField(comp);
@@ -605,14 +603,14 @@ public class LambdaExp extends ScopeExp {
         return null;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void addMethodFor(Compilation comp, ObjectType closureEnvType) {
         ClassType ctype;
         ScopeExp sc = this;
-        while (sc != 0 && !(sc instanceof ClassExp)) {
+        while (sc != null && !(sc instanceof ClassExp)) {
             sc = sc.outer;
         }
-        if (sc != 0) {
+        if (sc != null) {
             ctype = ((ClassExp) sc).instanceType;
         } else {
             ctype = getOwningLambda().getHeapFrameType();
@@ -620,7 +618,10 @@ public class LambdaExp extends ScopeExp {
         addMethodFor(ctype, comp, closureEnvType);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v29, resolved type: gnu.bytecode.ClassType} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v120, resolved type: gnu.bytecode.ClassType} */
+    /* access modifiers changed from: package-private */
+    /* JADX WARNING: Multi-variable type inference failed */
     /* JADX WARNING: Removed duplicated region for block: B:158:0x0322  */
     /* JADX WARNING: Removed duplicated region for block: B:162:0x0344  */
     /* JADX WARNING: Removed duplicated region for block: B:269:0x0362 A[SYNTHETIC] */
@@ -1062,7 +1063,7 @@ public class LambdaExp extends ScopeExp {
             r55 = 2
             r0 = r59
             r1 = r55
-            gnu.bytecode.Method[] r18 = r0.getMethods(r15, r1)
+            gnu.bytecode.Method[] r18 = r0.getMethods((gnu.bytecode.Filter) r15, (int) r1)
         L_0x0339:
             r50 = 0
             r0 = r18
@@ -1205,7 +1206,7 @@ public class LambdaExp extends ScopeExp {
             if (r47 == 0) goto L_0x0472
             r0 = r47
             r1 = r35
-            gnu.bytecode.Method r55 = r0.getDeclaredMethod(r1, r5)
+            gnu.bytecode.Method r55 = r0.getDeclaredMethod((java.lang.String) r1, (gnu.bytecode.Type[]) r5)
             if (r55 == 0) goto L_0x0470
             r0 = r37
             r1 = r27
@@ -1239,7 +1240,7 @@ public class LambdaExp extends ScopeExp {
             r1 = r35
             r2 = r46
             r3 = r32
-            gnu.bytecode.Method r29 = r0.addMethod(r1, r5, r2, r3)
+            gnu.bytecode.Method r29 = r0.addMethod((java.lang.String) r1, (gnu.bytecode.Type[]) r5, (gnu.bytecode.Type) r2, (int) r3)
             r30[r16] = r29
             r0 = r58
             gnu.expr.Expression[] r0 = r0.throwsSpecification
@@ -1386,7 +1387,7 @@ public class LambdaExp extends ScopeExp {
                 getVarScope().addVariable(this.argsArray);
             }
             if (!getInlineOnly() && getCallConvention() >= 2 && (this.firstArgsArrayArg != null ? !(this.argsArray == null ? decl != this.firstArgsArrayArg.nextDecl() : decl != this.firstArgsArrayArg) : decl == null)) {
-                getVarScope().addVariable(null, Compilation.typeCallContext, "$ctx").setParameter(true);
+                getVarScope().addVariable((CodeAttr) null, Compilation.typeCallContext, "$ctx").setParameter(true);
             }
             if (decl == null) {
                 declareClosureEnv();
@@ -1397,18 +1398,18 @@ public class LambdaExp extends ScopeExp {
             if (decl.var == null && (!getInlineOnly() || !decl.ignorable())) {
                 if (!decl.isSimple() || decl.isIndirectBinding()) {
                     String vname = Compilation.mangleName(decl.getName()).intern();
-                    Variable var = getVarScope().addVariable(null, decl.getType().getImplementationType(), vname);
+                    Variable var = getVarScope().addVariable((CodeAttr) null, decl.getType().getImplementationType(), vname);
                     decl.var = var;
                     var.setParameter(true);
                 } else {
-                    Variable var2 = decl.allocateVariable(null);
+                    Variable var2 = decl.allocateVariable((CodeAttr) null);
                 }
             }
             decl = decl.nextDecl();
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void allocMethod(LambdaExp outer, Compilation comp) {
         ObjectType closureEnvType;
         if (!getNeedsClosureEnv()) {
@@ -1425,7 +1426,7 @@ public class LambdaExp extends ScopeExp {
         addMethodFor(comp, closureEnvType);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void allocChildMethods(Compilation comp) {
         ClassType parentFrameType;
         for (LambdaExp child = this.firstChild; child != null; child = child.nextSibling) {
@@ -1462,7 +1463,7 @@ public class LambdaExp extends ScopeExp {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void allocParameters(Compilation comp) {
         CodeAttr code = comp.getCode();
         code.locals.enterScope(getVarScope());
@@ -1475,7 +1476,7 @@ public class LambdaExp extends ScopeExp {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void enterFunction(Compilation comp) {
         Variable lookup;
         int opt_i;
@@ -1501,7 +1502,7 @@ public class LambdaExp extends ScopeExp {
             ClassType frameType = this.heapFrame == null ? currentModule().getCompiledClassType(comp) : (ClassType) this.heapFrame.getType();
             for (Declaration decl = this.capturedVars; decl != null; decl = decl.nextCapturedVar) {
                 if (decl.field == null) {
-                    decl.makeField(frameType, comp, null);
+                    decl.makeField(frameType, comp, (Expression) null);
                 }
             }
         }
@@ -1561,7 +1562,7 @@ public class LambdaExp extends ScopeExp {
                         stackType = paramType;
                     }
                     if (!param.isSimple()) {
-                        param.loadOwningObject(null, comp);
+                        param.loadOwningObject((Declaration) null, comp);
                     }
                     if (plainArgs < 0) {
                         code.emitLoad(param.getVariable());
@@ -1649,7 +1650,7 @@ public class LambdaExp extends ScopeExp {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void compileAsMethod(Compilation comp) {
         Expression arg;
         if ((this.flags & 128) == 0 && !isAbstract()) {
@@ -1664,13 +1665,10 @@ public class LambdaExp extends ScopeExp {
                 long[] saveDeclFlags = null;
                 if (numStubs > 0) {
                     saveDeclFlags = new long[(this.min_args + numStubs)];
-                    int k = 0;
                     Declaration decl = firstDecl();
-                    while (k < this.min_args + numStubs) {
-                        int k2 = k + 1;
+                    for (int k = 0; k < this.min_args + numStubs; k++) {
                         saveDeclFlags[k] = decl.flags;
                         decl = decl.nextDecl();
-                        k = k2;
                     }
                 }
                 boolean ctxArg = getCallConvention() >= 2;
@@ -1733,14 +1731,11 @@ public class LambdaExp extends ScopeExp {
                         comp.callContextVar = callContextSave;
                     } else {
                         if (saveDeclFlags != null) {
-                            int k3 = 0;
                             Declaration decl3 = firstDecl();
-                            while (k3 < this.min_args + numStubs) {
-                                int k4 = k3 + 1;
-                                decl3.flags = saveDeclFlags[k3];
+                            for (int k2 = 0; k2 < this.min_args + numStubs; k2++) {
+                                decl3.flags = saveDeclFlags[k2];
                                 decl3.var = null;
                                 decl3 = decl3.nextDecl();
-                                k3 = k4;
                             }
                         }
                         comp.method.initCode();
@@ -1759,45 +1754,27 @@ public class LambdaExp extends ScopeExp {
     }
 
     /* Debug info: failed to restart local var, previous not found, register: 5 */
-    /* JADX WARNING: type inference failed for: r5v1, types: [gnu.expr.Expression] */
-    /* JADX WARNING: type inference failed for: r5v2, types: [gnu.expr.Expression] */
-    /* JADX WARNING: Multi-variable type inference failed */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public void compileBody(gnu.expr.Compilation r6) {
-        /*
-            r5 = this;
-            gnu.bytecode.Variable r0 = r6.callContextVar
-            r3 = 0
-            r6.callContextVar = r3
-            int r3 = r5.getCallConvention()
-            r4 = 2
-            if (r3 < r4) goto L_0x0038
-            gnu.bytecode.Scope r3 = r5.getVarScope()
-            java.lang.String r4 = "$ctx"
-            gnu.bytecode.Variable r2 = r3.lookup(r4)
-            if (r2 == 0) goto L_0x0022
-            gnu.bytecode.Type r3 = r2.getType()
-            gnu.bytecode.ClassType r4 = gnu.expr.Compilation.typeCallContext
-            if (r3 != r4) goto L_0x0022
-            r6.callContextVar = r2
-        L_0x0022:
-            gnu.expr.Target r1 = gnu.expr.ConsumerTarget.makeContextTarget(r6)
-        L_0x0026:
-            gnu.expr.Expression r3 = r5.body
-            gnu.expr.Expression r4 = r5.body
-            int r4 = r4.getLineNumber()
-            if (r4 <= 0) goto L_0x0032
-            gnu.expr.Expression r5 = r5.body
-        L_0x0032:
-            r3.compileWithPosition(r6, r1, r5)
-            r6.callContextVar = r0
-            return
-        L_0x0038:
-            gnu.bytecode.Type r3 = r5.getReturnType()
-            gnu.expr.Target r1 = gnu.expr.Target.pushValue(r3)
-            goto L_0x0026
-        */
-        throw new UnsupportedOperationException("Method not decompiled: gnu.expr.LambdaExp.compileBody(gnu.expr.Compilation):void");
+    public void compileBody(Compilation comp) {
+        Target target;
+        Variable callContextSave = comp.callContextVar;
+        comp.callContextVar = null;
+        if (getCallConvention() >= 2) {
+            Variable var = getVarScope().lookup("$ctx");
+            if (var != null && var.getType() == Compilation.typeCallContext) {
+                comp.callContextVar = var;
+            }
+            target = ConsumerTarget.makeContextTarget(comp);
+        } else {
+            target = Target.pushValue(getReturnType());
+        }
+        Expression expression = this.body;
+        int lineNumber = this.body.getLineNumber();
+        this = this;
+        if (lineNumber > 0) {
+            this = this.body;
+        }
+        expression.compileWithPosition(comp, target, this);
+        comp.callContextVar = callContextSave;
     }
 
     /* access modifiers changed from: protected */
@@ -1879,7 +1856,7 @@ public class LambdaExp extends ScopeExp {
         ctx.writeValue(new Closure(this, ctx));
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Object evalDefaultArg(int index, CallContext ctx) {
         try {
             return this.defaultArgs[index].eval(ctx);
@@ -1889,13 +1866,12 @@ public class LambdaExp extends ScopeExp {
     }
 
     public Expression validateApply(ApplyExp exp, InlineCalls visitor, Type required, Declaration decl) {
+        Method method;
         Expression[] margs;
+        Expression inlined;
         Expression[] args = exp.getArgs();
-        if ((this.flags & 4096) != 0) {
-            Expression inlined = InlineCalls.inlineCall(this, args, true);
-            if (inlined != null) {
-                return visitor.visit(inlined, required);
-            }
+        if ((this.flags & 4096) != 0 && (inlined = InlineCalls.inlineCall(this, args, true)) != null) {
+            return visitor.visit(inlined, required);
         }
         exp.visitArgs(visitor);
         int args_length = exp.args.length;
@@ -1907,11 +1883,7 @@ public class LambdaExp extends ScopeExp {
         if (!visitor.getCompilation().inlineOk((Expression) this) || !isClassMethod()) {
             return exp;
         }
-        if (conv > 2 && conv != 3) {
-            return exp;
-        }
-        Method method = getMethod(args_length);
-        if (method == null) {
+        if ((conv > 2 && conv != 3) || (method = getMethod(args_length)) == null) {
             return exp;
         }
         boolean isStatic = this.nameDecl.isStatic();
@@ -1931,16 +1903,14 @@ public class LambdaExp extends ScopeExp {
                     int nargs = exp.getArgCount();
                     margs = new Expression[(nargs + 1)];
                     System.arraycopy(exp.getArgs(), 0, margs, 1, nargs);
-                    ThisExp thisExp = new ThisExp(d);
-                    margs[0] = thisExp;
+                    margs[0] = new ThisExp(d);
                 } else {
                     curLambda = curLambda.outerLambda();
                 }
             }
             return visitor.noteError("internal error: missing " + this);
         }
-        ApplyExp applyExp = new ApplyExp((Procedure) mproc, margs);
-        return applyExp.setLine((Expression) exp);
+        return new ApplyExp((Procedure) mproc, margs).setLine((Expression) exp);
     }
 
     public void print(OutPort out) {
@@ -1953,7 +1923,7 @@ public class LambdaExp extends ScopeExp {
             out.print(sym);
             out.print('/');
         }
-        out.print(this.f57id);
+        out.print(this.id);
         out.print('/');
         out.print("fl:");
         out.print(Integer.toHexString(this.flags));
@@ -2033,7 +2003,7 @@ public class LambdaExp extends ScopeExp {
     }
 
     public String toString() {
-        String str = getExpClassName() + ':' + getSymbol() + '/' + this.f57id + '/';
+        String str = getExpClassName() + ':' + getSymbol() + '/' + this.id + '/';
         int l = getLineNumber();
         if (l <= 0 && this.body != null) {
             l = this.body.getLineNumber();

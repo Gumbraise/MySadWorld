@@ -5,7 +5,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TableLayout.LayoutParams;
+import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import com.google.appinventor.components.annotations.SimpleObject;
@@ -26,16 +26,16 @@ public class TableLayout implements Layout {
             for (int col = 0; col < numColumns2; col++) {
                 tableRow.addView(newEmptyCellView(), col, newEmptyCellLayoutParams());
             }
-            this.layoutManager.addView(tableRow, row, new LayoutParams());
+            this.layoutManager.addView(tableRow, row, new TableLayout.LayoutParams());
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public int getNumColumns() {
         return this.numColumns;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void setNumColumns(int newNumColumns) {
         if (newNumColumns > this.numColumns) {
             Context context = this.layoutManager.getContext();
@@ -54,12 +54,12 @@ public class TableLayout implements Layout {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public int getNumRows() {
         return this.numRows;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void setNumRows(int newNumRows) {
         if (newNumRows > this.numRows) {
             Context context = this.layoutManager.getContext();
@@ -68,7 +68,7 @@ public class TableLayout implements Layout {
                 for (int col = 0; col < this.numColumns; col++) {
                     tableRow.addView(newEmptyCellView(), col, newEmptyCellLayoutParams());
                 }
-                this.layoutManager.addView(tableRow, row, new LayoutParams());
+                this.layoutManager.addView(tableRow, row, new TableLayout.LayoutParams());
             }
             this.numRows = newNumRows;
         } else if (newNumRows < this.numRows) {

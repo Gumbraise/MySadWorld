@@ -142,14 +142,36 @@ public class StringUtils {
         return IntNum.make(len);
     }
 
-    public static Object substringBefore(Object str, Object find) {
-        String s = coerceToString(str, "substring-before", 1, "");
-        String f = coerceToString(find, "substring-before", 2, "");
-        if (f.length() == 0) {
-            return "";
-        }
-        int start = s.indexOf(f);
-        return start >= 0 ? s.substring(0, start) : "";
+    /* JADX WARNING: Code restructure failed: missing block: B:3:0x001b, code lost:
+        r3 = r2.indexOf(r0);
+     */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public static java.lang.Object substringBefore(java.lang.Object r7, java.lang.Object r8) {
+        /*
+            java.lang.String r4 = "substring-before"
+            r5 = 1
+            java.lang.String r6 = ""
+            java.lang.String r2 = coerceToString(r7, r4, r5, r6)
+            java.lang.String r4 = "substring-before"
+            r5 = 2
+            java.lang.String r6 = ""
+            java.lang.String r0 = coerceToString(r8, r4, r5, r6)
+            int r1 = r0.length()
+            if (r1 != 0) goto L_0x001b
+            java.lang.String r4 = ""
+        L_0x001a:
+            return r4
+        L_0x001b:
+            int r3 = r2.indexOf(r0)
+            if (r3 < 0) goto L_0x0027
+            r4 = 0
+            java.lang.String r4 = r2.substring(r4, r3)
+            goto L_0x001a
+        L_0x0027:
+            java.lang.String r4 = ""
+            goto L_0x001a
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.xquery.util.StringUtils.substringBefore(java.lang.Object, java.lang.Object):java.lang.Object");
     }
 
     public static Object substringAfter(Object str, Object find) {
@@ -188,24 +210,22 @@ public class StringUtils {
                     char c1 = sv.charAt(i2);
                     char c2 = 0;
                     if (c1 >= 55296 && c1 < 56320 && i < slen) {
-                        int i3 = i + 1;
                         c2 = sv.charAt(i);
-                        i = i3;
+                        i++;
                     }
                     int j = 0;
                     int mi = 0;
                     while (true) {
                         if (mi >= mlen) {
-                            int i4 = mi;
+                            int i3 = mi;
                             break;
                         }
                         int mi2 = mi + 1;
                         char m1 = m.charAt(mi);
                         char m2 = 0;
                         if (m1 >= 55296 && m1 < 56320 && mi2 < mlen) {
-                            int mi3 = mi2 + 1;
                             m2 = m.charAt(mi2);
-                            mi2 = mi3;
+                            mi2++;
                         }
                         if (m1 == c1 && m2 == c2) {
                             int ti = 0;
@@ -218,9 +238,8 @@ public class StringUtils {
                                 char t1 = t.charAt(ti2);
                                 char t2 = 0;
                                 if (t1 >= 55296 && t1 < 56320 && ti < tlen) {
-                                    int ti3 = ti + 1;
                                     t2 = t.charAt(ti);
-                                    ti = ti3;
+                                    ti++;
                                 }
                                 if (j == 0) {
                                     c1 = t1;
@@ -240,12 +259,10 @@ public class StringUtils {
                     }
                 }
             } else {
-                WrongType wrongType = new WrongType("translate", 3, str, "xs:string");
-                throw wrongType;
+                throw new WrongType("translate", 3, str, "xs:string");
             }
         } else {
-            WrongType wrongType2 = new WrongType("translate", 2, str, "xs:string");
-            throw wrongType2;
+            throw new WrongType("translate", 2, str, "xs:string");
         }
     }
 
@@ -446,9 +463,8 @@ public class StringUtils {
                             char pch = pattern.charAt(j);
                             if (pch == '\\' && j2 < plen) {
                                 sbuf.append(pch);
-                                int j3 = j2 + 1;
                                 pch = pattern.charAt(j2);
-                                j2 = j3;
+                                j2++;
                             } else if (pch == '[') {
                                 inBracket++;
                             } else if (pch == ']') {
@@ -468,27 +484,27 @@ public class StringUtils {
                 if (pattern.indexOf("{Is") >= 0) {
                     StringBuffer sbuf2 = new StringBuffer();
                     int plen2 = pattern.length();
-                    int j4 = 0;
-                    while (j4 < plen2) {
-                        int j5 = j4 + 1;
-                        char pch2 = pattern.charAt(j4);
-                        if (pch2 != '\\' || j5 + 4 >= plen2) {
+                    int j3 = 0;
+                    while (j3 < plen2) {
+                        int j4 = j3 + 1;
+                        char pch2 = pattern.charAt(j3);
+                        if (pch2 != '\\' || j4 + 4 >= plen2) {
                             sbuf2.append(pch2);
                         } else {
                             sbuf2.append(pch2);
-                            int j6 = j5 + 1;
-                            char pch3 = pattern.charAt(j5);
+                            int j5 = j4 + 1;
+                            char pch3 = pattern.charAt(j4);
                             sbuf2.append(pch3);
-                            if ((pch3 == 'p' || pch3 == 'P') && pattern.charAt(j6) == '{' && pattern.charAt(j6 + 1) == 'I' && pattern.charAt(j6 + 2) == 's') {
+                            if ((pch3 == 'p' || pch3 == 'P') && pattern.charAt(j5) == '{' && pattern.charAt(j5 + 1) == 'I' && pattern.charAt(j5 + 2) == 's') {
                                 sbuf2.append('{');
                                 sbuf2.append(Access.INNERCLASS_CONTEXT);
                                 sbuf2.append('n');
-                                j5 = j6 + 3;
+                                j4 = j5 + 3;
                             } else {
-                                j5 = j6;
+                                j4 = j5;
                             }
                         }
-                        j4 = j5;
+                        j3 = j4;
                     }
                     pattern = sbuf2.toString();
                 }
@@ -556,8 +572,8 @@ public class StringUtils {
     }
 
     public static Object codepointEqual(Object arg1, Object arg2) {
-        String str1 = coerceToString(arg1, "codepoint-equal", 1, null);
-        String str2 = coerceToString(arg2, "codepoint-equal", 2, null);
+        String str1 = coerceToString(arg1, "codepoint-equal", 1, (String) null);
+        String str2 = coerceToString(arg2, "codepoint-equal", 2, (String) null);
         if (str1 == null || str2 == null) {
             return Values.empty;
         }

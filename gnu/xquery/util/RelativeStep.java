@@ -118,7 +118,7 @@ public class RelativeStep extends MethodProc implements Inlineable {
                 mclass = ClassType.make("gnu.xquery.util.RelativeStepFilter");
                 initMethod = mclass.getDeclaredMethod("<init>", 1);
             }
-            mconsumer = scope.addVariable(code, mclass, null);
+            mconsumer = scope.addVariable(code, mclass, (String) null);
             mtarget = new ConsumerTarget(mconsumer);
             code.emitNew(mclass);
             code.emitDup((Type) mclass);
@@ -129,7 +129,7 @@ public class RelativeStep extends MethodProc implements Inlineable {
             code.emitInvoke(initMethod);
             code.emitStore(mconsumer);
         }
-        ValuesMap.compileInlined((LambdaExp) exp2, exp1, 1, null, comp, mtarget);
+        ValuesMap.compileInlined((LambdaExp) exp2, exp1, 1, (Method) null, comp, mtarget);
         if (expectedKind == 'N') {
             code.emitLoad(mconsumer);
             code.emitLoad(tconsumer);

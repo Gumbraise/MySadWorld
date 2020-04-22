@@ -24,7 +24,7 @@ public class MakeList extends ProcedureN implements Inlineable {
         LList result = LList.Empty;
         int i = args.length;
         while (true) {
-            Object result2 = result;
+            LList result2 = result;
             i--;
             if (i < 0) {
                 return result2;

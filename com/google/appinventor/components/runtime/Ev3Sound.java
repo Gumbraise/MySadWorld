@@ -23,11 +23,11 @@ public class Ev3Sound extends LegoMindstormsEv3Base {
             this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, functionName);
             return;
         }
-        sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(-108, true, 0, 0, "cccc", Byte.valueOf(1), Byte.valueOf((byte) volume), Short.valueOf((short) frequency), Short.valueOf((short) milliseconds)), true);
+        sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand((byte) -108, true, 0, 0, "cccc", (byte) 1, Byte.valueOf((byte) volume), Short.valueOf((short) frequency), Short.valueOf((short) milliseconds)), true);
     }
 
     @SimpleFunction(description = "Stop any sound on the robot.")
     public void StopSound() {
-        sendCommand(Thread.currentThread().getStackTrace()[1].getMethodName(), Ev3BinaryParser.encodeDirectCommand(-108, false, 0, 0, "c", Byte.valueOf(0)), false);
+        sendCommand(Thread.currentThread().getStackTrace()[1].getMethodName(), Ev3BinaryParser.encodeDirectCommand((byte) -108, false, 0, 0, "c", (byte) 0), false);
     }
 }

@@ -7,7 +7,7 @@ import java.io.ObjectOutput;
 
 public final class NamespaceBinding implements Externalizable {
     public static final String XML_NAMESPACE = "http://www.w3.org/XML/1998/namespace";
-    public static final NamespaceBinding predefinedXML = new NamespaceBinding("xml", XML_NAMESPACE, null);
+    public static final NamespaceBinding predefinedXML = new NamespaceBinding("xml", XML_NAMESPACE, (NamespaceBinding) null);
     int depth;
     NamespaceBinding next;
     String prefix;

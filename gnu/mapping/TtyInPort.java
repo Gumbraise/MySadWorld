@@ -31,7 +31,7 @@ public class TtyInPort extends InPort {
     }
 
     public int fill(int len) throws IOException {
-        int count = this.f244in.read(this.buffer, this.pos, len);
+        int count = this.in.read(this.buffer, this.pos, len);
         if (this.tie != null && count > 0) {
             this.tie.echo(this.buffer, this.pos, count);
         }
@@ -45,6 +45,7 @@ public class TtyInPort extends InPort {
     }
 
     public void lineStart(boolean revisited) throws IOException {
+        String string;
         if (!revisited) {
             if (this.tie != null) {
                 this.tie.freshLine();
@@ -52,12 +53,9 @@ public class TtyInPort extends InPort {
             if (this.prompter != null) {
                 try {
                     Object prompt = this.prompter.apply1(this);
-                    if (prompt != null) {
-                        String string = prompt.toString();
-                        if (string != null && string.length() > 0) {
-                            emitPrompt(string);
-                            this.promptEmitted = true;
-                        }
+                    if (prompt != null && (string = prompt.toString()) != null && string.length() > 0) {
+                        emitPrompt(string);
+                        this.promptEmitted = true;
                     }
                 } catch (Throwable ex) {
                     throw new IOException("Error when evaluating prompt:" + ex);

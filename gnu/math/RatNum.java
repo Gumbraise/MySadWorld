@@ -198,9 +198,9 @@ public abstract class RatNum extends RealNum {
         if (!x.grt(fx)) {
             return fx;
         }
-        if (!fx.equals(fy)) {
-            return (RealNum) fx.add(IntNum.one(), 1);
+        if (fx.equals(fy)) {
+            return (RealNum) fx.add(IntNum.one().div(simplest_rational2((RealNum) IntNum.one().div(y.sub(fy)), (RealNum) IntNum.one().div(x.sub(fx)))), 1);
         }
-        return (RealNum) fx.add(IntNum.one().div(simplest_rational2((RealNum) IntNum.one().div(y.sub(fy)), (RealNum) IntNum.one().div(x.sub(fx)))), 1);
+        return (RealNum) fx.add(IntNum.one(), 1);
     }
 }

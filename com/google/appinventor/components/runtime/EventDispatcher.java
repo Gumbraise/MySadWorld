@@ -56,7 +56,7 @@ public class EventDispatcher {
     }
 
     private static EventRegistry getEventRegistry(HandlesEventDispatching dispatchDelegate) {
-        EventRegistry er = (EventRegistry) mapDispatchDelegateToEventRegistry.get(dispatchDelegate);
+        EventRegistry er = mapDispatchDelegateToEventRegistry.get(dispatchDelegate);
         if (er != null) {
             return er;
         }
@@ -66,7 +66,7 @@ public class EventDispatcher {
     }
 
     private static EventRegistry removeEventRegistry(HandlesEventDispatching dispatchDelegate) {
-        return (EventRegistry) mapDispatchDelegateToEventRegistry.remove(dispatchDelegate);
+        return mapDispatchDelegateToEventRegistry.remove(dispatchDelegate);
     }
 
     public static void registerEventForDelegation(HandlesEventDispatching dispatchDelegate, String componentId, String eventName) {

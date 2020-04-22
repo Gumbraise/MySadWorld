@@ -19,7 +19,6 @@ import gnu.expr.QuoteExp;
 import gnu.expr.ReferenceExp;
 import gnu.expr.SetExp;
 import gnu.expr.Special;
-import gnu.kawa.functions.AddOp;
 import gnu.kawa.functions.Convert;
 import gnu.kawa.functions.Format;
 import gnu.kawa.functions.GetNamedPart;
@@ -44,7 +43,7 @@ import kawa.lang.SyntaxPattern;
 import kawa.lang.SyntaxRule;
 import kawa.lang.SyntaxRules;
 import kawa.lang.Translator;
-import kawa.lib.C0620lists;
+import kawa.lib.lists;
 import kawa.lib.misc;
 import kawa.standard.Scheme;
 
@@ -103,11 +102,7 @@ public class syntaxutils extends ModuleBody {
         Lit16 = new SyntaxRules(new Object[]{simpleSymbol}, new SyntaxRule[]{new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\f\u000f\r\u0017\u0010\b\b", new Object[0], 3), "\u0001\u0001\u0003", "\u0011\u0018\u0004\t\u000b)\u0011\u0018\f\b\u0003\b\u0015\u0013", new Object[]{(SimpleSymbol) new SimpleSymbol("invoke").readResolve(), Lit19}, 1)}, 3);
         SimpleSymbol simpleSymbol2 = (SimpleSymbol) new SimpleSymbol("typecase%").readResolve();
         Lit13 = simpleSymbol2;
-        Object[] objArr = {Lit21};
-        Object[] objArr2 = {Lit22, (SimpleSymbol) new SimpleSymbol("eqv?").readResolve(), Lit19, Lit24, Lit13};
-        Object[] objArr3 = {Lit13};
-        Object[] objArr4 = {Lit23, (SimpleSymbol) new SimpleSymbol("f").readResolve(), Lit26, Lit21, Lit13, Boolean.TRUE};
-        Lit14 = new SyntaxRules(new Object[]{simpleSymbol2, Lit18, Lit20}, new SyntaxRule[]{new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007<\f\u0002\r\u000f\b\b\b\r\u0017\u0010\b\b", new Object[]{Boolean.TRUE}, 3), "\u0001\u0003\u0003", "\u0011\u0018\u0004\b\r\u000b", objArr, 1), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\\,\f\u0002\f\u000f\b\r\u0017\u0010\b\b\r\u001f\u0018\b\b", new Object[]{Lit18}, 4), "\u0001\u0001\u0003\u0003", "\u0011\u0018\u0004yY\u0011\u0018\f\t\u0003\b\u0011\u0018\u0014\b\u000b\b\u0015\u0013\b\u0011\u0018\u001c\b\u0011\u0018$\t\u0003\b\u001d\u001b", objArr2, 1), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\\,\f\u0002\f\u000f\b\r\u0017\u0010\b\b\r\u001f\u0018\b\b", new Object[]{Lit20}, 4), "\u0001\u0001\u0003\u0003", "\u0011\u0018\u0004\t\u0003)\t\u000b\b\u0015\u0013\b\u001d\u001b", objArr3, 1), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007l<\f\u0002\r\u000f\b\b\b\r\u0017\u0010\b\b\r\u001f\u0018\b\b", new Object[]{Lit20}, 4), "\u0001\u0003\u0003\u0003", "\u0011\u0018\u0004\b\u0011\u0018\f\b\u0011\u0018\u0014\u0011\b\u0003\b\u0011\u0018\u001c\b\u0015\u0013\b\u0011\u0018$\t\u0003I\r\t\u000b\b\u0011\u0018\f\b\u0003\b\u0011\u0018,\b\u0011\u0018$\t\u0003\b\u001d\u001b", objArr4, 1), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007<\f\u000f\r\u0017\u0010\b\b\r\u001f\u0018\b\b", new Object[0], 4), "\u0001\u0001\u0003\u0003", "\u0011\u0018\u0004ñ9\u0011\u0018\f\t\u0003\b\u000b\b\u0011\u0018\u0014Q\b\t\u0003\u0011\u0018\u001c\t\u000b\b\u0003\b\u0011\u0018$\b\u0015\u0013\b\u0011\u0018,\b\u0011\u00184\t\u0003\b\u001d\u001b", new Object[]{Lit22, (SimpleSymbol) new SimpleSymbol(GetNamedPart.INSTANCEOF_METHOD_NAME).readResolve(), Lit23, (SimpleSymbol) new SimpleSymbol("::").readResolve(), Lit21, Lit24, Lit13}, 1), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\b", new Object[0], 1), "\u0001", "\u0011\u0018\u0004\u0011\u0018\f\t\u0003\b\u0011\u0018\u0014\u0011\u0018\u001c\b\u0011\u0018$\u0011\u0018,\b\u0003", new Object[]{(SimpleSymbol) new SimpleSymbol("error").readResolve(), "typecase% failed", Lit15, (SimpleSymbol) new SimpleSymbol("getClass").readResolve(), Lit25, (SimpleSymbol) new SimpleSymbol("<object>").readResolve()}, 0)}, 4);
+        Lit14 = new SyntaxRules(new Object[]{simpleSymbol2, Lit18, Lit20}, new SyntaxRule[]{new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007<\f\u0002\r\u000f\b\b\b\r\u0017\u0010\b\b", new Object[]{Boolean.TRUE}, 3), "\u0001\u0003\u0003", "\u0011\u0018\u0004\b\r\u000b", new Object[]{Lit21}, 1), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\\,\f\u0002\f\u000f\b\r\u0017\u0010\b\b\r\u001f\u0018\b\b", new Object[]{Lit18}, 4), "\u0001\u0001\u0003\u0003", "\u0011\u0018\u0004yY\u0011\u0018\f\t\u0003\b\u0011\u0018\u0014\b\u000b\b\u0015\u0013\b\u0011\u0018\u001c\b\u0011\u0018$\t\u0003\b\u001d\u001b", new Object[]{Lit22, (SimpleSymbol) new SimpleSymbol("eqv?").readResolve(), Lit19, Lit24, Lit13}, 1), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\\,\f\u0002\f\u000f\b\r\u0017\u0010\b\b\r\u001f\u0018\b\b", new Object[]{Lit20}, 4), "\u0001\u0001\u0003\u0003", "\u0011\u0018\u0004\t\u0003)\t\u000b\b\u0015\u0013\b\u001d\u001b", new Object[]{Lit13}, 1), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007l<\f\u0002\r\u000f\b\b\b\r\u0017\u0010\b\b\r\u001f\u0018\b\b", new Object[]{Lit20}, 4), "\u0001\u0003\u0003\u0003", "\u0011\u0018\u0004\b\u0011\u0018\f\b\u0011\u0018\u0014\u0011\b\u0003\b\u0011\u0018\u001c\b\u0015\u0013\b\u0011\u0018$\t\u0003I\r\t\u000b\b\u0011\u0018\f\b\u0003\b\u0011\u0018,\b\u0011\u0018$\t\u0003\b\u001d\u001b", new Object[]{Lit23, (SimpleSymbol) new SimpleSymbol("f").readResolve(), Lit26, Lit21, Lit13, Boolean.TRUE}, 1), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007<\f\u000f\r\u0017\u0010\b\b\r\u001f\u0018\b\b", new Object[0], 4), "\u0001\u0001\u0003\u0003", "\u0011\u0018\u0004ñ9\u0011\u0018\f\t\u0003\b\u000b\b\u0011\u0018\u0014Q\b\t\u0003\u0011\u0018\u001c\t\u000b\b\u0003\b\u0011\u0018$\b\u0015\u0013\b\u0011\u0018,\b\u0011\u00184\t\u0003\b\u001d\u001b", new Object[]{Lit22, (SimpleSymbol) new SimpleSymbol(GetNamedPart.INSTANCEOF_METHOD_NAME).readResolve(), Lit23, (SimpleSymbol) new SimpleSymbol("::").readResolve(), Lit21, Lit24, Lit13}, 1), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\b", new Object[0], 1), "\u0001", "\u0011\u0018\u0004\u0011\u0018\f\t\u0003\b\u0011\u0018\u0014\u0011\u0018\u001c\b\u0011\u0018$\u0011\u0018,\b\u0003", new Object[]{(SimpleSymbol) new SimpleSymbol("error").readResolve(), "typecase% failed", Lit15, (SimpleSymbol) new SimpleSymbol("getClass").readResolve(), Lit25, (SimpleSymbol) new SimpleSymbol("<object>").readResolve()}, 0)}, 4);
         $instance.run();
     }
 
@@ -149,7 +144,7 @@ public class syntaxutils extends ModuleBody {
         }
         callContext.values = objArr;
         callContext.proc = moduleMethod;
-        callContext.f236pc = 5;
+        callContext.pc = 5;
         return 0;
     }
 
@@ -213,9 +208,9 @@ public class syntaxutils extends ModuleBody {
                 Object[] objArr2 = new Object[2];
                 closureEnv.pack = LList.Empty;
                 for (Declaration decl = exp3.firstDecl(); decl != null; decl = decl.nextDecl()) {
-                    closureEnv.pack = C0620lists.cons(decl.getSymbol(), closureEnv.pack);
+                    closureEnv.pack = lists.cons(decl.getSymbol(), closureEnv.pack);
                 }
-                objArr2[0] = C0620lists.reverse$Ex(closureEnv.pack);
+                objArr2[0] = lists.reverse$Ex(closureEnv.pack);
                 objArr2[1] = Quote.consX$V(new Object[]{unrewrite(exp3.body), LList.Empty});
                 objArr[1] = Quote.consX$V(objArr2);
                 return Quote.append$V(objArr);
@@ -265,33 +260,105 @@ public class syntaxutils extends ModuleBody {
         }
     }
 
-    static Object unrewrite$St(Expression[] exps) {
-        frame0 closureEnv = new frame0();
-        closureEnv.pack = LList.Empty;
-        Integer len = Integer.valueOf(exps.length);
-        for (Object obj = Lit7; Scheme.numEqu.apply2(obj, len) == Boolean.FALSE; obj = AddOp.$Pl.apply2(obj, Lit8)) {
-            closureEnv.pack = C0620lists.cons(unrewrite(exps[((Number) obj).intValue()]), closureEnv.pack);
-        }
-        return C0620lists.reverse$Ex(closureEnv.pack);
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r5v0, resolved type: gnu.math.IntNum} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r5v1, resolved type: gnu.math.IntNum} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r1v0, resolved type: java.lang.Object} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r5v2, resolved type: gnu.math.IntNum} */
+    /* JADX WARNING: Multi-variable type inference failed */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    static java.lang.Object unrewrite$St(gnu.expr.Expression[] r7) {
+        /*
+            gnu.kawa.slib.syntaxutils$frame0 r0 = new gnu.kawa.slib.syntaxutils$frame0
+            r0.<init>()
+            gnu.lists.LList r4 = gnu.lists.LList.Empty
+            r0.pack = r4
+            int r4 = r7.length
+            java.lang.Integer r2 = java.lang.Integer.valueOf(r4)
+            gnu.math.IntNum r5 = Lit7
+        L_0x0010:
+            gnu.kawa.functions.NumberCompare r4 = kawa.standard.Scheme.numEqu
+            java.lang.Object r4 = r4.apply2(r5, r2)
+            java.lang.Boolean r6 = java.lang.Boolean.FALSE
+            if (r4 != r6) goto L_0x0039
+            r4 = r5
+            java.lang.Number r4 = (java.lang.Number) r4
+            int r4 = r4.intValue()
+            r4 = r7[r4]
+            java.lang.Object r3 = unrewrite(r4)
+            gnu.lists.LList r4 = r0.pack
+            gnu.lists.Pair r4 = kawa.lib.lists.cons(r3, r4)
+            r0.pack = r4
+            gnu.kawa.functions.AddOp r4 = gnu.kawa.functions.AddOp.$Pl
+            gnu.math.IntNum r6 = Lit8
+            java.lang.Object r1 = r4.apply2(r5, r6)
+            r5 = r1
+            goto L_0x0010
+        L_0x0039:
+            gnu.lists.LList r4 = r0.pack
+            gnu.lists.LList r4 = kawa.lib.lists.reverse$Ex(r4)
+            return r4
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.slib.syntaxutils.unrewrite$St(gnu.expr.Expression[]):java.lang.Object");
     }
 
-    static Object unrewriteLet(LetExp exp) {
-        frame1 closureEnv = new frame1();
-        Object[] objArr = new Object[2];
-        objArr[0] = Lit9;
-        Object[] objArr2 = new Object[2];
-        closureEnv.pack = LList.Empty;
-        Declaration decl = exp.firstDecl();
-        Object obj = Lit7;
-        while (decl != null) {
-            closureEnv.pack = C0620lists.cons(LList.list2(decl.getSymbol(), unrewrite(exp.inits[((Number) obj).intValue()])), closureEnv.pack);
-            decl = decl.nextDecl();
-            obj = AddOp.$Pl.apply2(obj, Lit8);
-        }
-        objArr2[0] = C0620lists.reverse$Ex(closureEnv.pack);
-        objArr2[1] = Quote.consX$V(new Object[]{unrewrite(exp.body), LList.Empty});
-        objArr[1] = Quote.consX$V(objArr2);
-        return Quote.append$V(objArr);
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r5v0, resolved type: gnu.math.IntNum} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r5v1, resolved type: gnu.math.IntNum} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r2v0, resolved type: java.lang.Object} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r5v5, resolved type: gnu.math.IntNum} */
+    /* JADX WARNING: Multi-variable type inference failed */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    static java.lang.Object unrewriteLet(gnu.expr.LetExp r13) {
+        /*
+            r12 = 2
+            r11 = 1
+            r10 = 0
+            gnu.kawa.slib.syntaxutils$frame1 r0 = new gnu.kawa.slib.syntaxutils$frame1
+            r0.<init>()
+            java.lang.Object[] r6 = new java.lang.Object[r12]
+            gnu.lists.PairWithPosition r4 = Lit9
+            r6[r10] = r4
+            java.lang.Object[] r7 = new java.lang.Object[r12]
+            gnu.lists.LList r4 = gnu.lists.LList.Empty
+            r0.pack = r4
+            gnu.expr.Declaration r1 = r13.firstDecl()
+            gnu.math.IntNum r5 = Lit7
+        L_0x001a:
+            if (r1 == 0) goto L_0x0049
+            java.lang.Object r8 = r1.getSymbol()
+            gnu.expr.Expression[] r9 = r13.inits
+            r4 = r5
+            java.lang.Number r4 = (java.lang.Number) r4
+            int r4 = r4.intValue()
+            r4 = r9[r4]
+            java.lang.Object r4 = unrewrite(r4)
+            gnu.lists.Pair r3 = gnu.lists.LList.list2(r8, r4)
+            gnu.lists.LList r4 = r0.pack
+            gnu.lists.Pair r4 = kawa.lib.lists.cons(r3, r4)
+            r0.pack = r4
+            gnu.expr.Declaration r1 = r1.nextDecl()
+            gnu.kawa.functions.AddOp r4 = gnu.kawa.functions.AddOp.$Pl
+            gnu.math.IntNum r8 = Lit8
+            java.lang.Object r2 = r4.apply2(r5, r8)
+            r5 = r2
+            goto L_0x001a
+        L_0x0049:
+            gnu.lists.LList r4 = r0.pack
+            gnu.lists.LList r4 = kawa.lib.lists.reverse$Ex(r4)
+            r7[r10] = r4
+            java.lang.Object[] r4 = new java.lang.Object[r12]
+            gnu.expr.Expression r5 = r13.body
+            java.lang.Object r5 = unrewrite(r5)
+            r4[r10] = r5
+            gnu.lists.LList r5 = gnu.lists.LList.Empty
+            r4[r11] = r5
+            java.lang.Object r4 = kawa.lang.Quote.consX$V(r4)
+            r7[r11] = r4
+            java.lang.Object r4 = kawa.lang.Quote.consX$V(r7)
+            r6[r11] = r4
+            java.lang.Object r4 = kawa.lang.Quote.append$V(r6)
+            return r4
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.slib.syntaxutils.unrewriteLet(gnu.expr.LetExp):java.lang.Object");
     }
 
     static Object unrewriteQuote(QuoteExp exp) {
@@ -305,7 +372,7 @@ public class syntaxutils extends ModuleBody {
             }
         } else if (val instanceof Boolean) {
             try {
-                return val != Boolean.FALSE ? Boolean.TRUE : Boolean.FALSE;
+                return (val != Boolean.FALSE ? 1 : null) != null ? Boolean.TRUE : Boolean.FALSE;
             } catch (ClassCastException e2) {
                 throw new WrongType(e2, "val", -2, val);
             }

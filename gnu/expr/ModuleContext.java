@@ -11,21 +11,6 @@ public class ModuleContext {
     ModuleManager manager;
     private ClassToInstanceMap table = new ClassToInstanceMap();
 
-    static class ClassToInstanceMap extends AbstractWeakHashTable<Class, Object> {
-        ClassToInstanceMap() {
-        }
-
-        /* access modifiers changed from: protected */
-        public Class getKeyFromValue(Object instance) {
-            return instance.getClass();
-        }
-
-        /* access modifiers changed from: protected */
-        public boolean matches(Class oldValue, Class newValue) {
-            return oldValue == newValue;
-        }
-    }
-
     public int getFlags() {
         return this.flags;
     }
@@ -67,7 +52,7 @@ public class ModuleContext {
         inst = this.table.get(clas);
         if (inst == null) {
             try {
-                inst = clas.getDeclaredField("$instance").get(null);
+                inst = clas.getDeclaredField("$instance").get((Object) null);
             } catch (NoSuchFieldException e) {
                 inst = clas.newInstance();
             } catch (Throwable ex) {
@@ -95,5 +80,20 @@ public class ModuleContext {
 
     public synchronized void clear() {
         this.table.clear();
+    }
+
+    static class ClassToInstanceMap extends AbstractWeakHashTable<Class, Object> {
+        ClassToInstanceMap() {
+        }
+
+        /* access modifiers changed from: protected */
+        public Class getKeyFromValue(Object instance) {
+            return instance.getClass();
+        }
+
+        /* access modifiers changed from: protected */
+        public boolean matches(Class oldValue, Class newValue) {
+            return oldValue == newValue;
+        }
     }
 }

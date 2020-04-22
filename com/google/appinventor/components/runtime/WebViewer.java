@@ -3,9 +3,9 @@ package com.google.appinventor.components.runtime;
 import android.graphics.Bitmap;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.webkit.CookieManager;
 import android.webkit.JavascriptInterface;
+import android.webkit.ValueCallback;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import com.google.appinventor.components.annotations.DesignerComponent;
@@ -37,30 +37,51 @@ public final class WebViewer extends AndroidViewComponent {
     public final WebView webview;
     WebViewInterface wvInterface;
 
-    public class WebViewInterface {
-        String webViewString = " ";
-
-        WebViewInterface() {
+    public WebViewer(ComponentContainer container) {
+        super(container);
+        this.webview = new WebView(container.$context());
+        resetWebViewClient();
+        this.webview.getSettings().setJavaScriptEnabled(true);
+        this.webview.setFocusable(true);
+        this.wvInterface = new WebViewInterface();
+        this.webview.addJavascriptInterface(this.wvInterface, "AppInventor");
+        this.webview.getSettings().setBuiltInZoomControls(true);
+        if (SdkLevel.getLevel() >= 5) {
+            EclairUtil.setupWebViewGeoLoc(this, this.webview, container.$context());
         }
-
-        @JavascriptInterface
-        public String getWebViewString() {
-            return this.webViewString;
-        }
-
-        @JavascriptInterface
-        public void setWebViewString(final String newString) {
-            this.webViewString = newString;
-            WebViewer.this.container.$form().runOnUiThread(new Runnable() {
-                public void run() {
-                    WebViewer.this.WebViewStringChange(newString);
+        container.$add(this);
+        this.webview.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case 0:
+                    case 1:
+                        if (v.hasFocus()) {
+                            return false;
+                        }
+                        v.requestFocus();
+                        return false;
+                    default:
+                        return false;
                 }
-            });
-        }
+            }
+        });
+        HomeUrl("");
+        Width(-2);
+        Height(-2);
+    }
 
-        public void setWebViewStringFromBlocks(String newString) {
-            this.webViewString = newString;
-        }
+    @SimpleProperty(category = PropertyCategory.BEHAVIOR, description = "Gets the WebView's String, which is viewable through Javascript in the WebView as the window.AppInventor object")
+    public String WebViewString() {
+        return this.wvInterface.getWebViewString();
+    }
+
+    @SimpleProperty(category = PropertyCategory.BEHAVIOR)
+    public void WebViewString(String newString) {
+        this.wvInterface.setWebViewStringFromBlocks(newString);
+    }
+
+    public View getView() {
+        return this.webview;
     }
 
     private class WebViewerClient extends WebViewClient {
@@ -86,52 +107,6 @@ public final class WebViewer extends AndroidViewComponent {
                 }
             });
         }
-    }
-
-    public WebViewer(ComponentContainer container) {
-        super(container);
-        this.webview = new WebView(container.$context());
-        resetWebViewClient();
-        this.webview.getSettings().setJavaScriptEnabled(true);
-        this.webview.setFocusable(true);
-        this.wvInterface = new WebViewInterface();
-        this.webview.addJavascriptInterface(this.wvInterface, "AppInventor");
-        this.webview.getSettings().setBuiltInZoomControls(true);
-        if (SdkLevel.getLevel() >= 5) {
-            EclairUtil.setupWebViewGeoLoc(this, this.webview, container.$context());
-        }
-        container.$add(this);
-        this.webview.setOnTouchListener(new OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case 0:
-                    case 1:
-                        if (!v.hasFocus()) {
-                            v.requestFocus();
-                            break;
-                        }
-                        break;
-                }
-                return false;
-            }
-        });
-        HomeUrl("");
-        Width(-2);
-        Height(-2);
-    }
-
-    @SimpleProperty(category = PropertyCategory.BEHAVIOR, description = "Gets the WebView's String, which is viewable through Javascript in the WebView as the window.AppInventor object")
-    public String WebViewString() {
-        return this.wvInterface.getWebViewString();
-    }
-
-    @SimpleProperty(category = PropertyCategory.BEHAVIOR)
-    public void WebViewString(String newString) {
-        this.wvInterface.setWebViewStringFromBlocks(newString);
-    }
-
-    public View getView() {
-        return this.webview;
     }
 
     @SimpleProperty
@@ -281,7 +256,7 @@ public final class WebViewer extends AndroidViewComponent {
     public void ClearCookies() {
         CookieManager cookieManager = CookieManager.getInstance();
         if (SdkLevel.getLevel() >= 21) {
-            cookieManager.removeAllCookies(null);
+            cookieManager.removeAllCookies((ValueCallback) null);
         } else {
             cookieManager.removeAllCookie();
         }
@@ -319,13 +294,39 @@ public final class WebViewer extends AndroidViewComponent {
             this.container.$form().askPermission("android.permission.READ_EXTERNAL_STORAGE", new PermissionResultHandler() {
                 public void HandlePermissionResponse(String permission, boolean granted) {
                     if (granted) {
-                        WebViewer.this.havePermission = true;
+                        boolean unused = WebViewer.this.havePermission = true;
                         WebViewer.this.webview.loadUrl(url);
                         return;
                     }
                     WebViewer.this.container.$form().dispatchPermissionDeniedEvent((Component) WebViewer.this, caller, "android.permission.READ_EXTERNAL_STORAGE");
                 }
             });
+        }
+    }
+
+    public class WebViewInterface {
+        String webViewString = " ";
+
+        WebViewInterface() {
+        }
+
+        @JavascriptInterface
+        public String getWebViewString() {
+            return this.webViewString;
+        }
+
+        @JavascriptInterface
+        public void setWebViewString(final String newString) {
+            this.webViewString = newString;
+            WebViewer.this.container.$form().runOnUiThread(new Runnable() {
+                public void run() {
+                    WebViewer.this.WebViewStringChange(newString);
+                }
+            });
+        }
+
+        public void setWebViewStringFromBlocks(String newString) {
+            this.webViewString = newString;
         }
     }
 }

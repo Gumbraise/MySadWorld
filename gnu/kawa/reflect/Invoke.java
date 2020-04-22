@@ -77,9 +77,8 @@ public class Invoke extends ProcedureN {
             Object[] margs = new Object[(nargs - (this.kind == 'S' ? 2 : 1))];
             int i = 0;
             if (this.kind == 'V' || this.kind == '*') {
-                int i2 = 0 + 1;
                 margs[0] = args[0];
-                i = i2;
+                i = 0 + 1;
             }
             System.arraycopy(args, 2, margs, i, nargs - 2);
             proc.checkN(margs, ctx);

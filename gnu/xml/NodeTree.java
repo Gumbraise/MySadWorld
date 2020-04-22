@@ -1,5 +1,6 @@
 package gnu.xml;
 
+import android.support.v7.widget.ActivityChooserView;
 import gnu.kawa.xml.ElementType;
 import gnu.kawa.xml.KNode;
 import gnu.kawa.xml.UntypedAtomic;
@@ -15,9 +16,7 @@ import java.io.Writer;
 
 public class NodeTree extends TreeList {
     static int counter;
-
-    /* renamed from: id */
-    int f245id;
+    int id;
     int idCount;
     String[] idNames;
     int[] idOffsets;
@@ -26,7 +25,7 @@ public class NodeTree extends TreeList {
         if ((position & 1) != 0) {
         }
         int index = posToDataIndex(position);
-        int next = nextNodeIndex(index, ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED);
+        int next = nextNodeIndex(index, ActivityChooserView.ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED);
         if (next != index) {
             return next << 1;
         }
@@ -41,12 +40,12 @@ public class NodeTree extends TreeList {
     }
 
     public int getId() {
-        if (this.f245id == 0) {
+        if (this.id == 0) {
             int i = counter + 1;
             counter = i;
-            this.f245id = i;
+            this.id = i;
         }
-        return this.f245id;
+        return this.id;
     }
 
     public int stableCompare(AbstractSequence other) {
@@ -78,12 +77,9 @@ public class NodeTree extends TreeList {
     }
 
     public String posPrefix(int ipos) {
+        int colon;
         String name = getNextTypeName(ipos);
-        if (name == null) {
-            return null;
-        }
-        int colon = name.indexOf(58);
-        if (colon >= 0) {
+        if (name != null && (colon = name.indexOf(58)) >= 0) {
             return name.substring(0, colon);
         }
         return null;
@@ -120,12 +116,9 @@ public class NodeTree extends TreeList {
     }
 
     public int posFirstChild(int ipos) {
+        char datum;
         int index = gotoChildrenStart(posToDataIndex(ipos));
-        if (index < 0) {
-            return -1;
-        }
-        char datum = this.data[index];
-        if (datum == 61707 || datum == 61708 || datum == 61713) {
+        if (index < 0 || (datum = this.data[index]) == 61707 || datum == 61708 || datum == 61713) {
             return -1;
         }
         return index << 1;
@@ -187,6 +180,7 @@ public class NodeTree extends TreeList {
     }
 
     public Path baseUriOfPos(int pos, boolean resolveRelative) {
+        int attr;
         Path uri = null;
         int index = posToDataIndex(pos);
         while (index != this.data.length) {
@@ -197,11 +191,8 @@ public class NodeTree extends TreeList {
                 if (oindex >= 0) {
                     base = URIPath.makeURI(this.objects[oindex]);
                 }
-            } else if ((datum >= 40960 && datum <= 45055) || datum == 61704) {
-                int attr = getAttributeI(pos, NamespaceBinding.XML_NAMESPACE, "base");
-                if (attr != 0) {
-                    base = URIPath.valueOf(KNode.getNodeValue(this, attr));
-                }
+            } else if (((datum >= 40960 && datum <= 45055) || datum == 61704) && (attr = getAttributeI(pos, NamespaceBinding.XML_NAMESPACE, "base")) != 0) {
+                base = URIPath.valueOf(KNode.getNodeValue(this, attr));
             }
             if (base != null) {
                 uri = (uri == null || !resolveRelative) ? base : base.resolve(uri);
@@ -245,7 +236,7 @@ public class NodeTree extends TreeList {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void enterID(String name, int offset) {
         int size;
         String[] tmpNames = this.idNames;

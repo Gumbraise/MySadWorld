@@ -6,16 +6,16 @@ import gnu.xml.XName;
 import java.util.regex.Pattern;
 
 public class XStringType extends XDataType {
-    public static final XStringType ENTITYType = new XStringType("ENTITY", NCNameType, 47, null);
-    public static final XStringType IDREFType = new XStringType("IDREF", NCNameType, 46, null);
-    public static final XStringType IDType = new XStringType("ID", NCNameType, 45, null);
-    public static final XStringType NCNameType = new XStringType("NCName", NameType, 44, null);
+    public static final XStringType ENTITYType = new XStringType("ENTITY", NCNameType, 47, (String) null);
+    public static final XStringType IDREFType = new XStringType("IDREF", NCNameType, 46, (String) null);
+    public static final XStringType IDType = new XStringType("ID", NCNameType, 45, (String) null);
+    public static final XStringType NCNameType = new XStringType("NCName", NameType, 44, (String) null);
     public static final XStringType NMTOKENType = new XStringType("NMTOKEN", tokenType, 42, "\\c+");
-    public static final XStringType NameType = new XStringType("Name", tokenType, 43, null);
+    public static final XStringType NameType = new XStringType("Name", tokenType, 43, (String) null);
     static ClassType XStringType = ClassType.make("gnu.kawa.xml.XString");
     public static final XStringType languageType = new XStringType("language", tokenType, 41, "[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*");
-    public static final XStringType normalizedStringType = new XStringType("normalizedString", stringType, 39, null);
-    public static final XStringType tokenType = new XStringType("token", normalizedStringType, 40, null);
+    public static final XStringType normalizedStringType = new XStringType("normalizedString", stringType, 39, (String) null);
+    public static final XStringType tokenType = new XStringType("token", normalizedStringType, 40, (String) null);
     Pattern pattern;
 
     public XStringType(String name, XDataType base, int typeCode, String pattern2) {

@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.io.Writer;
 
 public class PrintConsumer extends PrintWriter implements Appendable, Consumer {
+    /* JADX INFO: super call moved to the top of the method (can break code semantics) */
     public PrintConsumer(Consumer out, boolean autoFlush) {
         super(out instanceof Writer ? (Writer) out : new ConsumerWriter(out), autoFlush);
     }

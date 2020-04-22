@@ -1,6 +1,7 @@
 package com.google.appinventor.components.runtime.util;
 
 import android.util.Log;
+import com.google.appinventor.components.runtime.repackaged.org.json.HTTP;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -9,11 +10,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Locale;
@@ -59,6 +62,130 @@ public class NanoHTTPD {
     private int myTcpPort;
     private Thread myThread;
 
+    public Response serve(String uri, String method, Properties header, Properties parms, Properties files, Socket mySocket) {
+        myOut.println(method + " '" + uri + "' ");
+        Enumeration e = header.propertyNames();
+        while (e.hasMoreElements()) {
+            String value = (String) e.nextElement();
+            myOut.println("  HDR: '" + value + "' = '" + header.getProperty(value) + "'");
+        }
+        Enumeration e2 = parms.propertyNames();
+        while (e2.hasMoreElements()) {
+            String value2 = (String) e2.nextElement();
+            myOut.println("  PRM: '" + value2 + "' = '" + parms.getProperty(value2) + "'");
+        }
+        Enumeration e3 = files.propertyNames();
+        while (e3.hasMoreElements()) {
+            String value3 = (String) e3.nextElement();
+            myOut.println("  UPLOADED: '" + value3 + "' = '" + files.getProperty(value3) + "'");
+        }
+        return serveFile(uri, header, this.myRootDir, true);
+    }
+
+    public class Response {
+        public InputStream data;
+        public Properties header;
+        public String mimeType;
+        public String status;
+
+        public Response() {
+            this.header = new Properties();
+            this.status = NanoHTTPD.HTTP_OK;
+        }
+
+        public Response(String status2, String mimeType2, InputStream data2) {
+            this.header = new Properties();
+            this.status = status2;
+            this.mimeType = mimeType2;
+            this.data = data2;
+        }
+
+        public Response(String status2, String mimeType2, String txt) {
+            this.header = new Properties();
+            this.status = status2;
+            this.mimeType = mimeType2;
+            try {
+                this.data = new ByteArrayInputStream(txt.getBytes("UTF-8"));
+            } catch (UnsupportedEncodingException uee) {
+                uee.printStackTrace();
+            }
+        }
+
+        public void addHeader(String name, String value) {
+            this.header.put(name, value);
+        }
+    }
+
+    public NanoHTTPD(int port, File wwwroot) throws IOException {
+        this.myTcpPort = port;
+        this.myRootDir = wwwroot;
+        this.myServerSocket = new ServerSocket(this.myTcpPort);
+        this.myThread = new Thread(new Runnable() {
+            public void run() {
+                while (true) {
+                    try {
+                        new HTTPSession(NanoHTTPD.this.myServerSocket.accept());
+                    } catch (IOException e) {
+                        return;
+                    }
+                }
+            }
+        });
+        this.myThread.setDaemon(true);
+        this.myThread.start();
+    }
+
+    public void stop() {
+        try {
+            this.myServerSocket.close();
+            this.myThread.join();
+        } catch (IOException | InterruptedException e) {
+        }
+    }
+
+    public static void main(String[] args) {
+        myOut.println("NanoHTTPD 1.25 (C) 2001,2005-2011 Jarno Elonen and (C) 2010 Konstantinos Togias\n(Command line options: [-p port] [-d root-dir] [--licence])\n");
+        int port = 80;
+        File wwwroot = new File(".").getAbsoluteFile();
+        int i = 0;
+        while (true) {
+            if (i < args.length) {
+                if (args[i].equalsIgnoreCase("-p")) {
+                    port = Integer.parseInt(args[i + 1]);
+                } else if (args[i].equalsIgnoreCase("-d")) {
+                    wwwroot = new File(args[i + 1]).getAbsoluteFile();
+                } else if (args[i].toLowerCase().endsWith("licence")) {
+                    myOut.println("Copyright (C) 2001,2005-2011 by Jarno Elonen <elonen@iki.fi>\nand Copyright (C) 2010 by Konstantinos Togias <info@ktogias.gr>\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions\nare met:\n\nRedistributions of source code must retain the above copyright notice,\nthis list of conditions and the following disclaimer. Redistributions in\nbinary form must reproduce the above copyright notice, this list of\nconditions and the following disclaimer in the documentation and/or other\nmaterials provided with the distribution. The name of the author may not\nbe used to endorse or promote products derived from this software without\nspecific prior written permission. \n \nTHIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR\nIMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES\nOF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.\nIN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,\nINCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT\nNOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,\nDATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY\nTHEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT\n(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\nOF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n");
+                    break;
+                }
+                i++;
+            }
+        }
+        try {
+            new NanoHTTPD(port, wwwroot);
+        } catch (IOException ioe) {
+            myErr.println("Couldn't start server:\n" + ioe);
+            System.exit(-1);
+        }
+        myOut.println("Now serving files in port " + port + " from \"" + wwwroot + "\"");
+        myOut.println("Hit Enter to stop.\n");
+        try {
+            System.in.read();
+        } catch (Throwable th) {
+        }
+    }
+
+    private class myThreadFactory implements ThreadFactory {
+        private myThreadFactory() {
+        }
+
+        public Thread newThread(Runnable r) {
+            Thread retval = new Thread(new ThreadGroup("biggerstack"), r, "HTTPD Session", 262144);
+            retval.setDaemon(true);
+            return retval;
+        }
+    }
+
     private class HTTPSession implements Runnable {
         private Socket mySocket;
 
@@ -68,12 +195,11 @@ public class NanoHTTPD {
             NanoHTTPD.this.myExecutor.execute(this);
         }
 
-        /* JADX WARNING: type inference failed for: r24v0, types: [java.io.ByteArrayOutputStream] */
-        /* JADX WARNING: type inference failed for: r24v1, types: [java.io.OutputStream] */
-        /* JADX WARNING: type inference failed for: r0v40, types: [java.io.OutputStream] */
-        /* JADX WARNING: type inference failed for: r0v41, types: [java.io.OutputStream] */
+        /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r24v0, resolved type: java.io.ByteArrayOutputStream} */
+        /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r24v1, resolved type: java.io.FileOutputStream} */
+        /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r24v3, resolved type: java.io.FileOutputStream} */
+        /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v44, resolved type: java.io.FileOutputStream} */
         /* JADX WARNING: Multi-variable type inference failed */
-        /* JADX WARNING: Unknown variable types count: 3 */
         /* Code decompiled incorrectly, please refer to instructions dump. */
         public void run() {
             /*
@@ -451,7 +577,19 @@ public class NanoHTTPD {
                         String pname = disposition.getProperty("name");
                         String pname2 = pname.substring(1, pname.length() - 1);
                         String value = "";
-                        if (item.getProperty("content-type") != null) {
+                        if (item.getProperty("content-type") == null) {
+                            while (mpline != null && mpline.indexOf(boundary) == -1) {
+                                mpline = in.readLine();
+                                if (mpline != null) {
+                                    int d = mpline.indexOf(boundary);
+                                    if (d == -1) {
+                                        value = value + mpline;
+                                    } else {
+                                        value = value + mpline.substring(0, d - 2);
+                                    }
+                                }
+                            }
+                        } else {
                             if (boundarycount > bpositions.length) {
                                 sendError(NanoHTTPD.HTTP_INTERNALERROR, "Error processing request");
                             }
@@ -464,19 +602,7 @@ public class NanoHTTPD {
                                 if (mpline == null) {
                                     break;
                                 }
-                            } while (mpline.indexOf(boundary) == -1);
-                        } else {
-                            while (mpline != null && mpline.indexOf(boundary) == -1) {
-                                mpline = in.readLine();
-                                if (mpline != null) {
-                                    int d = mpline.indexOf(boundary);
-                                    if (d == -1) {
-                                        value = value + mpline;
-                                    } else {
-                                        value = value + mpline.substring(0, d - 2);
-                                    }
-                                }
-                            }
+                            } while (mpline.indexOf(boundary) != -1);
                         }
                         parms.put(pname2, value);
                     }
@@ -517,9 +643,8 @@ public class NanoHTTPD {
         }
 
         private String saveTmpFile(byte[] b, int offset, int len) {
-            String path = "";
             if (len <= 0) {
-                return path;
+                return "";
             }
             try {
                 File temp = File.createTempFile("NanoHTTPD", "", new File(System.getProperty("java.io.tmpdir")));
@@ -529,7 +654,7 @@ public class NanoHTTPD {
                 return temp.getAbsolutePath();
             } catch (Exception e) {
                 NanoHTTPD.myErr.println("Error: " + e.getMessage());
-                return path;
+                return "";
             }
         }
 
@@ -598,254 +723,61 @@ public class NanoHTTPD {
         }
 
         private void sendError(String status, String msg) throws InterruptedException {
-            sendResponse(status, NanoHTTPD.MIME_PLAINTEXT, null, new ByteArrayInputStream(msg.getBytes()));
+            sendResponse(status, NanoHTTPD.MIME_PLAINTEXT, (Properties) null, new ByteArrayInputStream(msg.getBytes()));
             throw new InterruptedException();
         }
 
-        /* JADX WARNING: Code restructure failed: missing block: B:13:0x0060, code lost:
-            if (r16.getProperty("Date") == null) goto L_0x0062;
-         */
-        /* Code decompiled incorrectly, please refer to instructions dump. */
-        private void sendResponse(java.lang.String r14, java.lang.String r15, java.util.Properties r16, java.io.InputStream r17) {
-            /*
-                r13 = this;
-                if (r14 != 0) goto L_0x0011
-                java.lang.Error r10 = new java.lang.Error     // Catch:{ IOException -> 0x000a }
-                java.lang.String r11 = "sendResponse(): Status can't be null."
-                r10.<init>(r11)     // Catch:{ IOException -> 0x000a }
-                throw r10     // Catch:{ IOException -> 0x000a }
-            L_0x000a:
-                r3 = move-exception
-                java.net.Socket r10 = r13.mySocket     // Catch:{ Throwable -> 0x0102 }
-                r10.close()     // Catch:{ Throwable -> 0x0102 }
-            L_0x0010:
-                return
-            L_0x0011:
-                java.net.Socket r10 = r13.mySocket     // Catch:{ IOException -> 0x000a }
-                java.io.OutputStream r5 = r10.getOutputStream()     // Catch:{ IOException -> 0x000a }
-                java.io.PrintWriter r7 = new java.io.PrintWriter     // Catch:{ IOException -> 0x000a }
-                r7.<init>(r5)     // Catch:{ IOException -> 0x000a }
-                java.lang.StringBuilder r10 = new java.lang.StringBuilder     // Catch:{ IOException -> 0x000a }
-                r10.<init>()     // Catch:{ IOException -> 0x000a }
-                java.lang.String r11 = "HTTP/1.0 "
-                java.lang.StringBuilder r10 = r10.append(r11)     // Catch:{ IOException -> 0x000a }
-                java.lang.StringBuilder r10 = r10.append(r14)     // Catch:{ IOException -> 0x000a }
-                java.lang.String r11 = " \r\n"
-                java.lang.StringBuilder r10 = r10.append(r11)     // Catch:{ IOException -> 0x000a }
-                java.lang.String r10 = r10.toString()     // Catch:{ IOException -> 0x000a }
-                r7.print(r10)     // Catch:{ IOException -> 0x000a }
-                if (r15 == 0) goto L_0x0056
-                java.lang.StringBuilder r10 = new java.lang.StringBuilder     // Catch:{ IOException -> 0x000a }
-                r10.<init>()     // Catch:{ IOException -> 0x000a }
-                java.lang.String r11 = "Content-Type: "
-                java.lang.StringBuilder r10 = r10.append(r11)     // Catch:{ IOException -> 0x000a }
-                java.lang.StringBuilder r10 = r10.append(r15)     // Catch:{ IOException -> 0x000a }
-                java.lang.String r11 = "\r\n"
-                java.lang.StringBuilder r10 = r10.append(r11)     // Catch:{ IOException -> 0x000a }
-                java.lang.String r10 = r10.toString()     // Catch:{ IOException -> 0x000a }
-                r7.print(r10)     // Catch:{ IOException -> 0x000a }
-            L_0x0056:
-                if (r16 == 0) goto L_0x0062
-                java.lang.String r10 = "Date"
-                r0 = r16
-                java.lang.String r10 = r0.getProperty(r10)     // Catch:{ IOException -> 0x000a }
-                if (r10 != 0) goto L_0x008b
-            L_0x0062:
-                java.lang.StringBuilder r10 = new java.lang.StringBuilder     // Catch:{ IOException -> 0x000a }
-                r10.<init>()     // Catch:{ IOException -> 0x000a }
-                java.lang.String r11 = "Date: "
-                java.lang.StringBuilder r10 = r10.append(r11)     // Catch:{ IOException -> 0x000a }
-                java.text.SimpleDateFormat r11 = com.google.appinventor.components.runtime.util.NanoHTTPD.gmtFrmt     // Catch:{ IOException -> 0x000a }
-                java.util.Date r12 = new java.util.Date     // Catch:{ IOException -> 0x000a }
-                r12.<init>()     // Catch:{ IOException -> 0x000a }
-                java.lang.String r11 = r11.format(r12)     // Catch:{ IOException -> 0x000a }
-                java.lang.StringBuilder r10 = r10.append(r11)     // Catch:{ IOException -> 0x000a }
-                java.lang.String r11 = "\r\n"
-                java.lang.StringBuilder r10 = r10.append(r11)     // Catch:{ IOException -> 0x000a }
-                java.lang.String r10 = r10.toString()     // Catch:{ IOException -> 0x000a }
-                r7.print(r10)     // Catch:{ IOException -> 0x000a }
-            L_0x008b:
-                if (r16 == 0) goto L_0x00c4
-                java.util.Enumeration r2 = r16.keys()     // Catch:{ IOException -> 0x000a }
-            L_0x0091:
-                boolean r10 = r2.hasMoreElements()     // Catch:{ IOException -> 0x000a }
-                if (r10 == 0) goto L_0x00c4
-                java.lang.Object r4 = r2.nextElement()     // Catch:{ IOException -> 0x000a }
-                java.lang.String r4 = (java.lang.String) r4     // Catch:{ IOException -> 0x000a }
-                r0 = r16
-                java.lang.String r9 = r0.getProperty(r4)     // Catch:{ IOException -> 0x000a }
-                java.lang.StringBuilder r10 = new java.lang.StringBuilder     // Catch:{ IOException -> 0x000a }
-                r10.<init>()     // Catch:{ IOException -> 0x000a }
-                java.lang.StringBuilder r10 = r10.append(r4)     // Catch:{ IOException -> 0x000a }
-                java.lang.String r11 = ": "
-                java.lang.StringBuilder r10 = r10.append(r11)     // Catch:{ IOException -> 0x000a }
-                java.lang.StringBuilder r10 = r10.append(r9)     // Catch:{ IOException -> 0x000a }
-                java.lang.String r11 = "\r\n"
-                java.lang.StringBuilder r10 = r10.append(r11)     // Catch:{ IOException -> 0x000a }
-                java.lang.String r10 = r10.toString()     // Catch:{ IOException -> 0x000a }
-                r7.print(r10)     // Catch:{ IOException -> 0x000a }
-                goto L_0x0091
-            L_0x00c4:
-                java.lang.String r10 = "\r\n"
-                r7.print(r10)     // Catch:{ IOException -> 0x000a }
-                r7.flush()     // Catch:{ IOException -> 0x000a }
-                if (r17 == 0) goto L_0x00ed
-                int r6 = r17.available()     // Catch:{ IOException -> 0x000a }
-                int r10 = com.google.appinventor.components.runtime.util.NanoHTTPD.theBufferSize     // Catch:{ IOException -> 0x000a }
-                byte[] r1 = new byte[r10]     // Catch:{ IOException -> 0x000a }
-            L_0x00d8:
-                if (r6 <= 0) goto L_0x00ed
-                r11 = 0
-                int r10 = com.google.appinventor.components.runtime.util.NanoHTTPD.theBufferSize     // Catch:{ IOException -> 0x000a }
-                if (r6 <= r10) goto L_0x00fa
-                int r10 = com.google.appinventor.components.runtime.util.NanoHTTPD.theBufferSize     // Catch:{ IOException -> 0x000a }
-            L_0x00e5:
-                r0 = r17
-                int r8 = r0.read(r1, r11, r10)     // Catch:{ IOException -> 0x000a }
-                if (r8 > 0) goto L_0x00fc
-            L_0x00ed:
-                r5.flush()     // Catch:{ IOException -> 0x000a }
-                r5.close()     // Catch:{ IOException -> 0x000a }
-                if (r17 == 0) goto L_0x0010
-                r17.close()     // Catch:{ IOException -> 0x000a }
-                goto L_0x0010
-            L_0x00fa:
-                r10 = r6
-                goto L_0x00e5
-            L_0x00fc:
-                r10 = 0
-                r5.write(r1, r10, r8)     // Catch:{ IOException -> 0x000a }
-                int r6 = r6 - r8
-                goto L_0x00d8
-            L_0x0102:
-                r10 = move-exception
-                goto L_0x0010
-            */
-            throw new UnsupportedOperationException("Method not decompiled: com.google.appinventor.components.runtime.util.NanoHTTPD.HTTPSession.sendResponse(java.lang.String, java.lang.String, java.util.Properties, java.io.InputStream):void");
-        }
-    }
-
-    public class Response {
-        public InputStream data;
-        public Properties header;
-        public String mimeType;
-        public String status;
-
-        public Response() {
-            this.header = new Properties();
-            this.status = NanoHTTPD.HTTP_OK;
-        }
-
-        public Response(String status2, String mimeType2, InputStream data2) {
-            this.header = new Properties();
-            this.status = status2;
-            this.mimeType = mimeType2;
-            this.data = data2;
-        }
-
-        public Response(String status2, String mimeType2, String txt) {
-            this.header = new Properties();
-            this.status = status2;
-            this.mimeType = mimeType2;
-            try {
-                this.data = new ByteArrayInputStream(txt.getBytes("UTF-8"));
-            } catch (UnsupportedEncodingException uee) {
-                uee.printStackTrace();
-            }
-        }
-
-        public void addHeader(String name, String value) {
-            this.header.put(name, value);
-        }
-    }
-
-    private class myThreadFactory implements ThreadFactory {
-        private myThreadFactory() {
-        }
-
-        public Thread newThread(Runnable r) {
-            Thread retval = new Thread(new ThreadGroup("biggerstack"), r, "HTTPD Session", 262144);
-            retval.setDaemon(true);
-            return retval;
-        }
-    }
-
-    public Response serve(String uri, String method, Properties header, Properties parms, Properties files, Socket mySocket) {
-        myOut.println(method + " '" + uri + "' ");
-        Enumeration e = header.propertyNames();
-        while (e.hasMoreElements()) {
-            String value = (String) e.nextElement();
-            myOut.println("  HDR: '" + value + "' = '" + header.getProperty(value) + "'");
-        }
-        Enumeration e2 = parms.propertyNames();
-        while (e2.hasMoreElements()) {
-            String value2 = (String) e2.nextElement();
-            myOut.println("  PRM: '" + value2 + "' = '" + parms.getProperty(value2) + "'");
-        }
-        Enumeration e3 = files.propertyNames();
-        while (e3.hasMoreElements()) {
-            String value3 = (String) e3.nextElement();
-            myOut.println("  UPLOADED: '" + value3 + "' = '" + files.getProperty(value3) + "'");
-        }
-        return serveFile(uri, header, this.myRootDir, true);
-    }
-
-    public NanoHTTPD(int port, File wwwroot) throws IOException {
-        this.myTcpPort = port;
-        this.myRootDir = wwwroot;
-        this.myServerSocket = new ServerSocket(this.myTcpPort);
-        this.myThread = new Thread(new Runnable() {
-            public void run() {
-                while (true) {
-                    try {
-                        new HTTPSession(NanoHTTPD.this.myServerSocket.accept());
-                    } catch (IOException e) {
-                        return;
+        private void sendResponse(String status, String mime, Properties header, InputStream data) {
+            int i;
+            if (status == null) {
+                try {
+                    throw new Error("sendResponse(): Status can't be null.");
+                } catch (IOException e) {
+                    this.mySocket.close();
+                } catch (Throwable th) {
+                }
+            } else {
+                OutputStream out = this.mySocket.getOutputStream();
+                PrintWriter pw = new PrintWriter(out);
+                pw.print("HTTP/1.0 " + status + " \r\n");
+                if (mime != null) {
+                    pw.print("Content-Type: " + mime + HTTP.CRLF);
+                }
+                if (header == null || header.getProperty("Date") == null) {
+                    pw.print("Date: " + NanoHTTPD.gmtFrmt.format(new Date()) + HTTP.CRLF);
+                }
+                if (header != null) {
+                    Enumeration e2 = header.keys();
+                    while (e2.hasMoreElements()) {
+                        String key = (String) e2.nextElement();
+                        pw.print(key + ": " + header.getProperty(key) + HTTP.CRLF);
                     }
                 }
-            }
-        });
-        this.myThread.setDaemon(true);
-        this.myThread.start();
-    }
-
-    public void stop() {
-        try {
-            this.myServerSocket.close();
-            this.myThread.join();
-        } catch (IOException | InterruptedException e) {
-        }
-    }
-
-    public static void main(String[] args) {
-        myOut.println("NanoHTTPD 1.25 (C) 2001,2005-2011 Jarno Elonen and (C) 2010 Konstantinos Togias\n(Command line options: [-p port] [-d root-dir] [--licence])\n");
-        int port = 80;
-        File wwwroot = new File(".").getAbsoluteFile();
-        int i = 0;
-        while (true) {
-            if (i < args.length) {
-                if (args[i].equalsIgnoreCase("-p")) {
-                    port = Integer.parseInt(args[i + 1]);
-                } else if (args[i].equalsIgnoreCase("-d")) {
-                    wwwroot = new File(args[i + 1]).getAbsoluteFile();
-                } else if (args[i].toLowerCase().endsWith("licence")) {
-                    myOut.println("Copyright (C) 2001,2005-2011 by Jarno Elonen <elonen@iki.fi>\nand Copyright (C) 2010 by Konstantinos Togias <info@ktogias.gr>\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions\nare met:\n\nRedistributions of source code must retain the above copyright notice,\nthis list of conditions and the following disclaimer. Redistributions in\nbinary form must reproduce the above copyright notice, this list of\nconditions and the following disclaimer in the documentation and/or other\nmaterials provided with the distribution. The name of the author may not\nbe used to endorse or promote products derived from this software without\nspecific prior written permission. \n \nTHIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR\nIMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES\nOF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.\nIN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,\nINCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT\nNOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,\nDATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY\nTHEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT\n(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\nOF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n");
-                    break;
+                pw.print(HTTP.CRLF);
+                pw.flush();
+                if (data != null) {
+                    int pending = data.available();
+                    byte[] buff = new byte[NanoHTTPD.theBufferSize];
+                    while (pending > 0) {
+                        if (pending > NanoHTTPD.theBufferSize) {
+                            i = NanoHTTPD.theBufferSize;
+                        } else {
+                            i = pending;
+                        }
+                        int read = data.read(buff, 0, i);
+                        if (read <= 0) {
+                            break;
+                        }
+                        out.write(buff, 0, read);
+                        pending -= read;
+                    }
                 }
-                i++;
+                out.flush();
+                out.close();
+                if (data != null) {
+                    data.close();
+                }
             }
-        }
-        try {
-            new NanoHTTPD(port, wwwroot);
-        } catch (IOException ioe) {
-            myErr.println("Couldn't start server:\n" + ioe);
-            System.exit(-1);
-        }
-        myOut.println("Now serving files in port " + port + " from \"" + wwwroot + "\"");
-        myOut.println("Hit Enter to stop.\n");
-        try {
-            System.in.read();
-        } catch (Throwable th) {
         }
     }
 
@@ -865,6 +797,9 @@ public class NanoHTTPD {
         return newUri;
     }
 
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r35v41, resolved type: java.lang.Object} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v31, resolved type: java.lang.String} */
+    /* JADX WARNING: Multi-variable type inference failed */
     /* JADX WARNING: Removed duplicated region for block: B:121:0x0634  */
     /* JADX WARNING: Removed duplicated region for block: B:30:0x0157  */
     /* Code decompiled incorrectly, please refer to instructions dump. */
@@ -883,7 +818,7 @@ public class NanoHTTPD {
             r2 = r35
             r3 = r36
             r4 = r37
-            r0.<init>(r2, r3, r4)
+            r0.<init>((java.lang.String) r2, (java.lang.String) r3, (java.lang.String) r4)
         L_0x001d:
             if (r29 != 0) goto L_0x0086
             java.lang.String r35 = r41.trim()
@@ -930,7 +865,7 @@ public class NanoHTTPD {
             r2 = r35
             r3 = r36
             r4 = r37
-            r0.<init>(r2, r3, r4)
+            r0.<init>((java.lang.String) r2, (java.lang.String) r3, (java.lang.String) r4)
         L_0x0086:
             java.io.File r14 = new java.io.File
             r0 = r43
@@ -948,7 +883,7 @@ public class NanoHTTPD {
             r2 = r35
             r3 = r36
             r4 = r37
-            r0.<init>(r2, r3, r4)
+            r0.<init>((java.lang.String) r2, (java.lang.String) r3, (java.lang.String) r4)
         L_0x00ac:
             if (r29 != 0) goto L_0x0638
             boolean r35 = r14.isDirectory()
@@ -989,7 +924,7 @@ public class NanoHTTPD {
             r2 = r35
             r3 = r36
             r4 = r37
-            r0.<init>(r2, r3, r4)
+            r0.<init>((java.lang.String) r2, (java.lang.String) r3, (java.lang.String) r4)
             java.lang.String r35 = "Location"
             r0 = r29
             r1 = r35
@@ -1100,7 +1035,7 @@ public class NanoHTTPD {
             r2 = r35
             r3 = r36
             r4 = r37
-            r0.<init>(r2, r3, r4)     // Catch:{ IOException -> 0x062c }
+            r0.<init>((java.lang.String) r2, (java.lang.String) r3, (java.lang.String) r4)     // Catch:{ IOException -> 0x062c }
             java.lang.String r35 = "Content-Range"
             java.lang.StringBuilder r36 = new java.lang.StringBuilder     // Catch:{ IOException -> 0x05a8 }
             r36.<init>()     // Catch:{ IOException -> 0x05a8 }
@@ -1376,7 +1311,7 @@ public class NanoHTTPD {
             r2 = r35
             r3 = r36
             r4 = r25
-            r0.<init>(r2, r3, r4)
+            r0.<init>((java.lang.String) r2, (java.lang.String) r3, (java.lang.String) r4)
             r30 = r29
             goto L_0x0155
         L_0x04ed:
@@ -1389,7 +1324,7 @@ public class NanoHTTPD {
             r2 = r35
             r3 = r36
             r4 = r37
-            r0.<init>(r2, r3, r4)
+            r0.<init>((java.lang.String) r2, (java.lang.String) r3, (java.lang.String) r4)
             r30 = r29
             goto L_0x0155
         L_0x0506:
@@ -1422,7 +1357,7 @@ public class NanoHTTPD {
             r2 = r35
             r3 = r21
             r4 = r18
-            r0.<init>(r2, r3, r4)     // Catch:{ IOException -> 0x062c }
+            r0.<init>((java.lang.String) r2, (java.lang.String) r3, (java.io.InputStream) r4)     // Catch:{ IOException -> 0x062c }
             java.lang.String r35 = "Content-Length"
             java.lang.StringBuilder r36 = new java.lang.StringBuilder     // Catch:{ IOException -> 0x05a8 }
             r36.<init>()     // Catch:{ IOException -> 0x05a8 }
@@ -1474,7 +1409,7 @@ public class NanoHTTPD {
             r2 = r35
             r3 = r36
             r4 = r37
-            r0.<init>(r2, r3, r4)
+            r0.<init>((java.lang.String) r2, (java.lang.String) r3, (java.lang.String) r4)
             goto L_0x0256
         L_0x05c0:
             java.lang.String r35 = "if-none-match"
@@ -1492,7 +1427,7 @@ public class NanoHTTPD {
             r2 = r35
             r3 = r21
             r4 = r36
-            r0.<init>(r2, r3, r4)     // Catch:{ IOException -> 0x062c }
+            r0.<init>((java.lang.String) r2, (java.lang.String) r3, (java.lang.String) r4)     // Catch:{ IOException -> 0x062c }
             goto L_0x0256
         L_0x05e7:
             com.google.appinventor.components.runtime.util.NanoHTTPD$Response r29 = new com.google.appinventor.components.runtime.util.NanoHTTPD$Response     // Catch:{ IOException -> 0x062c }
@@ -1505,7 +1440,7 @@ public class NanoHTTPD {
             r2 = r35
             r3 = r21
             r4 = r36
-            r0.<init>(r2, r3, r4)     // Catch:{ IOException -> 0x062c }
+            r0.<init>((java.lang.String) r2, (java.lang.String) r3, (java.io.InputStream) r4)     // Catch:{ IOException -> 0x062c }
             java.lang.String r35 = "Content-Length"
             java.lang.StringBuilder r36 = new java.lang.StringBuilder     // Catch:{ IOException -> 0x05a8 }
             r36.<init>()     // Catch:{ IOException -> 0x05a8 }

@@ -280,7 +280,7 @@ public class Arithmetic {
             java.lang.String r1 = r1.toString(r5)
             goto L_0x0011
         L_0x002d:
-            gnu.math.IntNum r1 = asIntNum(r4)
+            gnu.math.IntNum r1 = asIntNum((java.lang.Object) r4)
             java.lang.String r1 = r1.toString(r5)
             goto L_0x0011
         L_0x0036:

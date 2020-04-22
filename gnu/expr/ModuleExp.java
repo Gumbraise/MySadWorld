@@ -65,8 +65,7 @@ public class ModuleExp extends LambdaExp implements Externalizable {
                 }
                 stringBuffer.append(lastZipCounter);
                 stringBuffer.append(".zip");
-                FileOutputStream fileOutputStream = new FileOutputStream(stringBuffer.toString());
-                zout = new ZipOutputStream(fileOutputStream);
+                zout = new ZipOutputStream(new FileOutputStream(stringBuffer.toString()));
             }
             for (int iClass = 0; iClass < comp.numClasses; iClass++) {
                 ClassType clas = comp.classes[iClass];
@@ -111,21 +110,18 @@ public class ModuleExp extends LambdaExp implements Externalizable {
                 ModuleInfo dep = minfo.dependencies[idep];
                 Class dclass = dep.getModuleClassRaw();
                 if (dclass == null) {
-                    dclass = evalToClass(dep.comp, null);
+                    dclass = evalToClass(dep.comp, (URL) null);
                 }
                 comp.loader.addClass(dclass);
             }
             return clas2;
         } catch (IOException ex) {
-            WrappedException wrappedException = new WrappedException("I/O error in lambda eval", ex);
-            throw wrappedException;
+            throw new WrappedException("I/O error in lambda eval", ex);
         } catch (ClassNotFoundException ex2) {
-            WrappedException wrappedException2 = new WrappedException("class not found in lambda eval", ex2);
-            throw wrappedException2;
+            throw new WrappedException("class not found in lambda eval", ex2);
         } catch (Throwable ex3) {
             comp.getMessages().error('f', "internal compile error - caught " + ex3, ex3);
-            SyntaxException syntaxException = new SyntaxException(messages);
-            throw syntaxException;
+            throw new SyntaxException(messages);
         }
     }
 
@@ -151,7 +147,6 @@ public class ModuleExp extends LambdaExp implements Externalizable {
         return true;
     }
 
-    /* JADX INFO: used method not loaded: gnu.text.SourceMessages.checkErrors(java.io.PrintWriter, int):null, types can be incorrect */
     /* JADX WARNING: Code restructure failed: missing block: B:14:0x0041, code lost:
         if (r2.checkErrors((java.io.PrintWriter) r14, 20) != false) goto L_0x0043;
      */
@@ -274,7 +269,7 @@ public class ModuleExp extends LambdaExp implements Externalizable {
             r9.loadByStages(r10)     // Catch:{ all -> 0x00f3 }
             if (r14 == 0) goto L_0x0050
             r9 = 20
-            boolean r9 = r2.checkErrors(r14, r9)     // Catch:{ all -> 0x00f3 }
+            boolean r9 = r2.checkErrors((java.io.PrintWriter) r14, (int) r9)     // Catch:{ all -> 0x00f3 }
             if (r9 == 0) goto L_0x0056
         L_0x0043:
             gnu.mapping.Environment.restoreCurrent(r5)
@@ -337,7 +332,7 @@ public class ModuleExp extends LambdaExp implements Externalizable {
             r3.thisVariable = r8     // Catch:{ all -> 0x00f3 }
             if (r14 == 0) goto L_0x00e0
             r8 = 20
-            boolean r8 = r2.checkErrors(r14, r8)     // Catch:{ all -> 0x00f3 }
+            boolean r8 = r2.checkErrors((java.io.PrintWriter) r14, (int) r8)     // Catch:{ all -> 0x00f3 }
             if (r8 == 0) goto L_0x00e6
         L_0x00cb:
             r8 = 0
@@ -411,11 +406,11 @@ public class ModuleExp extends LambdaExp implements Externalizable {
                             Expression dvalue = decl.getValue();
                             if ((decl.field.getModifiers() & 16) != 0) {
                                 if (!(dvalue instanceof QuoteExp) || dvalue == QuoteExp.undefined_exp) {
-                                    value = decl.field.getReflectField().get(null);
+                                    value = decl.field.getReflectField().get((Object) null);
                                     if (!decl.isIndirectBinding()) {
                                         decl.setValue(QuoteExp.getInstance(value));
                                     } else if (!decl.isAlias() || !(dvalue instanceof ReferenceExp)) {
-                                        decl.setValue(null);
+                                        decl.setValue((Expression) null);
                                     }
                                 } else {
                                     value = ((QuoteExp) dvalue).getValue();
@@ -429,7 +424,7 @@ public class ModuleExp extends LambdaExp implements Externalizable {
                                 StaticFieldLocation loc = new StaticFieldLocation(fld.getDeclaringClass(), fld.getName());
                                 loc.setDeclaration(decl);
                                 env.addLocation(sym, property, loc);
-                                decl.setValue(null);
+                                decl.setValue((Expression) null);
                             }
                         }
                     }
@@ -439,7 +434,7 @@ public class ModuleExp extends LambdaExp implements Externalizable {
         } finally {
             Environment.restoreCurrent(orig_env);
             if (thread != null) {
-                thread.setContextClassLoader(null);
+                thread.setContextClassLoader((ClassLoader) null);
             }
         }
     }
@@ -479,11 +474,11 @@ public class ModuleExp extends LambdaExp implements Externalizable {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void allocFields(Compilation comp) {
         for (Declaration decl = firstDecl(); decl != null; decl = decl.nextDecl()) {
             if ((!decl.isSimple() || decl.isPublic()) && decl.field == null && decl.getFlag(65536) && decl.getFlag(6)) {
-                decl.makeField(comp, null);
+                decl.makeField(comp, (Expression) null);
             }
         }
         for (Declaration decl2 = firstDecl(); decl2 != null; decl2 = decl2.nextDecl()) {
@@ -515,7 +510,7 @@ public class ModuleExp extends LambdaExp implements Externalizable {
             out.print(sym);
             out.print('/');
         }
-        out.print(this.f57id);
+        out.print(this.id);
         out.print('/');
         out.writeSpaceFill();
         out.startLogicalBlock("(", false, ")");

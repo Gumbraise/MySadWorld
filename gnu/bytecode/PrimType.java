@@ -223,6 +223,7 @@ public class PrimType extends Type {
     }
 
     public int compare(Type other) {
+        char otherPriority;
         if (other instanceof PrimType) {
             if (other.getImplementationType() != other) {
                 return swappedCompareResult(other.compare(this));
@@ -267,22 +268,19 @@ public class PrimType extends Type {
             if (otherName.equals("java.lang.Character")) {
                 return 0;
             }
-            if (thisPriority != 0) {
-                char otherPriority = findInHierarchy(otherName);
-                if (otherPriority != 0) {
-                    if (otherPriority == thisPriority) {
-                        return 0;
-                    }
-                    if (otherPriority < thisPriority) {
-                        return 1;
-                    }
+            if (thisPriority == 0 || (otherPriority = findInHierarchy(otherName)) == 0) {
+                if (otherName.equals("java.lang.Object") || other == toStringType) {
                     return -1;
                 }
-            }
-            if (otherName.equals("java.lang.Object") || other == toStringType) {
+                return -3;
+            } else if (otherPriority == thisPriority) {
+                return 0;
+            } else {
+                if (otherPriority < thisPriority) {
+                    return 1;
+                }
                 return -1;
             }
-            return -3;
         } else if (other instanceof ArrayType) {
             return -3;
         } else {

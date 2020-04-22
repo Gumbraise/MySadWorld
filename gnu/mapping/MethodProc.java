@@ -144,7 +144,23 @@ public abstract class MethodProc extends ProcedureN {
         int bestn2 = 0;
         while (i < length) {
             MethodProc method = procs[i];
-            if (best == null) {
+            if (best != null) {
+                MethodProc winner = mostSpecific(best, method);
+                if (winner == null) {
+                    if (bests == null) {
+                        bests = new MethodProc[length];
+                    }
+                    bests[0] = best;
+                    bests[1] = method;
+                    bestn = 2;
+                    best = null;
+                } else if (winner == method) {
+                    best = method;
+                    bestn = i;
+                } else {
+                    bestn = bestn2;
+                }
+            } else {
                 int j = 0;
                 while (true) {
                     if (j >= bestn2) {
@@ -153,33 +169,17 @@ public abstract class MethodProc extends ProcedureN {
                         break;
                     }
                     MethodProc old = bests[j];
-                    MethodProc winner = mostSpecific(old, method);
-                    if (winner == old) {
+                    MethodProc winner2 = mostSpecific(old, method);
+                    if (winner2 == old) {
                         bestn = bestn2;
                         break;
-                    } else if (winner == null) {
+                    } else if (winner2 == null) {
                         bestn = bestn2 + 1;
                         bests[bestn2] = method;
                         break;
                     } else {
                         j++;
                     }
-                }
-            } else {
-                MethodProc winner2 = mostSpecific(best, method);
-                if (winner2 == null) {
-                    if (bests == null) {
-                        bests = new MethodProc[length];
-                    }
-                    bests[0] = best;
-                    bests[1] = method;
-                    bestn = 2;
-                    best = null;
-                } else if (winner2 == method) {
-                    best = method;
-                    bestn = i;
-                } else {
-                    bestn = bestn2;
                 }
             }
             i++;

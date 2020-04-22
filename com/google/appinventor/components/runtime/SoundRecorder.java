@@ -1,8 +1,6 @@
 package com.google.appinventor.components.runtime;
 
 import android.media.MediaRecorder;
-import android.media.MediaRecorder.OnErrorListener;
-import android.media.MediaRecorder.OnInfoListener;
 import android.os.Environment;
 import android.util.Log;
 import com.google.appinventor.components.annotations.DesignerComponent;
@@ -23,7 +21,7 @@ import java.io.IOException;
 @DesignerComponent(category = ComponentCategory.MEDIA, description = "<p>Multimedia component that records audio.</p>", iconName = "images/soundRecorder.png", nonVisible = true, version = 2)
 @SimpleObject
 @UsesPermissions(permissionNames = "android.permission.RECORD_AUDIO,android.permission.WRITE_EXTERNAL_STORAGE,android.permission.READ_EXTERNAL_STORAGE")
-public final class SoundRecorder extends AndroidNonvisibleComponent implements Component, OnErrorListener, OnInfoListener {
+public final class SoundRecorder extends AndroidNonvisibleComponent implements Component, MediaRecorder.OnErrorListener, MediaRecorder.OnInfoListener {
     private static final String TAG = "SoundRecorder";
     private RecordingController controller;
     /* access modifiers changed from: private */
@@ -35,10 +33,7 @@ public final class SoundRecorder extends AndroidNonvisibleComponent implements C
         final MediaRecorder recorder;
 
         RecordingController(String savedRecording) throws IOException {
-            if (savedRecording.equals("")) {
-                savedRecording = FileUtil.getRecordingFile("3gp").getAbsolutePath();
-            }
-            this.file = savedRecording;
+            this.file = savedRecording.equals("") ? FileUtil.getRecordingFile("3gp").getAbsolutePath() : savedRecording;
             this.recorder = new MediaRecorder();
             this.recorder.setAudioSource(1);
             this.recorder.setOutputFormat(1);
@@ -51,7 +46,7 @@ public final class SoundRecorder extends AndroidNonvisibleComponent implements C
             this.recorder.setOnInfoListener(SoundRecorder.this);
         }
 
-        /* access modifiers changed from: 0000 */
+        /* access modifiers changed from: package-private */
         public void start() throws IllegalStateException {
             Log.i(SoundRecorder.TAG, "starting");
             try {
@@ -62,10 +57,10 @@ public final class SoundRecorder extends AndroidNonvisibleComponent implements C
             }
         }
 
-        /* access modifiers changed from: 0000 */
+        /* access modifiers changed from: package-private */
         public void stop() {
-            this.recorder.setOnErrorListener(null);
-            this.recorder.setOnInfoListener(null);
+            this.recorder.setOnErrorListener((MediaRecorder.OnErrorListener) null);
+            this.recorder.setOnInfoListener((MediaRecorder.OnInfoListener) null);
             this.recorder.stop();
             this.recorder.reset();
             this.recorder.release();
@@ -94,7 +89,7 @@ public final class SoundRecorder extends AndroidNonvisibleComponent implements C
                 public void run() {
                     SoundRecorder.this.form.askPermission(new BulkPermissionRequest(this, "Start", "android.permission.RECORD_AUDIO", "android.permission.WRITE_EXTERNAL_STORAGE") {
                         public void onGranted() {
-                            this.havePermission = true;
+                            boolean unused = this.havePermission = true;
                             this.Start();
                         }
                     });

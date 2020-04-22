@@ -6,7 +6,7 @@ import com.google.appinventor.components.annotations.PropertyCategory;
 import com.google.appinventor.components.annotations.SimpleObject;
 import com.google.appinventor.components.annotations.SimpleProperty;
 import com.google.appinventor.components.annotations.SimplePropertyCopier;
-import com.google.appinventor.components.runtime.Form.PercentStorageRecord.Dim;
+import com.google.appinventor.components.runtime.Form;
 import com.google.appinventor.components.runtime.util.ErrorMessages;
 
 @SimpleObject
@@ -46,9 +46,9 @@ public abstract class AndroidViewComponent extends VisibleComponent {
         this.container.setChildWidth(this, width);
         this.lastSetWidth = width;
         if (width <= -1000) {
-            this.container.$form().registerPercentLength(this, width, Dim.WIDTH);
+            this.container.$form().registerPercentLength(this, width, Form.PercentStorageRecord.Dim.WIDTH);
         } else {
-            this.container.$form().unregisterPercentLength(this, Dim.WIDTH);
+            this.container.$form().unregisterPercentLength(this, Form.PercentStorageRecord.Dim.WIDTH);
         }
     }
 
@@ -98,9 +98,9 @@ public abstract class AndroidViewComponent extends VisibleComponent {
         this.container.setChildHeight(this, height);
         this.lastSetHeight = height;
         if (height <= -1000) {
-            this.container.$form().registerPercentLength(this, height, Dim.HEIGHT);
+            this.container.$form().registerPercentLength(this, height, Form.PercentStorageRecord.Dim.HEIGHT);
         } else {
-            this.container.$form().unregisterPercentLength(this, Dim.HEIGHT);
+            this.container.$form().unregisterPercentLength(this, Form.PercentStorageRecord.Dim.HEIGHT);
         }
     }
 

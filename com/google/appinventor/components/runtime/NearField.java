@@ -103,7 +103,7 @@ public class NearField extends AndroidNonvisibleComponent implements OnStopListe
         Log.d(TAG, "Nearfield on onResume.  Intent is: " + this.activity.getIntent());
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void resolveIntent(Intent intent) {
         Log.d(TAG, "resolve intent. Intent is: " + intent);
         if (SdkLevel.getLevel() >= 9) {

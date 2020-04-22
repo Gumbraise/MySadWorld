@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
+import java.util.Map;
 import java.util.TreeSet;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -73,9 +73,9 @@ public class JsonUtil {
         while (it.hasNext()) {
             keys.add(it.next());
         }
-        Iterator it2 = keys.iterator();
+        Iterator<String> it2 = keys.iterator();
         while (it2.hasNext()) {
-            String key = (String) it2.next();
+            String key = it2.next();
             result.put(key, convertJsonItem(jsonObject.get(key), true));
         }
         return result;
@@ -102,10 +102,10 @@ public class JsonUtil {
             }
             return array;
         } else if (o.equals(Boolean.FALSE) || ((o instanceof String) && ((String) o).equalsIgnoreCase("false"))) {
-            return Boolean.valueOf(false);
+            return false;
         } else {
             if (o.equals(Boolean.TRUE) || ((o instanceof String) && ((String) o).equalsIgnoreCase("true"))) {
-                return Boolean.valueOf(true);
+                return true;
             }
             if (o instanceof Number) {
                 return o;
@@ -115,7 +115,7 @@ public class JsonUtil {
     }
 
     public static String getJsonRepresentation(Object value) throws JSONException {
-        if (value == null || value.equals(null)) {
+        if (value == null || value.equals((Object) null)) {
             return "null";
         }
         if (value instanceof FString) {
@@ -138,10 +138,9 @@ public class JsonUtil {
         }
         if (value instanceof YailDictionary) {
             StringBuilder sb = new StringBuilder();
-            YailDictionary dict = (YailDictionary) value;
             String sep = "";
             sb.append('{');
-            for (Entry<Object, Object> entry : dict.entrySet()) {
+            for (Map.Entry<Object, Object> entry : ((YailDictionary) value).entrySet()) {
                 sb.append(sep);
                 sb.append(JSONObject.quote(entry.getKey().toString()));
                 sb.append(':');
@@ -194,22 +193,22 @@ public class JsonUtil {
     }
 
     public static String getJsonRepresentationIfValueFileName(Object value) {
-        List list;
+        List<String> valueList;
         try {
             if (value instanceof String) {
-                list = getStringListFromJsonArray(new JSONArray((String) value));
+                valueList = getStringListFromJsonArray(new JSONArray((String) value));
             } else if (value instanceof List) {
-                list = (List) value;
+                valueList = (List) value;
             } else {
                 throw new YailRuntimeError("getJsonRepresentationIfValueFileName called on unknown type", value.getClass().getName());
             }
-            if (list.size() != 2) {
+            if (valueList.size() != 2) {
                 return null;
             }
-            if (!((String) list.get(0)).startsWith(".")) {
+            if (!valueList.get(0).startsWith(".")) {
                 return null;
             }
-            String filename = writeFile((String) list.get(1), ((String) list.get(0)).substring(1));
+            String filename = writeFile(valueList.get(1), valueList.get(0).substring(1));
             System.out.println("Filename Written: " + filename);
             return getJsonRepresentation(filename.replace("file:/", "file:///"));
         } catch (JSONException e) {

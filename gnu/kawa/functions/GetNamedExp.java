@@ -8,11 +8,7 @@ import gnu.expr.Expression;
 import gnu.expr.InlineCalls;
 import gnu.expr.PrimProcedure;
 import gnu.expr.ReferenceExp;
-import gnu.mapping.CallContext;
-import gnu.mapping.Environment;
-import gnu.mapping.Location;
 import gnu.mapping.Procedure;
-import gnu.mapping.Symbol;
 
 /* compiled from: CompileNamedPart */
 class GetNamedExp extends ApplyExp {
@@ -27,18 +23,32 @@ class GetNamedExp extends ApplyExp {
     char kind;
     PrimProcedure[] methods;
 
-    public void apply(CallContext ctx) throws Throwable {
-        if (this.combinedName != null) {
-            Environment env = Environment.getCurrent();
-            Symbol sym = env.getSymbol(this.combinedName);
-            String unb = Location.UNBOUND;
-            Object value = env.get(sym, null, unb);
-            if (value != unb) {
-                ctx.writeValue(value);
-                return;
-            }
-        }
-        super.apply(ctx);
+    /* JADX WARNING: Code restructure failed: missing block: B:2:0x0004, code lost:
+        r0 = gnu.mapping.Environment.getCurrent();
+        r2 = r0.getSymbol(r6.combinedName);
+        r3 = gnu.mapping.Location.UNBOUND;
+     */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public void apply(gnu.mapping.CallContext r7) throws java.lang.Throwable {
+        /*
+            r6 = this;
+            java.lang.String r5 = r6.combinedName
+            if (r5 == 0) goto L_0x001b
+            gnu.mapping.Environment r0 = gnu.mapping.Environment.getCurrent()
+            java.lang.String r5 = r6.combinedName
+            gnu.mapping.Symbol r2 = r0.getSymbol(r5)
+            java.lang.String r3 = gnu.mapping.Location.UNBOUND
+            r1 = 0
+            java.lang.Object r4 = r0.get(r2, r1, r3)
+            if (r4 == r3) goto L_0x001b
+            r7.writeValue(r4)
+        L_0x001a:
+            return
+        L_0x001b:
+            super.apply(r7)
+            goto L_0x001a
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.functions.GetNamedExp.apply(gnu.mapping.CallContext):void");
     }
 
     public GetNamedExp(Expression[] args) {

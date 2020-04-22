@@ -6,6 +6,8 @@ import gnu.kawa.xml.UntypedAtomic;
 import gnu.lists.AbstractFormat;
 import gnu.lists.Array;
 import gnu.lists.Consumer;
+import gnu.lists.LList;
+import gnu.lists.Pair;
 import gnu.mapping.Namespace;
 import gnu.mapping.OutPort;
 import gnu.mapping.Symbol;
@@ -48,8 +50,7 @@ public class DisplayFormat extends AbstractFormat {
     }
 
     public void writeBoolean(boolean v, Consumer out) {
-        String str = this.language == 'S' ? v ? "#t" : "#f" : v ? "t" : "nil";
-        write(str, out);
+        write(this.language == 'S' ? v ? "#t" : "#f" : v ? "t" : "nil", out);
     }
 
     public void write(int v, Consumer out) {
@@ -63,42 +64,23 @@ public class DisplayFormat extends AbstractFormat {
         }
     }
 
-    /* JADX WARNING: Incorrect type for immutable var: ssa=gnu.lists.LList, code=java.lang.Object, for r6v0, types: [gnu.lists.LList, java.lang.Object] */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public void writeList(java.lang.Object r6, gnu.mapping.OutPort r7) {
-        /*
-            r5 = this;
-            r0 = r6
-            java.lang.String r2 = "("
-            r3 = 0
-            java.lang.String r4 = ")"
-            r7.startLogicalBlock(r2, r3, r4)
-        L_0x0009:
-            boolean r2 = r0 instanceof gnu.lists.Pair
-            if (r2 == 0) goto L_0x0021
-            if (r0 == r6) goto L_0x0012
-            r7.writeSpaceFill()
-        L_0x0012:
-            r1 = r0
-            gnu.lists.Pair r1 = (gnu.lists.Pair) r1
-            java.lang.Object r2 = r1.getCar()
-            r5.writeObject(r2, r7)
-            java.lang.Object r0 = r1.getCdr()
-            goto L_0x0009
-        L_0x0021:
-            gnu.lists.LList r2 = gnu.lists.LList.Empty
-            if (r0 == r2) goto L_0x0034
-            r7.writeSpaceFill()
-            java.lang.String r2 = ". "
-            r7.write(r2)
-            java.lang.Object r2 = gnu.lists.LList.checkNonList(r0)
-            r5.writeObject(r2, r7)
-        L_0x0034:
-            java.lang.String r2 = ")"
-            r7.endLogicalBlock(r2)
-            return
-        */
-        throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.functions.DisplayFormat.writeList(gnu.lists.LList, gnu.mapping.OutPort):void");
+    public void writeList(LList value, OutPort out) {
+        Object obj = value;
+        out.startLogicalBlock("(", false, ")");
+        while (obj instanceof Pair) {
+            if (obj != value) {
+                out.writeSpaceFill();
+            }
+            Pair pair = (Pair) obj;
+            writeObject(pair.getCar(), out);
+            obj = pair.getCdr();
+        }
+        if (obj != LList.Empty) {
+            out.writeSpaceFill();
+            out.write(". ");
+            writeObject(LList.checkNonList(obj), out);
+        }
+        out.endLogicalBlock(")");
     }
 
     public void writeObject(Object obj, Consumer out) {
@@ -113,11 +95,10 @@ public class DisplayFormat extends AbstractFormat {
         }
     }
 
-    /* JADX WARNING: type inference failed for: r22v1 */
-    /* JADX WARNING: type inference failed for: r1v19, types: [java.io.Writer] */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r1v0, resolved type: gnu.mapping.Values} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r1v36, resolved type: gnu.kawa.xml.XmlNamespace} */
     /* JADX WARNING: type inference failed for: r30v2, types: [java.io.Writer] */
     /* JADX WARNING: Multi-variable type inference failed */
-    /* JADX WARNING: Unknown variable types count: 2 */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public void writeObjectRaw(java.lang.Object r29, gnu.lists.Consumer r30) {
         /*
@@ -174,12 +155,12 @@ public class DisplayFormat extends AbstractFormat {
             r0 = r28
             r1 = r24
             r2 = r30
-            r0.write(r1, r2)
+            r0.write((java.lang.String) r1, (gnu.lists.Consumer) r2)
             java.lang.String r24 = r19.getLocalPart()
             r0 = r28
             r1 = r24
             r2 = r30
-            r0.write(r1, r2)
+            r0.write((java.lang.String) r1, (gnu.lists.Consumer) r2)
             goto L_0x0017
         L_0x0079:
             r0 = r28
@@ -189,7 +170,7 @@ public class DisplayFormat extends AbstractFormat {
             r1 = r19
             r2 = r30
             r3 = r24
-            r0.writeSymbol(r1, r2, r3)
+            r0.writeSymbol((gnu.mapping.Symbol) r1, (gnu.lists.Consumer) r2, (boolean) r3)
             goto L_0x0017
         L_0x008b:
             r0 = r29
@@ -206,7 +187,7 @@ public class DisplayFormat extends AbstractFormat {
             r0 = r28
             r1 = r24
             r2 = r30
-            r0.write(r1, r2)
+            r0.write((java.lang.String) r1, (gnu.lists.Consumer) r2)
             java.lang.String r25 = r29.toString()
             r24 = r30
             java.io.PrintWriter r24 = (java.io.PrintWriter) r24
@@ -218,7 +199,7 @@ public class DisplayFormat extends AbstractFormat {
             r24 = 41
             r0 = r30
             r1 = r24
-            r0.write(r1)
+            r0.write((int) r1)
             goto L_0x0017
         L_0x00ca:
             r0 = r29
@@ -248,7 +229,7 @@ public class DisplayFormat extends AbstractFormat {
             java.lang.String r29 = (java.lang.String) r29
             r0 = r30
             r1 = r29
-            r0.write(r1)
+            r0.write((java.lang.String) r1)
             goto L_0x0017
         L_0x0106:
             r0 = r29
@@ -273,7 +254,7 @@ public class DisplayFormat extends AbstractFormat {
             char r24 = r0.charAt(r11)
             r0 = r30
             r1 = r24
-            r0.write(r1)
+            r0.write((int) r1)
             int r11 = r11 + 1
             goto L_0x0128
         L_0x013a:
@@ -317,7 +298,7 @@ public class DisplayFormat extends AbstractFormat {
             r0 = r24
             r1 = r17
             r2 = r25
-            r0.startLogicalBlock(r1, r2, r9)
+            r0.startLogicalBlock((java.lang.String) r1, (boolean) r2, (java.lang.String) r9)
         L_0x018c:
             int r24 = r21.size()
             int r10 = r24 << 1
@@ -368,7 +349,7 @@ public class DisplayFormat extends AbstractFormat {
             r0 = r28
             r1 = r17
             r2 = r30
-            r0.write(r1, r2)
+            r0.write((java.lang.String) r1, (gnu.lists.Consumer) r2)
             goto L_0x018c
         L_0x01f0:
             int r12 = r12 + 2
@@ -376,7 +357,7 @@ public class DisplayFormat extends AbstractFormat {
         L_0x01f3:
             r0 = r28
             r1 = r30
-            r0.write(r9, r1)
+            r0.write((java.lang.String) r9, (gnu.lists.Consumer) r1)
             goto L_0x0017
         L_0x01fc:
             r0 = r29
@@ -404,7 +385,7 @@ public class DisplayFormat extends AbstractFormat {
             r0 = r28
             r1 = r24
             r2 = r30
-            r0.write(r1, r2)
+            r0.write((java.lang.String) r1, (gnu.lists.Consumer) r2)
         L_0x0232:
             r0 = r30
             boolean r0 = r0 instanceof java.io.Writer
@@ -416,7 +397,7 @@ public class DisplayFormat extends AbstractFormat {
             gnu.xml.XMLPrinter r23 = new gnu.xml.XMLPrinter
             r0 = r23
             r1 = r22
-            r0.<init>(r1)
+            r0.<init>((java.io.Writer) r1)
             r0 = r23
             r1 = r29
             r0.writeObject(r1)
@@ -439,7 +420,7 @@ public class DisplayFormat extends AbstractFormat {
             r0 = r28
             r1 = r24
             r2 = r30
-            r0.write(r1, r2)
+            r0.write((java.lang.String) r1, (gnu.lists.Consumer) r2)
             goto L_0x0017
         L_0x0278:
             r0 = r29
@@ -500,11 +481,11 @@ public class DisplayFormat extends AbstractFormat {
             r0 = r28
             r1 = r24
             r2 = r30
-            r0.write(r1, r2)
+            r0.write((java.lang.String) r1, (gnu.lists.Consumer) r2)
         L_0x02f3:
             r0 = r28
             r1 = r30
-            r0.write(r5, r1)
+            r0.write((java.lang.String) r5, (gnu.lists.Consumer) r1)
             if (r16 == 0) goto L_0x0017
             r24 = 10
             r0 = r24
@@ -517,7 +498,7 @@ public class DisplayFormat extends AbstractFormat {
             r0 = r28
             r1 = r24
             r2 = r30
-            r0.write(r1, r2)
+            r0.write((java.lang.String) r1, (gnu.lists.Consumer) r2)
             goto L_0x0017
         L_0x0317:
             if (r7 == 0) goto L_0x02d6
@@ -532,7 +513,7 @@ public class DisplayFormat extends AbstractFormat {
             r0 = r28
             r1 = r24
             r2 = r30
-            r0.write(r1, r2)
+            r0.write((java.lang.String) r1, (gnu.lists.Consumer) r2)
             goto L_0x02f3
         L_0x0334:
             r24 = 2
@@ -542,7 +523,7 @@ public class DisplayFormat extends AbstractFormat {
             r0 = r28
             r1 = r24
             r2 = r30
-            r0.write(r1, r2)
+            r0.write((java.lang.String) r1, (gnu.lists.Consumer) r2)
             goto L_0x02f3
         L_0x0346:
             r24 = 10
@@ -565,7 +546,7 @@ public class DisplayFormat extends AbstractFormat {
             r0 = r28
             r1 = r24
             r2 = r30
-            r0.write(r1, r2)
+            r0.write((java.lang.String) r1, (gnu.lists.Consumer) r2)
             goto L_0x02f3
         L_0x037a:
             r0 = r29
@@ -579,18 +560,18 @@ public class DisplayFormat extends AbstractFormat {
             r0 = r28
             r1 = r24
             r2 = r30
-            r0.write(r1, r2)
+            r0.write((java.lang.String) r1, (gnu.lists.Consumer) r2)
             java.lang.String r24 = ":"
             r0 = r28
             r1 = r24
             r2 = r30
-            r0.write(r1, r2)
+            r0.write((java.lang.String) r1, (gnu.lists.Consumer) r2)
             java.lang.Enum r29 = (java.lang.Enum) r29
             java.lang.String r24 = r29.name()
             r0 = r28
             r1 = r24
             r2 = r30
-            r0.write(r1, r2)
+            r0.write((java.lang.String) r1, (gnu.lists.Consumer) r2)
             goto L_0x0017
         L_0x03b5:
             if (r29 != 0) goto L_0x03c7
@@ -601,7 +582,7 @@ public class DisplayFormat extends AbstractFormat {
             r0 = r28
             r1 = r24
             r2 = r30
-            r0.write(r1, r2)
+            r0.write((java.lang.String) r1, (gnu.lists.Consumer) r2)
             goto L_0x0017
         L_0x03c7:
             java.lang.Class r8 = r29.getClass()
@@ -617,7 +598,7 @@ public class DisplayFormat extends AbstractFormat {
             java.lang.String r25 = "["
             r26 = 0
             java.lang.String r27 = "]"
-            r24.startLogicalBlock(r25, r26, r27)
+            r24.startLogicalBlock((java.lang.String) r25, (boolean) r26, (java.lang.String) r27)
         L_0x03ea:
             r11 = 0
         L_0x03eb:
@@ -627,7 +608,7 @@ public class DisplayFormat extends AbstractFormat {
             r0 = r28
             r1 = r24
             r2 = r30
-            r0.write(r1, r2)
+            r0.write((java.lang.String) r1, (gnu.lists.Consumer) r2)
             r0 = r30
             boolean r0 = r0 instanceof gnu.mapping.OutPort
             r24 = r0
@@ -649,7 +630,7 @@ public class DisplayFormat extends AbstractFormat {
             r0 = r28
             r1 = r24
             r2 = r30
-            r0.write(r1, r2)
+            r0.write((java.lang.String) r1, (gnu.lists.Consumer) r2)
             goto L_0x03ea
         L_0x0427:
             r0 = r30
@@ -667,7 +648,7 @@ public class DisplayFormat extends AbstractFormat {
             r0 = r28
             r1 = r24
             r2 = r30
-            r0.write(r1, r2)
+            r0.write((java.lang.String) r1, (gnu.lists.Consumer) r2)
             goto L_0x0017
         L_0x0449:
             java.lang.String r5 = r29.toString()
@@ -675,13 +656,13 @@ public class DisplayFormat extends AbstractFormat {
         L_0x044f:
             r0 = r28
             r1 = r30
-            r0.write(r5, r1)
+            r0.write((java.lang.String) r5, (gnu.lists.Consumer) r1)
             goto L_0x0017
         */
         throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.functions.DisplayFormat.writeObjectRaw(java.lang.Object, gnu.lists.Consumer):void");
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public int write(Array array, int index, int level, Consumer out) {
         int step;
         int rank = array.rank();
@@ -720,7 +701,7 @@ public class DisplayFormat extends AbstractFormat {
         return count;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void writeSymbol(Symbol sym, Consumer out, boolean readable2) {
         boolean hasUri;
         boolean hasPrefix = true;
@@ -759,7 +740,7 @@ public class DisplayFormat extends AbstractFormat {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void writeSymbol(String sym, Consumer out, boolean readable2) {
         if (!readable2 || r5rsIdentifierMinusInteriorColons.matcher(sym).matches()) {
             write(sym, out);

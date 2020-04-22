@@ -52,6 +52,7 @@ public class SyntaxTemplate implements Externalizable {
     }
 
     public int convert_template(Object form, SyntaxForm syntax, StringBuffer template_program2, int nesting, Vector literals_vector, Object seen, boolean isVector, Translator tr) {
+        int pattern_var_num;
         int i;
         while (form instanceof SyntaxForm) {
             syntax = (SyntaxForm) form;
@@ -134,21 +135,18 @@ public class SyntaxTemplate implements Externalizable {
         } else if (form == LList.Empty) {
             template_program2.append(16);
             return -2;
-        } else if (!(!(form instanceof Symbol) || tr == null || tr.patternScope == null)) {
-            int pattern_var_num = indexOf(tr.patternScope.pattern_names, form);
-            if (pattern_var_num >= 0) {
-                int var_nesting = this.patternNesting.charAt(pattern_var_num);
-                int op = (var_nesting & 1) != 0 ? 3 : 2;
-                int var_nesting2 = var_nesting >> 1;
-                if (var_nesting2 > nesting) {
-                    tr.syntaxError("inconsistent ... nesting of " + form);
-                }
-                template_program2.append((char) ((pattern_var_num * 8) + op));
-                if (var_nesting2 != nesting) {
-                    pattern_var_num = -1;
-                }
-                return pattern_var_num;
+        } else if ((form instanceof Symbol) && tr != null && tr.patternScope != null && (pattern_var_num = indexOf(tr.patternScope.pattern_names, form)) >= 0) {
+            int var_nesting = this.patternNesting.charAt(pattern_var_num);
+            int op = (var_nesting & 1) != 0 ? 3 : 2;
+            int var_nesting2 = var_nesting >> 1;
+            if (var_nesting2 > nesting) {
+                tr.syntaxError("inconsistent ... nesting of " + form);
             }
+            template_program2.append((char) ((pattern_var_num * 8) + op));
+            if (var_nesting2 != nesting) {
+                pattern_var_num = -1;
+            }
+            return pattern_var_num;
         }
         int literals_index = indexOf(literals_vector, form);
         if (literals_index < 0) {
@@ -195,7 +193,7 @@ public class SyntaxTemplate implements Externalizable {
         return execute(0, vars, 0, new int[this.max_nesting], tr, templateScope);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Object get_var(int var_num, Object[] vars, int[] indexes) {
         Object var = vars[var_num];
         if (var_num < this.patternNesting.length()) {
@@ -207,7 +205,7 @@ public class SyntaxTemplate implements Externalizable {
         return var;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public LList executeToList(int pc, Object[] vars, int nesting, int[] indexes, Translator tr, TemplateScope templateScope) {
         int pc0 = pc;
         int ch = this.template_program.charAt(pc);
@@ -238,12 +236,11 @@ public class SyntaxTemplate implements Externalizable {
             }
             return result;
         } else {
-            Pair pair = new Pair(execute(pc0, vars, nesting, indexes, tr, templateScope), LList.Empty);
-            return pair;
+            return new Pair(execute(pc0, vars, nesting, indexes, tr, templateScope), LList.Empty);
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Object execute(int pc, Object[] vars, int nesting, int[] indexes, Translator tr, TemplateScope templateScope) {
         int ch = this.template_program.charAt(pc);
         while ((ch & 7) == 7) {
@@ -266,15 +263,15 @@ public class SyntaxTemplate implements Externalizable {
                 Object obj = null;
                 do {
                     int pc2 = pc + 1;
-                    Object executeToList = executeToList(pc2, vars, nesting, indexes, tr, templateScope);
+                    Object p2 = executeToList(pc2, vars, nesting, indexes, tr, templateScope);
                     if (p == null) {
-                        obj = executeToList;
+                        obj = p2;
                     } else {
-                        p.setCdrBackdoor(executeToList);
+                        p.setCdrBackdoor(p2);
                     }
-                    while (executeToList instanceof Pair) {
-                        p = (Pair) executeToList;
-                        executeToList = p.getCdr();
+                    while (p2 instanceof Pair) {
+                        p = p2;
+                        p2 = p.getCdr();
                     }
                     pc = pc2 + (ch >> 3);
                     ch = this.template_program.charAt(pc);
@@ -287,8 +284,7 @@ public class SyntaxTemplate implements Externalizable {
                 }
                 return obj;
             } else if (ch == 40) {
-                FVector fVector = new FVector((List) (LList) execute(pc + 1, vars, nesting, indexes, tr, templateScope));
-                return fVector;
+                return new FVector((List) (LList) execute(pc + 1, vars, nesting, indexes, tr, templateScope));
             } else if ((ch & 7) == 4) {
                 return this.literal_values[ch >> 3];
             } else if ((ch & 6) == 2) {

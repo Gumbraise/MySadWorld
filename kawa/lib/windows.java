@@ -71,7 +71,7 @@ public class windows extends ModuleBody {
             return super.match0(moduleMethod, callContext);
         }
         callContext.proc = moduleMethod;
-        callContext.f236pc = 0;
+        callContext.pc = 0;
         return 0;
     }
 
@@ -81,7 +81,7 @@ public class windows extends ModuleBody {
         }
         callContext.value1 = obj;
         callContext.proc = moduleMethod;
-        callContext.f236pc = 1;
+        callContext.pc = 1;
         return 0;
     }
 }

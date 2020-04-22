@@ -10,11 +10,10 @@ public final class GitBuildId {
     }
 
     public static String getVersion() {
-        String version = GIT_BUILD_VERSION;
-        if (version == "" || version.contains(" ")) {
+        if (GIT_BUILD_VERSION == "" || GIT_BUILD_VERSION.contains(" ")) {
             return "none";
         }
-        return version;
+        return GIT_BUILD_VERSION;
     }
 
     public static String getFingerprint() {

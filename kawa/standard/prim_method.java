@@ -29,7 +29,7 @@ public class prim_method extends Syntax {
         op1.setName("primitive-op1");
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public int opcode() {
         return this.op_code;
     }
@@ -58,7 +58,7 @@ public class prim_method extends Syntax {
                 args[i] = tr.exp2Type(p);
                 argp = (LList) p.getCdr();
             }
-            Type rtype = tr.exp2Type(new Pair(match[2], null));
+            Type rtype = tr.exp2Type(new Pair(match[2], (Object) null));
             if (this.op_code == 0) {
                 proc = new PrimProcedure(((Number) match[1]).intValue(), rtype, args);
             } else {

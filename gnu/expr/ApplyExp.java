@@ -129,9 +129,10 @@ public class ApplyExp extends Expression {
     }
 
     static void compile(ApplyExp exp, Compilation comp, Target target, boolean checkInlineable) {
-        Object obj;
+        Procedure procedure;
         boolean toArray;
         Method method;
+        Method method2;
         PrimType primType;
         int args_length = exp.args.length;
         Expression exp_func = exp.func;
@@ -141,10 +142,9 @@ public class ApplyExp extends Expression {
         if (exp_func instanceof LambdaExp) {
             func_lambda = (LambdaExp) exp_func;
             if (func_lambda.getName() == null) {
-                String func_name = "<lambda>";
-                obj = null;
+                procedure = null;
             }
-            obj = null;
+            procedure = null;
         } else if (exp_func instanceof ReferenceExp) {
             ReferenceExp func_ref = (ReferenceExp) exp_func;
             owner = func_ref.contextDecl();
@@ -159,7 +159,7 @@ public class ApplyExp extends Expression {
             }
             if (!func_decl.getFlag(65536)) {
                 Expression value = func_decl.getValue();
-                String func_name2 = func_decl.getName();
+                String func_name = func_decl.getName();
                 if (value != null && (value instanceof LambdaExp)) {
                     func_lambda = (LambdaExp) value;
                 }
@@ -167,22 +167,22 @@ public class ApplyExp extends Expression {
                     quotedValue = ((QuoteExp) value).getValue();
                 }
             }
-            obj = quotedValue;
+            procedure = quotedValue;
         } else {
             if (exp_func instanceof QuoteExp) {
-                obj = ((QuoteExp) exp_func).getValue();
+                procedure = ((QuoteExp) exp_func).getValue();
             }
-            obj = null;
+            procedure = null;
         }
-        if (checkInlineable && (obj instanceof Procedure)) {
-            Procedure proc = (Procedure) obj;
+        if (checkInlineable && (procedure instanceof Procedure)) {
+            Procedure proc = procedure;
             if (!(target instanceof IgnoreTarget) || !proc.isSideEffectFree()) {
                 try {
                     if (inlineCompile(proc, exp, comp, target)) {
                         return;
                     }
                 } catch (Throwable ex) {
-                    comp.getMessages().error('e', "caught exception in inline-compiler for " + obj + " - " + ex, ex);
+                    comp.getMessages().error('e', "caught exception in inline-compiler for " + procedure + " - " + ex, ex);
                     return;
                 }
             } else {
@@ -196,32 +196,29 @@ public class ApplyExp extends Expression {
         if (func_lambda != null) {
             if ((func_lambda.max_args < 0 || args_length <= func_lambda.max_args) && args_length >= func_lambda.min_args) {
                 int conv = func_lambda.getCallConvention();
-                if (comp.inlineOk((Expression) func_lambda) && (conv <= 2 || (conv == 3 && !exp.isTailCall()))) {
-                    Method method2 = func_lambda.getMethod(args_length);
-                    if (method2 != null) {
-                        PrimProcedure primProcedure = new PrimProcedure(method2, func_lambda);
-                        boolean is_static = method2.getStaticFlag();
-                        boolean extraArg = false;
-                        if (!is_static || func_lambda.declareClosureEnv() != null) {
-                            if (is_static) {
-                                extraArg = true;
-                            }
-                            if (comp.curLambda == func_lambda) {
-                                code.emitLoad(func_lambda.closureEnv != null ? func_lambda.closureEnv : func_lambda.thisVariable);
-                            } else if (owner != null) {
-                                owner.load(null, 0, comp, Target.pushObject);
-                            } else {
-                                func_lambda.getOwningLambda().loadHeapFrame(comp);
-                            }
+                if (comp.inlineOk((Expression) func_lambda) && ((conv <= 2 || (conv == 3 && !exp.isTailCall())) && (method2 = func_lambda.getMethod(args_length)) != null)) {
+                    PrimProcedure primProcedure = new PrimProcedure(method2, func_lambda);
+                    boolean is_static = method2.getStaticFlag();
+                    boolean extraArg = false;
+                    if (!is_static || func_lambda.declareClosureEnv() != null) {
+                        if (is_static) {
+                            extraArg = true;
                         }
-                        if (extraArg) {
-                            primType = Type.voidType;
+                        if (comp.curLambda == func_lambda) {
+                            code.emitLoad(func_lambda.closureEnv != null ? func_lambda.closureEnv : func_lambda.thisVariable);
+                        } else if (owner != null) {
+                            owner.load((AccessExp) null, 0, comp, Target.pushObject);
                         } else {
-                            primType = null;
+                            func_lambda.getOwningLambda().loadHeapFrame(comp);
                         }
-                        primProcedure.compile(primType, exp, comp, target);
-                        return;
                     }
+                    if (extraArg) {
+                        primType = Type.voidType;
+                    } else {
+                        primType = null;
+                    }
+                    primProcedure.compile(primType, exp, comp, target);
+                    return;
                 }
             } else {
                 throw new Error("internal error - wrong number of parameters for " + func_lambda);
@@ -229,9 +226,9 @@ public class ApplyExp extends Expression {
         }
         boolean tail_recurse = exp.isTailCall() && func_lambda != null && func_lambda == comp.curLambda;
         if (func_lambda != null && func_lambda.getInlineOnly() && !tail_recurse && func_lambda.min_args == args_length) {
-            pushArgs(func_lambda, exp.args, null, comp);
+            pushArgs(func_lambda, exp.args, (int[]) null, comp);
             if (func_lambda.getFlag(128)) {
-                popParams(code, func_lambda, null, false);
+                popParams(code, func_lambda, (int[]) null, false);
                 code.emitTailCall(false, func_lambda.getVarScope());
                 return;
             }
@@ -240,7 +237,7 @@ public class ApplyExp extends Expression {
             comp.curLambda = func_lambda;
             func_lambda.allocChildClasses(comp);
             func_lambda.allocParameters(comp);
-            popParams(code, func_lambda, null, false);
+            popParams(code, func_lambda, (int[]) null, false);
             func_lambda.enterFunction(comp);
             func_lambda.body.compileWithPosition(comp, target);
             func_lambda.compileEnd(comp);
@@ -387,7 +384,7 @@ public class ApplyExp extends Expression {
         }
         if (vars != null && vars.getName() == "argsArray") {
             if (toArray) {
-                popParams(code, 0, 1, null, decls, vars);
+                popParams(code, 0, 1, (int[]) null, decls, vars);
                 return;
             }
             vars = vars.nextVar();
@@ -431,11 +428,8 @@ public class ApplyExp extends Expression {
     }
 
     static Expression derefFunc(Expression afunc) {
-        if (!(afunc instanceof ReferenceExp)) {
-            return afunc;
-        }
-        Declaration func_decl = Declaration.followAliases(((ReferenceExp) afunc).binding);
-        if (func_decl == null || func_decl.getFlag(65536)) {
+        Declaration func_decl;
+        if (!(afunc instanceof ReferenceExp) || (func_decl = Declaration.followAliases(((ReferenceExp) afunc).binding)) == null || func_decl.getFlag(65536)) {
             return afunc;
         }
         return func_decl.getValue();
@@ -480,6 +474,7 @@ public class ApplyExp extends Expression {
 
     /* Debug info: failed to restart local var, previous not found, register: 9 */
     public final Expression inlineIfConstant(Procedure proc, SourceMessages messages) {
+        Declaration decl;
         int len = this.args.length;
         Object[] vals = new Object[len];
         int i = len;
@@ -487,16 +482,7 @@ public class ApplyExp extends Expression {
             i--;
             if (i >= 0) {
                 Expression arg = this.args[i];
-                if (arg instanceof ReferenceExp) {
-                    Declaration decl = ((ReferenceExp) arg).getBinding();
-                    if (decl != null) {
-                        arg = decl.getValue();
-                        if (arg == QuoteExp.undefined_exp) {
-                            return this;
-                        }
-                    }
-                }
-                if (!(arg instanceof QuoteExp)) {
+                if (((arg instanceof ReferenceExp) && (decl = ((ReferenceExp) arg).getBinding()) != null && (arg = decl.getValue()) == QuoteExp.undefined_exp) || !(arg instanceof QuoteExp)) {
                     return this;
                 }
                 vals[i] = ((QuoteExp) arg).getValue();

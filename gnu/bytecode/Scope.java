@@ -130,7 +130,7 @@ public class Scope {
         return null;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void freeLocals(CodeAttr code) {
         if (!this.preserved) {
             for (Variable var = this.vars; var != null; var = var.next) {

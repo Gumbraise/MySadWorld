@@ -3,10 +3,8 @@ package com.google.appinventor.components.runtime.util;
 import android.app.Activity;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
-import android.speech.tts.TextToSpeech.OnInitListener;
-import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.util.Log;
-import com.google.appinventor.components.runtime.util.ITextToSpeech.TextToSpeechCallback;
+import com.google.appinventor.components.runtime.util.ITextToSpeech;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -15,7 +13,7 @@ public class InternalTextToSpeech implements ITextToSpeech {
     /* access modifiers changed from: private */
     public final Activity activity;
     /* access modifiers changed from: private */
-    public final TextToSpeechCallback callback;
+    public final ITextToSpeech.TextToSpeechCallback callback;
     /* access modifiers changed from: private */
     public volatile boolean isTtsInitialized;
     private Handler mHandler = new Handler();
@@ -24,7 +22,7 @@ public class InternalTextToSpeech implements ITextToSpeech {
     private int ttsMaxRetries = 20;
     private int ttsRetryDelay = 500;
 
-    public InternalTextToSpeech(Activity activity2, TextToSpeechCallback callback2) {
+    public InternalTextToSpeech(Activity activity2, ITextToSpeech.TextToSpeechCallback callback2) {
         this.activity = activity2;
         this.callback = callback2;
         initializeTts();
@@ -33,10 +31,10 @@ public class InternalTextToSpeech implements ITextToSpeech {
     private void initializeTts() {
         if (this.tts == null) {
             Log.d(LOG_TAG, "INTERNAL TTS is reinitializing");
-            this.tts = new TextToSpeech(this.activity, new OnInitListener() {
+            this.tts = new TextToSpeech(this.activity, new TextToSpeech.OnInitListener() {
                 public void onInit(int status) {
                     if (status == 0) {
-                        InternalTextToSpeech.this.isTtsInitialized = true;
+                        boolean unused = InternalTextToSpeech.this.isTtsInitialized = true;
                     }
                 }
             });
@@ -62,7 +60,7 @@ public class InternalTextToSpeech implements ITextToSpeech {
         if (this.isTtsInitialized) {
             Log.d(LOG_TAG, "TTS initialized after " + retries + " retries.");
             this.tts.setLanguage(loc);
-            this.tts.setOnUtteranceCompletedListener(new OnUtteranceCompletedListener() {
+            this.tts.setOnUtteranceCompletedListener(new TextToSpeech.OnUtteranceCompletedListener() {
                 public void onUtteranceCompleted(String utteranceId) {
                     InternalTextToSpeech.this.activity.runOnUiThread(new Runnable() {
                         public void run() {

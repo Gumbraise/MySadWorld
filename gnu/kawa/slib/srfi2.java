@@ -1,6 +1,6 @@
 package gnu.kawa.slib;
 
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import gnu.expr.ModuleBody;
 import gnu.expr.ModuleInfo;
 import gnu.expr.ModuleMethod;
@@ -41,7 +41,7 @@ public class srfi2 extends ModuleBody {
     static final SyntaxPattern Lit7 = new SyntaxPattern("\f\u0007\u001c\f\u000f\b\b", new Object[0], 2);
     static final SyntaxTemplate Lit8 = new SyntaxTemplate("\u0001\u0001", "\u000b", new Object[0], 0);
     static final SyntaxTemplate Lit9 = new SyntaxTemplate("\u0001\u0001", "\u000b", new Object[0], 0);
-    public static final Macro and$Mnlet$St = Macro.make(Lit0, new ModuleMethod($instance, 1, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN), $instance);
+    public static final Macro and$Mnlet$St = Macro.make(Lit0, new ModuleMethod($instance, 1, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN), $instance);
 
     static {
         $instance.run();
@@ -61,7 +61,7 @@ public class srfi2 extends ModuleBody {
         }
         callContext.value1 = obj;
         callContext.proc = moduleMethod;
-        callContext.f236pc = 1;
+        callContext.pc = 1;
         return 0;
     }
 
@@ -72,7 +72,7 @@ public class srfi2 extends ModuleBody {
     static Object lambda1(Object form) {
         Object[] objArr;
         Object[] objArr2;
-        Object[] allocVars = SyntaxPattern.allocVars(4, null);
+        Object[] allocVars = SyntaxPattern.allocVars(4, (Object[]) null);
         if (Lit1.match(form, allocVars, 0)) {
             return Lit2.execute(allocVars, TemplateScope.make());
         } else if (Lit3.match(form, allocVars, 0)) {
@@ -84,11 +84,8 @@ public class srfi2 extends ModuleBody {
                 return Lit9.execute(allocVars, TemplateScope.make());
             }
             Object execute = Lit10.execute(allocVars, TemplateScope.make());
-            String str = "expected a variable name";
-            if (str instanceof Object[]) {
-                objArr2 = (Object[]) str;
-            } else {
-                objArr2 = new Object[]{str};
+            if (!("expected a variable name" instanceof Object[])) {
+                objArr2 = new Object[]{"expected a variable name"};
             }
             return prim_syntax.syntaxError(execute, objArr2);
         } else if (Lit11.match(form, allocVars, 0)) {
@@ -100,11 +97,8 @@ public class srfi2 extends ModuleBody {
                 return Lit17.execute(allocVars, TemplateScope.make());
             }
             Object execute2 = Lit18.execute(allocVars, TemplateScope.make());
-            String str2 = "expected a variable name";
-            if (str2 instanceof Object[]) {
-                objArr = (Object[]) str2;
-            } else {
-                objArr = new Object[]{str2};
+            if (!("expected a variable name" instanceof Object[])) {
+                objArr = new Object[]{"expected a variable name"};
             }
             return prim_syntax.syntaxError(execute2, objArr);
         } else if (!Lit19.match(form, allocVars, 0)) {

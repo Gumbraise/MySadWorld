@@ -154,7 +154,7 @@ public class Macro extends Syntax implements Printable, Externalizable {
         L_0x004e:
             gnu.expr.Expression r3 = (gnu.expr.Expression) r3     // Catch:{ Throwable -> 0x0061 }
             gnu.mapping.Environment r11 = r16.getGlobalEnvironment()     // Catch:{ Throwable -> 0x0061 }
-            java.lang.Object r8 = r3.eval(r11)     // Catch:{ Throwable -> 0x0061 }
+            java.lang.Object r8 = r3.eval((gnu.mapping.Environment) r11)     // Catch:{ Throwable -> 0x0061 }
             gnu.mapping.Procedure r8 = (gnu.mapping.Procedure) r8     // Catch:{ Throwable -> 0x0061 }
             goto L_0x000e
         L_0x005b:

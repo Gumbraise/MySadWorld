@@ -207,13 +207,7 @@ public class SequenceUtils {
         int kind2 = seq2.getNextKind(ipos2);
         switch (kind1) {
             case 33:
-                if (kind1 != kind2) {
-                    return false;
-                }
-                if (seq1.posLocalName(ipos1) != seq2.posLocalName(ipos2)) {
-                    return false;
-                }
-                if (seq1.posNamespaceURI(ipos1) != seq2.posNamespaceURI(ipos2)) {
+                if (kind1 != kind2 || seq1.posLocalName(ipos1) != seq2.posLocalName(ipos2) || seq1.posNamespaceURI(ipos1) != seq2.posNamespaceURI(ipos2)) {
                     return false;
                 }
                 int attr1 = seq1.firstAttributePos(ipos1);
@@ -222,10 +216,7 @@ public class SequenceUtils {
                     nattr1++;
                     String local = seq1.posLocalName(attr1);
                     int attr2 = seq2.getAttributeI(ipos2, seq1.posNamespaceURI(attr1), local);
-                    if (attr2 == 0) {
-                        return false;
-                    }
-                    if (!deepEqualItems(KNode.getNodeValue(seq1, attr1), KNode.getNodeValue(seq2, attr2), collator)) {
+                    if (attr2 == 0 || !deepEqualItems(KNode.getNodeValue(seq1, attr1), KNode.getNodeValue(seq2, attr2), collator)) {
                         return false;
                     }
                     attr1 = seq1.nextPos(attr1);
@@ -313,7 +304,9 @@ public class SequenceUtils {
                     } catch (Throwable th) {
                         return false;
                     }
-                } else if ((item1 instanceof KNode) && (item2 instanceof KNode)) {
+                } else if (!(item1 instanceof KNode) || !(item2 instanceof KNode)) {
+                    return false;
+                } else {
                     KNode node1 = (KNode) item1;
                     KNode node2 = (KNode) item2;
                     if (!deepEqual((NodeTree) node1.sequence, node1.ipos, (NodeTree) node2.sequence, node2.ipos, collator)) {

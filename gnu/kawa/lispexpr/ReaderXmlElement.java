@@ -4,6 +4,7 @@ import gnu.expr.Compilation;
 import gnu.expr.PrimProcedure;
 import gnu.expr.Special;
 import gnu.kawa.xml.CommentConstructor;
+import gnu.kawa.xml.MakeAttribute;
 import gnu.kawa.xml.MakeCDATA;
 import gnu.kawa.xml.MakeProcInst;
 import gnu.kawa.xml.MakeText;
@@ -112,45 +113,24 @@ public class ReaderXmlElement extends ReadTableEntry {
         int startColumn = reader.getColumnNumber() - 2;
         if (next == 33) {
             int next2 = reader.read();
-            if (next2 == 45) {
-                next2 = reader.peek();
-                if (next2 == 45) {
-                    reader.skip();
-                    if (!reader.readDelimited("-->")) {
-                        reader.error('f', reader.getName(), startLine, startColumn, "unexpected end-of-file in XML comment starting here - expected \"-->\"");
-                    }
-                    return LList.list2(CommentConstructor.commentConstructor, reader.tokenBufferString());
+            if (next2 == 45 && (next2 = reader.peek()) == 45) {
+                reader.skip();
+                if (!reader.readDelimited("-->")) {
+                    reader.error('f', reader.getName(), startLine, startColumn, "unexpected end-of-file in XML comment starting here - expected \"-->\"");
                 }
-            }
-            if (next2 == 91) {
-                next2 = reader.read();
-                if (next2 == 67) {
+                return LList.list2(CommentConstructor.commentConstructor, reader.tokenBufferString());
+            } else if (next2 == 91 && (next2 = reader.read()) == 67 && (next2 = reader.read()) == 68 && (next2 = reader.read()) == 65 && (next2 = reader.read()) == 84 && (next2 = reader.read()) == 65 && (next2 = reader.read()) == 91) {
+                if (!reader.readDelimited("]]>")) {
+                    reader.error('f', reader.getName(), startLine, startColumn, "unexpected end-of-file in CDATA starting here - expected \"]]>\"");
+                }
+                return LList.list2(MakeCDATA.makeCDATA, reader.tokenBufferString());
+            } else {
+                reader.error('f', reader.getName(), startLine, startColumn, "'<!' must be followed by '--' or '[CDATA['");
+                while (next2 >= 0 && next2 != 62 && next2 != 10 && next2 != 13) {
                     next2 = reader.read();
-                    if (next2 == 68) {
-                        next2 = reader.read();
-                        if (next2 == 65) {
-                            next2 = reader.read();
-                            if (next2 == 84) {
-                                next2 = reader.read();
-                                if (next2 == 65) {
-                                    next2 = reader.read();
-                                    if (next2 == 91) {
-                                        if (!reader.readDelimited("]]>")) {
-                                            reader.error('f', reader.getName(), startLine, startColumn, "unexpected end-of-file in CDATA starting here - expected \"]]>\"");
-                                        }
-                                        return LList.list2(MakeCDATA.makeCDATA, reader.tokenBufferString());
-                                    }
-                                }
-                            }
-                        }
-                    }
                 }
+                return null;
             }
-            reader.error('f', reader.getName(), startLine, startColumn, "'<!' must be followed by '--' or '[CDATA['");
-            while (next2 >= 0 && next2 != 62 && next2 != 10 && next2 != 13) {
-                next2 = reader.read();
-            }
-            return null;
         } else if (next != 63) {
             return readElementConstructor(reader, next);
         } else {
@@ -184,321 +164,92 @@ public class ReaderXmlElement extends ReadTableEntry {
         }
     }
 
-    /* JADX WARNING: type inference failed for: r18v0, types: [gnu.lists.LList] */
-    /* JADX WARNING: type inference failed for: r18v1, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r18v3 */
-    /* JADX WARNING: type inference failed for: r0v34, types: [gnu.lists.PairWithPosition] */
-    /* JADX WARNING: type inference failed for: r1v10, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r18v4 */
-    /* JADX WARNING: type inference failed for: r18v5 */
-    /* JADX WARNING: type inference failed for: r18v6 */
-    /* JADX WARNING: type inference failed for: r18v7 */
-    /* JADX WARNING: Multi-variable type inference failed. Error: jadx.core.utils.exceptions.JadxRuntimeException: No candidate types for var: r18v3
-      assigns: []
-      uses: []
-      mth insns count: 211
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.fillTypeCandidates(TypeSearch.java:237)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.run(TypeSearch.java:53)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.runMultiVariableSearch(TypeInferenceVisitor.java:99)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.visit(TypeInferenceVisitor.java:92)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:27)
-    	at jadx.core.dex.visitors.DepthTraversal.lambda$visit$1(DepthTraversal.java:14)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:14)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:30)
-    	at jadx.core.ProcessClass.lambda$processDependencies$0(ProcessClass.java:49)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.ProcessClass.processDependencies(ProcessClass.java:49)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:35)
-    	at jadx.api.JadxDecompiler.processClass(JadxDecompiler.java:311)
-    	at jadx.api.JavaClass.decompile(JavaClass.java:62)
-    	at jadx.api.JadxDecompiler.lambda$appendSourcesSave$0(JadxDecompiler.java:217)
-     */
-    /* JADX WARNING: Unknown variable types count: 5 */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public static java.lang.Object readElementConstructor(gnu.kawa.lispexpr.LispReader r29, int r30) throws java.io.IOException, gnu.text.SyntaxException {
-        /*
-            int r3 = r29.getLineNumber()
-            int r25 = r3 + 1
-            int r3 = r29.getColumnNumber()
-            int r24 = r3 + -2
-            r3 = 1
-            r0 = r29
-            r1 = r30
-            java.lang.Object r27 = readQNameExpression(r0, r1, r3)
-            r0 = r29
-            int r3 = r0.tokenBufferLength
-            if (r3 != 0) goto L_0x0048
-            r26 = 0
-        L_0x001d:
-            gnu.lists.LList r3 = gnu.lists.LList.Empty
-            java.lang.String r4 = r29.getName()
-            r0 = r27
-            r1 = r25
-            r2 = r24
-            gnu.lists.PairWithPosition r28 = gnu.lists.PairWithPosition.make(r0, r3, r4, r1, r2)
-            r22 = r28
-            gnu.lists.LList r18 = gnu.lists.LList.Empty
-            r20 = 0
-        L_0x0033:
-            r23 = 0
-            int r30 = r29.readUnicodeChar()
-        L_0x0039:
-            if (r30 < 0) goto L_0x004d
-            boolean r3 = java.lang.Character.isWhitespace(r30)
-            if (r3 == 0) goto L_0x004d
-            int r30 = r29.read()
-            r23 = 1
-            goto L_0x0039
-        L_0x0048:
-            java.lang.String r26 = r29.tokenBufferString()
-            goto L_0x001d
-        L_0x004d:
-            if (r30 < 0) goto L_0x005b
-            r3 = 62
-            r0 = r30
-            if (r0 == r3) goto L_0x005b
-            r3 = 47
-            r0 = r30
-            if (r0 != r3) goto L_0x007f
-        L_0x005b:
-            r15 = 0
-            r3 = 47
-            r0 = r30
-            if (r0 != r3) goto L_0x006d
-            int r30 = r29.read()
-            r3 = 62
-            r0 = r30
-            if (r0 != r3) goto L_0x017f
-            r15 = 1
-        L_0x006d:
-            if (r15 != 0) goto L_0x020e
-            r3 = 62
-            r0 = r30
-            if (r0 == r3) goto L_0x0184
-            java.lang.String r3 = "missing '>' after start element"
-            r0 = r29
-            r0.error(r3)
-            java.lang.Boolean r3 = java.lang.Boolean.FALSE
-        L_0x007e:
-            return r3
-        L_0x007f:
-            if (r23 != 0) goto L_0x0088
-            java.lang.String r3 = "missing space before attribute"
-            r0 = r29
-            r0.error(r3)
-        L_0x0088:
-            r3 = 0
-            r0 = r29
-            r1 = r30
-            java.lang.Object r10 = readQNameExpression(r0, r1, r3)
-            int r3 = r29.getLineNumber()
-            int r17 = r3 + 1
-            int r3 = r29.getColumnNumber()
-            int r3 = r3 + 1
-            r0 = r29
-            int r4 = r0.tokenBufferLength
-            int r13 = r3 - r4
-            r14 = 0
-            r0 = r29
-            int r3 = r0.tokenBufferLength
-            r4 = 5
-            if (r3 < r4) goto L_0x00eb
-            r0 = r29
-            char[] r3 = r0.tokenBuffer
-            r4 = 0
-            char r3 = r3[r4]
-            r4 = 120(0x78, float:1.68E-43)
-            if (r3 != r4) goto L_0x00eb
-            r0 = r29
-            char[] r3 = r0.tokenBuffer
-            r4 = 1
-            char r3 = r3[r4]
-            r4 = 109(0x6d, float:1.53E-43)
-            if (r3 != r4) goto L_0x00eb
-            r0 = r29
-            char[] r3 = r0.tokenBuffer
-            r4 = 2
-            char r3 = r3[r4]
-            r4 = 108(0x6c, float:1.51E-43)
-            if (r3 != r4) goto L_0x00eb
-            r0 = r29
-            char[] r3 = r0.tokenBuffer
-            r4 = 3
-            char r3 = r3[r4]
-            r4 = 110(0x6e, float:1.54E-43)
-            if (r3 != r4) goto L_0x00eb
-            r0 = r29
-            char[] r3 = r0.tokenBuffer
-            r4 = 4
-            char r3 = r3[r4]
-            r4 = 115(0x73, float:1.61E-43)
-            if (r3 != r4) goto L_0x00eb
-            r0 = r29
-            int r3 = r0.tokenBufferLength
-            r4 = 5
-            if (r3 != r4) goto L_0x014d
-            java.lang.String r14 = ""
-        L_0x00eb:
-            r3 = 32
-            r0 = r29
-            int r30 = skipSpace(r0, r3)
-            r3 = 61
-            r0 = r30
-            if (r0 == r3) goto L_0x0100
-            java.lang.String r3 = "missing '=' after attribute"
-            r0 = r29
-            r0.error(r3)
-        L_0x0100:
-            r3 = 32
-            r0 = r29
-            int r30 = skipSpace(r0, r3)
-            gnu.kawa.xml.MakeAttribute r3 = gnu.kawa.xml.MakeAttribute.makeAttribute
-            gnu.lists.LList r4 = gnu.lists.LList.Empty
-            java.lang.String r5 = r29.getName()
-            r0 = r25
-            r1 = r24
-            gnu.lists.PairWithPosition r9 = gnu.lists.PairWithPosition.make(r3, r4, r5, r0, r1)
-            r12 = r9
-            gnu.lists.LList r3 = gnu.lists.LList.Empty
-            java.lang.String r4 = r29.getName()
-            r0 = r25
-            r1 = r24
-            gnu.lists.PairWithPosition r11 = gnu.lists.PairWithPosition.make(r10, r3, r4, r0, r1)
-            r0 = r29
-            r0.setCdr(r12, r11)
-            r12 = r11
-            r0 = r30
-            char r3 = (char) r0
-            r0 = r29
-            gnu.lists.Pair r12 = readContent(r0, r3, r12)
-            if (r14 == 0) goto L_0x0169
-            gnu.lists.PairWithPosition r19 = new gnu.lists.PairWithPosition
-            java.lang.Object r3 = r11.getCdr()
-            gnu.lists.Pair r3 = gnu.lists.Pair.make(r14, r3)
-            r0 = r19
-            r1 = r18
-            r0.<init>(r11, r3, r1)
-            r18 = r19
-            goto L_0x0033
-        L_0x014d:
-            r0 = r29
-            char[] r3 = r0.tokenBuffer
-            r4 = 5
-            char r3 = r3[r4]
-            r4 = 58
-            if (r3 != r4) goto L_0x00eb
-            java.lang.String r14 = new java.lang.String
-            r0 = r29
-            char[] r3 = r0.tokenBuffer
-            r4 = 6
-            r0 = r29
-            int r5 = r0.tokenBufferLength
-            int r5 = r5 + -6
-            r14.<init>(r3, r4, r5)
-            goto L_0x00eb
-        L_0x0169:
-            java.lang.Object r3 = r29.makeNil()
-            r4 = 0
-            r5 = -1
-            r6 = -1
-            gnu.lists.PairWithPosition r21 = gnu.lists.PairWithPosition.make(r9, r3, r4, r5, r6)
-            r0 = r22
-            r1 = r21
-            r0.setCdrBackdoor(r1)
-            r22 = r21
-            goto L_0x0033
-        L_0x017f:
-            r29.unread(r30)
-            goto L_0x006d
-        L_0x0184:
-            r3 = 60
-            r0 = r29
-            r1 = r22
-            gnu.lists.Pair r22 = readContent(r0, r3, r1)
-            int r30 = r29.readUnicodeChar()
-            boolean r3 = gnu.xml.XName.isNameStart(r30)
-            if (r3 == 0) goto L_0x01fd
-            r3 = 0
-            r0 = r29
-            r0.tokenBufferLength = r3
-        L_0x019d:
-            r29.tokenBufferAppend(r30)
-            int r30 = r29.readUnicodeChar()
-            boolean r3 = gnu.xml.XName.isNamePart(r30)
-            if (r3 != 0) goto L_0x019d
-            r3 = 58
-            r0 = r30
-            if (r0 == r3) goto L_0x019d
-            java.lang.String r16 = r29.tokenBufferString()
-            if (r26 == 0) goto L_0x01c0
-            r0 = r16
-            r1 = r26
-            boolean r3 = r0.equals(r1)
-            if (r3 != 0) goto L_0x01f8
-        L_0x01c0:
-            r4 = 101(0x65, float:1.42E-43)
-            java.lang.String r5 = r29.getName()
-            int r3 = r29.getLineNumber()
-            int r6 = r3 + 1
-            int r3 = r29.getColumnNumber()
-            r0 = r29
-            int r7 = r0.tokenBufferLength
-            int r7 = r3 - r7
-            if (r26 != 0) goto L_0x022a
-            java.lang.StringBuilder r3 = new java.lang.StringBuilder
-            r3.<init>()
-            java.lang.String r8 = "computed start tag closed by '</"
-            java.lang.StringBuilder r3 = r3.append(r8)
-            r0 = r16
-            java.lang.StringBuilder r3 = r3.append(r0)
-            java.lang.String r8 = ">'"
-            java.lang.StringBuilder r3 = r3.append(r8)
-            java.lang.String r8 = r3.toString()
-        L_0x01f3:
-            r3 = r29
-            r3.error(r4, r5, r6, r7, r8)
-        L_0x01f8:
-            r3 = 0
-            r0 = r29
-            r0.tokenBufferLength = r3
-        L_0x01fd:
-            int r30 = skipSpace(r29, r30)
-            r3 = 62
-            r0 = r30
-            if (r0 == r3) goto L_0x020e
-            java.lang.String r3 = "missing '>' after end element"
-            r0 = r29
-            r0.error(r3)
-        L_0x020e:
-            gnu.lists.LList r18 = gnu.lists.LList.reverseInPlace(r18)
-            gnu.kawa.lispexpr.MakeXmlElement r3 = gnu.kawa.lispexpr.MakeXmlElement.makeXml
-            r0 = r18
-            r1 = r28
-            gnu.lists.Pair r4 = gnu.lists.Pair.make(r0, r1)
-            java.lang.String r5 = r29.getName()
-            r0 = r25
-            r1 = r24
-            gnu.lists.PairWithPosition r3 = gnu.lists.PairWithPosition.make(r3, r4, r5, r0, r1)
-            goto L_0x007e
-        L_0x022a:
-            java.lang.StringBuilder r3 = new java.lang.StringBuilder
-            r3.<init>()
-            java.lang.String r8 = "'<"
-            java.lang.StringBuilder r3 = r3.append(r8)
-            r0 = r26
-            java.lang.StringBuilder r3 = r3.append(r0)
-            java.lang.String r8 = ">' closed by '</"
-            java.lang.StringBuilder r3 = r3.append(r8)
-            r0 = r16
-            java.lang.StringBuilder r3 = r3.append(r0)
-            java.lang.String r8 = ">'"
-            java.lang.StringBuilder r3 = r3.append(r8)
-            java.lang.String r8 = r3.toString()
-            goto L_0x01f3
-        */
-        throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.lispexpr.ReaderXmlElement.readElementConstructor(gnu.kawa.lispexpr.LispReader, int):java.lang.Object");
+    public static Object readElementConstructor(LispReader reader, int ch) throws IOException, SyntaxException {
+        int ch2;
+        int startLine = reader.getLineNumber() + 1;
+        int startColumn = reader.getColumnNumber() - 2;
+        Object tag = readQNameExpression(reader, ch, true);
+        String startTag = reader.tokenBufferLength == 0 ? null : reader.tokenBufferString();
+        Pair tagPair = PairWithPosition.make(tag, LList.Empty, reader.getName(), startLine, startColumn);
+        Pair resultTail = tagPair;
+        LList namespaceList = LList.Empty;
+        while (true) {
+            boolean sawSpace = false;
+            ch2 = reader.readUnicodeChar();
+            while (ch2 >= 0 && Character.isWhitespace(ch2)) {
+                ch2 = reader.read();
+                sawSpace = true;
+            }
+            if (ch2 < 0 || ch2 == 62 || ch2 == 47) {
+                boolean empty = false;
+            } else {
+                if (!sawSpace) {
+                    reader.error("missing space before attribute");
+                }
+                Object attrName = readQNameExpression(reader, ch2, false);
+                int lineNumber = reader.getLineNumber() + 1;
+                int columnNumber = (reader.getColumnNumber() + 1) - reader.tokenBufferLength;
+                String definingNamespace = null;
+                if (reader.tokenBufferLength >= 5 && reader.tokenBuffer[0] == 'x' && reader.tokenBuffer[1] == 'm' && reader.tokenBuffer[2] == 'l' && reader.tokenBuffer[3] == 'n' && reader.tokenBuffer[4] == 's') {
+                    if (reader.tokenBufferLength == 5) {
+                        definingNamespace = "";
+                    } else if (reader.tokenBuffer[5] == ':') {
+                        definingNamespace = new String(reader.tokenBuffer, 6, reader.tokenBufferLength - 6);
+                    }
+                }
+                if (skipSpace(reader, 32) != 61) {
+                    reader.error("missing '=' after attribute");
+                }
+                int ch3 = skipSpace(reader, 32);
+                Pair attrList = PairWithPosition.make(MakeAttribute.makeAttribute, LList.Empty, reader.getName(), startLine, startColumn);
+                PairWithPosition attrPair = PairWithPosition.make(attrName, LList.Empty, reader.getName(), startLine, startColumn);
+                reader.setCdr(attrList, attrPair);
+                Pair attrTail = readContent(reader, (char) ch3, attrPair);
+                if (definingNamespace != null) {
+                    namespaceList = new PairWithPosition(attrPair, Pair.make(definingNamespace, attrPair.getCdr()), namespaceList);
+                } else {
+                    Pair pair = PairWithPosition.make(attrList, reader.makeNil(), (String) null, -1, -1);
+                    resultTail.setCdrBackdoor(pair);
+                    resultTail = pair;
+                }
+            }
+        }
+        boolean empty2 = false;
+        if (ch2 == 47) {
+            ch2 = reader.read();
+            if (ch2 == 62) {
+                empty2 = true;
+            } else {
+                reader.unread(ch2);
+            }
+        }
+        if (!empty2) {
+            if (ch2 != 62) {
+                reader.error("missing '>' after start element");
+                return Boolean.FALSE;
+            }
+            Pair resultTail2 = readContent(reader, '<', resultTail);
+            int ch4 = reader.readUnicodeChar();
+            if (XName.isNameStart(ch4)) {
+                reader.tokenBufferLength = 0;
+                while (true) {
+                    reader.tokenBufferAppend(ch4);
+                    ch4 = reader.readUnicodeChar();
+                    if (!XName.isNamePart(ch4) && ch4 != 58) {
+                        break;
+                    }
+                }
+                String endTag = reader.tokenBufferString();
+                if (startTag == null || !endTag.equals(startTag)) {
+                    reader.error('e', reader.getName(), reader.getLineNumber() + 1, reader.getColumnNumber() - reader.tokenBufferLength, startTag == null ? "computed start tag closed by '</" + endTag + ">'" : "'<" + startTag + ">' closed by '</" + endTag + ">'");
+                }
+                reader.tokenBufferLength = 0;
+            }
+            if (skipSpace(reader, ch4) != 62) {
+                reader.error("missing '>' after end element");
+            }
+        }
+        return PairWithPosition.make(MakeXmlElement.makeXml, Pair.make(LList.reverseInPlace(namespaceList), tagPair), reader.getName(), startLine, startColumn);
     }
 
     public static Pair readContent(LispReader reader, char delimiter, Pair resultTail) throws IOException, SyntaxException {
@@ -562,17 +313,17 @@ public class ReaderXmlElement extends ReadTableEntry {
                 reader.tokenBufferLength = 0;
             }
             if (text != null) {
-                Pair pair = PairWithPosition.make(Pair.list2(MakeText.makeText, text), reader.makeNil(), null, -1, -1);
-                resultTail.setCdrBackdoor(pair);
-                resultTail = pair;
+                Pair make = PairWithPosition.make(Pair.list2(MakeText.makeText, text), reader.makeNil(), (String) null, -1, -1);
+                resultTail.setCdrBackdoor(make);
+                resultTail = make;
             }
             if (item == Special.eof) {
                 return resultTail;
             }
             if (item != null) {
-                Pair pair2 = PairWithPosition.make(item, reader.makeNil(), null, line, column);
-                resultTail.setCdrBackdoor(pair2);
-                resultTail = pair2;
+                Pair pair = PairWithPosition.make(item, reader.makeNil(), (String) null, line, column);
+                resultTail.setCdrBackdoor(pair);
+                resultTail = pair;
             }
         }
     }
@@ -606,7 +357,6 @@ public class ReaderXmlElement extends ReadTableEntry {
     }
 
     static Object readEntity(LispReader reader, int next) throws IOException, SyntaxException {
-        String result = "?";
         int saveLength = reader.tokenBufferLength;
         while (next >= 0) {
             char ch = (char) next;
@@ -619,7 +369,7 @@ public class ReaderXmlElement extends ReadTableEntry {
         if (next != 59) {
             reader.unread(next);
             reader.error("invalid entity reference");
-            return result;
+            return "?";
         }
         String ref = new String(reader.tokenBuffer, saveLength, reader.tokenBufferLength - saveLength);
         reader.tokenBufferLength = saveLength;

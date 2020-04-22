@@ -1,9 +1,8 @@
 package android.support.constraint.solver.widgets;
 
 import android.support.constraint.solver.LinearSystem;
-import android.support.constraint.solver.widgets.ConstraintAnchor.Strength;
-import android.support.constraint.solver.widgets.ConstraintAnchor.Type;
-import android.support.constraint.solver.widgets.ConstraintWidget.DimensionBehaviour;
+import android.support.constraint.solver.widgets.ConstraintAnchor;
+import android.support.constraint.solver.widgets.ConstraintWidget;
 import java.util.ArrayList;
 
 public class ConstraintTableLayout extends ConstraintWidgetContainer {
@@ -71,7 +70,7 @@ public class ConstraintTableLayout extends ConstraintWidgetContainer {
         int numSlices = this.mVerticalSlices.size();
         String result = "";
         for (int i = 0; i < numSlices; i++) {
-            VerticalSlice slice = (VerticalSlice) this.mVerticalSlices.get(i);
+            VerticalSlice slice = this.mVerticalSlices.get(i);
             if (slice.alignment == 1) {
                 result = result + "L";
             } else if (slice.alignment == 0) {
@@ -86,7 +85,7 @@ public class ConstraintTableLayout extends ConstraintWidgetContainer {
     }
 
     public String getColumnAlignmentRepresentation(int column) {
-        VerticalSlice slice = (VerticalSlice) this.mVerticalSlices.get(column);
+        VerticalSlice slice = this.mVerticalSlices.get(column);
         if (slice.alignment == 1) {
             return "L";
         }
@@ -134,13 +133,13 @@ public class ConstraintTableLayout extends ConstraintWidgetContainer {
 
     public void setColumnAlignment(int column, int alignment) {
         if (column < this.mVerticalSlices.size()) {
-            ((VerticalSlice) this.mVerticalSlices.get(column)).alignment = alignment;
+            this.mVerticalSlices.get(column).alignment = alignment;
             setChildrenConnections();
         }
     }
 
     public void cycleColumnAlignment(int column) {
-        VerticalSlice slice = (VerticalSlice) this.mVerticalSlices.get(column);
+        VerticalSlice slice = this.mVerticalSlices.get(column);
         switch (slice.alignment) {
             case 0:
                 slice.alignment = 2;
@@ -191,8 +190,8 @@ public class ConstraintTableLayout extends ConstraintWidgetContainer {
             if (system2 == this.mSystem) {
                 int num = this.mVerticalGuidelines.size();
                 for (int i = 0; i < num; i++) {
-                    Guideline guideline = (Guideline) this.mVerticalGuidelines.get(i);
-                    if (getHorizontalDimensionBehaviour() == DimensionBehaviour.WRAP_CONTENT) {
+                    Guideline guideline = this.mVerticalGuidelines.get(i);
+                    if (getHorizontalDimensionBehaviour() == ConstraintWidget.DimensionBehaviour.WRAP_CONTENT) {
                         z2 = true;
                     } else {
                         z2 = false;
@@ -202,8 +201,8 @@ public class ConstraintTableLayout extends ConstraintWidgetContainer {
                 }
                 int num2 = this.mHorizontalGuidelines.size();
                 for (int i2 = 0; i2 < num2; i2++) {
-                    Guideline guideline2 = (Guideline) this.mHorizontalGuidelines.get(i2);
-                    if (getVerticalDimensionBehaviour() == DimensionBehaviour.WRAP_CONTENT) {
+                    Guideline guideline2 = this.mHorizontalGuidelines.get(i2);
+                    if (getVerticalDimensionBehaviour() == ConstraintWidget.DimensionBehaviour.WRAP_CONTENT) {
                         z = true;
                     } else {
                         z = false;
@@ -267,11 +266,11 @@ public class ConstraintTableLayout extends ConstraintWidgetContainer {
         if (this.system != null) {
             int num = this.mVerticalGuidelines.size();
             for (int i = 0; i < num; i++) {
-                ((Guideline) this.mVerticalGuidelines.get(i)).setDebugSolverName(this.system, getDebugName() + ".VG" + i);
+                this.mVerticalGuidelines.get(i).setDebugSolverName(this.system, getDebugName() + ".VG" + i);
             }
             int num2 = this.mHorizontalGuidelines.size();
             for (int i2 = 0; i2 < num2; i2++) {
-                ((Guideline) this.mHorizontalGuidelines.get(i2)).setDebugSolverName(this.system, getDebugName() + ".HG" + i2);
+                this.mHorizontalGuidelines.get(i2).setDebugSolverName(this.system, getDebugName() + ".HG" + i2);
             }
         }
     }
@@ -281,8 +280,7 @@ public class ConstraintTableLayout extends ConstraintWidgetContainer {
         ConstraintWidget previous = this;
         float increment = 100.0f / ((float) this.mNumCols);
         float percent = increment;
-        int i = 0;
-        while (i < this.mNumCols) {
+        for (int i = 0; i < this.mNumCols; i++) {
             VerticalSlice slice = new VerticalSlice();
             slice.left = previous;
             if (i < this.mNumCols - 1) {
@@ -296,10 +294,8 @@ public class ConstraintTableLayout extends ConstraintWidgetContainer {
             } else {
                 slice.right = this;
             }
-            ConstraintWidget previous2 = slice.right;
+            previous = slice.right;
             this.mVerticalSlices.add(slice);
-            i++;
-            previous = previous2;
         }
         updateDebugSolverNames();
     }
@@ -309,8 +305,7 @@ public class ConstraintTableLayout extends ConstraintWidgetContainer {
         float increment = 100.0f / ((float) this.mNumRows);
         float percent = increment;
         ConstraintWidget previous = this;
-        int i = 0;
-        while (i < this.mNumRows) {
+        for (int i = 0; i < this.mNumRows; i++) {
             HorizontalSlice slice = new HorizontalSlice();
             slice.top = previous;
             if (i < this.mNumRows - 1) {
@@ -324,10 +319,8 @@ public class ConstraintTableLayout extends ConstraintWidgetContainer {
             } else {
                 slice.bottom = this;
             }
-            ConstraintWidget previous2 = slice.bottom;
+            previous = slice.bottom;
             this.mHorizontalSlices.add(slice);
-            i++;
-            previous = previous2;
         }
         updateDebugSolverNames();
     }
@@ -338,36 +331,37 @@ public class ConstraintTableLayout extends ConstraintWidgetContainer {
         for (int i = 0; i < count; i++) {
             ConstraintWidget target = (ConstraintWidget) this.mChildren.get(i);
             int index2 = index + target.getContainerItemSkip();
-            HorizontalSlice horizontalSlice = (HorizontalSlice) this.mHorizontalSlices.get(index2 / this.mNumCols);
-            VerticalSlice verticalSlice = (VerticalSlice) this.mVerticalSlices.get(index2 % this.mNumCols);
+            int col = index2 % this.mNumCols;
+            HorizontalSlice horizontalSlice = this.mHorizontalSlices.get(index2 / this.mNumCols);
+            VerticalSlice verticalSlice = this.mVerticalSlices.get(col);
             ConstraintWidget targetLeft = verticalSlice.left;
             ConstraintWidget targetRight = verticalSlice.right;
             ConstraintWidget targetTop = horizontalSlice.top;
             ConstraintWidget targetBottom = horizontalSlice.bottom;
-            target.getAnchor(Type.LEFT).connect(targetLeft.getAnchor(Type.LEFT), this.mPadding);
+            target.getAnchor(ConstraintAnchor.Type.LEFT).connect(targetLeft.getAnchor(ConstraintAnchor.Type.LEFT), this.mPadding);
             if (targetRight instanceof Guideline) {
-                target.getAnchor(Type.RIGHT).connect(targetRight.getAnchor(Type.LEFT), this.mPadding);
+                target.getAnchor(ConstraintAnchor.Type.RIGHT).connect(targetRight.getAnchor(ConstraintAnchor.Type.LEFT), this.mPadding);
             } else {
-                target.getAnchor(Type.RIGHT).connect(targetRight.getAnchor(Type.RIGHT), this.mPadding);
+                target.getAnchor(ConstraintAnchor.Type.RIGHT).connect(targetRight.getAnchor(ConstraintAnchor.Type.RIGHT), this.mPadding);
             }
             switch (verticalSlice.alignment) {
                 case 1:
-                    target.getAnchor(Type.LEFT).setStrength(Strength.STRONG);
-                    target.getAnchor(Type.RIGHT).setStrength(Strength.WEAK);
+                    target.getAnchor(ConstraintAnchor.Type.LEFT).setStrength(ConstraintAnchor.Strength.STRONG);
+                    target.getAnchor(ConstraintAnchor.Type.RIGHT).setStrength(ConstraintAnchor.Strength.WEAK);
                     break;
                 case 2:
-                    target.getAnchor(Type.LEFT).setStrength(Strength.WEAK);
-                    target.getAnchor(Type.RIGHT).setStrength(Strength.STRONG);
+                    target.getAnchor(ConstraintAnchor.Type.LEFT).setStrength(ConstraintAnchor.Strength.WEAK);
+                    target.getAnchor(ConstraintAnchor.Type.RIGHT).setStrength(ConstraintAnchor.Strength.STRONG);
                     break;
                 case 3:
-                    target.setHorizontalDimensionBehaviour(DimensionBehaviour.MATCH_CONSTRAINT);
+                    target.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT);
                     break;
             }
-            target.getAnchor(Type.TOP).connect(targetTop.getAnchor(Type.TOP), this.mPadding);
+            target.getAnchor(ConstraintAnchor.Type.TOP).connect(targetTop.getAnchor(ConstraintAnchor.Type.TOP), this.mPadding);
             if (targetBottom instanceof Guideline) {
-                target.getAnchor(Type.BOTTOM).connect(targetBottom.getAnchor(Type.TOP), this.mPadding);
+                target.getAnchor(ConstraintAnchor.Type.BOTTOM).connect(targetBottom.getAnchor(ConstraintAnchor.Type.TOP), this.mPadding);
             } else {
-                target.getAnchor(Type.BOTTOM).connect(targetBottom.getAnchor(Type.BOTTOM), this.mPadding);
+                target.getAnchor(ConstraintAnchor.Type.BOTTOM).connect(targetBottom.getAnchor(ConstraintAnchor.Type.BOTTOM), this.mPadding);
             }
             index = index2 + 1;
         }
@@ -378,11 +372,11 @@ public class ConstraintTableLayout extends ConstraintWidgetContainer {
         if (system2 == this.mSystem) {
             int num = this.mVerticalGuidelines.size();
             for (int i = 0; i < num; i++) {
-                ((Guideline) this.mVerticalGuidelines.get(i)).updateFromSolver(system2);
+                this.mVerticalGuidelines.get(i).updateFromSolver(system2);
             }
             int num2 = this.mHorizontalGuidelines.size();
             for (int i2 = 0; i2 < num2; i2++) {
-                ((Guideline) this.mHorizontalGuidelines.get(i2)).updateFromSolver(system2);
+                this.mHorizontalGuidelines.get(i2).updateFromSolver(system2);
             }
         }
     }
@@ -394,11 +388,11 @@ public class ConstraintTableLayout extends ConstraintWidgetContainer {
     public void computeGuidelinesPercentPositions() {
         int num = this.mVerticalGuidelines.size();
         for (int i = 0; i < num; i++) {
-            ((Guideline) this.mVerticalGuidelines.get(i)).inferRelativePercentPosition();
+            this.mVerticalGuidelines.get(i).inferRelativePercentPosition();
         }
         int num2 = this.mHorizontalGuidelines.size();
         for (int i2 = 0; i2 < num2; i2++) {
-            ((Guideline) this.mHorizontalGuidelines.get(i2)).inferRelativePercentPosition();
+            this.mHorizontalGuidelines.get(i2).inferRelativePercentPosition();
         }
     }
 }

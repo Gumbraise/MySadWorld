@@ -4,10 +4,9 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Paint.Align;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.support.constraint.ConstraintLayout.LayoutParams;
+import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -18,7 +17,7 @@ public class Placeholder extends View {
 
     public Placeholder(Context context) {
         super(context);
-        init(null);
+        init((AttributeSet) null);
     }
 
     public Placeholder(Context context, AttributeSet attrs) {
@@ -40,13 +39,13 @@ public class Placeholder extends View {
         super.setVisibility(this.mEmptyVisibility);
         this.mContentId = -1;
         if (attrs != null) {
-            TypedArray a = getContext().obtainStyledAttributes(attrs, C0023R.styleable.ConstraintLayout_placeholder);
+            TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.ConstraintLayout_placeholder);
             int N = a.getIndexCount();
             for (int i = 0; i < N; i++) {
                 int attr = a.getIndex(i);
-                if (attr == C0023R.styleable.ConstraintLayout_placeholder_content) {
+                if (attr == R.styleable.ConstraintLayout_placeholder_content) {
                     this.mContentId = a.getResourceId(attr, this.mContentId);
-                } else if (attr == C0023R.styleable.ConstraintLayout_placeholder_emptyVisibility) {
+                } else if (attr == R.styleable.ConstraintLayout_placeholder_emptyVisibility) {
                     this.mEmptyVisibility = a.getInt(attr, this.mEmptyVisibility);
                 }
             }
@@ -70,17 +69,16 @@ public class Placeholder extends View {
             canvas.drawRGB(223, 223, 223);
             Paint paint = new Paint();
             paint.setARGB(255, 210, 210, 210);
-            paint.setTextAlign(Align.CENTER);
+            paint.setTextAlign(Paint.Align.CENTER);
             paint.setTypeface(Typeface.create(Typeface.DEFAULT, 0));
             Rect r = new Rect();
             canvas.getClipBounds(r);
             paint.setTextSize((float) r.height());
             int cHeight = r.height();
             int cWidth = r.width();
-            paint.setTextAlign(Align.LEFT);
-            String text = "?";
-            paint.getTextBounds(text, 0, text.length(), r);
-            canvas.drawText(text, ((((float) cWidth) / 2.0f) - (((float) r.width()) / 2.0f)) - ((float) r.left), ((((float) cHeight) / 2.0f) + (((float) r.height()) / 2.0f)) - ((float) r.bottom), paint);
+            paint.setTextAlign(Paint.Align.LEFT);
+            paint.getTextBounds("?", 0, "?".length(), r);
+            canvas.drawText("?", ((((float) cWidth) / 2.0f) - (((float) r.width()) / 2.0f)) - ((float) r.left), ((((float) cHeight) / 2.0f) + (((float) r.height()) / 2.0f)) - ((float) r.bottom), paint);
         }
     }
 
@@ -90,33 +88,31 @@ public class Placeholder extends View {
         }
         this.mContent = container.findViewById(this.mContentId);
         if (this.mContent != null) {
-            ((LayoutParams) this.mContent.getLayoutParams()).isInPlaceholder = true;
+            ((ConstraintLayout.LayoutParams) this.mContent.getLayoutParams()).isInPlaceholder = true;
             this.mContent.setVisibility(0);
             setVisibility(0);
         }
     }
 
     public void setContentId(int id) {
+        View v;
         if (this.mContentId != id) {
             if (this.mContent != null) {
                 this.mContent.setVisibility(0);
-                ((LayoutParams) this.mContent.getLayoutParams()).isInPlaceholder = false;
+                ((ConstraintLayout.LayoutParams) this.mContent.getLayoutParams()).isInPlaceholder = false;
                 this.mContent = null;
             }
             this.mContentId = id;
-            if (id != -1) {
-                View v = ((View) getParent()).findViewById(id);
-                if (v != null) {
-                    v.setVisibility(8);
-                }
+            if (id != -1 && (v = ((View) getParent()).findViewById(id)) != null) {
+                v.setVisibility(8);
             }
         }
     }
 
     public void updatePostMeasure(ConstraintLayout container) {
         if (this.mContent != null) {
-            LayoutParams layoutParams = (LayoutParams) getLayoutParams();
-            LayoutParams layoutParamsContent = (LayoutParams) this.mContent.getLayoutParams();
+            ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) getLayoutParams();
+            ConstraintLayout.LayoutParams layoutParamsContent = (ConstraintLayout.LayoutParams) this.mContent.getLayoutParams();
             layoutParamsContent.widget.setVisibility(0);
             layoutParams.widget.setWidth(layoutParamsContent.widget.getWidth());
             layoutParams.widget.setHeight(layoutParamsContent.widget.getHeight());

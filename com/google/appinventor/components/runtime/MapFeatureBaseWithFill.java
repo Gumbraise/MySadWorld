@@ -4,16 +4,14 @@ import com.google.appinventor.components.annotations.DesignerProperty;
 import com.google.appinventor.components.annotations.PropertyCategory;
 import com.google.appinventor.components.annotations.SimpleObject;
 import com.google.appinventor.components.annotations.SimpleProperty;
-import com.google.appinventor.components.runtime.util.MapFactory.HasFill;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeatureContainer;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeatureVisitor;
+import com.google.appinventor.components.runtime.util.MapFactory;
 
 @SimpleObject
-public abstract class MapFeatureBaseWithFill extends MapFeatureBase implements HasFill {
+public abstract class MapFeatureBaseWithFill extends MapFeatureBase implements MapFactory.HasFill {
     private int fillColor = -65536;
     private float fillOpacity = 1.0f;
 
-    public MapFeatureBaseWithFill(MapFeatureContainer container, MapFeatureVisitor<Double> distanceComputation) {
+    public MapFeatureBaseWithFill(MapFactory.MapFeatureContainer container, MapFactory.MapFeatureVisitor<Double> distanceComputation) {
         super(container, distanceComputation);
         FillColor(-65536);
         FillOpacity(1.0f);

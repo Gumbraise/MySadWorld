@@ -27,7 +27,7 @@ public class ExitableBlock {
         this.endLabel = new Label(code2);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void finish() {
         if (this.resultVariable != null && this.code.reachableHere()) {
             this.code.emitStore(this.resultVariable);
@@ -36,7 +36,8 @@ public class ExitableBlock {
         if (this.resultVariable != null) {
             this.code.emitLoad(this.resultVariable);
             this.code.popScope();
-            this.code.exitableBlockLevel--;
+            CodeAttr codeAttr = this.code;
+            codeAttr.exitableBlockLevel--;
         }
     }
 
@@ -54,7 +55,7 @@ public class ExitableBlock {
         return null;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void exit(TryState activeTry) {
         if (activeTry == this.initialTryState) {
             this.code.emitGoto(this.endLabel);
@@ -78,7 +79,7 @@ public class ExitableBlock {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void linkCase(TryState tryState) {
         if (this.currentTryState == tryState) {
             return;

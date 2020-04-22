@@ -22,7 +22,7 @@ public abstract class Display {
     public abstract Window makeWindow();
 
     public static Display getInstance() {
-        Object d = myDisplay.get(null);
+        Object d = myDisplay.get((Object) null);
         if (d instanceof Display) {
             return (Display) d;
         }
@@ -43,7 +43,7 @@ public abstract class Display {
                 name = "gnu.kawa.echo2.Echo2Display";
             }
             try {
-                return (Display) Class.forName(name).getDeclaredMethod("getInstance", noClasses).invoke(null, new Object[0]);
+                return (Display) Class.forName(name).getDeclaredMethod("getInstance", noClasses).invoke((Object) null, new Object[0]);
             } catch (ClassNotFoundException e) {
                 if (rest == null) {
                     throw new RuntimeException("no display toolkit: " + d);

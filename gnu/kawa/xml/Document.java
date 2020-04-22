@@ -17,16 +17,6 @@ public class Document {
     private static ThreadLocation docMapLocation = new ThreadLocation("document-map");
     public static final Document document = new Document();
 
-    private static class DocReference extends SoftReference {
-        static ReferenceQueue queue = new ReferenceQueue();
-        Path key;
-
-        public DocReference(Path key2, KDocument doc) {
-            super(doc, queue);
-            this.key = key2;
-        }
-    }
-
     public static void parse(Object name, Consumer out) throws Throwable {
         SourceMessages messages = new SourceMessages();
         if (out instanceof XConsumer) {
@@ -46,8 +36,18 @@ public class Document {
         return new KDocument(tree, 10);
     }
 
+    private static class DocReference extends SoftReference {
+        static ReferenceQueue queue = new ReferenceQueue();
+        Path key;
+
+        public DocReference(Path key2, KDocument doc) {
+            super(doc, queue);
+            this.key = key2;
+        }
+    }
+
     public static void clearLocalCache() {
-        docMapLocation.getLocation().set(null);
+        docMapLocation.getLocation().set((Object) null);
     }
 
     public static void clearSoftCache() {
@@ -90,7 +90,7 @@ public class Document {
      */
     /* JADX WARNING: Code restructure failed: missing block: B:5:0x000d, code lost:
         r2 = docMapLocation.getLocation();
-        r3 = (java.util.Hashtable) r2.get(null);
+        r3 = (java.util.Hashtable) r2.get((java.lang.Object) null);
      */
     /* JADX WARNING: Code restructure failed: missing block: B:6:0x001a, code lost:
         if (r3 != null) goto L_0x0024;

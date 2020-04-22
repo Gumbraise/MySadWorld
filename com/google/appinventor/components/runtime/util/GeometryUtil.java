@@ -2,11 +2,7 @@ package com.google.appinventor.components.runtime.util;
 
 import com.google.appinventor.components.runtime.errors.DispatchableError;
 import com.google.appinventor.components.runtime.errors.IterationError;
-import com.google.appinventor.components.runtime.util.MapFactory.MapCircle;
-import com.google.appinventor.components.runtime.util.MapFactory.MapLineString;
-import com.google.appinventor.components.runtime.util.MapFactory.MapMarker;
-import com.google.appinventor.components.runtime.util.MapFactory.MapPolygon;
-import com.google.appinventor.components.runtime.util.MapFactory.MapRectangle;
+import com.google.appinventor.components.runtime.util.MapFactory;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -73,7 +69,7 @@ public final class GeometryUtil {
 
     public static GeoPoint pointFromYailList(YailList point) {
         if (point.length() < 3) {
-            throw new DispatchableError(ErrorMessages.ERROR_INVALID_NUMBER_OF_VALUES_IN_POINT, Integer.valueOf(2), Integer.valueOf(point.length() - 1));
+            throw new DispatchableError(ErrorMessages.ERROR_INVALID_NUMBER_OF_VALUES_IN_POINT, 2, Integer.valueOf(point.length() - 1));
         }
         try {
             return coerceToPoint(point.get(1), point.get(2));
@@ -118,16 +114,14 @@ public final class GeometryUtil {
             int i = 0;
             if (holes == null || holes.isEmpty()) {
                 for (List<GeoPoint> ring : points) {
-                    int i2 = i + 1;
                     polygons[i] = ringToPolygon(ring);
-                    i = i2;
+                    i++;
                 }
             } else {
                 Iterator<List<List<GeoPoint>>> jp = holes.iterator();
-                for (List ringToPolygon : points) {
-                    int i3 = i + 1;
-                    polygons[i] = ringToPolygon(ringToPolygon, (List) jp.next());
-                    i = i3;
+                for (List<GeoPoint> ringToPolygon : points) {
+                    polygons[i] = ringToPolygon(ringToPolygon, jp.next());
+                    i++;
                 }
             }
             return polygons.length == 1 ? polygons[0] : FACTORY.createMultiPolygon(polygons);
@@ -141,7 +135,7 @@ public final class GeometryUtil {
             return new GeoPoint(0.0d, 0.0d);
         }
         if (points.size() == 1) {
-            return new GeoPoint((GeoPoint) points.get(0));
+            return new GeoPoint(points.get(0));
         }
         return jtsPointToGeoPoint(FACTORY.createLineString(pointsToCoordinates(points)).getCentroid());
     }
@@ -155,13 +149,12 @@ public final class GeometryUtil {
     }
 
     public static Coordinate[] pointsToCoordinates(List<GeoPoint> points) {
-        boolean closed = ((GeoPoint) points.get(0)).equals(points.get(points.size() - 1));
+        boolean closed = points.get(0).equals(points.get(points.size() - 1));
         Coordinate[] coordinates = new Coordinate[((closed ? 0 : 1) + points.size())];
         int i = 0;
         for (GeoPoint p : points) {
-            int i2 = i + 1;
             coordinates[i] = geoPointToCoordinate(p);
-            i = i2;
+            i++;
         }
         if (!closed) {
             coordinates[i] = coordinates[0];
@@ -178,9 +171,8 @@ public final class GeometryUtil {
         LinearRing[] holeRings = new LinearRing[holes.size()];
         int i = 0;
         for (List<GeoPoint> h : holes) {
-            int i2 = i + 1;
             holeRings[i] = geoPointsToLinearRing(h);
-            i = i2;
+            i++;
         }
         return FACTORY.createPolygon(shell, holeRings);
     }
@@ -201,23 +193,23 @@ public final class GeometryUtil {
         return 6378137.0d * 2.0d * Math.atan2(Math.sqrt(cordlen), Math.sqrt(1.0d - cordlen));
     }
 
-    public static double distanceBetween(MapMarker marker, GeoPoint point) {
+    public static double distanceBetween(MapFactory.MapMarker marker, GeoPoint point) {
         return distanceBetween(marker.getLocation(), (IGeoPoint) point);
     }
 
-    public static double distanceBetween(MapMarker marker1, MapMarker marker2) {
+    public static double distanceBetween(MapFactory.MapMarker marker1, MapFactory.MapMarker marker2) {
         return distanceBetween(marker1.getLocation(), marker2.getLocation());
     }
 
-    public static double distanceBetweenEdges(MapMarker marker, MapLineString lineString) {
+    public static double distanceBetweenEdges(MapFactory.MapMarker marker, MapFactory.MapLineString lineString) {
         return 111319.49079327358d * marker.getGeometry().distance(lineString.getGeometry());
     }
 
-    public static double distanceBetweenEdges(MapMarker marker, MapPolygon polygon) {
+    public static double distanceBetweenEdges(MapFactory.MapMarker marker, MapFactory.MapPolygon polygon) {
         return 111319.49079327358d * marker.getGeometry().distance(polygon.getGeometry());
     }
 
-    public static double distanceBetweenEdges(MapMarker marker, MapCircle circle) {
+    public static double distanceBetweenEdges(MapFactory.MapMarker marker, MapFactory.MapCircle circle) {
         double d = ((double) marker.getCentroid().distanceTo(circle.getCentroid())) - circle.Radius();
         if (d < 0.0d) {
             return 0.0d;
@@ -225,23 +217,23 @@ public final class GeometryUtil {
         return d;
     }
 
-    public static double distanceBetweenEdges(MapMarker marker, MapRectangle rectangle) {
+    public static double distanceBetweenEdges(MapFactory.MapMarker marker, MapFactory.MapRectangle rectangle) {
         return 111319.49079327358d * marker.getGeometry().distance(rectangle.getGeometry());
     }
 
-    public static double distanceBetweenEdges(MapLineString lineString, GeoPoint point) {
+    public static double distanceBetweenEdges(MapFactory.MapLineString lineString, GeoPoint point) {
         return 111319.49079327358d * lineString.getGeometry().distance(createGeometry(point));
     }
 
-    public static double distanceBetweenEdges(MapLineString lineString1, MapLineString lineString2) {
+    public static double distanceBetweenEdges(MapFactory.MapLineString lineString1, MapFactory.MapLineString lineString2) {
         return 111319.49079327358d * lineString1.getGeometry().distance(lineString2.getGeometry());
     }
 
-    public static double distanceBetweenEdges(MapLineString lineString, MapPolygon polygon) {
+    public static double distanceBetweenEdges(MapFactory.MapLineString lineString, MapFactory.MapPolygon polygon) {
         return 111319.49079327358d * lineString.getGeometry().distance(polygon.getGeometry());
     }
 
-    public static double distanceBetweenEdges(MapLineString lineString, MapCircle circle) {
+    public static double distanceBetweenEdges(MapFactory.MapLineString lineString, MapFactory.MapCircle circle) {
         double d = (111319.49079327358d * lineString.getGeometry().distance(createGeometry(circle.getCentroid()))) - circle.Radius();
         if (d < 0.0d) {
             return 0.0d;
@@ -249,19 +241,19 @@ public final class GeometryUtil {
         return d;
     }
 
-    public static double distanceBetweenEdges(MapLineString lineString, MapRectangle rectangle) {
+    public static double distanceBetweenEdges(MapFactory.MapLineString lineString, MapFactory.MapRectangle rectangle) {
         return 111319.49079327358d * lineString.getGeometry().distance(rectangle.getGeometry());
     }
 
-    public static double distanceBetweenEdges(MapPolygon polygon, GeoPoint point) {
+    public static double distanceBetweenEdges(MapFactory.MapPolygon polygon, GeoPoint point) {
         return 111319.49079327358d * polygon.getGeometry().distance(createGeometry(point));
     }
 
-    public static double distanceBetweenEdges(MapPolygon polygon1, MapPolygon polygon2) {
+    public static double distanceBetweenEdges(MapFactory.MapPolygon polygon1, MapFactory.MapPolygon polygon2) {
         return 111319.49079327358d * polygon1.getGeometry().distance(polygon2.getGeometry());
     }
 
-    public static double distanceBetweenEdges(MapPolygon polygon, MapCircle circle) {
+    public static double distanceBetweenEdges(MapFactory.MapPolygon polygon, MapFactory.MapCircle circle) {
         double d = (111319.49079327358d * polygon.getGeometry().distance(createGeometry(circle.getCentroid()))) - circle.Radius();
         if (d < 0.0d) {
             return 0.0d;
@@ -269,11 +261,11 @@ public final class GeometryUtil {
         return d;
     }
 
-    public static double distanceBetweenEdges(MapPolygon polygon, MapRectangle rectangle) {
+    public static double distanceBetweenEdges(MapFactory.MapPolygon polygon, MapFactory.MapRectangle rectangle) {
         return 111319.49079327358d * polygon.getGeometry().distance(rectangle.getGeometry());
     }
 
-    public static double distanceBetweenEdges(MapCircle circle, GeoPoint point) {
+    public static double distanceBetweenEdges(MapFactory.MapCircle circle, GeoPoint point) {
         double d = distanceBetween((IGeoPoint) circle.getCentroid(), (IGeoPoint) point) - circle.Radius();
         if (d < 0.0d) {
             return 0.0d;
@@ -281,7 +273,7 @@ public final class GeometryUtil {
         return d;
     }
 
-    public static double distanceBetweenEdges(MapCircle circle1, MapCircle circle2) {
+    public static double distanceBetweenEdges(MapFactory.MapCircle circle1, MapFactory.MapCircle circle2) {
         double d = (distanceBetween((IGeoPoint) circle1.getCentroid(), (IGeoPoint) circle2.getCentroid()) - circle1.Radius()) - circle2.Radius();
         if (d < 0.0d) {
             return 0.0d;
@@ -289,7 +281,7 @@ public final class GeometryUtil {
         return d;
     }
 
-    public static double distanceBetweenEdges(MapCircle circle, MapRectangle rectangle) {
+    public static double distanceBetweenEdges(MapFactory.MapCircle circle, MapFactory.MapRectangle rectangle) {
         double d = (111319.49079327358d * rectangle.getGeometry().distance(createGeometry(circle.getCentroid()))) - circle.Radius();
         if (d < 0.0d) {
             return 0.0d;
@@ -297,119 +289,119 @@ public final class GeometryUtil {
         return d;
     }
 
-    public static double distanceBetweenEdges(MapRectangle rectangle, GeoPoint point) {
+    public static double distanceBetweenEdges(MapFactory.MapRectangle rectangle, GeoPoint point) {
         return 111319.49079327358d * rectangle.getGeometry().distance(createGeometry(point));
     }
 
-    public static double distanceBetweenEdges(MapRectangle rectangle1, MapRectangle rectangle2) {
+    public static double distanceBetweenEdges(MapFactory.MapRectangle rectangle1, MapFactory.MapRectangle rectangle2) {
         return 111319.49079327358d * rectangle1.getGeometry().distance(rectangle2.getGeometry());
     }
 
-    public static double distanceBetweenCentroids(MapMarker marker, MapLineString lineString) {
+    public static double distanceBetweenCentroids(MapFactory.MapMarker marker, MapFactory.MapLineString lineString) {
         return distanceBetween((IGeoPoint) marker.getCentroid(), (IGeoPoint) lineString.getCentroid());
     }
 
-    public static double distanceBetweenCentroids(MapMarker marker, MapPolygon polygon) {
+    public static double distanceBetweenCentroids(MapFactory.MapMarker marker, MapFactory.MapPolygon polygon) {
         return distanceBetween((IGeoPoint) marker.getCentroid(), (IGeoPoint) polygon.getCentroid());
     }
 
-    public static double distanceBetweenCentroids(MapMarker marker, MapCircle circle) {
+    public static double distanceBetweenCentroids(MapFactory.MapMarker marker, MapFactory.MapCircle circle) {
         return distanceBetween((IGeoPoint) marker.getCentroid(), (IGeoPoint) circle.getCentroid());
     }
 
-    public static double distanceBetweenCentroids(MapMarker marker, MapRectangle rectangle) {
+    public static double distanceBetweenCentroids(MapFactory.MapMarker marker, MapFactory.MapRectangle rectangle) {
         return distanceBetween((IGeoPoint) marker.getCentroid(), (IGeoPoint) rectangle.getCentroid());
     }
 
-    public static double distanceBetweenCentroids(MapLineString lineString, GeoPoint point) {
+    public static double distanceBetweenCentroids(MapFactory.MapLineString lineString, GeoPoint point) {
         return distanceBetween((IGeoPoint) lineString.getCentroid(), (IGeoPoint) point);
     }
 
-    public static double distanceBetweenCentroids(MapLineString lineString1, MapLineString lineString2) {
+    public static double distanceBetweenCentroids(MapFactory.MapLineString lineString1, MapFactory.MapLineString lineString2) {
         return distanceBetween((IGeoPoint) lineString1.getCentroid(), (IGeoPoint) lineString2.getCentroid());
     }
 
-    public static double distanceBetweenCentroids(MapLineString lineString, MapPolygon polygon) {
+    public static double distanceBetweenCentroids(MapFactory.MapLineString lineString, MapFactory.MapPolygon polygon) {
         return distanceBetween((IGeoPoint) lineString.getCentroid(), (IGeoPoint) polygon.getCentroid());
     }
 
-    public static double distanceBetweenCentroids(MapLineString lineString, MapCircle circle) {
+    public static double distanceBetweenCentroids(MapFactory.MapLineString lineString, MapFactory.MapCircle circle) {
         return distanceBetween((IGeoPoint) lineString.getCentroid(), (IGeoPoint) circle.getCentroid());
     }
 
-    public static double distanceBetweenCentroids(MapLineString lineString, MapRectangle rectangle) {
+    public static double distanceBetweenCentroids(MapFactory.MapLineString lineString, MapFactory.MapRectangle rectangle) {
         return distanceBetween((IGeoPoint) lineString.getCentroid(), (IGeoPoint) rectangle.getCentroid());
     }
 
-    public static double distanceBetweenCentroids(MapPolygon polygon, GeoPoint point) {
+    public static double distanceBetweenCentroids(MapFactory.MapPolygon polygon, GeoPoint point) {
         return distanceBetween((IGeoPoint) polygon.getCentroid(), (IGeoPoint) point);
     }
 
-    public static double distanceBetweenCentroids(MapPolygon polygon1, MapPolygon polygon2) {
+    public static double distanceBetweenCentroids(MapFactory.MapPolygon polygon1, MapFactory.MapPolygon polygon2) {
         return distanceBetween((IGeoPoint) polygon1.getCentroid(), (IGeoPoint) polygon2.getCentroid());
     }
 
-    public static double distanceBetweenCentroids(MapPolygon polygon, MapCircle circle) {
+    public static double distanceBetweenCentroids(MapFactory.MapPolygon polygon, MapFactory.MapCircle circle) {
         return distanceBetween((IGeoPoint) polygon.getCentroid(), (IGeoPoint) circle.getCentroid());
     }
 
-    public static double distanceBetweenCentroids(MapPolygon polygon, MapRectangle rectangle) {
+    public static double distanceBetweenCentroids(MapFactory.MapPolygon polygon, MapFactory.MapRectangle rectangle) {
         return distanceBetween((IGeoPoint) polygon.getCentroid(), (IGeoPoint) rectangle.getCentroid());
     }
 
-    public static double distanceBetweenCentroids(MapCircle circle, GeoPoint point) {
+    public static double distanceBetweenCentroids(MapFactory.MapCircle circle, GeoPoint point) {
         return distanceBetween((IGeoPoint) circle.getCentroid(), (IGeoPoint) point);
     }
 
-    public static double distanceBetweenCentroids(MapCircle circle1, MapCircle circle2) {
+    public static double distanceBetweenCentroids(MapFactory.MapCircle circle1, MapFactory.MapCircle circle2) {
         return distanceBetween((IGeoPoint) circle1.getCentroid(), (IGeoPoint) circle2.getCentroid());
     }
 
-    public static double distanceBetweenCentroids(MapCircle circle, MapRectangle rectangle) {
+    public static double distanceBetweenCentroids(MapFactory.MapCircle circle, MapFactory.MapRectangle rectangle) {
         return distanceBetween((IGeoPoint) circle.getCentroid(), (IGeoPoint) rectangle.getCentroid());
     }
 
-    public static double distanceBetweenCentroids(MapRectangle rectangle, GeoPoint point) {
+    public static double distanceBetweenCentroids(MapFactory.MapRectangle rectangle, GeoPoint point) {
         return distanceBetween((IGeoPoint) rectangle.getCentroid(), (IGeoPoint) point);
     }
 
-    public static double distanceBetweenCentroids(MapRectangle rectangle1, MapRectangle rectangle2) {
+    public static double distanceBetweenCentroids(MapFactory.MapRectangle rectangle1, MapFactory.MapRectangle rectangle2) {
         return distanceBetween((IGeoPoint) rectangle1.getCentroid(), (IGeoPoint) rectangle2.getCentroid());
     }
 
-    public static double bearingTo(MapMarker from, MapMarker to) {
+    public static double bearingTo(MapFactory.MapMarker from, MapFactory.MapMarker to) {
         return from.getCentroid().bearingTo(to.getCentroid());
     }
 
-    public static double bearingToEdge(MapMarker from, MapLineString to) {
+    public static double bearingToEdge(MapFactory.MapMarker from, MapFactory.MapLineString to) {
         return from.getCentroid().bearingTo(to.getCentroid());
     }
 
-    public static double bearingToEdge(MapMarker from, MapPolygon to) {
+    public static double bearingToEdge(MapFactory.MapMarker from, MapFactory.MapPolygon to) {
         return from.getCentroid().bearingTo(to.getCentroid());
     }
 
-    public static double bearingToEdge(MapMarker from, MapRectangle to) {
+    public static double bearingToEdge(MapFactory.MapMarker from, MapFactory.MapRectangle to) {
         return from.getCentroid().bearingTo(to.getCentroid());
     }
 
-    public static double bearingToEdge(MapMarker from, MapCircle to) {
+    public static double bearingToEdge(MapFactory.MapMarker from, MapFactory.MapCircle to) {
         return from.getCentroid().bearingTo(to.getCentroid());
     }
 
-    public static double bearingToCentroid(MapMarker from, MapLineString to) {
+    public static double bearingToCentroid(MapFactory.MapMarker from, MapFactory.MapLineString to) {
         return from.getCentroid().bearingTo(to.getCentroid());
     }
 
-    public static double bearingToCentroid(MapMarker from, MapPolygon to) {
+    public static double bearingToCentroid(MapFactory.MapMarker from, MapFactory.MapPolygon to) {
         return from.getCentroid().bearingTo(to.getCentroid());
     }
 
-    public static double bearingToCentroid(MapMarker from, MapRectangle to) {
+    public static double bearingToCentroid(MapFactory.MapMarker from, MapFactory.MapRectangle to) {
         return from.getCentroid().bearingTo(to.getCentroid());
     }
 
-    public static double bearingToCentroid(MapMarker from, MapCircle to) {
+    public static double bearingToCentroid(MapFactory.MapMarker from, MapFactory.MapCircle to) {
         return from.getCentroid().bearingTo(to.getCentroid());
     }
 

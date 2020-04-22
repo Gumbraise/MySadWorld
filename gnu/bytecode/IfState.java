@@ -16,6 +16,6 @@ public class IfState {
         this.previous = code.if_stack;
         code.if_stack = this;
         this.end_label = endLabel;
-        this.start_stack_size = code.f53SP;
+        this.start_stack_size = code.SP;
     }
 }

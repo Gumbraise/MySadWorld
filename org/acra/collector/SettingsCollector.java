@@ -1,8 +1,7 @@
 package org.acra.collector;
 
 import android.content.Context;
-import android.provider.Settings.Secure;
-import android.provider.Settings.System;
+import android.provider.Settings;
 import android.util.Log;
 import java.lang.reflect.Field;
 import org.acra.ACRA;
@@ -12,12 +11,11 @@ final class SettingsCollector {
     }
 
     public static String collectSystemSettings(Context ctx) {
-        Field[] arr$;
         StringBuilder result = new StringBuilder();
-        for (Field key : System.class.getFields()) {
+        for (Field key : Settings.System.class.getFields()) {
             if (!key.isAnnotationPresent(Deprecated.class) && key.getType() == String.class) {
                 try {
-                    String value = System.getString(ctx.getContentResolver(), (String) key.get(null));
+                    String value = Settings.System.getString(ctx.getContentResolver(), (String) key.get((Object) null));
                     if (value != null) {
                         result.append(key.getName()).append("=").append(value).append("\n");
                     }
@@ -32,12 +30,11 @@ final class SettingsCollector {
     }
 
     public static String collectSecureSettings(Context ctx) {
-        Field[] arr$;
         StringBuilder result = new StringBuilder();
-        for (Field key : Secure.class.getFields()) {
+        for (Field key : Settings.Secure.class.getFields()) {
             if (!key.isAnnotationPresent(Deprecated.class) && key.getType() == String.class && isAuthorized(key)) {
                 try {
-                    String value = Secure.getString(ctx.getContentResolver(), (String) key.get(null));
+                    String value = Settings.Secure.getString(ctx.getContentResolver(), (String) key.get((Object) null));
                     if (value != null) {
                         result.append(key.getName()).append("=").append(value).append("\n");
                     }

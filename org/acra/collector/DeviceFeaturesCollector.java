@@ -10,20 +10,18 @@ final class DeviceFeaturesCollector {
     }
 
     public static String getFeatures(Context ctx) {
-        Object[] arr$;
         if (Compatibility.getAPILevel() < 5) {
             return "Data available only with API Level >= 5";
         }
         StringBuilder result = new StringBuilder();
         try {
-            for (Object feature : (Object[]) PackageManager.class.getMethod("getSystemAvailableFeatures", null).invoke(ctx.getPackageManager(), new Object[0])) {
+            for (Object feature : (Object[]) PackageManager.class.getMethod("getSystemAvailableFeatures", (Class[]) null).invoke(ctx.getPackageManager(), new Object[0])) {
                 String featureName = (String) feature.getClass().getField("name").get(feature);
                 if (featureName != null) {
                     result.append(featureName);
                 } else {
-                    String glEsVersion = (String) feature.getClass().getMethod("getGlEsVersion", null).invoke(feature, new Object[0]);
                     result.append("glEsVersion = ");
-                    result.append(glEsVersion);
+                    result.append((String) feature.getClass().getMethod("getGlEsVersion", (Class[]) null).invoke(feature, new Object[0]));
                 }
                 result.append("\n");
             }

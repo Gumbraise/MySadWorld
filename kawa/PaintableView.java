@@ -11,19 +11,17 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Element;
-import javax.swing.text.Position.Bias;
+import javax.swing.text.Position;
 import javax.swing.text.View;
 
 /* compiled from: ReplPane */
 class PaintableView extends View {
     Rectangle2D bounds;
-
-    /* renamed from: p */
-    Paintable f249p;
+    Paintable p;
 
     public PaintableView(Element elem, Paintable paintable) {
         super(elem);
-        this.f249p = paintable;
+        this.p = paintable;
         this.bounds = paintable.getBounds2D();
     }
 
@@ -35,7 +33,7 @@ class PaintableView extends View {
         try {
             g2.translate(bounds2.x, bounds2.y);
             g2.setPaint(Color.BLACK);
-            this.f249p.paint(g2);
+            this.p.paint(g2);
         } finally {
             g2.setTransform(saveTransform);
             g2.setPaint(savePaint);
@@ -62,7 +60,7 @@ class PaintableView extends View {
         }
     }
 
-    public Shape modelToView(int pos, Shape a, Bias b) throws BadLocationException {
+    public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
         int p0 = getStartOffset();
         int p1 = getEndOffset();
         if (pos < p0 || pos > p1) {
@@ -76,13 +74,13 @@ class PaintableView extends View {
         return r;
     }
 
-    public int viewToModel(float x, float y, Shape a, Bias[] bias) {
+    public int viewToModel(float x, float y, Shape a, Position.Bias[] bias) {
         Rectangle alloc = (Rectangle) a;
         if (x < ((float) (alloc.x + (alloc.width / 2)))) {
-            bias[0] = Bias.Forward;
+            bias[0] = Position.Bias.Forward;
             return getStartOffset();
         }
-        bias[0] = Bias.Backward;
+        bias[0] = Position.Bias.Backward;
         return getEndOffset();
     }
 }

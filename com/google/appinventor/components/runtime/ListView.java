@@ -3,7 +3,6 @@ package com.google.appinventor.components.runtime;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.GradientDrawable.Orientation;
 import android.graphics.drawable.StateListDrawable;
 import android.text.Editable;
 import android.text.Spannable;
@@ -13,8 +12,6 @@ import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -30,7 +27,7 @@ import com.google.appinventor.components.runtime.util.YailList;
 
 @SimpleObject
 @DesignerComponent(category = ComponentCategory.USERINTERFACE, description = "<p>This is a visible component that displays a list of text elements. <br> The list can be set using the ElementsFromString property or using the Elements block in the blocks editor. </p>", iconName = "images/listView.png", nonVisible = false, version = 5)
-public final class ListView extends AndroidViewComponent implements OnItemClickListener, OnItemSelectedListener {
+public final class ListView extends AndroidViewComponent implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
     private static final int DEFAULT_BACKGROUND_COLOR = -16777216;
     private static final boolean DEFAULT_ENABLED = false;
     private static final int DEFAULT_SELECTION_COLOR = -3355444;
@@ -226,16 +223,34 @@ public final class ListView extends AndroidViewComponent implements OnItemClickL
         }
     }
 
-    public void onItemClick(AdapterView<?> parent, View view2, int position, long id) {
-        Spannable item = (Spannable) parent.getAdapter().getItem(position);
-        this.selection = item.toString();
-        this.selectionIndex = this.adapterCopy.getPosition(item) + 1;
-        if (this.lastSelected != null) {
-            this.lastSelected.setBackgroundDrawable(UNSELECTED_DRAWABLE);
-        }
-        view2.setBackgroundDrawable(this.selectionDrawable);
-        this.lastSelected = view2;
-        AfterPicking();
+    /* JADX WARNING: type inference failed for: r4v0, types: [android.widget.AdapterView<?>, android.widget.AdapterView] */
+    /* JADX WARNING: Unknown variable types count: 1 */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public void onItemClick(android.widget.AdapterView<?> r4, android.view.View r5, int r6, long r7) {
+        /*
+            r3 = this;
+            android.widget.Adapter r1 = r4.getAdapter()
+            java.lang.Object r0 = r1.getItem(r6)
+            android.text.Spannable r0 = (android.text.Spannable) r0
+            java.lang.String r1 = r0.toString()
+            r3.selection = r1
+            android.widget.ArrayAdapter<android.text.Spannable> r1 = r3.adapterCopy
+            int r1 = r1.getPosition(r0)
+            int r1 = r1 + 1
+            r3.selectionIndex = r1
+            android.view.View r1 = r3.lastSelected
+            if (r1 == 0) goto L_0x0025
+            android.view.View r1 = r3.lastSelected
+            android.graphics.drawable.Drawable r2 = UNSELECTED_DRAWABLE
+            r1.setBackgroundDrawable(r2)
+        L_0x0025:
+            android.graphics.drawable.Drawable r1 = r3.selectionDrawable
+            r5.setBackgroundDrawable(r1)
+            r3.lastSelected = r5
+            r3.AfterPicking()
+            return
+        */
+        throw new UnsupportedOperationException("Method not decompiled: com.google.appinventor.components.runtime.ListView.onItemClick(android.widget.AdapterView, android.view.View, int, long):void");
     }
 
     public void onItemSelected(AdapterView<?> adapterView, View view2, int i, long l) {
@@ -278,7 +293,7 @@ public final class ListView extends AndroidViewComponent implements OnItemClickL
     @SimpleProperty
     public void SelectionColor(int argb) {
         this.selectionColor = argb;
-        this.selectionDrawable = new GradientDrawable(Orientation.TOP_BOTTOM, new int[]{argb, argb});
+        this.selectionDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{argb, argb});
     }
 
     @SimpleProperty(category = PropertyCategory.APPEARANCE, description = "The text color of the listview items.")

@@ -42,7 +42,7 @@ public class LegoMindstormsEv3Sensor extends LegoMindstormsEv3Base {
         if (layer < 0 || layer > 3 || no < 0 || no > 3 || mode < -1 || mode > 7) {
             throw new IllegalArgumentException();
         }
-        byte[] reply = sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(-103, true, 1, 0, "ccccccg", Byte.valueOf(27), Byte.valueOf((byte) layer), Byte.valueOf((byte) no), Byte.valueOf((byte) type), Byte.valueOf((byte) mode), Byte.valueOf(1), Byte.valueOf(0)), true);
+        byte[] reply = sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand((byte) -103, true, 1, 0, "ccccccg", (byte) 27, Byte.valueOf((byte) layer), Byte.valueOf((byte) no), Byte.valueOf((byte) type), Byte.valueOf((byte) mode), (byte) 1, (byte) 0), true);
         if (reply != null && reply.length == 2 && reply[0] == 2) {
             return reply[1];
         }
@@ -54,7 +54,7 @@ public class LegoMindstormsEv3Sensor extends LegoMindstormsEv3Base {
         if (layer < 0 || layer > 3 || no < 0 || no > 3 || mode < -1 || mode > 7) {
             throw new IllegalArgumentException();
         }
-        byte[] reply = sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(-103, true, 4, 0, "ccccccg", Byte.valueOf(29), Byte.valueOf((byte) layer), Byte.valueOf((byte) no), Byte.valueOf((byte) type), Byte.valueOf((byte) mode), Byte.valueOf(1), Byte.valueOf(0)), true);
+        byte[] reply = sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand((byte) -103, true, 4, 0, "ccccccg", (byte) 29, Byte.valueOf((byte) layer), Byte.valueOf((byte) no), Byte.valueOf((byte) type), Byte.valueOf((byte) mode), (byte) 1, (byte) 0), true);
         if (reply != null && reply.length == 5 && reply[0] == 2) {
             return (double) ((Float) Ev3BinaryParser.unpack("xf", reply)[0]).floatValue();
         }

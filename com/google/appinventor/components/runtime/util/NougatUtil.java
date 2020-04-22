@@ -1,8 +1,8 @@
 package com.google.appinventor.components.runtime.util;
 
 import android.net.Uri;
-import android.os.Build.VERSION;
-import android.support.p000v4.content.FileProvider;
+import android.os.Build;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import com.google.appinventor.components.runtime.Form;
 import java.io.File;
@@ -14,7 +14,7 @@ public final class NougatUtil {
     }
 
     public static Uri getPackageUri(Form form, File apk) {
-        if (VERSION.SDK_INT < 24) {
+        if (Build.VERSION.SDK_INT < 24) {
             return Uri.fromFile(apk);
         }
         String packageName = form.$context().getPackageName();

@@ -3,13 +3,11 @@ package org.acra;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -32,6 +30,7 @@ public final class CrashReportDialog extends Activity {
 
     /* access modifiers changed from: protected */
     public void onCreate(Bundle savedInstanceState) {
+        String savedValue;
         super.onCreate(savedInstanceState);
         this.mReportFileName = getIntent().getStringExtra("REPORT_FILE_NAME");
         Log.d(ACRA.LOG_TAG, "Opening CrashReportDialog for " + this.mReportFileName);
@@ -42,7 +41,7 @@ public final class CrashReportDialog extends Activity {
         LinearLayout root = new LinearLayout(this);
         root.setOrientation(1);
         root.setPadding(10, 10, 10, 10);
-        root.setLayoutParams(new LayoutParams(-1, -2));
+        root.setLayoutParams(new ViewGroup.LayoutParams(-1, -2));
         root.setFocusable(true);
         root.setFocusableInTouchMode(true);
         final ScrollView scroll = new ScrollView(this);
@@ -61,11 +60,8 @@ public final class CrashReportDialog extends Activity {
             scrollable.addView(label, new LinearLayout.LayoutParams(-1, -2));
             this.userComment = new EditText(this);
             this.userComment.setLines(2);
-            if (savedInstanceState != null) {
-                String savedValue = savedInstanceState.getString(STATE_COMMENT);
-                if (savedValue != null) {
-                    this.userComment.setText(savedValue);
-                }
+            if (!(savedInstanceState == null || (savedValue = savedInstanceState.getString(STATE_COMMENT)) == null)) {
+                this.userComment.setText(savedValue);
             }
             scrollable.addView(this.userComment);
         }
@@ -95,7 +91,7 @@ public final class CrashReportDialog extends Activity {
         buttons.setPadding(buttons.getPaddingLeft(), 10, buttons.getPaddingRight(), buttons.getPaddingBottom());
         Button yes = new Button(this);
         yes.setText(17039379);
-        yes.setOnClickListener(new OnClickListener() {
+        yes.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String usrEmail;
                 String comment = CrashReportDialog.this.userComment != null ? CrashReportDialog.this.userComment.getText().toString() : "";
@@ -103,7 +99,7 @@ public final class CrashReportDialog extends Activity {
                     usrEmail = "";
                 } else {
                     usrEmail = CrashReportDialog.this.userEmail.getText().toString();
-                    Editor prefEditor = CrashReportDialog.this.prefs.edit();
+                    SharedPreferences.Editor prefEditor = CrashReportDialog.this.prefs.edit();
                     prefEditor.putString(ACRA.PREF_USER_EMAIL_ADDRESS, usrEmail);
                     prefEditor.commit();
                 }
@@ -129,7 +125,7 @@ public final class CrashReportDialog extends Activity {
         buttons.addView(yes, new LinearLayout.LayoutParams(-1, -2, 1.0f));
         Button no = new Button(this);
         no.setText(17039369);
-        no.setOnClickListener(new OnClickListener() {
+        no.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ACRA.getErrorReporter().deletePendingNonApprovedReports(false);
                 CrashReportDialog.this.finish();

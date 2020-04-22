@@ -3,12 +3,13 @@ package android.support.constraint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.support.constraint.C0023R.C0024id;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.R;
 import android.support.constraint.solver.widgets.Helper;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup;
 import java.util.Arrays;
 
 public abstract class ConstraintHelper extends View {
@@ -22,7 +23,7 @@ public abstract class ConstraintHelper extends View {
     public ConstraintHelper(Context context) {
         super(context);
         this.myContext = context;
-        init(null);
+        init((AttributeSet) null);
     }
 
     public ConstraintHelper(Context context, AttributeSet attrs) {
@@ -40,11 +41,11 @@ public abstract class ConstraintHelper extends View {
     /* access modifiers changed from: protected */
     public void init(AttributeSet attrs) {
         if (attrs != null) {
-            TypedArray a = getContext().obtainStyledAttributes(attrs, C0023R.styleable.ConstraintLayout_Layout);
+            TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.ConstraintLayout_Layout);
             int N = a.getIndexCount();
             for (int i = 0; i < N; i++) {
                 int attr = a.getIndex(i);
-                if (attr == C0023R.styleable.ConstraintLayout_Layout_constraint_referenced_ids) {
+                if (attr == R.styleable.ConstraintLayout_Layout_constraint_referenced_ids) {
                     this.mReferenceIds = a.getString(attr);
                     setIds(this.mReferenceIds);
                 }
@@ -59,7 +60,7 @@ public abstract class ConstraintHelper extends View {
     public void setReferencedIds(int[] ids) {
         this.mCount = 0;
         for (int tag : ids) {
-            setTag(tag, null);
+            setTag(tag, (Object) null);
         }
     }
 
@@ -85,7 +86,7 @@ public abstract class ConstraintHelper extends View {
 
     public void validateParams() {
         if (this.mHelperWidget != null) {
-            LayoutParams params = getLayoutParams();
+            ViewGroup.LayoutParams params = getLayoutParams();
             if (params instanceof ConstraintLayout.LayoutParams) {
                 ((ConstraintLayout.LayoutParams) params).widget = this.mHelperWidget;
             }
@@ -93,24 +94,22 @@ public abstract class ConstraintHelper extends View {
     }
 
     private void addID(String idString) {
+        Object value;
         if (idString != null && this.myContext != null) {
             String idString2 = idString.trim();
             int tag = 0;
             try {
-                tag = C0024id.class.getField(idString2).getInt(null);
+                tag = R.id.class.getField(idString2).getInt((Object) null);
             } catch (Exception e) {
             }
             if (tag == 0) {
                 tag = this.myContext.getResources().getIdentifier(idString2, "id", this.myContext.getPackageName());
             }
-            if (tag == 0 && isInEditMode() && (getParent() instanceof ConstraintLayout)) {
-                Object value = ((ConstraintLayout) getParent()).getDesignInformation(0, idString2);
-                if (value != null && (value instanceof Integer)) {
-                    tag = ((Integer) value).intValue();
-                }
+            if (tag == 0 && isInEditMode() && (getParent() instanceof ConstraintLayout) && (value = ((ConstraintLayout) getParent()).getDesignInformation(0, idString2)) != null && (value instanceof Integer)) {
+                tag = ((Integer) value).intValue();
             }
             if (tag != 0) {
-                setTag(tag, null);
+                setTag(tag, (Object) null);
             } else {
                 Log.w("ConstraintHelper", "Could not find id of \"" + idString2 + "\"");
             }

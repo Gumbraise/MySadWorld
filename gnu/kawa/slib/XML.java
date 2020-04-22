@@ -1,6 +1,6 @@
 package gnu.kawa.slib;
 
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import gnu.expr.ModuleBody;
 import gnu.expr.ModuleInfo;
 import gnu.expr.ModuleMethod;
@@ -56,7 +56,7 @@ public class XML extends ModuleBody {
             case 1:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 2:
                 if (!(obj instanceof KElement)) {
@@ -64,7 +64,7 @@ public class XML extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 3:
                 if (!(obj instanceof KAttr)) {
@@ -72,7 +72,7 @@ public class XML extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             default:
                 return super.match1(moduleMethod, obj, callContext);

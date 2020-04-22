@@ -1,7 +1,7 @@
 package com.google.appinventor.components.runtime;
 
 import android.content.Intent;
-import android.os.Build.VERSION;
+import android.os.Build;
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.DesignerProperty;
 import com.google.appinventor.components.annotations.PropertyCategory;
@@ -48,7 +48,7 @@ public class SpeechRecognizer extends AndroidNonvisibleComponent implements Comp
                     SpeechRecognizer.this.form.askPermission("android.permission.RECORD_AUDIO", new PermissionResultHandler() {
                         public void HandlePermissionResponse(String permission, boolean granted) {
                             if (granted) {
-                                this.havePermission = true;
+                                boolean unused = this.havePermission = true;
                                 this.GetText();
                                 return;
                             }
@@ -111,7 +111,7 @@ public class SpeechRecognizer extends AndroidNonvisibleComponent implements Comp
     public void UseLegacy(boolean useLegacy2) {
         this.useLegacy = useLegacy2;
         Stop();
-        if (useLegacy2 || VERSION.SDK_INT < 8) {
+        if (useLegacy2 || Build.VERSION.SDK_INT < 8) {
             this.speechRecognizerController = new IntentBasedSpeechRecognizer(this.container, this.recognizerIntent);
         } else {
             this.speechRecognizerController = new ServiceBasedSpeechRecognizer(this.container, this.recognizerIntent);

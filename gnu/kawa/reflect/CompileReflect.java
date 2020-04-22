@@ -114,13 +114,11 @@ public class CompileReflect {
                 if (known > 0) {
                     return QuoteExp.getInstance(type.getReflectClass());
                 }
-                ApplyExp applyExp = new ApplyExp(Compilation.typeType.getDeclaredMethod("getReflectClass", 0), arg0);
-                return applyExp;
+                return new ApplyExp(Compilation.typeType.getDeclaredMethod("getReflectClass", 0), arg0);
             } else if (type != null) {
-                QuoteExp quoteExp2 = new QuoteExp(type);
-                ApplyExp applyExp2 = new ApplyExp(exp.getFunction(), quoteExp2, arg1);
-                applyExp2.setLine((Expression) exp);
-                exp = applyExp2;
+                ApplyExp applyExp = new ApplyExp(exp.getFunction(), new QuoteExp(type), arg1);
+                applyExp.setLine((Expression) exp);
+                exp = applyExp;
             }
         } else {
             type = arg0.getType();
@@ -136,11 +134,10 @@ public class CompileReflect {
                 Field field = (Field) part;
                 boolean isStaticField = (field.getModifiers() & 8) != 0;
                 if (isStatic && !isStaticField) {
-                    ErrorExp errorExp = new ErrorExp("cannot access non-static field `" + name + "' using `" + proc.getName() + '\'', comp);
-                    return errorExp;
-                } else if (caller != null && !caller.isAccessible(field, ctype)) {
-                    ErrorExp errorExp2 = new ErrorExp("field " + field.getDeclaringClass().getName() + '.' + name + " is not accessible here", comp);
-                    return errorExp2;
+                    return new ErrorExp("cannot access non-static field `" + name + "' using `" + proc.getName() + '\'', comp);
+                }
+                if (caller != null && !caller.isAccessible(field, ctype)) {
+                    return new ErrorExp("field " + field.getDeclaringClass().getName() + '.' + name + " is not accessible here", comp);
                 }
             } else if (part instanceof Method) {
                 Method method = (Method) part;
@@ -148,18 +145,16 @@ public class CompileReflect {
                 int modifiers = method.getModifiers();
                 boolean isStaticMethod = method.getStaticFlag();
                 if (isStatic && !isStaticMethod) {
-                    ErrorExp errorExp3 = new ErrorExp("cannot call non-static getter method `" + name + "' using `" + proc.getName() + '\'', comp);
-                    return errorExp3;
-                } else if (caller != null && !caller.isAccessible(dtype, ctype, modifiers)) {
-                    ErrorExp errorExp4 = new ErrorExp("method " + method + " is not accessible here", comp);
-                    return errorExp4;
+                    return new ErrorExp("cannot call non-static getter method `" + name + "' using `" + proc.getName() + '\'', comp);
+                }
+                if (caller != null && !caller.isAccessible(dtype, ctype, modifiers)) {
+                    return new ErrorExp("method " + method + " is not accessible here", comp);
                 }
             }
             if (part != null) {
-                QuoteExp quoteExp3 = new QuoteExp(part);
-                ApplyExp applyExp3 = new ApplyExp(exp.getFunction(), arg0, quoteExp3);
-                applyExp3.setLine((Expression) exp);
-                return applyExp3;
+                ApplyExp exp2 = new ApplyExp(exp.getFunction(), arg0, new QuoteExp(part));
+                exp2.setLine((Expression) exp);
+                return exp2;
             } else if (type != Type.pointer_type && comp.warnUnknownMember()) {
                 comp.error('e', "no slot `" + name + "' in " + ctype.getName());
             }
@@ -183,9 +178,9 @@ public class CompileReflect {
         expressionArr[6] = QuoteExp.getInstance(getName);
         expressionArr[7] = QuoteExp.getInstance(isName);
         expressionArr[8] = QuoteExp.getInstance(language);
-        ApplyExp applyExp4 = new ApplyExp((Procedure) invoke, expressionArr);
-        applyExp4.setLine((Expression) exp);
-        return visitor.visitApplyOnly(applyExp4, null);
+        ApplyExp applyExp2 = new ApplyExp((Procedure) invoke, expressionArr);
+        applyExp2.setLine((Expression) exp);
+        return visitor.visitApplyOnly(applyExp2, (Type) null);
     }
 
     public static Expression validateApplySlotSet(ApplyExp exp, InlineCalls visitor, Type required, Procedure proc) {

@@ -60,7 +60,7 @@ class HttpOutputStream extends OutputStream {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void maybeSendResponseHeaders(int count2) throws IOException {
         int statusCode = this.context.statusCode;
         if (statusCode != -999) {

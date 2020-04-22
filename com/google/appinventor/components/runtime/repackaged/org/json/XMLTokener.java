@@ -8,8 +8,8 @@ public class XMLTokener extends JSONTokener {
     static {
         entity.put("amp", XML.AMP);
         entity.put("apos", XML.APOS);
-        entity.put("gt", XML.f39GT);
-        entity.put("lt", XML.f40LT);
+        entity.put("gt", XML.GT);
+        entity.put("lt", XML.LT);
         entity.put("quot", XML.QUOT);
     }
 
@@ -42,7 +42,7 @@ public class XMLTokener extends JSONTokener {
             return null;
         }
         if (c == '<') {
-            return XML.f40LT;
+            return XML.LT;
         }
         StringBuffer sb = new StringBuffer();
         while (c != '<' && c != 0) {
@@ -108,16 +108,16 @@ public class XMLTokener extends JSONTokener {
             com.google.appinventor.components.runtime.repackaged.org.json.JSONException r2 = r3.syntaxError(r2)
             throw r2
         L_0x0021:
-            java.lang.Character r2 = com.google.appinventor.components.runtime.repackaged.org.json.XML.f40LT
+            java.lang.Character r2 = com.google.appinventor.components.runtime.repackaged.org.json.XML.LT
             goto L_0x0019
         L_0x0024:
-            java.lang.Character r2 = com.google.appinventor.components.runtime.repackaged.org.json.XML.f39GT
+            java.lang.Character r2 = com.google.appinventor.components.runtime.repackaged.org.json.XML.GT
             goto L_0x0019
         L_0x0027:
             java.lang.Character r2 = com.google.appinventor.components.runtime.repackaged.org.json.XML.SLASH
             goto L_0x0019
         L_0x002a:
-            java.lang.Character r2 = com.google.appinventor.components.runtime.repackaged.org.json.XML.f38EQ
+            java.lang.Character r2 = com.google.appinventor.components.runtime.repackaged.org.json.XML.EQ
             goto L_0x0019
         L_0x002d:
             java.lang.Character r2 = com.google.appinventor.components.runtime.repackaged.org.json.XML.BANG
@@ -161,7 +161,7 @@ public class XMLTokener extends JSONTokener {
     }
 
     /* JADX WARNING: Removed duplicated region for block: B:4:0x0012 A[LOOP_START, PHI: r0 
-      PHI: (r0v2 'c' char) = (r0v0 'c' char), (r0v3 'c' char) binds: [B:3:0x000d, B:27:0x006b] A[DONT_GENERATE, DONT_INLINE]] */
+  PHI: (r0v2 'c' char) = (r0v0 'c' char), (r0v3 'c' char) binds: [B:3:0x000d, B:27:0x006b] A[DONT_GENERATE, DONT_INLINE]] */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public java.lang.Object nextToken() throws com.google.appinventor.components.runtime.repackaged.org.json.JSONException {
         /*
@@ -202,13 +202,13 @@ public class XMLTokener extends JSONTokener {
             com.google.appinventor.components.runtime.repackaged.org.json.JSONException r3 = r4.syntaxError(r3)
             throw r3
         L_0x0032:
-            java.lang.Character r3 = com.google.appinventor.components.runtime.repackaged.org.json.XML.f39GT
+            java.lang.Character r3 = com.google.appinventor.components.runtime.repackaged.org.json.XML.GT
             goto L_0x0023
         L_0x0035:
             java.lang.Character r3 = com.google.appinventor.components.runtime.repackaged.org.json.XML.SLASH
             goto L_0x0023
         L_0x0038:
-            java.lang.Character r3 = com.google.appinventor.components.runtime.repackaged.org.json.XML.f38EQ
+            java.lang.Character r3 = com.google.appinventor.components.runtime.repackaged.org.json.XML.EQ
             goto L_0x0023
         L_0x003b:
             java.lang.Character r3 = com.google.appinventor.components.runtime.repackaged.org.json.XML.BANG

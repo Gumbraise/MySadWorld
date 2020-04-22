@@ -74,6 +74,7 @@ public class BitOps {
     }
 
     public static IntNum setBitValue(IntNum x, int bitno, int newValue) {
+        int oldValue;
         int i = 31;
         int newValue2 = newValue & 1;
         int i2 = x.ival;
@@ -89,7 +90,11 @@ public class BitOps {
             }
         } else {
             int wordno = bitno >> 5;
-            int oldValue = wordno >= i2 ? x.words[i2 + -1] < 0 ? 1 : 0 : (x.words[wordno] >> bitno) & 1;
+            if (wordno >= i2) {
+                oldValue = x.words[i2 + -1] < 0 ? 1 : 0;
+            } else {
+                oldValue = (x.words[wordno] >> bitno) & 1;
+            }
             if (oldValue == newValue2) {
                 return x;
             }
@@ -214,6 +219,7 @@ public class BitOps {
         }
     }
 
+    /* JADX WARNING: Can't fix incorrect switch cases order */
     /* JADX WARNING: Code restructure failed: missing block: B:30:0x0063, code lost:
         if ((r2 + 1) < r9) goto L_0x0052;
      */
@@ -807,12 +813,10 @@ public class BitOps {
                 int wi2 = data[ii];
                 int biti = (wi2 >> i) & 1;
                 if (ii == jj) {
-                    int i2 = biti << j;
-                    wi = i2 | ((int) (((long) wi2) & (((1 << i) | (1 << j)) ^ -1))) | (((wi2 >> j) & 1) << i);
+                    wi = (biti << j) | ((int) (((long) wi2) & (((1 << i) | (1 << j)) ^ -1))) | (((wi2 >> j) & 1) << i);
                 } else {
                     int wj = data[jj];
-                    int bitj = (wj >> (j & 31)) & 1;
-                    wi = (wi2 & ((1 << (i & 31)) ^ -1)) | (bitj << (i & 31));
+                    wi = (wi2 & ((1 << (i & 31)) ^ -1)) | (((wj >> (j & 31)) & 1) << (i & 31));
                     data[jj] = (wj & ((1 << (j & 31)) ^ -1)) | (biti << (j & 31));
                 }
                 data[ii] = wi;
@@ -821,12 +825,10 @@ public class BitOps {
             return IntNum.make(data, data.length);
         }
         long w = (long) ival;
-        int i3 = start;
-        for (int j2 = end - 1; i3 < j2; j2--) {
-            long biti2 = (w >> i3) & 1;
-            long bitj2 = (w >> j2) & 1;
-            w = (biti2 << j2) | (w & (((1 << i3) | (1 << j2)) ^ -1)) | (bitj2 << i3);
-            i3++;
+        int i2 = start;
+        for (int j2 = end - 1; i2 < j2; j2--) {
+            w = (((w >> i2) & 1) << j2) | (w & (((1 << i2) | (1 << j2)) ^ -1)) | (((w >> j2) & 1) << i2);
+            i2++;
         }
         return IntNum.make(w);
     }

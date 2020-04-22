@@ -36,7 +36,7 @@ class LogCatCollector {
         if (tailIndex <= -1 || tailIndex >= logcatArgumentsList.size()) {
             tailCount = -1;
         } else {
-            tailCount = Integer.parseInt((String) logcatArgumentsList.get(tailIndex + 1));
+            tailCount = Integer.parseInt(logcatArgumentsList.get(tailIndex + 1));
             if (Compatibility.getAPILevel() < 8) {
                 logcatArgumentsList.remove(tailIndex + 1);
                 logcatArgumentsList.remove(tailIndex);

@@ -4,7 +4,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
-import android.provider.MediaStore.Images.Media;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 import com.google.appinventor.components.annotations.DesignerComponent;
@@ -45,7 +45,7 @@ public class ImagePicker extends Picker implements ActivityResultListener {
 
     /* access modifiers changed from: protected */
     public Intent getIntent() {
-        return new Intent("android.intent.action.PICK", Media.INTERNAL_CONTENT_URI);
+        return new Intent("android.intent.action.PICK", MediaStore.Images.Media.INTERNAL_CONTENT_URI);
     }
 
     public void click() {
@@ -53,7 +53,7 @@ public class ImagePicker extends Picker implements ActivityResultListener {
             this.container.$form().askPermission("android.permission.WRITE_EXTERNAL_STORAGE", new PermissionResultHandler() {
                 public void HandlePermissionResponse(String permission, boolean granted) {
                     if (granted) {
-                        ImagePicker.this.havePermission = true;
+                        boolean unused = ImagePicker.this.havePermission = true;
                         ImagePicker.this.click();
                         return;
                     }

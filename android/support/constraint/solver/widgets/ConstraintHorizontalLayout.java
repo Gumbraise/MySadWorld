@@ -25,7 +25,10 @@ public class ConstraintHorizontalLayout extends ConstraintWidgetContainer {
         super(width, height);
     }
 
-    /* JADX WARNING: type inference failed for: r2v2 */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r2v0, resolved type: android.support.constraint.solver.widgets.ConstraintHorizontalLayout} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r2v1, resolved type: android.support.constraint.solver.widgets.ConstraintHorizontalLayout} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v1, resolved type: android.support.constraint.solver.widgets.ConstraintWidget} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r2v2, resolved type: android.support.constraint.solver.widgets.ConstraintHorizontalLayout} */
     /* JADX WARNING: Multi-variable type inference failed */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public void addToSolver(android.support.constraint.solver.LinearSystem r15) {
@@ -47,17 +50,17 @@ public class ConstraintHorizontalLayout extends ConstraintWidgetContainer {
             if (r2 == r14) goto L_0x003d
             android.support.constraint.solver.widgets.ConstraintAnchor$Type r1 = android.support.constraint.solver.widgets.ConstraintAnchor.Type.LEFT
             android.support.constraint.solver.widgets.ConstraintAnchor$Type r3 = android.support.constraint.solver.widgets.ConstraintAnchor.Type.RIGHT
-            r0.connect(r1, r2, r3)
+            r0.connect((android.support.constraint.solver.widgets.ConstraintAnchor.Type) r1, (android.support.constraint.solver.widgets.ConstraintWidget) r2, (android.support.constraint.solver.widgets.ConstraintAnchor.Type) r3)
             android.support.constraint.solver.widgets.ConstraintAnchor$Type r1 = android.support.constraint.solver.widgets.ConstraintAnchor.Type.RIGHT
             android.support.constraint.solver.widgets.ConstraintAnchor$Type r3 = android.support.constraint.solver.widgets.ConstraintAnchor.Type.LEFT
-            r2.connect(r1, r0, r3)
+            r2.connect((android.support.constraint.solver.widgets.ConstraintAnchor.Type) r1, (android.support.constraint.solver.widgets.ConstraintWidget) r0, (android.support.constraint.solver.widgets.ConstraintAnchor.Type) r3)
         L_0x002b:
             android.support.constraint.solver.widgets.ConstraintAnchor$Type r1 = android.support.constraint.solver.widgets.ConstraintAnchor.Type.TOP
             android.support.constraint.solver.widgets.ConstraintAnchor$Type r3 = android.support.constraint.solver.widgets.ConstraintAnchor.Type.TOP
-            r0.connect(r1, r14, r3)
+            r0.connect((android.support.constraint.solver.widgets.ConstraintAnchor.Type) r1, (android.support.constraint.solver.widgets.ConstraintWidget) r14, (android.support.constraint.solver.widgets.ConstraintAnchor.Type) r3)
             android.support.constraint.solver.widgets.ConstraintAnchor$Type r1 = android.support.constraint.solver.widgets.ConstraintAnchor.Type.BOTTOM
             android.support.constraint.solver.widgets.ConstraintAnchor$Type r3 = android.support.constraint.solver.widgets.ConstraintAnchor.Type.BOTTOM
-            r0.connect(r1, r14, r3)
+            r0.connect((android.support.constraint.solver.widgets.ConstraintAnchor.Type) r1, (android.support.constraint.solver.widgets.ConstraintWidget) r14, (android.support.constraint.solver.widgets.ConstraintAnchor.Type) r3)
             r2 = r0
             int r12 = r12 + 1
             goto L_0x0011
@@ -70,7 +73,7 @@ public class ConstraintHorizontalLayout extends ConstraintWidgetContainer {
         L_0x0047:
             android.support.constraint.solver.widgets.ConstraintAnchor$Type r1 = android.support.constraint.solver.widgets.ConstraintAnchor.Type.LEFT
             android.support.constraint.solver.widgets.ConstraintAnchor$Type r3 = android.support.constraint.solver.widgets.ConstraintAnchor.Type.LEFT
-            r0.connect(r1, r2, r3, r4, r5)
+            r0.connect((android.support.constraint.solver.widgets.ConstraintAnchor.Type) r1, (android.support.constraint.solver.widgets.ConstraintWidget) r2, (android.support.constraint.solver.widgets.ConstraintAnchor.Type) r3, (int) r4, (android.support.constraint.solver.widgets.ConstraintAnchor.Strength) r5)
             goto L_0x002b
         L_0x004f:
             if (r2 == r14) goto L_0x0066
@@ -86,7 +89,7 @@ public class ConstraintHorizontalLayout extends ConstraintWidgetContainer {
             r8 = r14
             r10 = r4
             r11 = r5
-            r6.connect(r7, r8, r9, r10, r11)
+            r6.connect((android.support.constraint.solver.widgets.ConstraintAnchor.Type) r7, (android.support.constraint.solver.widgets.ConstraintWidget) r8, (android.support.constraint.solver.widgets.ConstraintAnchor.Type) r9, (int) r10, (android.support.constraint.solver.widgets.ConstraintAnchor.Strength) r11)
         L_0x0066:
             super.addToSolver(r15)
             return

@@ -34,6 +34,7 @@ public class ModuleMethod extends MethodProc {
 
     /* access modifiers changed from: protected */
     public void resolveParameterTypes() {
+        Language lang;
         Method method = null;
         String name = getName();
         if (name != null) {
@@ -53,22 +54,19 @@ public class ModuleMethod extends MethodProc {
                         method = methods[i];
                     }
                 }
-                if (method != null) {
-                    Language lang = Language.getDefaultLanguage();
-                    if (lang != null) {
-                        Class[] parameterClasses = method.getParameterTypes();
-                        int numParamTypes = parameterClasses.length;
-                        Type[] atypes = new Type[numParamTypes];
-                        int i2 = numParamTypes;
-                        while (true) {
-                            i2--;
-                            if (i2 < 0) {
-                                break;
-                            }
-                            atypes[i2] = lang.getTypeFor(parameterClasses[i2]);
+                if (!(method == null || (lang = Language.getDefaultLanguage()) == null)) {
+                    Class[] parameterClasses = method.getParameterTypes();
+                    int numParamTypes = parameterClasses.length;
+                    Type[] atypes = new Type[numParamTypes];
+                    int i2 = numParamTypes;
+                    while (true) {
+                        i2--;
+                        if (i2 < 0) {
+                            break;
                         }
-                        this.argTypes = atypes;
+                        atypes[i2] = lang.getTypeFor(parameterClasses[i2]);
                     }
+                    this.argTypes = atypes;
                 }
             } catch (Throwable th) {
             }
@@ -120,7 +118,7 @@ public class ModuleMethod extends MethodProc {
 
     public void apply(CallContext ctx) throws Throwable {
         Object result;
-        switch (ctx.f236pc) {
+        switch (ctx.pc) {
             case 0:
                 result = apply0();
                 break;

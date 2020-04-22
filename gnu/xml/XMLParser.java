@@ -140,267 +140,7 @@ public class XMLParser {
         in.close();
     }
 
-    /* JADX WARNING: type inference failed for: r3v0, types: [char[]] */
-    /* JADX WARNING: type inference failed for: r23v0 */
-    /* JADX WARNING: type inference failed for: r9v0 */
-    /* JADX WARNING: type inference failed for: r23v1 */
-    /* JADX WARNING: type inference failed for: r9v1 */
-    /* JADX WARNING: type inference failed for: r3v1, types: [char[]] */
-    /* JADX WARNING: type inference failed for: r23v2 */
-    /* JADX WARNING: type inference failed for: r9v2 */
-    /* JADX WARNING: type inference failed for: r3v2 */
-    /* JADX WARNING: type inference failed for: r23v3 */
-    /* JADX WARNING: type inference failed for: r23v4 */
-    /* JADX WARNING: type inference failed for: r23v5 */
-    /* JADX WARNING: type inference failed for: r23v6 */
-    /* JADX WARNING: type inference failed for: r9v3 */
-    /* JADX WARNING: type inference failed for: r23v7 */
-    /* JADX WARNING: type inference failed for: r9v4, types: [char] */
-    /* JADX WARNING: type inference failed for: r0v15 */
-    /* JADX WARNING: type inference failed for: r23v8 */
-    /* JADX WARNING: type inference failed for: r23v9 */
-    /* JADX WARNING: type inference failed for: r23v10 */
-    /* JADX WARNING: type inference failed for: r23v11 */
-    /* JADX WARNING: type inference failed for: r9v5 */
-    /* JADX WARNING: type inference failed for: r2v31, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v33, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v35, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v37, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v39, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v41, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v46, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v48, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v50, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v52, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v54, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v56, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v58, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v60, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v62, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v64, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v66, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v68, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v70, types: [char] */
-    /* JADX WARNING: type inference failed for: r9v6, types: [char] */
-    /* JADX WARNING: type inference failed for: r9v7 */
-    /* JADX WARNING: type inference failed for: r9v8, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v73, types: [char] */
-    /* JADX WARNING: type inference failed for: r9v9 */
-    /* JADX WARNING: type inference failed for: r2v76, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v78, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v80, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v83, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v85, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v87, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v89, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v91, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v93, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v95, types: [char] */
-    /* JADX WARNING: type inference failed for: r9v10, types: [char] */
-    /* JADX WARNING: type inference failed for: r9v11, types: [char] */
-    /* JADX WARNING: type inference failed for: r9v12, types: [char] */
-    /* JADX WARNING: type inference failed for: r9v13, types: [char] */
-    /* JADX WARNING: type inference failed for: r20v0 */
-    /* JADX WARNING: type inference failed for: r9v14 */
-    /* JADX WARNING: type inference failed for: r9v15, types: [char] */
-    /* JADX WARNING: type inference failed for: r0v26 */
-    /* JADX WARNING: type inference failed for: r9v16 */
-    /* JADX WARNING: type inference failed for: r9v17 */
-    /* JADX WARNING: type inference failed for: r9v18 */
-    /* JADX WARNING: type inference failed for: r2v103, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v105, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v107, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v109, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v111, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v113, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v115, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v117, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v119, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v121, types: [char] */
-    /* JADX WARNING: type inference failed for: r9v19, types: [char] */
-    /* JADX WARNING: type inference failed for: r9v20, types: [char] */
-    /* JADX WARNING: type inference failed for: r9v21, types: [char] */
-    /* JADX WARNING: type inference failed for: r9v22, types: [char] */
-    /* JADX WARNING: type inference failed for: r20v1 */
-    /* JADX WARNING: type inference failed for: r9v23 */
-    /* JADX WARNING: type inference failed for: r9v24, types: [char] */
-    /* JADX WARNING: type inference failed for: r0v27 */
-    /* JADX WARNING: type inference failed for: r2v128, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v130, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v131, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v133, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v135, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v137, types: [char] */
-    /* JADX WARNING: type inference failed for: r9v25, types: [char] */
-    /* JADX WARNING: type inference failed for: r9v26, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v139, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v141, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v143, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v145, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v147, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v149, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v151, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v153, types: [char] */
-    /* JADX WARNING: type inference failed for: r9v27, types: [char] */
-    /* JADX WARNING: type inference failed for: r9v28, types: [char] */
-    /* JADX WARNING: type inference failed for: r9v29, types: [char] */
-    /* JADX WARNING: type inference failed for: r9v30, types: [char] */
-    /* JADX WARNING: type inference failed for: r20v2 */
-    /* JADX WARNING: type inference failed for: r9v31 */
-    /* JADX WARNING: type inference failed for: r9v32, types: [char] */
-    /* JADX WARNING: type inference failed for: r0v28 */
-    /* JADX WARNING: type inference failed for: r2v160, types: [char] */
-    /* JADX WARNING: type inference failed for: r9v33, types: [char] */
-    /* JADX WARNING: type inference failed for: r9v34, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v165, types: [char] */
-    /* JADX WARNING: type inference failed for: r9v35 */
-    /* JADX WARNING: type inference failed for: r2v168, types: [char] */
-    /* JADX WARNING: type inference failed for: r2v170, types: [char] */
-    /* JADX WARNING: type inference failed for: r9v36, types: [char] */
-    /* JADX WARNING: type inference failed for: r9v37, types: [char] */
-    /* JADX WARNING: type inference failed for: r9v38, types: [char] */
-    /* JADX WARNING: type inference failed for: r9v39, types: [char] */
-    /* JADX WARNING: type inference failed for: r9v40, types: [char] */
-    /* JADX WARNING: type inference failed for: r9v41 */
-    /* JADX WARNING: type inference failed for: r9v42, types: [char] */
-    /* JADX WARNING: type inference failed for: r9v43 */
-    /* JADX WARNING: type inference failed for: r0v48 */
-    /* JADX WARNING: type inference failed for: r9v44 */
-    /* JADX WARNING: type inference failed for: r9v45 */
-    /* JADX WARNING: type inference failed for: r9v46, types: [char] */
-    /* JADX WARNING: type inference failed for: r9v47, types: [char] */
-    /* JADX WARNING: type inference failed for: r9v48 */
-    /* JADX WARNING: type inference failed for: r9v49, types: [char] */
-    /* JADX WARNING: type inference failed for: r23v12 */
-    /* JADX WARNING: type inference failed for: r9v50 */
-    /* JADX WARNING: type inference failed for: r3v3, types: [char[]] */
-    /* JADX WARNING: type inference failed for: r9v51, types: [char] */
-    /* JADX WARNING: type inference failed for: r9v52, types: [char] */
-    /* JADX WARNING: type inference failed for: r3v4 */
-    /* JADX WARNING: type inference failed for: r23v13 */
-    /* JADX WARNING: type inference failed for: r9v53 */
-    /* JADX WARNING: type inference failed for: r23v14 */
-    /* JADX WARNING: type inference failed for: r23v15 */
-    /* JADX WARNING: type inference failed for: r23v16 */
-    /* JADX WARNING: type inference failed for: r23v17 */
-    /* JADX WARNING: type inference failed for: r23v18 */
-    /* JADX WARNING: type inference failed for: r23v19 */
-    /* JADX WARNING: type inference failed for: r23v20 */
-    /* JADX WARNING: type inference failed for: r23v21 */
-    /* JADX WARNING: type inference failed for: r23v22 */
-    /* JADX WARNING: type inference failed for: r3v5 */
-    /* JADX WARNING: type inference failed for: r3v6 */
-    /* JADX WARNING: type inference failed for: r3v7 */
-    /* JADX WARNING: type inference failed for: r3v8 */
-    /* JADX WARNING: type inference failed for: r3v9 */
-    /* JADX WARNING: type inference failed for: r3v10 */
-    /* JADX WARNING: type inference failed for: r3v11 */
-    /* JADX WARNING: type inference failed for: r3v12 */
-    /* JADX WARNING: type inference failed for: r3v13 */
-    /* JADX WARNING: type inference failed for: r3v14 */
-    /* JADX WARNING: type inference failed for: r3v15 */
-    /* JADX WARNING: type inference failed for: r3v16 */
-    /* JADX WARNING: type inference failed for: r3v17 */
-    /* JADX WARNING: type inference failed for: r3v18 */
-    /* JADX WARNING: type inference failed for: r3v19 */
-    /* JADX WARNING: type inference failed for: r3v20 */
-    /* JADX WARNING: type inference failed for: r3v21 */
-    /* JADX WARNING: type inference failed for: r3v22 */
-    /* JADX WARNING: type inference failed for: r3v23 */
-    /* JADX WARNING: type inference failed for: r3v24 */
-    /* JADX WARNING: type inference failed for: r3v25 */
-    /* JADX WARNING: type inference failed for: r3v26 */
-    /* JADX WARNING: type inference failed for: r3v27 */
-    /* JADX WARNING: type inference failed for: r3v28 */
-    /* JADX WARNING: type inference failed for: r3v29 */
-    /* JADX WARNING: type inference failed for: r3v30 */
-    /* JADX WARNING: type inference failed for: r3v31 */
-    /* JADX WARNING: type inference failed for: r3v32 */
-    /* JADX WARNING: type inference failed for: r3v33 */
-    /* JADX WARNING: type inference failed for: r3v34 */
-    /* JADX WARNING: type inference failed for: r3v35 */
-    /* JADX WARNING: type inference failed for: r3v36 */
-    /* JADX WARNING: type inference failed for: r23v23 */
-    /* JADX WARNING: type inference failed for: r9v54 */
-    /* JADX WARNING: type inference failed for: r3v37 */
-    /* JADX WARNING: type inference failed for: r23v24 */
-    /* JADX WARNING: type inference failed for: r23v25 */
-    /* JADX WARNING: type inference failed for: r23v26 */
-    /* JADX WARNING: type inference failed for: r23v27 */
-    /* JADX WARNING: type inference failed for: r9v55 */
-    /* JADX WARNING: type inference failed for: r9v56 */
-    /* JADX WARNING: type inference failed for: r23v28 */
-    /* JADX WARNING: type inference failed for: r23v29 */
-    /* JADX WARNING: type inference failed for: r9v57 */
-    /* JADX WARNING: type inference failed for: r23v30 */
-    /* JADX WARNING: type inference failed for: r23v31 */
-    /* JADX WARNING: type inference failed for: r23v32 */
-    /* JADX WARNING: type inference failed for: r9v58 */
-    /* JADX WARNING: type inference failed for: r9v59 */
-    /* JADX WARNING: type inference failed for: r9v60 */
-    /* JADX WARNING: type inference failed for: r9v61 */
-    /* JADX WARNING: type inference failed for: r9v62 */
-    /* JADX WARNING: type inference failed for: r9v63 */
-    /* JADX WARNING: type inference failed for: r9v64 */
-    /* JADX WARNING: type inference failed for: r9v65 */
-    /* JADX WARNING: type inference failed for: r9v66 */
-    /* JADX WARNING: type inference failed for: r9v67 */
-    /* JADX WARNING: type inference failed for: r9v68 */
-    /* JADX WARNING: type inference failed for: r9v69 */
-    /* JADX WARNING: type inference failed for: r9v70 */
-    /* JADX WARNING: type inference failed for: r9v71 */
-    /* JADX WARNING: type inference failed for: r9v72 */
-    /* JADX WARNING: type inference failed for: r9v73 */
-    /* JADX WARNING: type inference failed for: r9v74 */
-    /* JADX WARNING: type inference failed for: r9v75 */
-    /* JADX WARNING: type inference failed for: r9v76 */
-    /* JADX WARNING: type inference failed for: r9v77 */
-    /* JADX WARNING: type inference failed for: r9v78 */
-    /* JADX WARNING: type inference failed for: r9v79 */
-    /* JADX WARNING: type inference failed for: r9v80 */
-    /* JADX WARNING: type inference failed for: r9v81 */
-    /* JADX WARNING: type inference failed for: r9v82 */
-    /* JADX WARNING: type inference failed for: r9v83 */
-    /* JADX WARNING: type inference failed for: r9v84 */
-    /* JADX WARNING: type inference failed for: r9v85 */
-    /* JADX WARNING: type inference failed for: r9v86 */
-    /* JADX WARNING: type inference failed for: r9v87 */
-    /* JADX WARNING: type inference failed for: r9v88 */
-    /* JADX WARNING: type inference failed for: r9v89 */
-    /* JADX WARNING: type inference failed for: r9v90 */
-    /* JADX WARNING: type inference failed for: r9v91 */
-    /* JADX WARNING: type inference failed for: r9v92 */
-    /* JADX WARNING: type inference failed for: r9v93 */
-    /* JADX WARNING: type inference failed for: r9v94 */
-    /* JADX WARNING: type inference failed for: r9v95 */
-    /* JADX WARNING: type inference failed for: r9v96 */
-    /* JADX WARNING: type inference failed for: r9v97 */
-    /* JADX WARNING: type inference failed for: r9v98 */
-    /* JADX WARNING: type inference failed for: r9v99 */
-    /* JADX WARNING: type inference failed for: r9v100 */
-    /* JADX WARNING: type inference failed for: r9v101 */
-    /* JADX WARNING: type inference failed for: r9v102 */
-    /* JADX WARNING: type inference failed for: r9v103 */
-    /* JADX WARNING: type inference failed for: r9v104 */
-    /* JADX WARNING: type inference failed for: r9v105 */
-    /* JADX WARNING: type inference failed for: r9v106 */
-    /* JADX WARNING: type inference failed for: r9v107 */
-    /* JADX WARNING: type inference failed for: r9v108 */
-    /* JADX WARNING: type inference failed for: r9v109 */
-    /* JADX WARNING: type inference failed for: r9v110 */
-    /* JADX WARNING: type inference failed for: r9v111 */
-    /* JADX WARNING: type inference failed for: r9v112 */
-    /* JADX WARNING: type inference failed for: r9v113 */
-    /* JADX WARNING: type inference failed for: r9v114 */
-    /* JADX WARNING: type inference failed for: r9v115 */
-    /* JADX WARNING: type inference failed for: r9v116 */
-    /* JADX WARNING: type inference failed for: r23v33 */
-    /* JADX WARNING: type inference failed for: r23v34 */
-    /* JADX WARNING: type inference failed for: r23v35 */
-    /* JADX WARNING: type inference failed for: r9v117 */
-    /* JADX WARNING: type inference failed for: r3v38 */
-    /* JADX WARNING: type inference failed for: r9v118 */
-    /* JADX WARNING: type inference failed for: r9v119 */
+    /* JADX WARNING: Can't fix incorrect switch cases order */
     /* JADX WARNING: Code restructure failed: missing block: B:160:0x023d, code lost:
         if (r5 != 0) goto L_0x0878;
      */
@@ -431,7 +171,7 @@ public class XMLParser {
         r17 = "missing or invalid name";
      */
     /* JADX WARNING: Code restructure failed: missing block: B:172:0x025f, code lost:
-        if (r9 != 120(0x78)) goto L_0x0287;
+        if (r9 != 'x') goto L_0x0287;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:173:0x0261, code lost:
         if (r6 != 0) goto L_0x0287;
@@ -443,7 +183,7 @@ public class XMLParser {
         if (r19 >= r16) goto L_0x0023;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:179:0x0273, code lost:
-        if (r9 != 59) goto L_0x025d;
+        if (r9 != ';') goto L_0x025d;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:17:0x0062, code lost:
         r19 = r18;
@@ -452,7 +192,6 @@ public class XMLParser {
         r26.pos = r19;
         r27.emitCharacterReference(r5, r3, r4, (r19 - 1) - r4);
         r22 = 1;
-        r9 = r9;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:182:0x0289, code lost:
         if (r5 < 134217728) goto L_0x029e;
@@ -461,7 +200,6 @@ public class XMLParser {
         r26.pos = r19;
         r27.error('e', "invalid character reference");
         r22 = 1;
-        r9 = r9;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:184:0x029e, code lost:
         if (r6 != 0) goto L_0x02ad;
@@ -492,15 +230,11 @@ public class XMLParser {
         r9 = r3[r19];
      */
     /* JADX WARNING: Code restructure failed: missing block: B:21:0x0073, code lost:
-        if (r9 != 62) goto L_0x0062;
+        if (r9 != '>') goto L_0x0062;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:22:0x0075, code lost:
         r22 = 1;
         r19 = r18;
-        r9 = r9;
-     */
-    /* JADX WARNING: Code restructure failed: missing block: B:275:0x03fc, code lost:
-        if (r9 != 48) goto L_0x03fe;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:2:0x0021, code lost:
         r19 = r18;
@@ -509,7 +243,7 @@ public class XMLParser {
         if (r19 >= r16) goto L_0x0023;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:417:0x05fc, code lost:
-        if (r9 != 62) goto L_0x0692;
+        if (r9 != '>') goto L_0x0692;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:418:0x05fe, code lost:
         r5 = (r19 - 1) - r4;
@@ -518,16 +252,16 @@ public class XMLParser {
         if (r5 < 4) goto L_0x0638;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:421:0x0609, code lost:
-        if (r3[r4] != 45) goto L_0x0638;
+        if (r3[r4] != '-') goto L_0x0638;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:423:0x0611, code lost:
-        if (r3[r4 + 1] != 45) goto L_0x0638;
+        if (r3[r4 + 1] != '-') goto L_0x0638;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:425:0x0619, code lost:
-        if (r3[r19 - 2] != 45) goto L_0x05ee;
+        if (r3[r19 - 2] != '-') goto L_0x05ee;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:427:0x0621, code lost:
-        if (r3[r19 - 3] != 45) goto L_0x05ee;
+        if (r3[r19 - 3] != '-') goto L_0x05ee;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:428:0x0623, code lost:
         r26.pos = r19;
@@ -536,37 +270,36 @@ public class XMLParser {
     /* JADX WARNING: Code restructure failed: missing block: B:429:0x0632, code lost:
         r4 = r16;
         r22 = 1;
-        r9 = r9;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:431:0x0639, code lost:
         if (r5 < 6) goto L_0x0632;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:433:0x063f, code lost:
-        if (r3[r4] != 91) goto L_0x0632;
+        if (r3[r4] != '[') goto L_0x0632;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:435:0x0647, code lost:
-        if (r3[r4 + 1] != 67) goto L_0x0632;
+        if (r3[r4 + 1] != 'C') goto L_0x0632;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:437:0x064f, code lost:
-        if (r3[r4 + 2] != 68) goto L_0x0632;
+        if (r3[r4 + 2] != 'D') goto L_0x0632;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:439:0x0657, code lost:
-        if (r3[r4 + 3] != 65) goto L_0x0632;
+        if (r3[r4 + 3] != 'A') goto L_0x0632;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:441:0x065f, code lost:
-        if (r3[r4 + 4] != 84) goto L_0x0632;
+        if (r3[r4 + 4] != 'T') goto L_0x0632;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:443:0x0667, code lost:
-        if (r3[r4 + 5] != 65) goto L_0x0632;
+        if (r3[r4 + 5] != 'A') goto L_0x0632;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:445:0x066f, code lost:
-        if (r3[r4 + 6] != 91) goto L_0x0632;
+        if (r3[r4 + 6] != '[') goto L_0x0632;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:447:0x0677, code lost:
-        if (r3[r19 - 2] != 93) goto L_0x05ee;
+        if (r3[r19 - 2] != ']') goto L_0x05ee;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:449:0x067f, code lost:
-        if (r3[r19 - 3] != 93) goto L_0x05ee;
+        if (r3[r19 - 3] != ']') goto L_0x05ee;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:450:0x0681, code lost:
         r26.pos = r19;
@@ -576,178 +309,38 @@ public class XMLParser {
         if (r19 != (r4 + 7)) goto L_0x05ee;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:454:0x069c, code lost:
-        if (r3[r4] != 68) goto L_0x05ee;
+        if (r3[r4] != 'D') goto L_0x05ee;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:456:0x06a4, code lost:
-        if (r3[r4 + 1] != 79) goto L_0x05ee;
+        if (r3[r4 + 1] != 'O') goto L_0x05ee;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:458:0x06ac, code lost:
-        if (r3[r4 + 2] != 67) goto L_0x05ee;
+        if (r3[r4 + 2] != 'C') goto L_0x05ee;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:460:0x06b4, code lost:
-        if (r3[r4 + 3] != 84) goto L_0x05ee;
+        if (r3[r4 + 3] != 'T') goto L_0x05ee;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:462:0x06bc, code lost:
-        if (r3[r4 + 4] != 89) goto L_0x05ee;
+        if (r3[r4 + 4] != 'Y') goto L_0x05ee;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:464:0x06c4, code lost:
-        if (r3[r4 + 5] != 80) goto L_0x05ee;
+        if (r3[r4 + 5] != 'P') goto L_0x05ee;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:466:0x06c8, code lost:
-        if (r9 != 69) goto L_0x05ee;
+        if (r9 != 'E') goto L_0x05ee;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:467:0x06ca, code lost:
         r4 = r16;
         r22 = 15;
-        r9 = r9;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:569:0x0878, code lost:
         r18 = r19;
      */
-    /* JADX WARNING: Code restructure failed: missing block: B:580:0x001e, code lost:
-        r3 = r3;
-        r9 = r9;
-     */
-    /* JADX WARNING: Code restructure failed: missing block: B:607:0x001e, code lost:
-        r3 = r3;
-        r9 = r9;
-     */
-    /* JADX WARNING: Code restructure failed: missing block: B:621:0x0023, code lost:
-        r9 = r9;
-     */
-    /* JADX WARNING: Code restructure failed: missing block: B:642:0x04d5, code lost:
-        r9 = r9;
-     */
-    /* JADX WARNING: Code restructure failed: missing block: B:650:0x05c0, code lost:
-        r9 = r9;
-     */
-    /* JADX WARNING: Code restructure failed: missing block: B:661:0x0023, code lost:
-        r9 = r9;
-     */
     /* JADX WARNING: Code restructure failed: missing block: B:666:?, code lost:
         return;
      */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v103, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v105, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v107, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v109, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v111, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v113, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v115, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v117, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v119, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v121, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v128, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v130, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v131, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v133, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v135, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v137, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v139, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v141, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v143, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v145, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v147, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v149, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v151, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v153, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v160, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v165, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v168, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v170, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v31, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v33, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v35, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v37, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v39, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v41, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v46, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v48, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v50, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v52, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v54, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v56, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v58, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v60, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v62, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v64, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v66, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v68, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v70, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v73, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v76, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v78, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v80, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v83, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v85, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v87, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v89, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v91, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v93, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r2v95, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r9v10, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r9v12, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r9v15, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r9v19, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r9v21, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r9v24, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r9v25, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r9v26, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r9v27, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r9v29, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r9v32, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r9v33, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r9v34, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r9v36, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r9v37, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r9v38, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r9v4, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r9v40, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r9v42, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r9v46, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r9v47, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r9v49, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r9v51, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r9v52, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r9v6, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r9v8, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char[], code=null, for r3v3, types: [char[]] */
-    /* JADX WARNING: Multi-variable type inference failed. Error: jadx.core.utils.exceptions.JadxRuntimeException: No candidate types for var: r23v2
-      assigns: []
-      uses: []
-      mth insns count: 940
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.fillTypeCandidates(TypeSearch.java:237)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.run(TypeSearch.java:53)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.runMultiVariableSearch(TypeInferenceVisitor.java:99)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.visit(TypeInferenceVisitor.java:92)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:27)
-    	at jadx.core.dex.visitors.DepthTraversal.lambda$visit$1(DepthTraversal.java:14)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:14)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:30)
-    	at jadx.core.ProcessClass.lambda$processDependencies$0(ProcessClass.java:49)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.ProcessClass.processDependencies(ProcessClass.java:49)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:35)
-    	at jadx.api.JadxDecompiler.processClass(JadxDecompiler.java:311)
-    	at jadx.api.JavaClass.decompile(JavaClass.java:62)
-    	at jadx.api.JadxDecompiler.lambda$appendSourcesSave$0(JadxDecompiler.java:217)
-     */
-    /* JADX WARNING: Removed duplicated region for block: B:251:0x03ac  */
-    /* JADX WARNING: Removed duplicated region for block: B:252:0x03b2  */
-    /* JADX WARNING: Removed duplicated region for block: B:266:0x03de  */
-    /* JADX WARNING: Removed duplicated region for block: B:311:0x0471  */
-    /* JADX WARNING: Removed duplicated region for block: B:312:0x0479  */
-    /* JADX WARNING: Removed duplicated region for block: B:326:0x04a9  */
-    /* JADX WARNING: Removed duplicated region for block: B:367:0x053c  */
-    /* JADX WARNING: Removed duplicated region for block: B:368:0x0544  */
-    /* JADX WARNING: Removed duplicated region for block: B:382:0x0574  */
     /* JADX WARNING: Removed duplicated region for block: B:544:0x0806  */
     /* JADX WARNING: Removed duplicated region for block: B:5:0x0029  */
-    /* JADX WARNING: Removed duplicated region for block: B:632:0x03d8 A[SYNTHETIC] */
-    /* JADX WARNING: Removed duplicated region for block: B:648:0x056c A[SYNTHETIC] */
-    /* JADX WARNING: Unknown variable types count: 114 */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public static void parse(gnu.text.LineBufferedReader r26, gnu.xml.XMLFilter r27) {
         /*
@@ -1507,7 +1100,7 @@ public class XMLParser {
             if (r2 == 0) goto L_0x04c3
             r2 = r26
             gnu.text.LineInputStreamReader r2 = (gnu.text.LineInputStreamReader) r2
-            r2.setCharset(r12)
+            r2.setCharset((java.lang.String) r12)
         L_0x04c3:
             int r6 = r15 + 1
         L_0x04c5:

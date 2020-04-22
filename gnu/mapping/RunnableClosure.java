@@ -8,9 +8,7 @@ public class RunnableClosure implements Callable<Object>, Runnable {
     CallContext context;
     private OutPort err;
     Throwable exception;
-
-    /* renamed from: in */
-    private InPort f237in;
+    private InPort in;
     String name;
     private OutPort out;
     Object result;
@@ -31,9 +29,9 @@ public class RunnableClosure implements Callable<Object>, Runnable {
         this.action = action2;
     }
 
-    public RunnableClosure(Procedure action2, InPort in, OutPort out2, OutPort err2) {
+    public RunnableClosure(Procedure action2, InPort in2, OutPort out2, OutPort err2) {
         this(action2, CallContext.getInstance());
-        this.f237in = in;
+        this.in = in2;
         this.out = out2;
         this.err = err2;
     }
@@ -58,8 +56,8 @@ public class RunnableClosure implements Callable<Object>, Runnable {
             } else {
                 CallContext.setInstance(this.context);
             }
-            if (this.f237in != null) {
-                InPort.setInDefault(this.f237in);
+            if (this.in != null) {
+                InPort.setInDefault(this.in);
             }
             if (this.out != null) {
                 OutPort.setOutDefault(this.out);
@@ -73,7 +71,7 @@ public class RunnableClosure implements Callable<Object>, Runnable {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Object getResult() throws Throwable {
         Throwable ex = this.exception;
         if (ex == null) {

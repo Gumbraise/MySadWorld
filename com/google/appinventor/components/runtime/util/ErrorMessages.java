@@ -203,15 +203,15 @@ public final class ErrorMessages {
     private static final Map<Integer, String> errorMessages = new HashMap();
 
     static {
-        errorMessages.put(Integer.valueOf(0), "Try Again.");
-        errorMessages.put(Integer.valueOf(1), "Warning: This app contains functionality that does not work on this phone: picking an EmailAddress.");
-        errorMessages.put(Integer.valueOf(2), "Warning: This app contains functionality that does not work on this phone: the EmailPicker component.");
-        errorMessages.put(Integer.valueOf(3), "Warning: This app contains functionality that does not work on this phone: the FusiontablesControl component.");
-        errorMessages.put(Integer.valueOf(4), "Warning: This app contains functionality that does not work on this phone: using cookies in the Web component.");
-        errorMessages.put(Integer.valueOf(5), "Warning: This app contains functionality that does not work on this phone: Wi-Fi peer-to-peer connectivity.");
-        errorMessages.put(Integer.valueOf(101), "Unable to find latitude from %s.");
-        errorMessages.put(Integer.valueOf(102), "Unable to find longitude from %s.");
-        errorMessages.put(Integer.valueOf(103), "Location Permission was Denied.");
+        errorMessages.put(0, "Try Again.");
+        errorMessages.put(1, "Warning: This app contains functionality that does not work on this phone: picking an EmailAddress.");
+        errorMessages.put(2, "Warning: This app contains functionality that does not work on this phone: the EmailPicker component.");
+        errorMessages.put(3, "Warning: This app contains functionality that does not work on this phone: the FusiontablesControl component.");
+        errorMessages.put(4, "Warning: This app contains functionality that does not work on this phone: using cookies in the Web component.");
+        errorMessages.put(5, "Warning: This app contains functionality that does not work on this phone: Wi-Fi peer-to-peer connectivity.");
+        errorMessages.put(101, "Unable to find latitude from %s.");
+        errorMessages.put(102, "Unable to find longitude from %s.");
+        errorMessages.put(103, "Location Permission was Denied.");
         errorMessages.put(Integer.valueOf(ERROR_CAMERA_NO_IMAGE_RETURNED), "The camera did not return an image.");
         errorMessages.put(Integer.valueOf(ERROR_TWITTER_UNSUPPORTED_LOGIN_FUNCTION), "Twitter no longer supports this form of Login. Use the Authorize call instead.");
         errorMessages.put(Integer.valueOf(ERROR_TWITTER_BLANK_CONSUMER_KEY_OR_SECRET), "The ConsumerKey and ConsumerSecret properties must be set in order to authorize access for Twitter. Please obtain a Comsumer Key and Consumer Secret specific to your app from http://twitter.com/oauth_clients/new");
@@ -227,11 +227,11 @@ public final class ErrorMessages {
         errorMessages.put(Integer.valueOf(ERROR_TWITTER_STOP_FOLLOWING_FAILED), "StopFollowing failed. %s");
         errorMessages.put(Integer.valueOf(ERROR_TWITTER_REQUEST_FRIEND_TIMELINE_FAILED), "Twitter RequestFriendTimeline failed: %s");
         errorMessages.put(Integer.valueOf(ERROR_TWITTER_SEARCH_FAILED), "Twitter search failed.");
-        errorMessages.put(Integer.valueOf(315), "Invalid Path to Image; Update will not be sent.");
+        errorMessages.put(315, "Invalid Path to Image; Update will not be sent.");
         errorMessages.put(Integer.valueOf(ERROR_NXT_BLUETOOTH_NOT_SET), "The Bluetooth property has not been set.");
         errorMessages.put(Integer.valueOf(ERROR_NXT_NOT_CONNECTED_TO_ROBOT), "Not connected to a robot.");
         errorMessages.put(Integer.valueOf(ERROR_NXT_INVALID_RETURN_PACKAGE), "Unable to receive return package. Has the robot gone to sleep?");
-        errorMessages.put(Integer.valueOf(404), "Error code received from robot: %s.");
+        errorMessages.put(404, "Error code received from robot: %s.");
         errorMessages.put(Integer.valueOf(ERROR_NXT_INVALID_PROGRAM_NAME), "Invalid program name.");
         errorMessages.put(Integer.valueOf(ERROR_NXT_INVALID_FILE_NAME), "Invalid file name.");
         errorMessages.put(Integer.valueOf(ERROR_NXT_INVALID_MOTOR_PORT), "The NXT does not have a motor port labeled %s.");
@@ -263,9 +263,9 @@ public final class ErrorMessages {
         errorMessages.put(Integer.valueOf(ERROR_BLUETOOTH_UNABLE_TO_LISTEN), "Unable to listen for a connection from a bluetooth device.");
         errorMessages.put(Integer.valueOf(ERROR_BLUETOOTH_UNABLE_TO_ACCEPT), "Unable to accept a connection from a bluetooth device.");
         errorMessages.put(Integer.valueOf(ERROR_BLUETOOTH_COULD_NOT_DECODE), "Could not decode \"%s\" as an integer.");
-        errorMessages.put(Integer.valueOf(511), "Could not fit \"%s\" into 1 byte.");
-        errorMessages.put(Integer.valueOf(512), "Could not fit \"%s\" into %s bytes.");
-        errorMessages.put(Integer.valueOf(513), "Could not decode element %s as an integer.");
+        errorMessages.put(511, "Could not fit \"%s\" into 1 byte.");
+        errorMessages.put(512, "Could not fit \"%s\" into %s bytes.");
+        errorMessages.put(513, "Could not decode element %s as an integer.");
         errorMessages.put(Integer.valueOf(ERROR_BLUETOOTH_COULD_NOT_FIT_ELEMENT_IN_BYTE), "Could not fit element %s into 1 byte.");
         errorMessages.put(Integer.valueOf(ERROR_BLUETOOTH_NOT_CONNECTED_TO_DEVICE), "Not connected to a Bluetooth device.");
         errorMessages.put(Integer.valueOf(ERROR_BLUETOOTH_UNABLE_TO_WRITE), "Unable to write: %s");
@@ -300,10 +300,10 @@ public final class ErrorMessages {
         errorMessages.put(Integer.valueOf(ERROR_NO_FOCUSABLE_VIEW_FOUND), "No Focusable View Found");
         errorMessages.put(Integer.valueOf(ERROR_ACTIONBAR_NOT_SUPPORTED), "ActionBar is not supported on this device.");
         errorMessages.put(Integer.valueOf(ERROR_PERMISSION_DENIED), "The permission %s has been denied. Please enable it in the Settings app.");
-        errorMessages.put(Integer.valueOf(1001), "Error getting Canvas contents to save");
-        errorMessages.put(Integer.valueOf(1002), "Canvas width cannot be set to non-positive number");
-        errorMessages.put(Integer.valueOf(1003), "Canvas height cannot be set to non-positive number");
-        errorMessages.put(Integer.valueOf(1004), "Canvas cannot draw the shape with a bad point list");
+        errorMessages.put(1001, "Error getting Canvas contents to save");
+        errorMessages.put(1002, "Canvas width cannot be set to non-positive number");
+        errorMessages.put(1003, "Canvas height cannot be set to non-positive number");
+        errorMessages.put(1004, "Canvas cannot draw the shape with a bad point list");
         errorMessages.put(Integer.valueOf(ERROR_WEB_UNABLE_TO_GET), "Unable to get a response with the specified URL: %s");
         errorMessages.put(Integer.valueOf(ERROR_WEB_UNSUPPORTED_ENCODING), "The encoding %s is not supported.");
         errorMessages.put(Integer.valueOf(ERROR_WEB_UNABLE_TO_POST_OR_PUT), "Unable to post or put the text \"%s\" with the specified URL: %s");
@@ -405,6 +405,6 @@ public final class ErrorMessages {
     }
 
     public static String formatMessage(int errorNumber, Object[] messageArgs) {
-        return String.format((String) errorMessages.get(Integer.valueOf(errorNumber)), messageArgs);
+        return String.format(errorMessages.get(Integer.valueOf(errorNumber)), messageArgs);
     }
 }

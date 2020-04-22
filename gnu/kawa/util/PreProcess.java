@@ -18,7 +18,7 @@ public class PreProcess {
     byte[] resultBuffer;
     int resultLength;
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void error(String msg) {
         System.err.println(this.filename + ':' + this.lineno + ": " + msg);
         System.exit(-1);
@@ -33,10 +33,10 @@ public class PreProcess {
         }
     }
 
-    /* JADX WARNING: Removed duplicated region for block: B:113:0x0212  */
+    /* JADX WARNING: Removed duplicated region for block: B:159:0x0378  */
     /* JADX WARNING: Removed duplicated region for block: B:167:0x010c A[SYNTHETIC] */
     /* JADX WARNING: Removed duplicated region for block: B:61:0x0138  */
-    /* JADX WARNING: Removed duplicated region for block: B:71:0x0165  */
+    /* JADX WARNING: Removed duplicated region for block: B:68:0x0157  */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public boolean filter(java.lang.String r32, java.io.BufferedInputStream r33) throws java.lang.Throwable {
         /*
@@ -535,7 +535,7 @@ public class PreProcess {
         throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.util.PreProcess.filter(java.lang.String, java.io.BufferedInputStream):boolean");
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void handleArg(String arg) {
         int i = 1;
         if (arg.charAt(0) == '%') {

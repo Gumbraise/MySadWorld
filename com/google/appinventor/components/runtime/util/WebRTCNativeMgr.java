@@ -24,26 +24,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.webrtc.DataChannel;
-import org.webrtc.DataChannel.Buffer;
-import org.webrtc.DataChannel.Init;
-import org.webrtc.DataChannel.Observer;
 import org.webrtc.IceCandidate;
 import org.webrtc.MediaConstraints;
 import org.webrtc.MediaStream;
 import org.webrtc.PeerConnection;
-import org.webrtc.PeerConnection.ContinualGatheringPolicy;
-import org.webrtc.PeerConnection.IceConnectionState;
-import org.webrtc.PeerConnection.IceGatheringState;
-import org.webrtc.PeerConnection.IceServer;
-import org.webrtc.PeerConnection.IceServer.Builder;
-import org.webrtc.PeerConnection.RTCConfiguration;
-import org.webrtc.PeerConnection.SignalingState;
 import org.webrtc.PeerConnectionFactory;
-import org.webrtc.PeerConnectionFactory.Options;
 import org.webrtc.RtpReceiver;
 import org.webrtc.SdpObserver;
 import org.webrtc.SessionDescription;
-import org.webrtc.SessionDescription.Type;
 
 public class WebRTCNativeMgr {
     private static final boolean DEBUG = true;
@@ -52,11 +40,11 @@ public class WebRTCNativeMgr {
     public static final CharsetDecoder utf8Decoder = Charset.forName("UTF-8").newDecoder();
     /* access modifiers changed from: private */
     public DataChannel dataChannel = null;
-    Observer dataObserver = new Observer() {
+    DataChannel.Observer dataObserver = new DataChannel.Observer() {
         public void onBufferedAmountChange(long j) {
         }
 
-        public void onMessage(Buffer buffer) {
+        public void onMessage(DataChannel.Buffer buffer) {
             try {
                 String input = WebRTCNativeMgr.utf8Decoder.decode(buffer.data).toString();
                 Log.d(WebRTCNativeMgr.LOG_TAG, "onMessage: received: " + input);
@@ -76,7 +64,7 @@ public class WebRTCNativeMgr {
     /* access modifiers changed from: private */
     public volatile boolean haveLocalDescription = false;
     private boolean haveOffer = false;
-    private List<IceServer> iceServers = new ArrayList();
+    private List<PeerConnection.IceServer> iceServers = new ArrayList();
     /* access modifiers changed from: private */
     public volatile boolean keepPolling = true;
     PeerConnection.Observer observer = new PeerConnection.Observer() {
@@ -89,9 +77,9 @@ public class WebRTCNativeMgr {
         public void onDataChannel(DataChannel dataChannel) {
             Log.d(WebRTCNativeMgr.LOG_TAG, "Have Data Channel!");
             Log.d(WebRTCNativeMgr.LOG_TAG, "v5");
-            WebRTCNativeMgr.this.dataChannel = dataChannel;
+            DataChannel unused = WebRTCNativeMgr.this.dataChannel = dataChannel;
             dataChannel.registerObserver(WebRTCNativeMgr.this.dataObserver);
-            WebRTCNativeMgr.this.keepPolling = false;
+            boolean unused2 = WebRTCNativeMgr.this.keepPolling = false;
             WebRTCNativeMgr.this.timer.cancel();
             Log.d(WebRTCNativeMgr.LOG_TAG, "Poller() Canceled");
             WebRTCNativeMgr.this.seenNonces.clear();
@@ -121,13 +109,13 @@ public class WebRTCNativeMgr {
         public void onIceCandidatesRemoved(IceCandidate[] iceCandidateArr) {
         }
 
-        public void onIceConnectionChange(IceConnectionState iceConnectionState) {
+        public void onIceConnectionChange(PeerConnection.IceConnectionState iceConnectionState) {
         }
 
         public void onIceConnectionReceivingChange(boolean z) {
         }
 
-        public void onIceGatheringChange(IceGatheringState iceGatheringState) {
+        public void onIceGatheringChange(PeerConnection.IceGatheringState iceGatheringState) {
             Log.d(WebRTCNativeMgr.LOG_TAG, "onIceGatheringChange: iceGatheringState = " + iceGatheringState);
         }
 
@@ -137,7 +125,7 @@ public class WebRTCNativeMgr {
         public void onRenegotiationNeeded() {
         }
 
-        public void onSignalingChange(SignalingState signalingState) {
+        public void onSignalingChange(PeerConnection.SignalingState signalingState) {
             Log.d(WebRTCNativeMgr.LOG_TAG, "onSignalingChange: signalingState = " + signalingState);
         }
     };
@@ -159,14 +147,14 @@ public class WebRTCNativeMgr {
             try {
                 Log.d(WebRTCNativeMgr.LOG_TAG, "sdp.type = " + sessionDescription.type.canonicalForm());
                 Log.d(WebRTCNativeMgr.LOG_TAG, "sdp.description = " + sessionDescription.description);
-                new Init();
-                if (sessionDescription.type == Type.OFFER) {
+                new DataChannel.Init();
+                if (sessionDescription.type == SessionDescription.Type.OFFER) {
                     Log.d(WebRTCNativeMgr.LOG_TAG, "Got offer, about to set remote description (again?)");
                     WebRTCNativeMgr.this.peerConnection.setRemoteDescription(WebRTCNativeMgr.this.sdpObserver, sessionDescription);
-                } else if (sessionDescription.type == Type.ANSWER) {
+                } else if (sessionDescription.type == SessionDescription.Type.ANSWER) {
                     Log.d(WebRTCNativeMgr.LOG_TAG, "onCreateSuccess: type = ANSWER");
                     WebRTCNativeMgr.this.peerConnection.setLocalDescription(WebRTCNativeMgr.this.sdpObserver, sessionDescription);
-                    WebRTCNativeMgr.this.haveLocalDescription = true;
+                    boolean unused = WebRTCNativeMgr.this.haveLocalDescription = true;
                     JSONObject offer = new JSONObject();
                     offer.put("type", "answer");
                     offer.put("sdp", sessionDescription.description);
@@ -191,17 +179,14 @@ public class WebRTCNativeMgr {
 
     public WebRTCNativeMgr(String rendezvousServer3, String rendezvousResult) {
         this.rendezvousServer = rendezvousServer3;
-        if (rendezvousResult.isEmpty() || rendezvousResult.startsWith("OK")) {
-            rendezvousResult = "{\"rendezvous2\" : \"rendezvous.appinventor.mit.edu\",\"iceservers\" : [{ \"server\" : \"turn:turn.appinventor.mit.edu:3478\",\"username\" : \"oh\",\"password\" : \"boy\"}]}";
-        }
         try {
-            JSONObject resultJson = new JSONObject(rendezvousResult);
+            JSONObject resultJson = new JSONObject((rendezvousResult.isEmpty() || rendezvousResult.startsWith("OK")) ? "{\"rendezvous2\" : \"rendezvous.appinventor.mit.edu\",\"iceservers\" : [{ \"server\" : \"turn:turn.appinventor.mit.edu:3478\",\"username\" : \"oh\",\"password\" : \"boy\"}]}" : rendezvousResult);
             this.rendezvousServer2 = resultJson.getString("rendezvous2");
             JSONArray iceServerArray = resultJson.getJSONArray("iceservers");
             this.iceServers = new ArrayList(iceServerArray.length());
             for (int i = 0; i < iceServerArray.length(); i++) {
                 JSONObject jsonServer = iceServerArray.getJSONObject(i);
-                Builder builder = IceServer.builder(jsonServer.getString("server"));
+                PeerConnection.IceServer.Builder builder = PeerConnection.IceServer.builder(jsonServer.getString("server"));
                 Log.d(LOG_TAG, "Adding iceServer = " + jsonServer.getString("server"));
                 if (jsonServer.has("username")) {
                     builder.setUsername(jsonServer.getString("username"));
@@ -220,9 +205,9 @@ public class WebRTCNativeMgr {
         this.form = form2;
         this.rCode = code;
         PeerConnectionFactory.initializeAndroidGlobals(context, false);
-        PeerConnectionFactory factory = new PeerConnectionFactory(new Options());
-        RTCConfiguration rtcConfig = new RTCConfiguration(this.iceServers);
-        rtcConfig.continualGatheringPolicy = ContinualGatheringPolicy.GATHER_CONTINUALLY;
+        PeerConnectionFactory factory = new PeerConnectionFactory(new PeerConnectionFactory.Options());
+        PeerConnection.RTCConfiguration rtcConfig = new PeerConnection.RTCConfiguration(this.iceServers);
+        rtcConfig.continualGatheringPolicy = PeerConnection.ContinualGatheringPolicy.GATHER_CONTINUALLY;
         this.peerConnection = factory.createPeerConnection(rtcConfig, new MediaConstraints(), this.observer);
         this.timer.schedule(new TimerTask() {
             public void run() {
@@ -605,7 +590,7 @@ public class WebRTCNativeMgr {
                     data.put("webrtc", true);
                     data.put("key", WebRTCNativeMgr.this.rCode + "-r");
                     if (WebRTCNativeMgr.this.first) {
-                        WebRTCNativeMgr.this.first = false;
+                        boolean unused = WebRTCNativeMgr.this.first = false;
                         data.put("apiversion", SdkLevel.getLevel());
                     }
                     HttpClient client = new DefaultHttpClient();
@@ -630,7 +615,7 @@ public class WebRTCNativeMgr {
                 Log.w(LOG_TAG, "No Data Channel in Send");
                 return;
             }
-            this.dataChannel.send(new Buffer(ByteBuffer.wrap(output.getBytes("UTF-8")), false));
+            this.dataChannel.send(new DataChannel.Buffer(ByteBuffer.wrap(output.getBytes("UTF-8")), false));
         } catch (UnsupportedEncodingException e) {
             Log.e(LOG_TAG, "While encoding data to send to companion", e);
         }

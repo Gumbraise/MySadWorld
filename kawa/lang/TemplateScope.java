@@ -2,6 +2,7 @@ package kawa.lang;
 
 import gnu.expr.Compilation;
 import gnu.expr.Declaration;
+import gnu.expr.Expression;
 import gnu.expr.LetExp;
 import gnu.expr.ScopeExp;
 import java.io.Externalizable;
@@ -14,11 +15,11 @@ public class TemplateScope extends LetExp implements Externalizable {
     private Syntax syntax;
 
     public TemplateScope() {
-        super(null);
+        super((Expression[]) null);
     }
 
     public TemplateScope(ScopeExp outer) {
-        super(null);
+        super((Expression[]) null);
         this.outer = outer;
     }
 

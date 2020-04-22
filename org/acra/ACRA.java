@@ -2,8 +2,7 @@ package org.acra;
 
 import android.app.Application;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
 import org.acra.annotation.ReportsCrashes;
 import org.acra.log.ACRALog;
@@ -25,7 +24,7 @@ public class ACRA {
     private static ErrorReporter errorReporterSingleton;
     public static ACRALog log = new AndroidLogDelegate();
     private static Application mApplication;
-    private static OnSharedPreferenceChangeListener mPrefListener;
+    private static SharedPreferences.OnSharedPreferenceChangeListener mPrefListener;
     private static ReportsCrashes mReportsCrashes;
 
     public static void init(Application app) {
@@ -35,20 +34,20 @@ public class ACRA {
         mApplication = app;
         mReportsCrashes = (ReportsCrashes) mApplication.getClass().getAnnotation(ReportsCrashes.class);
         if (mReportsCrashes == null) {
-            log.mo12705e(LOG_TAG, "ACRA#init called but no ReportsCrashes annotation on Application " + mApplication.getPackageName());
+            log.e(LOG_TAG, "ACRA#init called but no ReportsCrashes annotation on Application " + mApplication.getPackageName());
             return;
         }
         SharedPreferences prefs = getACRASharedPreferences();
         try {
             checkCrashResources();
-            log.mo12703d(LOG_TAG, "ACRA is enabled for " + mApplication.getPackageName() + ", intializing...");
+            log.d(LOG_TAG, "ACRA is enabled for " + mApplication.getPackageName() + ", intializing...");
             ErrorReporter errorReporter = new ErrorReporter(mApplication.getApplicationContext(), prefs, !shouldDisableACRA(prefs));
             errorReporter.setDefaultReportSenders();
             errorReporterSingleton = errorReporter;
         } catch (ACRAConfigurationException e) {
-            log.mo12713w(LOG_TAG, "Error : ", e);
+            log.w(LOG_TAG, "Error : ", e);
         }
-        mPrefListener = new OnSharedPreferenceChangeListener() {
+        mPrefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
                 if (ACRA.PREF_DISABLE_ACRA.equals(key) || ACRA.PREF_ENABLE_ACRA.equals(key)) {
                     ACRA.getErrorReporter().setEnabled(!ACRA.shouldDisableACRA(sharedPreferences));
@@ -69,12 +68,10 @@ public class ACRA {
     public static boolean shouldDisableACRA(SharedPreferences prefs) {
         boolean z = true;
         try {
-            boolean enableAcra = prefs.getBoolean(PREF_ENABLE_ACRA, true);
-            String str = PREF_DISABLE_ACRA;
-            if (enableAcra) {
+            if (prefs.getBoolean(PREF_ENABLE_ACRA, true)) {
                 z = false;
             }
-            return prefs.getBoolean(str, z);
+            return prefs.getBoolean(PREF_DISABLE_ACRA, z);
         } catch (Exception e) {
             return false;
         }
@@ -114,7 +111,7 @@ public class ACRA {
     public static ACRAConfiguration getConfig() {
         if (configProxy == null) {
             if (mApplication == null) {
-                log.mo12712w(LOG_TAG, "Calling ACRA.getConfig() before ACRA.init() gives you an empty configuration instance. You might prefer calling ACRA.getNewDefaultConfig(Application) to get an instance with default values taken from a @ReportsCrashes annotation.");
+                log.w(LOG_TAG, "Calling ACRA.getConfig() before ACRA.init() gives you an empty configuration instance. You might prefer calling ACRA.getNewDefaultConfig(Application) to get an instance with default values taken from a @ReportsCrashes annotation.");
             }
             configProxy = getNewDefaultConfig(mApplication);
         }
@@ -129,7 +126,7 @@ public class ACRA {
         if (app != null) {
             return new ACRAConfiguration((ReportsCrashes) app.getClass().getAnnotation(ReportsCrashes.class));
         }
-        return new ACRAConfiguration(null);
+        return new ACRAConfiguration((ReportsCrashes) null);
     }
 
     static boolean isDebuggable() {
@@ -138,7 +135,7 @@ public class ACRA {
                 return true;
             }
             return false;
-        } catch (NameNotFoundException e) {
+        } catch (PackageManager.NameNotFoundException e) {
             return false;
         }
     }

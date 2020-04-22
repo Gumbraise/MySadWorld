@@ -1,6 +1,6 @@
 package gnu.kawa.lispexpr;
 
-import android.support.p000v4.internal.view.SupportMenu;
+import android.support.v4.internal.view.SupportMenu;
 import gnu.bytecode.Access;
 import gnu.expr.Keyword;
 import gnu.expr.QuoteExp;
@@ -61,11 +61,8 @@ public class LispReader extends Lexer {
                 if (c == c1) {
                     commentNesting--;
                 }
-            } else if (c == c1) {
-                c = read();
-                if (c == c2) {
-                    commentNesting++;
-                }
+            } else if (c == c1 && (c = read()) == c2) {
+                commentNesting++;
             }
             if (c < 0) {
                 eofError("unexpected end-of-file in " + c1 + c2 + " comment starting here", startLine + 1, startColumn - 1);
@@ -124,13 +121,11 @@ public class LispReader extends Lexer {
     /* access modifiers changed from: protected */
     public Object readAndHandleToken(int ch, int startPos, ReadTable rtable) throws IOException, SyntaxException {
         int j;
+        Object value;
         readToken(ch, getReadCase(), rtable);
         int endPos = this.tokenBufferLength;
-        if (!this.seenEscapes) {
-            Object value = parseNumber(this.tokenBuffer, startPos, endPos - startPos, 0, 0, 1);
-            if (value != null && !(value instanceof String)) {
-                return value;
-            }
+        if (!this.seenEscapes && (value = parseNumber(this.tokenBuffer, startPos, endPos - startPos, 0, 0, 1)) != null && !(value instanceof String)) {
+            return value;
         }
         char readCase = getReadCase();
         if (readCase == 'I') {
@@ -222,17 +217,15 @@ public class LispReader extends Lexer {
             return Symbol.valueOf(rightOperand.toString(), str, prefix);
         } else if (rtable.initialColonIsKeyword && packageMarker == startPos && len > 1) {
             int startPos2 = startPos + 1;
-            String str2 = new String(this.tokenBuffer, startPos2, endPos2 - startPos2);
-            return Keyword.make(str2.intern());
+            return Keyword.make(new String(this.tokenBuffer, startPos2, endPos2 - startPos2).intern());
         } else if (!rtable.finalColonIsKeyword || packageMarker != endPos2 - 1 || (len <= 1 && !this.seenEscapes)) {
             return rtable.makeSymbol(new String(this.tokenBuffer, startPos, len));
         } else {
-            String str3 = new String(this.tokenBuffer, startPos, len - 1);
-            return Keyword.make(str3.intern());
+            return Keyword.make(new String(this.tokenBuffer, startPos, len - 1).intern());
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void readToken(int ch, char readCase, ReadTable rtable) throws IOException, SyntaxException {
         boolean inEscapes = false;
         int braceNesting = 0;
@@ -298,11 +291,10 @@ public class LispReader extends Lexer {
             } else if (inEscapes) {
                 tokenBufferAppend(SupportMenu.USER_MASK);
                 tokenBufferAppend(ch);
-            } else if (ch == 125) {
-                braceNesting--;
-                if (braceNesting >= 0) {
-                    tokenBufferAppend(ch);
-                }
+            } else if (ch != 125 || braceNesting - 1 < 0) {
+                unread(ch);
+            } else {
+                tokenBufferAppend(ch);
             }
             ch = read();
         }
@@ -357,7 +349,7 @@ public class LispReader extends Lexer {
         return false;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Object handlePostfix(Object value, ReadTable rtable, int line, int column) throws IOException, SyntaxException {
         if (value == QuoteExp.voidExp) {
             value = Values.empty;
@@ -417,25 +409,12 @@ public class LispReader extends Lexer {
         return parseNumber(buf, 0, str.length(), 0, radix, 1);
     }
 
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r39v0, resolved type: gnu.math.IntNum} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r39v1, resolved type: gnu.math.DFloNum} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r39v2, resolved type: gnu.math.DFloNum} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r39v3, resolved type: gnu.math.IntNum} */
     /* JADX WARNING: type inference failed for: r38v2, types: [gnu.math.RatNum] */
-    /* JADX WARNING: type inference failed for: r39v0 */
     /* JADX WARNING: type inference failed for: r38v3, types: [gnu.math.RatNum] */
-    /* JADX WARNING: type inference failed for: r38v4 */
-    /* JADX WARNING: type inference failed for: r39v1 */
-    /* JADX WARNING: type inference failed for: r39v2, types: [gnu.math.RealNum] */
-    /* JADX WARNING: type inference failed for: r38v8 */
-    /* JADX WARNING: type inference failed for: r39v3 */
-    /* JADX WARNING: type inference failed for: r38v9, types: [gnu.math.RealNum] */
-    /* JADX WARNING: type inference failed for: r38v10, types: [gnu.math.RealNum] */
-    /* JADX WARNING: type inference failed for: r0v30 */
-    /* JADX WARNING: type inference failed for: r4v11, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r0v37, types: [gnu.math.RealNum] */
-    /* JADX WARNING: type inference failed for: r0v44, types: [gnu.math.RealNum] */
-    /* JADX WARNING: type inference failed for: r0v46, types: [gnu.math.RealNum] */
-    /* JADX WARNING: type inference failed for: r38v11, types: [gnu.math.RatNum] */
-    /* JADX WARNING: type inference failed for: r38v14 */
-    /* JADX INFO: used method not loaded: gnu.math.Complex.polar(gnu.math.RealNum, gnu.math.RealNum):null, types can be incorrect */
-    /* JADX INFO: used method not loaded: gnu.math.Complex.make(gnu.math.RealNum, gnu.math.RealNum):null, types can be incorrect */
     /* JADX WARNING: Code restructure failed: missing block: B:117:0x01aa, code lost:
         r34 = 0;
      */
@@ -468,6 +447,9 @@ public class LispReader extends Lexer {
      */
     /* JADX WARNING: Code restructure failed: missing block: B:133:0x01de, code lost:
         if (r34 != 0) goto L_0x02b0;
+     */
+    /* JADX WARNING: Code restructure failed: missing block: B:134:0x01e0, code lost:
+        return "no digits";
      */
     /* JADX WARNING: Code restructure failed: missing block: B:182:0x029a, code lost:
         if (r54[r13] != 'n') goto L_0x01de;
@@ -525,10 +507,12 @@ public class LispReader extends Lexer {
      */
     /* JADX WARNING: Code restructure failed: missing block: B:207:0x02e7, code lost:
         r0 = new gnu.math.DFloNum(r22);
-        r0 = r0;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:209:0x02f2, code lost:
         if (r57 == 'e') goto L_0x02fa;
+     */
+    /* JADX WARNING: Code restructure failed: missing block: B:210:0x02f4, code lost:
+        r38 = r38;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:211:0x02f8, code lost:
         if (r57 != 'E') goto L_0x02fe;
@@ -554,6 +538,9 @@ public class LispReader extends Lexer {
      */
     /* JADX WARNING: Code restructure failed: missing block: B:220:0x0322, code lost:
         if ((r4 instanceof gnu.math.RealNum) != false) goto L_0x0409;
+     */
+    /* JADX WARNING: Code restructure failed: missing block: B:221:0x0324, code lost:
+        return "invalid complex polar constant";
      */
     /* JADX WARNING: Code restructure failed: missing block: B:222:0x0328, code lost:
         r33 = false;
@@ -609,7 +596,6 @@ public class LispReader extends Lexer {
      */
     /* JADX WARNING: Code restructure failed: missing block: B:240:0x0392, code lost:
         r0 = new gnu.math.DFloNum(r22);
-        r0 = r0;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:241:0x039b, code lost:
         r35 = valueOf(r54, r6, r43 - r6, r58, r9, r10);
@@ -637,7 +623,6 @@ public class LispReader extends Lexer {
      */
     /* JADX WARNING: Code restructure failed: missing block: B:252:0x03bf, code lost:
         r0 = new gnu.math.DFloNum(r14);
-        r0 = r0;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:254:0x03ca, code lost:
         if (r35.isZero() == false) goto L_0x03f9;
@@ -656,7 +641,6 @@ public class LispReader extends Lexer {
      */
     /* JADX WARNING: Code restructure failed: missing block: B:260:0x03d8, code lost:
         r0 = new gnu.math.DFloNum(r14);
-        r0 = r0;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:261:0x03dd, code lost:
         r39 = r38;
@@ -714,7 +698,10 @@ public class LispReader extends Lexer {
         r19 = (gnu.math.Complex) r32;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:287:0x0481, code lost:
-        if (r19.mo11744re().isZero() != false) goto L_0x0487;
+        if (r19.re().isZero() != false) goto L_0x0487;
+     */
+    /* JADX WARNING: Code restructure failed: missing block: B:288:0x0483, code lost:
+        return "invalid numeric constant";
      */
     /* JADX WARNING: Code restructure failed: missing block: B:290:0x0493, code lost:
         r36 = 0;
@@ -740,6 +727,9 @@ public class LispReader extends Lexer {
     /* JADX WARNING: Code restructure failed: missing block: B:301:0x04b4, code lost:
         if (r13 >= r26) goto L_0x04c7;
      */
+    /* JADX WARNING: Code restructure failed: missing block: B:302:0x04b6, code lost:
+        return "junk after imaginary suffix 'i'";
+     */
     /* JADX WARNING: Code restructure failed: missing block: B:303:0x04ba, code lost:
         r36 = r36 + 1;
      */
@@ -747,9 +737,11 @@ public class LispReader extends Lexer {
         if (r13 == r26) goto L_0x049d;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:305:0x04c0, code lost:
-        r43 = r13 + 1;
         r18 = r54[r13];
-        r13 = r43;
+        r13 = r13 + 1;
+     */
+    /* JADX WARNING: Code restructure failed: missing block: B:307:0x04d3, code lost:
+        return "excess junk after number";
      */
     /* JADX WARNING: Code restructure failed: missing block: B:309:0x04db, code lost:
         if ((r38 instanceof gnu.math.DFloNum) == false) goto L_0x04ec;
@@ -790,62 +782,46 @@ public class LispReader extends Lexer {
     /* JADX WARNING: Code restructure failed: missing block: B:320:0x0511, code lost:
         r43 = r13;
      */
-    /* JADX WARNING: Code restructure failed: missing block: B:370:?, code lost:
-        return "no digits";
-     */
-    /* JADX WARNING: Code restructure failed: missing block: B:380:?, code lost:
+    /* JADX WARNING: Code restructure failed: missing block: B:358:?, code lost:
         return r4;
      */
-    /* JADX WARNING: Code restructure failed: missing block: B:381:?, code lost:
-        return "invalid complex polar constant";
-     */
-    /* JADX WARNING: Code restructure failed: missing block: B:382:?, code lost:
+    /* JADX WARNING: Code restructure failed: missing block: B:359:?, code lost:
         return "floating-point number after fraction symbol '/'";
      */
-    /* JADX WARNING: Code restructure failed: missing block: B:383:?, code lost:
+    /* JADX WARNING: Code restructure failed: missing block: B:360:?, code lost:
         return "0/0 is undefined";
      */
-    /* JADX WARNING: Code restructure failed: missing block: B:384:?, code lost:
+    /* JADX WARNING: Code restructure failed: missing block: B:361:?, code lost:
         return new gnu.math.DFloNum(0.0d);
      */
-    /* JADX WARNING: Code restructure failed: missing block: B:385:?, code lost:
-        return gnu.math.Complex.polar((gnu.math.RealNum) r38, r46);
+    /* JADX WARNING: Code restructure failed: missing block: B:362:?, code lost:
+        return gnu.math.Complex.polar(r38, r46);
      */
-    /* JADX WARNING: Code restructure failed: missing block: B:386:?, code lost:
+    /* JADX WARNING: Code restructure failed: missing block: B:363:?, code lost:
         return r32;
      */
-    /* JADX WARNING: Code restructure failed: missing block: B:387:?, code lost:
+    /* JADX WARNING: Code restructure failed: missing block: B:364:?, code lost:
         return "invalid numeric constant (" + r32 + ")";
      */
-    /* JADX WARNING: Code restructure failed: missing block: B:388:?, code lost:
-        return "invalid numeric constant";
+    /* JADX WARNING: Code restructure failed: missing block: B:365:?, code lost:
+        return gnu.math.Complex.make(r38, r19.im());
      */
-    /* JADX WARNING: Code restructure failed: missing block: B:389:?, code lost:
-        return gnu.math.Complex.make((gnu.math.RealNum) r38, r19.mo11743im());
+    /* JADX WARNING: Code restructure failed: missing block: B:366:?, code lost:
+        return gnu.math.Complex.make((gnu.math.RealNum) gnu.math.IntNum.zero(), r38);
      */
-    /* JADX WARNING: Code restructure failed: missing block: B:390:?, code lost:
-        return "junk after imaginary suffix 'i'";
-     */
-    /* JADX WARNING: Code restructure failed: missing block: B:391:?, code lost:
-        return gnu.math.Complex.make((gnu.math.RealNum) gnu.math.IntNum.zero(), (gnu.math.RealNum) r38);
-     */
-    /* JADX WARNING: Code restructure failed: missing block: B:392:?, code lost:
-        return "excess junk after number";
-     */
-    /* JADX WARNING: Code restructure failed: missing block: B:393:?, code lost:
+    /* JADX WARNING: Code restructure failed: missing block: B:367:?, code lost:
         return r38;
      */
-    /* JADX WARNING: Code restructure failed: missing block: B:394:?, code lost:
+    /* JADX WARNING: Code restructure failed: missing block: B:368:?, code lost:
         return java.lang.Float.valueOf((float) r22);
      */
-    /* JADX WARNING: Code restructure failed: missing block: B:395:?, code lost:
+    /* JADX WARNING: Code restructure failed: missing block: B:369:?, code lost:
         return java.lang.Double.valueOf(r22);
      */
-    /* JADX WARNING: Code restructure failed: missing block: B:396:?, code lost:
+    /* JADX WARNING: Code restructure failed: missing block: B:370:?, code lost:
         return java.math.BigDecimal.valueOf(r22);
      */
     /* JADX WARNING: Multi-variable type inference failed */
-    /* JADX WARNING: Unknown variable types count: 9 */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public static java.lang.Object parseNumber(char[] r54, int r55, int r56, char r57, int r58, int r59) {
         /*
@@ -1337,7 +1313,7 @@ public class LispReader extends Lexer {
         L_0x02e7:
             r0 = r38
             r1 = r22
-            r0.<init>(r1)
+            r0.<init>((double) r1)
         L_0x02ee:
             r5 = 101(0x65, float:1.42E-43)
             r0 = r57
@@ -1424,7 +1400,7 @@ public class LispReader extends Lexer {
         L_0x0392:
             r0 = r38
             r1 = r22
-            r0.<init>(r1)
+            r0.<init>((double) r1)
             goto L_0x02ee
         L_0x039b:
             int r7 = r43 - r6
@@ -1445,7 +1421,7 @@ public class LispReader extends Lexer {
             r14 = -9223372036854775808
         L_0x03bf:
             r0 = r38
-            r0.<init>(r14)
+            r0.<init>((double) r14)
             goto L_0x02ee
         L_0x03c6:
             boolean r5 = r35.isZero()
@@ -1457,7 +1433,7 @@ public class LispReader extends Lexer {
             r14 = 9221120237041090560(0x7ff8000000000000, double:NaN)
         L_0x03d8:
             r0 = r38
-            r0.<init>(r14)
+            r0.<init>((double) r14)
         L_0x03dd:
             r39 = r38
             goto L_0x03ab
@@ -1496,12 +1472,12 @@ public class LispReader extends Lexer {
             if (r5 != 0) goto L_0x0422
             gnu.math.DFloNum r4 = new gnu.math.DFloNum
             r14 = 0
-            r4.<init>(r14)
+            r4.<init>((double) r14)
             goto L_0x000a
         L_0x0422:
             r0 = r38
             r1 = r46
-            gnu.math.DComplex r4 = gnu.math.Complex.polar(r0, r1)
+            gnu.math.DComplex r4 = gnu.math.Complex.polar((gnu.math.RealNum) r0, (gnu.math.RealNum) r1)
             goto L_0x000a
         L_0x042c:
             r5 = 45
@@ -1540,15 +1516,15 @@ public class LispReader extends Lexer {
         L_0x0475:
             r19 = r32
             gnu.math.Complex r19 = (gnu.math.Complex) r19
-            gnu.math.RealNum r47 = r19.mo11744re()
+            gnu.math.RealNum r47 = r19.re()
             boolean r5 = r47.isZero()
             if (r5 != 0) goto L_0x0487
             java.lang.String r4 = "invalid numeric constant"
             goto L_0x000a
         L_0x0487:
-            gnu.math.RealNum r5 = r19.mo11743im()
+            gnu.math.RealNum r5 = r19.im()
             r0 = r38
-            gnu.math.Complex r4 = gnu.math.Complex.make(r0, r5)
+            gnu.math.Complex r4 = gnu.math.Complex.make((gnu.math.RealNum) r0, (gnu.math.RealNum) r5)
             goto L_0x000a
         L_0x0493:
             r36 = 0
@@ -1584,7 +1560,7 @@ public class LispReader extends Lexer {
         L_0x04c7:
             gnu.math.IntNum r5 = gnu.math.IntNum.zero()
             r0 = r38
-            gnu.math.Complex r4 = gnu.math.Complex.make(r5, r0)
+            gnu.math.Complex r4 = gnu.math.Complex.make((gnu.math.RealNum) r5, (gnu.math.RealNum) r0)
             goto L_0x000a
         L_0x04d3:
             java.lang.String r4 = "excess junk after number"
@@ -1655,6 +1631,7 @@ public class LispReader extends Lexer {
         return -1;
     }
 
+    /* JADX WARNING: Can't fix incorrect switch cases order */
     /* JADX WARNING: Code restructure failed: missing block: B:15:0x0032, code lost:
         eofError("unexpected EOF in literal");
      */
@@ -1670,6 +1647,9 @@ public class LispReader extends Lexer {
     /* JADX WARNING: Code restructure failed: missing block: B:46:0x00a3, code lost:
         if (r11 != 63) goto L_0x00a9;
      */
+    /* JADX WARNING: Code restructure failed: missing block: B:47:0x00a5, code lost:
+        return 127;
+     */
     /* JADX WARNING: Code restructure failed: missing block: B:84:?, code lost:
         return r11;
      */
@@ -1677,9 +1657,6 @@ public class LispReader extends Lexer {
         return -1;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:91:?, code lost:
-        return 127;
-     */
-    /* JADX WARNING: Code restructure failed: missing block: B:92:?, code lost:
         return r11 & 159;
      */
     /* Code decompiled incorrectly, please refer to instructions dump. */
@@ -1971,11 +1948,8 @@ public class LispReader extends Lexer {
             int i = 1;
             while (i != length) {
                 int v = Character.digit(tokenBuffer[startPos + i], 16);
-                if (v >= 0) {
-                    value = (value * 16) + v;
-                    if (value <= 1114111) {
-                        i++;
-                    }
+                if (v >= 0 && (value = (value * 16) + v) <= 1114111) {
+                    i++;
                 }
             }
             return Char.make(value);

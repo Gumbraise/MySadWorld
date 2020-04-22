@@ -99,7 +99,7 @@ public class ClassFileInput extends DataInputStream {
                 } else {
                     if (container.getAttributes() == attr) {
                         container.setAttributes(attr.getNext());
-                        attr.setNext(null);
+                        attr.setNext((Attribute) null);
                     }
                     last.setNext(attr);
                 }
@@ -157,7 +157,7 @@ public class ClassFileInput extends DataInputStream {
             }
             Scope scope = attr.parameter_scope;
             if (scope.end == null) {
-                scope.end = new Label(code2.f52PC);
+                scope.end = new Label(code2.PC);
             }
             ConstantPool constants = method.getConstants();
             int count2 = readUnsignedShort();
@@ -171,11 +171,8 @@ public class ClassFileInput extends DataInputStream {
                     while (scope.parent != null && (start_pc < scope.start.position || end_pc > scope.end.position)) {
                         scope = scope.parent;
                     }
-                    Scope parent = scope;
-                    Label label = new Label(start_pc);
-                    Label label2 = new Label(end_pc);
-                    scope = new Scope(label, label2);
-                    scope.linkChild(parent);
+                    scope = new Scope(new Label(start_pc), new Label(end_pc));
+                    scope.linkChild(scope);
                     prev_start = start_pc;
                     prev_end = end_pc;
                 }
@@ -256,14 +253,14 @@ public class ClassFileInput extends DataInputStream {
             int flags = readUnsignedShort();
             int nameIndex = readUnsignedShort();
             int descriptorIndex = readUnsignedShort();
-            Method meth = this.ctype.addMethod(null, flags);
+            Method meth = this.ctype.addMethod((String) null, flags);
             meth.setName(nameIndex);
             meth.setSignature(descriptorIndex);
             readAttributes(meth);
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public CpoolClass getClassConstant(int index) {
         return (CpoolClass) this.ctype.constants.getForced(index, 7);
     }

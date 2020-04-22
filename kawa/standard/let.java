@@ -22,7 +22,6 @@ public class let extends Syntax {
 
     public Expression rewrite(Object obj, Translator tr) {
         TemplateScope templateScope;
-        Object binding_cdr;
         Pair init;
         if (!(obj instanceof Pair)) {
             return tr.syntaxError("missing let arguments");
@@ -47,14 +46,16 @@ public class let extends Syntax {
             Pair bind_pair = (Pair) bindings;
             Object bind_pair_car = bind_pair.getCar();
             SyntaxForm syntax = syntaxRest;
-            if (bind_pair_car instanceof SyntaxForm) {
-                syntax = (SyntaxForm) bind_pair_car;
-                bind_pair_car = syntax.getDatum();
+            boolean z = bind_pair_car instanceof SyntaxForm;
+            Object bind_pair_car2 = bind_pair_car;
+            if (z) {
+                syntax = bind_pair_car;
+                bind_pair_car2 = syntax.getDatum();
             }
-            if (!(bind_pair_car instanceof Pair)) {
-                return tr.syntaxError("let binding is not a pair:" + bind_pair_car);
+            if (!(bind_pair_car2 instanceof Pair)) {
+                return tr.syntaxError("let binding is not a pair:" + bind_pair_car2);
             }
-            Pair binding = (Pair) bind_pair_car;
+            Pair binding = (Pair) bind_pair_car2;
             Object name = binding.getCar();
             if (name instanceof SyntaxForm) {
                 SyntaxForm sf = (SyntaxForm) name;
@@ -77,41 +78,40 @@ public class let extends Syntax {
                 renamedAliases.push(alias);
                 renamedAliasesCount++;
             }
-            Object binding_cdr2 = binding.getCdr();
+            Object binding_cdr = binding.getCdr();
+            while (binding_cdr instanceof SyntaxForm) {
+                syntax = (SyntaxForm) binding_cdr;
+                binding_cdr = syntax.getDatum();
+            }
+            if (!(binding_cdr instanceof Pair)) {
+                return tr.syntaxError("let has no value for '" + name2 + "'");
+            }
+            Pair binding2 = (Pair) binding_cdr;
+            Object binding_cdr2 = binding2.getCdr();
             while (binding_cdr2 instanceof SyntaxForm) {
                 syntax = (SyntaxForm) binding_cdr2;
                 binding_cdr2 = syntax.getDatum();
             }
-            if (!(binding_cdr2 instanceof Pair)) {
-                return tr.syntaxError("let has no value for '" + name2 + "'");
-            }
-            Pair binding2 = (Pair) binding_cdr2;
-            Object binding_cdr3 = binding2.getCdr();
-            while (binding_cdr instanceof SyntaxForm) {
-                syntax = (SyntaxForm) binding_cdr;
-                binding_cdr3 = syntax.getDatum();
-            }
+            Object binding_cdr3 = binding_cdr2;
             if (tr.matches(binding2.getCar(), "::")) {
-                if (binding_cdr instanceof Pair) {
-                    binding2 = (Pair) binding_cdr;
-                    if (binding2.getCdr() != LList.Empty) {
-                        binding_cdr = binding2.getCdr();
-                        while (binding_cdr instanceof SyntaxForm) {
-                            syntax = (SyntaxForm) binding_cdr;
-                            binding_cdr = syntax.getDatum();
-                        }
-                    }
+                if (!(binding_cdr2 instanceof Pair) || (binding2 = (Pair) binding_cdr2).getCdr() == LList.Empty) {
+                    return tr.syntaxError("missing type after '::' in let");
                 }
-                return tr.syntaxError("missing type after '::' in let");
+                Object binding_cdr4 = binding2.getCdr();
+                while (binding_cdr4 instanceof SyntaxForm) {
+                    syntax = (SyntaxForm) binding_cdr4;
+                    binding_cdr4 = syntax.getDatum();
+                }
+                binding_cdr3 = binding_cdr4;
             }
-            if (binding_cdr == LList.Empty) {
+            if (binding_cdr3 == LList.Empty) {
                 init = binding2;
-            } else if (!(binding_cdr instanceof Pair)) {
+            } else if (!(binding_cdr3 instanceof Pair)) {
                 return tr.syntaxError("let binding for '" + name2 + "' is improper list");
             } else {
                 decl.setType(tr.exp2Type(binding2));
                 decl.setFlag(8192);
-                init = (Pair) binding_cdr;
+                init = (Pair) binding_cdr3;
             }
             inits[i] = tr.rewrite_car(init, syntax);
             if (init.getCdr() != LList.Empty) {

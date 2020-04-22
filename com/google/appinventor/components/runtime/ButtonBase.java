@@ -2,22 +2,18 @@ package com.google.appinventor.components.runtime;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuff;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.Drawable.ConstantState;
 import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.graphics.drawable.shapes.RectShape;
 import android.graphics.drawable.shapes.RoundRectShape;
-import android.os.Build.VERSION;
+import android.os.Build;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
-import android.view.View.OnLongClickListener;
-import android.view.View.OnTouchListener;
 import android.widget.Button;
 import com.google.appinventor.components.annotations.DesignerProperty;
 import com.google.appinventor.components.annotations.PropertyCategory;
@@ -34,7 +30,7 @@ import java.io.IOException;
 
 @SimpleObject
 @UsesPermissions(permissionNames = "android.permission.INTERNET")
-public abstract class ButtonBase extends AndroidViewComponent implements OnClickListener, OnFocusChangeListener, OnLongClickListener, OnTouchListener {
+public abstract class ButtonBase extends AndroidViewComponent implements View.OnClickListener, View.OnFocusChangeListener, View.OnLongClickListener, View.OnTouchListener {
     private static final String LOG_TAG = "ButtonBase";
     private static final float[] ROUNDED_CORNERS_ARRAY = {10.0f, 10.0f, 10.0f, 10.0f, 10.0f, 10.0f, 10.0f, 10.0f};
     private static final float ROUNDED_CORNERS_RADIUS = 10.0f;
@@ -85,19 +81,22 @@ public abstract class ButtonBase extends AndroidViewComponent implements OnClick
 
     public boolean onTouch(View view2, MotionEvent me) {
         if (me.getAction() == 0) {
-            if (ShowFeedback() && (AppInventorCompatActivity.isClassicMode() || VERSION.SDK_INT < 21)) {
+            if (ShowFeedback() && (AppInventorCompatActivity.isClassicMode() || Build.VERSION.SDK_INT < 21)) {
                 view2.getBackground().setAlpha(70);
                 view2.invalidate();
             }
             TouchDown();
-        } else if (me.getAction() == 1 || me.getAction() == 3) {
-            if (ShowFeedback() && (AppInventorCompatActivity.isClassicMode() || VERSION.SDK_INT < 21)) {
+            return false;
+        } else if (me.getAction() != 1 && me.getAction() != 3) {
+            return false;
+        } else {
+            if (ShowFeedback() && (AppInventorCompatActivity.isClassicMode() || Build.VERSION.SDK_INT < 21)) {
                 view2.getBackground().setAlpha(255);
                 view2.invalidate();
             }
             TouchUp();
+            return false;
         }
-        return false;
     }
 
     public View getView() {
@@ -192,13 +191,13 @@ public abstract class ButtonBase extends AndroidViewComponent implements OnClick
             } else if (this.backgroundColor == 0) {
                 ViewUtil.setBackgroundDrawable(this.view, this.defaultButtonDrawable);
             } else if (this.backgroundColor == 16777215) {
-                ViewUtil.setBackgroundDrawable(this.view, null);
+                ViewUtil.setBackgroundDrawable(this.view, (Drawable) null);
                 ViewUtil.setBackgroundDrawable(this.view, getSafeBackgroundDrawable());
-                this.view.getBackground().setColorFilter(this.backgroundColor, Mode.CLEAR);
+                this.view.getBackground().setColorFilter(this.backgroundColor, PorterDuff.Mode.CLEAR);
             } else {
-                ViewUtil.setBackgroundDrawable(this.view, null);
+                ViewUtil.setBackgroundDrawable(this.view, (Drawable) null);
                 ViewUtil.setBackgroundDrawable(this.view, getSafeBackgroundDrawable());
-                this.view.getBackground().setColorFilter(this.backgroundColor, Mode.SRC_ATOP);
+                this.view.getBackground().setColorFilter(this.backgroundColor, PorterDuff.Mode.SRC_ATOP);
             }
             TextViewUtil.setMinSize(this.view, defaultButtonMinWidth, defaultButtonMinHeight);
             return;
@@ -209,8 +208,8 @@ public abstract class ButtonBase extends AndroidViewComponent implements OnClick
 
     private Drawable getSafeBackgroundDrawable() {
         if (this.myBackgroundDrawable == null) {
-            ConstantState state = this.defaultButtonDrawable.getConstantState();
-            if (state == null || VERSION.SDK_INT < 10) {
+            Drawable.ConstantState state = this.defaultButtonDrawable.getConstantState();
+            if (state == null || Build.VERSION.SDK_INT < 10) {
                 this.myBackgroundDrawable = this.defaultButtonDrawable;
             } else {
                 try {
@@ -234,7 +233,7 @@ public abstract class ButtonBase extends AndroidViewComponent implements OnClick
         ShapeDrawable drawable = new ShapeDrawable();
         switch (this.shape) {
             case 1:
-                drawable.setShape(new RoundRectShape(ROUNDED_CORNERS_ARRAY, null, null));
+                drawable.setShape(new RoundRectShape(ROUNDED_CORNERS_ARRAY, (RectF) null, (float[]) null));
                 break;
             case 2:
                 drawable.setShape(new RectShape());
@@ -245,17 +244,17 @@ public abstract class ButtonBase extends AndroidViewComponent implements OnClick
             default:
                 throw new IllegalArgumentException();
         }
-        if (AppInventorCompatActivity.isClassicMode() || VERSION.SDK_INT < 21) {
+        if (AppInventorCompatActivity.isClassicMode() || Build.VERSION.SDK_INT < 21) {
             ViewUtil.setBackgroundDrawable(this.view, drawable);
         } else {
             ViewUtil.setBackgroundDrawable(this.view, new RippleDrawable(createRippleState(), drawable, drawable));
         }
         if (this.backgroundColor == 16777215) {
-            this.view.getBackground().setColorFilter(this.backgroundColor, Mode.CLEAR);
+            this.view.getBackground().setColorFilter(this.backgroundColor, PorterDuff.Mode.CLEAR);
         } else if (this.backgroundColor == 0) {
-            this.view.getBackground().setColorFilter(-3355444, Mode.SRC_ATOP);
+            this.view.getBackground().setColorFilter(-3355444, PorterDuff.Mode.SRC_ATOP);
         } else {
-            this.view.getBackground().setColorFilter(this.backgroundColor, Mode.SRC_ATOP);
+            this.view.getBackground().setColorFilter(this.backgroundColor, PorterDuff.Mode.SRC_ATOP);
         }
         this.view.invalidate();
     }

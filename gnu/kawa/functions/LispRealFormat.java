@@ -19,9 +19,7 @@ class LispRealFormat extends ReportFormat {
     int arg7;
     int argsUsed;
     boolean internalPad;
-
-    /* renamed from: op */
-    char f62op;
+    char op;
     boolean showPlus;
 
     LispRealFormat() {
@@ -50,7 +48,7 @@ class LispRealFormat extends ReportFormat {
     }
 
     public Format resolve(Object[] args, int start) {
-        if (this.f62op == '$') {
+        if (this.op == '$') {
             FixedRealFormat mfmt = new FixedRealFormat();
             int decimals = getParam(this.arg1, 2, args, start);
             if (this.arg1 == -1610612736) {
@@ -75,7 +73,7 @@ class LispRealFormat extends ReportFormat {
             mfmt.internalPad = this.internalPad;
             mfmt.showPlus = this.showPlus;
             return mfmt;
-        } else if (this.f62op == 'F') {
+        } else if (this.op == 'F') {
             FixedRealFormat mfmt2 = new FixedRealFormat();
             int width2 = getParam(this.arg1, 0, args, start);
             if (this.arg1 == -1610612736) {
@@ -136,7 +134,7 @@ class LispRealFormat extends ReportFormat {
             if (this.arg7 == -1610612736) {
                 int start4 = start + 1;
             }
-            efmt.general = this.f62op == 'G';
+            efmt.general = this.op == 'G';
             efmt.showPlus = this.showPlus;
             return efmt;
         }

@@ -37,23 +37,15 @@ public abstract class NodeConstructor extends MethodProc implements Inlineable {
         return new XMLFilter(new NodeTree());
     }
 
-    /* JADX WARNING: Incorrect type for immutable var: ssa=gnu.lists.Consumer, code=java.lang.Object, for r2v0, types: [java.lang.Object, gnu.lists.Consumer] */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public static void popNodeConsumer(gnu.lists.Consumer r1, java.lang.Object r2) {
-        /*
-            if (r1 == r2) goto L_0x0013
-            boolean r0 = r2 instanceof gnu.xml.XMLFilter
-            if (r0 == 0) goto L_0x0010
-            gnu.xml.XMLFilter r2 = (gnu.xml.XMLFilter) r2
-            gnu.lists.Consumer r0 = r2.out
-            gnu.xml.NodeTree r0 = (gnu.xml.NodeTree) r0
-            gnu.kawa.xml.KNode r2 = gnu.kawa.xml.KNode.make(r0)
-        L_0x0010:
-            r1.writeObject(r2)
-        L_0x0013:
-            return
-        */
-        throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.xml.NodeConstructor.popNodeConsumer(gnu.lists.Consumer, gnu.lists.Consumer):void");
+    public static void popNodeConsumer(Consumer saved, Consumer current) {
+        if (saved != current) {
+            boolean z = current instanceof XMLFilter;
+            Object obj = current;
+            if (z) {
+                obj = KNode.make((NodeTree) ((XMLFilter) current).out);
+            }
+            saved.writeObject(obj);
+        }
     }
 
     public static XMLFilter pushNodeContext(CallContext ctx) {
@@ -118,7 +110,7 @@ public abstract class NodeConstructor extends MethodProc implements Inlineable {
             }
             int length = exp.getArgs().length;
             CodeAttr code = comp.getCode();
-            Variable xvar = code.pushScope().addVariable(code, typeXMLFilter, null);
+            Variable xvar = code.pushScope().addVariable(code, typeXMLFilter, (String) null);
             if (ctarget.isContextTarget()) {
                 comp.loadCallContext();
                 code.emitInvokeStatic(pushNodeContextMethod);

@@ -37,7 +37,7 @@ public class Camcorder extends AndroidNonvisibleComponent implements ActivityRes
                     Camcorder.this.form.askPermission("android.permission.CAMERA", new PermissionResultHandler() {
                         public void HandlePermissionResponse(String permission, boolean granted) {
                             if (granted) {
-                                this.havePermission = true;
+                                boolean unused = this.havePermission = true;
                                 this.RecordVideo();
                                 return;
                             }

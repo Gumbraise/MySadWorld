@@ -169,25 +169,49 @@ public abstract class KNode extends SeqPosition implements Node, Consumable {
         return make((NodeTree) this.sequence, parent);
     }
 
-    public Node getPreviousSibling() {
-        int previous;
-        int parent = this.sequence.parentPos(this.ipos);
-        if (parent == -1) {
-            parent = 0;
-        }
-        int index = ((NodeTree) this.sequence).posToDataIndex(this.ipos);
-        int child = this.sequence.firstChildPos(parent);
-        do {
-            previous = child;
-            child = this.sequence.nextPos(child);
-            if (child == 0) {
-                break;
-            }
-        } while (((NodeTree) this.sequence).posToDataIndex(child) != index);
-        if (previous == 0) {
-            return null;
-        }
-        return make((NodeTree) this.sequence, previous);
+    /* JADX WARNING: Removed duplicated region for block: B:10:0x0035  */
+    /* JADX WARNING: Removed duplicated region for block: B:7:0x0028 A[ORIG_RETURN, RETURN, SYNTHETIC] */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public org.w3c.dom.Node getPreviousSibling() {
+        /*
+            r6 = this;
+            gnu.lists.AbstractSequence r4 = r6.sequence
+            int r5 = r6.ipos
+            int r2 = r4.parentPos(r5)
+            r4 = -1
+            if (r2 != r4) goto L_0x000c
+            r2 = 0
+        L_0x000c:
+            gnu.lists.AbstractSequence r4 = r6.sequence
+            gnu.xml.NodeTree r4 = (gnu.xml.NodeTree) r4
+            int r5 = r6.ipos
+            int r1 = r4.posToDataIndex(r5)
+            gnu.lists.AbstractSequence r4 = r6.sequence
+            int r0 = r4.firstChildPos(r2)
+            r3 = 0
+        L_0x001d:
+            r3 = r0
+            gnu.lists.AbstractSequence r4 = r6.sequence
+            int r0 = r4.nextPos(r0)
+            if (r0 != 0) goto L_0x002a
+        L_0x0026:
+            if (r3 != 0) goto L_0x0035
+            r4 = 0
+        L_0x0029:
+            return r4
+        L_0x002a:
+            gnu.lists.AbstractSequence r4 = r6.sequence
+            gnu.xml.NodeTree r4 = (gnu.xml.NodeTree) r4
+            int r4 = r4.posToDataIndex(r0)
+            if (r4 != r1) goto L_0x001d
+            goto L_0x0026
+        L_0x0035:
+            gnu.lists.AbstractSequence r4 = r6.sequence
+            gnu.xml.NodeTree r4 = (gnu.xml.NodeTree) r4
+            gnu.kawa.xml.KNode r4 = make(r4, r3)
+            goto L_0x0029
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.xml.KNode.getPreviousSibling():org.w3c.dom.Node");
     }
 
     public Node getNextSibling() {

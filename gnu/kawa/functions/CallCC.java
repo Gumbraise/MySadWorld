@@ -1,6 +1,6 @@
 package gnu.kawa.functions;
 
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import gnu.bytecode.Type;
 import gnu.expr.ApplyExp;
 import gnu.expr.Compilation;
@@ -31,13 +31,12 @@ public class CallCC extends MethodProc implements Inlineable {
     }
 
     public void apply(CallContext ctx) throws Throwable {
-        Procedure proc = (Procedure) ctx.value1;
         Continuation cont = new Continuation(ctx);
-        proc.check1(cont, ctx);
-        Procedure proc2 = ctx.proc;
+        ((Procedure) ctx.value1).check1(cont, ctx);
+        Procedure proc = ctx.proc;
         ctx.proc = null;
         try {
-            proc2.apply(ctx);
+            proc.apply(ctx);
             ctx.runUntilDone();
             cont.invoked = true;
         } catch (Throwable ex) {

@@ -2,8 +2,8 @@ package android.support.constraint.solver.widgets;
 
 import android.support.constraint.solver.LinearSystem;
 import android.support.constraint.solver.Metrics;
-import android.support.constraint.solver.widgets.ConstraintAnchor.Type;
-import android.support.constraint.solver.widgets.ConstraintWidget.DimensionBehaviour;
+import android.support.constraint.solver.widgets.ConstraintAnchor;
+import android.support.constraint.solver.widgets.ConstraintWidget;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -93,19 +93,19 @@ public class ConstraintWidgetContainer extends WidgetContainer {
         for (int i = 0; i < count; i++) {
             ConstraintWidget widget = (ConstraintWidget) this.mChildren.get(i);
             if (widget instanceof ConstraintWidgetContainer) {
-                DimensionBehaviour horizontalBehaviour = widget.mListDimensionBehaviors[0];
-                DimensionBehaviour verticalBehaviour = widget.mListDimensionBehaviors[1];
-                if (horizontalBehaviour == DimensionBehaviour.WRAP_CONTENT) {
-                    widget.setHorizontalDimensionBehaviour(DimensionBehaviour.FIXED);
+                ConstraintWidget.DimensionBehaviour horizontalBehaviour = widget.mListDimensionBehaviors[0];
+                ConstraintWidget.DimensionBehaviour verticalBehaviour = widget.mListDimensionBehaviors[1];
+                if (horizontalBehaviour == ConstraintWidget.DimensionBehaviour.WRAP_CONTENT) {
+                    widget.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.FIXED);
                 }
-                if (verticalBehaviour == DimensionBehaviour.WRAP_CONTENT) {
-                    widget.setVerticalDimensionBehaviour(DimensionBehaviour.FIXED);
+                if (verticalBehaviour == ConstraintWidget.DimensionBehaviour.WRAP_CONTENT) {
+                    widget.setVerticalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.FIXED);
                 }
                 widget.addToSolver(system);
-                if (horizontalBehaviour == DimensionBehaviour.WRAP_CONTENT) {
+                if (horizontalBehaviour == ConstraintWidget.DimensionBehaviour.WRAP_CONTENT) {
                     widget.setHorizontalDimensionBehaviour(horizontalBehaviour);
                 }
-                if (verticalBehaviour == DimensionBehaviour.WRAP_CONTENT) {
+                if (verticalBehaviour == ConstraintWidget.DimensionBehaviour.WRAP_CONTENT) {
                     widget.setVerticalDimensionBehaviour(verticalBehaviour);
                 }
             } else {
@@ -129,10 +129,10 @@ public class ConstraintWidgetContainer extends WidgetContainer {
         for (int i = 0; i < count; i++) {
             ConstraintWidget widget = (ConstraintWidget) this.mChildren.get(i);
             widget.updateFromSolver(system);
-            if (widget.mListDimensionBehaviors[0] == DimensionBehaviour.MATCH_CONSTRAINT && widget.getWidth() < widget.getWrapWidth()) {
+            if (widget.mListDimensionBehaviors[0] == ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT && widget.getWidth() < widget.getWrapWidth()) {
                 flags[2] = true;
             }
-            if (widget.mListDimensionBehaviors[1] == DimensionBehaviour.MATCH_CONSTRAINT && widget.getHeight() < widget.getWrapHeight()) {
+            if (widget.mListDimensionBehaviors[1] == ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT && widget.getHeight() < widget.getWrapHeight()) {
                 flags[2] = true;
             }
         }
@@ -169,10 +169,10 @@ public class ConstraintWidgetContainer extends WidgetContainer {
         /*
             r28 = this;
             r0 = r28
-            int r0 = r0.f5mX
+            int r0 = r0.mX
             r19 = r0
             r0 = r28
-            int r0 = r0.f6mY
+            int r0 = r0.mY
             r20 = r0
             r24 = 0
             int r25 = r28.getWidth()
@@ -333,11 +333,11 @@ public class ConstraintWidgetContainer extends WidgetContainer {
             r24 = 0
             r0 = r24
             r1 = r28
-            r1.f5mX = r0
+            r1.mX = r0
             r24 = 0
             r0 = r24
             r1 = r28
-            r1.f6mY = r0
+            r1.mY = r0
             goto L_0x008a
         L_0x0160:
             r0 = r28
@@ -495,14 +495,14 @@ public class ConstraintWidgetContainer extends WidgetContainer {
             java.lang.Object r21 = r0.get(r11)
             android.support.constraint.solver.widgets.ConstraintWidget r21 = (android.support.constraint.solver.widgets.ConstraintWidget) r21
             r0 = r21
-            int r0 = r0.f5mX
+            int r0 = r0.mX
             r24 = r0
             int r25 = r21.getWidth()
             int r24 = r24 + r25
             r0 = r24
             int r12 = java.lang.Math.max(r12, r0)
             r0 = r21
-            int r0 = r0.f6mY
+            int r0 = r0.mY
             r24 = r0
             int r25 = r21.getHeight()
             int r24 = r24 + r25
@@ -813,10 +813,10 @@ public class ConstraintWidgetContainer extends WidgetContainer {
         L_0x0525:
             r0 = r19
             r1 = r28
-            r1.f5mX = r0
+            r1.mX = r0
             r0 = r20
             r1 = r28
-            r1.f6mY = r0
+            r1.mY = r0
             goto L_0x04f0
         */
         throw new UnsupportedOperationException("Method not decompiled: android.support.constraint.solver.widgets.ConstraintWidgetContainer.layout():void");
@@ -828,26 +828,26 @@ public class ConstraintWidgetContainer extends WidgetContainer {
     }
 
     public void solveGraph() {
-        ResolutionAnchor leftNode = getAnchor(Type.LEFT).getResolutionNode();
-        ResolutionAnchor topNode = getAnchor(Type.TOP).getResolutionNode();
-        leftNode.resolve(null, 0.0f);
-        topNode.resolve(null, 0.0f);
+        ResolutionAnchor leftNode = getAnchor(ConstraintAnchor.Type.LEFT).getResolutionNode();
+        ResolutionAnchor topNode = getAnchor(ConstraintAnchor.Type.TOP).getResolutionNode();
+        leftNode.resolve((ResolutionAnchor) null, 0.0f);
+        topNode.resolve((ResolutionAnchor) null, 0.0f);
     }
 
     public void resetGraph() {
-        ResolutionAnchor leftNode = getAnchor(Type.LEFT).getResolutionNode();
-        ResolutionAnchor topNode = getAnchor(Type.TOP).getResolutionNode();
+        ResolutionAnchor leftNode = getAnchor(ConstraintAnchor.Type.LEFT).getResolutionNode();
+        ResolutionAnchor topNode = getAnchor(ConstraintAnchor.Type.TOP).getResolutionNode();
         leftNode.invalidateAnchors();
         topNode.invalidateAnchors();
-        leftNode.resolve(null, 0.0f);
-        topNode.resolve(null, 0.0f);
+        leftNode.resolve((ResolutionAnchor) null, 0.0f);
+        topNode.resolve((ResolutionAnchor) null, 0.0f);
     }
 
     public void optimizeForDimensions(int width, int height) {
-        if (!(this.mListDimensionBehaviors[0] == DimensionBehaviour.WRAP_CONTENT || this.mResolutionWidth == null)) {
+        if (!(this.mListDimensionBehaviors[0] == ConstraintWidget.DimensionBehaviour.WRAP_CONTENT || this.mResolutionWidth == null)) {
             this.mResolutionWidth.resolve(width);
         }
-        if (this.mListDimensionBehaviors[1] != DimensionBehaviour.WRAP_CONTENT && this.mResolutionHeight != null) {
+        if (this.mListDimensionBehaviors[1] != ConstraintWidget.DimensionBehaviour.WRAP_CONTENT && this.mResolutionHeight != null) {
             this.mResolutionHeight.resolve(height);
         }
     }
@@ -910,7 +910,7 @@ public class ConstraintWidgetContainer extends WidgetContainer {
         this.mVerticalChainsSize = 0;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void addChain(ConstraintWidget constraintWidget, int type) {
         ConstraintWidget widget = constraintWidget;
         if (type == 0) {

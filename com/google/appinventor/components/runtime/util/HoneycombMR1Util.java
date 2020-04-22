@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
-import android.provider.ContactsContract.CommonDataKinds.Phone;
-import android.provider.ContactsContract.Contacts;
-import android.provider.ContactsContract.Data;
+import android.provider.ContactsContract;
 import java.io.InputStream;
 
 public class HoneycombMR1Util {
@@ -14,15 +12,15 @@ public class HoneycombMR1Util {
     }
 
     public static Uri getContentUri() {
-        return Contacts.CONTENT_URI;
+        return ContactsContract.Contacts.CONTENT_URI;
     }
 
     public static Uri getPhoneContentUri() {
-        return Phone.CONTENT_URI;
+        return ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
     }
 
     public static Uri getDataContentUri() {
-        return Data.CONTENT_URI;
+        return ContactsContract.Data.CONTENT_URI;
     }
 
     public static String[] getContactProjection() {
@@ -94,11 +92,11 @@ public class HoneycombMR1Util {
     }
 
     public static Cursor getDataCursor(String id, Activity activityContext, String[] dataProjection) {
-        return activityContext.getContentResolver().query(Data.CONTENT_URI, dataProjection, "contact_id=? AND (mimetype=? OR mimetype=?)", new String[]{id, "vnd.android.cursor.item/phone_v2", "vnd.android.cursor.item/email_v2"}, null);
+        return activityContext.getContentResolver().query(ContactsContract.Data.CONTENT_URI, dataProjection, "contact_id=? AND (mimetype=? OR mimetype=?)", new String[]{id, "vnd.android.cursor.item/phone_v2", "vnd.android.cursor.item/email_v2"}, (String) null);
     }
 
     public static InputStream openContactPhotoInputStreamHelper(ContentResolver cr, Uri contactUri) {
-        return Contacts.openContactPhotoInputStream(cr, contactUri);
+        return ContactsContract.Contacts.openContactPhotoInputStream(cr, contactUri);
     }
 
     public static String getTimesContacted() {

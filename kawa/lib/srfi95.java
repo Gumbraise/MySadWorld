@@ -1,6 +1,6 @@
 package kawa.lib;
 
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import com.google.appinventor.components.common.PropertyTypeConstants;
 import gnu.expr.ModuleBody;
 import gnu.expr.ModuleInfo;
@@ -10,7 +10,6 @@ import gnu.kawa.functions.AddOp;
 import gnu.kawa.functions.DivideOp;
 import gnu.kawa.lispexpr.LangObjType;
 import gnu.lists.Consumer;
-import gnu.lists.FVector;
 import gnu.lists.LList;
 import gnu.lists.Pair;
 import gnu.lists.Sequence;
@@ -47,117 +46,6 @@ public class srfi95 extends ModuleBody {
     public static final ModuleMethod sort;
     public static final ModuleMethod sort$Ex;
     public static final ModuleMethod sorted$Qu;
-
-    /* compiled from: srfi95.scm */
-    public class frame extends ModuleBody {
-        Object key;
-        Object less$Qu;
-
-        public Object lambda1loop(Object x, Object kx, Object a, Object y, Object ky, Object b) {
-            if (Scheme.applyToArgs.apply3(this.less$Qu, ky, kx) != Boolean.FALSE) {
-                if (C0620lists.isNull(b)) {
-                    return C0620lists.cons(y, C0620lists.cons(x, a));
-                }
-                return C0620lists.cons(y, lambda1loop(x, kx, a, C0620lists.car.apply1(b), Scheme.applyToArgs.apply2(this.key, C0620lists.car.apply1(b)), C0620lists.cdr.apply1(b)));
-            } else if (C0620lists.isNull(a)) {
-                return C0620lists.cons(x, C0620lists.cons(y, b));
-            } else {
-                return C0620lists.cons(x, lambda1loop(C0620lists.car.apply1(a), Scheme.applyToArgs.apply2(this.key, C0620lists.car.apply1(a)), C0620lists.cdr.apply1(a), y, ky, b));
-            }
-        }
-    }
-
-    /* compiled from: srfi95.scm */
-    public class frame0 extends ModuleBody {
-        Object keyer;
-        Object less$Qu;
-        Object seq;
-
-        public Object lambda2step(Object n) {
-            if (Scheme.numGrt.apply2(n, srfi95.Lit1) != Boolean.FALSE) {
-                Object j = DivideOp.quotient.apply2(n, srfi95.Lit1);
-                return srfi95.sort$ClMerge$Ex(lambda2step(j), lambda2step(AddOp.$Mn.apply2(n, j)), this.less$Qu, this.keyer);
-            } else if (Scheme.numEqu.apply2(n, srfi95.Lit1) != Boolean.FALSE) {
-                Object x = C0620lists.car.apply1(this.seq);
-                Object y = C0620lists.cadr.apply1(this.seq);
-                Object p = this.seq;
-                this.seq = C0620lists.cddr.apply1(this.seq);
-                if (Scheme.applyToArgs.apply3(this.less$Qu, Scheme.applyToArgs.apply2(this.keyer, y), Scheme.applyToArgs.apply2(this.keyer, x)) != Boolean.FALSE) {
-                    try {
-                        C0620lists.setCar$Ex((Pair) p, y);
-                        Object apply1 = C0620lists.cdr.apply1(p);
-                        try {
-                            C0620lists.setCar$Ex((Pair) apply1, x);
-                        } catch (ClassCastException e) {
-                            throw new WrongType(e, "set-car!", 1, apply1);
-                        }
-                    } catch (ClassCastException e2) {
-                        throw new WrongType(e2, "set-car!", 1, p);
-                    }
-                }
-                Object apply12 = C0620lists.cdr.apply1(p);
-                try {
-                    C0620lists.setCdr$Ex((Pair) apply12, LList.Empty);
-                    return p;
-                } catch (ClassCastException e3) {
-                    throw new WrongType(e3, "set-cdr!", 1, apply12);
-                }
-            } else if (Scheme.numEqu.apply2(n, srfi95.Lit2) == Boolean.FALSE) {
-                return LList.Empty;
-            } else {
-                Object p2 = this.seq;
-                this.seq = C0620lists.cdr.apply1(this.seq);
-                try {
-                    C0620lists.setCdr$Ex((Pair) p2, LList.Empty);
-                    return p2;
-                } catch (ClassCastException e4) {
-                    throw new WrongType(e4, "set-cdr!", 1, p2);
-                }
-            }
-        }
-    }
-
-    /* compiled from: srfi95.scm */
-    public class frame1 extends ModuleBody {
-        Object key;
-        Object less$Qu;
-
-        public Object lambda3loop(Object r, Object a, Object kcara, Object b, Object kcarb) {
-            if (Scheme.applyToArgs.apply3(this.less$Qu, kcarb, kcara) != Boolean.FALSE) {
-                try {
-                    C0620lists.setCdr$Ex((Pair) r, b);
-                    if (C0620lists.isNull(C0620lists.cdr.apply1(b))) {
-                        try {
-                            C0620lists.setCdr$Ex((Pair) b, a);
-                            return Values.empty;
-                        } catch (ClassCastException e) {
-                            throw new WrongType(e, "set-cdr!", 1, b);
-                        }
-                    } else {
-                        return lambda3loop(b, a, kcara, C0620lists.cdr.apply1(b), Scheme.applyToArgs.apply2(this.key, C0620lists.cadr.apply1(b)));
-                    }
-                } catch (ClassCastException e2) {
-                    throw new WrongType(e2, "set-cdr!", 1, r);
-                }
-            } else {
-                try {
-                    C0620lists.setCdr$Ex((Pair) r, a);
-                    if (C0620lists.isNull(C0620lists.cdr.apply1(a))) {
-                        try {
-                            C0620lists.setCdr$Ex((Pair) a, b);
-                            return Values.empty;
-                        } catch (ClassCastException e3) {
-                            throw new WrongType(e3, "set-cdr!", 1, a);
-                        }
-                    } else {
-                        return lambda3loop(a, C0620lists.cdr.apply1(a), Scheme.applyToArgs.apply2(this.key, C0620lists.cadr.apply1(a)), b, kcarb);
-                    }
-                } catch (ClassCastException e4) {
-                    throw new WrongType(e4, "set-cdr!", 1, r);
-                }
-            }
-        }
-    }
 
     public static void $PcSortVector(Sequence sequence, Object obj) {
         $PcSortVector(sequence, obj, Boolean.FALSE);
@@ -219,13 +107,13 @@ public class srfi95 extends ModuleBody {
         }
         callContext.value1 = obj;
         callContext.proc = moduleMethod;
-        callContext.f236pc = 1;
+        callContext.pc = 1;
         return 0;
     }
 
     public static Object isSorted(Object seq, Object less$Qu, Object key) {
         int i;
-        if (C0620lists.isNull(seq)) {
+        if (lists.isNull(seq)) {
             return Boolean.TRUE;
         }
         if (seq instanceof Sequence) {
@@ -262,17 +150,17 @@ public class srfi95 extends ModuleBody {
             } catch (ClassCastException e3) {
                 throw new WrongType(e3, "arr", -2, seq);
             }
-        } else if (C0620lists.isNull(C0620lists.cdr.apply1(seq))) {
+        } else if (lists.isNull(lists.cdr.apply1(seq))) {
             return Boolean.TRUE;
         } else {
-            Object last = Scheme.applyToArgs.apply2(key, C0620lists.car.apply1(seq));
-            Object apply1 = C0620lists.cdr.apply1(seq);
+            Object last = Scheme.applyToArgs.apply2(key, lists.car.apply1(seq));
+            Object apply1 = lists.cdr.apply1(seq);
             while (true) {
-                boolean x4 = C0620lists.isNull(apply1);
+                boolean x4 = lists.isNull(apply1);
                 if (x4) {
                     return x4 ? Boolean.TRUE : Boolean.FALSE;
                 }
-                Object nxt2 = Scheme.applyToArgs.apply2(key, C0620lists.car.apply1(apply1));
+                Object nxt2 = Scheme.applyToArgs.apply2(key, lists.car.apply1(apply1));
                 Object apply3 = Scheme.applyToArgs.apply3(less$Qu, nxt2, last);
                 try {
                     if (apply3 != Boolean.FALSE) {
@@ -284,7 +172,7 @@ public class srfi95 extends ModuleBody {
                     if (!x5) {
                         return x5 ? Boolean.TRUE : Boolean.FALSE;
                     }
-                    apply1 = C0620lists.cdr.apply1(apply1);
+                    apply1 = lists.cdr.apply1(apply1);
                     last = nxt2;
                 } catch (ClassCastException e4) {
                     throw new WrongType(e4, "x", -2, apply3);
@@ -299,7 +187,7 @@ public class srfi95 extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 9:
                 if (!(obj instanceof Sequence)) {
@@ -308,7 +196,7 @@ public class srfi95 extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 12:
                 if (!(obj instanceof Sequence)) {
@@ -317,7 +205,7 @@ public class srfi95 extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 14:
                 if (!(obj instanceof Sequence)) {
@@ -326,7 +214,7 @@ public class srfi95 extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             default:
                 return super.match2(moduleMethod, obj, obj2, callContext);
@@ -340,28 +228,28 @@ public class srfi95 extends ModuleBody {
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 4:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 6:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 8:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 9:
                 if (!(obj instanceof Sequence)) {
@@ -371,7 +259,7 @@ public class srfi95 extends ModuleBody {
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 11:
                 if (!(obj instanceof Sequence)) {
@@ -381,7 +269,7 @@ public class srfi95 extends ModuleBody {
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 12:
                 if (!(obj instanceof Sequence)) {
@@ -391,7 +279,7 @@ public class srfi95 extends ModuleBody {
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 14:
                 if (!(obj instanceof Sequence)) {
@@ -401,7 +289,7 @@ public class srfi95 extends ModuleBody {
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             default:
                 return super.match3(moduleMethod, obj, obj2, obj3, callContext);
@@ -412,13 +300,13 @@ public class srfi95 extends ModuleBody {
         frame frame2 = new frame();
         frame2.less$Qu = isLess;
         frame2.key = key;
-        if (C0620lists.isNull(a)) {
+        if (lists.isNull(a)) {
             return b;
         }
-        if (C0620lists.isNull(b)) {
+        if (lists.isNull(b)) {
             return a;
         }
-        return frame2.lambda1loop(C0620lists.car.apply1(a), Scheme.applyToArgs.apply2(frame2.key, C0620lists.car.apply1(a)), C0620lists.cdr.apply1(a), C0620lists.car.apply1(b), Scheme.applyToArgs.apply2(frame2.key, C0620lists.car.apply1(b)), C0620lists.cdr.apply1(b));
+        return frame2.lambda1loop(lists.car.apply1(a), Scheme.applyToArgs.apply2(frame2.key, lists.car.apply1(a)), lists.cdr.apply1(a), lists.car.apply1(b), Scheme.applyToArgs.apply2(frame2.key, lists.car.apply1(b)), lists.cdr.apply1(b));
     }
 
     public int match4(ModuleMethod moduleMethod, Object obj, Object obj2, Object obj3, Object obj4, CallContext callContext) {
@@ -429,7 +317,7 @@ public class srfi95 extends ModuleBody {
                 callContext.value3 = obj3;
                 callContext.value4 = obj4;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 4;
+                callContext.pc = 4;
                 return 0;
             case 6:
                 callContext.value1 = obj;
@@ -437,10 +325,71 @@ public class srfi95 extends ModuleBody {
                 callContext.value3 = obj3;
                 callContext.value4 = obj4;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 4;
+                callContext.pc = 4;
                 return 0;
             default:
                 return super.match4(moduleMethod, obj, obj2, obj3, obj4, callContext);
+        }
+    }
+
+    /* compiled from: srfi95.scm */
+    public class frame extends ModuleBody {
+        Object key;
+        Object less$Qu;
+
+        public Object lambda1loop(Object x, Object kx, Object a, Object y, Object ky, Object b) {
+            if (Scheme.applyToArgs.apply3(this.less$Qu, ky, kx) != Boolean.FALSE) {
+                if (lists.isNull(b)) {
+                    return lists.cons(y, lists.cons(x, a));
+                }
+                return lists.cons(y, lambda1loop(x, kx, a, lists.car.apply1(b), Scheme.applyToArgs.apply2(this.key, lists.car.apply1(b)), lists.cdr.apply1(b)));
+            } else if (lists.isNull(a)) {
+                return lists.cons(x, lists.cons(y, b));
+            } else {
+                return lists.cons(x, lambda1loop(lists.car.apply1(a), Scheme.applyToArgs.apply2(this.key, lists.car.apply1(a)), lists.cdr.apply1(a), y, ky, b));
+            }
+        }
+    }
+
+    /* compiled from: srfi95.scm */
+    public class frame1 extends ModuleBody {
+        Object key;
+        Object less$Qu;
+
+        public Object lambda3loop(Object r, Object a, Object kcara, Object b, Object kcarb) {
+            if (Scheme.applyToArgs.apply3(this.less$Qu, kcarb, kcara) != Boolean.FALSE) {
+                try {
+                    lists.setCdr$Ex((Pair) r, b);
+                    if (lists.isNull(lists.cdr.apply1(b))) {
+                        try {
+                            lists.setCdr$Ex((Pair) b, a);
+                            return Values.empty;
+                        } catch (ClassCastException e) {
+                            throw new WrongType(e, "set-cdr!", 1, b);
+                        }
+                    } else {
+                        return lambda3loop(b, a, kcara, lists.cdr.apply1(b), Scheme.applyToArgs.apply2(this.key, lists.cadr.apply1(b)));
+                    }
+                } catch (ClassCastException e2) {
+                    throw new WrongType(e2, "set-cdr!", 1, r);
+                }
+            } else {
+                try {
+                    lists.setCdr$Ex((Pair) r, a);
+                    if (lists.isNull(lists.cdr.apply1(a))) {
+                        try {
+                            lists.setCdr$Ex((Pair) a, b);
+                            return Values.empty;
+                        } catch (ClassCastException e3) {
+                            throw new WrongType(e3, "set-cdr!", 1, a);
+                        }
+                    } else {
+                        return lambda3loop(a, lists.cdr.apply1(a), Scheme.applyToArgs.apply2(this.key, lists.cadr.apply1(a)), b, kcarb);
+                    }
+                } catch (ClassCastException e4) {
+                    throw new WrongType(e4, "set-cdr!", 1, r);
+                }
+            }
         }
     }
 
@@ -448,34 +397,34 @@ public class srfi95 extends ModuleBody {
         frame1 frame12 = new frame1();
         frame12.less$Qu = isLess;
         frame12.key = key;
-        if (C0620lists.isNull(a)) {
+        if (lists.isNull(a)) {
             return b;
         }
-        if (C0620lists.isNull(b)) {
+        if (lists.isNull(b)) {
             return a;
         }
-        Object kcara = Scheme.applyToArgs.apply2(frame12.key, C0620lists.car.apply1(a));
-        Object kcarb = Scheme.applyToArgs.apply2(frame12.key, C0620lists.car.apply1(b));
+        Object kcara = Scheme.applyToArgs.apply2(frame12.key, lists.car.apply1(a));
+        Object kcarb = Scheme.applyToArgs.apply2(frame12.key, lists.car.apply1(b));
         if (Scheme.applyToArgs.apply3(frame12.less$Qu, kcarb, kcara) == Boolean.FALSE) {
-            if (C0620lists.isNull(C0620lists.cdr.apply1(a))) {
+            if (lists.isNull(lists.cdr.apply1(a))) {
                 try {
-                    C0620lists.setCdr$Ex((Pair) a, b);
+                    lists.setCdr$Ex((Pair) a, b);
                 } catch (ClassCastException e) {
                     throw new WrongType(e, "set-cdr!", 1, a);
                 }
             } else {
-                frame12.lambda3loop(a, C0620lists.cdr.apply1(a), Scheme.applyToArgs.apply2(frame12.key, C0620lists.cadr.apply1(a)), b, kcarb);
+                frame12.lambda3loop(a, lists.cdr.apply1(a), Scheme.applyToArgs.apply2(frame12.key, lists.cadr.apply1(a)), b, kcarb);
             }
             return a;
-        } else if (C0620lists.isNull(C0620lists.cdr.apply1(b))) {
+        } else if (lists.isNull(lists.cdr.apply1(b))) {
             try {
-                C0620lists.setCdr$Ex((Pair) b, a);
+                lists.setCdr$Ex((Pair) b, a);
                 return b;
             } catch (ClassCastException e2) {
                 throw new WrongType(e2, "set-cdr!", 1, b);
             }
         } else {
-            frame12.lambda3loop(b, a, kcara, C0620lists.cdr.apply1(b), Scheme.applyToArgs.apply2(frame12.key, C0620lists.cadr.apply1(b)));
+            frame12.lambda3loop(b, a, kcara, lists.cdr.apply1(b), Scheme.applyToArgs.apply2(frame12.key, lists.cadr.apply1(b)));
             return b;
         }
     }
@@ -502,29 +451,29 @@ public class srfi95 extends ModuleBody {
         frame02.less$Qu = isLess;
         frame02.keyer = Special.undefined;
         if (key != Boolean.FALSE) {
-            obj = C0620lists.car;
+            obj = lists.car;
         } else {
             obj = identity;
         }
         frame02.keyer = obj;
         if (key != Boolean.FALSE) {
             Object lst = frame02.seq;
-            while (!C0620lists.isNull(lst)) {
+            while (!lists.isNull(lst)) {
                 try {
-                    C0620lists.setCar$Ex((Pair) lst, C0620lists.cons(Scheme.applyToArgs.apply2(key, C0620lists.car.apply1(lst)), C0620lists.car.apply1(lst)));
-                    lst = C0620lists.cdr.apply1(lst);
+                    lists.setCar$Ex((Pair) lst, lists.cons(Scheme.applyToArgs.apply2(key, lists.car.apply1(lst)), lists.car.apply1(lst)));
+                    lst = lists.cdr.apply1(lst);
                 } catch (ClassCastException e) {
                     throw new WrongType(e, "set-car!", 1, lst);
                 }
             }
             Object obj2 = frame02.seq;
             try {
-                frame02.seq = frame02.lambda2step(Integer.valueOf(C0620lists.length((LList) obj2)));
+                frame02.seq = frame02.lambda2step(Integer.valueOf(lists.length((LList) obj2)));
                 Object lst2 = frame02.seq;
-                while (!C0620lists.isNull(lst2)) {
+                while (!lists.isNull(lst2)) {
                     try {
-                        C0620lists.setCar$Ex((Pair) lst2, C0620lists.cdar.apply1(lst2));
-                        lst2 = C0620lists.cdr.apply1(lst2);
+                        lists.setCar$Ex((Pair) lst2, lists.cdar.apply1(lst2));
+                        lst2 = lists.cdr.apply1(lst2);
                     } catch (ClassCastException e2) {
                         throw new WrongType(e2, "set-car!", 1, lst2);
                     }
@@ -536,9 +485,59 @@ public class srfi95 extends ModuleBody {
         } else {
             Object obj3 = frame02.seq;
             try {
-                return frame02.lambda2step(Integer.valueOf(C0620lists.length((LList) obj3)));
+                return frame02.lambda2step(Integer.valueOf(lists.length((LList) obj3)));
             } catch (ClassCastException e4) {
                 throw new WrongType(e4, PropertyTypeConstants.PROPERTY_TYPE_LENGTH, 1, obj3);
+            }
+        }
+    }
+
+    /* compiled from: srfi95.scm */
+    public class frame0 extends ModuleBody {
+        Object keyer;
+        Object less$Qu;
+        Object seq;
+
+        public Object lambda2step(Object n) {
+            if (Scheme.numGrt.apply2(n, srfi95.Lit1) != Boolean.FALSE) {
+                Object j = DivideOp.quotient.apply2(n, srfi95.Lit1);
+                return srfi95.sort$ClMerge$Ex(lambda2step(j), lambda2step(AddOp.$Mn.apply2(n, j)), this.less$Qu, this.keyer);
+            } else if (Scheme.numEqu.apply2(n, srfi95.Lit1) != Boolean.FALSE) {
+                Object x = lists.car.apply1(this.seq);
+                Object y = lists.cadr.apply1(this.seq);
+                Object p = this.seq;
+                this.seq = lists.cddr.apply1(this.seq);
+                if (Scheme.applyToArgs.apply3(this.less$Qu, Scheme.applyToArgs.apply2(this.keyer, y), Scheme.applyToArgs.apply2(this.keyer, x)) != Boolean.FALSE) {
+                    try {
+                        lists.setCar$Ex((Pair) p, y);
+                        Object apply1 = lists.cdr.apply1(p);
+                        try {
+                            lists.setCar$Ex((Pair) apply1, x);
+                        } catch (ClassCastException e) {
+                            throw new WrongType(e, "set-car!", 1, apply1);
+                        }
+                    } catch (ClassCastException e2) {
+                        throw new WrongType(e2, "set-car!", 1, p);
+                    }
+                }
+                Object apply12 = lists.cdr.apply1(p);
+                try {
+                    lists.setCdr$Ex((Pair) apply12, LList.Empty);
+                    return p;
+                } catch (ClassCastException e3) {
+                    throw new WrongType(e3, "set-cdr!", 1, apply12);
+                }
+            } else if (Scheme.numEqu.apply2(n, srfi95.Lit2) == Boolean.FALSE) {
+                return LList.Empty;
+            } else {
+                Object p2 = this.seq;
+                this.seq = lists.cdr.apply1(this.seq);
+                try {
+                    lists.setCdr$Ex((Pair) p2, LList.Empty);
+                    return p2;
+                } catch (ClassCastException e4) {
+                    throw new WrongType(e4, "set-cdr!", 1, p2);
+                }
             }
         }
     }
@@ -546,13 +545,13 @@ public class srfi95 extends ModuleBody {
     static Object rank$Mn1Array$To$List(Sequence seq) {
         Object obj = LList.Empty;
         for (int idx = seq.size() - 1; idx >= 0; idx--) {
-            obj = C0620lists.cons(seq.get(idx), obj);
+            obj = lists.cons(seq.get(idx), obj);
         }
         return obj;
     }
 
     public static Object sort$Ex(Sequence seq, Object less$Qu, Object key) {
-        if (!C0620lists.isList(seq)) {
+        if (!lists.isList(seq)) {
             return $PcVectorSort$Ex(seq, less$Qu, key);
         }
         Object ret = $PcSortList(seq, less$Qu, key);
@@ -560,21 +559,21 @@ public class srfi95 extends ModuleBody {
             return seq;
         }
         Object crt = ret;
-        while (C0620lists.cdr.apply1(crt) != seq) {
-            crt = C0620lists.cdr.apply1(crt);
+        while (lists.cdr.apply1(crt) != seq) {
+            crt = lists.cdr.apply1(crt);
         }
         try {
-            C0620lists.setCdr$Ex((Pair) crt, ret);
-            Object scar = C0620lists.car.apply1(seq);
-            Object scdr = C0620lists.cdr.apply1(seq);
+            lists.setCdr$Ex((Pair) crt, ret);
+            Object scar = lists.car.apply1(seq);
+            Object scdr = lists.cdr.apply1(seq);
             try {
-                C0620lists.setCar$Ex((Pair) seq, C0620lists.car.apply1(ret));
+                lists.setCar$Ex((Pair) seq, lists.car.apply1(ret));
                 try {
-                    C0620lists.setCdr$Ex((Pair) seq, C0620lists.cdr.apply1(ret));
+                    lists.setCdr$Ex((Pair) seq, lists.cdr.apply1(ret));
                     try {
-                        C0620lists.setCar$Ex((Pair) ret, scar);
+                        lists.setCar$Ex((Pair) ret, scar);
                         try {
-                            C0620lists.setCdr$Ex((Pair) ret, scdr);
+                            lists.setCdr$Ex((Pair) ret, scdr);
                             return seq;
                         } catch (ClassCastException e) {
                             throw new WrongType(e, "set-cdr!", 1, ret);
@@ -593,34 +592,84 @@ public class srfi95 extends ModuleBody {
         }
     }
 
-    public static Object $PcVectorSort$Ex(Sequence seq, Object less$Qu, Object key) {
-        Object sorted = $PcSortList(rank$Mn1Array$To$List(seq), less$Qu, key);
-        Object obj = Lit3;
-        while (!C0620lists.isNull(sorted)) {
-            seq.set(((Number) obj).intValue(), C0620lists.car.apply1(sorted));
-            sorted = C0620lists.cdr.apply1(sorted);
-            obj = AddOp.$Pl.apply2(obj, Lit2);
-        }
-        return seq;
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r3v0, resolved type: gnu.math.IntNum} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r3v1, resolved type: gnu.math.IntNum} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v0, resolved type: java.lang.Object} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r3v2, resolved type: gnu.math.IntNum} */
+    /* JADX WARNING: Multi-variable type inference failed */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public static java.lang.Object $PcVectorSort$Ex(gnu.lists.Sequence r5, java.lang.Object r6, java.lang.Object r7) {
+        /*
+            java.lang.Object r2 = rank$Mn1Array$To$List(r5)
+            java.lang.Object r1 = $PcSortList(r2, r6, r7)
+            gnu.math.IntNum r3 = Lit3
+        L_0x000a:
+            boolean r2 = kawa.lib.lists.isNull(r1)
+            if (r2 != 0) goto L_0x0030
+            r2 = r3
+            java.lang.Number r2 = (java.lang.Number) r2
+            int r2 = r2.intValue()
+            gnu.expr.GenericProc r4 = kawa.lib.lists.car
+            java.lang.Object r4 = r4.apply1(r1)
+            r5.set(r2, r4)
+            gnu.expr.GenericProc r2 = kawa.lib.lists.cdr
+            java.lang.Object r1 = r2.apply1(r1)
+            gnu.kawa.functions.AddOp r2 = gnu.kawa.functions.AddOp.$Pl
+            gnu.math.IntNum r4 = Lit2
+            java.lang.Object r0 = r2.apply2(r3, r4)
+            r3 = r0
+            goto L_0x000a
+        L_0x0030:
+            return r5
+        */
+        throw new UnsupportedOperationException("Method not decompiled: kawa.lib.srfi95.$PcVectorSort$Ex(gnu.lists.Sequence, java.lang.Object, java.lang.Object):java.lang.Object");
     }
 
-    public static void $PcSortVector(Sequence seq, Object less$Qu, Object key) {
-        FVector newra = vectors.makeVector(seq.size());
-        Object sorted = $PcSortList(rank$Mn1Array$To$List(seq), less$Qu, key);
-        Object obj = Lit3;
-        while (!C0620lists.isNull(sorted)) {
-            try {
-                vectors.vectorSet$Ex(newra, ((Number) obj).intValue(), C0620lists.car.apply1(sorted));
-                sorted = C0620lists.cdr.apply1(sorted);
-                obj = AddOp.$Pl.apply2(obj, Lit2);
-            } catch (ClassCastException e) {
-                throw new WrongType(e, "vector-set!", 1, obj);
-            }
-        }
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r6v0, resolved type: gnu.math.IntNum} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r6v1, resolved type: gnu.math.IntNum} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r2v0, resolved type: java.lang.Object} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r6v2, resolved type: gnu.math.IntNum} */
+    /* JADX WARNING: Multi-variable type inference failed */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public static void $PcSortVector(gnu.lists.Sequence r10, java.lang.Object r11, java.lang.Object r12) {
+        /*
+            int r1 = r10.size()
+            gnu.lists.FVector r3 = kawa.lib.vectors.makeVector(r1)
+            java.lang.Object r5 = rank$Mn1Array$To$List(r10)
+            java.lang.Object r4 = $PcSortList(r5, r11, r12)
+            gnu.math.IntNum r6 = Lit3
+        L_0x0012:
+            boolean r5 = kawa.lib.lists.isNull(r4)
+            if (r5 != 0) goto L_0x0043
+            r0 = r6
+            java.lang.Number r0 = (java.lang.Number) r0     // Catch:{ ClassCastException -> 0x0039 }
+            r5 = r0
+            int r5 = r5.intValue()     // Catch:{ ClassCastException -> 0x0039 }
+            gnu.expr.GenericProc r7 = kawa.lib.lists.car
+            java.lang.Object r7 = r7.apply1(r4)
+            kawa.lib.vectors.vectorSet$Ex(r3, r5, r7)
+            gnu.expr.GenericProc r5 = kawa.lib.lists.cdr
+            java.lang.Object r4 = r5.apply1(r4)
+            gnu.kawa.functions.AddOp r5 = gnu.kawa.functions.AddOp.$Pl
+            gnu.math.IntNum r7 = Lit2
+            java.lang.Object r2 = r5.apply2(r6, r7)
+            r6 = r2
+            goto L_0x0012
+        L_0x0039:
+            r5 = move-exception
+            gnu.mapping.WrongType r7 = new gnu.mapping.WrongType
+            java.lang.String r8 = "vector-set!"
+            r9 = 1
+            r7.<init>((java.lang.ClassCastException) r5, (java.lang.String) r8, (int) r9, (java.lang.Object) r6)
+            throw r7
+        L_0x0043:
+            return
+        */
+        throw new UnsupportedOperationException("Method not decompiled: kawa.lib.srfi95.$PcSortVector(gnu.lists.Sequence, java.lang.Object, java.lang.Object):void");
     }
 
     public static Object sort(Sequence seq, Object less$Qu, Object key) {
-        if (C0620lists.isList(seq)) {
+        if (lists.isList(seq)) {
             return $PcSortList(append.append$V(new Object[]{seq, LList.Empty}), less$Qu, key);
         }
         $PcSortVector(seq, less$Qu, key);

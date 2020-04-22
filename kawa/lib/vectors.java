@@ -1,6 +1,6 @@
 package kawa.lib;
 
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import gnu.expr.GenericProc;
 import gnu.expr.Keyword;
 import gnu.expr.ModuleBody;
@@ -76,12 +76,12 @@ public class vectors extends ModuleBody {
             case 1:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 2:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 4:
                 if (!(obj instanceof FVector)) {
@@ -89,7 +89,7 @@ public class vectors extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 7:
                 if (!(obj instanceof FVector)) {
@@ -97,7 +97,7 @@ public class vectors extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 8:
                 if (!(obj instanceof LList)) {
@@ -105,7 +105,7 @@ public class vectors extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             default:
                 return super.match1(moduleMethod, obj, callContext);
@@ -122,7 +122,7 @@ public class vectors extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 6:
                 if (!(obj instanceof FVector)) {
@@ -131,7 +131,7 @@ public class vectors extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 9:
                 if (!(obj instanceof FVector)) {
@@ -140,7 +140,7 @@ public class vectors extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             default:
                 return super.match2(moduleMethod, obj, obj2, callContext);
@@ -182,7 +182,7 @@ public class vectors extends ModuleBody {
         callContext.value2 = obj2;
         callContext.value3 = obj3;
         callContext.proc = moduleMethod;
-        callContext.f236pc = 3;
+        callContext.pc = 3;
         return 0;
     }
 
@@ -198,7 +198,7 @@ public class vectors extends ModuleBody {
             if (i < 0) {
                 return result;
             }
-            result = C0620lists.cons(vector$Mnref.apply2(vec, Integer.valueOf(i)), result);
+            result = lists.cons(vector$Mnref.apply2(vec, Integer.valueOf(i)), result);
         }
     }
 

@@ -28,7 +28,7 @@ public class CoerceNodes extends Procedure1 implements Inlineable {
         if (args.length != 1) {
             ApplyExp.compile(exp, comp, target);
         } else {
-            ConsumerTarget.compileUsingConsumer(args[0], comp, target, makeNodesMethod, null);
+            ConsumerTarget.compileUsingConsumer(args[0], comp, target, makeNodesMethod, (Method) null);
         }
     }
 

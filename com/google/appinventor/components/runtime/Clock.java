@@ -38,7 +38,7 @@ public class Clock extends AndroidNonvisibleComponent implements Component, Alar
     }
 
     public Clock() {
-        super(null);
+        super((Form) null);
         this.timerAlwaysFires = true;
         this.onScreen = false;
     }

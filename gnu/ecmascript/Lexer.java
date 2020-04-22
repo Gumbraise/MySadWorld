@@ -40,7 +40,7 @@ public class Lexer extends gnu.text.Lexer {
         synchronized (Lexer.class) {
             if (reserved == null) {
                 reserved = new Hashtable(20);
-                reserved.put("null", new QuoteExp(null));
+                reserved.put("null", new QuoteExp((Object) null));
                 reserved.put("true", new QuoteExp(Boolean.TRUE));
                 reserved.put("false", new QuoteExp(Boolean.FALSE));
                 reserved.put("var", new Reserved("var", 30));
@@ -68,6 +68,7 @@ public class Lexer extends gnu.text.Lexer {
 
     public Double getNumericLiteral(int c) throws IOException {
         int c2;
+        int next;
         double dval;
         int radix = 10;
         if (c == 48) {
@@ -121,18 +122,14 @@ public class Lexer extends gnu.text.Lexer {
                         }
                     case 69:
                     case 101:
-                        if (radix == 10) {
-                            int next = this.port.peek();
-                            if (next == 43 || next == 45 || Character.digit((char) next, 10) >= 0) {
-                                if (!digit_seen) {
-                                    error("mantissa with no digits");
-                                }
-                                exp = readOptionalExponent();
-                                c2 = read();
-                                break;
+                        if (radix == 10 && ((next = this.port.peek()) == 43 || next == 45 || Character.digit((char) next, 10) >= 0)) {
+                            if (!digit_seen) {
+                                error("mantissa with no digits");
                             }
+                            exp = readOptionalExponent();
+                            c2 = read();
+                            break;
                         }
-                        break;
                 }
             } else {
                 digit_seen = true;

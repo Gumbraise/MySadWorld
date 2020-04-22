@@ -14,7 +14,6 @@ import gnu.kawa.functions.MakeList;
 import gnu.kawa.lispexpr.LangObjType;
 import gnu.lists.Consumer;
 import gnu.lists.ConsumerWriter;
-import gnu.lists.LList;
 import gnu.mapping.CallContext;
 import gnu.mapping.MethodProc;
 import gnu.mapping.Procedure;
@@ -145,74 +144,161 @@ public class PrimProcedure extends MethodProc implements Inlineable {
         return matchN(new Object[]{arg1, arg2, arg3, arg4}, ctx);
     }
 
-    public int matchN(Object[] args, CallContext ctx) {
-        Object obj;
-        Type type;
-        int nargs = args.length;
-        boolean takesVarArgs = takesVarArgs();
-        int fixArgs = minArgs();
-        if (nargs < fixArgs) {
-            return -983040 | fixArgs;
-        }
-        if (!takesVarArgs && nargs > fixArgs) {
-            return -917504 | fixArgs;
-        }
-        int paramCount = this.argTypes.length;
-        Type elementType = null;
-        Object[] restArray = null;
-        int extraCount = (takesTarget() || isConstructor()) ? 1 : 0;
-        Object[] rargs = new Object[paramCount];
-        if (takesContext()) {
-            paramCount--;
-            rargs[paramCount] = ctx;
-        }
-        if (takesVarArgs) {
-            Type restType = this.argTypes[paramCount - 1];
-            if (restType == Compilation.scmListType || restType == LangObjType.listType) {
-                rargs[paramCount - 1] = LList.makeList(args, fixArgs);
-                int nargs2 = fixArgs;
-                elementType = Type.objectType;
-            } else {
-                elementType = ((ArrayType) restType).getComponentType();
-                restArray = (Object[]) Array.newInstance(elementType.getReflectClass(), nargs - fixArgs);
-                rargs[paramCount - 1] = restArray;
-            }
-        }
-        if (isConstructor()) {
-            obj = args[0];
-        } else if (extraCount != 0) {
-            try {
-                obj = this.method.getDeclaringClass().coerceFromObject(args[0]);
-            } catch (ClassCastException e) {
-                return -786431;
-            }
-        } else {
-            obj = null;
-        }
-        for (int i = extraCount; i < args.length; i++) {
-            Object arg = args[i];
-            if (i < fixArgs) {
-                type = this.argTypes[i - extraCount];
-            } else {
-                type = elementType;
-            }
-            if (type != Type.objectType) {
-                try {
-                    arg = type.coerceFromObject(arg);
-                } catch (ClassCastException e2) {
-                    return -786432 | (i + 1);
-                }
-            }
-            if (i < fixArgs) {
-                rargs[i - extraCount] = arg;
-            } else if (restArray != null) {
-                restArray[i - fixArgs] = arg;
-            }
-        }
-        ctx.value1 = obj;
-        ctx.values = rargs;
-        ctx.proc = this;
-        return 0;
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r12v0, resolved type: java.lang.Object[]} */
+    /* JADX WARNING: Multi-variable type inference failed */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public int matchN(java.lang.Object[] r22, gnu.mapping.CallContext r23) {
+        /*
+            r21 = this;
+            r0 = r22
+            int r10 = r0.length
+            boolean r17 = r21.takesVarArgs()
+            int r8 = r21.minArgs()
+            if (r10 >= r8) goto L_0x0012
+            r19 = -983040(0xfffffffffff10000, float:NaN)
+            r19 = r19 | r8
+        L_0x0011:
+            return r19
+        L_0x0012:
+            if (r17 != 0) goto L_0x001b
+            if (r10 <= r8) goto L_0x001b
+            r19 = -917504(0xfffffffffff20000, float:NaN)
+            r19 = r19 | r8
+            goto L_0x0011
+        L_0x001b:
+            r0 = r21
+            gnu.bytecode.Type[] r0 = r0.argTypes
+            r19 = r0
+            r0 = r19
+            int r11 = r0.length
+            r4 = 0
+            r13 = 0
+            boolean r19 = r21.takesTarget()
+            if (r19 != 0) goto L_0x0032
+            boolean r19 = r21.isConstructor()
+            if (r19 == 0) goto L_0x009d
+        L_0x0032:
+            r7 = 1
+        L_0x0033:
+            boolean r16 = r21.takesContext()
+            java.lang.Object[] r12 = new java.lang.Object[r11]
+            if (r16 == 0) goto L_0x003f
+            int r11 = r11 + -1
+            r12[r11] = r23
+        L_0x003f:
+            if (r17 == 0) goto L_0x0064
+            r0 = r21
+            gnu.bytecode.Type[] r0 = r0.argTypes
+            r19 = r0
+            int r20 = r11 + -1
+            r15 = r19[r20]
+            gnu.bytecode.ClassType r19 = gnu.expr.Compilation.scmListType
+            r0 = r19
+            if (r15 == r0) goto L_0x0057
+            gnu.kawa.lispexpr.LangObjType r19 = gnu.kawa.lispexpr.LangObjType.listType
+            r0 = r19
+            if (r15 != r0) goto L_0x009f
+        L_0x0057:
+            int r19 = r11 + -1
+            r0 = r22
+            gnu.lists.LList r20 = gnu.lists.LList.makeList(r0, r8)
+            r12[r19] = r20
+            r10 = r8
+            gnu.bytecode.ClassType r4 = gnu.bytecode.Type.objectType
+        L_0x0064:
+            boolean r19 = r21.isConstructor()
+            if (r19 == 0) goto L_0x00bd
+            r19 = 0
+            r6 = r22[r19]
+        L_0x006e:
+            r9 = r7
+        L_0x006f:
+            r0 = r22
+            int r0 = r0.length
+            r19 = r0
+            r0 = r19
+            if (r9 >= r0) goto L_0x00ed
+            r2 = r22[r9]
+            if (r9 >= r8) goto L_0x00da
+            r0 = r21
+            gnu.bytecode.Type[] r0 = r0.argTypes
+            r19 = r0
+            int r20 = r9 - r7
+            r18 = r19[r20]
+        L_0x0086:
+            gnu.bytecode.ClassType r19 = gnu.bytecode.Type.objectType
+            r0 = r18
+            r1 = r19
+            if (r0 == r1) goto L_0x0094
+            r0 = r18
+            java.lang.Object r2 = r0.coerceFromObject(r2)     // Catch:{ ClassCastException -> 0x00dd }
+        L_0x0094:
+            if (r9 >= r8) goto L_0x00e6
+            int r19 = r9 - r7
+            r12[r19] = r2
+        L_0x009a:
+            int r9 = r9 + 1
+            goto L_0x006f
+        L_0x009d:
+            r7 = 0
+            goto L_0x0033
+        L_0x009f:
+            r14 = r15
+            gnu.bytecode.ArrayType r14 = (gnu.bytecode.ArrayType) r14
+            gnu.bytecode.Type r4 = r14.getComponentType()
+            java.lang.Class r3 = r4.getReflectClass()
+            int r19 = r10 - r8
+            r0 = r19
+            java.lang.Object r19 = java.lang.reflect.Array.newInstance(r3, r0)
+            java.lang.Object[] r19 = (java.lang.Object[]) r19
+            r13 = r19
+            java.lang.Object[] r13 = (java.lang.Object[]) r13
+            int r19 = r11 + -1
+            r12[r19] = r13
+            goto L_0x0064
+        L_0x00bd:
+            if (r7 == 0) goto L_0x00d8
+            r0 = r21
+            gnu.bytecode.Method r0 = r0.method     // Catch:{ ClassCastException -> 0x00d2 }
+            r19 = r0
+            gnu.bytecode.ClassType r19 = r19.getDeclaringClass()     // Catch:{ ClassCastException -> 0x00d2 }
+            r20 = 0
+            r20 = r22[r20]     // Catch:{ ClassCastException -> 0x00d2 }
+            java.lang.Object r6 = r19.coerceFromObject(r20)     // Catch:{ ClassCastException -> 0x00d2 }
+            goto L_0x006e
+        L_0x00d2:
+            r5 = move-exception
+            r19 = -786431(0xfffffffffff40001, float:NaN)
+            goto L_0x0011
+        L_0x00d8:
+            r6 = 0
+            goto L_0x006e
+        L_0x00da:
+            r18 = r4
+            goto L_0x0086
+        L_0x00dd:
+            r5 = move-exception
+            r19 = -786432(0xfffffffffff40000, float:NaN)
+            int r20 = r9 + 1
+            r19 = r19 | r20
+            goto L_0x0011
+        L_0x00e6:
+            if (r13 == 0) goto L_0x009a
+            int r19 = r9 - r8
+            r13[r19] = r2
+            goto L_0x009a
+        L_0x00ed:
+            r0 = r23
+            r0.value1 = r6
+            r0 = r23
+            r0.values = r12
+            r0 = r21
+            r1 = r23
+            r1.proc = r0
+            r19 = 0
+            goto L_0x0011
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.expr.PrimProcedure.matchN(java.lang.Object[], gnu.mapping.CallContext):int");
     }
 
     public void apply(CallContext ctx) throws Throwable {
@@ -243,10 +329,8 @@ public class PrimProcedure extends MethodProc implements Inlineable {
                 }
                 if (is_constructor) {
                     this.member = clas.getConstructor(paramTypes);
-                } else {
-                    if (this.method != Type.clone_method) {
-                        this.member = clas.getMethod(this.method.getName(), paramTypes);
-                    }
+                } else if (this.method != Type.clone_method) {
+                    this.member = clas.getMethod(this.method.getName(), paramTypes);
                 }
             }
             if (is_constructor) {
@@ -259,16 +343,14 @@ public class PrimProcedure extends MethodProc implements Inlineable {
                     args = xargs;
                 }
                 result = ((Constructor) this.member).newInstance(args);
+            } else if (this.method == Type.clone_method) {
+                Object arr = ctx.value1;
+                Class elClass = arr.getClass().getComponentType();
+                int n = Array.getLength(arr);
+                result = Array.newInstance(elClass, n);
+                System.arraycopy(arr, 0, result, 0, n);
             } else {
-                if (this.method == Type.clone_method) {
-                    Object arr = ctx.value1;
-                    Class elClass = arr.getClass().getComponentType();
-                    int n = Array.getLength(arr);
-                    result = Array.newInstance(elClass, n);
-                    System.arraycopy(arr, 0, result, 0, n);
-                } else {
-                    result = this.retType.coerceToObject(((java.lang.reflect.Method) this.member).invoke(ctx.value1, ctx.values));
-                }
+                result = this.retType.coerceToObject(((java.lang.reflect.Method) this.member).invoke(ctx.value1, ctx.values));
             }
             if (!takesContext()) {
                 ctx.consumer.writeObject(result);
@@ -283,7 +365,7 @@ public class PrimProcedure extends MethodProc implements Inlineable {
     }
 
     public PrimProcedure(java.lang.reflect.Method method2, Language language) {
-        this(((ClassType) language.getTypeFor(method2.getDeclaringClass())).getMethod(method2), language);
+        this(((ClassType) language.getTypeFor((Class) method2.getDeclaringClass())).getMethod(method2), language);
     }
 
     public PrimProcedure(Method method2) {
@@ -387,10 +469,7 @@ public class PrimProcedure extends MethodProc implements Inlineable {
         this.method = classtype.addMethod(name, op_code2 == 184 ? 8 : 0, argTypes2, retType2);
         this.retType = retType2;
         this.argTypes = argTypes2;
-        if (op_code2 != 184) {
-            c = 'V';
-        }
-        this.mode = c;
+        this.mode = op_code2 != 184 ? 'V' : c;
     }
 
     public final boolean getStaticFlag() {
@@ -517,7 +596,7 @@ public class PrimProcedure extends MethodProc implements Inlineable {
                 xargs[0] = args[0];
                 for (int i = 1; i < nargs; i++) {
                     Expression argi = args[i];
-                    Declaration d = comp.letVariable(null, argi.getType(), argi);
+                    Declaration d = comp.letVariable((Object) null, argi.getType(), argi);
                     d.setCanRead(true);
                     xargs[i] = new ReferenceExp(d);
                 }
@@ -538,7 +617,7 @@ public class PrimProcedure extends MethodProc implements Inlineable {
         compile(mclass, exp, comp, target);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void compile(Type thisType, ApplyExp exp, Compilation comp, Target target) {
         ClassType mclass = null;
         Expression[] args = exp.getArgs();
@@ -621,7 +700,7 @@ public class PrimProcedure extends MethodProc implements Inlineable {
             code.emitStore(saveIndex);
             code.emitWithCleanupStart();
             code.emitInvokeMethod(method2, op_code2);
-            code.emitWithCleanupCatch(null);
+            code.emitWithCleanupCatch((Variable) null);
             comp.loadCallContext();
             code.emitLoad(saveIndex);
             code.emitInvokeVirtual(Compilation.typeCallContext.getDeclaredMethod("cleanupFromContext", 1));
@@ -676,91 +755,45 @@ public class PrimProcedure extends MethodProc implements Inlineable {
         }
     }
 
-    /* JADX WARNING: type inference failed for: r8v0, types: [gnu.mapping.Procedure] */
-    /* JADX WARNING: type inference failed for: r8v1, types: [java.lang.Object, gnu.mapping.Procedure] */
-    /* JADX WARNING: type inference failed for: r5v2 */
-    /* JADX WARNING: type inference failed for: r1v0 */
-    /* JADX WARNING: type inference failed for: r3v0, types: [gnu.mapping.MethodProc[]] */
-    /* JADX WARNING: type inference failed for: r8v2 */
-    /* JADX WARNING: type inference failed for: r8v3 */
-    /* JADX WARNING: type inference failed for: r7v4, types: [gnu.mapping.MethodProc] */
-    /* JADX WARNING: type inference failed for: r8v4 */
-    /* JADX WARNING: type inference failed for: r8v5 */
-    /* JADX WARNING: type inference failed for: r8v6 */
-    /* JADX WARNING: type inference failed for: r8v7 */
-    /* JADX WARNING: type inference failed for: r8v8 */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=gnu.mapping.Procedure, code=null, for r8v0, types: [gnu.mapping.Procedure] */
-    /* JADX WARNING: Multi-variable type inference failed. Error: jadx.core.utils.exceptions.JadxRuntimeException: No candidate types for var: r8v4
-      assigns: []
-      uses: []
-      mth insns count: 35
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.fillTypeCandidates(TypeSearch.java:237)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.run(TypeSearch.java:53)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.runMultiVariableSearch(TypeInferenceVisitor.java:99)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.visit(TypeInferenceVisitor.java:92)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:27)
-    	at jadx.core.dex.visitors.DepthTraversal.lambda$visit$1(DepthTraversal.java:14)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:14)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:30)
-    	at jadx.core.ProcessClass.lambda$processDependencies$0(ProcessClass.java:49)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.ProcessClass.processDependencies(ProcessClass.java:49)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:35)
-    	at jadx.api.JadxDecompiler.processClass(JadxDecompiler.java:311)
-    	at jadx.api.JavaClass.decompile(JavaClass.java:62)
-    	at jadx.api.JadxDecompiler.lambda$appendSourcesSave$0(JadxDecompiler.java:217)
-     */
-    /* JADX WARNING: Unknown variable types count: 7 */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public static gnu.expr.PrimProcedure getMethodFor(gnu.mapping.Procedure r8, gnu.expr.Declaration r9, gnu.bytecode.Type[] r10, gnu.expr.Language r11) {
-        /*
-            r6 = 0
-            boolean r7 = r8 instanceof gnu.expr.GenericProc
-            if (r7 == 0) goto L_0x0024
-            r1 = r8
-            gnu.expr.GenericProc r1 = (gnu.expr.GenericProc) r1
-            gnu.mapping.MethodProc[] r3 = r1.methods
-            r8 = 0
-            int r2 = r1.count
-        L_0x000d:
-            int r2 = r2 + -1
-            if (r2 < 0) goto L_0x0020
-            r7 = r3[r2]
-            int r0 = r7.isApplicable(r10)
-            if (r0 < 0) goto L_0x000d
-            if (r8 == 0) goto L_0x001d
-            r5 = r6
-        L_0x001c:
-            return r5
-        L_0x001d:
-            r8 = r3[r2]
-            goto L_0x000d
-        L_0x0020:
-            if (r8 != 0) goto L_0x0024
-            r5 = r6
-            goto L_0x001c
-        L_0x0024:
-            boolean r7 = r8 instanceof gnu.expr.PrimProcedure
-            if (r7 == 0) goto L_0x0031
-            r5 = r8
-            gnu.expr.PrimProcedure r5 = (gnu.expr.PrimProcedure) r5
-            int r7 = r5.isApplicable(r10)
-            if (r7 >= 0) goto L_0x001c
-        L_0x0031:
-            java.lang.Class r4 = getProcedureClass(r8)
-            if (r4 != 0) goto L_0x0039
-            r5 = r6
-            goto L_0x001c
-        L_0x0039:
-            gnu.bytecode.Type r6 = gnu.bytecode.Type.make(r4)
-            gnu.bytecode.ClassType r6 = (gnu.bytecode.ClassType) r6
-            java.lang.String r7 = r8.getName()
-            gnu.expr.PrimProcedure r5 = getMethodFor(r6, r7, r9, r10, r11)
-            goto L_0x001c
-        */
-        throw new UnsupportedOperationException("Method not decompiled: gnu.expr.PrimProcedure.getMethodFor(gnu.mapping.Procedure, gnu.expr.Declaration, gnu.bytecode.Type[], gnu.expr.Language):gnu.expr.PrimProcedure");
+    public static PrimProcedure getMethodFor(Procedure pproc, Declaration decl, Type[] atypes, Language language) {
+        Procedure pproc2;
+        boolean z = pproc instanceof GenericProc;
+        Procedure pproc3 = pproc;
+        if (z) {
+            GenericProc gproc = (GenericProc) pproc;
+            Procedure[] methods = gproc.methods;
+            Procedure pproc4 = null;
+            int i = gproc.count;
+            while (true) {
+                i--;
+                if (i >= 0) {
+                    if (methods[i].isApplicable(atypes) < 0) {
+                        pproc2 = pproc4;
+                    } else if (pproc4 != null) {
+                        return null;
+                    } else {
+                        pproc2 = methods[i];
+                    }
+                    pproc4 = pproc2;
+                } else {
+                    pproc3 = pproc4;
+                    if (pproc4 == null) {
+                        return null;
+                    }
+                }
+            }
+        }
+        if (pproc3 instanceof PrimProcedure) {
+            PrimProcedure prproc = (PrimProcedure) pproc3;
+            if (prproc.isApplicable(atypes) >= 0) {
+                return prproc;
+            }
+        }
+        Class pclass = getProcedureClass(pproc3);
+        if (pclass == null) {
+            return null;
+        }
+        return getMethodFor((ClassType) Type.make(pclass), pproc3.getName(), decl, atypes, language);
     }
 
     public static void disassemble$X(Procedure pproc, CallContext ctx) throws Exception {
@@ -773,6 +806,7 @@ public class PrimProcedure extends MethodProc implements Inlineable {
     }
 
     public static void disassemble(Procedure proc, ClassTypeWriter cwriter) throws Exception {
+        Method pmethod;
         if (proc instanceof GenericProc) {
             GenericProc gproc = (GenericProc) proc;
             int n = gproc.getMethodCount();
@@ -792,12 +826,9 @@ public class PrimProcedure extends MethodProc implements Inlineable {
         Class cl = proc.getClass();
         if (proc instanceof ModuleMethod) {
             cl = ((ModuleMethod) proc).module.getClass();
-        } else if (proc instanceof PrimProcedure) {
-            Method pmethod = ((PrimProcedure) proc).method;
-            if (pmethod != null) {
-                cl = pmethod.getDeclaringClass().getReflectClass();
-                pname = pmethod.getName();
-            }
+        } else if ((proc instanceof PrimProcedure) && (pmethod = ((PrimProcedure) proc).method) != null) {
+            cl = pmethod.getDeclaringClass().getReflectClass();
+            pname = pmethod.getName();
         }
         ClassLoader loader = cl.getClassLoader();
         String cname = cl.getName();
@@ -844,9 +875,9 @@ public class PrimProcedure extends MethodProc implements Inlineable {
             if (procClass.getClassLoader() == systemClassLoader) {
                 return procClass;
             }
+            return null;
         } catch (SecurityException e) {
         }
-        return null;
     }
 
     public static PrimProcedure getMethodFor(Class procClass, String name, Declaration decl, Expression[] args, Language language) {
@@ -866,56 +897,117 @@ public class PrimProcedure extends MethodProc implements Inlineable {
         }
     }
 
-    public static PrimProcedure getMethodFor(ClassType procClass, String name, Declaration decl, Type[] atypes, Language language) {
-        boolean isApply;
-        PrimProcedure best = null;
-        int bestCode = -1;
-        boolean bestIsApply = false;
-        if (name == null) {
-            return null;
-        }
-        try {
-            String mangledName = Compilation.mangleName(name);
-            String mangledNameV = mangledName + "$V";
-            String mangledNameVX = mangledName + "$V$X";
-            String mangledNameX = mangledName + "$X";
-            boolean applyOk = true;
-            for (Method meth = procClass.getDeclaredMethods(); meth != null; meth = meth.getNext()) {
-                if ((meth.getModifiers() & 9) == 9 || !(decl == null || decl.base == null)) {
-                    String mname = meth.getName();
-                    if (mname.equals(mangledName) || mname.equals(mangledNameV) || mname.equals(mangledNameX) || mname.equals(mangledNameVX)) {
-                        isApply = false;
-                    } else if (applyOk && (mname.equals("apply") || mname.equals("apply$V"))) {
-                        isApply = true;
-                    }
-                    if (!isApply) {
-                        applyOk = false;
-                        if (bestIsApply) {
-                            best = null;
-                            bestCode = -1;
-                            bestIsApply = false;
-                        }
-                    }
-                    PrimProcedure prproc = new PrimProcedure(meth, language);
-                    prproc.setName(name);
-                    int code = prproc.isApplicable(atypes);
-                    if (code >= 0 && code >= bestCode) {
-                        if (code > bestCode) {
-                            best = prproc;
-                        } else if (best != null) {
-                            best = (PrimProcedure) MethodProc.mostSpecific((MethodProc) best, (MethodProc) prproc);
-                            if (best == null && bestCode > 0) {
-                                return null;
-                            }
-                        }
-                        bestCode = code;
-                        bestIsApply = isApply;
-                    }
-                }
-            }
-        } catch (SecurityException e) {
-        }
-        return best;
+    /* JADX WARNING: type inference failed for: r15v13, types: [gnu.mapping.MethodProc] */
+    /* JADX WARNING: Multi-variable type inference failed */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public static gnu.expr.PrimProcedure getMethodFor(gnu.bytecode.ClassType r17, java.lang.String r18, gnu.expr.Declaration r19, gnu.bytecode.Type[] r20, gnu.expr.Language r21) {
+        /*
+            r2 = 0
+            r3 = -1
+            r4 = 0
+            if (r18 != 0) goto L_0x0007
+            r15 = 0
+        L_0x0006:
+            return r15
+        L_0x0007:
+            java.lang.String r7 = gnu.expr.Compilation.mangleName(r18)     // Catch:{ SecurityException -> 0x00ca }
+            java.lang.StringBuilder r15 = new java.lang.StringBuilder     // Catch:{ SecurityException -> 0x00ca }
+            r15.<init>()     // Catch:{ SecurityException -> 0x00ca }
+            java.lang.StringBuilder r15 = r15.append(r7)     // Catch:{ SecurityException -> 0x00ca }
+            java.lang.String r16 = "$V"
+            java.lang.StringBuilder r15 = r15.append(r16)     // Catch:{ SecurityException -> 0x00ca }
+            java.lang.String r8 = r15.toString()     // Catch:{ SecurityException -> 0x00ca }
+            java.lang.StringBuilder r15 = new java.lang.StringBuilder     // Catch:{ SecurityException -> 0x00ca }
+            r15.<init>()     // Catch:{ SecurityException -> 0x00ca }
+            java.lang.StringBuilder r15 = r15.append(r7)     // Catch:{ SecurityException -> 0x00ca }
+            java.lang.String r16 = "$V$X"
+            java.lang.StringBuilder r15 = r15.append(r16)     // Catch:{ SecurityException -> 0x00ca }
+            java.lang.String r9 = r15.toString()     // Catch:{ SecurityException -> 0x00ca }
+            java.lang.StringBuilder r15 = new java.lang.StringBuilder     // Catch:{ SecurityException -> 0x00ca }
+            r15.<init>()     // Catch:{ SecurityException -> 0x00ca }
+            java.lang.StringBuilder r15 = r15.append(r7)     // Catch:{ SecurityException -> 0x00ca }
+            java.lang.String r16 = "$X"
+            java.lang.StringBuilder r15 = r15.append(r16)     // Catch:{ SecurityException -> 0x00ca }
+            java.lang.String r10 = r15.toString()     // Catch:{ SecurityException -> 0x00ca }
+            r1 = 1
+            gnu.bytecode.Method r11 = r17.getDeclaredMethods()     // Catch:{ SecurityException -> 0x00ca }
+        L_0x0049:
+            if (r11 == 0) goto L_0x00cb
+            int r13 = r11.getModifiers()     // Catch:{ SecurityException -> 0x00ca }
+            r15 = r13 & 9
+            r16 = 9
+            r0 = r16
+            if (r15 == r0) goto L_0x0064
+            if (r19 == 0) goto L_0x005f
+            r0 = r19
+            gnu.expr.Declaration r15 = r0.base     // Catch:{ SecurityException -> 0x00ca }
+            if (r15 != 0) goto L_0x0064
+        L_0x005f:
+            gnu.bytecode.Method r11 = r11.getNext()     // Catch:{ SecurityException -> 0x00ca }
+            goto L_0x0049
+        L_0x0064:
+            java.lang.String r12 = r11.getName()     // Catch:{ SecurityException -> 0x00ca }
+            boolean r15 = r12.equals(r7)     // Catch:{ SecurityException -> 0x00ca }
+            if (r15 != 0) goto L_0x0080
+            boolean r15 = r12.equals(r8)     // Catch:{ SecurityException -> 0x00ca }
+            if (r15 != 0) goto L_0x0080
+            boolean r15 = r12.equals(r10)     // Catch:{ SecurityException -> 0x00ca }
+            if (r15 != 0) goto L_0x0080
+            boolean r15 = r12.equals(r9)     // Catch:{ SecurityException -> 0x00ca }
+            if (r15 == 0) goto L_0x00a5
+        L_0x0080:
+            r6 = 0
+        L_0x0081:
+            if (r6 != 0) goto L_0x0089
+            r1 = 0
+            if (r4 == 0) goto L_0x0089
+            r2 = 0
+            r3 = -1
+            r4 = 0
+        L_0x0089:
+            gnu.expr.PrimProcedure r14 = new gnu.expr.PrimProcedure     // Catch:{ SecurityException -> 0x00ca }
+            r0 = r21
+            r14.<init>((gnu.bytecode.Method) r11, (gnu.expr.Language) r0)     // Catch:{ SecurityException -> 0x00ca }
+            r0 = r18
+            r14.setName(r0)     // Catch:{ SecurityException -> 0x00ca }
+            r0 = r20
+            int r5 = r14.isApplicable(r0)     // Catch:{ SecurityException -> 0x00ca }
+            if (r5 < 0) goto L_0x005f
+            if (r5 < r3) goto L_0x005f
+            if (r5 <= r3) goto L_0x00b9
+            r2 = r14
+        L_0x00a2:
+            r3 = r5
+            r4 = r6
+            goto L_0x005f
+        L_0x00a5:
+            if (r1 == 0) goto L_0x005f
+            java.lang.String r15 = "apply"
+            boolean r15 = r12.equals(r15)     // Catch:{ SecurityException -> 0x00ca }
+            if (r15 != 0) goto L_0x00b7
+            java.lang.String r15 = "apply$V"
+            boolean r15 = r12.equals(r15)     // Catch:{ SecurityException -> 0x00ca }
+            if (r15 == 0) goto L_0x005f
+        L_0x00b7:
+            r6 = 1
+            goto L_0x0081
+        L_0x00b9:
+            if (r2 == 0) goto L_0x00a2
+            gnu.mapping.MethodProc r15 = gnu.mapping.MethodProc.mostSpecific((gnu.mapping.MethodProc) r2, (gnu.mapping.MethodProc) r14)     // Catch:{ SecurityException -> 0x00ca }
+            r0 = r15
+            gnu.expr.PrimProcedure r0 = (gnu.expr.PrimProcedure) r0     // Catch:{ SecurityException -> 0x00ca }
+            r2 = r0
+            if (r2 != 0) goto L_0x00a2
+            if (r3 <= 0) goto L_0x00a2
+            r15 = 0
+            goto L_0x0006
+        L_0x00ca:
+            r15 = move-exception
+        L_0x00cb:
+            r15 = r2
+            goto L_0x0006
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.expr.PrimProcedure.getMethodFor(gnu.bytecode.ClassType, java.lang.String, gnu.expr.Declaration, gnu.bytecode.Type[], gnu.expr.Language):gnu.expr.PrimProcedure");
     }
 
     public String getName() {

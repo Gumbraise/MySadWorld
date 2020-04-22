@@ -2,7 +2,7 @@ package android.support.constraint;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Build.VERSION;
+import android.os.Build;
 import android.util.AttributeSet;
 
 public class Barrier extends ConstraintHelper {
@@ -39,7 +39,7 @@ public class Barrier extends ConstraintHelper {
         boolean isRtl;
         this.mIndicatedType = type;
         this.mResolvedType = type;
-        if (VERSION.SDK_INT >= 17) {
+        if (Build.VERSION.SDK_INT >= 17) {
             if (1 == getResources().getConfiguration().getLayoutDirection()) {
                 isRtl = true;
             } else {
@@ -69,13 +69,13 @@ public class Barrier extends ConstraintHelper {
         super.init(attrs);
         this.mBarrier = new android.support.constraint.solver.widgets.Barrier();
         if (attrs != null) {
-            TypedArray a = getContext().obtainStyledAttributes(attrs, C0023R.styleable.ConstraintLayout_Layout);
+            TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.ConstraintLayout_Layout);
             int N = a.getIndexCount();
             for (int i = 0; i < N; i++) {
                 int attr = a.getIndex(i);
-                if (attr == C0023R.styleable.ConstraintLayout_Layout_barrierDirection) {
+                if (attr == R.styleable.ConstraintLayout_Layout_barrierDirection) {
                     setType(a.getInt(attr, 0));
-                } else if (attr == C0023R.styleable.ConstraintLayout_Layout_barrierAllowsGoneWidgets) {
+                } else if (attr == R.styleable.ConstraintLayout_Layout_barrierAllowsGoneWidgets) {
                     this.mBarrier.setAllowsGoneWidget(a.getBoolean(attr, true));
                 }
             }

@@ -1,15 +1,15 @@
 package com.google.appinventor.components.runtime;
 
 import android.content.Context;
-import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.p000v4.app.ActivityCompat;
-import android.support.p000v4.content.ContextCompat;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
-import android.webkit.WebStorage.QuotaUpdater;
+import android.webkit.WebStorage;
 import android.webkit.WebView;
 import com.google.appinventor.components.runtime.util.SdkLevel;
 
@@ -41,7 +41,7 @@ public final class SplashActivity extends AppInventorCompatActivity {
         public String getVersion() {
             try {
                 return this.mContext.getPackageManager().getPackageInfo(this.mContext.getPackageName(), 0).versionName;
-            } catch (NameNotFoundException e) {
+            } catch (PackageManager.NameNotFoundException e) {
                 return "Unknown";
             }
         }
@@ -68,7 +68,7 @@ public final class SplashActivity extends AppInventorCompatActivity {
         webSettings.setDomStorageEnabled(true);
         webSettings.setDatabasePath(getApplicationContext().getDir("database", 0).getPath());
         this.webview.setWebChromeClient(new WebChromeClient() {
-            public void onExceededDatabaseQuota(String url, String databaseIdentifier, long currentQuota, long estimatedSize, long totalUsedQuota, QuotaUpdater quotaUpdater) {
+            public void onExceededDatabaseQuota(String url, String databaseIdentifier, long currentQuota, long estimatedSize, long totalUsedQuota, WebStorage.QuotaUpdater quotaUpdater) {
                 quotaUpdater.updateQuota(5242880);
             }
         });

@@ -45,6 +45,7 @@ public class OutPort extends PrintConsumer implements Printable {
         this((Writer) out, out.bout, autoflush);
     }
 
+    /* JADX INFO: this call moved to the top of the method (can break code semantics) */
     protected OutPort(Writer out, boolean autoflush) {
         this(out, out instanceof OutPort ? ((OutPort) out).bout : new PrettyWriter(out, true), autoflush);
     }
@@ -66,6 +67,7 @@ public class OutPort extends PrintConsumer implements Printable {
         this((Writer) new OutputStreamWriter(out), true, path2);
     }
 
+    /* JADX INFO: this call moved to the top of the method (can break code semantics) */
     public OutPort(Writer out) {
         this(out, out instanceof OutPort ? ((OutPort) out).bout : new PrettyWriter(out, false), false);
     }

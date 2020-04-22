@@ -2,7 +2,6 @@ package com.google.appinventor.components.runtime;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
@@ -167,7 +166,7 @@ public final class Twitter extends AndroidNonvisibleComponent implements Activit
                     Twitter.this.twitter.setOAuthConsumer(myConsumerKey, myConsumerSecret);
                     RequestToken newRequestToken = Twitter.this.twitter.getOAuthRequestToken(Twitter.CALLBACK_URL);
                     String authURL = newRequestToken.getAuthorizationURL();
-                    Twitter.this.requestToken = newRequestToken;
+                    RequestToken unused = Twitter.this.requestToken = newRequestToken;
                     Intent browserIntent = new Intent("android.intent.action.MAIN", Uri.parse(authURL));
                     browserIntent.setClassName(Twitter.this.container.$context(), Twitter.WEBVIEW_ACTIVITY_CLASS);
                     Twitter.this.container.$context().startActivityForResult(browserIntent, Twitter.this.requestCode);
@@ -226,8 +225,8 @@ public final class Twitter extends AndroidNonvisibleComponent implements Activit
                     public void run() {
                         try {
                             AccessToken resultAccessToken = Twitter.this.twitter.getOAuthAccessToken(Twitter.this.requestToken, oauthVerifier);
-                            Twitter.this.accessToken = resultAccessToken;
-                            Twitter.this.userName = Twitter.this.accessToken.getScreenName();
+                            AccessToken unused = Twitter.this.accessToken = resultAccessToken;
+                            String unused2 = Twitter.this.userName = Twitter.this.accessToken.getScreenName();
                             Twitter.this.saveAccessToken(resultAccessToken);
                             Twitter.this.handler.post(new Runnable() {
                                 public void run() {
@@ -254,7 +253,7 @@ public final class Twitter extends AndroidNonvisibleComponent implements Activit
 
     /* access modifiers changed from: private */
     public void saveAccessToken(AccessToken accessToken2) {
-        Editor sharedPrefsEditor = this.sharedPreferences.edit();
+        SharedPreferences.Editor sharedPrefsEditor = this.sharedPreferences.edit();
         if (accessToken2 == null) {
             sharedPrefsEditor.remove(ACCESS_TOKEN_TAG);
             sharedPrefsEditor.remove(ACCESS_SECRET_TAG);
@@ -288,7 +287,7 @@ public final class Twitter extends AndroidNonvisibleComponent implements Activit
         this.twitter = null;
         saveAccessToken(this.accessToken);
         if (oldTwitter != null) {
-            oldTwitter.setOAuthAccessToken(null);
+            oldTwitter.setOAuthAccessToken((AccessToken) null);
         }
     }
 
@@ -355,7 +354,7 @@ public final class Twitter extends AndroidNonvisibleComponent implements Activit
                     Twitter.this.handler.post(new Runnable() {
                         public void run() {
                             Twitter.this.mentions.clear();
-                            for (Status status : C04966.this.replies) {
+                            for (Status status : AnonymousClass6.this.replies) {
                                 Twitter.this.mentions.add(status.getUser().getScreenName() + " " + status.getText());
                             }
                             Twitter.this.MentionsReceived(Twitter.this.mentions);
@@ -396,7 +395,7 @@ public final class Twitter extends AndroidNonvisibleComponent implements Activit
                     Twitter.this.handler.post(new Runnable() {
                         public void run() {
                             Twitter.this.followers.clear();
-                            for (User user : C04987.this.friends) {
+                            for (User user : AnonymousClass7.this.friends) {
                                 Twitter.this.followers.add(user.getName());
                             }
                             Twitter.this.FollowersReceived(Twitter.this.followers);
@@ -435,7 +434,7 @@ public final class Twitter extends AndroidNonvisibleComponent implements Activit
                     Twitter.this.handler.post(new Runnable() {
                         public void run() {
                             Twitter.this.directMessages.clear();
-                            for (DirectMessage message : C05008.this.messages) {
+                            for (DirectMessage message : AnonymousClass8.this.messages) {
                                 Twitter.this.directMessages.add(message.getSenderScreenName() + " " + message.getText());
                             }
                             Twitter.this.DirectMessagesReceived(Twitter.this.directMessages);
@@ -525,7 +524,7 @@ public final class Twitter extends AndroidNonvisibleComponent implements Activit
                     Twitter.this.handler.post(new Runnable() {
                         public void run() {
                             Twitter.this.timeline.clear();
-                            for (Status message : C048612.this.messages) {
+                            for (Status message : AnonymousClass12.this.messages) {
                                 List<String> status = new ArrayList<>();
                                 status.add(message.getUser().getScreenName());
                                 status.add(message.getText());
@@ -567,7 +566,7 @@ public final class Twitter extends AndroidNonvisibleComponent implements Activit
                     Twitter.this.handler.post(new Runnable() {
                         public void run() {
                             Twitter.this.searchResults.clear();
-                            for (Status tweet : C048813.this.tweets) {
+                            for (Status tweet : AnonymousClass13.this.tweets) {
                                 Twitter.this.searchResults.add(tweet.getUser().getName() + " " + tweet.getText());
                             }
                             Twitter.this.SearchSuccessful(Twitter.this.searchResults);

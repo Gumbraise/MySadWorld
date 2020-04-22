@@ -5,7 +5,6 @@ import com.google.appinventor.components.runtime.collect.Maps;
 import java.lang.ref.WeakReference;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class MemoryLeakUtil {
@@ -29,7 +28,7 @@ public class MemoryLeakUtil {
 
     public static boolean isTrackedObjectCollected(String key, boolean stopTrackingIfCollected) {
         System.gc();
-        WeakReference<Object> ref = (WeakReference) TRACKED_OBJECTS.get(key);
+        WeakReference<Object> ref = TRACKED_OBJECTS.get(key);
         if (ref != null) {
             Object o = ref.get();
             Log.i(LOG_TAG, "Object with tag " + key.substring(key.indexOf("_") + 1) + " has " + (o != null ? "not " : "") + "been garbage collected.");
@@ -50,11 +49,11 @@ public class MemoryLeakUtil {
         System.gc();
         int countRemaining = 0;
         int countCollected = 0;
-        Iterator<Entry<String, WeakReference<Object>>> it = TRACKED_OBJECTS.entrySet().iterator();
+        Iterator<Map.Entry<String, WeakReference<Object>>> it = TRACKED_OBJECTS.entrySet().iterator();
         while (it.hasNext()) {
-            Entry<String, WeakReference<Object>> entry = (Entry) it.next();
-            String key = (String) entry.getKey();
-            Object o = ((WeakReference) entry.getValue()).get();
+            Map.Entry<String, WeakReference<Object>> entry = it.next();
+            String key = entry.getKey();
+            Object o = entry.getValue().get();
             if (o != null) {
                 countRemaining++;
             } else {
@@ -64,15 +63,13 @@ public class MemoryLeakUtil {
                 }
             }
             if (verbose) {
-                String tag = key.substring(key.indexOf("_") + 1);
-                String str2 = LOG_TAG;
-                StringBuilder append = new StringBuilder().append("Object with tag ").append(tag).append(" has ");
+                StringBuilder append = new StringBuilder().append("Object with tag ").append(key.substring(key.indexOf("_") + 1)).append(" has ");
                 if (o != null) {
                     str = "not ";
                 } else {
                     str = "";
                 }
-                Log.i(str2, append.append(str).append("been garbage collected.").toString());
+                Log.i(LOG_TAG, append.append(str).append("been garbage collected.").toString());
             }
         }
         Log.i(LOG_TAG, "summary: collected " + countCollected);

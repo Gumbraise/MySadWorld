@@ -87,7 +87,7 @@ public class CommonLisp extends Lisp2 {
         this.environ = clispEnvironment;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void initLisp() {
         LocationEnumeration e = Scheme.builtin().enumerateAllLocations();
         while (e.hasMoreElements()) {

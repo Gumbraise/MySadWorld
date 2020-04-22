@@ -27,7 +27,7 @@ public class ResourceStreamHandler extends URLStreamHandler {
             cname = cname.substring(dot + 1);
         }
         sbuf.append(cname);
-        return new URL(null, sbuf.toString(), new ResourceStreamHandler(clas.getClassLoader()));
+        return new URL((URL) null, sbuf.toString(), new ResourceStreamHandler(clas.getClassLoader()));
     }
 
     public URLConnection openConnection(URL u) throws IOException {

@@ -338,8 +338,9 @@ public class FString extends SimpleVector implements Comparable, Appendable, Cha
 
     public int hashCode() {
         char[] val = this.data;
+        int len = this.size;
         int hash = 0;
-        for (int i = 0; i < this.size; i++) {
+        for (int i = 0; i < len; i++) {
             hash = (hash * 31) + val[i];
         }
         return hash;
@@ -451,10 +452,9 @@ public class FString extends SimpleVector implements Comparable, Appendable, Cha
             int i = start;
             int j = sz;
             while (i < end) {
-                int j2 = j + 1;
                 d[j] = csq.charAt(i);
                 i++;
-                j = j2;
+                j++;
             }
         }
         this.size = sz;

@@ -3,7 +3,6 @@ package com.google.appinventor.components.runtime.util;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
-import android.media.AudioManager.OnAudioFocusChangeListener;
 import android.net.http.SslError;
 import android.view.Display;
 import android.webkit.SslErrorHandler;
@@ -13,7 +12,6 @@ import com.google.appinventor.components.runtime.Component;
 import com.google.appinventor.components.runtime.EventDispatcher;
 import com.google.appinventor.components.runtime.Form;
 import com.google.appinventor.components.runtime.Player;
-import com.google.appinventor.components.runtime.Player.State;
 
 public class FroyoUtil {
     private FroyoUtil() {
@@ -28,14 +26,14 @@ public class FroyoUtil {
     }
 
     public static Object setAudioFocusChangeListener(final Player player) {
-        return new OnAudioFocusChangeListener() {
+        return new AudioManager.OnAudioFocusChangeListener() {
             private boolean playbackFlag = false;
 
             public void onAudioFocusChange(int focusChange) {
                 switch (focusChange) {
                     case -3:
                     case -2:
-                        if (player != null && player.playerState == State.PLAYING) {
+                        if (player != null && player.playerState == Player.State.PLAYING) {
                             player.pause();
                             this.playbackFlag = true;
                             return;
@@ -46,7 +44,7 @@ public class FroyoUtil {
                         player.OtherPlayerStarted();
                         return;
                     case 1:
-                        if (player != null && this.playbackFlag && player.playerState == State.PAUSED_BY_EVENT) {
+                        if (player != null && this.playbackFlag && player.playerState == Player.State.PAUSED_BY_EVENT) {
                             player.Start();
                             this.playbackFlag = false;
                             return;
@@ -60,14 +58,14 @@ public class FroyoUtil {
     }
 
     public static boolean focusRequestGranted(AudioManager am, Object afChangeListener) {
-        if (am.requestAudioFocus((OnAudioFocusChangeListener) afChangeListener, 3, 1) == 1) {
+        if (am.requestAudioFocus((AudioManager.OnAudioFocusChangeListener) afChangeListener, 3, 1) == 1) {
             return true;
         }
         return false;
     }
 
     public static void abandonFocus(AudioManager am, Object afChangeListener) {
-        am.abandonAudioFocus((OnAudioFocusChangeListener) afChangeListener);
+        am.abandonAudioFocus((AudioManager.OnAudioFocusChangeListener) afChangeListener);
     }
 
     public static WebViewClient getWebViewClient(final boolean ignoreErrors, final boolean followLinks, final Form form, final Component component) {

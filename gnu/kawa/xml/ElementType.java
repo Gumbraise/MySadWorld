@@ -9,6 +9,7 @@ import gnu.expr.Compilation;
 import gnu.expr.TypeValue;
 import gnu.lists.AbstractSequence;
 import gnu.lists.ElementPredicate;
+import gnu.mapping.Namespace;
 import gnu.mapping.Procedure;
 import gnu.mapping.Symbol;
 import gnu.xml.NamespaceBinding;
@@ -20,8 +21,8 @@ import javax.xml.namespace.QName;
 
 public class ElementType extends NodeType implements TypeValue, Externalizable, ElementPredicate {
     public static final String MATCH_ANY_LOCALNAME = "";
-    public static final Symbol MATCH_ANY_QNAME = new Symbol(null, "");
-    public static final ElementType anyElement = make(null, null);
+    public static final Symbol MATCH_ANY_QNAME = new Symbol((Namespace) null, "");
+    public static final ElementType anyElement = make((String) null, (String) null);
     static final Method coerceMethod = typeElementType.getDeclaredMethod("coerce", 3);
     static final Method coerceOrNullMethod = typeElementType.getDeclaredMethod("coerceOrNull", 3);
     public static final ClassType typeElementType = ClassType.make("gnu.kawa.xml.ElementType");
@@ -35,7 +36,7 @@ public class ElementType extends NodeType implements TypeValue, Externalizable, 
         } else if (localName == "") {
             qname2 = MATCH_ANY_QNAME;
         } else {
-            qname2 = new Symbol(null, localName);
+            qname2 = new Symbol((Namespace) null, localName);
         }
         return new ElementType(qname2);
     }
@@ -45,15 +46,33 @@ public class ElementType extends NodeType implements TypeValue, Externalizable, 
     }
 
     public ElementType(Symbol qname2) {
-        this(null, qname2);
+        this((String) null, qname2);
     }
 
-    public ElementType(String name, Symbol qname2) {
-        if (name == null || name.length() <= 0) {
-            name = "ELEMENT " + qname2 + " (*)";
-        }
-        super(name);
-        this.qname = qname2;
+    /* JADX WARNING: Illegal instructions before constructor call */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public ElementType(java.lang.String r3, gnu.mapping.Symbol r4) {
+        /*
+            r2 = this;
+            if (r3 == 0) goto L_0x000e
+            int r0 = r3.length()
+            if (r0 <= 0) goto L_0x000e
+        L_0x0008:
+            r2.<init>(r3)
+            r2.qname = r4
+            return
+        L_0x000e:
+            java.lang.StringBuilder r0 = new java.lang.StringBuilder
+            r0.<init>()
+            java.lang.String r1 = "ELEMENT "
+            java.lang.StringBuilder r0 = r0.append(r1)
+            java.lang.StringBuilder r0 = r0.append(r4)
+            java.lang.String r1 = " (*)"
+            java.lang.StringBuilder r0 = r0.append(r1)
+            java.lang.String r3 = r0.toString()
+            goto L_0x0008
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.xml.ElementType.<init>(java.lang.String, gnu.mapping.Symbol):void");
     }
 
     public Type getImplementationType() {

@@ -2,14 +2,11 @@ package com.google.appinventor.components.runtime;
 
 import android.content.Context;
 import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
-import android.media.MediaPlayer.OnErrorListener;
-import android.media.MediaPlayer.OnPreparedListener;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.view.View.MeasureSpec;
 import android.widget.MediaController;
 import android.widget.VideoView;
 import com.google.appinventor.components.annotations.DesignerComponent;
@@ -32,7 +29,7 @@ import java.io.IOException;
 @DesignerComponent(category = ComponentCategory.MEDIA, description = "A multimedia component capable of playing videos. When the application is run, the VideoPlayer will be displayed as a rectangle on-screen.  If the user touches the rectangle, controls will appear to play/pause, skip ahead, and skip backward within the video.  The application can also control behavior by calling the <code>Start</code>, <code>Pause</code>, and <code>SeekTo</code> methods.  <p>Video files should be in 3GPP (.3gp) or MPEG-4 (.mp4) formats.  For more details about legal formats, see <a href=\"http://developer.android.com/guide/appendix/media-formats.html\" target=\"_blank\">Android Supported Media Formats</a>.</p><p>App Inventor for Android only permits video files under 1 MB and limits the total size of an application to 5 MB, not all of which is available for media (video, audio, and sound) files.  If your media files are too large, you may get errors when packaging or installing your application, in which case you should reduce the number of media files or their sizes.  Most video editing software, such as Windows Movie Maker and Apple iMovie, can help you decrease the size of videos by shortening them or re-encoding the video into a more compact format.</p><p>You can also set the media source to a URL that points to a streaming video, but the URL must point to the video file itself, not to a program that plays the video.", version = 6)
 @SimpleObject
 @UsesPermissions(permissionNames = "android.permission.INTERNET")
-public final class VideoPlayer extends AndroidViewComponent implements OnDestroyListener, Deleteable, OnCompletionListener, OnErrorListener, OnPreparedListener {
+public final class VideoPlayer extends AndroidViewComponent implements OnDestroyListener, Deleteable, MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener {
     /* access modifiers changed from: private */
     public final Handler androidUIHandler = new Handler();
     private boolean delayedStart = false;
@@ -41,164 +38,6 @@ public final class VideoPlayer extends AndroidViewComponent implements OnDestroy
     private boolean mediaReady = false;
     private String sourcePath;
     private final ResizableVideoView videoView;
-
-    class ResizableVideoView extends VideoView {
-        public int forcedHeight = -1;
-        public int forcedWidth = -1;
-        private Boolean mFoundMediaPlayer = Boolean.valueOf(false);
-        private MediaPlayer mVideoPlayer;
-
-        public ResizableVideoView(Context context) {
-            super(context);
-        }
-
-        public void onMeasure(int specwidth, int specheight) {
-            onMeasure(specwidth, specheight, 0);
-        }
-
-        /* access modifiers changed from: private */
-        public void onMeasure(int specwidth, int specheight, int trycount) {
-            boolean scaleHeight = false;
-            boolean scaleWidth = false;
-            float deviceDensity = VideoPlayer.this.container.$form().deviceDensity();
-            Log.i("VideoPlayer..onMeasure", "Device Density = " + deviceDensity);
-            Log.i("VideoPlayer..onMeasure", "AI setting dimensions as:" + this.forcedWidth + ":" + this.forcedHeight);
-            Log.i("VideoPlayer..onMeasure", "Dimenions from super>>" + MeasureSpec.getSize(specwidth) + ":" + MeasureSpec.getSize(specheight));
-            int width = 176;
-            int height = 144;
-            switch (this.forcedWidth) {
-                case -2:
-                    switch (MeasureSpec.getMode(specwidth)) {
-                        case Integer.MIN_VALUE:
-                        case Declaration.MODULE_REFERENCE /*1073741824*/:
-                            width = MeasureSpec.getSize(specwidth);
-                            break;
-                        case 0:
-                            try {
-                                width = ((View) getParent()).getMeasuredWidth();
-                                break;
-                            } catch (ClassCastException e) {
-                                width = 176;
-                                break;
-                            } catch (NullPointerException e2) {
-                                width = 176;
-                                break;
-                            }
-                    }
-                case -1:
-                    if (this.mFoundMediaPlayer.booleanValue()) {
-                        try {
-                            width = this.mVideoPlayer.getVideoWidth();
-                            Log.i("VideoPlayer.onMeasure", "Got width from MediaPlayer>" + width);
-                            break;
-                        } catch (NullPointerException nullVideoPlayer) {
-                            Log.e("VideoPlayer..onMeasure", "Failed to get MediaPlayer for width:\n" + nullVideoPlayer.getMessage());
-                            width = 176;
-                            break;
-                        }
-                    }
-                    break;
-                default:
-                    scaleWidth = true;
-                    width = this.forcedWidth;
-                    break;
-            }
-            if (this.forcedWidth <= -1000) {
-                int cWidth = VideoPlayer.this.container.$form().Width();
-                if (cWidth != 0 || trycount >= 2) {
-                    width = (int) (((float) (((-(width + 1000)) * cWidth) / 100)) * deviceDensity);
-                } else {
-                    Log.d("VideoPlayer...onMeasure", "Width not stable... trying again (onMeasure " + trycount + ")");
-                    final int i = specwidth;
-                    final int i2 = specheight;
-                    final int i3 = trycount;
-                    VideoPlayer.this.androidUIHandler.postDelayed(new Runnable() {
-                        public void run() {
-                            ResizableVideoView.this.onMeasure(i, i2, i3 + 1);
-                        }
-                    }, 100);
-                    setMeasuredDimension(100, 100);
-                    return;
-                }
-            } else if (scaleWidth) {
-                width = (int) (((float) width) * deviceDensity);
-            }
-            switch (this.forcedHeight) {
-                case -2:
-                    switch (MeasureSpec.getMode(specheight)) {
-                        case Integer.MIN_VALUE:
-                        case Declaration.MODULE_REFERENCE /*1073741824*/:
-                            height = MeasureSpec.getSize(specheight);
-                            break;
-                    }
-                case -1:
-                    if (this.mFoundMediaPlayer.booleanValue()) {
-                        try {
-                            height = this.mVideoPlayer.getVideoHeight();
-                            Log.i("VideoPlayer.onMeasure", "Got height from MediaPlayer>" + height);
-                            break;
-                        } catch (NullPointerException nullVideoPlayer2) {
-                            Log.e("VideoPlayer..onMeasure", "Failed to get MediaPlayer for height:\n" + nullVideoPlayer2.getMessage());
-                            height = 144;
-                            break;
-                        }
-                    }
-                    break;
-                default:
-                    scaleHeight = true;
-                    height = this.forcedHeight;
-                    break;
-            }
-            if (this.forcedHeight <= -1000) {
-                int cHeight = VideoPlayer.this.container.$form().Height();
-                if (cHeight != 0 || trycount >= 2) {
-                    height = (int) (((float) (((-(height + 1000)) * cHeight) / 100)) * deviceDensity);
-                } else {
-                    Log.d("VideoPlayer...onMeasure", "Height not stable... trying again (onMeasure " + trycount + ")");
-                    final int i4 = specwidth;
-                    final int i5 = specheight;
-                    final int i6 = trycount;
-                    VideoPlayer.this.androidUIHandler.postDelayed(new Runnable() {
-                        public void run() {
-                            ResizableVideoView.this.onMeasure(i4, i5, i6 + 1);
-                        }
-                    }, 100);
-                    setMeasuredDimension(100, 100);
-                    return;
-                }
-            } else if (scaleHeight) {
-                height = (int) (((float) height) * deviceDensity);
-            }
-            Log.i("VideoPlayer.onMeasure", "Setting dimensions to:" + width + "x" + height);
-            getHolder().setFixedSize(width, height);
-            setMeasuredDimension(width, height);
-        }
-
-        public void changeVideoSize(int newWidth, int newHeight) {
-            this.forcedWidth = newWidth;
-            this.forcedHeight = newHeight;
-            forceLayout();
-            invalidate();
-        }
-
-        public void invalidateMediaPlayer(boolean triggerRedraw) {
-            this.mFoundMediaPlayer = Boolean.valueOf(false);
-            this.mVideoPlayer = null;
-            if (triggerRedraw) {
-                forceLayout();
-                invalidate();
-            }
-        }
-
-        public void setMediaPlayer(MediaPlayer newMediaPlayer, boolean triggerRedraw) {
-            this.mVideoPlayer = newMediaPlayer;
-            this.mFoundMediaPlayer = Boolean.valueOf(true);
-            if (triggerRedraw) {
-                forceLayout();
-                invalidate();
-            }
-        }
-    }
 
     public VideoPlayer(ComponentContainer container) {
         super(container);
@@ -250,7 +89,7 @@ public final class VideoPlayer extends AndroidViewComponent implements OnDestroy
             if (this.videoView.isPlaying()) {
                 this.videoView.stopPlayback();
             }
-            this.videoView.setVideoURI(null);
+            this.videoView.setVideoURI((Uri) null);
             this.videoView.clearAnimation();
             if (this.sourcePath.length() > 0) {
                 Log.i("VideoPlayer", "Source path is " + this.sourcePath);
@@ -271,7 +110,7 @@ public final class VideoPlayer extends AndroidViewComponent implements OnDestroy
     public void Start() {
         Log.i("VideoPlayer", "Calling Start");
         if (this.inFullScreen) {
-            this.container.$form().fullScreenVideoAction(FullScreenVideoUtil.FULLSCREEN_VIDEO_ACTION_PLAY, this, null);
+            this.container.$form().fullScreenVideoAction(FullScreenVideoUtil.FULLSCREEN_VIDEO_ACTION_PLAY, this, (Object) null);
         } else if (this.mediaReady) {
             this.videoView.start();
         } else {
@@ -297,7 +136,7 @@ public final class VideoPlayer extends AndroidViewComponent implements OnDestroy
     public void Pause() {
         Log.i("VideoPlayer", "Calling Pause");
         if (this.inFullScreen) {
-            this.container.$form().fullScreenVideoAction(FullScreenVideoUtil.FULLSCREEN_VIDEO_ACTION_PAUSE, this, null);
+            this.container.$form().fullScreenVideoAction(FullScreenVideoUtil.FULLSCREEN_VIDEO_ACTION_PAUSE, this, (Object) null);
             this.delayedStart = false;
             return;
         }
@@ -332,7 +171,7 @@ public final class VideoPlayer extends AndroidViewComponent implements OnDestroy
         if (!this.inFullScreen) {
             return this.videoView.getDuration();
         }
-        Bundle result = this.container.$form().fullScreenVideoAction(FullScreenVideoUtil.FULLSCREEN_VIDEO_ACTION_DURATION, this, null);
+        Bundle result = this.container.$form().fullScreenVideoAction(FullScreenVideoUtil.FULLSCREEN_VIDEO_ACTION_DURATION, this, (Object) null);
         if (result.getBoolean(FullScreenVideoUtil.ACTION_SUCESS)) {
             return result.getInt(FullScreenVideoUtil.ACTION_DATA);
         }
@@ -383,7 +222,7 @@ public final class VideoPlayer extends AndroidViewComponent implements OnDestroy
         if (this.videoView.isPlaying()) {
             this.videoView.stopPlayback();
         }
-        this.videoView.setVideoURI(null);
+        this.videoView.setVideoURI((Uri) null);
         this.videoView.clearAnimation();
         this.delayedStart = false;
         this.mediaReady = false;
@@ -474,5 +313,163 @@ public final class VideoPlayer extends AndroidViewComponent implements OnDestroy
 
     public int getPassedHeight() {
         return this.videoView.forcedHeight;
+    }
+
+    class ResizableVideoView extends VideoView {
+        public int forcedHeight = -1;
+        public int forcedWidth = -1;
+        private Boolean mFoundMediaPlayer = false;
+        private MediaPlayer mVideoPlayer;
+
+        public ResizableVideoView(Context context) {
+            super(context);
+        }
+
+        public void onMeasure(int specwidth, int specheight) {
+            onMeasure(specwidth, specheight, 0);
+        }
+
+        /* access modifiers changed from: private */
+        public void onMeasure(int specwidth, int specheight, int trycount) {
+            boolean scaleHeight = false;
+            boolean scaleWidth = false;
+            float deviceDensity = VideoPlayer.this.container.$form().deviceDensity();
+            Log.i("VideoPlayer..onMeasure", "Device Density = " + deviceDensity);
+            Log.i("VideoPlayer..onMeasure", "AI setting dimensions as:" + this.forcedWidth + ":" + this.forcedHeight);
+            Log.i("VideoPlayer..onMeasure", "Dimenions from super>>" + View.MeasureSpec.getSize(specwidth) + ":" + View.MeasureSpec.getSize(specheight));
+            int width = 176;
+            int height = 144;
+            switch (this.forcedWidth) {
+                case -2:
+                    switch (View.MeasureSpec.getMode(specwidth)) {
+                        case Integer.MIN_VALUE:
+                        case Declaration.MODULE_REFERENCE /*1073741824*/:
+                            width = View.MeasureSpec.getSize(specwidth);
+                            break;
+                        case 0:
+                            try {
+                                width = ((View) getParent()).getMeasuredWidth();
+                                break;
+                            } catch (ClassCastException e) {
+                                width = 176;
+                                break;
+                            } catch (NullPointerException e2) {
+                                width = 176;
+                                break;
+                            }
+                    }
+                case -1:
+                    if (this.mFoundMediaPlayer.booleanValue()) {
+                        try {
+                            width = this.mVideoPlayer.getVideoWidth();
+                            Log.i("VideoPlayer.onMeasure", "Got width from MediaPlayer>" + width);
+                            break;
+                        } catch (NullPointerException nullVideoPlayer) {
+                            Log.e("VideoPlayer..onMeasure", "Failed to get MediaPlayer for width:\n" + nullVideoPlayer.getMessage());
+                            width = 176;
+                            break;
+                        }
+                    }
+                    break;
+                default:
+                    scaleWidth = true;
+                    width = this.forcedWidth;
+                    break;
+            }
+            if (this.forcedWidth <= -1000) {
+                int cWidth = VideoPlayer.this.container.$form().Width();
+                if (cWidth != 0 || trycount >= 2) {
+                    width = (int) (((float) (((-(width + 1000)) * cWidth) / 100)) * deviceDensity);
+                } else {
+                    Log.d("VideoPlayer...onMeasure", "Width not stable... trying again (onMeasure " + trycount + ")");
+                    final int i = specwidth;
+                    final int i2 = specheight;
+                    final int i3 = trycount;
+                    VideoPlayer.this.androidUIHandler.postDelayed(new Runnable() {
+                        public void run() {
+                            ResizableVideoView.this.onMeasure(i, i2, i3 + 1);
+                        }
+                    }, 100);
+                    setMeasuredDimension(100, 100);
+                    return;
+                }
+            } else if (scaleWidth) {
+                width = (int) (((float) width) * deviceDensity);
+            }
+            switch (this.forcedHeight) {
+                case -2:
+                    switch (View.MeasureSpec.getMode(specheight)) {
+                        case Integer.MIN_VALUE:
+                        case Declaration.MODULE_REFERENCE /*1073741824*/:
+                            height = View.MeasureSpec.getSize(specheight);
+                            break;
+                    }
+                case -1:
+                    if (this.mFoundMediaPlayer.booleanValue()) {
+                        try {
+                            height = this.mVideoPlayer.getVideoHeight();
+                            Log.i("VideoPlayer.onMeasure", "Got height from MediaPlayer>" + height);
+                            break;
+                        } catch (NullPointerException nullVideoPlayer2) {
+                            Log.e("VideoPlayer..onMeasure", "Failed to get MediaPlayer for height:\n" + nullVideoPlayer2.getMessage());
+                            height = 144;
+                            break;
+                        }
+                    }
+                    break;
+                default:
+                    scaleHeight = true;
+                    height = this.forcedHeight;
+                    break;
+            }
+            if (this.forcedHeight <= -1000) {
+                int cHeight = VideoPlayer.this.container.$form().Height();
+                if (cHeight != 0 || trycount >= 2) {
+                    height = (int) (((float) (((-(height + 1000)) * cHeight) / 100)) * deviceDensity);
+                } else {
+                    Log.d("VideoPlayer...onMeasure", "Height not stable... trying again (onMeasure " + trycount + ")");
+                    final int i4 = specwidth;
+                    final int i5 = specheight;
+                    final int i6 = trycount;
+                    VideoPlayer.this.androidUIHandler.postDelayed(new Runnable() {
+                        public void run() {
+                            ResizableVideoView.this.onMeasure(i4, i5, i6 + 1);
+                        }
+                    }, 100);
+                    setMeasuredDimension(100, 100);
+                    return;
+                }
+            } else if (scaleHeight) {
+                height = (int) (((float) height) * deviceDensity);
+            }
+            Log.i("VideoPlayer.onMeasure", "Setting dimensions to:" + width + "x" + height);
+            getHolder().setFixedSize(width, height);
+            setMeasuredDimension(width, height);
+        }
+
+        public void changeVideoSize(int newWidth, int newHeight) {
+            this.forcedWidth = newWidth;
+            this.forcedHeight = newHeight;
+            forceLayout();
+            invalidate();
+        }
+
+        public void invalidateMediaPlayer(boolean triggerRedraw) {
+            this.mFoundMediaPlayer = false;
+            this.mVideoPlayer = null;
+            if (triggerRedraw) {
+                forceLayout();
+                invalidate();
+            }
+        }
+
+        public void setMediaPlayer(MediaPlayer newMediaPlayer, boolean triggerRedraw) {
+            this.mVideoPlayer = newMediaPlayer;
+            this.mFoundMediaPlayer = true;
+            if (triggerRedraw) {
+                forceLayout();
+                invalidate();
+            }
+        }
     }
 }

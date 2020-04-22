@@ -56,7 +56,7 @@ public class TracedProcedure extends ProcedureN {
             return this.proc.applyN(args);
         }
         Location curIndentLoc = Environment.getCurrent().getLocation(curIndentSym);
-        Object oldIndent = curIndentLoc.get(null);
+        Object oldIndent = curIndentLoc.get((Object) null);
         if (!(oldIndent instanceof IntNum)) {
             curIndent = 0;
             curIndentLoc.set(IntNum.zero());

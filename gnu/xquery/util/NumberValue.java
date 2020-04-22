@@ -1,5 +1,6 @@
 package gnu.xquery.util;
 
+import android.support.v7.widget.ActivityChooserView;
 import gnu.kawa.functions.Arithmetic;
 import gnu.kawa.xml.KNode;
 import gnu.kawa.xml.UntypedAtomic;
@@ -93,7 +94,7 @@ public class NumberValue extends Procedure1 {
             Float d2 = (Float) value2;
             int bits2 = Float.floatToRawIntBits(d2.floatValue());
             if (bits2 < 0) {
-                return Float.valueOf(Float.intBitsToFloat(bits2 & ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED));
+                return Float.valueOf(Float.intBitsToFloat(bits2 & ActivityChooserView.ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED));
             }
             return d2;
         } else if (!(value2 instanceof BigDecimal)) {

@@ -157,31 +157,52 @@ public class ActivityStarter extends AndroidNonvisibleComponent implements Activ
         EventDispatcher.dispatchEvent(this, "ActivityCanceled", new Object[0]);
     }
 
-    @SimpleProperty(category = PropertyCategory.BEHAVIOR)
-    public String ResultType() {
-        if (this.resultIntent != null) {
-            String resultType = this.resultIntent.getType();
-            if (resultType != null) {
-                return resultType;
-            }
-        }
-        return "";
+    /* JADX WARNING: Code restructure failed: missing block: B:2:0x0004, code lost:
+        r0 = r2.resultIntent.getType();
+     */
+    @com.google.appinventor.components.annotations.SimpleProperty(category = com.google.appinventor.components.annotations.PropertyCategory.BEHAVIOR)
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public java.lang.String ResultType() {
+        /*
+            r2 = this;
+            android.content.Intent r1 = r2.resultIntent
+            if (r1 == 0) goto L_0x000d
+            android.content.Intent r1 = r2.resultIntent
+            java.lang.String r0 = r1.getType()
+            if (r0 == 0) goto L_0x000d
+        L_0x000c:
+            return r0
+        L_0x000d:
+            java.lang.String r0 = ""
+            goto L_0x000c
+        */
+        throw new UnsupportedOperationException("Method not decompiled: com.google.appinventor.components.runtime.ActivityStarter.ResultType():java.lang.String");
     }
 
-    @SimpleProperty(category = PropertyCategory.BEHAVIOR)
-    public String ResultUri() {
-        if (this.resultIntent != null) {
-            String resultUri = this.resultIntent.getDataString();
-            if (resultUri != null) {
-                return resultUri;
-            }
-        }
-        return "";
+    /* JADX WARNING: Code restructure failed: missing block: B:2:0x0004, code lost:
+        r0 = r2.resultIntent.getDataString();
+     */
+    @com.google.appinventor.components.annotations.SimpleProperty(category = com.google.appinventor.components.annotations.PropertyCategory.BEHAVIOR)
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public java.lang.String ResultUri() {
+        /*
+            r2 = this;
+            android.content.Intent r1 = r2.resultIntent
+            if (r1 == 0) goto L_0x000d
+            android.content.Intent r1 = r2.resultIntent
+            java.lang.String r0 = r1.getDataString()
+            if (r0 == 0) goto L_0x000d
+        L_0x000c:
+            return r0
+        L_0x000d:
+            java.lang.String r0 = ""
+            goto L_0x000c
+        */
+        throw new UnsupportedOperationException("Method not decompiled: com.google.appinventor.components.runtime.ActivityStarter.ResultUri():java.lang.String");
     }
 
     @SimpleProperty
     public void Extras(YailList pairs) {
-        Object[] array;
         for (Object pair : pairs.toArray()) {
             boolean isYailList = pair instanceof YailList;
             boolean isPair = isYailList ? ((YailList) pair).size() == 2 : false;
@@ -259,10 +280,8 @@ public class ActivityStarter extends AndroidNonvisibleComponent implements Activ
             Log.i(LOG_TAG, "Adding extra, key = " + this.extraKey + " value = " + this.extraValue);
             intent.putExtra(this.extraKey, this.extraValue);
         }
-        Object[] array = this.extras.toArray();
-        int length = array.length;
-        for (int i = 0; i < length; i++) {
-            YailList castExtra = (YailList) array[i];
+        for (Object extra : this.extras.toArray()) {
+            YailList castExtra = (YailList) extra;
             String key = castExtra.getString(0);
             Object value = castExtra.getObject(1);
             Log.i(LOG_TAG, "Adding extra, key = " + key + " value = " + value);

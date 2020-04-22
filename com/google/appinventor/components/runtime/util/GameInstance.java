@@ -49,7 +49,7 @@ public class GameInstance {
 
     public String getMessageTime(String type) {
         if (this.messageTimes.containsKey(type)) {
-            return (String) this.messageTimes.get(type);
+            return this.messageTimes.get(type);
         }
         return "";
     }

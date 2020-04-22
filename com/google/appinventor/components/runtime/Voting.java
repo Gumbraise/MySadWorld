@@ -18,6 +18,7 @@ import com.google.appinventor.components.runtime.util.AsynchUtil;
 import com.google.appinventor.components.runtime.util.WebServiceUtil;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,9 +47,9 @@ public class Voting extends AndroidNonvisibleComponent implements Component {
     /* access modifiers changed from: private */
     public String ballotQuestion = "";
     /* access modifiers changed from: private */
-    public Boolean idRequested = Boolean.valueOf(false);
+    public Boolean idRequested = false;
     /* access modifiers changed from: private */
-    public Boolean isPolling = Boolean.valueOf(false);
+    public Boolean isPolling = false;
     private String serviceURL = "http://androvote.appspot.com";
     private ComponentContainer theContainer;
     /* access modifiers changed from: private */
@@ -120,7 +121,7 @@ public class Voting extends AndroidNonvisibleComponent implements Component {
 
     /* access modifiers changed from: private */
     public void postRequestBallot() {
-        WebServiceUtil.getInstance().postCommandReturningObject(this.serviceURL, REQUESTBALLOT_COMMAND, null, new AsyncCallbackPair<JSONObject>() {
+        WebServiceUtil.getInstance().postCommandReturningObject(this.serviceURL, REQUESTBALLOT_COMMAND, (List<NameValuePair>) null, new AsyncCallbackPair<JSONObject>() {
             public void onSuccess(JSONObject result) {
                 if (result == null) {
                     Voting.this.androidUIHandler.post(new Runnable() {
@@ -132,12 +133,12 @@ public class Voting extends AndroidNonvisibleComponent implements Component {
                 }
                 try {
                     Log.i(Voting.LOG_TAG, "postRequestBallot: ballot retrieved " + result);
-                    Voting.this.isPolling = Boolean.valueOf(result.getBoolean(Voting.IS_POLLING_PARAMETER));
+                    Boolean unused = Voting.this.isPolling = Boolean.valueOf(result.getBoolean(Voting.IS_POLLING_PARAMETER));
                     if (Voting.this.isPolling.booleanValue()) {
-                        Voting.this.idRequested = Boolean.valueOf(result.getBoolean(Voting.ID_REQUESTED_PARAMETER));
-                        Voting.this.ballotQuestion = result.getString(Voting.BALLOT_QUESTION_PARAMETER);
-                        Voting.this.ballotOptionsString = result.getString(Voting.BALLOT_OPTIONS_PARAMETER);
-                        Voting.this.ballotOptions = Voting.this.JSONArrayToArrayList(new JSONArray(Voting.this.ballotOptionsString));
+                        Boolean unused2 = Voting.this.idRequested = Boolean.valueOf(result.getBoolean(Voting.ID_REQUESTED_PARAMETER));
+                        String unused3 = Voting.this.ballotQuestion = result.getString(Voting.BALLOT_QUESTION_PARAMETER);
+                        String unused4 = Voting.this.ballotOptionsString = result.getString(Voting.BALLOT_OPTIONS_PARAMETER);
+                        ArrayList unused5 = Voting.this.ballotOptions = Voting.this.JSONArrayToArrayList(new JSONArray(Voting.this.ballotOptionsString));
                         Voting.this.androidUIHandler.post(new Runnable() {
                             public void run() {
                                 Voting.this.GotBallot();

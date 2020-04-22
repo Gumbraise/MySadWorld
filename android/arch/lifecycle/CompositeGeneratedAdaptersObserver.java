@@ -1,10 +1,9 @@
 package android.arch.lifecycle;
 
-import android.arch.lifecycle.Lifecycle.Event;
+import android.arch.lifecycle.Lifecycle;
 import android.support.annotation.RestrictTo;
-import android.support.annotation.RestrictTo.Scope;
 
-@RestrictTo({Scope.LIBRARY_GROUP})
+@RestrictTo({RestrictTo.Scope.LIBRARY_GROUP})
 public class CompositeGeneratedAdaptersObserver implements GenericLifecycleObserver {
     private final GeneratedAdapter[] mGeneratedAdapters;
 
@@ -12,7 +11,7 @@ public class CompositeGeneratedAdaptersObserver implements GenericLifecycleObser
         this.mGeneratedAdapters = generatedAdapters;
     }
 
-    public void onStateChanged(LifecycleOwner source, Event event) {
+    public void onStateChanged(LifecycleOwner source, Lifecycle.Event event) {
         MethodCallsLogger logger = new MethodCallsLogger();
         for (GeneratedAdapter mGenerated : this.mGeneratedAdapters) {
             mGenerated.callMethods(source, event, false, logger);

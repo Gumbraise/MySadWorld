@@ -43,7 +43,7 @@ public class TelnetOutputStream extends FilterOutputStream {
     }
 
     public final void writeDo(int option) throws IOException {
-        writeCommand(Telnet.f250DO, option);
+        writeCommand(Telnet.DO, option);
     }
 
     public final void writeDont(int option) throws IOException {

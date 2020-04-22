@@ -10,57 +10,9 @@ public class ViewModelProvider {
     private final Factory mFactory;
     private final ViewModelStore mViewModelStore;
 
-    public static class AndroidViewModelFactory extends NewInstanceFactory {
-        private static AndroidViewModelFactory sInstance;
-        private Application mApplication;
-
-        @NonNull
-        public static AndroidViewModelFactory getInstance(@NonNull Application application) {
-            if (sInstance == null) {
-                sInstance = new AndroidViewModelFactory(application);
-            }
-            return sInstance;
-        }
-
-        public AndroidViewModelFactory(@NonNull Application application) {
-            this.mApplication = application;
-        }
-
-        @NonNull
-        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-            if (!AndroidViewModel.class.isAssignableFrom(modelClass)) {
-                return super.create(modelClass);
-            }
-            try {
-                return (ViewModel) modelClass.getConstructor(new Class[]{Application.class}).newInstance(new Object[]{this.mApplication});
-            } catch (NoSuchMethodException e) {
-                throw new RuntimeException("Cannot create an instance of " + modelClass, e);
-            } catch (IllegalAccessException e2) {
-                throw new RuntimeException("Cannot create an instance of " + modelClass, e2);
-            } catch (InstantiationException e3) {
-                throw new RuntimeException("Cannot create an instance of " + modelClass, e3);
-            } catch (InvocationTargetException e4) {
-                throw new RuntimeException("Cannot create an instance of " + modelClass, e4);
-            }
-        }
-    }
-
     public interface Factory {
         @NonNull
         <T extends ViewModel> T create(@NonNull Class<T> cls);
-    }
-
-    public static class NewInstanceFactory implements Factory {
-        @NonNull
-        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-            try {
-                return (ViewModel) modelClass.newInstance();
-            } catch (InstantiationException e) {
-                throw new RuntimeException("Cannot create an instance of " + modelClass, e);
-            } catch (IllegalAccessException e2) {
-                throw new RuntimeException("Cannot create an instance of " + modelClass, e2);
-            }
-        }
     }
 
     public ViewModelProvider(@NonNull ViewModelStoreOwner owner, @NonNull Factory factory) {
@@ -94,5 +46,53 @@ public class ViewModelProvider {
         ViewModel viewModel2 = this.mFactory.create(modelClass);
         this.mViewModelStore.put(key, viewModel2);
         return viewModel2;
+    }
+
+    public static class NewInstanceFactory implements Factory {
+        @NonNull
+        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+            try {
+                return (ViewModel) modelClass.newInstance();
+            } catch (InstantiationException e) {
+                throw new RuntimeException("Cannot create an instance of " + modelClass, e);
+            } catch (IllegalAccessException e2) {
+                throw new RuntimeException("Cannot create an instance of " + modelClass, e2);
+            }
+        }
+    }
+
+    public static class AndroidViewModelFactory extends NewInstanceFactory {
+        private static AndroidViewModelFactory sInstance;
+        private Application mApplication;
+
+        @NonNull
+        public static AndroidViewModelFactory getInstance(@NonNull Application application) {
+            if (sInstance == null) {
+                sInstance = new AndroidViewModelFactory(application);
+            }
+            return sInstance;
+        }
+
+        public AndroidViewModelFactory(@NonNull Application application) {
+            this.mApplication = application;
+        }
+
+        @NonNull
+        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+            if (!AndroidViewModel.class.isAssignableFrom(modelClass)) {
+                return super.create(modelClass);
+            }
+            try {
+                return (ViewModel) modelClass.getConstructor(new Class[]{Application.class}).newInstance(new Object[]{this.mApplication});
+            } catch (NoSuchMethodException e) {
+                throw new RuntimeException("Cannot create an instance of " + modelClass, e);
+            } catch (IllegalAccessException e2) {
+                throw new RuntimeException("Cannot create an instance of " + modelClass, e2);
+            } catch (InstantiationException e3) {
+                throw new RuntimeException("Cannot create an instance of " + modelClass, e3);
+            } catch (InvocationTargetException e4) {
+                throw new RuntimeException("Cannot create an instance of " + modelClass, e4);
+            }
+        }
     }
 }

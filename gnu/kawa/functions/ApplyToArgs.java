@@ -104,11 +104,10 @@ public class ApplyToArgs extends ProcedureN {
         if (code != 0) {
             Procedure proc = this;
             if (args.length > 0 && (args[0] instanceof Procedure)) {
-                Procedure proc2 = args[0];
+                proc = args[0];
                 Object[] xargs = new Object[(args.length - 1)];
                 System.arraycopy(args, 1, xargs, 0, xargs.length);
                 args = xargs;
-                proc = proc2;
             }
             throw MethodProc.matchFailAsException(code, proc, args);
         }

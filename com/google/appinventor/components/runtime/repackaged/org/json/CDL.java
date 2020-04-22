@@ -40,17 +40,18 @@ public class CDL {
         while (true) {
             String value = getValue(x);
             char c = x.next();
-            if (value != null && (ja.length() != 0 || value.length() != 0 || c == ',')) {
-                ja.put((Object) value);
-                while (true) {
-                    if (c != ',') {
-                        if (c == ' ') {
-                            c = x.next();
-                        } else if (c == 10 || c == 13 || c == 0) {
-                            return ja;
-                        } else {
-                            throw x.syntaxError(new StringBuffer().append("Bad character '").append(c).append("' (").append(c).append(").").toString());
-                        }
+            if (value == null || (ja.length() == 0 && value.length() == 0 && c != ',')) {
+                return null;
+            }
+            ja.put((Object) value);
+            while (true) {
+                if (c != ',') {
+                    if (c == ' ') {
+                        c = x.next();
+                    } else if (c == 10 || c == 13 || c == 0) {
+                        return ja;
+                    } else {
+                        throw x.syntaxError(new StringBuffer().append("Bad character '").append(c).append("' (").append(c).append(").").toString());
                     }
                 }
             }
@@ -125,14 +126,12 @@ public class CDL {
     }
 
     public static String toString(JSONArray ja) throws JSONException {
+        JSONArray names;
         JSONObject jo = ja.optJSONObject(0);
-        if (jo != null) {
-            JSONArray names = jo.names();
-            if (names != null) {
-                return new StringBuffer().append(rowToString(names)).append(toString(names, ja)).toString();
-            }
+        if (jo == null || (names = jo.names()) == null) {
+            return null;
         }
-        return null;
+        return new StringBuffer().append(rowToString(names)).append(toString(names, ja)).toString();
     }
 
     public static String toString(JSONArray names, JSONArray ja) throws JSONException {

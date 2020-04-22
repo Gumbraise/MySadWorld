@@ -209,8 +209,7 @@ public class Huff implements None, PostMortem {
     }
 
     public void tick(int value) {
-        Symbol symbol = this.symbols[value];
-        symbol.weight++;
+        this.symbols[value].weight++;
         this.upToDate = false;
     }
 

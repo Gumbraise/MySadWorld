@@ -10,71 +10,6 @@ import gnu.mapping.Symbol;
 public class SyntaxForms {
     public static final boolean DEBUGGING = true;
 
-    static class PairSyntaxForm extends ImmutablePair implements SyntaxForm {
-        private Pair datum;
-        private TemplateScope scope;
-
-        public PairSyntaxForm(Pair datum2, TemplateScope scope2) {
-            this.datum = datum2;
-            this.scope = scope2;
-        }
-
-        public Object getDatum() {
-            return this.datum;
-        }
-
-        public TemplateScope getScope() {
-            return this.scope;
-        }
-
-        public Object getCar() {
-            if (this.car == null) {
-                this.car = SyntaxForms.makeForm(this.datum.getCar(), this.scope);
-            }
-            return this.car;
-        }
-
-        public Object getCdr() {
-            if (this.cdr == null) {
-                this.cdr = SyntaxForms.makeForm(this.datum.getCdr(), this.scope);
-            }
-            return this.cdr;
-        }
-
-        public String toString() {
-            return SyntaxForms.toString(this, null);
-        }
-    }
-
-    static class SimpleSyntaxForm implements SyntaxForm {
-        static int counter;
-        private Object datum;
-
-        /* renamed from: id */
-        int f257id;
-        private TemplateScope scope;
-
-        SimpleSyntaxForm(Object datum2, TemplateScope scope2) {
-            int i = counter + 1;
-            counter = i;
-            this.f257id = i;
-            this.datum = datum2;
-            this.scope = scope2;
-        }
-
-        public Object getDatum() {
-            return this.datum;
-        }
-
-        public TemplateScope getScope() {
-            return this.scope;
-        }
-
-        public String toString() {
-            return SyntaxForms.toString(this, Integer.toString(this.f257id));
-        }
-    }
-
     public static Object makeForm(Object datum, TemplateScope scope) {
         if (datum instanceof Pair) {
             return new PairSyntaxForm((Pair) datum, scope);
@@ -140,9 +75,72 @@ public class SyntaxForms {
             sbuf.append(" in null");
         } else {
             sbuf.append(" in #");
-            sbuf.append(scope.f57id);
+            sbuf.append(scope.id);
         }
         sbuf.append(">");
         return sbuf.toString();
+    }
+
+    static class SimpleSyntaxForm implements SyntaxForm {
+        static int counter;
+        private Object datum;
+        int id;
+        private TemplateScope scope;
+
+        SimpleSyntaxForm(Object datum2, TemplateScope scope2) {
+            int i = counter + 1;
+            counter = i;
+            this.id = i;
+            this.datum = datum2;
+            this.scope = scope2;
+        }
+
+        public Object getDatum() {
+            return this.datum;
+        }
+
+        public TemplateScope getScope() {
+            return this.scope;
+        }
+
+        public String toString() {
+            return SyntaxForms.toString(this, Integer.toString(this.id));
+        }
+    }
+
+    static class PairSyntaxForm extends ImmutablePair implements SyntaxForm {
+        private Pair datum;
+        private TemplateScope scope;
+
+        public PairSyntaxForm(Pair datum2, TemplateScope scope2) {
+            this.datum = datum2;
+            this.scope = scope2;
+        }
+
+        public Object getDatum() {
+            return this.datum;
+        }
+
+        public TemplateScope getScope() {
+            return this.scope;
+        }
+
+        public Object getCar() {
+            if (this.car == null) {
+                this.car = SyntaxForms.makeForm(this.datum.getCar(), this.scope);
+            }
+            return this.car;
+        }
+
+        public Object getCdr() {
+            if (this.cdr == null) {
+                this.cdr = SyntaxForms.makeForm(this.datum.getCdr(), this.scope);
+            }
+            return this.cdr;
+        }
+
+        public String toString() {
+            return SyntaxForms.toString(this, (String) null);
+        }
     }
 }

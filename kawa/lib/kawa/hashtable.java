@@ -1,6 +1,6 @@
 package kawa.lib.kawa;
 
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import gnu.expr.ModuleBody;
 import gnu.expr.ModuleInfo;
 import gnu.expr.ModuleMethod;
@@ -19,7 +19,7 @@ import gnu.mapping.Procedure;
 import gnu.mapping.SimpleSymbol;
 import gnu.mapping.Values;
 import gnu.mapping.WrongType;
-import kawa.lib.C0620lists;
+import kawa.lib.lists;
 import kawa.lib.misc;
 import kawa.standard.thisRef;
 
@@ -33,6 +33,18 @@ public class hashtable extends ModuleBody {
     static final SimpleSymbol Lit1 = ((SimpleSymbol) new SimpleSymbol("hashtable-check-mutable").readResolve());
     public static final Class hashtable = HashTable.class;
     public static final ModuleMethod hashtable$Mncheck$Mnmutable = new ModuleMethod($instance, 1, Lit1, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+
+    public hashtable() {
+        ModuleInfo.register(this);
+    }
+
+    public final void run(CallContext $ctx) {
+        Consumer consumer = $ctx.consumer;
+    }
+
+    static {
+        $instance.run();
+    }
 
     /* compiled from: hashtable.scm */
     public class HashTable extends GeneralHashTable {
@@ -137,7 +149,7 @@ public class hashtable extends ModuleBody {
                         node = getEntryNext(node);
                     }
                 }
-                return C0620lists.cons(keys, vals);
+                return lists.cons(keys, vals);
             } catch (ClassCastException e) {
                 throw new WrongType(e, "table", -2, (Object) entryArr);
             }
@@ -151,7 +163,7 @@ public class hashtable extends ModuleBody {
                 for (int i = table.length - 1; i >= 0; i--) {
                     HashNode node = table[i];
                     while (node != null) {
-                        result = C0620lists.cons(C0620lists.cons(node.getKey(), node.getValue()), result);
+                        result = lists.cons(lists.cons(node.getKey(), node.getValue()), result);
                         node = getEntryNext(node);
                     }
                 }
@@ -166,16 +178,16 @@ public class hashtable extends ModuleBody {
             Entry[] entryArr = this.table;
             try {
                 HashNode[] table = (HashNode[]) entryArr;
-                LList lList = result;
+                Pair pair = result;
                 for (int i = table.length - 1; i >= 0; i--) {
                     HashNode node = table[i];
                     while (node != null) {
-                        Pair result2 = C0620lists.cons(node, lList);
+                        Pair result2 = lists.cons(node, pair);
                         node = getEntryNext(node);
-                        lList = result2;
+                        pair = result2;
                     }
                 }
-                return lList;
+                return pair;
             } catch (ClassCastException e) {
                 throw new WrongType(e, "table", -2, (Object) entryArr);
             }
@@ -193,9 +205,8 @@ public class hashtable extends ModuleBody {
                     int i3 = i;
                     while (node != null) {
                         result[i3] = node;
-                        int i4 = i3 + 1;
                         node = getEntryNext(node);
-                        i3 = i4;
+                        i3++;
                     }
                     i2--;
                     i = i3;
@@ -227,18 +238,6 @@ public class hashtable extends ModuleBody {
         }
     }
 
-    public hashtable() {
-        ModuleInfo.register(this);
-    }
-
-    public final void run(CallContext $ctx) {
-        Consumer consumer = $ctx.consumer;
-    }
-
-    static {
-        $instance.run();
-    }
-
     public static void hashtableCheckMutable(HashTable ht) {
         if (!ht.mutable) {
             misc.error$V("cannot modify non-mutable hashtable", new Object[0]);
@@ -266,7 +265,7 @@ public class hashtable extends ModuleBody {
         }
         callContext.value1 = obj;
         callContext.proc = moduleMethod;
-        callContext.f236pc = 1;
+        callContext.pc = 1;
         return 0;
     }
 }

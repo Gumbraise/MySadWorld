@@ -28,8 +28,10 @@ public final class Ball extends Sprite {
     /* access modifiers changed from: protected */
     public void onDraw(Canvas canvas) {
         if (this.visible) {
+            float correctedXLeft = (float) (this.xLeft * ((double) this.form.deviceDensity()));
+            float correctedYTop = (float) (this.yTop * ((double) this.form.deviceDensity()));
             float correctedRadius = ((float) this.radius) * this.form.deviceDensity();
-            canvas.drawCircle(((float) (this.xLeft * ((double) this.form.deviceDensity()))) + correctedRadius, ((float) (this.yTop * ((double) this.form.deviceDensity()))) + correctedRadius, correctedRadius, this.paint);
+            canvas.drawCircle(correctedXLeft + correctedRadius, correctedYTop + correctedRadius, correctedRadius, this.paint);
         }
     }
 
@@ -98,15 +100,13 @@ public final class Ball extends Sprite {
     }
 
     @SimpleProperty(description = "The horizontal coordinate of the Ball, increasing as the Ball moves right. If the property OriginAtCenter is true, the coordinate is for the center of the Ball; otherwise, it is for the leftmost point of the Ball.")
-    /* renamed from: X */
-    public double mo6415X() {
-        return super.mo6415X();
+    public double X() {
+        return super.X();
     }
 
     @SimpleProperty(description = "The vertical coordinate of the Ball, increasing as the Ball moves down. If the property OriginAtCenter is true, the coordinate is for the center of the Ball; otherwise, it is for the uppermost point of the Ball.")
-    /* renamed from: Y */
-    public double mo6416Y() {
-        return super.mo6416Y();
+    public double Y() {
+        return super.Y();
     }
 
     @SimpleFunction(description = "Sets the x and y coordinates of the Ball. If CenterAtOrigin is true, the center of the Ball will be placed here. Otherwise, the top left edge of the Ball will be placed at the specified coordinates.")

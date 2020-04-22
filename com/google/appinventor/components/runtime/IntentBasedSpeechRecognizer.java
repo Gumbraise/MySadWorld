@@ -26,7 +26,7 @@ public class IntentBasedSpeechRecognizer extends SpeechRecognizerController impl
     public void resultReturned(int requestCode2, int resultCode, Intent data) {
         if (requestCode2 == this.requestCode && resultCode == -1) {
             if (data.hasExtra("android.speech.extra.RESULTS")) {
-                this.result = (String) data.getExtras().getStringArrayList("android.speech.extra.RESULTS").get(0);
+                this.result = data.getExtras().getStringArrayList("android.speech.extra.RESULTS").get(0);
             } else {
                 this.result = "";
             }

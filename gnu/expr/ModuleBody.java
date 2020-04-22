@@ -19,7 +19,7 @@ public abstract class ModuleBody extends Procedure0 {
     protected boolean runDone;
 
     public void apply(CallContext ctx) throws Throwable {
-        if (ctx.f236pc == 0) {
+        if (ctx.pc == 0) {
             run(ctx);
         }
     }

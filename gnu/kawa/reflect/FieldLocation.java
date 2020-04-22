@@ -35,7 +35,7 @@ public class FieldLocation extends ClassMemberLocation {
         this.flags |= 100;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void setKindFlags() {
         Field fld = getDeclaringClass().getDeclaredField(getMemberName());
         int fflags = fld.getModifiers();
@@ -68,7 +68,7 @@ public class FieldLocation extends ClassMemberLocation {
                         this.flags |= 8;
                     }
                 } else if (loc.isConstant()) {
-                    Object val = loc.get(null);
+                    Object val = loc.get((Object) null);
                     if (val instanceof Procedure) {
                         this.flags |= 16;
                     }
@@ -141,7 +141,7 @@ public class FieldLocation extends ClassMemberLocation {
         return declaration;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void setup() {
         synchronized (this) {
             if ((this.flags & 1) == 0) {

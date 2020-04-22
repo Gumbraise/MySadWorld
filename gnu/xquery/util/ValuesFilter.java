@@ -84,9 +84,9 @@ public class ValuesFilter extends MethodProc implements Inlineable {
         Procedure proc = (Procedure) ctx.getNextArg();
         Consumer out = ctx.consumer;
         if (this.kind != 'P') {
-            Values sortedNodes = new SortedNodes();
-            Values.writeValues(arg, sortedNodes);
-            values = sortedNodes;
+            SortedNodes nodes = new SortedNodes();
+            Values.writeValues(arg, nodes);
+            values = nodes;
         } else if (arg instanceof Values) {
             values = (Values) arg;
         } else {
@@ -101,8 +101,7 @@ public class ValuesFilter extends MethodProc implements Inlineable {
         int it = 0;
         IntNum countObj = IntNum.make(count);
         int pmax = proc.maxArgs();
-        int i = 0;
-        while (i < count) {
+        for (int i = 0; i < count; i++) {
             it = values.nextPos(it);
             Object dot = values.getPosPrevious(it);
             int pos = this.kind == 'R' ? count - i : i + 1;
@@ -110,7 +109,6 @@ public class ValuesFilter extends MethodProc implements Inlineable {
             if (matches(pmax == 2 ? proc.apply2(dot, posObj) : proc.apply3(dot, posObj, countObj), (long) pos)) {
                 out.writeObject(dot);
             }
-            i++;
         }
     }
 

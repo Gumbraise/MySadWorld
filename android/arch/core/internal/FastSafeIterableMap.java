@@ -1,22 +1,22 @@
 package android.arch.core.internal;
 
+import android.arch.core.internal.SafeIterableMap;
 import android.support.annotation.NonNull;
 import android.support.annotation.RestrictTo;
-import android.support.annotation.RestrictTo.Scope;
 import java.util.HashMap;
-import java.util.Map.Entry;
+import java.util.Map;
 
-@RestrictTo({Scope.LIBRARY_GROUP})
+@RestrictTo({RestrictTo.Scope.LIBRARY_GROUP})
 public class FastSafeIterableMap<K, V> extends SafeIterableMap<K, V> {
-    private HashMap<K, Entry<K, V>> mHashMap = new HashMap<>();
+    private HashMap<K, SafeIterableMap.Entry<K, V>> mHashMap = new HashMap<>();
 
     /* access modifiers changed from: protected */
-    public Entry<K, V> get(K k) {
-        return (Entry) this.mHashMap.get(k);
+    public SafeIterableMap.Entry<K, V> get(K k) {
+        return this.mHashMap.get(k);
     }
 
     public V putIfAbsent(@NonNull K key, @NonNull V v) {
-        Entry<K, V> current = get(key);
+        SafeIterableMap.Entry<K, V> current = get(key);
         if (current != null) {
             return current.mValue;
         }
@@ -34,9 +34,9 @@ public class FastSafeIterableMap<K, V> extends SafeIterableMap<K, V> {
         return this.mHashMap.containsKey(key);
     }
 
-    public Entry<K, V> ceil(K k) {
+    public Map.Entry<K, V> ceil(K k) {
         if (contains(k)) {
-            return ((Entry) this.mHashMap.get(k)).mPrevious;
+            return this.mHashMap.get(k).mPrevious;
         }
         return null;
     }

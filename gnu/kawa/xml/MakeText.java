@@ -1,6 +1,6 @@
 package gnu.kawa.xml;
 
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import gnu.bytecode.ClassType;
 import gnu.bytecode.CodeAttr;
 import gnu.bytecode.Method;
@@ -53,7 +53,7 @@ public class MakeText extends NodeConstructor {
     }
 
     public void apply(CallContext ctx) {
-        text$X(ctx.getNextArg(null), ctx);
+        text$X(ctx.getNextArg((Object) null), ctx);
     }
 
     public void compile(ApplyExp exp, Compilation comp, Target target) {

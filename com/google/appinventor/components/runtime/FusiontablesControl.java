@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.AsyncTask;
 import android.util.Log;
 import com.google.api.client.extensions.android2.AndroidHttp;
@@ -14,8 +13,7 @@ import com.google.api.client.googleapis.services.GoogleKeyInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
-import com.google.api.services.fusiontables.Fusiontables.Builder;
-import com.google.api.services.fusiontables.Fusiontables.Query.Sql;
+import com.google.api.services.fusiontables.Fusiontables;
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.DesignerProperty;
 import com.google.appinventor.components.annotations.PropertyCategory;
@@ -97,154 +95,6 @@ public class FusiontablesControl extends AndroidNonvisibleComponent implements C
     /* access modifiers changed from: private */
     public String standardErrorMessage = "Error on Fusion Tables query";
 
-    private class QueryProcessor extends AsyncTask<String, Void, String> {
-        private ProgressDialog progress;
-
-        private QueryProcessor() {
-            this.progress = null;
-        }
-
-        /* access modifiers changed from: protected */
-        public void onPreExecute() {
-            this.progress = ProgressDialog.show(FusiontablesControl.this.activity, "Fusiontables", "processing query...", true);
-        }
-
-        /* access modifiers changed from: protected */
-        public String doInBackground(String... params) {
-            try {
-                HttpUriRequest request = FusiontablesControl.this.genFusiontablesQuery(params[0]);
-                Log.d(FusiontablesControl.LOG_TAG, "Fetching: " + params[0]);
-                HttpResponse response = FusiontablesControl.this.requestHelper.execute(request);
-                ByteArrayOutputStream outstream = new ByteArrayOutputStream();
-                response.getEntity().writeTo(outstream);
-                Log.d(FusiontablesControl.LOG_TAG, "Response: " + response.getStatusLine().toString());
-                return outstream.toString();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return e.getMessage();
-            }
-        }
-
-        /* access modifiers changed from: protected */
-        public void onPostExecute(String result) {
-            this.progress.dismiss();
-            FusiontablesControl.this.GotResult(result);
-        }
-    }
-
-    private class QueryProcessorV2 extends AsyncTask<String, Void, String> {
-        private static final String STAG = "FUSION_SERVICE_ACCOUNT";
-        private static final String TAG = "QueryProcessorV2";
-        private final Activity activity;
-        private final ProgressDialog dialog;
-
-        QueryProcessorV2(Activity activity2) {
-            Log.i(TAG, "Creating AsyncFusiontablesQuery");
-            this.activity = activity2;
-            this.dialog = new ProgressDialog(activity2);
-        }
-
-        /* access modifiers changed from: protected */
-        public void onPreExecute() {
-            if (FusiontablesControl.this.ShowLoadingDialog()) {
-                this.dialog.setMessage(FusiontablesControl.this.LoadingDialogMessage());
-                this.dialog.show();
-            }
-        }
-
-        /* access modifiers changed from: protected */
-        public String doInBackground(String... params) {
-            String query = params[0];
-            Log.i(TAG, "Starting doInBackground " + query);
-            if (FusiontablesControl.this.isServiceAuth) {
-                return serviceAuthRequest(query);
-            }
-            return userAuthRequest(query);
-        }
-
-        private String userAuthRequest(String query) {
-            FusiontablesControl.this.queryResultStr = "";
-            String authToken = new OAuth2Helper().getRefreshedAuthToken(this.activity, FusiontablesControl.this.authTokenType);
-            if (authToken == null) {
-                return OAuth2Helper.getErrorMessage();
-            }
-            if (query.toLowerCase().contains("create table")) {
-                FusiontablesControl.this.queryResultStr = FusiontablesControl.this.doPostRequest(FusiontablesControl.this.parseSqlCreateQueryToJson(query), authToken);
-                return FusiontablesControl.this.queryResultStr;
-            }
-            com.google.api.client.http.HttpResponse response = FusiontablesControl.this.sendQuery(query, authToken);
-            if (response != null) {
-                FusiontablesControl.this.queryResultStr = FusiontablesControl.httpResponseToString(response);
-                Log.i(TAG, "Query = " + query + "\nResultStr = " + FusiontablesControl.this.queryResultStr);
-            } else {
-                FusiontablesControl.this.queryResultStr = FusiontablesControl.this.errorMessage;
-                Log.i(TAG, "Error:  " + FusiontablesControl.this.errorMessage);
-            }
-            return FusiontablesControl.this.queryResultStr;
-        }
-
-        private String serviceAuthRequest(String query) {
-            com.google.api.client.http.HttpResponse response;
-            FusiontablesControl.this.queryResultStr = "";
-            FusiontablesControl.this.errorMessage = FusiontablesControl.this.standardErrorMessage;
-            HttpTransport TRANSPORT = AndroidHttp.newCompatibleTransport();
-            JsonFactory JSON_FACTORY = new GsonFactory();
-            Log.i(STAG, "keyPath " + FusiontablesControl.this.keyPath);
-            try {
-                if (FusiontablesControl.this.cachedServiceCredentials == null) {
-                    FusiontablesControl.this.cachedServiceCredentials = MediaUtil.copyMediaToTempFile(FusiontablesControl.this.container.$form(), FusiontablesControl.this.keyPath);
-                }
-                Sql sql = new Builder(TRANSPORT, JSON_FACTORY, new GoogleCredential.Builder().setTransport(TRANSPORT).setJsonFactory(JSON_FACTORY).setServiceAccountId(FusiontablesControl.this.serviceAccountEmail).setServiceAccountScopes(new String[]{FusiontablesControl.this.scope}).setServiceAccountPrivateKeyFromP12File(FusiontablesControl.this.cachedServiceCredentials).build()).setJsonHttpRequestInitializer(new GoogleKeyInitializer(FusiontablesControl.this.ApiKey())).build().query().sql(query);
-                sql.put("alt", "csv");
-                response = null;
-                response = sql.executeUnparsed();
-            } catch (GoogleJsonResponseException e) {
-                Log.i(STAG, "Got a JsonResponse exception on sql.executeUnparsed");
-                FusiontablesControl.this.errorMessage = parseJsonResponseException(e.getMessage());
-                FusiontablesControl.this.signalJsonResponseError(query, FusiontablesControl.this.errorMessage);
-            } catch (Exception e2) {
-                Log.i(STAG, "Got an unanticipated exception on sql.executeUnparsed");
-                Log.i(STAG, "Exception class is " + e2.getClass());
-                Log.i(STAG, "Exception message is " + e2.getMessage());
-                Log.i(STAG, "Exception is " + e2);
-                Log.i(STAG, "Point e");
-                Log.i(STAG, "end of printing exception");
-                FusiontablesControl.this.errorMessage = e2.getMessage();
-                FusiontablesControl.this.signalJsonResponseError(query, FusiontablesControl.this.errorMessage);
-            } catch (Throwable e3) {
-                Log.i(STAG, "in Catch Throwable e");
-                e3.printStackTrace();
-                FusiontablesControl.this.queryResultStr = e3.getMessage();
-            }
-            if (response != null) {
-                FusiontablesControl.this.queryResultStr = FusiontablesControl.httpResponseToString(response);
-                Log.i(STAG, "Query = " + query + "\nResultStr = " + FusiontablesControl.this.queryResultStr);
-            } else {
-                FusiontablesControl.this.queryResultStr = FusiontablesControl.this.errorMessage;
-                Log.i(STAG, "Error with null response:  " + FusiontablesControl.this.errorMessage);
-            }
-            Log.i(STAG, "executed sql query");
-            Log.i(STAG, "returning queryResultStr = " + FusiontablesControl.this.queryResultStr);
-            return FusiontablesControl.this.queryResultStr;
-        }
-
-        /* access modifiers changed from: 0000 */
-        public String parseJsonResponseException(String exceptionMessage) {
-            Log.i(STAG, "parseJsonResponseException: " + exceptionMessage);
-            return exceptionMessage;
-        }
-
-        /* access modifiers changed from: protected */
-        public void onPostExecute(String result) {
-            Log.i(FusiontablesControl.LOG_TAG, "Query result " + result);
-            if (result == null) {
-                result = FusiontablesControl.this.errorMessage;
-            }
-            this.dialog.dismiss();
-            FusiontablesControl.this.GotResult(result);
-        }
-    }
-
     public FusiontablesControl(ComponentContainer componentContainer) {
         super(componentContainer.$form());
         this.container = componentContainer;
@@ -261,7 +111,7 @@ public class FusiontablesControl extends AndroidNonvisibleComponent implements C
         alertDialog.setTitle(title);
         alertDialog.setCancelable(false);
         alertDialog.setMessage(message);
-        alertDialog.setButton(buttonText, new OnClickListener() {
+        alertDialog.setButton(buttonText, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 FusiontablesControl.this.activity.finish();
             }
@@ -419,12 +269,46 @@ public class FusiontablesControl extends AndroidNonvisibleComponent implements C
         return request;
     }
 
+    private class QueryProcessor extends AsyncTask<String, Void, String> {
+        private ProgressDialog progress;
+
+        private QueryProcessor() {
+            this.progress = null;
+        }
+
+        /* access modifiers changed from: protected */
+        public void onPreExecute() {
+            this.progress = ProgressDialog.show(FusiontablesControl.this.activity, "Fusiontables", "processing query...", true);
+        }
+
+        /* access modifiers changed from: protected */
+        public String doInBackground(String... params) {
+            try {
+                HttpUriRequest request = FusiontablesControl.this.genFusiontablesQuery(params[0]);
+                Log.d(FusiontablesControl.LOG_TAG, "Fetching: " + params[0]);
+                HttpResponse response = FusiontablesControl.this.requestHelper.execute(request);
+                ByteArrayOutputStream outstream = new ByteArrayOutputStream();
+                response.getEntity().writeTo(outstream);
+                Log.d(FusiontablesControl.LOG_TAG, "Response: " + response.getStatusLine().toString());
+                return outstream.toString();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return e.getMessage();
+            }
+        }
+
+        /* access modifiers changed from: protected */
+        public void onPostExecute(String result) {
+            this.progress.dismiss();
+            FusiontablesControl.this.GotResult(result);
+        }
+    }
+
     public com.google.api.client.http.HttpResponse sendQuery(String query2, String authToken) {
         this.errorMessage = this.standardErrorMessage;
         Log.i(LOG_TAG, "executing " + query2);
-        com.google.api.client.http.HttpResponse response = null;
         try {
-            Sql sql = new Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), new GoogleCredential()).setApplicationName("App Inventor Fusiontables/v2.0").setJsonHttpRequestInitializer(new GoogleKeyInitializer(ApiKey())).build().query().sql(query2);
+            Fusiontables.Query.Sql sql = new Fusiontables.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), new GoogleCredential()).setApplicationName("App Inventor Fusiontables/v2.0").setJsonHttpRequestInitializer(new GoogleKeyInitializer(ApiKey())).build().query().sql(query2);
             sql.put("alt", "csv");
             sql.setOauthToken(authToken);
             return sql.executeUnparsed();
@@ -433,22 +317,21 @@ public class FusiontablesControl extends AndroidNonvisibleComponent implements C
             this.errorMessage = e.getMessage();
             Log.e(LOG_TAG, "JsonResponseException");
             Log.e(LOG_TAG, "e.getMessage() is " + e.getMessage());
-            Log.e(LOG_TAG, "response is " + response);
-            return response;
+            Log.e(LOG_TAG, "response is " + null);
+            return null;
         } catch (IOException e2) {
             e2.printStackTrace();
             this.errorMessage = e2.getMessage();
             Log.e(LOG_TAG, "IOException");
             Log.e(LOG_TAG, "e.getMessage() is " + e2.getMessage());
-            Log.e(LOG_TAG, "response is " + response);
-            return response;
+            Log.e(LOG_TAG, "response is " + null);
+            return null;
         }
     }
 
     public static String httpResponseToString(com.google.api.client.http.HttpResponse response) {
-        String resultStr = "";
         if (response == null) {
-            return resultStr;
+            return "";
         }
         if (response.getStatusCode() != 200) {
             return response.getStatusCode() + " " + response.getStatusMessage();
@@ -457,14 +340,13 @@ public class FusiontablesControl extends AndroidNonvisibleComponent implements C
             return parseResponse(response.getContent());
         } catch (IOException e) {
             e.printStackTrace();
-            return resultStr;
+            return "";
         }
     }
 
     public static String httpApacheResponseToString(HttpResponse response) {
-        String resultStr = "";
         if (response == null) {
-            return resultStr;
+            return "";
         }
         if (response.getStatusLine().getStatusCode() != 200) {
             return response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase();
@@ -473,7 +355,7 @@ public class FusiontablesControl extends AndroidNonvisibleComponent implements C
             return parseResponse(response.getEntity().getContent());
         } catch (IOException e) {
             e.printStackTrace();
-            return resultStr;
+            return "";
         }
     }
 
@@ -582,7 +464,120 @@ public class FusiontablesControl extends AndroidNonvisibleComponent implements C
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    private class QueryProcessorV2 extends AsyncTask<String, Void, String> {
+        private static final String STAG = "FUSION_SERVICE_ACCOUNT";
+        private static final String TAG = "QueryProcessorV2";
+        private final Activity activity;
+        private final ProgressDialog dialog;
+
+        QueryProcessorV2(Activity activity2) {
+            Log.i(TAG, "Creating AsyncFusiontablesQuery");
+            this.activity = activity2;
+            this.dialog = new ProgressDialog(activity2);
+        }
+
+        /* access modifiers changed from: protected */
+        public void onPreExecute() {
+            if (FusiontablesControl.this.ShowLoadingDialog()) {
+                this.dialog.setMessage(FusiontablesControl.this.LoadingDialogMessage());
+                this.dialog.show();
+            }
+        }
+
+        /* access modifiers changed from: protected */
+        public String doInBackground(String... params) {
+            String query = params[0];
+            Log.i(TAG, "Starting doInBackground " + query);
+            if (FusiontablesControl.this.isServiceAuth) {
+                return serviceAuthRequest(query);
+            }
+            return userAuthRequest(query);
+        }
+
+        private String userAuthRequest(String query) {
+            String unused = FusiontablesControl.this.queryResultStr = "";
+            String authToken = new OAuth2Helper().getRefreshedAuthToken(this.activity, FusiontablesControl.this.authTokenType);
+            if (authToken == null) {
+                return OAuth2Helper.getErrorMessage();
+            }
+            if (query.toLowerCase().contains("create table")) {
+                String unused2 = FusiontablesControl.this.queryResultStr = FusiontablesControl.this.doPostRequest(FusiontablesControl.this.parseSqlCreateQueryToJson(query), authToken);
+                return FusiontablesControl.this.queryResultStr;
+            }
+            com.google.api.client.http.HttpResponse response = FusiontablesControl.this.sendQuery(query, authToken);
+            if (response != null) {
+                String unused3 = FusiontablesControl.this.queryResultStr = FusiontablesControl.httpResponseToString(response);
+                Log.i(TAG, "Query = " + query + "\nResultStr = " + FusiontablesControl.this.queryResultStr);
+            } else {
+                String unused4 = FusiontablesControl.this.queryResultStr = FusiontablesControl.this.errorMessage;
+                Log.i(TAG, "Error:  " + FusiontablesControl.this.errorMessage);
+            }
+            return FusiontablesControl.this.queryResultStr;
+        }
+
+        private String serviceAuthRequest(String query) {
+            com.google.api.client.http.HttpResponse response;
+            String unused = FusiontablesControl.this.queryResultStr = "";
+            String unused2 = FusiontablesControl.this.errorMessage = FusiontablesControl.this.standardErrorMessage;
+            HttpTransport TRANSPORT = AndroidHttp.newCompatibleTransport();
+            JsonFactory JSON_FACTORY = new GsonFactory();
+            Log.i(STAG, "keyPath " + FusiontablesControl.this.keyPath);
+            try {
+                if (FusiontablesControl.this.cachedServiceCredentials == null) {
+                    File unused3 = FusiontablesControl.this.cachedServiceCredentials = MediaUtil.copyMediaToTempFile(FusiontablesControl.this.container.$form(), FusiontablesControl.this.keyPath);
+                }
+                Fusiontables.Query.Sql sql = new Fusiontables.Builder(TRANSPORT, JSON_FACTORY, new GoogleCredential.Builder().setTransport(TRANSPORT).setJsonFactory(JSON_FACTORY).setServiceAccountId(FusiontablesControl.this.serviceAccountEmail).setServiceAccountScopes(new String[]{FusiontablesControl.this.scope}).setServiceAccountPrivateKeyFromP12File(FusiontablesControl.this.cachedServiceCredentials).build()).setJsonHttpRequestInitializer(new GoogleKeyInitializer(FusiontablesControl.this.ApiKey())).build().query().sql(query);
+                sql.put("alt", "csv");
+                response = null;
+                response = sql.executeUnparsed();
+            } catch (GoogleJsonResponseException e) {
+                Log.i(STAG, "Got a JsonResponse exception on sql.executeUnparsed");
+                String unused4 = FusiontablesControl.this.errorMessage = parseJsonResponseException(e.getMessage());
+                FusiontablesControl.this.signalJsonResponseError(query, FusiontablesControl.this.errorMessage);
+            } catch (Exception e2) {
+                Log.i(STAG, "Got an unanticipated exception on sql.executeUnparsed");
+                Log.i(STAG, "Exception class is " + e2.getClass());
+                Log.i(STAG, "Exception message is " + e2.getMessage());
+                Log.i(STAG, "Exception is " + e2);
+                Log.i(STAG, "Point e");
+                Log.i(STAG, "end of printing exception");
+                String unused5 = FusiontablesControl.this.errorMessage = e2.getMessage();
+                FusiontablesControl.this.signalJsonResponseError(query, FusiontablesControl.this.errorMessage);
+            } catch (Throwable e3) {
+                Log.i(STAG, "in Catch Throwable e");
+                e3.printStackTrace();
+                String unused6 = FusiontablesControl.this.queryResultStr = e3.getMessage();
+            }
+            if (response != null) {
+                String unused7 = FusiontablesControl.this.queryResultStr = FusiontablesControl.httpResponseToString(response);
+                Log.i(STAG, "Query = " + query + "\nResultStr = " + FusiontablesControl.this.queryResultStr);
+            } else {
+                String unused8 = FusiontablesControl.this.queryResultStr = FusiontablesControl.this.errorMessage;
+                Log.i(STAG, "Error with null response:  " + FusiontablesControl.this.errorMessage);
+            }
+            Log.i(STAG, "executed sql query");
+            Log.i(STAG, "returning queryResultStr = " + FusiontablesControl.this.queryResultStr);
+            return FusiontablesControl.this.queryResultStr;
+        }
+
+        /* access modifiers changed from: package-private */
+        public String parseJsonResponseException(String exceptionMessage) {
+            Log.i(STAG, "parseJsonResponseException: " + exceptionMessage);
+            return exceptionMessage;
+        }
+
+        /* access modifiers changed from: protected */
+        public void onPostExecute(String result) {
+            Log.i(FusiontablesControl.LOG_TAG, "Query result " + result);
+            if (result == null) {
+                result = FusiontablesControl.this.errorMessage;
+            }
+            this.dialog.dismiss();
+            FusiontablesControl.this.GotResult(result);
+        }
+    }
+
+    /* access modifiers changed from: package-private */
     public void signalJsonResponseError(String query2, String parsedException) {
         this.form.dispatchErrorOccurredEventDialog(this, "SendQuery", ErrorMessages.FUSION_TABLES_QUERY_ERROR, query2, parsedException);
     }

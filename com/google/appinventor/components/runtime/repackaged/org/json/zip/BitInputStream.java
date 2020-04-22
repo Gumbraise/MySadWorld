@@ -6,18 +6,16 @@ import java.io.InputStream;
 public class BitInputStream implements BitReader {
     static final int[] mask = {0, 1, 3, 7, 15, 31, 63, 127, 255};
     private int available = 0;
-
-    /* renamed from: in */
-    private InputStream f41in;
+    private InputStream in;
     private long nrBits = 0;
     private int unread = 0;
 
-    public BitInputStream(InputStream in) {
-        this.f41in = in;
+    public BitInputStream(InputStream in2) {
+        this.in = in2;
     }
 
-    public BitInputStream(InputStream in, int firstByte) {
-        this.f41in = in;
+    public BitInputStream(InputStream in2, int firstByte) {
+        this.in = in2;
         this.unread = firstByte;
         this.available = 8;
     }
@@ -51,7 +49,7 @@ public class BitInputStream implements BitReader {
         int result = 0;
         while (width > 0) {
             if (this.available == 0) {
-                this.unread = this.f41in.read();
+                this.unread = this.in.read();
                 if (this.unread < 0) {
                     throw new IOException("Attempt to read past end.");
                 }

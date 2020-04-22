@@ -1,7 +1,7 @@
 package gnu.kawa.slib;
 
-import android.support.p000v4.app.FragmentTransaction;
-import android.support.p000v4.view.InputDeviceCompat;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.InputDeviceCompat;
 import gnu.expr.ModuleBody;
 import gnu.expr.ModuleInfo;
 import gnu.expr.ModuleMethod;
@@ -94,7 +94,7 @@ public class readtable extends ModuleBody {
             return super.match0(moduleMethod, callContext);
         }
         callContext.proc = moduleMethod;
-        callContext.f236pc = 0;
+        callContext.pc = 0;
         return 0;
     }
 
@@ -111,7 +111,7 @@ public class readtable extends ModuleBody {
             case 2:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 6:
                 if (!(obj instanceof Char)) {
@@ -119,7 +119,7 @@ public class readtable extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             default:
                 return super.match1(moduleMethod, obj, callContext);
@@ -143,7 +143,7 @@ public class readtable extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 6:
                 if (!(obj instanceof Char)) {
@@ -152,7 +152,7 @@ public class readtable extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 11:
                 if (!(obj instanceof Char)) {
@@ -164,7 +164,7 @@ public class readtable extends ModuleBody {
                 }
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 13:
                 if (!(obj instanceof Symbol)) {
@@ -176,7 +176,7 @@ public class readtable extends ModuleBody {
                 }
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             default:
                 return super.match2(moduleMethod, obj, obj2, callContext);
@@ -193,7 +193,7 @@ public class readtable extends ModuleBody {
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 6:
                 if (!(obj instanceof Char)) {
@@ -206,7 +206,7 @@ public class readtable extends ModuleBody {
                 }
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 9:
                 if (!(obj instanceof Char)) {
@@ -219,7 +219,7 @@ public class readtable extends ModuleBody {
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 11:
                 if (!(obj instanceof Char)) {
@@ -235,7 +235,7 @@ public class readtable extends ModuleBody {
                 }
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 13:
                 if (!(obj instanceof Symbol)) {
@@ -251,7 +251,7 @@ public class readtable extends ModuleBody {
                 }
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             default:
                 return super.match3(moduleMethod, obj, obj2, obj3, callContext);
@@ -272,7 +272,7 @@ public class readtable extends ModuleBody {
                 }
                 callContext.value4 = obj4;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 4;
+                callContext.pc = 4;
                 return 0;
             case 9:
                 if (!(obj instanceof Char)) {
@@ -289,7 +289,7 @@ public class readtable extends ModuleBody {
                 }
                 callContext.value4 = obj4;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 4;
+                callContext.pc = 4;
                 return 0;
             default:
                 return super.match4(moduleMethod, obj, obj2, obj3, obj4, callContext);
@@ -330,13 +330,12 @@ public class readtable extends ModuleBody {
     }
 
     public Object apply4(ModuleMethod moduleMethod, Object obj, Object obj2, Object obj3, Object obj4) {
-        boolean z = true;
         switch (moduleMethod.selector) {
             case 3:
                 try {
                     try {
                         try {
-                            setMacroCharacter(((Char) obj).charValue(), obj2, obj3 != Boolean.FALSE ? z : false, (ReadTable) obj4);
+                            setMacroCharacter(((Char) obj).charValue(), obj2, obj3 != Boolean.FALSE, (ReadTable) obj4);
                             return Values.empty;
                         } catch (ClassCastException e) {
                             throw new WrongType(e, "set-macro-character", 4, obj4);
@@ -345,7 +344,7 @@ public class readtable extends ModuleBody {
                         throw new WrongType(e2, "set-macro-character", 3, obj3);
                     }
                 } catch (ClassCastException e3) {
-                    throw new WrongType(e3, "set-macro-character", z ? 1 : 0, obj);
+                    throw new WrongType(e3, "set-macro-character", 1, obj);
                 }
             case 9:
                 try {
@@ -360,7 +359,7 @@ public class readtable extends ModuleBody {
                         throw new WrongType(e5, "set-dispatch-macro-character", 2, obj2);
                     }
                 } catch (ClassCastException e6) {
-                    throw new WrongType(e6, "set-dispatch-macro-character", (int) z, obj);
+                    throw new WrongType(e6, "set-dispatch-macro-character", 1, obj);
                 }
             default:
                 return super.apply4(moduleMethod, obj, obj2, obj3, obj4);
@@ -382,25 +381,24 @@ public class readtable extends ModuleBody {
     }
 
     public Object apply2(ModuleMethod moduleMethod, Object obj, Object obj2) {
-        boolean z = true;
         switch (moduleMethod.selector) {
             case 3:
                 try {
                     setMacroCharacter(((Char) obj).charValue(), obj2);
                     return Values.empty;
                 } catch (ClassCastException e) {
-                    throw new WrongType(e, "set-macro-character", z ? 1 : 0, obj);
+                    throw new WrongType(e, "set-macro-character", 1, obj);
                 }
             case 6:
                 try {
                     try {
-                        makeDispatchMacroCharacter(((Char) obj).charValue(), obj2 != Boolean.FALSE ? z : false);
+                        makeDispatchMacroCharacter(((Char) obj).charValue(), obj2 != Boolean.FALSE);
                         return Values.empty;
                     } catch (ClassCastException e2) {
                         throw new WrongType(e2, "make-dispatch-macro-character", 2, obj2);
                     }
                 } catch (ClassCastException e3) {
-                    throw new WrongType(e3, "make-dispatch-macro-character", (int) z, obj);
+                    throw new WrongType(e3, "make-dispatch-macro-character", 1, obj);
                 }
             case 11:
                 try {
@@ -410,7 +408,7 @@ public class readtable extends ModuleBody {
                         throw new WrongType(e4, "get-dispatch-macro-table", 2, obj2);
                     }
                 } catch (ClassCastException e5) {
-                    throw new WrongType(e5, "get-dispatch-macro-table", (int) z, obj);
+                    throw new WrongType(e5, "get-dispatch-macro-table", 1, obj);
                 }
             case 13:
                 try {
@@ -421,7 +419,7 @@ public class readtable extends ModuleBody {
                         throw new WrongType(e6, "define-reader-ctor", 2, obj2);
                     }
                 } catch (ClassCastException e7) {
-                    throw new WrongType(e7, "define-reader-ctor", (int) z, obj);
+                    throw new WrongType(e7, "define-reader-ctor", 1, obj);
                 }
             default:
                 return super.apply2(moduleMethod, obj, obj2);
@@ -429,19 +427,18 @@ public class readtable extends ModuleBody {
     }
 
     public Object apply3(ModuleMethod moduleMethod, Object obj, Object obj2, Object obj3) {
-        int i = 2;
         boolean z = true;
         switch (moduleMethod.selector) {
             case 3:
                 try {
                     try {
-                        setMacroCharacter(((Char) obj).charValue(), obj2, obj3 != Boolean.FALSE ? z : false);
+                        setMacroCharacter(((Char) obj).charValue(), obj2, obj3 != Boolean.FALSE);
                         return Values.empty;
                     } catch (ClassCastException e) {
                         throw new WrongType(e, "set-macro-character", 3, obj3);
                     }
                 } catch (ClassCastException e2) {
-                    throw new WrongType(e2, "set-macro-character", z ? 1 : 0, obj);
+                    throw new WrongType(e2, "set-macro-character", 1, obj);
                 }
             case 6:
                 try {
@@ -457,10 +454,10 @@ public class readtable extends ModuleBody {
                             throw new WrongType(e3, "make-dispatch-macro-character", 3, obj3);
                         }
                     } catch (ClassCastException e4) {
-                        throw new WrongType(e4, "make-dispatch-macro-character", i, obj2);
+                        throw new WrongType(e4, "make-dispatch-macro-character", 2, obj2);
                     }
                 } catch (ClassCastException e5) {
-                    throw new WrongType(e5, "make-dispatch-macro-character", (int) z, obj);
+                    throw new WrongType(e5, "make-dispatch-macro-character", 1, obj);
                 }
             case 9:
                 try {
@@ -468,10 +465,10 @@ public class readtable extends ModuleBody {
                         setDispatchMacroCharacter(((Char) obj).charValue(), ((Char) obj2).charValue(), obj3);
                         return Values.empty;
                     } catch (ClassCastException e6) {
-                        throw new WrongType(e6, "set-dispatch-macro-character", i, obj2);
+                        throw new WrongType(e6, "set-dispatch-macro-character", 2, obj2);
                     }
                 } catch (ClassCastException e7) {
-                    throw new WrongType(e7, "set-dispatch-macro-character", (int) z, obj);
+                    throw new WrongType(e7, "set-dispatch-macro-character", 1, obj);
                 }
             case 11:
                 try {
@@ -482,10 +479,10 @@ public class readtable extends ModuleBody {
                             throw new WrongType(e8, "get-dispatch-macro-table", 3, obj3);
                         }
                     } catch (ClassCastException e9) {
-                        throw new WrongType(e9, "get-dispatch-macro-table", i, obj2);
+                        throw new WrongType(e9, "get-dispatch-macro-table", 2, obj2);
                     }
                 } catch (ClassCastException e10) {
-                    throw new WrongType(e10, "get-dispatch-macro-table", (int) z, obj);
+                    throw new WrongType(e10, "get-dispatch-macro-table", 1, obj);
                 }
             case 13:
                 try {
@@ -497,10 +494,10 @@ public class readtable extends ModuleBody {
                             throw new WrongType(e11, "define-reader-ctor", 3, obj3);
                         }
                     } catch (ClassCastException e12) {
-                        throw new WrongType(e12, "define-reader-ctor", i, obj2);
+                        throw new WrongType(e12, "define-reader-ctor", 2, obj2);
                     }
                 } catch (ClassCastException e13) {
-                    throw new WrongType(e13, "define-reader-ctor", (int) z, obj);
+                    throw new WrongType(e13, "define-reader-ctor", 1, obj);
                 }
             default:
                 return super.apply3(moduleMethod, obj, obj2, obj3);

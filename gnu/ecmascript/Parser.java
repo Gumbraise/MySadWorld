@@ -82,16 +82,15 @@ public class Parser {
             } else {
                 last = false;
             }
-            if (exps != null) {
+            if (exps == null) {
                 if (last) {
+                    return exp1;
                 }
+                exps = new Expression[2];
+            } else if (!last ? exps.length <= nExps : exps.length != nExps + 1) {
                 Expression[] new_exps = new Expression[(last ? nExps + 1 : exps.length * 2)];
                 System.arraycopy(exps, 0, new_exps, 0, nExps);
                 exps = new_exps;
-            } else if (last) {
-                return exp1;
-            } else {
-                exps = new Expression[2];
             }
             int nExps2 = nExps + 1;
             exps[nExps] = exp1;
@@ -235,7 +234,7 @@ public class Parser {
                 }
             } else {
                 while (newCount > 0) {
-                    exp = makeNewExpression(exp, null);
+                    exp = makeNewExpression(exp, (Expression[]) null);
                     newCount--;
                 }
                 return exp;
@@ -321,7 +320,7 @@ public class Parser {
 
     public Expression buildLoop(Expression init, Expression test, Expression incr, Expression body) {
         if (init != null) {
-            return new BeginExp(new Expression[]{init, buildLoop(null, test, incr, body)});
+            return new BeginExp(new Expression[]{init, buildLoop((Expression) null, test, incr, body)});
         }
         throw new Error("not implemented - buildLoop");
     }
@@ -337,7 +336,7 @@ public class Parser {
         if (token3 != Lexer.rparenToken) {
             return syntaxError("expected ')' - got:" + token3);
         }
-        return buildLoop(null, test_part, null, parseStatement());
+        return buildLoop((Expression) null, test_part, (Expression) null, parseStatement());
     }
 
     /* JADX WARNING: CFG modification limit reached, blocks count: 116 */
@@ -370,10 +369,10 @@ public class Parser {
         L_0x0039:
             gnu.expr.Expression r2 = r9.parseBlock()
             gnu.expr.LambdaExp r3 = new gnu.expr.LambdaExp
-            r3.<init>(r2)
+            r3.<init>((gnu.expr.Expression) r2)
             r3.setName(r4)
             gnu.expr.SetExp r5 = new gnu.expr.SetExp
-            r5.<init>(r4, r3)
+            r5.<init>((java.lang.Object) r4, (gnu.expr.Expression) r3)
             r7 = 1
             r5.setDefining(r7)
             goto L_0x0026
@@ -428,9 +427,8 @@ public class Parser {
             if (last) {
                 return new BeginExp(exps);
             }
-            int nExps2 = nExps + 1;
             exps[nExps] = parseStatement();
-            nExps = nExps2;
+            nExps++;
         }
     }
 

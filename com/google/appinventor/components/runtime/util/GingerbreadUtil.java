@@ -28,14 +28,12 @@ public class GingerbreadUtil {
     }
 
     public static boolean clearCookies(CookieHandler cookieHandler) {
-        if (cookieHandler instanceof CookieManager) {
-            CookieStore cookieStore = ((CookieManager) cookieHandler).getCookieStore();
-            if (cookieStore != null) {
-                cookieStore.removeAll();
-                return true;
-            }
+        CookieStore cookieStore;
+        if (!(cookieHandler instanceof CookieManager) || (cookieStore = ((CookieManager) cookieHandler).getCookieStore()) == null) {
+            return false;
         }
-        return false;
+        cookieStore.removeAll();
+        return true;
     }
 
     public static NfcAdapter newNfcAdapter(Context context) {
@@ -53,8 +51,9 @@ public class GingerbreadUtil {
     public static NdefRecord createTextRecord(String payload, boolean encodeInUtf8) {
         byte[] langBytes = Locale.getDefault().getLanguage().getBytes(Charset.forName("US-ASCII"));
         byte[] textBytes = payload.getBytes(encodeInUtf8 ? Charset.forName("UTF-8") : Charset.forName("UTF-16"));
+        char status = (char) (langBytes.length + (encodeInUtf8 ? 0 : 128));
         byte[] data = new byte[(langBytes.length + 1 + textBytes.length)];
-        data[0] = (byte) ((char) (langBytes.length + (encodeInUtf8 ? 0 : 128)));
+        data[0] = (byte) status;
         System.arraycopy(langBytes, 0, data, 1, langBytes.length);
         System.arraycopy(textBytes, 0, data, langBytes.length + 1, textBytes.length);
         return new NdefRecord(1, NdefRecord.RTD_TEXT, new byte[0], data);

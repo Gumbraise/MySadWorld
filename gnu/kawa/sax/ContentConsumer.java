@@ -123,7 +123,7 @@ public class ContentConsumer implements Consumer {
         this.names[i + 2] = null;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void flushStrBuffer() {
         if (this.strBuffer.length() > 0) {
             if (this.chBuffer == null) {

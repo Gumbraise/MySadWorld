@@ -49,7 +49,7 @@ public class define_unit extends Syntax {
                 }
                 Unit unit = null;
                 if (this.base && p.getCdr() == LList.Empty) {
-                    unit = BaseUnit.make(name, null);
+                    unit = BaseUnit.make(name, (String) null);
                 } else if (p.getCdr() instanceof Pair) {
                     Object v = ((Pair) p.getCdr()).getCar();
                     if (this.base && (v instanceof CharSequence)) {

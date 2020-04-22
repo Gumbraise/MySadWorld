@@ -41,7 +41,7 @@ public abstract class Path {
     }
 
     public static Path currentPath() {
-        Path path = (Path) pathLocation.get();
+        Path path = pathLocation.get();
         return path != null ? path : defaultPath;
     }
 
@@ -139,15 +139,13 @@ public abstract class Path {
     }
 
     public boolean isDirectory() {
+        char last;
         String str = toString();
         int len = str.length();
-        if (len > 0) {
-            char last = str.charAt(len - 1);
-            if (last == '/' || last == File.separatorChar) {
-                return true;
-            }
+        if (len <= 0 || ((last = str.charAt(len - 1)) != '/' && last != File.separatorChar)) {
+            return false;
         }
-        return false;
+        return true;
     }
 
     public boolean delete() {

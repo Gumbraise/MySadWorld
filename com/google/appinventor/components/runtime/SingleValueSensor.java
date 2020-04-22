@@ -4,7 +4,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Build.VERSION;
+import android.os.Build;
 import com.google.appinventor.components.annotations.DesignerProperty;
 import com.google.appinventor.components.annotations.SimpleObject;
 import com.google.appinventor.components.annotations.SimpleProperty;
@@ -34,7 +34,7 @@ public abstract class SingleValueSensor extends AndroidNonvisibleComponent imple
 
     /* access modifiers changed from: protected */
     public void startListening() {
-        if (VERSION.SDK_INT >= 9) {
+        if (Build.VERSION.SDK_INT >= 9) {
             this.sensorManager.registerListener(this, this.sensor, this.refreshTime * 1000);
             return;
         }

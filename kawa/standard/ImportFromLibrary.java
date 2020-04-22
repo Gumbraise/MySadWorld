@@ -53,7 +53,7 @@ public class ImportFromLibrary extends Syntax {
                 if (cdr instanceof Pair) {
                     tr.error('e', "source specifier must be last elemnt in library reference");
                 }
-                sourcePath = (String) car;
+                sourcePath = car;
             } else {
                 if (sbuf.length() > 0) {
                     sbuf.append('.');
@@ -63,77 +63,74 @@ public class ImportFromLibrary extends Syntax {
             libref = cdr;
         }
         ModuleInfo minfo = null;
-        if (sourcePath != null) {
-            minfo = require.lookupModuleFromSourcePath(sourcePath, defs);
-            if (minfo == null) {
-                tr.error('e', "malformed URL: " + sourcePath);
-                return false;
-            }
-        }
-        String lname = sbuf.toString();
-        if (lname.startsWith("srfi.")) {
-            String demangled = Compilation.demangleName(lname.substring(5));
-            int dot = demangled.indexOf(46);
-            if (dot < 0) {
-                srfiName = null;
-                dot = demangled.length();
-            } else {
-                srfiName = demangled.substring(dot + 1);
-            }
-            String srfiNumber = null;
-            if (dot >= 2 || demangled.charAt(0) == ':') {
-                int i = 1;
-                while (true) {
-                    if (i != dot) {
-                        if (Character.digit(demangled.charAt(i), 10) < 0) {
+        if (sourcePath == null || (minfo = require.lookupModuleFromSourcePath(sourcePath, defs)) != null) {
+            String lname = sbuf.toString();
+            if (lname.startsWith("srfi.")) {
+                String demangled = Compilation.demangleName(lname.substring(5));
+                int dot = demangled.indexOf(46);
+                if (dot < 0) {
+                    srfiName = null;
+                    dot = demangled.length();
+                } else {
+                    srfiName = demangled.substring(dot + 1);
+                }
+                String srfiNumber = null;
+                if (dot >= 2 || demangled.charAt(0) == ':') {
+                    int i = 1;
+                    while (true) {
+                        if (i != dot) {
+                            if (Character.digit(demangled.charAt(i), 10) < 0) {
+                                break;
+                            }
+                            i++;
+                        } else {
+                            srfiNumber = demangled.substring(1, dot);
                             break;
                         }
-                        i++;
-                    } else {
-                        srfiNumber = demangled.substring(1, dot);
-                        break;
                     }
                 }
-            }
-            if (srfiNumber == null) {
-                tr.error('e', "SRFI library reference must have the form: (srfi :NNN [name])");
-                return false;
-            }
-            int srfiIndex = SRFI97Map.length;
-            do {
-                srfiIndex--;
-                if (srfiIndex < 0) {
-                    tr.error('e', "unknown SRFI number '" + srfiNumber + "' in SRFI library reference");
+                if (srfiNumber == null) {
+                    tr.error('e', "SRFI library reference must have the form: (srfi :NNN [name])");
                     return false;
                 }
-            } while (!SRFI97Map[srfiIndex][0].equals(srfiNumber));
-            String srfiNameExpected = SRFI97Map[srfiIndex][1];
-            String srfiClass = SRFI97Map[srfiIndex][2];
-            if (srfiName != null && !srfiName.equals(srfiNameExpected)) {
-                tr.error('w', "the name of SRFI " + srfiNumber + " should be '" + srfiNameExpected + '\'');
+                int srfiIndex = SRFI97Map.length;
+                do {
+                    srfiIndex--;
+                    if (srfiIndex < 0) {
+                        tr.error('e', "unknown SRFI number '" + srfiNumber + "' in SRFI library reference");
+                        return false;
+                    }
+                } while (!SRFI97Map[srfiIndex][0].equals(srfiNumber));
+                String srfiNameExpected = SRFI97Map[srfiIndex][1];
+                String srfiClass = SRFI97Map[srfiIndex][2];
+                if (srfiName != null && !srfiName.equals(srfiNameExpected)) {
+                    tr.error('w', "the name of SRFI " + srfiNumber + " should be '" + srfiNameExpected + '\'');
+                }
+                if (srfiClass == "") {
+                    return true;
+                }
+                if (srfiClass == MISSING) {
+                    tr.error('e', "sorry - Kawa does not support SRFI " + srfiNumber + " (" + srfiNameExpected + ')');
+                    return false;
+                }
+                lname = srfiClass;
             }
-            if (srfiClass == "") {
-                return true;
+            int classPrefixPathLength = this.classPrefixPath.length;
+            for (int i2 = 0; i2 < classPrefixPathLength; i2++) {
+                try {
+                    minfo = ModuleManager.getInstance().findWithClassName(this.classPrefixPath[i2] + lname);
+                } catch (Exception e) {
+                }
             }
-            if (srfiClass == MISSING) {
-                tr.error('e', "sorry - Kawa does not support SRFI " + srfiNumber + " (" + srfiNameExpected + ')');
+            if (minfo == null) {
+                tr.error('e', "unknown class " + lname);
                 return false;
             }
-            lname = srfiClass;
+            require.importDefinitions((String) null, minfo, mapper, forms, defs, tr);
+            return true;
         }
-        int classPrefixPathLength = this.classPrefixPath.length;
-        for (int i2 = 0; i2 < classPrefixPathLength; i2++) {
-            try {
-                minfo = ModuleManager.getInstance().findWithClassName(this.classPrefixPath[i2] + lname);
-            } catch (Exception e) {
-            }
-        }
-        if (minfo == null) {
-            tr.error('e', "unknown class " + lname);
-            return false;
-        }
-        require.importDefinitions(null, minfo, mapper, forms, defs, tr);
-        return true;
+        tr.error('e', "malformed URL: " + sourcePath);
+        return false;
     }
 
     public Expression rewriteForm(Pair form, Translator tr) {

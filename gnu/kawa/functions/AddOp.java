@@ -12,6 +12,7 @@ public class AddOp extends ArithOp {
     public static final AddOp $Pl = new AddOp("+", 1);
     int plusOrMinus;
 
+    /* JADX INFO: super call moved to the top of the method (can break code semantics) */
     public AddOp(String name, int plusOrMinus2) {
         super(name, plusOrMinus2 > 0 ? 1 : 2);
         this.plusOrMinus = 1;
@@ -33,8 +34,7 @@ public class AddOp extends ArithOp {
             case 1:
                 int i1 = Arithmetic.asInt(arg1);
                 int i2 = Arithmetic.asInt(arg2);
-                Integer num = new Integer(plusOrMinus2 > 0 ? i1 + i2 : i1 - i2);
-                return num;
+                return new Integer(plusOrMinus2 > 0 ? i1 + i2 : i1 - i2);
             case 2:
                 long l1 = Arithmetic.asLong(arg1);
                 long l2 = Arithmetic.asLong(arg2);
@@ -54,8 +54,7 @@ public class AddOp extends ArithOp {
             case 7:
                 float f1 = Arithmetic.asFloat(arg1);
                 float f2 = Arithmetic.asFloat(arg2);
-                Float f = new Float(plusOrMinus2 > 0 ? f1 + f2 : f1 - f2);
-                return f;
+                return new Float(plusOrMinus2 > 0 ? f1 + f2 : f1 - f2);
             case 8:
                 double d1 = Arithmetic.asDouble(arg1);
                 double d2 = Arithmetic.asDouble(arg2);

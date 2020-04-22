@@ -1,6 +1,6 @@
 package kawa.lib;
 
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import gnu.expr.ModuleBody;
 import gnu.expr.ModuleInfo;
 import gnu.expr.ModuleMethod;
@@ -113,12 +113,12 @@ public class strings extends ModuleBody {
             case 1:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 2:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 5:
                 if (!(obj instanceof CharSequence)) {
@@ -126,7 +126,7 @@ public class strings extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 14:
                 if (!(obj instanceof CharSequence)) {
@@ -134,7 +134,7 @@ public class strings extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 15:
                 if (!(obj instanceof LList)) {
@@ -142,7 +142,7 @@ public class strings extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 16:
                 if (!(obj instanceof CharSequence)) {
@@ -150,7 +150,7 @@ public class strings extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 18:
                 if (!(obj instanceof CharSeq)) {
@@ -158,7 +158,7 @@ public class strings extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 19:
                 if (!(obj instanceof CharSeq)) {
@@ -166,7 +166,7 @@ public class strings extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 20:
                 if (!(obj instanceof CharSeq)) {
@@ -174,7 +174,7 @@ public class strings extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 21:
                 if (!(obj instanceof CharSequence)) {
@@ -182,7 +182,7 @@ public class strings extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             default:
                 return super.match1(moduleMethod, obj, callContext);
@@ -203,7 +203,7 @@ public class strings extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 6:
                 if (!(obj instanceof CharSequence)) {
@@ -212,37 +212,37 @@ public class strings extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 8:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 9:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 10:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 11:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 12:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 17:
                 if (!(obj instanceof CharSeq)) {
@@ -254,7 +254,7 @@ public class strings extends ModuleBody {
                 }
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             default:
                 return super.match2(moduleMethod, obj, obj2, callContext);
@@ -275,17 +275,17 @@ public class strings extends ModuleBody {
             case 4:
                 callContext.values = objArr;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 5;
+                callContext.pc = 5;
                 return 0;
             case 22:
                 callContext.values = objArr;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 5;
+                callContext.pc = 5;
                 return 0;
             case 23:
                 callContext.values = objArr;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 5;
+                callContext.pc = 5;
                 return 0;
             default:
                 return super.matchN(moduleMethod, objArr, callContext);
@@ -317,7 +317,7 @@ public class strings extends ModuleBody {
                 }
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 13:
                 if (!(obj instanceof CharSequence)) {
@@ -327,7 +327,7 @@ public class strings extends ModuleBody {
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             default:
                 return super.match3(moduleMethod, obj, obj2, obj3, callContext);
@@ -408,7 +408,7 @@ public class strings extends ModuleBody {
     }
 
     public static CharSequence list$To$String(LList list) {
-        int len = C0620lists.length(list);
+        int len = lists.length(list);
         FString fString = new FString(len);
         int i = 0;
         while (i < len) {

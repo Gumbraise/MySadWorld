@@ -52,7 +52,7 @@ public class BarcodeScanner extends AndroidNonvisibleComponent implements Activi
                 this.container.$form().askPermission("android.permission.CAMERA", new PermissionResultHandler() {
                     public void HandlePermissionResponse(String permission, boolean granted) {
                         if (granted) {
-                            BarcodeScanner.this.havePermission = true;
+                            boolean unused = BarcodeScanner.this.havePermission = true;
                             BarcodeScanner.this.DoScan();
                             return;
                         }

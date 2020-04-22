@@ -1,5 +1,6 @@
 package gnu.bytecode;
 
+import android.support.v7.widget.ActivityChooserView;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
@@ -12,7 +13,7 @@ public abstract class CpoolEntry {
 
     public abstract void print(ClassTypeWriter classTypeWriter, int i);
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public abstract void write(DataOutputStream dataOutputStream) throws IOException;
 
     public int getIndex() {
@@ -23,10 +24,10 @@ public abstract class CpoolEntry {
         return this.hash;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void add_hashed(ConstantPool cpool) {
         CpoolEntry[] hashTab = cpool.hashTab;
-        int index2 = (this.hash & ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED) % hashTab.length;
+        int index2 = (this.hash & ActivityChooserView.ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED) % hashTab.length;
         this.next = hashTab[index2];
         hashTab[index2] = this;
     }

@@ -1,6 +1,6 @@
 package gnu.expr;
 
-import com.google.appinventor.components.runtime.util.Ev3Constants.Opcode;
+import com.google.appinventor.components.runtime.util.Ev3Constants;
 import gnu.lists.Convert;
 import gnu.math.DFloNum;
 import gnu.math.IntNum;
@@ -42,7 +42,7 @@ public class KawaConvert extends Convert {
     }
 
     public Object byteToObjectUnsigned(byte value) {
-        return IntNum.make((int) value & Opcode.TST);
+        return IntNum.make((int) value & Ev3Constants.Opcode.TST);
     }
 
     public Object shortToObjectUnsigned(short value) {

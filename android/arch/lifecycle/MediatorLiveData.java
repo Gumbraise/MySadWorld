@@ -6,10 +6,47 @@ import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import java.util.Iterator;
-import java.util.Map.Entry;
+import java.util.Map;
 
 public class MediatorLiveData<T> extends MutableLiveData<T> {
     private SafeIterableMap<LiveData<?>, Source<?>> mSources = new SafeIterableMap<>();
+
+    @MainThread
+    public <S> void addSource(@NonNull LiveData<S> source, @NonNull Observer<S> onChanged) {
+        Source<S> e = new Source<>(source, onChanged);
+        Source<?> existing = this.mSources.putIfAbsent(source, e);
+        if (existing != null && existing.mObserver != onChanged) {
+            throw new IllegalArgumentException("This source was already added with the different observer");
+        } else if (existing == null && hasActiveObservers()) {
+            e.plug();
+        }
+    }
+
+    @MainThread
+    public <S> void removeSource(@NonNull LiveData<S> toRemote) {
+        Source<?> source = this.mSources.remove(toRemote);
+        if (source != null) {
+            source.unplug();
+        }
+    }
+
+    /* access modifiers changed from: protected */
+    @CallSuper
+    public void onActive() {
+        Iterator<Map.Entry<LiveData<?>, Source<?>>> it = this.mSources.iterator();
+        while (it.hasNext()) {
+            it.next().getValue().plug();
+        }
+    }
+
+    /* access modifiers changed from: protected */
+    @CallSuper
+    public void onInactive() {
+        Iterator<Map.Entry<LiveData<?>, Source<?>>> it = this.mSources.iterator();
+        while (it.hasNext()) {
+            it.next().getValue().unplug();
+        }
+    }
 
     private static class Source<V> implements Observer<V> {
         final LiveData<V> mLiveData;
@@ -21,12 +58,12 @@ public class MediatorLiveData<T> extends MutableLiveData<T> {
             this.mObserver = observer;
         }
 
-        /* access modifiers changed from: 0000 */
+        /* access modifiers changed from: package-private */
         public void plug() {
             this.mLiveData.observeForever(this);
         }
 
-        /* access modifiers changed from: 0000 */
+        /* access modifiers changed from: package-private */
         public void unplug() {
             this.mLiveData.removeObserver(this);
         }
@@ -36,43 +73,6 @@ public class MediatorLiveData<T> extends MutableLiveData<T> {
                 this.mVersion = this.mLiveData.getVersion();
                 this.mObserver.onChanged(v);
             }
-        }
-    }
-
-    @MainThread
-    public <S> void addSource(@NonNull LiveData<S> source, @NonNull Observer<S> onChanged) {
-        Source<S> e = new Source<>(source, onChanged);
-        Source<?> existing = (Source) this.mSources.putIfAbsent(source, e);
-        if (existing != null && existing.mObserver != onChanged) {
-            throw new IllegalArgumentException("This source was already added with the different observer");
-        } else if (existing == null && hasActiveObservers()) {
-            e.plug();
-        }
-    }
-
-    @MainThread
-    public <S> void removeSource(@NonNull LiveData<S> toRemote) {
-        Source<?> source = (Source) this.mSources.remove(toRemote);
-        if (source != null) {
-            source.unplug();
-        }
-    }
-
-    /* access modifiers changed from: protected */
-    @CallSuper
-    public void onActive() {
-        Iterator it = this.mSources.iterator();
-        while (it.hasNext()) {
-            ((Source) ((Entry) it.next()).getValue()).plug();
-        }
-    }
-
-    /* access modifiers changed from: protected */
-    @CallSuper
-    public void onInactive() {
-        Iterator it = this.mSources.iterator();
-        while (it.hasNext()) {
-            ((Source) ((Entry) it.next()).getValue()).unplug();
         }
     }
 }

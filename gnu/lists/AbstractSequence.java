@@ -151,26 +151,13 @@ public abstract class AbstractSequence {
         return indexOf(o) >= 0;
     }
 
-    /* JADX WARNING: Incorrect type for immutable var: ssa=java.util.Collection, code=java.util.Collection<java.lang.Object>, for r4v0, types: [java.util.Collection<java.lang.Object>, java.util.Collection] */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public boolean containsAll(java.util.Collection<java.lang.Object> r4) {
-        /*
-            r3 = this;
-            java.util.Iterator r1 = r4.iterator()
-        L_0x0004:
-            boolean r2 = r1.hasNext()
-            if (r2 == 0) goto L_0x0016
-            java.lang.Object r0 = r1.next()
-            boolean r2 = r3.contains(r0)
-            if (r2 != 0) goto L_0x0004
-            r2 = 0
-        L_0x0015:
-            return r2
-        L_0x0016:
-            r2 = 1
-            goto L_0x0015
-        */
-        throw new UnsupportedOperationException("Method not decompiled: gnu.lists.AbstractSequence.containsAll(java.util.Collection):boolean");
+    public boolean containsAll(Collection c) {
+        for (Object e : c) {
+            if (!contains(e)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public final Enumeration elements() {
@@ -221,27 +208,15 @@ public abstract class AbstractSequence {
         return addAll(size(), c);
     }
 
-    /* JADX WARNING: Incorrect type for immutable var: ssa=java.util.Collection, code=java.util.Collection<java.lang.Object>, for r6v0, types: [java.util.Collection<java.lang.Object>, java.util.Collection] */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public boolean addAll(int r5, java.util.Collection<java.lang.Object> r6) {
-        /*
-            r4 = this;
-            r0 = 0
-            r3 = 0
-            int r2 = r4.createPos(r5, r3)
-            java.util.Iterator r1 = r6.iterator()
-        L_0x000a:
-            boolean r3 = r1.hasNext()
-            if (r3 == 0) goto L_0x001a
-            java.lang.Object r3 = r1.next()
-            int r2 = r4.addPos(r2, r3)
-            r0 = 1
-            goto L_0x000a
-        L_0x001a:
-            r4.releasePos(r2)
-            return r0
-        */
-        throw new UnsupportedOperationException("Method not decompiled: gnu.lists.AbstractSequence.addAll(int, java.util.Collection):boolean");
+    public boolean addAll(int index, Collection c) {
+        boolean changed = false;
+        int pos = createPos(index, false);
+        for (Object addPos : c) {
+            pos = addPos(pos, addPos);
+            changed = true;
+        }
+        releasePos(pos);
+        return changed;
     }
 
     public void removePos(int ipos, int count) {
@@ -513,9 +488,8 @@ public abstract class AbstractSequence {
             if (it == 0) {
                 return arr;
             }
-            int i2 = i + 1;
             arr[i] = getPosPrevious(it);
-            i = i2;
+            i++;
         }
     }
 

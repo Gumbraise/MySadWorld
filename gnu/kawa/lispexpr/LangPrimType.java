@@ -142,7 +142,7 @@ public class LangPrimType extends PrimType implements TypeValue {
                 break;
         }
         if (0 != 0) {
-            code.emitInvokeStatic(ClassType.make(null).getDeclaredMethod("make", new Type[]{null}));
+            code.emitInvokeStatic(ClassType.make((String) null).getDeclaredMethod("make", new Type[]{null}));
         }
     }
 

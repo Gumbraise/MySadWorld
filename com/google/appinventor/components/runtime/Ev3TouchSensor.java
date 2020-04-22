@@ -30,11 +30,10 @@ public class Ev3TouchSensor extends LegoMindstormsEv3Sensor implements Deleteabl
     public int savedPressedValue = -1;
     private final Runnable sensorValueChecker = new Runnable() {
         public void run() {
-            String functionName = "";
             if (Ev3TouchSensor.this.bluetooth != null && Ev3TouchSensor.this.bluetooth.IsConnected()) {
-                int currentPressedValue = Ev3TouchSensor.this.getPressedValue(functionName);
+                int currentPressedValue = Ev3TouchSensor.this.getPressedValue("");
                 if (Ev3TouchSensor.this.savedPressedValue < 0) {
-                    Ev3TouchSensor.this.savedPressedValue = currentPressedValue;
+                    int unused = Ev3TouchSensor.this.savedPressedValue = currentPressedValue;
                     Ev3TouchSensor.this.eventHandler.postDelayed(this, 50);
                     return;
                 }
@@ -45,7 +44,7 @@ public class Ev3TouchSensor extends LegoMindstormsEv3Sensor implements Deleteabl
                 } else if (Ev3TouchSensor.this.pressedEventEnabled && currentPressedValue < 50) {
                     Ev3TouchSensor.this.Released();
                 }
-                Ev3TouchSensor.this.savedPressedValue = currentPressedValue;
+                int unused2 = Ev3TouchSensor.this.savedPressedValue = currentPressedValue;
             }
             Ev3TouchSensor.this.eventHandler.postDelayed(this, 50);
         }

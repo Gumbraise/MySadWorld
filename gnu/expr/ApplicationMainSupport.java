@@ -83,7 +83,7 @@ public class ApplicationMainSupport {
                 String cname = propertyField[1];
                 String fname = propertyField[2];
                 try {
-                    ((ThreadLocation) Class.forName(cname).getDeclaredField(fname).get(null)).setGlobal(value);
+                    ((ThreadLocation) Class.forName(cname).getDeclaredField(fname).get((Object) null)).setGlobal(value);
                     break;
                 } catch (Throwable ex) {
                     System.err.println("error setting property " + key + " field " + cname + '.' + fname + ": " + ex);
@@ -95,7 +95,7 @@ public class ApplicationMainSupport {
         }
         Symbol symbol = Symbol.parse(key);
         Language.getDefaultLanguage();
-        Environment.getCurrent().define(symbol, null, value);
+        Environment.getCurrent().define(symbol, (Object) null, value);
         return true;
     }
 }

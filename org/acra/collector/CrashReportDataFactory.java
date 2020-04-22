@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.os.Build;
-import android.os.Build.VERSION;
 import android.os.Environment;
 import android.text.format.Time;
 import android.util.Log;
@@ -55,18 +54,19 @@ public final class CrashReportDataFactory {
     }
 
     public String putCustomData(String key, String value) {
-        return (String) this.customParameters.put(key, value);
+        return this.customParameters.put(key, value);
     }
 
     public String removeCustomData(String key) {
-        return (String) this.customParameters.remove(key);
+        return this.customParameters.remove(key);
     }
 
     public String getCustomData(String key) {
-        return (String) this.customParameters.get(key);
+        return this.customParameters.get(key);
     }
 
     public CrashReportData createCrashData(Throwable th, boolean isSilentReport, Thread brokenThread) {
+        String deviceId;
         CrashReportData crashReportData = new CrashReportData();
         try {
             crashReportData.put(ReportField.STACK_TRACE, getStackTrace(th));
@@ -78,7 +78,7 @@ public final class CrashReportDataFactory {
                 crashReportData.put(ReportField.REPORT_ID, UUID.randomUUID().toString());
             }
             if (this.crashReportFields.contains(ReportField.INSTALLATION_ID)) {
-                crashReportData.put(ReportField.INSTALLATION_ID, Installation.m56id(this.context));
+                crashReportData.put(ReportField.INSTALLATION_ID, Installation.id(this.context));
             }
             if (this.crashReportFields.contains(ReportField.INITIAL_CONFIGURATION)) {
                 crashReportData.put(ReportField.INITIAL_CONFIGURATION, this.initialConfiguration);
@@ -99,7 +99,7 @@ public final class CrashReportDataFactory {
                 crashReportData.put(ReportField.PHONE_MODEL, Build.MODEL);
             }
             if (this.crashReportFields.contains(ReportField.ANDROID_VERSION)) {
-                crashReportData.put(ReportField.ANDROID_VERSION, VERSION.RELEASE);
+                crashReportData.put(ReportField.ANDROID_VERSION, Build.VERSION.RELEASE);
             }
             if (this.crashReportFields.contains(ReportField.BRAND)) {
                 crashReportData.put(ReportField.BRAND, Build.BRAND);
@@ -157,18 +157,15 @@ public final class CrashReportDataFactory {
             } else {
                 crashReportData.put(ReportField.APP_VERSION_NAME, "Package info unavailable");
             }
-            if (this.crashReportFields.contains(ReportField.DEVICE_ID) && this.prefs.getBoolean(ACRA.PREF_ENABLE_DEVICE_ID, true) && pm.hasPermission("android.permission.READ_PHONE_STATE")) {
-                String deviceId = ReportUtils.getDeviceId(this.context);
-                if (deviceId != null) {
-                    crashReportData.put(ReportField.DEVICE_ID, deviceId);
-                }
+            if (this.crashReportFields.contains(ReportField.DEVICE_ID) && this.prefs.getBoolean(ACRA.PREF_ENABLE_DEVICE_ID, true) && pm.hasPermission("android.permission.READ_PHONE_STATE") && (deviceId = ReportUtils.getDeviceId(this.context)) != null) {
+                crashReportData.put(ReportField.DEVICE_ID, deviceId);
             }
             if ((!this.prefs.getBoolean(ACRA.PREF_ENABLE_SYSTEM_LOGS, true) || !pm.hasPermission("android.permission.READ_LOGS")) && Compatibility.getAPILevel() < 16) {
                 Log.i(ACRA.LOG_TAG, "READ_LOGS not allowed. ACRA will not include LogCat and DropBox data.");
             } else {
                 Log.i(ACRA.LOG_TAG, "READ_LOGS granted! ACRA can include LogCat and DropBox data.");
                 if (this.crashReportFields.contains(ReportField.LOGCAT)) {
-                    crashReportData.put(ReportField.LOGCAT, LogCatCollector.collectLogCat(null));
+                    crashReportData.put(ReportField.LOGCAT, LogCatCollector.collectLogCat((String) null));
                 }
                 if (this.crashReportFields.contains(ReportField.EVENTSLOG)) {
                     crashReportData.put(ReportField.EVENTSLOG, LogCatCollector.collectLogCat("events"));
@@ -202,10 +199,9 @@ public final class CrashReportDataFactory {
     private String createCustomInfoString() {
         StringBuilder customInfo = new StringBuilder();
         for (String currentKey : this.customParameters.keySet()) {
-            String currentVal = (String) this.customParameters.get(currentKey);
             customInfo.append(currentKey);
             customInfo.append(" = ");
-            customInfo.append(currentVal);
+            customInfo.append(this.customParameters.get(currentKey));
             customInfo.append("\n");
         }
         return customInfo.toString();

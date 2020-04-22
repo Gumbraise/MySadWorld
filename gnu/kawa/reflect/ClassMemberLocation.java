@@ -53,7 +53,7 @@ public abstract class ClassMemberLocation extends Location {
         return this.type;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void setup() {
         if (this.rfield == null) {
             try {
@@ -169,7 +169,7 @@ public abstract class ClassMemberLocation extends Location {
                 Field field = fields[i];
                 String fname = field.getName();
                 if (!fname.startsWith(Declaration.PRIVATE_PREFIX) && !fname.endsWith("$instance")) {
-                    define(instance2, field, null, language, env);
+                    define(instance2, field, (String) null, language, env);
                 }
             } else {
                 return;

@@ -1,7 +1,7 @@
 package gnu.bytecode;
 
 public class RuntimeAnnotationsAttr extends MiscAttr {
-    int numEntries = mo9288u2(0);
+    int numEntries = u2(0);
 
     public RuntimeAnnotationsAttr(String name, byte[] data, AttrContainer container) {
         super(name, data, 0, data.length);
@@ -24,16 +24,16 @@ public class RuntimeAnnotationsAttr extends MiscAttr {
     }
 
     public void printAnnotation(int indentation, ClassTypeWriter dst) {
-        int type_index = mo9287u2();
+        int type_index = u2();
         dst.printSpaces(indentation);
         dst.printOptionalIndex(type_index);
         dst.print('@');
         dst.printContantUtf8AsClass(type_index);
-        int num_element_value_pairs = mo9287u2();
+        int num_element_value_pairs = u2();
         dst.println();
         int indentation2 = indentation + 2;
         for (int i = 0; i < num_element_value_pairs; i++) {
-            int element_name_index = mo9287u2();
+            int element_name_index = u2();
             dst.printSpaces(indentation2);
             dst.printOptionalIndex(element_name_index);
             dst.printConstantTersely(element_name_index, 1);
@@ -68,7 +68,7 @@ public class RuntimeAnnotationsAttr extends MiscAttr {
         r5 = 1;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:21:0x0039, code lost:
-        r3 = mo9287u2();
+        r3 = u2();
         r4 = r15.getCpoolEntry(r3);
         r15.printOptionalIndex(r4);
      */
@@ -116,7 +116,7 @@ public class RuntimeAnnotationsAttr extends MiscAttr {
         /*
             r13 = this;
             r12 = 1
-            int r8 = r13.mo9285u1()
+            int r8 = r13.u1()
             int r10 = r15.flags
             r10 = r10 & 8
             if (r10 == 0) goto L_0x0021
@@ -170,9 +170,9 @@ public class RuntimeAnnotationsAttr extends MiscAttr {
             if (r5 != 0) goto L_0x0039
             r5 = 1
         L_0x0039:
-            int r3 = r13.mo9287u2()
+            int r3 = r13.u2()
             gnu.bytecode.CpoolEntry r4 = r15.getCpoolEntry(r3)
-            r15.printOptionalIndex(r4)
+            r15.printOptionalIndex((gnu.bytecode.CpoolEntry) r4)
             r10 = 90
             if (r8 != r10) goto L_0x0069
             if (r4 == 0) goto L_0x0069
@@ -196,11 +196,11 @@ public class RuntimeAnnotationsAttr extends MiscAttr {
             java.lang.String r10 = "true"
             goto L_0x0062
         L_0x0069:
-            r15.printConstantTersely(r3, r5)
+            r15.printConstantTersely((int) r3, (int) r5)
             goto L_0x0025
         L_0x006d:
-            int r9 = r13.mo9287u2()
-            int r2 = r13.mo9287u2()
+            int r9 = r13.u2()
+            int r2 = r13.u2()
             java.lang.String r10 = "enum["
             r15.print(r10)
             int r10 = r15.flags
@@ -209,7 +209,7 @@ public class RuntimeAnnotationsAttr extends MiscAttr {
             java.lang.String r10 = "type:"
             r15.print(r10)
         L_0x0085:
-            r15.printOptionalIndex(r9)
+            r15.printOptionalIndex((int) r9)
             r15.printContantUtf8AsClass(r9)
             int r10 = r15.flags
             r10 = r10 & 8
@@ -217,8 +217,8 @@ public class RuntimeAnnotationsAttr extends MiscAttr {
             java.lang.String r10 = " value:"
             r15.print(r10)
         L_0x0096:
-            r15.printOptionalIndex(r2)
-            r15.printConstantTersely(r2, r12)
+            r15.printOptionalIndex((int) r2)
+            r15.printConstantTersely((int) r2, (int) r12)
             java.lang.String r10 = "]"
             r15.print(r10)
             goto L_0x0025
@@ -227,8 +227,8 @@ public class RuntimeAnnotationsAttr extends MiscAttr {
             r15.print(r10)
             goto L_0x0096
         L_0x00a8:
-            int r1 = r13.mo9287u2()
-            r15.printOptionalIndex(r1)
+            int r1 = r13.u2()
+            r15.printOptionalIndex((int) r1)
             r15.printContantUtf8AsClass(r1)
             goto L_0x0025
         L_0x00b4:
@@ -239,7 +239,7 @@ public class RuntimeAnnotationsAttr extends MiscAttr {
             r13.printAnnotation(r10, r15)
             goto L_0x0025
         L_0x00c3:
-            int r7 = r13.mo9287u2()
+            int r7 = r13.u2()
             java.lang.String r10 = "array length:"
             r15.print(r10)
             r15.print(r7)

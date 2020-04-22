@@ -33,7 +33,7 @@ public class CpoolUtf8 extends CpoolEntry {
         return this.string;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void write(DataOutputStream dstr) throws IOException {
         dstr.writeByte(1);
         dstr.writeUTF(this.string);

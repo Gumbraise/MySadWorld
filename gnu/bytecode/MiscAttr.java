@@ -1,6 +1,6 @@
 package gnu.bytecode;
 
-import com.google.appinventor.components.runtime.util.Ev3Constants.Opcode;
+import com.google.appinventor.components.runtime.util.Ev3Constants;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
@@ -25,29 +25,25 @@ public class MiscAttr extends Attribute {
     }
 
     /* access modifiers changed from: protected */
-    /* renamed from: u1 */
-    public int mo9286u1(int offset2) {
-        return this.data[offset2] & Opcode.TST;
+    public int u1(int offset2) {
+        return this.data[offset2] & Ev3Constants.Opcode.TST;
     }
 
     /* access modifiers changed from: protected */
-    /* renamed from: u2 */
-    public int mo9288u2(int offset2) {
-        return ((this.data[offset2] & Opcode.TST) << 8) + (this.data[offset2 + 1] & Opcode.TST);
+    public int u2(int offset2) {
+        return ((this.data[offset2] & Ev3Constants.Opcode.TST) << 8) + (this.data[offset2 + 1] & Ev3Constants.Opcode.TST);
     }
 
     /* access modifiers changed from: protected */
-    /* renamed from: u1 */
-    public int mo9285u1() {
+    public int u1() {
         int i = this.offset;
         this.offset = i + 1;
-        return mo9286u1(i);
+        return u1(i);
     }
 
     /* access modifiers changed from: protected */
-    /* renamed from: u2 */
-    public int mo9287u2() {
-        int v = mo9288u2(this.offset);
+    public int u2() {
+        int v = u2(this.offset);
         this.offset += 2;
         return v;
     }

@@ -9,54 +9,47 @@ import com.google.appinventor.components.annotations.SimpleProperty;
 import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.runtime.util.ErrorMessages;
 import com.google.appinventor.components.runtime.util.GeometryUtil;
-import com.google.appinventor.components.runtime.util.MapFactory.MapCircle;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeatureContainer;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeatureType;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeatureVisitor;
-import com.google.appinventor.components.runtime.util.MapFactory.MapLineString;
-import com.google.appinventor.components.runtime.util.MapFactory.MapMarker;
-import com.google.appinventor.components.runtime.util.MapFactory.MapPolygon;
-import com.google.appinventor.components.runtime.util.MapFactory.MapRectangle;
+import com.google.appinventor.components.runtime.util.MapFactory;
 import org.locationtech.jts.geom.Geometry;
 import org.osmdroid.util.GeoPoint;
 
 @SimpleObject
 @DesignerComponent(category = ComponentCategory.MAPS, description = "Circle", version = 2)
-public class Circle extends PolygonBase implements MapCircle {
-    private static final MapFeatureVisitor<Double> distanceComputation = new MapFeatureVisitor<Double>() {
-        public Double visit(MapMarker marker, Object... arguments) {
+public class Circle extends PolygonBase implements MapFactory.MapCircle {
+    private static final MapFactory.MapFeatureVisitor<Double> distanceComputation = new MapFactory.MapFeatureVisitor<Double>() {
+        public Double visit(MapFactory.MapMarker marker, Object... arguments) {
             if (arguments[1].booleanValue()) {
-                return Double.valueOf(GeometryUtil.distanceBetweenCentroids(marker, (MapCircle) arguments[0]));
+                return Double.valueOf(GeometryUtil.distanceBetweenCentroids(marker, (MapFactory.MapCircle) arguments[0]));
             }
-            return Double.valueOf(GeometryUtil.distanceBetweenEdges(marker, (MapCircle) arguments[0]));
+            return Double.valueOf(GeometryUtil.distanceBetweenEdges(marker, (MapFactory.MapCircle) arguments[0]));
         }
 
-        public Double visit(MapLineString lineString, Object... arguments) {
+        public Double visit(MapFactory.MapLineString lineString, Object... arguments) {
             if (arguments[1].booleanValue()) {
-                return Double.valueOf(GeometryUtil.distanceBetweenCentroids(lineString, (MapCircle) arguments[0]));
+                return Double.valueOf(GeometryUtil.distanceBetweenCentroids(lineString, (MapFactory.MapCircle) arguments[0]));
             }
-            return Double.valueOf(GeometryUtil.distanceBetweenEdges(lineString, (MapCircle) arguments[0]));
+            return Double.valueOf(GeometryUtil.distanceBetweenEdges(lineString, (MapFactory.MapCircle) arguments[0]));
         }
 
-        public Double visit(MapPolygon polygon, Object... arguments) {
+        public Double visit(MapFactory.MapPolygon polygon, Object... arguments) {
             if (arguments[1].booleanValue()) {
-                return Double.valueOf(GeometryUtil.distanceBetweenCentroids(polygon, (MapCircle) arguments[0]));
+                return Double.valueOf(GeometryUtil.distanceBetweenCentroids(polygon, (MapFactory.MapCircle) arguments[0]));
             }
-            return Double.valueOf(GeometryUtil.distanceBetweenEdges(polygon, (MapCircle) arguments[0]));
+            return Double.valueOf(GeometryUtil.distanceBetweenEdges(polygon, (MapFactory.MapCircle) arguments[0]));
         }
 
-        public Double visit(MapCircle circle, Object... arguments) {
+        public Double visit(MapFactory.MapCircle circle, Object... arguments) {
             if (arguments[1].booleanValue()) {
-                return Double.valueOf(GeometryUtil.distanceBetweenCentroids(circle, (MapCircle) arguments[0]));
+                return Double.valueOf(GeometryUtil.distanceBetweenCentroids(circle, (MapFactory.MapCircle) arguments[0]));
             }
-            return Double.valueOf(GeometryUtil.distanceBetweenEdges(circle, (MapCircle) arguments[0]));
+            return Double.valueOf(GeometryUtil.distanceBetweenEdges(circle, (MapFactory.MapCircle) arguments[0]));
         }
 
-        public Double visit(MapRectangle rectangle, Object... arguments) {
+        public Double visit(MapFactory.MapRectangle rectangle, Object... arguments) {
             if (arguments[1].booleanValue()) {
-                return Double.valueOf(GeometryUtil.distanceBetweenCentroids((MapCircle) arguments[0], rectangle));
+                return Double.valueOf(GeometryUtil.distanceBetweenCentroids((MapFactory.MapCircle) arguments[0], rectangle));
             }
-            return Double.valueOf(GeometryUtil.distanceBetweenEdges((MapCircle) arguments[0], rectangle));
+            return Double.valueOf(GeometryUtil.distanceBetweenEdges((MapFactory.MapCircle) arguments[0], rectangle));
         }
     };
     private GeoPoint center = new GeoPoint(0.0d, 0.0d);
@@ -64,14 +57,14 @@ public class Circle extends PolygonBase implements MapCircle {
     private double longitude;
     private double radius;
 
-    public Circle(MapFeatureContainer container) {
+    public Circle(MapFactory.MapFeatureContainer container) {
         super(container, distanceComputation);
         container.addFeature(this);
     }
 
     @SimpleProperty(description = "Returns the type of the feature. For Circles, this returns the text \"Circle\".")
     public String Type() {
-        return MapFeatureType.TYPE_CIRCLE;
+        return MapFactory.MapFeatureType.TYPE_CIRCLE;
     }
 
     @DesignerProperty(defaultValue = "0", editorType = "non_negative_float")
@@ -79,7 +72,7 @@ public class Circle extends PolygonBase implements MapCircle {
     public void Radius(double radius2) {
         this.radius = radius2;
         clearGeometry();
-        this.map.getController().updateFeaturePosition((MapCircle) this);
+        this.map.getController().updateFeaturePosition((MapFactory.MapCircle) this);
     }
 
     @SimpleProperty(category = PropertyCategory.APPEARANCE, description = "The radius of the circle in meters.")
@@ -94,7 +87,7 @@ public class Circle extends PolygonBase implements MapCircle {
             this.latitude = latitude2;
             this.center.setLatitude(latitude2);
             clearGeometry();
-            this.map.getController().updateFeaturePosition((MapCircle) this);
+            this.map.getController().updateFeaturePosition((MapFactory.MapCircle) this);
             return;
         }
         getDispatchDelegate().dispatchErrorOccurredEvent(this, "Latitude", ErrorMessages.ERROR_INVALID_LATITUDE, Double.valueOf(latitude2));
@@ -112,7 +105,7 @@ public class Circle extends PolygonBase implements MapCircle {
             this.longitude = longitude2;
             this.center.setLongitude(longitude2);
             clearGeometry();
-            this.map.getController().updateFeaturePosition((MapCircle) this);
+            this.map.getController().updateFeaturePosition((MapFactory.MapCircle) this);
             return;
         }
         getDispatchDelegate().dispatchErrorOccurredEvent(this, "Longitude", ErrorMessages.ERROR_INVALID_LONGITUDE, Double.valueOf(longitude2));
@@ -135,12 +128,12 @@ public class Circle extends PolygonBase implements MapCircle {
             this.center.setLatitude(latitude2);
             this.center.setLongitude(longitude2);
             clearGeometry();
-            this.map.getController().updateFeaturePosition((MapCircle) this);
+            this.map.getController().updateFeaturePosition((MapFactory.MapCircle) this);
         }
     }
 
-    public <T> T accept(MapFeatureVisitor<T> visitor, Object... arguments) {
-        return visitor.visit((MapCircle) this, arguments);
+    public <T> T accept(MapFactory.MapFeatureVisitor<T> visitor, Object... arguments) {
+        return visitor.visit((MapFactory.MapCircle) this, arguments);
     }
 
     /* access modifiers changed from: protected */

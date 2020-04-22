@@ -37,7 +37,7 @@ public class CpoolValue2 extends CpoolEntry {
         return this.hash;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void write(DataOutputStream dstr) throws IOException {
         dstr.writeByte(this.tag);
         dstr.writeLong(this.value);

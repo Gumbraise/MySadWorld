@@ -1,6 +1,6 @@
 package gnu.lists;
 
-import com.google.appinventor.components.runtime.util.Ev3Constants.Opcode;
+import com.google.appinventor.components.runtime.util.Ev3Constants;
 
 public class U8Vector extends ByteVector {
     public U8Vector() {
@@ -37,7 +37,7 @@ public class U8Vector extends ByteVector {
     }
 
     public final int intAtBuffer(int index) {
-        return this.data[index] & Opcode.TST;
+        return this.data[index] & Ev3Constants.Opcode.TST;
     }
 
     public final Object get(int index) {

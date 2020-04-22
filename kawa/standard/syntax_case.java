@@ -14,6 +14,7 @@ import gnu.expr.ScopeExp;
 import gnu.lists.Pair;
 import gnu.math.IntNum;
 import kawa.lang.Syntax;
+import kawa.lang.SyntaxForm;
 import kawa.lang.SyntaxPattern;
 import kawa.lang.Translator;
 
@@ -25,12 +26,12 @@ public class syntax_case extends Syntax {
         syntax_case.setName("syntax-case");
     }
 
-    /* JADX WARNING: type inference failed for: r17v1 */
-    /* JADX WARNING: type inference failed for: r0v47, types: [gnu.expr.Expression] */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r1v0, resolved type: gnu.lists.LList} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r1v10, resolved type: gnu.lists.LList} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r1v14, resolved type: gnu.lists.LList} */
     /* JADX WARNING: type inference failed for: r17v2, types: [gnu.expr.Expression] */
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     /* JADX WARNING: Multi-variable type inference failed */
-    /* JADX WARNING: Unknown variable types count: 2 */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public gnu.expr.Expression rewriteClauses(java.lang.Object r29, kawa.standard.syntax_case_work r30, kawa.lang.Translator r31) {
         /*
@@ -53,7 +54,7 @@ public class syntax_case extends Syntax {
             r0 = r30
             gnu.expr.Declaration r0 = r0.inputExpression
             r27 = r0
-            r26.<init>(r27)
+            r26.<init>((gnu.expr.Declaration) r27)
             r4[r25] = r26
             r0 = r28
             gnu.expr.PrimProcedure r0 = r0.call_error
@@ -76,10 +77,10 @@ public class syntax_case extends Syntax {
             r0 = r25
             r1 = r26
             r2 = r27
-            gnu.bytecode.Method r14 = r7.addMethod(r0, r5, r1, r2)
+            gnu.bytecode.Method r14 = r7.addMethod((java.lang.String) r0, (gnu.bytecode.Type[]) r5, (gnu.bytecode.Type) r1, (int) r2)
             gnu.expr.PrimProcedure r25 = new gnu.expr.PrimProcedure
             r0 = r25
-            r0.<init>(r14, r13)
+            r0.<init>((gnu.bytecode.Method) r14, (gnu.expr.Language) r13)
             r0 = r25
             r1 = r28
             r1.call_error = r0
@@ -89,7 +90,7 @@ public class syntax_case extends Syntax {
             gnu.expr.PrimProcedure r0 = r0.call_error
             r25 = r0
             r0 = r25
-            r6.<init>(r0, r4)
+            r6.<init>((gnu.mapping.Procedure) r0, (gnu.expr.Expression[]) r4)
         L_0x0076:
             return r6
         L_0x0077:
@@ -127,7 +128,7 @@ public class syntax_case extends Syntax {
             r0 = r25
             r9.matchArray = r0     // Catch:{ all -> 0x018e }
             r0 = r31
-            r0.push(r9)     // Catch:{ all -> 0x018e }
+            r0.push((gnu.expr.ScopeExp) r9)     // Catch:{ all -> 0x018e }
             r21 = 0
             java.lang.Object r22 = r18.getCdr()     // Catch:{ all -> 0x018e }
         L_0x00c7:
@@ -166,7 +167,7 @@ public class syntax_case extends Syntax {
             r1 = r25
             r2 = r26
             r3 = r31
-            r0.<init>(r1, r2, r3)     // Catch:{ all -> 0x018e }
+            r0.<init>((java.lang.Object) r1, (java.lang.Object[]) r2, (kawa.lang.Translator) r3)     // Catch:{ all -> 0x018e }
             int r24 = r19.varCount()     // Catch:{ all -> 0x018e }
             r0 = r30
             int r0 = r0.maxVars     // Catch:{ all -> 0x018e }
@@ -194,14 +195,14 @@ public class syntax_case extends Syntax {
             r0 = r30
             gnu.expr.Declaration r0 = r0.inputExpression     // Catch:{ all -> 0x018e }
             r27 = r0
-            r26.<init>(r27)     // Catch:{ all -> 0x018e }
+            r26.<init>((gnu.expr.Declaration) r27)     // Catch:{ all -> 0x018e }
             r4[r25] = r26     // Catch:{ all -> 0x018e }
             r25 = 2
             gnu.expr.ReferenceExp r26 = new gnu.expr.ReferenceExp     // Catch:{ all -> 0x018e }
             r0 = r31
             gnu.expr.Declaration r0 = r0.matchArray     // Catch:{ all -> 0x018e }
             r27 = r0
-            r26.<init>(r27)     // Catch:{ all -> 0x018e }
+            r26.<init>((gnu.expr.Declaration) r27)     // Catch:{ all -> 0x018e }
             r4[r25] = r26     // Catch:{ all -> 0x018e }
             r25 = 3
             gnu.expr.QuoteExp r26 = new gnu.expr.QuoteExp     // Catch:{ all -> 0x018e }
@@ -213,10 +214,10 @@ public class syntax_case extends Syntax {
             gnu.bytecode.Method r26 = kawa.lang.Pattern.matchPatternMethod     // Catch:{ all -> 0x018e }
             r0 = r25
             r1 = r26
-            r0.<init>(r1, r13)     // Catch:{ all -> 0x018e }
+            r0.<init>((gnu.bytecode.Method) r1, (gnu.expr.Language) r13)     // Catch:{ all -> 0x018e }
             r0 = r23
             r1 = r25
-            r0.<init>(r1, r4)     // Catch:{ all -> 0x018e }
+            r0.<init>((gnu.mapping.Procedure) r1, (gnu.expr.Expression[]) r4)     // Catch:{ all -> 0x018e }
             int r15 = r24 - r16
             gnu.expr.Expression[] r12 = new gnu.expr.Expression[r15]     // Catch:{ all -> 0x018e }
             r11 = r15
@@ -245,7 +246,7 @@ public class syntax_case extends Syntax {
             r0 = r31
             r1 = r18
             r2 = r21
-            gnu.expr.Expression r17 = r0.rewrite_car(r1, r2)     // Catch:{ all -> 0x018e }
+            gnu.expr.Expression r17 = r0.rewrite_car((gnu.lists.Pair) r1, (kawa.lang.SyntaxForm) r2)     // Catch:{ all -> 0x018e }
         L_0x01b5:
             r0 = r17
             r9.setBody(r0)     // Catch:{ all -> 0x018e }
@@ -278,7 +279,7 @@ public class syntax_case extends Syntax {
             r0 = r31
             r1 = r18
             r2 = r21
-            gnu.expr.Expression r10 = r0.rewrite_car(r1, r2)     // Catch:{ all -> 0x018e }
+            gnu.expr.Expression r10 = r0.rewrite_car((gnu.lists.Pair) r1, (kawa.lang.SyntaxForm) r2)     // Catch:{ all -> 0x018e }
             java.lang.Object r25 = r18.getCdr()     // Catch:{ all -> 0x018e }
             r0 = r25
             boolean r0 = r0 instanceof gnu.lists.Pair     // Catch:{ all -> 0x018e }
@@ -305,7 +306,7 @@ public class syntax_case extends Syntax {
             r0 = r31
             r1 = r18
             r2 = r21
-            gnu.expr.Expression r25 = r0.rewrite_car(r1, r2)     // Catch:{ all -> 0x018e }
+            gnu.expr.Expression r25 = r0.rewrite_car((gnu.lists.Pair) r1, (kawa.lang.SyntaxForm) r2)     // Catch:{ all -> 0x018e }
             gnu.expr.ExitExp r26 = new gnu.expr.ExitExp     // Catch:{ all -> 0x018e }
             r0 = r26
             r0.<init>(r6)     // Catch:{ all -> 0x018e }
@@ -338,7 +339,7 @@ public class syntax_case extends Syntax {
         linits[0] = tr.rewrite(form2.getCar());
         work.inputExpression.noteValue(linits[0]);
         Pair form3 = (Pair) form2.getCdr();
-        work.literal_identifiers = SyntaxPattern.getLiteralsList(form3.getCar(), null, tr);
+        work.literal_identifiers = SyntaxPattern.getLiteralsList(form3.getCar(), (SyntaxForm) null, tr);
         let.body = rewriteClauses(form3.getCdr(), work, tr);
         tr.pop(let);
         Method allocVars = ClassType.make("kawa.lang.SyntaxPattern").getDeclaredMethod("allocVars", 2);

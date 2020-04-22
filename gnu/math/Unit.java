@@ -3,26 +3,18 @@ package gnu.math;
 public abstract class Unit extends Quantity {
     public static BaseUnit Empty = new BaseUnit();
     public static double NON_COMBINABLE = 0.0d;
-
-    /* renamed from: cm */
-    public static final Unit f240cm = define("cm", 0.01d, meter);
+    public static final Unit cm = define("cm", 0.01d, meter);
     public static final NamedUnit date = new NamedUnit("date", NON_COMBINABLE, duration);
     public static final BaseUnit duration = new BaseUnit("duration", "Time");
     public static final BaseUnit gram = new BaseUnit("g", "Mass");
     public static final Unit hour = define("hour", 60.0d, minute);
-
-    /* renamed from: in */
-    public static final Unit f241in = define("in", 0.0254d, meter);
+    public static final Unit in = define("in", 0.0254d, meter);
     public static final BaseUnit meter = new BaseUnit("m", "Length");
     public static final Unit minute = define("min", 60.0d, second);
-
-    /* renamed from: mm */
-    public static final Unit f242mm = define("mm", 0.1d, f240cm);
+    public static final Unit mm = define("mm", 0.1d, cm);
     public static final NamedUnit month = new NamedUnit("month", NON_COMBINABLE, duration);
     public static final Unit pica = define("pica", 0.004233333d, meter);
-
-    /* renamed from: pt */
-    public static final Unit f243pt = define("pt", 3.527778E-4d, meter);
+    public static final Unit pt = define("pt", 3.527778E-4d, meter);
     public static final Unit radian = define("rad", 1.0d, Empty);
     public static final NamedUnit second = new NamedUnit("s", NON_COMBINABLE, duration);
     static NamedUnit[] table = new NamedUnit[100];
@@ -51,7 +43,7 @@ public abstract class Unit extends Quantity {
         return null;
     }
 
-    static Unit times(Unit unit1, int power1, Unit unit2, int power2) {
+    static Unit times(Unit unit1, int power1, BaseUnit unit2, int power2) {
         if (unit1 == unit2) {
             power1 += power2;
             unit2 = Empty;

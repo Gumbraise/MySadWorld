@@ -10,7 +10,7 @@ class SymbolRef extends WeakReference {
         super(sym);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Symbol getSymbol() {
         return (Symbol) get();
     }

@@ -12,7 +12,7 @@ public class PropertyKey<T> {
     }
 
     public final T get(PropertySet container) {
-        return get(container, null);
+        return get(container, (Object) null);
     }
 
     public void set(PropertySet container, T value) {

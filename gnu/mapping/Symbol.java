@@ -45,15 +45,28 @@ public class Symbol implements EnvironmentKey, Comparable, Externalizable {
         return ns == null ? "" : ns.prefix;
     }
 
+    /* JADX WARNING: Code restructure failed: missing block: B:2:0x0006, code lost:
+        r1 = r0.getName();
+     */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
     public final boolean hasEmptyNamespace() {
-        Namespace ns = getNamespace();
-        if (ns != null) {
-            String nsname = ns.getName();
-            if (!(nsname == null || nsname.length() == 0)) {
-                return false;
-            }
-        }
-        return true;
+        /*
+            r3 = this;
+            gnu.mapping.Namespace r0 = r3.getNamespace()
+            if (r0 == 0) goto L_0x0012
+            java.lang.String r1 = r0.getName()
+            if (r1 == 0) goto L_0x0012
+            int r2 = r1.length()
+            if (r2 != 0) goto L_0x0014
+        L_0x0012:
+            r2 = 1
+        L_0x0013:
+            return r2
+        L_0x0014:
+            r2 = 0
+            goto L_0x0013
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.mapping.Symbol.hasEmptyNamespace():boolean");
     }
 
     public final String getLocalName() {
@@ -108,33 +121,34 @@ public class Symbol implements EnvironmentKey, Comparable, Externalizable {
         int prefixEnd = 0;
         int i = 0;
         while (true) {
-            if (i >= slen) {
-                break;
-            }
-            char ch = symbol.charAt(i);
-            if (ch == ':' && braceCount == 0) {
-                prefixEnd = i;
-                mainStart = i + 1;
-                break;
-            }
-            if (ch == '{') {
-                if (lbr < 0) {
+            if (i < slen) {
+                char ch = symbol.charAt(i);
+                if (ch == ':' && braceCount == 0) {
                     prefixEnd = i;
-                    lbr = i;
-                }
-                braceCount++;
-            }
-            if (ch == '}') {
-                braceCount--;
-                if (braceCount == 0) {
-                    rbr = i;
-                    mainStart = (i >= slen || symbol.charAt(i + 1) != ':') ? i + 1 : i + 2;
-                } else if (braceCount < 0) {
-                    mainStart = prefixEnd;
+                    mainStart = i + 1;
                     break;
                 }
+                if (ch == '{') {
+                    if (lbr < 0) {
+                        prefixEnd = i;
+                        lbr = i;
+                    }
+                    braceCount++;
+                }
+                if (ch == '}') {
+                    braceCount--;
+                    if (braceCount == 0) {
+                        rbr = i;
+                        mainStart = (i >= slen || symbol.charAt(i + 1) != ':') ? i + 1 : i + 2;
+                    } else if (braceCount < 0) {
+                        mainStart = prefixEnd;
+                        break;
+                    }
+                }
+                i++;
+            } else {
+                break;
             }
-            i++;
         }
         if (lbr >= 0 && rbr > 0) {
             return valueOf(symbol.substring(mainStart), symbol.substring(lbr + 1, rbr), prefixEnd > 0 ? symbol.substring(0, prefixEnd) : null);
@@ -153,7 +167,7 @@ public class Symbol implements EnvironmentKey, Comparable, Externalizable {
     }
 
     public static Symbol makeUninterned(String name2) {
-        return new Symbol(null, name2);
+        return new Symbol((Namespace) null, name2);
     }
 
     public Symbol(Namespace ns, String name2) {

@@ -54,7 +54,7 @@ public class Field extends Location implements AttrContainer, Member {
         return this.flags;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void write(DataOutputStream dstr, ClassType classfile) throws IOException {
         dstr.writeShort(this.flags);
         dstr.writeShort(this.name_index);
@@ -62,7 +62,7 @@ public class Field extends Location implements AttrContainer, Member {
         Attribute.writeAll(this, dstr);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void assign_constants(ClassType classfile) {
         ConstantPool constants = classfile.constants;
         if (this.name_index == 0 && this.name != null) {

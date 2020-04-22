@@ -53,7 +53,7 @@ public abstract class Expression extends Procedure0 implements Printable, Source
 
     public final int match0(CallContext ctx) {
         ctx.proc = this;
-        ctx.f236pc = 0;
+        ctx.pc = 0;
         return 0;
     }
 
@@ -133,18 +133,35 @@ public abstract class Expression extends Procedure0 implements Printable, Source
         compile(comp, CheckedTarget.getInstance(lhs));
     }
 
-    public static void compileButFirst(Expression exp, Compilation comp) {
-        if (exp instanceof BeginExp) {
-            BeginExp bexp = (BeginExp) exp;
-            int n = bexp.length;
-            if (n != 0) {
-                Expression[] exps = bexp.exps;
-                compileButFirst(exps[0], comp);
-                for (int i = 1; i < n; i++) {
-                    exps[i].compileWithPosition(comp, Target.Ignore);
-                }
-            }
-        }
+    /* JADX WARNING: Code restructure failed: missing block: B:2:0x0004, code lost:
+        r0 = (gnu.expr.BeginExp) r6;
+     */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public static void compileButFirst(gnu.expr.Expression r6, gnu.expr.Compilation r7) {
+        /*
+            boolean r4 = r6 instanceof gnu.expr.BeginExp
+            if (r4 == 0) goto L_0x000b
+            r0 = r6
+            gnu.expr.BeginExp r0 = (gnu.expr.BeginExp) r0
+            int r3 = r0.length
+            if (r3 != 0) goto L_0x000c
+        L_0x000b:
+            return
+        L_0x000c:
+            gnu.expr.Expression[] r1 = r0.exps
+            r4 = 0
+            r4 = r1[r4]
+            compileButFirst(r4, r7)
+            r2 = 1
+        L_0x0015:
+            if (r2 >= r3) goto L_0x000b
+            r4 = r1[r2]
+            gnu.expr.Target r5 = gnu.expr.Target.Ignore
+            r4.compileWithPosition(r7, r5)
+            int r2 = r2 + 1
+            goto L_0x0015
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.expr.Expression.compileButFirst(gnu.expr.Expression, gnu.expr.Compilation):void");
     }
 
     public static Expression deepCopy(Expression exp, IdentityHashTable mapper) {
@@ -202,13 +219,12 @@ public abstract class Expression extends Procedure0 implements Printable, Source
 
     public static Expression makeWhile(Object cond, Object body, Compilation parser) {
         LetExp let = new LetExp(inits);
-        String fname = "%do%loop";
-        Declaration fdecl = let.addDeclaration((Object) fname);
+        Declaration fdecl = let.addDeclaration((Object) "%do%loop");
         Expression recurse = new ApplyExp((Expression) new ReferenceExp(fdecl), noExpressions);
         LambdaExp lexp = new LambdaExp();
         parser.push((ScopeExp) lexp);
         lexp.body = new IfExp(parser.parse(cond), new BeginExp(parser.parse(body), recurse), QuoteExp.voidExp);
-        lexp.setName(fname);
+        lexp.setName("%do%loop");
         parser.pop(lexp);
         Expression[] inits = {lexp};
         fdecl.noteValue(lexp);

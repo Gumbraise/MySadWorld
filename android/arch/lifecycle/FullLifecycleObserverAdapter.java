@@ -1,6 +1,6 @@
 package android.arch.lifecycle;
 
-import android.arch.lifecycle.Lifecycle.Event;
+import android.arch.lifecycle.Lifecycle;
 
 class FullLifecycleObserverAdapter implements GenericLifecycleObserver {
     private final FullLifecycleObserver mObserver;
@@ -9,7 +9,7 @@ class FullLifecycleObserverAdapter implements GenericLifecycleObserver {
         this.mObserver = observer;
     }
 
-    public void onStateChanged(LifecycleOwner source, Event event) {
+    public void onStateChanged(LifecycleOwner source, Lifecycle.Event event) {
         switch (event) {
             case ON_CREATE:
                 this.mObserver.onCreate(source);

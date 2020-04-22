@@ -22,12 +22,12 @@ public class Literal {
         return this.value;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void assign(LitTable litTable) {
         assign((String) null, litTable);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void assign(String name, LitTable litTable) {
         int flags2 = litTable.comp.immediate ? 9 : 24;
         if (name == null) {
@@ -41,7 +41,7 @@ public class Literal {
         assign(litTable.mainClass.addField(name, this.type, flags2), litTable);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void assign(Field field2, LitTable litTable) {
         this.next = litTable.literalsChain;
         litTable.literalsChain = this;

@@ -14,7 +14,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import org.json.JSONException;
 
 public class YailDictionary extends LinkedHashMap<Object, Object> implements YailObject<YailList> {
@@ -24,29 +23,6 @@ public class YailDictionary extends LinkedHashMap<Object, Object> implements Yai
         }
     };
     private static final String LOG_TAG = "YailDictionary";
-
-    private static class DictIterator implements Iterator<YailList> {
-
-        /* renamed from: it */
-        final Iterator<Entry<Object, Object>> f49it;
-
-        DictIterator(Iterator<Entry<Object, Object>> it) {
-            this.f49it = it;
-        }
-
-        public boolean hasNext() {
-            return this.f49it.hasNext();
-        }
-
-        public YailList next() {
-            Entry<Object, Object> e = (Entry) this.f49it.next();
-            return YailList.makeList(new Object[]{e.getKey(), e.getValue()});
-        }
-
-        public void remove() {
-            this.f49it.remove();
-        }
-    }
 
     public YailDictionary() {
     }
@@ -96,10 +72,10 @@ public class YailDictionary extends LinkedHashMap<Object, Object> implements Yai
         while (it.hasNext()) {
             Object currentPair = it.next();
             if (!(currentPair instanceof YailList)) {
-                return Boolean.valueOf(false);
+                return false;
             }
             if (((YailList) currentPair).size() != 2) {
-                return Boolean.valueOf(false);
+                return false;
             }
             hadPair = true;
         }
@@ -131,22 +107,22 @@ public class YailDictionary extends LinkedHashMap<Object, Object> implements Yai
         it.next();
         boolean processed = false;
         while (it.hasNext()) {
-            Object o = it.next();
-            if (!(o instanceof YailList)) {
-                checked[i] = o;
-            } else if (isAlist((YailList) o).booleanValue()) {
-                checked[i] = alistToDict((YailList) o);
+            Object next = it.next();
+            if (!(next instanceof YailList)) {
+                checked[i] = next;
+            } else if (isAlist((YailList) next).booleanValue()) {
+                checked[i] = alistToDict((YailList) next);
                 processed = true;
             } else {
-                checked[i] = checkList((YailList) o);
-                if (checked[i] != o) {
+                checked[i] = checkList((YailList) next);
+                if (checked[i] != next) {
                     processed = true;
                 }
             }
             i++;
         }
         if (processed) {
-            return YailList.makeList(checked);
+            return YailList.makeList((Object[]) checked);
         }
         return list;
     }
@@ -169,7 +145,7 @@ public class YailDictionary extends LinkedHashMap<Object, Object> implements Yai
 
     public static YailList dictToAlist(YailDictionary dict) {
         List<Object> list = new ArrayList<>();
-        for (Entry<Object, Object> entry : dict.entrySet()) {
+        for (Map.Entry<Object, Object> entry : dict.entrySet()) {
             list.add(YailList.makeList(new Object[]{entry.getKey(), entry.getValue()}));
         }
         return YailList.makeList((List) list);
@@ -201,78 +177,22 @@ public class YailDictionary extends LinkedHashMap<Object, Object> implements Yai
         }
     }
 
-    /* JADX WARNING: type inference failed for: r1v1, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r1v2 */
-    /* JADX WARNING: type inference failed for: r1v5, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r2v4 */
-    /* JADX WARNING: type inference failed for: r1v7, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r1v9, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r1v10 */
-    /* JADX WARNING: type inference failed for: r1v11 */
-    /* JADX WARNING: type inference failed for: r1v12 */
-    /* JADX WARNING: type inference failed for: r1v13 */
-    /* JADX WARNING: Multi-variable type inference failed. Error: jadx.core.utils.exceptions.JadxRuntimeException: No candidate types for var: r1v2
-      assigns: []
-      uses: []
-      mth insns count: 29
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.fillTypeCandidates(TypeSearch.java:237)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.run(TypeSearch.java:53)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.runMultiVariableSearch(TypeInferenceVisitor.java:99)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.visit(TypeInferenceVisitor.java:92)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:27)
-    	at jadx.core.dex.visitors.DepthTraversal.lambda$visit$1(DepthTraversal.java:14)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:14)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:30)
-    	at jadx.core.ProcessClass.lambda$processDependencies$0(ProcessClass.java:49)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.ProcessClass.processDependencies(ProcessClass.java:49)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:35)
-    	at jadx.api.JadxDecompiler.processClass(JadxDecompiler.java:311)
-    	at jadx.api.JavaClass.decompile(JavaClass.java:62)
-    	at jadx.api.JadxDecompiler.lambda$appendSourcesSave$0(JadxDecompiler.java:217)
-     */
-    /* JADX WARNING: Unknown variable types count: 5 */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public java.lang.Object getObjectAtKeyPath(java.util.List<?> r5) {
-        /*
-            r4 = this;
-            r1 = r4
-            java.util.Iterator r3 = r5.iterator()
-        L_0x0005:
-            boolean r2 = r3.hasNext()
-            if (r2 == 0) goto L_0x0042
-            java.lang.Object r0 = r3.next()
-            boolean r2 = r1 instanceof java.util.Map
-            if (r2 == 0) goto L_0x001a
-            java.util.Map r1 = (java.util.Map) r1
-            java.lang.Object r1 = r1.get(r0)
-            goto L_0x0005
-        L_0x001a:
-            boolean r2 = r1 instanceof com.google.appinventor.components.runtime.util.YailList
-            if (r2 == 0) goto L_0x0036
-            r2 = r1
-            com.google.appinventor.components.runtime.util.YailList r2 = (com.google.appinventor.components.runtime.util.YailList) r2
-            java.lang.Boolean r2 = isAlist(r2)
-            boolean r2 = r2.booleanValue()
-            if (r2 == 0) goto L_0x0036
-            com.google.appinventor.components.runtime.util.YailList r1 = (com.google.appinventor.components.runtime.util.YailList) r1
-            com.google.appinventor.components.runtime.util.YailDictionary r2 = alistToDict(r1)
-            java.lang.Object r1 = r2.get(r0)
-            goto L_0x0005
-        L_0x0036:
-            boolean r2 = r1 instanceof java.util.List
-            if (r2 == 0) goto L_0x0041
-            java.util.List r1 = (java.util.List) r1
-            java.lang.Object r1 = r4.getFromList(r1, r0)
-            goto L_0x0005
-        L_0x0041:
-            r1 = 0
-        L_0x0042:
-            return r1
-        */
-        throw new UnsupportedOperationException("Method not decompiled: com.google.appinventor.components.runtime.util.YailDictionary.getObjectAtKeyPath(java.util.List):java.lang.Object");
+    public Object getObjectAtKeyPath(List<?> keysOrIndices) {
+        Object obj;
+        Object target = this;
+        for (Object currentKey : keysOrIndices) {
+            if (target instanceof Map) {
+                obj = ((Map) target).get(currentKey);
+            } else if ((target instanceof YailList) && isAlist((YailList) target).booleanValue()) {
+                obj = alistToDict((YailList) target).get(currentKey);
+            } else if (!(target instanceof List)) {
+                return null;
+            } else {
+                obj = getFromList((List) target, currentKey);
+            }
+            target = obj;
+        }
+        return target;
     }
 
     private static Collection<Object> allOf(Map<Object, Object> map) {
@@ -296,10 +216,10 @@ public class YailDictionary extends LinkedHashMap<Object, Object> implements Yai
 
     private static Collection<Object> allOf(Object object) {
         if (object instanceof Map) {
-            return allOf((Map) object);
+            return allOf((Map<Object, Object>) (Map) object);
         }
         if (object instanceof List) {
-            return allOf((List) object);
+            return allOf((List<Object>) (List) object);
         }
         return Collections.emptyList();
     }
@@ -398,65 +318,25 @@ public class YailDictionary extends LinkedHashMap<Object, Object> implements Yai
         throw new DispatchableError(ErrorMessages.ERROR_INVALID_VALUE_IN_PATH, objArr);
     }
 
-    /* JADX WARNING: type inference failed for: r5v4 */
-    /* JADX WARNING: Multi-variable type inference failed */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public void setValueForKeyPath(java.util.List<?> r8, java.lang.Object r9) {
-        /*
-            r7 = this;
-            r3 = r7
-            java.util.Iterator r0 = r8.iterator()
-            boolean r4 = r8.isEmpty()
-            if (r4 == 0) goto L_0x005d
-        L_0x000b:
-            return
-        L_0x000c:
-            boolean r4 = r0.hasNext()
-            if (r4 == 0) goto L_0x000b
-            java.lang.Object r1 = r0.next()
-            boolean r4 = r0.hasNext()
-            if (r4 == 0) goto L_0x0022
-            java.lang.Object r3 = r7.lookupTargetForKey(r5, r1)
-            r5 = r3
-            goto L_0x000c
-        L_0x0022:
-            boolean r4 = r5 instanceof com.google.appinventor.components.runtime.util.YailDictionary
-            if (r4 == 0) goto L_0x002d
-            r4 = r5
-            com.google.appinventor.components.runtime.util.YailDictionary r4 = (com.google.appinventor.components.runtime.util.YailDictionary) r4
-            r4.put(r1, r9)
-            goto L_0x000c
-        L_0x002d:
-            boolean r4 = r5 instanceof com.google.appinventor.components.runtime.util.YailList
-            if (r4 == 0) goto L_0x0043
-            r2 = r5
-            gnu.lists.LList r2 = (gnu.lists.LList) r2
-            r4 = r5
-            java.util.List r4 = (java.util.List) r4
-            int r4 = keyToIndex(r4, r1)
-            gnu.lists.SeqPosition r4 = r2.getIterator(r4)
-            r4.set(r9)
-            goto L_0x000c
-        L_0x0043:
-            boolean r4 = r5 instanceof java.util.List
-            if (r4 == 0) goto L_0x0055
-            r4 = r5
-            java.util.List r4 = (java.util.List) r4
-            r6 = r5
-            java.util.List r6 = (java.util.List) r6
-            int r6 = keyToIndex(r6, r1)
-            r4.set(r6, r9)
-            goto L_0x000c
-        L_0x0055:
-            com.google.appinventor.components.runtime.errors.DispatchableError r4 = new com.google.appinventor.components.runtime.errors.DispatchableError
-            r5 = 3203(0xc83, float:4.488E-42)
-            r4.<init>(r5)
-            throw r4
-        L_0x005d:
-            r5 = r3
-            goto L_0x000c
-        */
-        throw new UnsupportedOperationException("Method not decompiled: com.google.appinventor.components.runtime.util.YailDictionary.setValueForKeyPath(java.util.List, java.lang.Object):void");
+    public void setValueForKeyPath(List<?> keys, Object value) {
+        Iterator<?> it = keys.iterator();
+        if (!keys.isEmpty()) {
+            YailDictionary yailDictionary = this;
+            while (it.hasNext()) {
+                Object key = it.next();
+                if (it.hasNext()) {
+                    yailDictionary = lookupTargetForKey(yailDictionary, key);
+                } else if (yailDictionary instanceof YailDictionary) {
+                    yailDictionary.put(key, value);
+                } else if (yailDictionary instanceof YailList) {
+                    ((LList) yailDictionary).getIterator(keyToIndex((List) yailDictionary, key)).set(value);
+                } else if (yailDictionary instanceof List) {
+                    ((List) yailDictionary).set(keyToIndex((List) yailDictionary, key), value);
+                } else {
+                    throw new DispatchableError(ErrorMessages.ERROR_INVALID_VALUE_IN_PATH);
+                }
+            }
+        }
     }
 
     public boolean containsKey(Object key) {
@@ -510,7 +390,7 @@ public class YailDictionary extends LinkedHashMap<Object, Object> implements Yai
             throw new IndexOutOfBoundsException();
         }
         int i = index;
-        for (Entry<Object, Object> e : entrySet()) {
+        for (Map.Entry<Object, Object> e : entrySet()) {
             if (i == 0) {
                 return Lists.newArrayList(e.getKey(), e.getValue());
             }
@@ -522,5 +402,26 @@ public class YailDictionary extends LinkedHashMap<Object, Object> implements Yai
     @NonNull
     public Iterator<YailList> iterator() {
         return new DictIterator(entrySet().iterator());
+    }
+
+    private static class DictIterator implements Iterator<YailList> {
+        final Iterator<Map.Entry<Object, Object>> it;
+
+        DictIterator(Iterator<Map.Entry<Object, Object>> it2) {
+            this.it = it2;
+        }
+
+        public boolean hasNext() {
+            return this.it.hasNext();
+        }
+
+        public YailList next() {
+            Map.Entry<Object, Object> e = this.it.next();
+            return YailList.makeList(new Object[]{e.getKey(), e.getValue()});
+        }
+
+        public void remove() {
+            this.it.remove();
+        }
     }
 }

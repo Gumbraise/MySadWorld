@@ -42,8 +42,6 @@ public class MediaCodecListCollector {
     }
 
     static {
-        Field[] arr$;
-        Field[] arr$2;
         mediaCodecListClass = null;
         getCodecInfoAtMethod = null;
         mediaCodecInfoClass = null;
@@ -69,26 +67,26 @@ public class MediaCodecListCollector {
             profileLevelsField = codecCapabilitiesClass.getField("profileLevels");
             for (Field f : codecCapabilitiesClass.getFields()) {
                 if (Modifier.isStatic(f.getModifiers()) && Modifier.isFinal(f.getModifiers()) && f.getName().startsWith(COLOR_FORMAT_PREFIX)) {
-                    mColorFormatValues.put(f.getInt(null), f.getName());
+                    mColorFormatValues.put(f.getInt((Object) null), f.getName());
                 }
             }
             Class<?> codecProfileLevelClass = Class.forName("android.media.MediaCodecInfo$CodecProfileLevel");
             for (Field f2 : codecProfileLevelClass.getFields()) {
                 if (Modifier.isStatic(f2.getModifiers()) && Modifier.isFinal(f2.getModifiers())) {
                     if (f2.getName().startsWith("AVCLevel")) {
-                        mAVCLevelValues.put(f2.getInt(null), f2.getName());
+                        mAVCLevelValues.put(f2.getInt((Object) null), f2.getName());
                     } else if (f2.getName().startsWith("AVCProfile")) {
-                        mAVCProfileValues.put(f2.getInt(null), f2.getName());
+                        mAVCProfileValues.put(f2.getInt((Object) null), f2.getName());
                     } else if (f2.getName().startsWith("H263Level")) {
-                        mH263LevelValues.put(f2.getInt(null), f2.getName());
+                        mH263LevelValues.put(f2.getInt((Object) null), f2.getName());
                     } else if (f2.getName().startsWith("H263Profile")) {
-                        mH263ProfileValues.put(f2.getInt(null), f2.getName());
+                        mH263ProfileValues.put(f2.getInt((Object) null), f2.getName());
                     } else if (f2.getName().startsWith("MPEG4Level")) {
-                        mMPEG4LevelValues.put(f2.getInt(null), f2.getName());
+                        mMPEG4LevelValues.put(f2.getInt((Object) null), f2.getName());
                     } else if (f2.getName().startsWith("MPEG4Profile")) {
-                        mMPEG4ProfileValues.put(f2.getInt(null), f2.getName());
+                        mMPEG4ProfileValues.put(f2.getInt((Object) null), f2.getName());
                     } else if (f2.getName().startsWith("AAC")) {
-                        mAACProfileValues.put(f2.getInt(null), f2.getName());
+                        mAACProfileValues.put(f2.getInt((Object) null), f2.getName());
                     }
                 }
             }
@@ -107,10 +105,10 @@ public class MediaCodecListCollector {
         StringBuilder result = new StringBuilder();
         if (!(mediaCodecListClass == null || mediaCodecInfoClass == null)) {
             try {
-                int codecCount = ((Integer) mediaCodecListClass.getMethod("getCodecCount", new Class[0]).invoke(null, new Object[0])).intValue();
+                int codecCount = ((Integer) mediaCodecListClass.getMethod("getCodecCount", new Class[0]).invoke((Object) null, new Object[0])).intValue();
                 for (int codecIdx = 0; codecIdx < codecCount; codecIdx++) {
                     result.append("\n");
-                    Object codecInfo = getCodecInfoAtMethod.invoke(null, new Object[]{Integer.valueOf(codecIdx)});
+                    Object codecInfo = getCodecInfoAtMethod.invoke((Object) null, new Object[]{Integer.valueOf(codecIdx)});
                     result.append(codecIdx).append(": ").append(getNameMethod.invoke(codecInfo, new Object[0])).append("\n");
                     result.append("isEncoder: ").append(isEncoderMethod.invoke(codecInfo, new Object[0])).append("\n");
                     String[] supportedTypes = (String[]) getSupportedTypesMethod.invoke(codecInfo, new Object[0]);
@@ -133,7 +131,7 @@ public class MediaCodecListCollector {
         if (colorFormats.length > 0) {
             result.append(type).append(" color formats:");
             for (int i = 0; i < colorFormats.length; i++) {
-                result.append((String) mColorFormatValues.get(colorFormats[i]));
+                result.append(mColorFormatValues.get(colorFormats[i]));
                 if (i < colorFormats.length - 1) {
                     result.append(',');
                 }
@@ -152,16 +150,16 @@ public class MediaCodecListCollector {
                 }
                 switch (codecType) {
                     case AVC:
-                        result.append(profileValue).append((String) mAVCProfileValues.get(profileValue)).append('-').append((String) mAVCLevelValues.get(levelValue));
+                        result.append(profileValue).append(mAVCProfileValues.get(profileValue)).append('-').append(mAVCLevelValues.get(levelValue));
                         break;
                     case H263:
-                        result.append((String) mH263ProfileValues.get(profileValue)).append('-').append((String) mH263LevelValues.get(levelValue));
+                        result.append(mH263ProfileValues.get(profileValue)).append('-').append(mH263LevelValues.get(levelValue));
                         break;
                     case MPEG4:
-                        result.append((String) mMPEG4ProfileValues.get(profileValue)).append('-').append((String) mMPEG4LevelValues.get(levelValue));
+                        result.append(mMPEG4ProfileValues.get(profileValue)).append('-').append(mMPEG4LevelValues.get(levelValue));
                         break;
                     case AAC:
-                        result.append((String) mAACProfileValues.get(profileValue));
+                        result.append(mAACProfileValues.get(profileValue));
                         break;
                 }
                 if (i2 < codecProfileLevels.length - 1) {

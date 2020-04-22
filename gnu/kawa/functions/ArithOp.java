@@ -22,13 +22,11 @@ public abstract class ArithOp extends ProcedureN {
     public static final int QUOTIENT_EXACT = 7;
     static final int SUB = 2;
     public static final int XOR = 15;
+    final int op;
 
-    /* renamed from: op */
-    final int f58op;
-
-    public ArithOp(String name, int op) {
+    public ArithOp(String name, int op2) {
         super(name);
-        this.f58op = op;
+        this.op = op2;
     }
 
     public Object defaultResult() {

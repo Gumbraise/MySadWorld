@@ -11,7 +11,7 @@ import com.google.appinventor.components.annotations.SimpleProperty;
 import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.runtime.util.ErrorMessages;
 import com.google.appinventor.components.runtime.util.Ev3BinaryParser;
-import com.google.appinventor.components.runtime.util.Ev3Constants.Opcode;
+import com.google.appinventor.components.runtime.util.Ev3Constants;
 
 @SimpleObject
 @DesignerComponent(category = ComponentCategory.LEGOMINDSTORMS, description = "A component that provides both high- and low-level interfaces to a LEGO MINDSTORMS EV3 robot, with functions that can control the motors.", iconName = "images/legoMindstormsEv3.png", nonVisible = true, version = 1)
@@ -31,15 +31,14 @@ public class Ev3Motors extends LegoMindstormsEv3Base {
     private boolean regulationEnabled = true;
     private final Runnable sensorValueChecker = new Runnable() {
         public void run() {
-            String functionName = "";
             if (Ev3Motors.this.bluetooth != null && Ev3Motors.this.bluetooth.IsConnected()) {
-                int sensorValue = Ev3Motors.this.getOutputCount(functionName, 0, Ev3Motors.this.motorPortBitField);
+                int sensorValue = Ev3Motors.this.getOutputCount("", 0, Ev3Motors.this.motorPortBitField);
                 if (Ev3Motors.this.ifReset) {
-                    Ev3Motors.this.ifReset = false;
+                    boolean unused = Ev3Motors.this.ifReset = false;
                 } else if (sensorValue != Ev3Motors.this.previousValue && Ev3Motors.this.tachoCountChangedEventEnabled) {
                     Ev3Motors.this.TachoCountChanged(sensorValue);
                 }
-                Ev3Motors.this.previousValue = sensorValue;
+                int unused2 = Ev3Motors.this.previousValue = sensorValue;
             }
             Ev3Motors.this.eventHandler.postDelayed(this, 50);
         }
@@ -68,11 +67,10 @@ public class Ev3Motors extends LegoMindstormsEv3Base {
     @DesignerProperty(defaultValue = "ABC", editorType = "string")
     @SimpleProperty
     public void MotorPorts(String motorPortLetters) {
-        String functionName = "MotorPorts";
         try {
             this.motorPortBitField = motorPortLettersToBitField(motorPortLetters);
         } catch (IllegalArgumentException e) {
-            this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_EV3_ILLEGAL_MOTOR_PORT, motorPortLetters);
+            this.form.dispatchErrorOccurredEvent(this, "MotorPorts", ErrorMessages.ERROR_EV3_ILLEGAL_MOTOR_PORT, motorPortLetters);
         }
     }
 
@@ -90,12 +88,11 @@ public class Ev3Motors extends LegoMindstormsEv3Base {
     @DesignerProperty(defaultValue = "False", editorType = "boolean")
     @SimpleProperty
     public void ReverseDirection(boolean reversed) {
-        String functionName = "ReverseDirection";
         try {
-            setOutputDirection(functionName, 0, this.motorPortBitField, reversed ? -1 : 1);
+            setOutputDirection("ReverseDirection", 0, this.motorPortBitField, reversed ? -1 : 1);
             this.directionReversed = reversed;
         } catch (IllegalArgumentException e) {
-            this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, functionName);
+            this.form.dispatchErrorOccurredEvent(this, "ReverseDirection", ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, "ReverseDirection");
         }
     }
 
@@ -139,147 +136,137 @@ public class Ev3Motors extends LegoMindstormsEv3Base {
 
     @SimpleFunction(description = "Start to rotate the motors.")
     public void RotateIndefinitely(int power) {
-        String functionName = "RotateIndefinitely";
         try {
             if (this.regulationEnabled) {
-                setOutputPower(functionName, 0, this.motorPortBitField, power);
+                setOutputPower("RotateIndefinitely", 0, this.motorPortBitField, power);
             } else {
-                setOutputSpeed(functionName, 0, this.motorPortBitField, power);
+                setOutputSpeed("RotateIndefinitely", 0, this.motorPortBitField, power);
             }
-            startOutput(functionName, 0, this.motorPortBitField);
+            startOutput("RotateIndefinitely", 0, this.motorPortBitField);
         } catch (IllegalArgumentException e) {
-            this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, functionName);
+            this.form.dispatchErrorOccurredEvent(this, "RotateIndefinitely", ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, "RotateIndefinitely");
         }
     }
 
     @SimpleFunction(description = "Rotate the motors in a number of tacho counts.")
     public void RotateInTachoCounts(int power, int tachoCounts, boolean useBrake) {
-        String functionName = "RotateInTachoCounts";
         try {
             if (this.regulationEnabled) {
-                outputStepSpeed(functionName, 0, this.motorPortBitField, power, 0, tachoCounts, 0, useBrake);
+                outputStepSpeed("RotateInTachoCounts", 0, this.motorPortBitField, power, 0, tachoCounts, 0, useBrake);
                 return;
             }
-            outputStepPower(functionName, 0, this.motorPortBitField, power, 0, tachoCounts, 0, useBrake);
+            outputStepPower("RotateInTachoCounts", 0, this.motorPortBitField, power, 0, tachoCounts, 0, useBrake);
         } catch (IllegalArgumentException e) {
-            this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, functionName);
+            this.form.dispatchErrorOccurredEvent(this, "RotateInTachoCounts", ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, "RotateInTachoCounts");
         }
     }
 
     @SimpleFunction(description = "Rotate the motors in a period of time.")
     public void RotateInDuration(int power, int milliseconds, boolean useBrake) {
-        String functionName = "RotateInDuration";
         try {
             if (this.regulationEnabled) {
-                outputTimeSpeed(functionName, 0, this.motorPortBitField, power, 0, milliseconds, 0, useBrake);
+                outputTimeSpeed("RotateInDuration", 0, this.motorPortBitField, power, 0, milliseconds, 0, useBrake);
                 return;
             }
-            outputTimePower(functionName, 0, this.motorPortBitField, power, 0, milliseconds, 0, useBrake);
+            outputTimePower("RotateInDuration", 0, this.motorPortBitField, power, 0, milliseconds, 0, useBrake);
         } catch (IllegalArgumentException e) {
-            this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, functionName);
+            this.form.dispatchErrorOccurredEvent(this, "RotateInDuration", ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, "RotateInDuration");
         }
     }
 
     @SimpleFunction(description = "Rotate the motors in a distance.")
     public void RotateInDistance(int power, double distance, boolean useBrake) {
-        String functionName = "RotateInDistance";
         int tachoCounts = (int) (((360.0d * distance) / this.wheelDiameter) / 3.141592653589793d);
         try {
             if (this.regulationEnabled) {
-                outputStepSpeed(functionName, 0, this.motorPortBitField, power, 0, tachoCounts, 0, useBrake);
+                outputStepSpeed("RotateInDistance", 0, this.motorPortBitField, power, 0, tachoCounts, 0, useBrake);
                 return;
             }
-            outputStepPower(functionName, 0, this.motorPortBitField, power, 0, tachoCounts, 0, useBrake);
+            outputStepPower("RotateInDistance", 0, this.motorPortBitField, power, 0, tachoCounts, 0, useBrake);
         } catch (IllegalArgumentException e) {
-            this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, functionName);
+            this.form.dispatchErrorOccurredEvent(this, "RotateInDistance", ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, "RotateInDistance");
         }
     }
 
     @SimpleFunction(description = "Start to rotate the motors at the same speed.")
     public void RotateSyncIndefinitely(int power, int turnRatio) {
-        String functionName = "RotateSyncIndefinitely";
         try {
             if (this.motorPortBitField == 0) {
                 return;
             }
             if (isOneShotInteger(this.motorPortBitField)) {
-                setOutputSpeed(functionName, 0, this.motorPortBitField, power);
+                setOutputSpeed("RotateSyncIndefinitely", 0, this.motorPortBitField, power);
                 return;
             }
-            outputStepSync(functionName, 0, this.motorPortBitField, power, turnRatio, 0, true);
+            outputStepSync("RotateSyncIndefinitely", 0, this.motorPortBitField, power, turnRatio, 0, true);
         } catch (IllegalArgumentException e) {
-            this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, functionName);
+            this.form.dispatchErrorOccurredEvent(this, "RotateSyncIndefinitely", ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, "RotateSyncIndefinitely");
         }
     }
 
     @SimpleFunction(description = "Rotate the motors at the same speed for a distance in cm.")
     public void RotateSyncInDistance(int power, int distance, int turnRatio, boolean useBrake) {
-        String functionName = "RotateSyncInDuration";
         int tachoCounts = (int) (((((double) distance) * 360.0d) / this.wheelDiameter) / 3.141592653589793d);
         try {
             if (this.motorPortBitField == 0) {
                 return;
             }
             if (isOneShotInteger(this.motorPortBitField)) {
-                outputStepSpeed(functionName, 0, this.motorPortBitField, power, 0, tachoCounts, 0, useBrake);
+                outputStepSpeed("RotateSyncInDuration", 0, this.motorPortBitField, power, 0, tachoCounts, 0, useBrake);
                 return;
             }
-            outputStepSync(functionName, 0, this.motorPortBitField, power, turnRatio, tachoCounts, useBrake);
+            outputStepSync("RotateSyncInDuration", 0, this.motorPortBitField, power, turnRatio, tachoCounts, useBrake);
         } catch (IllegalArgumentException e) {
-            this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, functionName);
+            this.form.dispatchErrorOccurredEvent(this, "RotateSyncInDuration", ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, "RotateSyncInDuration");
         }
     }
 
     @SimpleFunction(description = "Rotate the motors at the same speed in a period of time.")
     public void RotateSyncInDuration(int power, int milliseconds, int turnRatio, boolean useBrake) {
-        String functionName = "RotateSyncInDuration";
         try {
             if (this.motorPortBitField == 0) {
                 return;
             }
             if (isOneShotInteger(this.motorPortBitField)) {
-                outputTimeSpeed(functionName, 0, this.motorPortBitField, power, 0, milliseconds, 0, useBrake);
+                outputTimeSpeed("RotateSyncInDuration", 0, this.motorPortBitField, power, 0, milliseconds, 0, useBrake);
                 return;
             }
-            outputTimeSync(functionName, 0, this.motorPortBitField, power, turnRatio, milliseconds, useBrake);
+            outputTimeSync("RotateSyncInDuration", 0, this.motorPortBitField, power, turnRatio, milliseconds, useBrake);
         } catch (IllegalArgumentException e) {
-            this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, functionName);
+            this.form.dispatchErrorOccurredEvent(this, "RotateSyncInDuration", ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, "RotateSyncInDuration");
         }
     }
 
     @SimpleFunction(description = "Rotate the motors at the same speed in a number of tacho counts.")
     public void RotateSyncInTachoCounts(int power, int tachoCounts, int turnRatio, boolean useBrake) {
-        String functionName = "RotateSyncInTachoCounts";
         try {
             if (this.motorPortBitField == 0) {
                 return;
             }
             if (isOneShotInteger(this.motorPortBitField)) {
-                outputStepSpeed(functionName, 0, this.motorPortBitField, power, 0, tachoCounts, 0, useBrake);
+                outputStepSpeed("RotateSyncInTachoCounts", 0, this.motorPortBitField, power, 0, tachoCounts, 0, useBrake);
                 return;
             }
-            outputStepSync(functionName, 0, this.motorPortBitField, power, turnRatio, tachoCounts, useBrake);
+            outputStepSync("RotateSyncInTachoCounts", 0, this.motorPortBitField, power, turnRatio, tachoCounts, useBrake);
         } catch (IllegalArgumentException e) {
-            this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, functionName);
+            this.form.dispatchErrorOccurredEvent(this, "RotateSyncInTachoCounts", ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, "RotateSyncInTachoCounts");
         }
     }
 
     @SimpleFunction(description = "Stop the motors of the robot.")
     public void Stop(boolean useBrake) {
-        String functionName = "Stop";
         try {
-            stopOutput(functionName, 0, this.motorPortBitField, useBrake);
+            stopOutput("Stop", 0, this.motorPortBitField, useBrake);
         } catch (IllegalArgumentException e) {
-            this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, functionName);
+            this.form.dispatchErrorOccurredEvent(this, "Stop", ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, "Stop");
         }
     }
 
     @SimpleFunction(description = "Toggle the direction of motors.")
     public void ToggleDirection() {
         boolean z;
-        String functionName = "ToggleDirection";
         try {
-            setOutputDirection(functionName, 0, this.motorPortBitField, 0);
+            setOutputDirection("ToggleDirection", 0, this.motorPortBitField, 0);
             if (!this.directionReversed) {
                 z = true;
             } else {
@@ -287,29 +274,26 @@ public class Ev3Motors extends LegoMindstormsEv3Base {
             }
             this.directionReversed = z;
         } catch (IllegalArgumentException e) {
-            this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, functionName);
+            this.form.dispatchErrorOccurredEvent(this, "ToggleDirection", ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, "ToggleDirection");
         }
     }
 
     @SimpleFunction(description = "Set the current tacho count to zero.")
     public void ResetTachoCount() {
-        String functionName = "ResetTachoCount";
         try {
-            clearOutputCount(functionName, 0, this.motorPortBitField);
+            clearOutputCount("ResetTachoCount", 0, this.motorPortBitField);
         } catch (IllegalArgumentException e) {
-            this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, functionName);
+            this.form.dispatchErrorOccurredEvent(this, "ResetTachoCount", ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, "ResetTachoCount");
         }
     }
 
     @SimpleFunction(description = "Get the current tacho count.")
     public int GetTachoCount() {
-        boolean z = false;
-        String functionName = "GetTachoCount";
         try {
-            return getOutputCount(functionName, 0, this.motorPortBitField);
+            return getOutputCount("GetTachoCount", 0, this.motorPortBitField);
         } catch (IllegalArgumentException e) {
-            this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, functionName);
-            return z;
+            this.form.dispatchErrorOccurredEvent(this, "GetTachoCount", ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, "GetTachoCount");
+            return 0;
         }
     }
 
@@ -334,14 +318,14 @@ public class Ev3Motors extends LegoMindstormsEv3Base {
             throw new IllegalArgumentException();
         }
         this.ifReset = true;
-        sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(Opcode.OUTPUT_RESET, false, 0, 0, "cc", Byte.valueOf((byte) layer), Byte.valueOf((byte) nos)), false);
+        sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(Ev3Constants.Opcode.OUTPUT_RESET, false, 0, 0, "cc", Byte.valueOf((byte) layer), Byte.valueOf((byte) nos)), false);
     }
 
     private void startOutput(String functionName, int layer, int nos) {
         if (layer < 0 || layer > 3 || nos < 0 || nos > 15) {
             throw new IllegalArgumentException();
         }
-        sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(Opcode.OUTPUT_START, false, 0, 0, "cc", Byte.valueOf((byte) layer), Byte.valueOf((byte) nos)), false);
+        sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(Ev3Constants.Opcode.OUTPUT_START, false, 0, 0, "cc", Byte.valueOf((byte) layer), Byte.valueOf((byte) nos)), false);
     }
 
     private void stopOutput(String functionName, int layer, int nos, boolean useBrake) {
@@ -349,7 +333,6 @@ public class Ev3Motors extends LegoMindstormsEv3Base {
         if (layer < 0 || layer > 3 || nos < 0 || nos > 15) {
             throw new IllegalArgumentException();
         }
-        String str = "ccc";
         Object[] objArr = new Object[3];
         objArr[0] = Byte.valueOf((byte) layer);
         objArr[1] = Byte.valueOf((byte) nos);
@@ -357,7 +340,7 @@ public class Ev3Motors extends LegoMindstormsEv3Base {
             b = 0;
         }
         objArr[2] = Byte.valueOf(b);
-        sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(Opcode.OUTPUT_STOP, false, 0, 0, str, objArr), false);
+        sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(Ev3Constants.Opcode.OUTPUT_STOP, false, 0, 0, "ccc", objArr), false);
     }
 
     private void outputStepPower(String functionName, int layer, int nos, int power, int step1, int step2, int step3, boolean brake) {
@@ -365,7 +348,6 @@ public class Ev3Motors extends LegoMindstormsEv3Base {
             throw new IllegalArgumentException();
         }
         int power2 = roundValue(power, -100, 100);
-        String str = "ccccccc";
         Object[] objArr = new Object[7];
         objArr[0] = Byte.valueOf((byte) layer);
         objArr[1] = Byte.valueOf((byte) nos);
@@ -374,7 +356,7 @@ public class Ev3Motors extends LegoMindstormsEv3Base {
         objArr[4] = Integer.valueOf(step2);
         objArr[5] = Integer.valueOf(step3);
         objArr[6] = Byte.valueOf((byte) (brake ? 1 : 0));
-        sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(Opcode.OUTPUT_STEP_POWER, false, 0, 0, str, objArr), false);
+        sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(Ev3Constants.Opcode.OUTPUT_STEP_POWER, false, 0, 0, "ccccccc", objArr), false);
     }
 
     private void outputStepSpeed(String functionName, int layer, int nos, int speed, int step1, int step2, int step3, boolean brake) {
@@ -382,7 +364,6 @@ public class Ev3Motors extends LegoMindstormsEv3Base {
             throw new IllegalArgumentException();
         }
         int speed2 = roundValue(speed, -100, 100);
-        String str = "ccccccc";
         Object[] objArr = new Object[7];
         objArr[0] = Byte.valueOf((byte) layer);
         objArr[1] = Byte.valueOf((byte) nos);
@@ -391,7 +372,7 @@ public class Ev3Motors extends LegoMindstormsEv3Base {
         objArr[4] = Integer.valueOf(step2);
         objArr[5] = Integer.valueOf(step3);
         objArr[6] = Byte.valueOf((byte) (brake ? 1 : 0));
-        sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(Opcode.OUTPUT_STEP_SPEED, false, 0, 0, str, objArr), false);
+        sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(Ev3Constants.Opcode.OUTPUT_STEP_SPEED, false, 0, 0, "ccccccc", objArr), false);
     }
 
     private void outputStepSync(String functionName, int layer, int nos, int speed, int turnRatio, int tachoCounts, boolean brake) {
@@ -399,7 +380,6 @@ public class Ev3Motors extends LegoMindstormsEv3Base {
             throw new IllegalArgumentException();
         }
         int speed2 = roundValue(speed, -100, 100);
-        String str = "cccccc";
         Object[] objArr = new Object[6];
         objArr[0] = Byte.valueOf((byte) layer);
         objArr[1] = Byte.valueOf((byte) nos);
@@ -407,7 +387,7 @@ public class Ev3Motors extends LegoMindstormsEv3Base {
         objArr[3] = Short.valueOf((short) turnRatio);
         objArr[4] = Integer.valueOf(tachoCounts);
         objArr[5] = Byte.valueOf((byte) (brake ? 1 : 0));
-        sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(Opcode.OUTPUT_STEP_SYNC, false, 0, 0, str, objArr), false);
+        sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(Ev3Constants.Opcode.OUTPUT_STEP_SYNC, false, 0, 0, "cccccc", objArr), false);
     }
 
     private void outputTimePower(String functionName, int layer, int nos, int power, int step1, int step2, int step3, boolean brake) {
@@ -415,7 +395,6 @@ public class Ev3Motors extends LegoMindstormsEv3Base {
             throw new IllegalArgumentException();
         }
         int power2 = roundValue(power, -100, 100);
-        String str = "ccccccc";
         Object[] objArr = new Object[7];
         objArr[0] = Byte.valueOf((byte) layer);
         objArr[1] = Byte.valueOf((byte) nos);
@@ -424,7 +403,7 @@ public class Ev3Motors extends LegoMindstormsEv3Base {
         objArr[4] = Integer.valueOf(step2);
         objArr[5] = Integer.valueOf(step3);
         objArr[6] = Byte.valueOf((byte) (brake ? 1 : 0));
-        sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(Opcode.OUTPUT_TIME_POWER, false, 0, 0, str, objArr), false);
+        sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(Ev3Constants.Opcode.OUTPUT_TIME_POWER, false, 0, 0, "ccccccc", objArr), false);
     }
 
     private void outputTimeSpeed(String functionName, int layer, int nos, int speed, int step1, int step2, int step3, boolean brake) {
@@ -432,7 +411,6 @@ public class Ev3Motors extends LegoMindstormsEv3Base {
             throw new IllegalArgumentException();
         }
         int speed2 = roundValue(speed, -100, 100);
-        String str = "ccccccc";
         Object[] objArr = new Object[7];
         objArr[0] = Byte.valueOf((byte) layer);
         objArr[1] = Byte.valueOf((byte) nos);
@@ -441,7 +419,7 @@ public class Ev3Motors extends LegoMindstormsEv3Base {
         objArr[4] = Integer.valueOf(step2);
         objArr[5] = Integer.valueOf(step3);
         objArr[6] = Byte.valueOf((byte) (brake ? 1 : 0));
-        sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(Opcode.OUTPUT_TIME_SPEED, false, 0, 0, str, objArr), false);
+        sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(Ev3Constants.Opcode.OUTPUT_TIME_SPEED, false, 0, 0, "ccccccc", objArr), false);
     }
 
     private void outputTimeSync(String functionName, int layer, int nos, int speed, int turnRatio, int milliseconds, boolean brake) {
@@ -449,7 +427,6 @@ public class Ev3Motors extends LegoMindstormsEv3Base {
             throw new IllegalArgumentException();
         }
         int speed2 = roundValue(speed, -100, 100);
-        String str = "cccccc";
         Object[] objArr = new Object[6];
         objArr[0] = Byte.valueOf((byte) layer);
         objArr[1] = Byte.valueOf((byte) nos);
@@ -457,28 +434,28 @@ public class Ev3Motors extends LegoMindstormsEv3Base {
         objArr[3] = Short.valueOf((short) turnRatio);
         objArr[4] = Integer.valueOf(milliseconds);
         objArr[5] = Byte.valueOf((byte) (brake ? 1 : 0));
-        sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(Opcode.OUTPUT_TIME_SYNC, false, 0, 0, str, objArr), false);
+        sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(Ev3Constants.Opcode.OUTPUT_TIME_SYNC, false, 0, 0, "cccccc", objArr), false);
     }
 
     private void setOutputDirection(String functionName, int layer, int nos, int direction) {
         if (layer < 0 || layer > 3 || nos < 0 || nos > 15 || direction < -1 || direction > 1) {
             throw new IllegalArgumentException();
         }
-        sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(Opcode.OUTPUT_POLARITY, false, 0, 0, "ccc", Byte.valueOf((byte) layer), Byte.valueOf((byte) nos), Byte.valueOf((byte) direction)), false);
+        sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(Ev3Constants.Opcode.OUTPUT_POLARITY, false, 0, 0, "ccc", Byte.valueOf((byte) layer), Byte.valueOf((byte) nos), Byte.valueOf((byte) direction)), false);
     }
 
     private void setOutputSpeed(String functionName, int layer, int nos, int speed) {
         if (layer < 0 || layer > 3 || nos < 0 || nos > 15) {
             throw new IllegalArgumentException();
         }
-        sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(Opcode.OUTPUT_SPEED, false, 0, 0, "ccc", Byte.valueOf((byte) layer), Byte.valueOf((byte) nos), Byte.valueOf((byte) roundValue(speed, -100, 100))), false);
+        sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(Ev3Constants.Opcode.OUTPUT_SPEED, false, 0, 0, "ccc", Byte.valueOf((byte) layer), Byte.valueOf((byte) nos), Byte.valueOf((byte) roundValue(speed, -100, 100))), false);
     }
 
     private void setOutputPower(String functionName, int layer, int nos, int power) {
         if (layer < 0 || layer > 3 || nos < 0 || nos > 15) {
             throw new IllegalArgumentException();
         }
-        sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(Opcode.OUTPUT_POWER, false, 0, 0, "ccc", Byte.valueOf((byte) layer), Byte.valueOf((byte) nos), Byte.valueOf((byte) roundValue(power, -100, 100))), false);
+        sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(Ev3Constants.Opcode.OUTPUT_POWER, false, 0, 0, "ccc", Byte.valueOf((byte) layer), Byte.valueOf((byte) nos), Byte.valueOf((byte) roundValue(power, -100, 100))), false);
     }
 
     /* access modifiers changed from: private */
@@ -503,7 +480,7 @@ public class Ev3Motors extends LegoMindstormsEv3Base {
             default:
                 throw new IllegalArgumentException();
         }
-        byte[] reply = sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(Opcode.OUTPUT_GET_COUNT, true, 4, 0, "ccg", Byte.valueOf((byte) layer), Byte.valueOf((byte) portNumber), Byte.valueOf(0)), true);
+        byte[] reply = sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(Ev3Constants.Opcode.OUTPUT_GET_COUNT, true, 4, 0, "ccg", Byte.valueOf((byte) layer), Byte.valueOf((byte) portNumber), (byte) 0), true);
         if (reply != null && reply.length == 5 && reply[0] == 2) {
             return ((Integer) Ev3BinaryParser.unpack("xi", reply)[0]).intValue();
         }
@@ -514,16 +491,15 @@ public class Ev3Motors extends LegoMindstormsEv3Base {
         if (layer < 0 || layer > 3 || nos < 0 || nos > 15) {
             throw new IllegalArgumentException();
         }
-        sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(Opcode.OUTPUT_CLR_COUNT, false, 0, 0, "cc", Byte.valueOf((byte) layer), Byte.valueOf((byte) nos)), false);
+        sendCommand(functionName, Ev3BinaryParser.encodeDirectCommand(Ev3Constants.Opcode.OUTPUT_CLR_COUNT, false, 0, 0, "cc", Byte.valueOf((byte) layer), Byte.valueOf((byte) nos)), false);
     }
 
     public void beforeDisconnect(BluetoothConnectionBase bluetoothConnection) {
-        String functionName = "beforeDisconnect";
         if (this.stopBeforeDisconnect) {
             try {
-                stopOutput(functionName, 0, this.motorPortBitField, true);
+                stopOutput("beforeDisconnect", 0, this.motorPortBitField, true);
             } catch (IllegalArgumentException e) {
-                this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, functionName);
+                this.form.dispatchErrorOccurredEvent(this, "beforeDisconnect", ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, "beforeDisconnect");
             }
         }
     }

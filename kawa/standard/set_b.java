@@ -22,6 +22,7 @@ public class set_b extends Syntax {
     }
 
     public Expression rewriteForm(Pair form, Translator tr) {
+        Pair p2;
         Object o1 = form.getCdr();
         SyntaxForm syntax = null;
         while (o1 instanceof SyntaxForm) {
@@ -38,56 +39,50 @@ public class set_b extends Syntax {
             syntax = (SyntaxForm) o2;
             o2 = syntax.getDatum();
         }
-        if (o2 instanceof Pair) {
-            Pair p2 = (Pair) o2;
-            if (p2.getCdr() == LList.Empty) {
-                Expression value = tr.rewrite_car(p2, syntax);
-                if (name instanceof ApplyExp) {
-                    ApplyExp aexp = (ApplyExp) name;
-                    Expression[] args = aexp.getArgs();
-                    int nargs = args.length;
-                    int skip = 0;
-                    Expression func = aexp.getFunction();
-                    if (args.length > 0 && (func instanceof ReferenceExp) && ((ReferenceExp) func).getBinding() == Scheme.applyFieldDecl) {
-                        skip = 1;
-                        nargs--;
-                        func = args[0];
-                    }
-                    Expression[] setterArgs = {func};
-                    Expression[] xargs = new Expression[(nargs + 1)];
-                    System.arraycopy(args, skip, xargs, 0, nargs);
-                    xargs[nargs] = value;
-                    ReferenceExp referenceExp = new ReferenceExp(CompilationHelpers.setterDecl);
-                    ApplyExp applyExp = new ApplyExp((Expression) referenceExp, setterArgs);
-                    ApplyExp applyExp2 = new ApplyExp((Expression) applyExp, xargs);
-                    return applyExp2;
-                } else if (!(name instanceof ReferenceExp)) {
-                    return tr.syntaxError("first set! argument is not a variable name");
-                } else {
-                    ReferenceExp ref = (ReferenceExp) name;
-                    Declaration decl = ref.getBinding();
-                    SetExp setExp = new SetExp(ref.getSymbol(), value);
-                    setExp.setContextDecl(ref.contextDecl());
-                    if (decl == null) {
-                        return setExp;
-                    }
-                    decl.setCanWrite(true);
-                    setExp.setBinding(decl);
-                    Declaration decl2 = Declaration.followAliases(decl);
-                    if (decl2 != null) {
-                        decl2.noteValue(value);
-                    }
-                    if (decl2.getFlag(JSONzip.int14)) {
-                        return tr.syntaxError("constant variable " + decl2.getName() + " is set!");
-                    }
-                    if (decl2.context == tr.mainLambda || !(decl2.context instanceof ModuleExp) || decl2.getFlag(268435456) || decl2.context.getFlag(1048576)) {
-                        return setExp;
-                    }
-                    tr.error('w', decl2, "imported variable ", " is set!");
-                    return setExp;
-                }
-            }
+        if (!(o2 instanceof Pair) || (p2 = (Pair) o2).getCdr() != LList.Empty) {
+            return tr.syntaxError("missing or extra arguments to set!");
         }
-        return tr.syntaxError("missing or extra arguments to set!");
+        Expression value = tr.rewrite_car(p2, syntax);
+        if (name instanceof ApplyExp) {
+            ApplyExp aexp = (ApplyExp) name;
+            Expression[] args = aexp.getArgs();
+            int nargs = args.length;
+            int skip = 0;
+            Expression func = aexp.getFunction();
+            if (args.length > 0 && (func instanceof ReferenceExp) && ((ReferenceExp) func).getBinding() == Scheme.applyFieldDecl) {
+                skip = 1;
+                nargs--;
+                func = args[0];
+            }
+            Expression[] setterArgs = {func};
+            Expression[] xargs = new Expression[(nargs + 1)];
+            System.arraycopy(args, skip, xargs, 0, nargs);
+            xargs[nargs] = value;
+            return new ApplyExp((Expression) new ApplyExp((Expression) new ReferenceExp(CompilationHelpers.setterDecl), setterArgs), xargs);
+        } else if (!(name instanceof ReferenceExp)) {
+            return tr.syntaxError("first set! argument is not a variable name");
+        } else {
+            ReferenceExp ref = (ReferenceExp) name;
+            Declaration decl = ref.getBinding();
+            SetExp setExp = new SetExp(ref.getSymbol(), value);
+            setExp.setContextDecl(ref.contextDecl());
+            if (decl == null) {
+                return setExp;
+            }
+            decl.setCanWrite(true);
+            setExp.setBinding(decl);
+            Declaration decl2 = Declaration.followAliases(decl);
+            if (decl2 != null) {
+                decl2.noteValue(value);
+            }
+            if (decl2.getFlag(JSONzip.int14)) {
+                return tr.syntaxError("constant variable " + decl2.getName() + " is set!");
+            }
+            if (decl2.context == tr.mainLambda || !(decl2.context instanceof ModuleExp) || decl2.getFlag(268435456) || decl2.context.getFlag(1048576)) {
+                return setExp;
+            }
+            tr.error('w', decl2, "imported variable ", " is set!");
+            return setExp;
+        }
     }
 }

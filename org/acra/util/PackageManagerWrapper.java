@@ -3,7 +3,6 @@ package org.acra.util;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.util.Log;
 import org.acra.ACRA;
 
@@ -30,18 +29,17 @@ public final class PackageManagerWrapper {
     }
 
     public PackageInfo getPackageInfo() {
-        PackageInfo packageInfo = null;
         PackageManager pm = this.context.getPackageManager();
         if (pm == null) {
-            return packageInfo;
+            return null;
         }
         try {
             return pm.getPackageInfo(this.context.getPackageName(), 0);
-        } catch (NameNotFoundException e) {
+        } catch (PackageManager.NameNotFoundException e) {
             Log.v(ACRA.LOG_TAG, "Failed to find PackageInfo for current App : " + this.context.getPackageName());
-            return packageInfo;
+            return null;
         } catch (RuntimeException e2) {
-            return packageInfo;
+            return null;
         }
     }
 }

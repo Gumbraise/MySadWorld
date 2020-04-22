@@ -1,7 +1,6 @@
 package gnu.kawa.reflect;
 
 import gnu.bytecode.ClassType;
-import gnu.bytecode.Member;
 import gnu.bytecode.ObjectType;
 import gnu.bytecode.Type;
 import gnu.expr.ClassExp;
@@ -12,58 +11,21 @@ import gnu.expr.PrimProcedure;
 import gnu.mapping.MethodProc;
 
 public class CompileInvoke {
-    /* JADX WARNING: type inference failed for: r66v0 */
-    /* JADX WARNING: type inference failed for: r66v2, types: [gnu.bytecode.ObjectType] */
-    /* JADX WARNING: type inference failed for: r66v3, types: [gnu.bytecode.ObjectType] */
-    /* JADX WARNING: type inference failed for: r0v12 */
-    /* JADX WARNING: type inference failed for: r5v0, types: [gnu.bytecode.Type, gnu.bytecode.ObjectType] */
-    /* JADX WARNING: type inference failed for: r11v10, types: [gnu.bytecode.ObjectType] */
-    /* JADX WARNING: type inference failed for: r22v0 */
-    /* JADX WARNING: type inference failed for: r22v1 */
-    /* JADX WARNING: type inference failed for: r1v11, types: [gnu.bytecode.Type] */
-    /* JADX WARNING: type inference failed for: r22v2 */
-    /* JADX WARNING: type inference failed for: r22v3 */
-    /* JADX WARNING: type inference failed for: r58v0, types: [gnu.bytecode.Type] */
-    /* JADX WARNING: type inference failed for: r0v82 */
-    /* JADX WARNING: type inference failed for: r0v83 */
-    /* JADX WARNING: type inference failed for: r0v84, types: [gnu.bytecode.Type] */
-    /* JADX WARNING: type inference failed for: r1v14, types: [gnu.bytecode.Type] */
-    /* JADX WARNING: type inference failed for: r22v4, types: [gnu.bytecode.Type] */
-    /* JADX WARNING: type inference failed for: r22v5 */
-    /* JADX WARNING: type inference failed for: r22v6 */
-    /* JADX WARNING: type inference failed for: r22v7 */
-    /* JADX WARNING: type inference failed for: r22v8 */
-    /* JADX WARNING: type inference failed for: r22v9 */
-    /* JADX WARNING: type inference failed for: r17v1 */
-    /* JADX WARNING: type inference failed for: r0v96, types: [gnu.expr.ApplyExp] */
-    /* JADX WARNING: type inference failed for: r29v1 */
-    /* JADX WARNING: type inference failed for: r29v2 */
-    /* JADX WARNING: type inference failed for: r0v97, types: [gnu.expr.Expression] */
-    /* JADX WARNING: type inference failed for: r17v2 */
-    /* JADX WARNING: type inference failed for: r29v3 */
-    /* JADX WARNING: type inference failed for: r1v18, types: [gnu.expr.Expression] */
-    /* JADX WARNING: type inference failed for: r29v4 */
-    /* JADX WARNING: type inference failed for: r10v156 */
-    /* JADX WARNING: type inference failed for: r0v144 */
-    /* JADX WARNING: type inference failed for: r22v10 */
-    /* JADX WARNING: type inference failed for: r0v175, types: [gnu.bytecode.ClassType] */
-    /* JADX WARNING: type inference failed for: r66v4 */
-    /* JADX WARNING: type inference failed for: r66v5 */
-    /* JADX WARNING: type inference failed for: r66v6 */
-    /* JADX WARNING: type inference failed for: r22v12 */
-    /* JADX WARNING: type inference failed for: r22v13 */
-    /* JADX WARNING: type inference failed for: r22v14 */
-    /* JADX WARNING: type inference failed for: r22v15 */
-    /* JADX WARNING: type inference failed for: r22v16 */
-    /* JADX WARNING: type inference failed for: r22v17 */
-    /* JADX WARNING: type inference failed for: r22v18 */
-    /* JADX WARNING: type inference failed for: r22v19 */
-    /* JADX WARNING: type inference failed for: r22v20 */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r66v1, resolved type: gnu.bytecode.ObjectType} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r22v0, resolved type: gnu.bytecode.ObjectType} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r22v1, resolved type: gnu.bytecode.ObjectType} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r22v2, resolved type: gnu.bytecode.ObjectType} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r22v9, resolved type: gnu.bytecode.ObjectType} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r29v1, resolved type: gnu.expr.ApplyExp} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r29v2, resolved type: gnu.expr.ApplyExp} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r29v3, resolved type: gnu.expr.ApplyExp} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r1v18, resolved type: gnu.expr.ApplyExp} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r29v4, resolved type: gnu.expr.LetExp} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r22v12, resolved type: gnu.bytecode.ObjectType} */
     /* JADX WARNING: Code restructure failed: missing block: B:105:0x029f, code lost:
         if ((gnu.kawa.reflect.ClassMethods.selectApplicable(r4, new gnu.bytecode.Type[]{gnu.expr.Compilation.typeClassType}) >> 32) == 1) goto L_0x02a1;
      */
     /* JADX WARNING: Multi-variable type inference failed */
-    /* JADX WARNING: Unknown variable types count: 28 */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public static gnu.expr.Expression validateApplyInvoke(gnu.expr.ApplyExp r70, gnu.expr.InlineCalls r71, gnu.bytecode.Type r72, gnu.mapping.Procedure r73) {
         /*
@@ -99,7 +61,7 @@ public class CompileInvoke {
             r10 = r6[r10]
             r11 = 0
             r0 = r71
-            gnu.expr.Expression r20 = r0.visit(r10, r11)
+            gnu.expr.Expression r20 = r0.visit((gnu.expr.Expression) r10, (gnu.bytecode.Type) r11)
             r10 = 0
             r6[r10] = r20
             r10 = 86
@@ -185,7 +147,7 @@ public class CompileInvoke {
             gnu.bytecode.PrimType r10 = gnu.bytecode.Type.intType
             r0 = r71
             r1 = r61
-            gnu.expr.Expression r61 = r0.visit(r1, r10)
+            gnu.expr.Expression r61 = r0.visit((gnu.expr.Expression) r1, (gnu.bytecode.Type) r10)
             gnu.expr.ApplyExp r18 = new gnu.expr.ApplyExp
             gnu.kawa.reflect.ArrayNew r10 = new gnu.kawa.reflect.ArrayNew
             r0 = r30
@@ -195,7 +157,7 @@ public class CompileInvoke {
             r12 = 0
             r11[r12] = r61
             r0 = r18
-            r0.<init>(r10, r11)
+            r0.<init>((gnu.mapping.Procedure) r10, (gnu.expr.Expression[]) r11)
             r0 = r18
             r1 = r22
             r0.setType(r1)
@@ -209,7 +171,7 @@ public class CompileInvoke {
             r0 = r36
             gnu.expr.Language r10 = r0.language
             r0 = r20
-            gnu.bytecode.Type r67 = r10.getTypeFor(r0)
+            gnu.bytecode.Type r67 = r10.getTypeFor((gnu.expr.Expression) r0)
             goto L_0x004f
         L_0x0113:
             r0 = r67
@@ -300,7 +262,7 @@ public class CompileInvoke {
             r0 = r71
             r1 = r19
             r2 = r30
-            gnu.expr.Expression r19 = r0.visit(r1, r2)
+            gnu.expr.Expression r19 = r0.visit((gnu.expr.Expression) r1, (gnu.bytecode.Type) r2)
             gnu.expr.ApplyExp r10 = new gnu.expr.ApplyExp
             gnu.kawa.reflect.ArraySet r11 = new gnu.kawa.reflect.ArraySet
             r0 = r30
@@ -310,7 +272,7 @@ public class CompileInvoke {
             r13 = 0
             gnu.expr.ReferenceExp r14 = new gnu.expr.ReferenceExp
             r0 = r16
-            r14.<init>(r0)
+            r14.<init>((gnu.expr.Declaration) r0)
             r12[r13] = r14
             r13 = 1
             java.lang.Integer r14 = new java.lang.Integer
@@ -320,7 +282,7 @@ public class CompileInvoke {
             r12[r13] = r14
             r13 = 2
             r12[r13] = r19
-            r10.<init>(r11, r12)
+            r10.<init>((gnu.mapping.Procedure) r11, (gnu.expr.Expression[]) r12)
             r0 = r23
             r0.add(r10)
             int r35 = r35 + 1
@@ -347,7 +309,7 @@ public class CompileInvoke {
         L_0x0212:
             gnu.expr.ReferenceExp r10 = new gnu.expr.ReferenceExp
             r0 = r16
-            r10.<init>(r0)
+            r10.<init>((gnu.expr.Declaration) r0)
             r0 = r23
             r0.add(r10)
             r0 = r23
@@ -379,10 +341,10 @@ public class CompileInvoke {
             gnu.expr.ApplyExp r10 = new gnu.expr.ApplyExp
             r0 = r26
             r1 = r69
-            r10.<init>(r0, r1)
+            r10.<init>((gnu.mapping.Procedure) r0, (gnu.expr.Expression[]) r1)
             r0 = r71
             r1 = r72
-            gnu.expr.Expression r70 = r0.visit(r10, r1)
+            gnu.expr.Expression r70 = r0.visit((gnu.expr.Expression) r10, (gnu.bytecode.Type) r1)
             goto L_0x0031
         L_0x0264:
             if (r25 != 0) goto L_0x02fe
@@ -393,7 +355,7 @@ public class CompileInvoke {
             r1 = r24
             r2 = r36
             gnu.expr.PrimProcedure[] r4 = getMethods(r5, r0, r1, r2)     // Catch:{ Exception -> 0x0314 }
-            int r51 = gnu.kawa.reflect.ClassMethods.selectApplicable(r4, r7)     // Catch:{ Exception -> 0x0314 }
+            int r51 = gnu.kawa.reflect.ClassMethods.selectApplicable((gnu.expr.PrimProcedure[]) r4, (int) r7)     // Catch:{ Exception -> 0x0314 }
             r35 = -1
             r10 = 78
             r0 = r40
@@ -409,7 +371,7 @@ public class CompileInvoke {
             r11 = 0
             gnu.bytecode.ClassType r12 = gnu.expr.Compilation.typeClassType
             r10[r11] = r12
-            long r10 = gnu.kawa.reflect.ClassMethods.selectApplicable(r4, r10)
+            long r10 = gnu.kawa.reflect.ClassMethods.selectApplicable((gnu.expr.PrimProcedure[]) r4, (gnu.bytecode.Type[]) r10)
             r12 = 32
             long r10 = r10 >> r12
             r12 = 1
@@ -432,7 +394,7 @@ public class CompileInvoke {
             gnu.expr.Language r13 = r0.language
             gnu.expr.PrimProcedure[] r10 = gnu.kawa.reflect.ClassMethods.getMethods(r5, r10, r11, r12, r13)
             r11 = 2
-            int r10 = gnu.kawa.reflect.ClassMethods.selectApplicable(r10, r11)
+            int r10 = gnu.kawa.reflect.ClassMethods.selectApplicable((gnu.expr.PrimProcedure[]) r10, (int) r11)
             if (r10 <= 0) goto L_0x04aa
         L_0x02c7:
             r31 = 0
@@ -523,9 +485,9 @@ public class CompileInvoke {
             gnu.expr.ApplyExp r10 = new gnu.expr.ApplyExp
             gnu.expr.Expression r11 = r70.getFunction()
             r0 = r69
-            r10.<init>(r11, r0)
+            r10.<init>((gnu.expr.Expression) r11, (gnu.expr.Expression[]) r0)
             r0 = r71
-            gnu.expr.Expression r17 = r0.visit(r10, r5)
+            gnu.expr.Expression r17 = r0.visit((gnu.expr.Expression) r10, (gnu.bytecode.Type) r5)
             gnu.expr.ApplyExp r17 = (gnu.expr.ApplyExp) r17
         L_0x0383:
             r0 = r17
@@ -561,7 +523,7 @@ public class CompileInvoke {
             r10 = r6[r10]
             r0 = r71
             r1 = r65
-            gnu.expr.Expression r19 = r0.visit(r10, r1)
+            gnu.expr.Expression r19 = r0.visit((gnu.expr.Expression) r10, (gnu.bytecode.Type) r1)
             r10 = 3
             gnu.expr.Expression[] r0 = new gnu.expr.Expression[r10]
             r59 = r0
@@ -578,7 +540,7 @@ public class CompileInvoke {
             gnu.kawa.reflect.SlotSet r10 = gnu.kawa.reflect.SlotSet.setFieldReturnObject
             r0 = r17
             r1 = r59
-            r0.<init>(r10, r1)
+            r0.<init>((gnu.mapping.Procedure) r10, (gnu.expr.Expression[]) r1)
             r0 = r17
             r0.setType(r5)
             int r33 = r33 + 1
@@ -592,7 +554,7 @@ public class CompileInvoke {
             r12 = 0
             r11[r12] = r20
             r0 = r17
-            r0.<init>(r10, r11)
+            r0.<init>((gnu.mapping.Procedure) r10, (gnu.expr.Expression[]) r11)
             goto L_0x0383
         L_0x03fe:
             r0 = r62
@@ -642,7 +604,7 @@ public class CompileInvoke {
             r10 = 0
             gnu.expr.ReferenceExp r11 = new gnu.expr.ReferenceExp
             r0 = r16
-            r11.<init>(r0)
+            r11.<init>((gnu.expr.Declaration) r0)
             r34[r10] = r11
             r10 = 1
             java.lang.String r11 = "add"
@@ -654,10 +616,10 @@ public class CompileInvoke {
             gnu.expr.ApplyExp r10 = new gnu.expr.ApplyExp
             gnu.kawa.reflect.Invoke r11 = gnu.kawa.reflect.Invoke.invoke
             r0 = r34
-            r10.<init>(r11, r0)
+            r10.<init>((gnu.mapping.Procedure) r11, (gnu.expr.Expression[]) r0)
             r11 = 0
             r0 = r71
-            gnu.expr.Expression r10 = r0.visit(r10, r11)
+            gnu.expr.Expression r10 = r0.visit((gnu.expr.Expression) r10, (gnu.bytecode.Type) r11)
             r0 = r23
             r0.add(r10)
             int r33 = r33 + 1
@@ -671,7 +633,7 @@ public class CompileInvoke {
         L_0x0484:
             gnu.expr.ReferenceExp r10 = new gnu.expr.ReferenceExp
             r0 = r16
-            r10.<init>(r0)
+            r10.<init>((gnu.expr.Declaration) r0)
             r0 = r23
             r0.add(r10)
             r0 = r23
@@ -681,7 +643,7 @@ public class CompileInvoke {
         L_0x0498:
             r0 = r29
             r1 = r70
-            gnu.expr.Expression r10 = r0.setLine(r1)
+            gnu.expr.Expression r10 = r0.setLine((gnu.expr.Expression) r1)
             r0 = r71
             r1 = r72
             gnu.expr.Expression r70 = r0.checkType(r10, r1)
@@ -718,7 +680,7 @@ public class CompileInvoke {
             r10 = r6[r33]
             r0 = r71
             r1 = r22
-            gnu.expr.Expression r10 = r0.visit(r10, r1)
+            gnu.expr.Expression r10 = r0.visit((gnu.expr.Expression) r10, (gnu.bytecode.Type) r1)
             r6[r33] = r10
             int r33 = r33 + 1
             goto L_0x04ae
@@ -945,7 +907,7 @@ public class CompileInvoke {
         L_0x0667:
             if (r54 <= 0) goto L_0x06de
             r0 = r54
-            int r35 = gnu.mapping.MethodProc.mostSpecific(r4, r0)
+            int r35 = gnu.mapping.MethodProc.mostSpecific((gnu.mapping.MethodProc[]) r4, (int) r0)
             if (r35 >= 0) goto L_0x068b
             r10 = 83
             r0 = r40
@@ -1043,10 +1005,10 @@ public class CompileInvoke {
             r0 = r29
             r1 = r47
             r2 = r45
-            r0.<init>(r1, r2)
+            r0.<init>((gnu.mapping.Procedure) r1, (gnu.expr.Expression[]) r2)
             r0 = r29
             r1 = r70
-            r0.setLine(r1)
+            r0.setLine((gnu.expr.Expression) r1)
             r0 = r71
             r1 = r29
             r2 = r72
@@ -1068,11 +1030,14 @@ public class CompileInvoke {
         Object[] fields = new Object[npairs];
         for (int i = 0; i < npairs; i++) {
             String name = ((Keyword) args[(i * 2) + start].valueIfConstant()).getName();
-            Member slot = SlotSet.lookupMember(type, name, caller);
-            if (slot == null) {
-                slot = type.getMethod(ClassExp.slotToMethodName("add", name), SlotSet.type1Array);
+            String lookupMember = SlotSet.lookupMember(type, name, caller);
+            if (lookupMember == null) {
+                lookupMember = type.getMethod(ClassExp.slotToMethodName("add", name), SlotSet.type1Array);
             }
-            fields[i] = slot != null ? slot : name;
+            if (lookupMember == null) {
+                lookupMember = name;
+            }
+            fields[i] = lookupMember;
         }
         return fields;
     }
@@ -1117,9 +1082,8 @@ public class CompileInvoke {
         Type[] atypes = new Type[margsLength];
         int dst = 0;
         if (objIndex >= 0) {
-            int dst2 = 0 + 1;
             atypes[0] = ctype;
-            dst = dst2;
+            dst = 0 + 1;
         }
         int src = argsStartIndex;
         while (src < args.length && dst < atypes.length) {
@@ -1143,7 +1107,7 @@ public class CompileInvoke {
         int index;
         PrimProcedure primProcedure;
         synchronized (CompileInvoke.class) {
-            PrimProcedure[] methods = getMethods(type, name, null, Invoke.invokeStatic);
+            PrimProcedure[] methods = getMethods(type, name, (ClassType) null, Invoke.invokeStatic);
             long num = selectApplicable(methods, type, args, args.length, 0, -1);
             int okCount = (int) (num >> 32);
             int maybeCount = (int) num;

@@ -1,5 +1,6 @@
 package gnu.text;
 
+import android.support.v7.widget.ActivityChooserView;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
@@ -48,12 +49,9 @@ public class Lexer extends Reader {
     }
 
     public int readUnicodeChar() throws IOException {
+        int next;
         int c = this.port.read();
-        if (c < 55296 || c >= 56319) {
-            return c;
-        }
-        int next = this.port.read();
-        if (next < 56320 || next > 57343) {
+        if (c < 55296 || c >= 56319 || (next = this.port.read()) < 56320 || next > 57343) {
             return c;
         }
         return ((c - 55296) << 10) + (c - 56320) + 65536;
@@ -163,98 +161,91 @@ public class Lexer extends Reader {
         throw new SyntaxException(this.messages);
     }
 
-    /* JADX WARNING: Removed duplicated region for block: B:11:0x0026  */
-    /* JADX WARNING: Removed duplicated region for block: B:13:0x002b  */
-    /* JADX WARNING: Removed duplicated region for block: B:15:0x002e  */
-    /* JADX WARNING: Removed duplicated region for block: B:25:0x0050  */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public int readOptionalExponent() throws java.io.IOException {
-        /*
-            r9 = this;
-            r8 = 10
-            r7 = 45
-            int r4 = r9.read()
-            r3 = 0
-            r6 = 43
-            if (r4 == r6) goto L_0x000f
-            if (r4 != r7) goto L_0x0033
-        L_0x000f:
-            int r0 = r9.read()
-        L_0x0013:
-            if (r0 < 0) goto L_0x001c
-            char r6 = (char) r0
-            int r5 = java.lang.Character.digit(r6, r8)
-            if (r5 >= 0) goto L_0x0036
-        L_0x001c:
-            if (r4 == 0) goto L_0x0023
-            java.lang.String r6 = "exponent sign not followed by digit"
-            r9.error(r6)
-        L_0x0023:
-            r5 = 1
-        L_0x0024:
-            if (r0 < 0) goto L_0x0029
-            r9.unread(r0)
-        L_0x0029:
-            if (r4 != r7) goto L_0x002c
-            int r5 = -r5
-        L_0x002c:
-            if (r3 == 0) goto L_0x0050
-            if (r4 != r7) goto L_0x004c
-            r6 = -2147483648(0xffffffff80000000, float:-0.0)
-        L_0x0032:
-            return r6
-        L_0x0033:
-            r0 = r4
-            r4 = 0
-            goto L_0x0013
-        L_0x0036:
-            r2 = 214748363(0xccccccb, float:3.1554432E-31)
-        L_0x0039:
-            int r0 = r9.read()
-            char r6 = (char) r0
-            int r1 = java.lang.Character.digit(r6, r8)
-            if (r1 < 0) goto L_0x0024
-            if (r5 <= r2) goto L_0x0047
-            r3 = 1
-        L_0x0047:
-            int r6 = r5 * 10
-            int r5 = r6 + r1
-            goto L_0x0039
-        L_0x004c:
-            r6 = 2147483647(0x7fffffff, float:NaN)
-            goto L_0x0032
-        L_0x0050:
-            r6 = r5
-            goto L_0x0032
-        */
-        throw new UnsupportedOperationException("Method not decompiled: gnu.text.Lexer.readOptionalExponent():int");
+    public int readOptionalExponent() throws IOException {
+        int c;
+        int value;
+        int sign = read();
+        boolean overflow = false;
+        if (sign == 43 || sign == 45) {
+            c = read();
+        } else {
+            c = sign;
+            sign = 0;
+        }
+        if (c >= 0 && (value = Character.digit((char) c, 10)) >= 0) {
+            while (true) {
+                c = read();
+                int d = Character.digit((char) c, 10);
+                if (d < 0) {
+                    break;
+                }
+                if (value > 214748363) {
+                    overflow = true;
+                }
+                value = (value * 10) + d;
+            }
+        } else {
+            if (sign != 0) {
+                error("exponent sign not followed by digit");
+            }
+            value = 1;
+        }
+        if (c >= 0) {
+            unread(c);
+        }
+        if (sign == 45) {
+            value = -value;
+        }
+        if (!overflow) {
+            return value;
+        }
+        if (sign == 45) {
+            return Integer.MIN_VALUE;
+        }
+        return ActivityChooserView.ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED;
     }
 
-    public boolean readDelimited(String delimiter) throws IOException, SyntaxException {
-        this.tokenBufferLength = 0;
-        int dlen = delimiter.length();
-        char last = delimiter.charAt(dlen - 1);
-        while (true) {
-            int ch = read();
-            if (ch < 0) {
-                return false;
-            }
-            if (ch == last) {
-                int j = dlen - 1;
-                int dstart = this.tokenBufferLength - j;
-                if (dstart >= 0) {
-                    while (j != 0) {
-                        j--;
-                        if (this.tokenBuffer[dstart + j] != delimiter.charAt(j)) {
-                        }
-                    }
-                    this.tokenBufferLength = dstart;
-                    return true;
-                }
-                continue;
-            }
-            tokenBufferAppend((char) ch);
-        }
+    /* JADX WARNING: Code restructure failed: missing block: B:4:0x0016, code lost:
+        r3 = r1 - 1;
+     */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public boolean readDelimited(java.lang.String r9) throws java.io.IOException, gnu.text.SyntaxException {
+        /*
+            r8 = this;
+            r5 = 0
+            r8.tokenBufferLength = r5
+            int r1 = r9.length()
+            int r6 = r1 + -1
+            char r4 = r9.charAt(r6)
+        L_0x000d:
+            int r0 = r8.read()
+            if (r0 >= 0) goto L_0x0014
+        L_0x0013:
+            return r5
+        L_0x0014:
+            if (r0 != r4) goto L_0x0032
+            int r6 = r8.tokenBufferLength
+            int r3 = r1 + -1
+            int r2 = r6 - r3
+            if (r2 < 0) goto L_0x0032
+        L_0x001e:
+            if (r3 != 0) goto L_0x0024
+            r8.tokenBufferLength = r2
+            r5 = 1
+            goto L_0x0013
+        L_0x0024:
+            int r3 = r3 + -1
+            char[] r6 = r8.tokenBuffer
+            int r7 = r2 + r3
+            char r6 = r6[r7]
+            char r7 = r9.charAt(r3)
+            if (r6 == r7) goto L_0x001e
+        L_0x0032:
+            char r6 = (char) r0
+            r8.tokenBufferAppend(r6)
+            goto L_0x000d
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.text.Lexer.readDelimited(java.lang.String):boolean");
     }
 
     public static long readDigitsInBuffer(LineBufferedReader port2, int radix) {
@@ -331,7 +322,7 @@ public class Lexer extends Reader {
         if (this.saveTokenBufferLength >= 0) {
             throw new Error("internal error: recursive call to mark not allowed");
         }
-        this.port.mark(ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED);
+        this.port.mark(ActivityChooserView.ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED);
         this.saveTokenBufferLength = this.tokenBufferLength;
     }
 

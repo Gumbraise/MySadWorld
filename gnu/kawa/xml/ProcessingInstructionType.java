@@ -16,10 +16,11 @@ import java.io.ObjectOutput;
 public class ProcessingInstructionType extends NodeType implements TypeValue, Externalizable {
     static final Method coerceMethod = typeProcessingInstructionType.getDeclaredMethod("coerce", 2);
     static final Method coerceOrNullMethod = typeProcessingInstructionType.getDeclaredMethod("coerceOrNull", 2);
-    public static final ProcessingInstructionType piNodeTest = new ProcessingInstructionType(null);
+    public static final ProcessingInstructionType piNodeTest = new ProcessingInstructionType((String) null);
     public static final ClassType typeProcessingInstructionType = ClassType.make("gnu.kawa.xml.ProcessingInstructionType");
     String target;
 
+    /* JADX INFO: super call moved to the top of the method (can break code semantics) */
     public ProcessingInstructionType(String target2) {
         super(target2 == null ? "processing-instruction()" : "processing-instruction(" + target2 + ")");
         this.target = target2;

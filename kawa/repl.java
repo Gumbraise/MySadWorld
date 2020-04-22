@@ -121,7 +121,7 @@ public class repl extends Procedure0or1 {
         printOption(out, "--module-static", "Top-level definitions are by default static");
         ArrayList<String> keys = Compilation.options.keys();
         for (int i2 = 0; i2 < keys.size(); i2++) {
-            String name = (String) keys.get(i2);
+            String name = keys.get(i2);
             printOption(out, "--" + name, Compilation.options.getDoc(name));
         }
         out.println();
@@ -163,7 +163,7 @@ public class repl extends Procedure0or1 {
 
     public static void getLanguage() {
         if (previousLanguage == null) {
-            previousLanguage = Language.getInstance(null);
+            previousLanguage = Language.getInstance((String) null);
             Language.setDefaults(previousLanguage);
         }
     }
@@ -301,9 +301,8 @@ public class repl extends Procedure0or1 {
                 }
                 return -1;
             } else if (arg.equals("-s") || arg.equals("--")) {
-                int iArg4 = iArg + 1;
                 getLanguage();
-                setArgs(args, iArg4);
+                setArgs(args, iArg + 1);
                 checkInitFile();
                 Shell.run(Language.getDefaultLanguage(), Environment.getCurrent());
                 return -1;
@@ -357,11 +356,11 @@ public class repl extends Procedure0or1 {
                 }
                 compilationTopname = args[iArg];
             } else if (arg.equals("-C")) {
-                int iArg5 = iArg + 1;
-                if (iArg5 == maxArg) {
+                int iArg4 = iArg + 1;
+                if (iArg4 == maxArg) {
                     bad_option(arg);
                 }
-                compileFiles(args, iArg5, maxArg);
+                compileFiles(args, iArg4, maxArg);
                 return -1;
             } else if (arg.equals("--output-format") || arg.equals("--format")) {
                 iArg++;
@@ -385,8 +384,7 @@ public class repl extends Procedure0or1 {
                     }
                 }
                 try {
-                    Socket socket = new Socket(InetAddress.getByName(null), port2);
-                    Telnet telnet = new Telnet(socket, true);
+                    Telnet telnet = new Telnet(new Socket(InetAddress.getByName((String) null), port2), true);
                     InputStream sin = telnet.getInputStream();
                     PrintStream printStream = new PrintStream(telnet.getOutputStream(), true);
                     System.setIn(sin);
@@ -398,15 +396,15 @@ public class repl extends Procedure0or1 {
                 }
             } else if (arg.equals("--server")) {
                 getLanguage();
-                int iArg6 = iArg + 1;
-                if (iArg6 == maxArg) {
+                int iArg5 = iArg + 1;
+                if (iArg5 == maxArg) {
                     bad_option(arg);
                 }
-                if (args[iArg6].equals("-")) {
+                if (args[iArg5].equals("-")) {
                     port = 0;
                 } else {
                     try {
-                        port = Integer.parseInt(args[iArg6]);
+                        port = Integer.parseInt(args[iArg5]);
                     } catch (NumberFormatException e2) {
                         bad_option("--server port#");
                         port = -1;
@@ -563,7 +561,7 @@ public class repl extends Procedure0or1 {
                 break;
             } catch (Throwable ex2) {
                 if (!(ex2 instanceof SyntaxException) || ((SyntaxException) ex2).getMessages() != messages) {
-                    internalError(ex2, null, arg);
+                    internalError(ex2, (Compilation) null, arg);
                 }
             }
             if (messages.seenErrorsOrWarnings()) {

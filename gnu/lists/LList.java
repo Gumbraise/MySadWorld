@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.io.ObjectStreamException;
+import java.util.List;
 
 public class LList extends ExtSequence implements Sequence, Externalizable, Comparable {
     public static final LList Empty = new LList();
@@ -164,67 +165,19 @@ public class LList extends ExtSequence implements Sequence, Externalizable, Comp
         return count;
     }
 
-    /* JADX WARNING: type inference failed for: r3v0, types: [gnu.lists.LList] */
-    /* JADX WARNING: type inference failed for: r1v0 */
-    /* JADX WARNING: type inference failed for: r3v1, types: [gnu.lists.LList] */
-    /* JADX WARNING: type inference failed for: r1v1, types: [gnu.lists.Pair] */
-    /* JADX WARNING: type inference failed for: r2v0, types: [gnu.lists.Pair, java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r3v2 */
-    /* JADX WARNING: type inference failed for: r1v2 */
-    /* JADX WARNING: type inference failed for: r3v3 */
-    /* JADX WARNING: type inference failed for: r3v4 */
-    /* JADX WARNING: type inference failed for: r1v3 */
-    /* JADX WARNING: type inference failed for: r3v5 */
-    /* JADX WARNING: type inference failed for: r3v6 */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=java.util.List, code=java.util.List<java.lang.Object>, for r6v0, types: [java.util.List, java.util.List<java.lang.Object>] */
-    /* JADX WARNING: Multi-variable type inference failed. Error: jadx.core.utils.exceptions.JadxRuntimeException: No candidate types for var: r3v2
-      assigns: []
-      uses: []
-      mth insns count: 17
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.fillTypeCandidates(TypeSearch.java:237)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.run(TypeSearch.java:53)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.runMultiVariableSearch(TypeInferenceVisitor.java:99)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.visit(TypeInferenceVisitor.java:92)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:27)
-    	at jadx.core.dex.visitors.DepthTraversal.lambda$visit$1(DepthTraversal.java:14)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:14)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:30)
-    	at jadx.core.ProcessClass.lambda$processDependencies$0(ProcessClass.java:49)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.ProcessClass.processDependencies(ProcessClass.java:49)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:35)
-    	at jadx.api.JadxDecompiler.processClass(JadxDecompiler.java:311)
-    	at jadx.api.JavaClass.decompile(JavaClass.java:62)
-    	at jadx.api.JadxDecompiler.lambda$appendSourcesSave$0(JadxDecompiler.java:217)
-     */
-    /* JADX WARNING: Unknown variable types count: 6 */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public static gnu.lists.LList makeList(java.util.List<java.lang.Object> r6) {
-        /*
-            java.util.Iterator r0 = r6.iterator()
-            gnu.lists.LList r3 = Empty
-            r1 = 0
-        L_0x0007:
-            boolean r4 = r0.hasNext()
-            if (r4 == 0) goto L_0x0020
-            gnu.lists.Pair r2 = new gnu.lists.Pair
-            java.lang.Object r4 = r0.next()
-            gnu.lists.LList r5 = Empty
-            r2.<init>(r4, r5)
-            if (r1 != 0) goto L_0x001d
-            r3 = r2
-        L_0x001b:
-            r1 = r2
-            goto L_0x0007
-        L_0x001d:
-            r1.cdr = r2
-            goto L_0x001b
-        L_0x0020:
-            return r3
-        */
-        throw new UnsupportedOperationException("Method not decompiled: gnu.lists.LList.makeList(java.util.List):gnu.lists.LList");
+    public static LList makeList(List vals) {
+        LList result = Empty;
+        Pair last = null;
+        for (Object pair : vals) {
+            Pair pair2 = new Pair(pair, Empty);
+            if (last == null) {
+                result = pair2;
+            } else {
+                last.cdr = pair2;
+            }
+            last = pair2;
+        }
+        return result;
     }
 
     public static LList makeList(Object[] vals, int offset, int length) {
@@ -340,10 +293,10 @@ public class LList extends ExtSequence implements Sequence, Externalizable, Comp
         if (n <= 0) {
             return first;
         }
-        Object result = new Pair(first, null);
+        Object result = new Pair(first, (Object) null);
         Pair prev = result;
         for (int i = 1; i < n; i++) {
-            Pair next = new Pair(args[i], null);
+            Pair next = new Pair(args[i], (Object) null);
             prev.cdr = next;
             prev = next;
         }

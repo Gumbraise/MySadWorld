@@ -42,7 +42,7 @@ final class MappingInfo {
         return prefixHash ^ hash;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public boolean match(char[] data, int start, int length) {
         if (this.prefix == null) {
             return equals(this.local, data, start, length);

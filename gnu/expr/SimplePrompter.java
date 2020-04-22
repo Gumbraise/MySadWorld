@@ -12,12 +12,10 @@ class SimplePrompter extends Procedure1 {
     }
 
     public Object apply1(Object arg) {
-        if (arg instanceof InPort) {
-            int line = ((InPort) arg).getLineNumber() + 1;
-            if (line >= 0) {
-                return this.prefix + line + this.suffix;
-            }
+        int line;
+        if (!(arg instanceof InPort) || (line = ((InPort) arg).getLineNumber() + 1) < 0) {
+            return this.suffix;
         }
-        return this.suffix;
+        return this.prefix + line + this.suffix;
     }
 }

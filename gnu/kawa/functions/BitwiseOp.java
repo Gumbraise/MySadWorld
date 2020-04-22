@@ -1,6 +1,6 @@
 package gnu.kawa.functions;
 
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import gnu.kawa.lispexpr.LangObjType;
 import gnu.mapping.Procedure;
 import gnu.mapping.WrongType;
@@ -24,7 +24,7 @@ public class BitwiseOp extends ArithOp {
     }
 
     public Object defaultResult() {
-        if (this.f58op == 13) {
+        if (this.op == 13) {
             return IntNum.minusOne();
         }
         return IntNum.zero();
@@ -44,7 +44,7 @@ public class BitwiseOp extends ArithOp {
     }
 
     public Object apply1(Object arg1) {
-        if (this.f58op != 16) {
+        if (this.op != 16) {
             return apply2(defaultResult(), arg1);
         }
         return adjustResult(BitOps.not(LangObjType.coerceIntNum(arg1)), Arithmetic.classifyValue(arg1));
@@ -55,21 +55,21 @@ public class BitwiseOp extends ArithOp {
         IntNum result;
         int kind1 = Arithmetic.classifyValue(arg1);
         int kind2 = Arithmetic.classifyValue(arg2);
-        if ((this.f58op < 9 || this.f58op > 12) && kind1 > 0 && (kind1 <= kind2 || kind2 <= 0)) {
+        if ((this.op < 9 || this.op > 12) && kind1 > 0 && (kind1 <= kind2 || kind2 <= 0)) {
             kind = kind2;
         } else {
             kind = kind1;
         }
         IntNum iarg1 = LangObjType.coerceIntNum(arg1);
         IntNum iarg2 = LangObjType.coerceIntNum(arg2);
-        switch (this.f58op) {
+        switch (this.op) {
             case 9:
             case 10:
             case 11:
                 int amount = iarg2.intValue();
-                if (this.f58op == 11 || this.f58op == 10) {
+                if (this.op == 11 || this.op == 10) {
                     checkNonNegativeShift(this, amount);
-                    if (this.f58op == 11) {
+                    if (this.op == 11) {
                         amount = -amount;
                     }
                 }
@@ -121,10 +121,10 @@ public class BitwiseOp extends ArithOp {
     }
 
     public int numArgs() {
-        if (this.f58op >= 9 && this.f58op <= 12) {
+        if (this.op >= 9 && this.op <= 12) {
             return 8194;
         }
-        if (this.f58op == 16) {
+        if (this.op == 16) {
             return FragmentTransaction.TRANSIT_FRAGMENT_OPEN;
         }
         return -4096;

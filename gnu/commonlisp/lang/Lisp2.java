@@ -126,7 +126,7 @@ public abstract class Lisp2 extends LispLanguage {
         if (!this.environ.isBound(name, EnvironmentKey.FUNCTION)) {
             Location loc2 = loc.getBase();
             if (!(loc2 instanceof FieldLocation) || !((FieldLocation) loc2).isProcedureOrSyntax()) {
-                Object val = loc2.get(null);
+                Object val = loc2.get((Object) null);
                 if (val == null) {
                     return;
                 }

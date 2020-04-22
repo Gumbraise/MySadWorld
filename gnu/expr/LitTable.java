@@ -49,7 +49,7 @@ public class LitTable implements ObjectOutput {
         this.literalsCount = 0;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void push(Object value, Type type) {
         if (this.stackPointer >= this.valueStack.length) {
             Object[] newValues = new Object[(this.valueStack.length * 2)];
@@ -64,7 +64,7 @@ public class LitTable implements ObjectOutput {
         this.stackPointer++;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void error(String msg) {
         throw new Error(msg);
     }
@@ -214,19 +214,19 @@ public class LitTable implements ObjectOutput {
         Class valueClass = value.getClass();
         Type valueType = Type.make(valueClass);
         synchronized (staticTable) {
-            literal = (Literal) staticTable.get(value, null, null);
+            literal = (Literal) staticTable.get(value, (Object) null, (Object) null);
             if ((literal == null || literal.value != value) && (valueType instanceof ClassType)) {
                 Class fldClass = valueClass;
                 ClassType fldType = (ClassType) valueType;
-                while (staticTable.get(fldClass, Boolean.TRUE, null) == null) {
+                while (staticTable.get(fldClass, Boolean.TRUE, (Object) null) == null) {
                     staticTable.put(fldClass, Boolean.TRUE, fldClass);
                     for (Field fld = fldType.getFields(); fld != null; fld = fld.getNext()) {
                         if ((fld.getModifiers() & 25) == 25) {
                             try {
-                                Object litValue = fld.getReflectField().get(null);
+                                Object litValue = fld.getReflectField().get((Object) null);
                                 if (litValue != null && fldClass.isInstance(litValue)) {
                                     Literal lit = new Literal(litValue, fld, this);
-                                    staticTable.put(litValue, null, lit);
+                                    staticTable.put(litValue, (Object) null, lit);
                                     if (value == litValue) {
                                         literal = lit;
                                     }
@@ -251,14 +251,14 @@ public class LitTable implements ObjectOutput {
         return literal;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Method getMethod(ClassType type, String name, Literal literal, boolean isStatic) {
         Type[] argTypes = literal.argTypes;
         int argLength = argTypes.length;
         Method best = null;
         long bestArrayArgs = 0;
         boolean ambiguous = false;
-        Type[] bParameters = null;
+        ArrayType[] bParameters = null;
         for (Method method = type.getDeclaredMethods(); method != null; method = method.getNext()) {
             if (name.equals(method.getName()) && isStatic == method.getStaticFlag()) {
                 long arrayArgs = 0;
@@ -351,7 +351,7 @@ public class LitTable implements ObjectOutput {
         int iarg2 = 0;
         int iparam2 = 0;
         while (iarg2 != argLength) {
-            Type pType2 = bParameters[iparam2];
+            ArrayType arrayType = bParameters[iparam2];
             if ((((long) (1 << iparam2)) & bestArrayArgs) == 0) {
                 args[iparam2] = literal.argValues[iarg2];
                 types[iparam2] = literal.argTypes[iarg2];
@@ -361,8 +361,8 @@ public class LitTable implements ObjectOutput {
                 if (isIntNum) {
                     count2 -= Integer.MIN_VALUE;
                 }
-                Type elementType2 = ((ArrayType) pType2).getComponentType();
-                types[iparam2] = pType2;
+                Type elementType2 = arrayType.getComponentType();
+                types[iparam2] = arrayType;
                 args[iparam2] = Array.newInstance(elementType2.getReflectClass(), count2);
                 Object[] argValues = literal.argValues;
                 if (!isIntNum) {
@@ -380,7 +380,7 @@ public class LitTable implements ObjectOutput {
                         arr[count2 - j4] = ((Integer) argValues[iarg2 + j4]).intValue();
                     }
                 }
-                Literal arrayLiteral = new Literal(args[iparam2], pType2);
+                Literal arrayLiteral = new Literal(args[iparam2], (Type) arrayType);
                 if (elementType2 instanceof ObjectType) {
                     arrayLiteral.argValues = (Object[]) args[iparam2];
                 }
@@ -395,7 +395,7 @@ public class LitTable implements ObjectOutput {
         return best;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void putArgs(Literal literal, CodeAttr code) {
         Type[] argTypes = literal.argTypes;
         int len = argTypes.length;
@@ -419,7 +419,7 @@ public class LitTable implements ObjectOutput {
         literal.flags |= 8;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void emit(Literal literal, boolean ignore) {
         CodeAttr code = this.comp.getCode();
         if (literal.value == null) {

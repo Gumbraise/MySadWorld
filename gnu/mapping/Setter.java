@@ -1,6 +1,6 @@
 package gnu.mapping;
 
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 
 public class Setter extends ProcedureN {
     protected Procedure getter;

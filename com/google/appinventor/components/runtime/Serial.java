@@ -59,20 +59,19 @@ public class Serial extends AndroidNonvisibleComponent implements Component {
 
     @SimpleFunction(description = "Reads data from serial.")
     public String ReadSerial() {
-        String data = "";
         if (this.mPhysicaloid == null) {
             this.form.dispatchErrorOccurredEvent(this, "ReadSerial", ErrorMessages.ERROR_SERIAL_NOT_INITIALIZED, new Object[0]);
-            return data;
+            return "";
         }
         byte[] buf = new byte[this.bytes];
         if (this.mPhysicaloid.read(buf) <= 0) {
-            return data;
+            return "";
         }
         try {
             return new String(buf, "UTF-8");
         } catch (UnsupportedEncodingException mEr) {
             Log.e(LOG_TAG, mEr.getMessage());
-            return data;
+            return "";
         }
     }
 

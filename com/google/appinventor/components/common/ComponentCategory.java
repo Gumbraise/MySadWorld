@@ -1,6 +1,6 @@
 package com.google.appinventor.components.common;
 
-import android.support.p000v4.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,6 +48,6 @@ public enum ComponentCategory {
     }
 
     public String getDocName() {
-        return (String) DOC_MAP.get(this.name);
+        return DOC_MAP.get(this.name);
     }
 }

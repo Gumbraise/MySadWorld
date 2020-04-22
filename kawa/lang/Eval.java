@@ -8,9 +8,11 @@ import gnu.lists.LList;
 import gnu.lists.PairWithPosition;
 import gnu.mapping.CallContext;
 import gnu.mapping.Environment;
+import gnu.mapping.OutPort;
 import gnu.mapping.Procedure;
 import gnu.mapping.Procedure1or2;
 import gnu.text.SourceMessages;
+import java.net.URL;
 
 public class Eval extends Procedure1or2 {
     public static final Eval eval = new Eval();
@@ -87,7 +89,7 @@ public class Eval extends Procedure1or2 {
         int i = ModuleExp.interactiveCounter + 1;
         ModuleExp.interactiveCounter = i;
         mod.setName(append.append(i).toString());
-        ModuleExp.evalModule(env, ctx, tr, null, null);
+        ModuleExp.evalModule(env, ctx, tr, (URL) null, (OutPort) null);
         if (messages.seenErrors()) {
             throw new RuntimeException("invalid syntax in eval form:\n" + messages.toString(20));
         } else if (env != saveGlobalEnv) {
@@ -106,7 +108,7 @@ public class Eval extends Procedure1or2 {
     public void apply(CallContext ctx) throws Throwable {
         Procedure.checkArgCount(this, ctx.count);
         Object exp = ctx.getNextArg();
-        Environment env = (Environment) ctx.getNextArg(null);
+        Environment env = (Environment) ctx.getNextArg((Object) null);
         if (env == null) {
             env = Environment.user();
         }

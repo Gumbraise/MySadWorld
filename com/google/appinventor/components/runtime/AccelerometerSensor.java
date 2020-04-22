@@ -6,7 +6,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Build.VERSION;
+import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 import android.view.WindowManager;
@@ -108,7 +108,7 @@ public class AccelerometerSensor extends AndroidNonvisibleComponent implements O
     }
 
     public int getDeviceDefaultOrientation() {
-        if (VERSION.SDK_INT < 8) {
+        if (Build.VERSION.SDK_INT < 8) {
             return 1;
         }
         Configuration config = this.resources.getConfiguration();
@@ -142,7 +142,7 @@ public class AccelerometerSensor extends AndroidNonvisibleComponent implements O
     private void startListening() {
         this.androidUIHandler.postDelayed(new Runnable() {
             public void run() {
-                AccelerometerSensor.this.deviceDefaultOrientation = AccelerometerSensor.this.getDeviceDefaultOrientation();
+                int unused = AccelerometerSensor.this.deviceDefaultOrientation = AccelerometerSensor.this.getDeviceDefaultOrientation();
                 Log.d(AccelerometerSensor.LOG_TAG, "deviceDefaultOrientation = " + AccelerometerSensor.this.deviceDefaultOrientation);
                 Log.d(AccelerometerSensor.LOG_TAG, "Configuration.ORIENTATION_LANDSCAPE = 2");
                 Log.d(AccelerometerSensor.LOG_TAG, "Configuration.ORIENTATION_PORTRAIT = 1");

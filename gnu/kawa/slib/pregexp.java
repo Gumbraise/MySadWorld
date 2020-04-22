@@ -1,6 +1,6 @@
 package gnu.kawa.slib;
 
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import gnu.expr.ModuleBody;
 import gnu.expr.ModuleInfo;
 import gnu.expr.ModuleMethod;
@@ -15,8 +15,8 @@ import gnu.mapping.SimpleSymbol;
 import gnu.mapping.WrongType;
 import gnu.math.IntNum;
 import gnu.text.Char;
-import kawa.lib.C0620lists;
 import kawa.lib.characters;
+import kawa.lib.lists;
 import kawa.lib.misc;
 import kawa.lib.numbers;
 import kawa.lib.ports;
@@ -206,1628 +206,6 @@ public class pregexp extends ModuleBody {
     public static final ModuleMethod pregexp$Mnstring$Mnmatch;
     public static final ModuleMethod pregexp$Mnwrap$Mnquantifier$Mnif$Mnany;
 
-    /* compiled from: pregexp.scm */
-    public class frame extends ModuleBody {
-        Object backrefs;
-        Object case$Mnsensitive$Qu;
-        Procedure identity;
-
-        /* renamed from: n */
-        Object f94n;
-
-        /* renamed from: s */
-        Object f95s;
-
-        /* renamed from: sn */
-        Object f96sn;
-        Object start;
-
-        public frame() {
-            ModuleMethod moduleMethod = new ModuleMethod(this, 15, pregexp.Lit112, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:460");
-            this.identity = moduleMethod;
-        }
-
-        public static Object lambda2identity(Object x) {
-            return x;
-        }
-
-        public Object apply1(ModuleMethod moduleMethod, Object obj) {
-            return moduleMethod.selector == 15 ? lambda2identity(obj) : super.apply1(moduleMethod, obj);
-        }
-
-        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
-            if (moduleMethod.selector != 15) {
-                return super.match1(moduleMethod, obj, callContext);
-            }
-            callContext.value1 = obj;
-            callContext.proc = moduleMethod;
-            callContext.f236pc = 1;
-            return 0;
-        }
-
-        static Boolean lambda4() {
-            return Boolean.FALSE;
-        }
-
-        /* JADX WARNING: Code restructure failed: missing block: B:103:0x02c9, code lost:
-            if (kawa.standard.Scheme.isEqv.apply2(r13, gnu.kawa.slib.pregexp.Lit17) == java.lang.Boolean.FALSE) goto L_0x02f7;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:105:0x02d7, code lost:
-            if (kawa.standard.Scheme.numGEq.apply2(r6.f98i, r15.f94n) == java.lang.Boolean.FALSE) goto L_0x02e3;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:109:0x0301, code lost:
-            if (kawa.standard.Scheme.isEqv.apply2(r13, gnu.kawa.slib.pregexp.Lit5) == java.lang.Boolean.FALSE) goto L_0x0313;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:112:0x031d, code lost:
-            if (kawa.standard.Scheme.isEqv.apply2(r13, gnu.kawa.slib.pregexp.Lit4) == java.lang.Boolean.FALSE) goto L_0x032d;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:115:0x0337, code lost:
-            if (kawa.standard.Scheme.isEqv.apply2(r13, gnu.kawa.slib.pregexp.Lit20) == java.lang.Boolean.FALSE) goto L_0x03ad;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:116:0x0339, code lost:
-            r8 = gnu.kawa.slib.pregexp.pregexpListRef(r15.backrefs, kawa.lib.C0620lists.cadr.apply1(r6.re$1));
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:117:0x0349, code lost:
-            if (r8 == java.lang.Boolean.FALSE) goto L_0x0389;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:118:0x034b, code lost:
-            r7 = kawa.lib.C0620lists.cdr.apply1(r8);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:120:0x0353, code lost:
-            if (r7 == java.lang.Boolean.FALSE) goto L_0x03a1;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:121:0x0355, code lost:
-            r1 = r15.f95s;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:123:?, code lost:
-            r1 = (java.lang.CharSequence) r1;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:124:0x0359, code lost:
-            r3 = kawa.lib.C0620lists.car.apply1(r7);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:126:?, code lost:
-            r4 = ((java.lang.Number) r3).intValue();
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:127:0x0366, code lost:
-            r3 = kawa.lib.C0620lists.cdr.apply1(r7);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:131:0x0389, code lost:
-            gnu.kawa.slib.pregexp.pregexpError$V(new java.lang.Object[]{gnu.kawa.slib.pregexp.Lit101, gnu.kawa.slib.pregexp.Lit102, r6.re$1});
-            r7 = java.lang.Boolean.FALSE;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:134:0x03b7, code lost:
-            if (kawa.standard.Scheme.isEqv.apply2(r13, gnu.kawa.slib.pregexp.Lit100) == java.lang.Boolean.FALSE) goto L_0x03cd;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:137:0x03d7, code lost:
-            if (kawa.standard.Scheme.isEqv.apply2(r13, gnu.kawa.slib.pregexp.Lit103) == java.lang.Boolean.FALSE) goto L_0x0405;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:139:0x03ed, code lost:
-            if (lambda3sub(kawa.lib.C0620lists.cadr.apply1(r6.re$1), r6.f98i, r15.identity, gnu.kawa.slib.pregexp.lambda$Fn6) == java.lang.Boolean.FALSE) goto L_0x03fb;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:143:0x040f, code lost:
-            if (kawa.standard.Scheme.isEqv.apply2(r13, gnu.kawa.slib.pregexp.Lit104) == java.lang.Boolean.FALSE) goto L_0x043d;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:145:0x0425, code lost:
-            if (lambda3sub(kawa.lib.C0620lists.cadr.apply1(r6.re$1), r6.f98i, r15.identity, gnu.kawa.slib.pregexp.lambda$Fn7) == java.lang.Boolean.FALSE) goto L_0x0431;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:149:0x0447, code lost:
-            if (kawa.standard.Scheme.isEqv.apply2(r13, gnu.kawa.slib.pregexp.Lit105) == java.lang.Boolean.FALSE) goto L_0x048f;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:150:0x0449, code lost:
-            r11 = r15.f94n;
-            r12 = r15.f96sn;
-            r15.f94n = r6.f98i;
-            r15.f96sn = r6.f98i;
-            r10 = lambda3sub(gnu.lists.LList.list4(gnu.kawa.slib.pregexp.Lit5, gnu.kawa.slib.pregexp.Lit106, kawa.lib.C0620lists.cadr.apply1(r6.re$1), gnu.kawa.slib.pregexp.Lit12), gnu.kawa.slib.pregexp.Lit73, r15.identity, gnu.kawa.slib.pregexp.lambda$Fn8);
-            r15.f94n = r11;
-            r15.f96sn = r12;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:151:0x0477, code lost:
-            if (r10 == java.lang.Boolean.FALSE) goto L_0x0485;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:155:0x0499, code lost:
-            if (kawa.standard.Scheme.isEqv.apply2(r13, gnu.kawa.slib.pregexp.Lit107) == java.lang.Boolean.FALSE) goto L_0x04e1;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:156:0x049b, code lost:
-            r11 = r15.f94n;
-            r12 = r15.f96sn;
-            r15.f94n = r6.f98i;
-            r15.f96sn = r6.f98i;
-            r10 = lambda3sub(gnu.lists.LList.list4(gnu.kawa.slib.pregexp.Lit5, gnu.kawa.slib.pregexp.Lit108, kawa.lib.C0620lists.cadr.apply1(r6.re$1), gnu.kawa.slib.pregexp.Lit12), gnu.kawa.slib.pregexp.Lit73, r15.identity, gnu.kawa.slib.pregexp.lambda$Fn9);
-            r15.f94n = r11;
-            r15.f96sn = r12;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:157:0x04c9, code lost:
-            if (r10 == java.lang.Boolean.FALSE) goto L_0x04d5;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:161:0x04eb, code lost:
-            if (kawa.standard.Scheme.isEqv.apply2(r13, gnu.kawa.slib.pregexp.Lit109) == java.lang.Boolean.FALSE) goto L_0x0517;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:162:0x04ed, code lost:
-            r10 = lambda3sub(kawa.lib.C0620lists.cadr.apply1(r6.re$1), r6.f98i, r15.identity, gnu.kawa.slib.pregexp.lambda$Fn10);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:163:0x0501, code lost:
-            if (r10 == java.lang.Boolean.FALSE) goto L_0x050d;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:166:0x0517, code lost:
-            r14 = kawa.standard.Scheme.isEqv.apply2(r13, gnu.kawa.slib.pregexp.Lit60);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:167:0x0521, code lost:
-            if (r14 == java.lang.Boolean.FALSE) goto L_0x0551;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:169:0x0525, code lost:
-            if (r14 == java.lang.Boolean.FALSE) goto L_0x055d;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:170:0x0527, code lost:
-            r6.old = r15.case$Mnsensitive$Qu;
-            r15.case$Mnsensitive$Qu = kawa.standard.Scheme.isEqv.apply2(kawa.lib.C0620lists.car.apply1(r6.re$1), gnu.kawa.slib.pregexp.Lit60);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:172:0x055b, code lost:
-            if (kawa.standard.Scheme.isEqv.apply2(r13, gnu.kawa.slib.pregexp.Lit61) != java.lang.Boolean.FALSE) goto L_0x0527;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:174:0x0567, code lost:
-            if (kawa.standard.Scheme.isEqv.apply2(r13, gnu.kawa.slib.pregexp.Lit68) == java.lang.Boolean.FALSE) goto L_0x05c2;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:175:0x0569, code lost:
-            r1 = kawa.lib.C0620lists.cadr.apply1(r6.re$1);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:178:0x0573, code lost:
-            if (r1 == java.lang.Boolean.FALSE) goto L_0x05bb;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:179:0x0575, code lost:
-            r1 = 1;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:180:0x0576, code lost:
-            r6.maximal$Qu = (r1 + 1) & true;
-            r6.f99p = kawa.lib.C0620lists.caddr.apply1(r6.re$1);
-            r6.f100q = kawa.lib.C0620lists.cadddr.apply1(r6.re$1);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:181:0x0592, code lost:
-            if (r6.maximal$Qu == false) goto L_0x05bf;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:182:0x0594, code lost:
-            r1 = r6.f100q;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:185:0x0598, code lost:
-            if (r1 == java.lang.Boolean.FALSE) goto L_0x05bd;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:186:0x059a, code lost:
-            r1 = 1;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:187:0x059b, code lost:
-            r1 = (r1 + 1) & true;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:188:0x059f, code lost:
-            r6.could$Mnloop$Mninfinitely$Qu = r1;
-            r6.f101re = kawa.lib.C0620lists.car.apply1(kawa.lib.C0620lists.cddddr.apply1(r6.re$1));
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:189:0x05bb, code lost:
-            r1 = 0;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:190:0x05bd, code lost:
-            r1 = 0;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:191:0x05bf, code lost:
-            r1 = r6.maximal$Qu;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:194:0x05dc, code lost:
-            if (kawa.standard.Scheme.numGEq.apply2(r6.f98i, r15.f94n) == java.lang.Boolean.FALSE) goto L_0x05e8;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:215:0x0632, code lost:
-            r2 = move-exception;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:217:0x063b, code lost:
-            throw new gnu.mapping.WrongType(r2, "substring", 1, r1);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:218:0x063c, code lost:
-            r1 = move-exception;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:220:0x0645, code lost:
-            throw new gnu.mapping.WrongType(r1, "substring", 2, r3);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:221:0x0646, code lost:
-            r1 = move-exception;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:223:0x064f, code lost:
-            throw new gnu.mapping.WrongType(r1, "substring", 3, r3);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:224:0x0650, code lost:
-            r2 = move-exception;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:226:0x0659, code lost:
-            throw new gnu.mapping.WrongType(r2, "maximal?", -2, r1);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:227:0x065a, code lost:
-            r2 = move-exception;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:229:0x0663, code lost:
-            throw new gnu.mapping.WrongType(r2, "could-loop-infinitely?", -2, r1);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:244:?, code lost:
-            return kawa.standard.Scheme.applyToArgs.apply1(r6.f97fk);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:246:?, code lost:
-            return gnu.kawa.slib.pregexp.pregexpError$V(new java.lang.Object[]{gnu.kawa.slib.pregexp.Lit101});
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:247:?, code lost:
-            return kawa.standard.Scheme.applyToArgs.apply1(r6.f97fk);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:248:?, code lost:
-            return r6.lambda5loupOneOfChars(kawa.lib.C0620lists.cdr.apply1(r6.re$1));
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:249:?, code lost:
-            return kawa.standard.Scheme.applyToArgs.apply1(r6.f97fk);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:250:?, code lost:
-            return lambda3sub(kawa.lib.C0620lists.cadr.apply1(r6.re$1), r6.f98i, r6.lambda$Fn2, r6.lambda$Fn3);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:251:?, code lost:
-            return r6.lambda6loupSeq(kawa.lib.C0620lists.cdr.apply1(r6.re$1), r6.f98i);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:252:?, code lost:
-            return r6.lambda7loupOr(kawa.lib.C0620lists.cdr.apply1(r6.re$1));
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:253:?, code lost:
-            return gnu.kawa.slib.pregexp.pregexpStringMatch(kawa.lib.strings.substring(r1, r4, ((java.lang.Number) r3).intValue()), r15.f95s, r6.f98i, r15.f94n, r6.lambda$Fn4, r6.f97fk);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:254:?, code lost:
-            return kawa.standard.Scheme.applyToArgs.apply2(r6.f102sk, r6.f98i);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:255:?, code lost:
-            return lambda3sub(kawa.lib.C0620lists.cadr.apply1(r6.re$1), r6.f98i, r6.lambda$Fn5, r6.f97fk);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:256:?, code lost:
-            return kawa.standard.Scheme.applyToArgs.apply2(r6.f102sk, r6.f98i);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:257:?, code lost:
-            return kawa.standard.Scheme.applyToArgs.apply1(r6.f97fk);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:258:?, code lost:
-            return kawa.standard.Scheme.applyToArgs.apply1(r6.f97fk);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:259:?, code lost:
-            return kawa.standard.Scheme.applyToArgs.apply2(r6.f102sk, r6.f98i);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:260:?, code lost:
-            return kawa.standard.Scheme.applyToArgs.apply2(r6.f102sk, r6.f98i);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:261:?, code lost:
-            return kawa.standard.Scheme.applyToArgs.apply1(r6.f97fk);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:262:?, code lost:
-            return kawa.standard.Scheme.applyToArgs.apply1(r6.f97fk);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:263:?, code lost:
-            return kawa.standard.Scheme.applyToArgs.apply2(r6.f102sk, r6.f98i);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:264:?, code lost:
-            return kawa.standard.Scheme.applyToArgs.apply2(r6.f102sk, r10);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:265:?, code lost:
-            return kawa.standard.Scheme.applyToArgs.apply1(r6.f97fk);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:266:?, code lost:
-            return lambda3sub(kawa.lib.C0620lists.cadr.apply1(r6.re$1), r6.f98i, r6.lambda$Fn11, r6.lambda$Fn12);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:267:?, code lost:
-            return r6.lambda8loupP(gnu.kawa.slib.pregexp.Lit73, r6.f98i);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:268:?, code lost:
-            return gnu.kawa.slib.pregexp.pregexpError$V(new java.lang.Object[]{gnu.kawa.slib.pregexp.Lit101});
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:269:?, code lost:
-            return kawa.standard.Scheme.applyToArgs.apply1(r6.f97fk);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:270:?, code lost:
-            return gnu.kawa.slib.pregexp.pregexpError$V(new java.lang.Object[]{gnu.kawa.slib.pregexp.Lit101});
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:84:0x023b, code lost:
-            if (kawa.lib.C0620lists.isPair(r6.re$1) == false) goto L_0x05d0;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:85:0x023d, code lost:
-            r13 = kawa.lib.C0620lists.car.apply1(r6.re$1);
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:86:0x024f, code lost:
-            if (kawa.standard.Scheme.isEqv.apply2(r13, gnu.kawa.slib.pregexp.Lit83) == java.lang.Boolean.FALSE) goto L_0x028d;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:88:0x025d, code lost:
-            if (kawa.standard.Scheme.numGEq.apply2(r6.f98i, r15.f94n) == java.lang.Boolean.FALSE) goto L_0x027f;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:90:0x0269, code lost:
-            if (r14 != false) goto L_0x01d1;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:97:0x0297, code lost:
-            if (kawa.standard.Scheme.isEqv.apply2(r13, gnu.kawa.slib.pregexp.Lit82) == java.lang.Boolean.FALSE) goto L_0x02bf;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:99:0x02a5, code lost:
-            if (kawa.standard.Scheme.numGEq.apply2(r6.f98i, r15.f94n) == java.lang.Boolean.FALSE) goto L_0x02b1;
-         */
-        /* Code decompiled incorrectly, please refer to instructions dump. */
-        public java.lang.Object lambda3sub(java.lang.Object r16, java.lang.Object r17, java.lang.Object r18, java.lang.Object r19) {
-            /*
-                r15 = this;
-                gnu.kawa.slib.pregexp$frame0 r6 = new gnu.kawa.slib.pregexp$frame0
-                r6.<init>()
-                r6.staticLink = r15
-                r0 = r16
-                r6.re$1 = r0
-                r0 = r17
-                r6.f98i = r0
-                r0 = r18
-                r6.f102sk = r0
-                r0 = r19
-                r6.f97fk = r0
-                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
-                java.lang.Object r2 = r6.re$1
-                gnu.mapping.SimpleSymbol r3 = gnu.kawa.slib.pregexp.Lit10
-                java.lang.Object r1 = r1.apply2(r2, r3)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x0047
-                gnu.kawa.functions.NumberCompare r1 = kawa.standard.Scheme.numEqu
-                java.lang.Object r2 = r6.f98i
-                java.lang.Object r3 = r15.start
-                java.lang.Object r1 = r1.apply2(r2, r3)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x003e
-                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r2 = r6.f102sk
-                java.lang.Object r3 = r6.f98i
-                java.lang.Object r1 = r1.apply2(r2, r3)
-            L_0x003d:
-                return r1
-            L_0x003e:
-                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r2 = r6.f97fk
-                java.lang.Object r1 = r1.apply1(r2)
-                goto L_0x003d
-            L_0x0047:
-                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
-                java.lang.Object r2 = r6.re$1
-                gnu.mapping.SimpleSymbol r3 = gnu.kawa.slib.pregexp.Lit12
-                java.lang.Object r1 = r1.apply2(r2, r3)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x0077
-                gnu.kawa.functions.NumberCompare r1 = kawa.standard.Scheme.numGEq
-                java.lang.Object r2 = r6.f98i
-                java.lang.Object r3 = r15.f94n
-                java.lang.Object r1 = r1.apply2(r2, r3)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x006e
-                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r2 = r6.f102sk
-                java.lang.Object r3 = r6.f98i
-                java.lang.Object r1 = r1.apply2(r2, r3)
-                goto L_0x003d
-            L_0x006e:
-                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r2 = r6.f97fk
-                java.lang.Object r1 = r1.apply1(r2)
-                goto L_0x003d
-            L_0x0077:
-                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
-                java.lang.Object r2 = r6.re$1
-                gnu.mapping.SimpleSymbol r3 = gnu.kawa.slib.pregexp.Lit23
-                java.lang.Object r1 = r1.apply2(r2, r3)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x0090
-                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r2 = r6.f102sk
-                java.lang.Object r3 = r6.f98i
-                java.lang.Object r1 = r1.apply2(r2, r3)
-                goto L_0x003d
-            L_0x0090:
-                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
-                java.lang.Object r2 = r6.re$1
-                gnu.mapping.SimpleSymbol r3 = gnu.kawa.slib.pregexp.Lit26
-                java.lang.Object r1 = r1.apply2(r2, r3)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x00c1
-                java.lang.Object r1 = r15.f95s
-                java.lang.Object r2 = r6.f98i
-                java.lang.Object r3 = r15.f94n
-                java.lang.Object r1 = gnu.kawa.slib.pregexp.isPregexpAtWordBoundary(r1, r2, r3)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x00b7
-                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r2 = r6.f102sk
-                java.lang.Object r3 = r6.f98i
-                java.lang.Object r1 = r1.apply2(r2, r3)
-                goto L_0x003d
-            L_0x00b7:
-                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r2 = r6.f97fk
-                java.lang.Object r1 = r1.apply1(r2)
-                goto L_0x003d
-            L_0x00c1:
-                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
-                java.lang.Object r2 = r6.re$1
-                gnu.mapping.SimpleSymbol r3 = gnu.kawa.slib.pregexp.Lit28
-                java.lang.Object r1 = r1.apply2(r2, r3)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x00f3
-                java.lang.Object r1 = r15.f95s
-                java.lang.Object r2 = r6.f98i
-                java.lang.Object r3 = r15.f94n
-                java.lang.Object r1 = gnu.kawa.slib.pregexp.isPregexpAtWordBoundary(r1, r2, r3)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x00e7
-                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r2 = r6.f97fk
-                java.lang.Object r1 = r1.apply1(r2)
-                goto L_0x003d
-            L_0x00e7:
-                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r2 = r6.f102sk
-                java.lang.Object r3 = r6.f98i
-                java.lang.Object r1 = r1.apply2(r2, r3)
-                goto L_0x003d
-            L_0x00f3:
-                java.lang.Object r1 = r6.re$1
-                boolean r14 = kawa.lib.characters.isChar(r1)
-                if (r14 == 0) goto L_0x0146
-                gnu.kawa.functions.NumberCompare r1 = kawa.standard.Scheme.numLss
-                java.lang.Object r2 = r6.f98i
-                java.lang.Object r3 = r15.f94n
-                java.lang.Object r1 = r1.apply2(r2, r3)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x0148
-            L_0x0109:
-                java.lang.Object r1 = r15.case$Mnsensitive$Qu
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x0196
-                gnu.expr.ModuleMethod r1 = kawa.lib.characters.char$Eq$Qu
-                r4 = r1
-            L_0x0112:
-                java.lang.Object r1 = r15.f95s
-                java.lang.CharSequence r1 = (java.lang.CharSequence) r1     // Catch:{ ClassCastException -> 0x05f6 }
-                java.lang.Object r3 = r6.f98i
-                r0 = r3
-                java.lang.Number r0 = (java.lang.Number) r0     // Catch:{ ClassCastException -> 0x0600 }
-                r2 = r0
-                int r2 = r2.intValue()     // Catch:{ ClassCastException -> 0x0600 }
-                char r1 = kawa.lib.strings.stringRef(r1, r2)
-                gnu.text.Char r1 = gnu.text.Char.make(r1)
-                java.lang.Object r2 = r6.re$1
-                java.lang.Object r1 = r4.apply2(r1, r2)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x019b
-                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r2 = r6.f102sk
-                gnu.kawa.functions.AddOp r3 = gnu.kawa.functions.AddOp.$Pl
-                java.lang.Object r4 = r6.f98i
-                gnu.math.IntNum r5 = gnu.kawa.slib.pregexp.Lit8
-                java.lang.Object r3 = r3.apply2(r4, r5)
-                java.lang.Object r1 = r1.apply2(r2, r3)
-                goto L_0x003d
-            L_0x0146:
-                if (r14 != 0) goto L_0x0109
-            L_0x0148:
-                java.lang.Object r1 = r6.re$1
-                boolean r1 = kawa.lib.C0620lists.isPair(r1)
-                int r1 = r1 + 1
-                r14 = r1 & 1
-                if (r14 == 0) goto L_0x01a5
-                gnu.kawa.functions.NumberCompare r1 = kawa.standard.Scheme.numLss
-                java.lang.Object r2 = r6.f98i
-                java.lang.Object r3 = r15.f94n
-                java.lang.Object r1 = r1.apply2(r2, r3)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x01a7
-            L_0x0162:
-                java.lang.Object r1 = r15.f95s
-                java.lang.CharSequence r1 = (java.lang.CharSequence) r1     // Catch:{ ClassCastException -> 0x060a }
-                java.lang.Object r3 = r6.f98i
-                r0 = r3
-                java.lang.Number r0 = (java.lang.Number) r0     // Catch:{ ClassCastException -> 0x0614 }
-                r2 = r0
-                int r2 = r2.intValue()     // Catch:{ ClassCastException -> 0x0614 }
-                char r1 = kawa.lib.strings.stringRef(r1, r2)
-                gnu.text.Char r1 = gnu.text.Char.make(r1)
-                java.lang.Object r2 = r6.re$1
-                java.lang.Object r1 = gnu.kawa.slib.pregexp.isPregexpCheckIfInCharClass(r1, r2)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x0227
-                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r2 = r6.f102sk
-                gnu.kawa.functions.AddOp r3 = gnu.kawa.functions.AddOp.$Pl
-                java.lang.Object r4 = r6.f98i
-                gnu.math.IntNum r5 = gnu.kawa.slib.pregexp.Lit8
-                java.lang.Object r3 = r3.apply2(r4, r5)
-                java.lang.Object r1 = r1.apply2(r2, r3)
-                goto L_0x003d
-            L_0x0196:
-                gnu.expr.ModuleMethod r1 = kawa.lib.rnrs.unicode.char$Mnci$Eq$Qu
-                r4 = r1
-                goto L_0x0112
-            L_0x019b:
-                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r2 = r6.f97fk
-                java.lang.Object r1 = r1.apply1(r2)
-                goto L_0x003d
-            L_0x01a5:
-                if (r14 != 0) goto L_0x0162
-            L_0x01a7:
-                java.lang.Object r1 = r6.re$1
-                boolean r14 = kawa.lib.C0620lists.isPair(r1)
-                if (r14 == 0) goto L_0x0269
-                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
-                gnu.expr.GenericProc r2 = kawa.lib.C0620lists.car
-                java.lang.Object r3 = r6.re$1
-                java.lang.Object r2 = r2.apply1(r3)
-                gnu.mapping.SimpleSymbol r3 = gnu.kawa.slib.pregexp.Lit83
-                java.lang.Object r14 = r1.apply2(r2, r3)
-                java.lang.Boolean r1 = java.lang.Boolean.FALSE
-                if (r14 == r1) goto L_0x0231
-                gnu.kawa.functions.NumberCompare r1 = kawa.standard.Scheme.numLss
-                java.lang.Object r2 = r6.f98i
-                java.lang.Object r3 = r15.f94n
-                java.lang.Object r1 = r1.apply2(r2, r3)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x0235
-            L_0x01d1:
-                java.lang.Object r1 = r15.f95s
-                java.lang.CharSequence r1 = (java.lang.CharSequence) r1     // Catch:{ ClassCastException -> 0x061e }
-                java.lang.Object r3 = r6.f98i
-                r0 = r3
-                java.lang.Number r0 = (java.lang.Number) r0     // Catch:{ ClassCastException -> 0x0628 }
-                r2 = r0
-                int r2 = r2.intValue()     // Catch:{ ClassCastException -> 0x0628 }
-                char r8 = kawa.lib.strings.stringRef(r1, r2)
-                java.lang.Object r1 = r15.case$Mnsensitive$Qu
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x026d
-                gnu.expr.ModuleMethod r9 = kawa.lib.characters.char$Ls$Eq$Qu
-            L_0x01eb:
-                gnu.expr.GenericProc r1 = kawa.lib.C0620lists.cadr
-                java.lang.Object r2 = r6.re$1
-                java.lang.Object r1 = r1.apply1(r2)
-                gnu.text.Char r2 = gnu.text.Char.make(r8)
-                java.lang.Object r14 = r9.apply2(r1, r2)
-                java.lang.Boolean r1 = java.lang.Boolean.FALSE
-                if (r14 == r1) goto L_0x0271
-                gnu.text.Char r1 = gnu.text.Char.make(r8)
-                gnu.expr.GenericProc r2 = kawa.lib.C0620lists.caddr
-                java.lang.Object r3 = r6.re$1
-                java.lang.Object r2 = r2.apply1(r3)
-                java.lang.Object r1 = r9.apply2(r1, r2)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x0275
-            L_0x0213:
-                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r2 = r6.f102sk
-                gnu.kawa.functions.AddOp r3 = gnu.kawa.functions.AddOp.$Pl
-                java.lang.Object r4 = r6.f98i
-                gnu.math.IntNum r5 = gnu.kawa.slib.pregexp.Lit8
-                java.lang.Object r3 = r3.apply2(r4, r5)
-                java.lang.Object r1 = r1.apply2(r2, r3)
-                goto L_0x003d
-            L_0x0227:
-                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r2 = r6.f97fk
-                java.lang.Object r1 = r1.apply1(r2)
-                goto L_0x003d
-            L_0x0231:
-                java.lang.Boolean r1 = java.lang.Boolean.FALSE
-                if (r14 != r1) goto L_0x01d1
-            L_0x0235:
-                java.lang.Object r1 = r6.re$1
-                boolean r1 = kawa.lib.C0620lists.isPair(r1)
-                if (r1 == 0) goto L_0x05d0
-                gnu.expr.GenericProc r1 = kawa.lib.C0620lists.car
-                java.lang.Object r2 = r6.re$1
-                java.lang.Object r13 = r1.apply1(r2)
-                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r2 = gnu.kawa.slib.pregexp.Lit83
-                java.lang.Object r1 = r1.apply2(r13, r2)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x028d
-                gnu.kawa.functions.NumberCompare r1 = kawa.standard.Scheme.numGEq
-                java.lang.Object r2 = r6.f98i
-                java.lang.Object r3 = r15.f94n
-                java.lang.Object r1 = r1.apply2(r2, r3)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x027f
-                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r2 = r6.f97fk
-                java.lang.Object r1 = r1.apply1(r2)
-                goto L_0x003d
-            L_0x0269:
-                if (r14 == 0) goto L_0x0235
-                goto L_0x01d1
-            L_0x026d:
-                gnu.expr.ModuleMethod r9 = kawa.lib.rnrs.unicode.char$Mnci$Ls$Eq$Qu
-                goto L_0x01eb
-            L_0x0271:
-                java.lang.Boolean r1 = java.lang.Boolean.FALSE
-                if (r14 != r1) goto L_0x0213
-            L_0x0275:
-                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r2 = r6.f97fk
-                java.lang.Object r1 = r1.apply1(r2)
-                goto L_0x003d
-            L_0x027f:
-                r1 = 1
-                java.lang.Object[] r1 = new java.lang.Object[r1]
-                r2 = 0
-                gnu.mapping.SimpleSymbol r3 = gnu.kawa.slib.pregexp.Lit101
-                r1[r2] = r3
-                java.lang.Object r1 = gnu.kawa.slib.pregexp.pregexpError$V(r1)
-                goto L_0x003d
-            L_0x028d:
-                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r2 = gnu.kawa.slib.pregexp.Lit82
-                java.lang.Object r1 = r1.apply2(r13, r2)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x02bf
-                gnu.kawa.functions.NumberCompare r1 = kawa.standard.Scheme.numGEq
-                java.lang.Object r2 = r6.f98i
-                java.lang.Object r3 = r15.f94n
-                java.lang.Object r1 = r1.apply2(r2, r3)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x02b1
-                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r2 = r6.f97fk
-                java.lang.Object r1 = r1.apply1(r2)
-                goto L_0x003d
-            L_0x02b1:
-                gnu.expr.GenericProc r1 = kawa.lib.C0620lists.cdr
-                java.lang.Object r2 = r6.re$1
-                java.lang.Object r1 = r1.apply1(r2)
-                java.lang.Object r1 = r6.lambda5loupOneOfChars(r1)
-                goto L_0x003d
-            L_0x02bf:
-                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r2 = gnu.kawa.slib.pregexp.Lit17
-                java.lang.Object r1 = r1.apply2(r13, r2)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x02f7
-                gnu.kawa.functions.NumberCompare r1 = kawa.standard.Scheme.numGEq
-                java.lang.Object r2 = r6.f98i
-                java.lang.Object r3 = r15.f94n
-                java.lang.Object r1 = r1.apply2(r2, r3)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x02e3
-                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r2 = r6.f97fk
-                java.lang.Object r1 = r1.apply1(r2)
-                goto L_0x003d
-            L_0x02e3:
-                gnu.expr.GenericProc r1 = kawa.lib.C0620lists.cadr
-                java.lang.Object r2 = r6.re$1
-                java.lang.Object r1 = r1.apply1(r2)
-                java.lang.Object r2 = r6.f98i
-                gnu.expr.ModuleMethod r3 = r6.lambda$Fn2
-                gnu.expr.ModuleMethod r4 = r6.lambda$Fn3
-                java.lang.Object r1 = r15.lambda3sub(r1, r2, r3, r4)
-                goto L_0x003d
-            L_0x02f7:
-                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r2 = gnu.kawa.slib.pregexp.Lit5
-                java.lang.Object r1 = r1.apply2(r13, r2)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x0313
-                gnu.expr.GenericProc r1 = kawa.lib.C0620lists.cdr
-                java.lang.Object r2 = r6.re$1
-                java.lang.Object r1 = r1.apply1(r2)
-                java.lang.Object r2 = r6.f98i
-                java.lang.Object r1 = r6.lambda6loupSeq(r1, r2)
-                goto L_0x003d
-            L_0x0313:
-                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r2 = gnu.kawa.slib.pregexp.Lit4
-                java.lang.Object r1 = r1.apply2(r13, r2)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x032d
-                gnu.expr.GenericProc r1 = kawa.lib.C0620lists.cdr
-                java.lang.Object r2 = r6.re$1
-                java.lang.Object r1 = r1.apply1(r2)
-                java.lang.Object r1 = r6.lambda7loupOr(r1)
-                goto L_0x003d
-            L_0x032d:
-                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r2 = gnu.kawa.slib.pregexp.Lit20
-                java.lang.Object r1 = r1.apply2(r13, r2)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x03ad
-                java.lang.Object r1 = r15.backrefs
-                gnu.expr.GenericProc r2 = kawa.lib.C0620lists.cadr
-                java.lang.Object r3 = r6.re$1
-                java.lang.Object r2 = r2.apply1(r3)
-                java.lang.Object r8 = gnu.kawa.slib.pregexp.pregexpListRef(r1, r2)
-                java.lang.Boolean r1 = java.lang.Boolean.FALSE
-                if (r8 == r1) goto L_0x0389
-                gnu.expr.GenericProc r1 = kawa.lib.C0620lists.cdr
-                java.lang.Object r7 = r1.apply1(r8)
-            L_0x0351:
-                java.lang.Boolean r1 = java.lang.Boolean.FALSE
-                if (r7 == r1) goto L_0x03a1
-                java.lang.Object r1 = r15.f95s
-                java.lang.CharSequence r1 = (java.lang.CharSequence) r1     // Catch:{ ClassCastException -> 0x0632 }
-                gnu.expr.GenericProc r2 = kawa.lib.C0620lists.car
-                java.lang.Object r3 = r2.apply1(r7)
-                r0 = r3
-                java.lang.Number r0 = (java.lang.Number) r0     // Catch:{ ClassCastException -> 0x063c }
-                r2 = r0
-                int r4 = r2.intValue()     // Catch:{ ClassCastException -> 0x063c }
-                gnu.expr.GenericProc r2 = kawa.lib.C0620lists.cdr
-                java.lang.Object r3 = r2.apply1(r7)
-                r0 = r3
-                java.lang.Number r0 = (java.lang.Number) r0     // Catch:{ ClassCastException -> 0x0646 }
-                r2 = r0
-                int r2 = r2.intValue()     // Catch:{ ClassCastException -> 0x0646 }
-                java.lang.CharSequence r1 = kawa.lib.strings.substring(r1, r4, r2)
-                java.lang.Object r2 = r15.f95s
-                java.lang.Object r3 = r6.f98i
-                java.lang.Object r4 = r15.f94n
-                gnu.expr.ModuleMethod r5 = r6.lambda$Fn4
-                java.lang.Object r6 = r6.f97fk
-                java.lang.Object r1 = gnu.kawa.slib.pregexp.pregexpStringMatch(r1, r2, r3, r4, r5, r6)
-                goto L_0x003d
-            L_0x0389:
-                r1 = 3
-                java.lang.Object[] r1 = new java.lang.Object[r1]
-                r2 = 0
-                gnu.mapping.SimpleSymbol r3 = gnu.kawa.slib.pregexp.Lit101
-                r1[r2] = r3
-                r2 = 1
-                gnu.mapping.SimpleSymbol r3 = gnu.kawa.slib.pregexp.Lit102
-                r1[r2] = r3
-                r2 = 2
-                java.lang.Object r3 = r6.re$1
-                r1[r2] = r3
-                gnu.kawa.slib.pregexp.pregexpError$V(r1)
-                java.lang.Boolean r7 = java.lang.Boolean.FALSE
-                goto L_0x0351
-            L_0x03a1:
-                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r2 = r6.f102sk
-                java.lang.Object r3 = r6.f98i
-                java.lang.Object r1 = r1.apply2(r2, r3)
-                goto L_0x003d
-            L_0x03ad:
-                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r2 = gnu.kawa.slib.pregexp.Lit100
-                java.lang.Object r1 = r1.apply2(r13, r2)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x03cd
-                gnu.expr.GenericProc r1 = kawa.lib.C0620lists.cadr
-                java.lang.Object r2 = r6.re$1
-                java.lang.Object r1 = r1.apply1(r2)
-                java.lang.Object r2 = r6.f98i
-                gnu.expr.ModuleMethod r3 = r6.lambda$Fn5
-                java.lang.Object r4 = r6.f97fk
-                java.lang.Object r1 = r15.lambda3sub(r1, r2, r3, r4)
-                goto L_0x003d
-            L_0x03cd:
-                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r2 = gnu.kawa.slib.pregexp.Lit103
-                java.lang.Object r1 = r1.apply2(r13, r2)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x0405
-                gnu.expr.GenericProc r1 = kawa.lib.C0620lists.cadr
-                java.lang.Object r2 = r6.re$1
-                java.lang.Object r1 = r1.apply1(r2)
-                java.lang.Object r2 = r6.f98i
-                gnu.mapping.Procedure r3 = r15.identity
-                gnu.expr.ModuleMethod r4 = gnu.kawa.slib.pregexp.lambda$Fn6
-                java.lang.Object r10 = r15.lambda3sub(r1, r2, r3, r4)
-                java.lang.Boolean r1 = java.lang.Boolean.FALSE
-                if (r10 == r1) goto L_0x03fb
-                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r2 = r6.f102sk
-                java.lang.Object r3 = r6.f98i
-                java.lang.Object r1 = r1.apply2(r2, r3)
-                goto L_0x003d
-            L_0x03fb:
-                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r2 = r6.f97fk
-                java.lang.Object r1 = r1.apply1(r2)
-                goto L_0x003d
-            L_0x0405:
-                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r2 = gnu.kawa.slib.pregexp.Lit104
-                java.lang.Object r1 = r1.apply2(r13, r2)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x043d
-                gnu.expr.GenericProc r1 = kawa.lib.C0620lists.cadr
-                java.lang.Object r2 = r6.re$1
-                java.lang.Object r1 = r1.apply1(r2)
-                java.lang.Object r2 = r6.f98i
-                gnu.mapping.Procedure r3 = r15.identity
-                gnu.expr.ModuleMethod r4 = gnu.kawa.slib.pregexp.lambda$Fn7
-                java.lang.Object r10 = r15.lambda3sub(r1, r2, r3, r4)
-                java.lang.Boolean r1 = java.lang.Boolean.FALSE
-                if (r10 == r1) goto L_0x0431
-                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r2 = r6.f97fk
-                java.lang.Object r1 = r1.apply1(r2)
-                goto L_0x003d
-            L_0x0431:
-                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r2 = r6.f102sk
-                java.lang.Object r3 = r6.f98i
-                java.lang.Object r1 = r1.apply2(r2, r3)
-                goto L_0x003d
-            L_0x043d:
-                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r2 = gnu.kawa.slib.pregexp.Lit105
-                java.lang.Object r1 = r1.apply2(r13, r2)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x048f
-                java.lang.Object r11 = r15.f94n
-                java.lang.Object r12 = r15.f96sn
-                java.lang.Object r1 = r6.f98i
-                r15.f94n = r1
-                java.lang.Object r1 = r6.f98i
-                r15.f96sn = r1
-                gnu.mapping.SimpleSymbol r1 = gnu.kawa.slib.pregexp.Lit5
-                gnu.lists.PairWithPosition r2 = gnu.kawa.slib.pregexp.Lit106
-                gnu.expr.GenericProc r3 = kawa.lib.C0620lists.cadr
-                java.lang.Object r4 = r6.re$1
-                java.lang.Object r3 = r3.apply1(r4)
-                gnu.mapping.SimpleSymbol r4 = gnu.kawa.slib.pregexp.Lit12
-                gnu.lists.Pair r1 = gnu.lists.LList.list4(r1, r2, r3, r4)
-                gnu.math.IntNum r2 = gnu.kawa.slib.pregexp.Lit73
-                gnu.mapping.Procedure r3 = r15.identity
-                gnu.expr.ModuleMethod r4 = gnu.kawa.slib.pregexp.lambda$Fn8
-                java.lang.Object r10 = r15.lambda3sub(r1, r2, r3, r4)
-                r15.f94n = r11
-                r15.f96sn = r12
-                java.lang.Boolean r1 = java.lang.Boolean.FALSE
-                if (r10 == r1) goto L_0x0485
-                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r2 = r6.f102sk
-                java.lang.Object r3 = r6.f98i
-                java.lang.Object r1 = r1.apply2(r2, r3)
-                goto L_0x003d
-            L_0x0485:
-                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r2 = r6.f97fk
-                java.lang.Object r1 = r1.apply1(r2)
-                goto L_0x003d
-            L_0x048f:
-                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r2 = gnu.kawa.slib.pregexp.Lit107
-                java.lang.Object r1 = r1.apply2(r13, r2)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x04e1
-                java.lang.Object r11 = r15.f94n
-                java.lang.Object r12 = r15.f96sn
-                java.lang.Object r1 = r6.f98i
-                r15.f94n = r1
-                java.lang.Object r1 = r6.f98i
-                r15.f96sn = r1
-                gnu.mapping.SimpleSymbol r1 = gnu.kawa.slib.pregexp.Lit5
-                gnu.lists.PairWithPosition r2 = gnu.kawa.slib.pregexp.Lit108
-                gnu.expr.GenericProc r3 = kawa.lib.C0620lists.cadr
-                java.lang.Object r4 = r6.re$1
-                java.lang.Object r3 = r3.apply1(r4)
-                gnu.mapping.SimpleSymbol r4 = gnu.kawa.slib.pregexp.Lit12
-                gnu.lists.Pair r1 = gnu.lists.LList.list4(r1, r2, r3, r4)
-                gnu.math.IntNum r2 = gnu.kawa.slib.pregexp.Lit73
-                gnu.mapping.Procedure r3 = r15.identity
-                gnu.expr.ModuleMethod r4 = gnu.kawa.slib.pregexp.lambda$Fn9
-                java.lang.Object r10 = r15.lambda3sub(r1, r2, r3, r4)
-                r15.f94n = r11
-                r15.f96sn = r12
-                java.lang.Boolean r1 = java.lang.Boolean.FALSE
-                if (r10 == r1) goto L_0x04d5
-                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r2 = r6.f97fk
-                java.lang.Object r1 = r1.apply1(r2)
-                goto L_0x003d
-            L_0x04d5:
-                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r2 = r6.f102sk
-                java.lang.Object r3 = r6.f98i
-                java.lang.Object r1 = r1.apply2(r2, r3)
-                goto L_0x003d
-            L_0x04e1:
-                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r2 = gnu.kawa.slib.pregexp.Lit109
-                java.lang.Object r1 = r1.apply2(r13, r2)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x0517
-                gnu.expr.GenericProc r1 = kawa.lib.C0620lists.cadr
-                java.lang.Object r2 = r6.re$1
-                java.lang.Object r1 = r1.apply1(r2)
-                java.lang.Object r2 = r6.f98i
-                gnu.mapping.Procedure r3 = r15.identity
-                gnu.expr.ModuleMethod r4 = gnu.kawa.slib.pregexp.lambda$Fn10
-                java.lang.Object r10 = r15.lambda3sub(r1, r2, r3, r4)
-                java.lang.Boolean r1 = java.lang.Boolean.FALSE
-                if (r10 == r1) goto L_0x050d
-                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r2 = r6.f102sk
-                java.lang.Object r1 = r1.apply2(r2, r10)
-                goto L_0x003d
-            L_0x050d:
-                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r2 = r6.f97fk
-                java.lang.Object r1 = r1.apply1(r2)
-                goto L_0x003d
-            L_0x0517:
-                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r2 = gnu.kawa.slib.pregexp.Lit60
-                java.lang.Object r14 = r1.apply2(r13, r2)
-                java.lang.Boolean r1 = java.lang.Boolean.FALSE
-                if (r14 == r1) goto L_0x0551
-                java.lang.Boolean r1 = java.lang.Boolean.FALSE
-                if (r14 == r1) goto L_0x055d
-            L_0x0527:
-                java.lang.Object r1 = r15.case$Mnsensitive$Qu
-                r6.old = r1
-                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
-                gnu.expr.GenericProc r2 = kawa.lib.C0620lists.car
-                java.lang.Object r3 = r6.re$1
-                java.lang.Object r2 = r2.apply1(r3)
-                gnu.mapping.SimpleSymbol r3 = gnu.kawa.slib.pregexp.Lit60
-                java.lang.Object r1 = r1.apply2(r2, r3)
-                r15.case$Mnsensitive$Qu = r1
-                gnu.expr.GenericProc r1 = kawa.lib.C0620lists.cadr
-                java.lang.Object r2 = r6.re$1
-                java.lang.Object r1 = r1.apply1(r2)
-                java.lang.Object r2 = r6.f98i
-                gnu.expr.ModuleMethod r3 = r6.lambda$Fn11
-                gnu.expr.ModuleMethod r4 = r6.lambda$Fn12
-                java.lang.Object r1 = r15.lambda3sub(r1, r2, r3, r4)
-                goto L_0x003d
-            L_0x0551:
-                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r2 = gnu.kawa.slib.pregexp.Lit61
-                java.lang.Object r1 = r1.apply2(r13, r2)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 != r2) goto L_0x0527
-            L_0x055d:
-                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r2 = gnu.kawa.slib.pregexp.Lit68
-                java.lang.Object r1 = r1.apply2(r13, r2)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x05c2
-                gnu.expr.GenericProc r1 = kawa.lib.C0620lists.cadr
-                java.lang.Object r2 = r6.re$1
-                java.lang.Object r1 = r1.apply1(r2)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE     // Catch:{ ClassCastException -> 0x0650 }
-                if (r1 == r2) goto L_0x05bb
-                r1 = 1
-            L_0x0576:
-                int r1 = r1 + 1
-                r1 = r1 & 1
-                r6.maximal$Qu = r1
-                gnu.expr.GenericProc r1 = kawa.lib.C0620lists.caddr
-                java.lang.Object r2 = r6.re$1
-                java.lang.Object r1 = r1.apply1(r2)
-                r6.f99p = r1
-                gnu.expr.GenericProc r1 = kawa.lib.C0620lists.cadddr
-                java.lang.Object r2 = r6.re$1
-                java.lang.Object r1 = r1.apply1(r2)
-                r6.f100q = r1
-                boolean r1 = r6.maximal$Qu
-                if (r1 == 0) goto L_0x05bf
-                java.lang.Object r1 = r6.f100q
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE     // Catch:{ ClassCastException -> 0x065a }
-                if (r1 == r2) goto L_0x05bd
-                r1 = 1
-            L_0x059b:
-                int r1 = r1 + 1
-                r1 = r1 & 1
-            L_0x059f:
-                r6.could$Mnloop$Mninfinitely$Qu = r1
-                gnu.expr.GenericProc r1 = kawa.lib.C0620lists.car
-                gnu.expr.GenericProc r2 = kawa.lib.C0620lists.cddddr
-                java.lang.Object r3 = r6.re$1
-                java.lang.Object r2 = r2.apply1(r3)
-                java.lang.Object r1 = r1.apply1(r2)
-                r6.f101re = r1
-                gnu.math.IntNum r1 = gnu.kawa.slib.pregexp.Lit73
-                java.lang.Object r2 = r6.f98i
-                java.lang.Object r1 = r6.lambda8loupP(r1, r2)
-                goto L_0x003d
-            L_0x05bb:
-                r1 = 0
-                goto L_0x0576
-            L_0x05bd:
-                r1 = 0
-                goto L_0x059b
-            L_0x05bf:
-                boolean r1 = r6.maximal$Qu
-                goto L_0x059f
-            L_0x05c2:
-                r1 = 1
-                java.lang.Object[] r1 = new java.lang.Object[r1]
-                r2 = 0
-                gnu.mapping.SimpleSymbol r3 = gnu.kawa.slib.pregexp.Lit101
-                r1[r2] = r3
-                java.lang.Object r1 = gnu.kawa.slib.pregexp.pregexpError$V(r1)
-                goto L_0x003d
-            L_0x05d0:
-                gnu.kawa.functions.NumberCompare r1 = kawa.standard.Scheme.numGEq
-                java.lang.Object r2 = r6.f98i
-                java.lang.Object r3 = r15.f94n
-                java.lang.Object r1 = r1.apply2(r2, r3)
-                java.lang.Boolean r2 = java.lang.Boolean.FALSE
-                if (r1 == r2) goto L_0x05e8
-                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r2 = r6.f97fk
-                java.lang.Object r1 = r1.apply1(r2)
-                goto L_0x003d
-            L_0x05e8:
-                r1 = 1
-                java.lang.Object[] r1 = new java.lang.Object[r1]
-                r2 = 0
-                gnu.mapping.SimpleSymbol r3 = gnu.kawa.slib.pregexp.Lit101
-                r1[r2] = r3
-                java.lang.Object r1 = gnu.kawa.slib.pregexp.pregexpError$V(r1)
-                goto L_0x003d
-            L_0x05f6:
-                r2 = move-exception
-                gnu.mapping.WrongType r3 = new gnu.mapping.WrongType
-                java.lang.String r4 = "string-ref"
-                r5 = 1
-                r3.<init>(r2, r4, r5, r1)
-                throw r3
-            L_0x0600:
-                r1 = move-exception
-                gnu.mapping.WrongType r2 = new gnu.mapping.WrongType
-                java.lang.String r4 = "string-ref"
-                r5 = 2
-                r2.<init>(r1, r4, r5, r3)
-                throw r2
-            L_0x060a:
-                r2 = move-exception
-                gnu.mapping.WrongType r3 = new gnu.mapping.WrongType
-                java.lang.String r4 = "string-ref"
-                r5 = 1
-                r3.<init>(r2, r4, r5, r1)
-                throw r3
-            L_0x0614:
-                r1 = move-exception
-                gnu.mapping.WrongType r2 = new gnu.mapping.WrongType
-                java.lang.String r4 = "string-ref"
-                r5 = 2
-                r2.<init>(r1, r4, r5, r3)
-                throw r2
-            L_0x061e:
-                r2 = move-exception
-                gnu.mapping.WrongType r3 = new gnu.mapping.WrongType
-                java.lang.String r4 = "string-ref"
-                r5 = 1
-                r3.<init>(r2, r4, r5, r1)
-                throw r3
-            L_0x0628:
-                r1 = move-exception
-                gnu.mapping.WrongType r2 = new gnu.mapping.WrongType
-                java.lang.String r4 = "string-ref"
-                r5 = 2
-                r2.<init>(r1, r4, r5, r3)
-                throw r2
-            L_0x0632:
-                r2 = move-exception
-                gnu.mapping.WrongType r3 = new gnu.mapping.WrongType
-                java.lang.String r4 = "substring"
-                r5 = 1
-                r3.<init>(r2, r4, r5, r1)
-                throw r3
-            L_0x063c:
-                r1 = move-exception
-                gnu.mapping.WrongType r2 = new gnu.mapping.WrongType
-                java.lang.String r4 = "substring"
-                r5 = 2
-                r2.<init>(r1, r4, r5, r3)
-                throw r2
-            L_0x0646:
-                r1 = move-exception
-                gnu.mapping.WrongType r2 = new gnu.mapping.WrongType
-                java.lang.String r4 = "substring"
-                r5 = 3
-                r2.<init>(r1, r4, r5, r3)
-                throw r2
-            L_0x0650:
-                r2 = move-exception
-                gnu.mapping.WrongType r3 = new gnu.mapping.WrongType
-                java.lang.String r4 = "maximal?"
-                r5 = -2
-                r3.<init>(r2, r4, r5, r1)
-                throw r3
-            L_0x065a:
-                r2 = move-exception
-                gnu.mapping.WrongType r3 = new gnu.mapping.WrongType
-                java.lang.String r4 = "could-loop-infinitely?"
-                r5 = -2
-                r3.<init>(r2, r4, r5, r1)
-                throw r3
-            */
-            throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.slib.pregexp.frame.lambda3sub(java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object):java.lang.Object");
-        }
-    }
-
-    /* compiled from: pregexp.scm */
-    public class frame0 extends ModuleBody {
-        boolean could$Mnloop$Mninfinitely$Qu;
-
-        /* renamed from: fk */
-        Object f97fk;
-
-        /* renamed from: i */
-        Object f98i;
-        final ModuleMethod lambda$Fn11;
-        final ModuleMethod lambda$Fn12;
-        final ModuleMethod lambda$Fn2;
-        final ModuleMethod lambda$Fn3;
-        final ModuleMethod lambda$Fn4;
-        final ModuleMethod lambda$Fn5;
-        boolean maximal$Qu;
-        Object old;
-
-        /* renamed from: p */
-        Object f99p;
-
-        /* renamed from: q */
-        Object f100q;
-
-        /* renamed from: re */
-        Object f101re;
-        Object re$1;
-
-        /* renamed from: sk */
-        Object f102sk;
-        frame staticLink;
-
-        public frame0() {
-            ModuleMethod moduleMethod = new ModuleMethod(this, 9, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:513");
-            this.lambda$Fn2 = moduleMethod;
-            ModuleMethod moduleMethod2 = new ModuleMethod(this, 10, null, 0);
-            moduleMethod2.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:514");
-            this.lambda$Fn3 = moduleMethod2;
-            ModuleMethod moduleMethod3 = new ModuleMethod(this, 11, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            moduleMethod3.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:541");
-            this.lambda$Fn4 = moduleMethod3;
-            ModuleMethod moduleMethod4 = new ModuleMethod(this, 12, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            moduleMethod4.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:545");
-            this.lambda$Fn5 = moduleMethod4;
-            ModuleMethod moduleMethod5 = new ModuleMethod(this, 13, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            moduleMethod5.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:587");
-            this.lambda$Fn11 = moduleMethod5;
-            ModuleMethod moduleMethod6 = new ModuleMethod(this, 14, null, 0);
-            moduleMethod6.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:590");
-            this.lambda$Fn12 = moduleMethod6;
-        }
-
-        public Object lambda5loupOneOfChars(Object chars) {
-            frame1 frame1 = new frame1();
-            frame1.staticLink = this;
-            frame1.chars = chars;
-            if (C0620lists.isNull(frame1.chars)) {
-                return Scheme.applyToArgs.apply1(this.f97fk);
-            }
-            return this.staticLink.lambda3sub(C0620lists.car.apply1(frame1.chars), this.f98i, this.f102sk, frame1.lambda$Fn13);
-        }
-
-        /* access modifiers changed from: 0000 */
-        public Object lambda9(Object i1) {
-            return Scheme.applyToArgs.apply1(this.f97fk);
-        }
-
-        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
-            switch (moduleMethod.selector) {
-                case 9:
-                    callContext.value1 = obj;
-                    callContext.proc = moduleMethod;
-                    callContext.f236pc = 1;
-                    return 0;
-                case 11:
-                    callContext.value1 = obj;
-                    callContext.proc = moduleMethod;
-                    callContext.f236pc = 1;
-                    return 0;
-                case 12:
-                    callContext.value1 = obj;
-                    callContext.proc = moduleMethod;
-                    callContext.f236pc = 1;
-                    return 0;
-                case 13:
-                    callContext.value1 = obj;
-                    callContext.proc = moduleMethod;
-                    callContext.f236pc = 1;
-                    return 0;
-                default:
-                    return super.match1(moduleMethod, obj, callContext);
-            }
-        }
-
-        /* access modifiers changed from: 0000 */
-        public Object lambda10() {
-            return Scheme.applyToArgs.apply2(this.f102sk, AddOp.$Pl.apply2(this.f98i, pregexp.Lit8));
-        }
-
-        public int match0(ModuleMethod moduleMethod, CallContext callContext) {
-            switch (moduleMethod.selector) {
-                case 10:
-                    callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
-                    return 0;
-                case 14:
-                    callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
-                    return 0;
-                default:
-                    return super.match0(moduleMethod, callContext);
-            }
-        }
-
-        public Object lambda6loupSeq(Object res, Object i) {
-            frame2 frame2 = new frame2();
-            frame2.staticLink = this;
-            frame2.res = res;
-            if (C0620lists.isNull(frame2.res)) {
-                return Scheme.applyToArgs.apply2(this.f102sk, i);
-            }
-            return this.staticLink.lambda3sub(C0620lists.car.apply1(frame2.res), i, frame2.lambda$Fn14, this.f97fk);
-        }
-
-        public Object lambda7loupOr(Object res) {
-            frame3 frame3 = new frame3();
-            frame3.staticLink = this;
-            frame3.res = res;
-            if (C0620lists.isNull(frame3.res)) {
-                return Scheme.applyToArgs.apply1(this.f97fk);
-            }
-            return this.staticLink.lambda3sub(C0620lists.car.apply1(frame3.res), this.f98i, frame3.lambda$Fn15, frame3.lambda$Fn16);
-        }
-
-        /* access modifiers changed from: 0000 */
-        public Object lambda11(Object i) {
-            return Scheme.applyToArgs.apply2(this.f102sk, i);
-        }
-
-        /* access modifiers changed from: 0000 */
-        public Object lambda12(Object i1) {
-            Object assv = C0620lists.assv(this.re$1, this.staticLink.backrefs);
-            try {
-                C0620lists.setCdr$Ex((Pair) assv, C0620lists.cons(this.f98i, i1));
-                return Scheme.applyToArgs.apply2(this.f102sk, i1);
-            } catch (ClassCastException e) {
-                throw new WrongType(e, "set-cdr!", 1, assv);
-            }
-        }
-
-        static Boolean lambda13() {
-            return Boolean.FALSE;
-        }
-
-        static Boolean lambda14() {
-            return Boolean.FALSE;
-        }
-
-        static Boolean lambda15() {
-            return Boolean.FALSE;
-        }
-
-        static Boolean lambda16() {
-            return Boolean.FALSE;
-        }
-
-        static Boolean lambda17() {
-            return Boolean.FALSE;
-        }
-
-        public Object apply1(ModuleMethod moduleMethod, Object obj) {
-            switch (moduleMethod.selector) {
-                case 9:
-                    return lambda9(obj);
-                case 11:
-                    return lambda11(obj);
-                case 12:
-                    return lambda12(obj);
-                case 13:
-                    return lambda18(obj);
-                default:
-                    return super.apply1(moduleMethod, obj);
-            }
-        }
-
-        /* access modifiers changed from: 0000 */
-        public Object lambda18(Object i1) {
-            this.staticLink.case$Mnsensitive$Qu = this.old;
-            return Scheme.applyToArgs.apply2(this.f102sk, i1);
-        }
-
-        public Object apply0(ModuleMethod moduleMethod) {
-            switch (moduleMethod.selector) {
-                case 10:
-                    return lambda10();
-                case 14:
-                    return lambda19();
-                default:
-                    return super.apply0(moduleMethod);
-            }
-        }
-
-        /* access modifiers changed from: 0000 */
-        public Object lambda19() {
-            this.staticLink.case$Mnsensitive$Qu = this.old;
-            return Scheme.applyToArgs.apply1(this.f97fk);
-        }
-
-        public Object lambda8loupP(Object k, Object i) {
-            frame4 frame4 = new frame4();
-            frame4.staticLink = this;
-            frame4.f104k = k;
-            frame4.f103i = i;
-            if (Scheme.numLss.apply2(frame4.f104k, this.f99p) != Boolean.FALSE) {
-                return this.staticLink.lambda3sub(this.f101re, frame4.f103i, frame4.lambda$Fn17, this.f97fk);
-            }
-            frame4.f105q = this.f100q != Boolean.FALSE ? AddOp.$Mn.apply2(this.f100q, this.f99p) : this.f100q;
-            return frame4.lambda24loupQ(pregexp.Lit73, frame4.f103i);
-        }
-    }
-
-    /* compiled from: pregexp.scm */
-    public class frame1 extends ModuleBody {
-        Object chars;
-        final ModuleMethod lambda$Fn13;
-        frame0 staticLink;
-
-        public frame1() {
-            ModuleMethod moduleMethod = new ModuleMethod(this, 1, null, 0);
-            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:508");
-            this.lambda$Fn13 = moduleMethod;
-        }
-
-        public Object apply0(ModuleMethod moduleMethod) {
-            return moduleMethod.selector == 1 ? lambda20() : super.apply0(moduleMethod);
-        }
-
-        /* access modifiers changed from: 0000 */
-        public Object lambda20() {
-            return this.staticLink.lambda5loupOneOfChars(C0620lists.cdr.apply1(this.chars));
-        }
-
-        public int match0(ModuleMethod moduleMethod, CallContext callContext) {
-            if (moduleMethod.selector != 1) {
-                return super.match0(moduleMethod, callContext);
-            }
-            callContext.proc = moduleMethod;
-            callContext.f236pc = 0;
-            return 0;
-        }
-    }
-
-    /* compiled from: pregexp.scm */
-    public class frame2 extends ModuleBody {
-        final ModuleMethod lambda$Fn14;
-        Object res;
-        frame0 staticLink;
-
-        public frame2() {
-            ModuleMethod moduleMethod = new ModuleMethod(this, 2, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:519");
-            this.lambda$Fn14 = moduleMethod;
-        }
-
-        public Object apply1(ModuleMethod moduleMethod, Object obj) {
-            return moduleMethod.selector == 2 ? lambda21(obj) : super.apply1(moduleMethod, obj);
-        }
-
-        /* access modifiers changed from: 0000 */
-        public Object lambda21(Object i1) {
-            return this.staticLink.lambda6loupSeq(C0620lists.cdr.apply1(this.res), i1);
-        }
-
-        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
-            if (moduleMethod.selector != 2) {
-                return super.match1(moduleMethod, obj, callContext);
-            }
-            callContext.value1 = obj;
-            callContext.proc = moduleMethod;
-            callContext.f236pc = 1;
-            return 0;
-        }
-    }
-
-    /* compiled from: pregexp.scm */
-    public class frame3 extends ModuleBody {
-        final ModuleMethod lambda$Fn15;
-        final ModuleMethod lambda$Fn16;
-        Object res;
-        frame0 staticLink;
-
-        public frame3() {
-            ModuleMethod moduleMethod = new ModuleMethod(this, 3, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:526");
-            this.lambda$Fn15 = moduleMethod;
-            ModuleMethod moduleMethod2 = new ModuleMethod(this, 4, null, 0);
-            moduleMethod2.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:529");
-            this.lambda$Fn16 = moduleMethod2;
-        }
-
-        public Object apply1(ModuleMethod moduleMethod, Object obj) {
-            return moduleMethod.selector == 3 ? lambda22(obj) : super.apply1(moduleMethod, obj);
-        }
-
-        /* access modifiers changed from: 0000 */
-        public Object lambda22(Object i1) {
-            Object x = Scheme.applyToArgs.apply2(this.staticLink.f102sk, i1);
-            return x != Boolean.FALSE ? x : this.staticLink.lambda7loupOr(C0620lists.cdr.apply1(this.res));
-        }
-
-        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
-            if (moduleMethod.selector != 3) {
-                return super.match1(moduleMethod, obj, callContext);
-            }
-            callContext.value1 = obj;
-            callContext.proc = moduleMethod;
-            callContext.f236pc = 1;
-            return 0;
-        }
-
-        public Object apply0(ModuleMethod moduleMethod) {
-            return moduleMethod.selector == 4 ? lambda23() : super.apply0(moduleMethod);
-        }
-
-        /* access modifiers changed from: 0000 */
-        public Object lambda23() {
-            return this.staticLink.lambda7loupOr(C0620lists.cdr.apply1(this.res));
-        }
-
-        public int match0(ModuleMethod moduleMethod, CallContext callContext) {
-            if (moduleMethod.selector != 4) {
-                return super.match0(moduleMethod, callContext);
-            }
-            callContext.proc = moduleMethod;
-            callContext.f236pc = 0;
-            return 0;
-        }
-    }
-
-    /* compiled from: pregexp.scm */
-    public class frame4 extends ModuleBody {
-
-        /* renamed from: i */
-        Object f103i;
-
-        /* renamed from: k */
-        Object f104k;
-        final ModuleMethod lambda$Fn17;
-
-        /* renamed from: q */
-        Object f105q;
-        frame0 staticLink;
-
-        public frame4() {
-            ModuleMethod moduleMethod = new ModuleMethod(this, 8, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:602");
-            this.lambda$Fn17 = moduleMethod;
-        }
-
-        public Object apply1(ModuleMethod moduleMethod, Object obj) {
-            return moduleMethod.selector == 8 ? lambda25(obj) : super.apply1(moduleMethod, obj);
-        }
-
-        /* access modifiers changed from: 0000 */
-        public Object lambda25(Object i1) {
-            if (!this.staticLink.could$Mnloop$Mninfinitely$Qu ? this.staticLink.could$Mnloop$Mninfinitely$Qu : Scheme.numEqu.apply2(i1, this.f103i) != Boolean.FALSE) {
-                pregexp.pregexpError$V(new Object[]{pregexp.Lit101, pregexp.Lit110});
-            }
-            return this.staticLink.lambda8loupP(AddOp.$Pl.apply2(this.f104k, pregexp.Lit8), i1);
-        }
-
-        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
-            if (moduleMethod.selector != 8) {
-                return super.match1(moduleMethod, obj, callContext);
-            }
-            callContext.value1 = obj;
-            callContext.proc = moduleMethod;
-            callContext.f236pc = 1;
-            return 0;
-        }
-
-        public Object lambda24loupQ(Object k, Object i) {
-            frame5 frame5 = new frame5();
-            frame5.staticLink = this;
-            frame5.f108k = k;
-            frame5.f107i = i;
-            frame5.f106fk = frame5.f106fk;
-            if (this.f105q == Boolean.FALSE ? this.f105q != Boolean.FALSE : Scheme.numGEq.apply2(frame5.f108k, this.f105q) != Boolean.FALSE) {
-                return frame5.lambda26fk();
-            }
-            if (this.staticLink.maximal$Qu) {
-                return this.staticLink.staticLink.lambda3sub(this.staticLink.f101re, frame5.f107i, frame5.lambda$Fn18, frame5.f106fk);
-            }
-            Object x = frame5.lambda26fk();
-            return x == Boolean.FALSE ? this.staticLink.staticLink.lambda3sub(this.staticLink.f101re, frame5.f107i, frame5.lambda$Fn19, frame5.f106fk) : x;
-        }
-    }
-
-    /* compiled from: pregexp.scm */
-    public class frame5 extends ModuleBody {
-
-        /* renamed from: fk */
-        Procedure f106fk;
-
-        /* renamed from: i */
-        Object f107i;
-
-        /* renamed from: k */
-        Object f108k;
-        final ModuleMethod lambda$Fn18;
-        final ModuleMethod lambda$Fn19;
-        frame4 staticLink;
-
-        public frame5() {
-            ModuleMethod moduleMethod = new ModuleMethod(this, 5, pregexp.Lit111, 0);
-            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:612");
-            this.f106fk = moduleMethod;
-            ModuleMethod moduleMethod2 = new ModuleMethod(this, 6, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            moduleMethod2.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:617");
-            this.lambda$Fn18 = moduleMethod2;
-            ModuleMethod moduleMethod3 = new ModuleMethod(this, 7, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            moduleMethod3.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:628");
-            this.lambda$Fn19 = moduleMethod3;
-        }
-
-        public Object apply0(ModuleMethod moduleMethod) {
-            return moduleMethod.selector == 5 ? lambda26fk() : super.apply0(moduleMethod);
-        }
-
-        public Object lambda26fk() {
-            return Scheme.applyToArgs.apply2(this.staticLink.staticLink.f102sk, this.f107i);
-        }
-
-        public int match0(ModuleMethod moduleMethod, CallContext callContext) {
-            if (moduleMethod.selector != 5) {
-                return super.match0(moduleMethod, callContext);
-            }
-            callContext.proc = moduleMethod;
-            callContext.f236pc = 0;
-            return 0;
-        }
-
-        /* access modifiers changed from: 0000 */
-        public Object lambda27(Object i1) {
-            if (!this.staticLink.staticLink.could$Mnloop$Mninfinitely$Qu ? this.staticLink.staticLink.could$Mnloop$Mninfinitely$Qu : Scheme.numEqu.apply2(i1, this.f107i) != Boolean.FALSE) {
-                pregexp.pregexpError$V(new Object[]{pregexp.Lit101, pregexp.Lit110});
-            }
-            Object x = this.staticLink.lambda24loupQ(AddOp.$Pl.apply2(this.f108k, pregexp.Lit8), i1);
-            return x != Boolean.FALSE ? x : lambda26fk();
-        }
-
-        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
-            switch (moduleMethod.selector) {
-                case 6:
-                    callContext.value1 = obj;
-                    callContext.proc = moduleMethod;
-                    callContext.f236pc = 1;
-                    return 0;
-                case 7:
-                    callContext.value1 = obj;
-                    callContext.proc = moduleMethod;
-                    callContext.f236pc = 1;
-                    return 0;
-                default:
-                    return super.match1(moduleMethod, obj, callContext);
-            }
-        }
-
-        public Object apply1(ModuleMethod moduleMethod, Object obj) {
-            switch (moduleMethod.selector) {
-                case 6:
-                    return lambda27(obj);
-                case 7:
-                    return lambda28(obj);
-                default:
-                    return super.apply1(moduleMethod, obj);
-            }
-        }
-
-        /* access modifiers changed from: 0000 */
-        public Object lambda28(Object i1) {
-            return this.staticLink.lambda24loupQ(AddOp.$Pl.apply2(this.f108k, pregexp.Lit8), i1);
-        }
-    }
-
     static {
         Char make = Char.make(92);
         Lit19 = make;
@@ -1941,22 +319,22 @@ public class pregexp extends ModuleBody {
         ModuleMethod moduleMethod20 = new ModuleMethod(pregexp2, 35, Lit128, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         moduleMethod20.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:448");
         pregexp$Mnmake$Mnbackref$Mnlist = moduleMethod20;
-        ModuleMethod moduleMethod21 = new ModuleMethod(pregexp2, 36, null, 0);
+        ModuleMethod moduleMethod21 = new ModuleMethod(pregexp2, 36, (Object) null, 0);
         moduleMethod21.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:463");
         lambda$Fn1 = moduleMethod21;
-        ModuleMethod moduleMethod22 = new ModuleMethod(pregexp2, 37, null, 0);
+        ModuleMethod moduleMethod22 = new ModuleMethod(pregexp2, 37, (Object) null, 0);
         moduleMethod22.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:551");
         lambda$Fn6 = moduleMethod22;
-        ModuleMethod moduleMethod23 = new ModuleMethod(pregexp2, 38, null, 0);
+        ModuleMethod moduleMethod23 = new ModuleMethod(pregexp2, 38, (Object) null, 0);
         moduleMethod23.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:556");
         lambda$Fn7 = moduleMethod23;
-        ModuleMethod moduleMethod24 = new ModuleMethod(pregexp2, 39, null, 0);
+        ModuleMethod moduleMethod24 = new ModuleMethod(pregexp2, 39, (Object) null, 0);
         moduleMethod24.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:564");
         lambda$Fn8 = moduleMethod24;
-        ModuleMethod moduleMethod25 = new ModuleMethod(pregexp2, 40, null, 0);
+        ModuleMethod moduleMethod25 = new ModuleMethod(pregexp2, 40, (Object) null, 0);
         moduleMethod25.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:573");
         lambda$Fn9 = moduleMethod25;
-        ModuleMethod moduleMethod26 = new ModuleMethod(pregexp2, 41, null, 0);
+        ModuleMethod moduleMethod26 = new ModuleMethod(pregexp2, 41, (Object) null, 0);
         moduleMethod26.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:578");
         lambda$Fn10 = moduleMethod26;
         ModuleMethod moduleMethod27 = new ModuleMethod(pregexp2, 42, Lit101, 24582);
@@ -2005,10 +383,10 @@ public class pregexp extends ModuleBody {
 
     public static Object pregexpReverse$Ex(Object s) {
         Object obj = LList.Empty;
-        while (!C0620lists.isNull(s)) {
-            Object d = C0620lists.cdr.apply1(s);
+        while (!lists.isNull(s)) {
+            Object d = lists.cdr.apply1(s);
             try {
-                C0620lists.setCdr$Ex((Pair) s, obj);
+                lists.setCdr$Ex((Pair) s, obj);
                 obj = s;
                 s = d;
             } catch (ClassCastException e) {
@@ -2023,32 +401,32 @@ public class pregexp extends ModuleBody {
             case 16:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 28:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 31:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 35:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 44:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 50:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             default:
                 return super.match1(moduleMethod, obj, callContext);
@@ -2056,9 +434,9 @@ public class pregexp extends ModuleBody {
     }
 
     public static Object pregexpError$V(Object[] argsArray) {
-        Object makeList = LList.makeList(argsArray, 0);
+        LList whatever = LList.makeList(argsArray, 0);
         ports.display("Error:");
-        Object obj = makeList;
+        Object obj = whatever;
         while (obj != LList.Empty) {
             try {
                 Pair arg0 = (Pair) obj;
@@ -2079,27 +457,27 @@ public class pregexp extends ModuleBody {
             case 17:
                 callContext.values = objArr;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 5;
+                callContext.pc = 5;
                 return 0;
             case 30:
                 callContext.values = objArr;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 5;
+                callContext.pc = 5;
                 return 0;
             case 42:
                 callContext.values = objArr;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 5;
+                callContext.pc = 5;
                 return 0;
             case 45:
                 callContext.values = objArr;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 5;
+                callContext.pc = 5;
                 return 0;
             case 46:
                 callContext.values = objArr;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 5;
+                callContext.pc = 5;
                 return 0;
             default:
                 return super.matchN(moduleMethod, objArr, callContext);
@@ -2138,7 +516,7 @@ public class pregexp extends ModuleBody {
         L_0x0031:
             gnu.mapping.SimpleSymbol r4 = Lit4
             java.lang.Object r5 = pregexpReverse$Ex(r1)
-            gnu.lists.Pair r4 = kawa.lib.C0620lists.cons(r4, r5)
+            gnu.lists.Pair r4 = kawa.lib.lists.cons(r4, r5)
             gnu.lists.Pair r4 = gnu.lists.LList.list2(r4, r10)
             goto L_0x001c
         L_0x0040:
@@ -2172,10 +550,10 @@ public class pregexp extends ModuleBody {
             java.lang.Object r10 = r4.apply2(r10, r5)
         L_0x0080:
             java.lang.Object r2 = pregexpReadBranch(r9, r10, r11)
-            gnu.expr.GenericProc r4 = kawa.lib.C0620lists.car
+            gnu.expr.GenericProc r4 = kawa.lib.lists.car
             java.lang.Object r4 = r4.apply1(r2)
-            gnu.lists.Pair r1 = kawa.lib.C0620lists.cons(r4, r1)
-            gnu.expr.GenericProc r4 = kawa.lib.C0620lists.cadr
+            gnu.lists.Pair r1 = kawa.lib.lists.cons(r4, r1)
+            gnu.expr.GenericProc r4 = kawa.lib.lists.cadr
             java.lang.Object r10 = r4.apply1(r2)
             goto L_0x001f
         L_0x0095:
@@ -2183,31 +561,31 @@ public class pregexp extends ModuleBody {
             gnu.mapping.WrongType r6 = new gnu.mapping.WrongType
             java.lang.String r7 = "x"
             r8 = -2
-            r6.<init>(r4, r7, r8, r5)
+            r6.<init>((java.lang.ClassCastException) r4, (java.lang.String) r7, (int) r8, (java.lang.Object) r5)
             throw r6
         L_0x009f:
             r4 = move-exception
             gnu.mapping.WrongType r5 = new gnu.mapping.WrongType
             java.lang.String r6 = "string-ref"
-            r5.<init>(r4, r6, r7, r9)
+            r5.<init>((java.lang.ClassCastException) r4, (java.lang.String) r6, (int) r7, (java.lang.Object) r9)
             throw r5
         L_0x00a8:
             r4 = move-exception
             gnu.mapping.WrongType r5 = new gnu.mapping.WrongType
             java.lang.String r6 = "string-ref"
-            r5.<init>(r4, r6, r8, r10)
+            r5.<init>((java.lang.ClassCastException) r4, (java.lang.String) r6, (int) r8, (java.lang.Object) r10)
             throw r5
         L_0x00b1:
             r4 = move-exception
             gnu.mapping.WrongType r5 = new gnu.mapping.WrongType
             java.lang.String r6 = "string-ref"
-            r5.<init>(r4, r6, r7, r9)
+            r5.<init>((java.lang.ClassCastException) r4, (java.lang.String) r6, (int) r7, (java.lang.Object) r9)
             throw r5
         L_0x00ba:
             r4 = move-exception
             gnu.mapping.WrongType r5 = new gnu.mapping.WrongType
             java.lang.String r6 = "string-ref"
-            r5.<init>(r4, r6, r8, r10)
+            r5.<init>((java.lang.ClassCastException) r4, (java.lang.String) r6, (int) r8, (java.lang.Object) r10)
             throw r5
         */
         throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.slib.pregexp.pregexpReadPattern(java.lang.Object, java.lang.Object, java.lang.Object):java.lang.Object");
@@ -2220,98 +598,98 @@ public class pregexp extends ModuleBody {
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 19:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 20:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 21:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 22:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 23:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 24:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 25:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 26:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 27:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 29:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 32:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 48:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 49:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             default:
                 return super.match3(moduleMethod, obj, obj2, obj3, callContext);
@@ -2328,15 +706,15 @@ public class pregexp extends ModuleBody {
                     if (x) {
                         if (!x) {
                             Object vv = pregexpReadPiece(s, i, n);
-                            obj = C0620lists.cons(C0620lists.car.apply1(vv), obj);
-                            i = C0620lists.cadr.apply1(vv);
+                            obj = lists.cons(lists.car.apply1(vv), obj);
+                            i = lists.cadr.apply1(vv);
                         }
                     } else if (!characters.isChar$Eq(Char.make(c), Lit6)) {
                         Object vv2 = pregexpReadPiece(s, i, n);
-                        obj = C0620lists.cons(C0620lists.car.apply1(vv2), obj);
-                        i = C0620lists.cadr.apply1(vv2);
+                        obj = lists.cons(lists.car.apply1(vv2), obj);
+                        i = lists.cadr.apply1(vv2);
                     }
-                    return LList.list2(C0620lists.cons(Lit5, pregexpReverse$Ex(obj)), i);
+                    return LList.list2(lists.cons(Lit5, pregexpReverse$Ex(obj)), i);
                 } catch (ClassCastException e) {
                     throw new WrongType(e, "string-ref", 2, i);
                 }
@@ -2344,12 +722,9 @@ public class pregexp extends ModuleBody {
                 throw new WrongType(e2, "string-ref", 1, s);
             }
         }
-        return LList.list2(C0620lists.cons(Lit5, pregexpReverse$Ex(obj)), i);
+        return LList.list2(lists.cons(Lit5, pregexpReverse$Ex(obj)), i);
     }
 
-    /* JADX WARNING: Code restructure failed: missing block: B:52:0x0177, code lost:
-        if (r7 != java.lang.Boolean.FALSE) goto L_0x0179;
-     */
     /* JADX WARNING: Removed duplicated region for block: B:63:0x01c0  */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public static java.lang.Object pregexpReadPiece(java.lang.Object r13, java.lang.Object r14, java.lang.Object r15) {
@@ -2441,10 +816,10 @@ public class pregexp extends ModuleBody {
             java.lang.Object r8 = r8.apply2(r14, r9)
             java.lang.Object r6 = pregexpReadCharList(r13, r8, r15)
             gnu.mapping.SimpleSymbol r8 = Lit17
-            gnu.expr.GenericProc r9 = kawa.lib.C0620lists.car
+            gnu.expr.GenericProc r9 = kawa.lib.lists.car
             java.lang.Object r9 = r9.apply1(r6)
             gnu.lists.Pair r8 = gnu.lists.LList.list2(r8, r9)
-            gnu.expr.GenericProc r9 = kawa.lib.C0620lists.cadr
+            gnu.expr.GenericProc r9 = kawa.lib.lists.cadr
             java.lang.Object r9 = r9.apply1(r6)
             gnu.lists.Pair r8 = gnu.lists.LList.list2(r8, r9)
         L_0x00dd:
@@ -2484,10 +859,10 @@ public class pregexp extends ModuleBody {
             java.lang.Boolean r8 = java.lang.Boolean.FALSE
             if (r4 == r8) goto L_0x0146
             gnu.mapping.SimpleSymbol r8 = Lit20
-            gnu.expr.GenericProc r9 = kawa.lib.C0620lists.car
+            gnu.expr.GenericProc r9 = kawa.lib.lists.car
             java.lang.Object r9 = r9.apply1(r4)
             gnu.lists.Pair r8 = gnu.lists.LList.list2(r8, r9)
-            gnu.expr.GenericProc r9 = kawa.lib.C0620lists.cadr
+            gnu.expr.GenericProc r9 = kawa.lib.lists.cadr
             java.lang.Object r9 = r9.apply1(r4)
             gnu.lists.Pair r8 = gnu.lists.LList.list2(r8, r9)
         L_0x0140:
@@ -2497,9 +872,9 @@ public class pregexp extends ModuleBody {
             java.lang.Object r4 = pregexpReadEscapedChar(r13, r14, r15)
             java.lang.Boolean r8 = java.lang.Boolean.FALSE
             if (r4 == r8) goto L_0x015f
-            gnu.expr.GenericProc r8 = kawa.lib.C0620lists.car
+            gnu.expr.GenericProc r8 = kawa.lib.lists.car
             java.lang.Object r8 = r8.apply1(r4)
-            gnu.expr.GenericProc r9 = kawa.lib.C0620lists.cadr
+            gnu.expr.GenericProc r9 = kawa.lib.lists.cadr
             java.lang.Object r9 = r9.apply1(r4)
             gnu.lists.Pair r8 = gnu.lists.LList.list2(r8, r9)
             goto L_0x0140
@@ -2600,44 +975,44 @@ public class pregexp extends ModuleBody {
             r8 = move-exception
             gnu.mapping.WrongType r9 = new gnu.mapping.WrongType
             java.lang.String r10 = "string-ref"
-            r9.<init>(r8, r10, r11, r13)
+            r9.<init>((java.lang.ClassCastException) r8, (java.lang.String) r10, (int) r11, (java.lang.Object) r13)
             throw r9
         L_0x022b:
             r8 = move-exception
             gnu.mapping.WrongType r9 = new gnu.mapping.WrongType
             java.lang.String r10 = "string-ref"
-            r9.<init>(r8, r10, r12, r14)
+            r9.<init>((java.lang.ClassCastException) r8, (java.lang.String) r10, (int) r12, (java.lang.Object) r14)
             throw r9
         L_0x0234:
             r8 = move-exception
             gnu.mapping.WrongType r10 = new gnu.mapping.WrongType
             java.lang.String r11 = "x"
             r12 = -2
-            r10.<init>(r8, r11, r12, r9)
+            r10.<init>((java.lang.ClassCastException) r8, (java.lang.String) r11, (int) r12, (java.lang.Object) r9)
             throw r10
         L_0x023e:
             r8 = move-exception
             gnu.mapping.WrongType r9 = new gnu.mapping.WrongType
             java.lang.String r10 = "string-ref"
-            r9.<init>(r8, r10, r11, r13)
+            r9.<init>((java.lang.ClassCastException) r8, (java.lang.String) r10, (int) r11, (java.lang.Object) r13)
             throw r9
         L_0x0247:
             r8 = move-exception
             gnu.mapping.WrongType r9 = new gnu.mapping.WrongType
             java.lang.String r10 = "string-ref"
-            r9.<init>(r8, r10, r12, r2)
+            r9.<init>((java.lang.ClassCastException) r8, (java.lang.String) r10, (int) r12, (java.lang.Object) r2)
             throw r9
         L_0x0250:
             r8 = move-exception
             gnu.mapping.WrongType r9 = new gnu.mapping.WrongType
             java.lang.String r10 = "string-ref"
-            r9.<init>(r8, r10, r11, r13)
+            r9.<init>((java.lang.ClassCastException) r8, (java.lang.String) r10, (int) r11, (java.lang.Object) r13)
             throw r9
         L_0x0259:
             r8 = move-exception
             gnu.mapping.WrongType r9 = new gnu.mapping.WrongType
             java.lang.String r10 = "string-ref"
-            r9.<init>(r8, r10, r12, r14)
+            r9.<init>((java.lang.ClassCastException) r8, (java.lang.String) r10, (int) r12, (java.lang.Object) r14)
             throw r9
         */
         throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.slib.pregexp.pregexpReadPiece(java.lang.Object, java.lang.Object, java.lang.Object):java.lang.Object");
@@ -2667,7 +1042,7 @@ public class pregexp extends ModuleBody {
                                 char c2 = strings.stringRef((CharSequence) s, ((Number) i2).intValue());
                                 if (unicode.isCharNumeric(Char.make(c2))) {
                                     i2 = AddOp.$Pl.apply2(i2, Lit8);
-                                    r = C0620lists.cons(Char.make(c2), r);
+                                    r = lists.cons(Char.make(c2), r);
                                 } else {
                                     Object pregexpReverse$Ex = pregexpReverse$Ex(r);
                                     try {
@@ -2830,7 +1205,7 @@ public class pregexp extends ModuleBody {
             gnu.math.IntNum r7 = Lit8
             java.lang.Object r13 = r6.apply2(r13, r7)
             gnu.text.Char r6 = gnu.text.Char.make(r1)
-            gnu.lists.Pair r4 = kawa.lib.C0620lists.cons(r6, r4)
+            gnu.lists.Pair r4 = kawa.lib.lists.cons(r6, r4)
             goto L_0x000b
         L_0x0062:
             gnu.text.Char r6 = gnu.text.Char.make(r1)
@@ -2893,38 +1268,38 @@ public class pregexp extends ModuleBody {
             r6 = move-exception
             gnu.mapping.WrongType r7 = new gnu.mapping.WrongType
             java.lang.String r8 = "string-ref"
-            r7.<init>(r6, r8, r10, r12)
+            r7.<init>((java.lang.ClassCastException) r6, (java.lang.String) r8, (int) r10, (java.lang.Object) r12)
             throw r7
         L_0x00f0:
             r6 = move-exception
             gnu.mapping.WrongType r7 = new gnu.mapping.WrongType
             java.lang.String r8 = "string-ref"
-            r7.<init>(r6, r8, r11, r13)
+            r7.<init>((java.lang.ClassCastException) r6, (java.lang.String) r8, (int) r11, (java.lang.Object) r13)
             throw r7
         L_0x00f9:
             r6 = move-exception
             gnu.mapping.WrongType r8 = new gnu.mapping.WrongType
             java.lang.String r9 = "x"
             r10 = -2
-            r8.<init>(r6, r9, r10, r7)
+            r8.<init>((java.lang.ClassCastException) r6, (java.lang.String) r9, (int) r10, (java.lang.Object) r7)
             throw r8
         L_0x0103:
             r6 = move-exception
             gnu.mapping.WrongType r7 = new gnu.mapping.WrongType
             java.lang.String r8 = "string-ref"
-            r7.<init>(r6, r8, r10, r12)
+            r7.<init>((java.lang.ClassCastException) r6, (java.lang.String) r8, (int) r10, (java.lang.Object) r12)
             throw r7
         L_0x010c:
             r6 = move-exception
             gnu.mapping.WrongType r8 = new gnu.mapping.WrongType
             java.lang.String r9 = "string-ref"
-            r8.<init>(r6, r9, r11, r7)
+            r8.<init>((java.lang.ClassCastException) r6, (java.lang.String) r9, (int) r11, (java.lang.Object) r7)
             throw r8
         L_0x0115:
             r7 = move-exception
             gnu.mapping.WrongType r8 = new gnu.mapping.WrongType
             java.lang.String r9 = "list->string"
-            r8.<init>(r7, r9, r10, r6)
+            r8.<init>((java.lang.ClassCastException) r7, (java.lang.String) r9, (int) r10, (java.lang.Object) r6)
             throw r8
         */
         throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.slib.pregexp.pregexpReadPosixCharClass(java.lang.Object, java.lang.Object, java.lang.Object):java.lang.Object");
@@ -2959,8 +1334,7 @@ public class pregexp extends ModuleBody {
                                 Object apply2 = AddOp.$Pl.apply2(i2, Lit8);
                                 try {
                                     char tmp2 = strings.stringRef(charSequence, ((Number) apply2).intValue());
-                                    Object pregexpError$V = Scheme.isEqv.apply2(Char.make(tmp2), Lit48) != Boolean.FALSE ? Lit55 : Scheme.isEqv.apply2(Char.make(tmp2), Lit50) != Boolean.FALSE ? Lit56 : pregexpError$V(new Object[]{Lit57});
-                                    return LList.list2(pregexpError$V, AddOp.$Pl.apply2(i2, Lit16));
+                                    return LList.list2(Scheme.isEqv.apply2(Char.make(tmp2), Lit48) != Boolean.FALSE ? Lit55 : Scheme.isEqv.apply2(Char.make(tmp2), Lit50) != Boolean.FALSE ? Lit56 : pregexpError$V(new Object[]{Lit57}), AddOp.$Pl.apply2(i2, Lit16));
                                 } catch (ClassCastException e) {
                                     throw new WrongType(e, "string-ref", 2, apply2);
                                 }
@@ -2984,7 +1358,7 @@ public class pregexp extends ModuleBody {
                                                 bool = Boolean.FALSE;
                                             } else {
                                                 i2 = AddOp.$Pl.apply2(i2, Lit8);
-                                                lList = C0620lists.cons(bool != Boolean.FALSE ? Lit60 : Lit61, lList);
+                                                lList = lists.cons(bool != Boolean.FALSE ? Lit60 : Lit61, lList);
                                                 bool = Boolean.FALSE;
                                             }
                                         } else {
@@ -3021,14 +1395,14 @@ public class pregexp extends ModuleBody {
         if (kawa.lib.characters.isChar$Eq(gnu.text.Char.make(kawa.lib.strings.stringRef((java.lang.CharSequence) r15, ((java.lang.Number) r7).intValue())), Lit6) != false) goto L_0x0050;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:12:0x0054, code lost:
-        if (kawa.lib.C0620lists.isNull(r1) == false) goto L_0x0072;
+        if (kawa.lib.lists.isNull(r1) == false) goto L_0x0072;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:14:0x0063, code lost:
         if (r9 == false) goto L_0x0065;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:16:0x0072, code lost:
-        r2 = kawa.lib.C0620lists.cdr.apply1(r1);
-        r8 = gnu.lists.LList.list2(kawa.lib.C0620lists.car.apply1(r1), r8);
+        r2 = kawa.lib.lists.cdr.apply1(r1);
+        r8 = gnu.lists.LList.list2(kawa.lib.lists.car.apply1(r1), r8);
         r1 = r2;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:28:?, code lost:
@@ -3039,15 +1413,15 @@ public class pregexp extends ModuleBody {
         /*
             java.lang.Object r5 = $Stpregexp$Mnspace$Mnsensitive$Qu$St
             java.lang.Object r3 = pregexpReadClusterType(r15, r16, r17)
-            gnu.expr.GenericProc r10 = kawa.lib.C0620lists.car
+            gnu.expr.GenericProc r10 = kawa.lib.lists.car
             java.lang.Object r1 = r10.apply1(r3)
-            gnu.expr.GenericProc r10 = kawa.lib.C0620lists.cadr
+            gnu.expr.GenericProc r10 = kawa.lib.lists.cadr
             java.lang.Object r16 = r10.apply1(r3)
             java.lang.Object r6 = pregexpReadPattern(r15, r16, r17)
             $Stpregexp$Mnspace$Mnsensitive$Qu$St = r5
-            gnu.expr.GenericProc r10 = kawa.lib.C0620lists.car
+            gnu.expr.GenericProc r10 = kawa.lib.lists.car
             java.lang.Object r8 = r10.apply1(r6)
-            gnu.expr.GenericProc r10 = kawa.lib.C0620lists.cadr
+            gnu.expr.GenericProc r10 = kawa.lib.lists.cadr
             java.lang.Object r7 = r10.apply1(r6)
             gnu.kawa.functions.NumberCompare r10 = kawa.standard.Scheme.numLss
             r0 = r17
@@ -3068,7 +1442,7 @@ public class pregexp extends ModuleBody {
             boolean r10 = kawa.lib.characters.isChar$Eq(r10, r11)
             if (r10 == 0) goto L_0x0065
         L_0x0050:
-            boolean r10 = kawa.lib.C0620lists.isNull(r1)
+            boolean r10 = kawa.lib.lists.isNull(r1)
             if (r10 == 0) goto L_0x0072
             gnu.kawa.functions.AddOp r10 = gnu.kawa.functions.AddOp.$Pl
             gnu.math.IntNum r11 = Lit8
@@ -3087,9 +1461,9 @@ public class pregexp extends ModuleBody {
             java.lang.Object r10 = pregexpError$V(r10)
             goto L_0x0062
         L_0x0072:
-            gnu.expr.GenericProc r10 = kawa.lib.C0620lists.cdr
+            gnu.expr.GenericProc r10 = kawa.lib.lists.cdr
             java.lang.Object r2 = r10.apply1(r1)
-            gnu.expr.GenericProc r10 = kawa.lib.C0620lists.car
+            gnu.expr.GenericProc r10 = kawa.lib.lists.car
             java.lang.Object r10 = r10.apply1(r1)
             gnu.lists.Pair r4 = gnu.lists.LList.list2(r10, r8)
             r8 = r4
@@ -3100,21 +1474,21 @@ public class pregexp extends ModuleBody {
             gnu.mapping.WrongType r12 = new gnu.mapping.WrongType
             java.lang.String r13 = "x"
             r14 = -2
-            r12.<init>(r10, r13, r14, r11)
+            r12.<init>((java.lang.ClassCastException) r10, (java.lang.String) r13, (int) r14, (java.lang.Object) r11)
             throw r12
         L_0x008f:
             r10 = move-exception
             gnu.mapping.WrongType r11 = new gnu.mapping.WrongType
             java.lang.String r12 = "string-ref"
             r13 = 1
-            r11.<init>(r10, r12, r13, r15)
+            r11.<init>((java.lang.ClassCastException) r10, (java.lang.String) r12, (int) r13, (java.lang.Object) r15)
             throw r11
         L_0x0099:
             r10 = move-exception
             gnu.mapping.WrongType r11 = new gnu.mapping.WrongType
             java.lang.String r12 = "string-ref"
             r13 = 2
-            r11.<init>(r10, r12, r13, r7)
+            r11.<init>((java.lang.ClassCastException) r10, (java.lang.String) r12, (int) r13, (java.lang.Object) r7)
             throw r11
         */
         throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.slib.pregexp.pregexpReadSubpattern(java.lang.Object, java.lang.Object, java.lang.Object):java.lang.Object");
@@ -3133,9 +1507,9 @@ public class pregexp extends ModuleBody {
         /*
             r11 = 2
             r12 = 1
-            gnu.expr.GenericProc r8 = kawa.lib.C0620lists.car
+            gnu.expr.GenericProc r8 = kawa.lib.lists.car
             java.lang.Object r6 = r8.apply1(r13)
-            gnu.expr.GenericProc r8 = kawa.lib.C0620lists.cadr
+            gnu.expr.GenericProc r8 = kawa.lib.lists.cadr
             java.lang.Object r2 = r8.apply1(r13)
         L_0x000e:
             gnu.kawa.functions.NumberCompare r8 = kawa.standard.Scheme.numGEq
@@ -3190,16 +1564,16 @@ public class pregexp extends ModuleBody {
             java.lang.Object r8 = r8.apply2(r9, r10)
             java.lang.Boolean r9 = java.lang.Boolean.FALSE
             if (r8 == r9) goto L_0x0101
-            gnu.expr.GenericProc r8 = kawa.lib.C0620lists.cddr
+            gnu.expr.GenericProc r8 = kawa.lib.lists.cddr
             java.lang.Object r8 = r8.apply1(r3)
             gnu.lists.Pair r8 = (gnu.lists.Pair) r8     // Catch:{ ClassCastException -> 0x0237 }
             gnu.math.IntNum r9 = Lit73
-            kawa.lib.C0620lists.setCar$Ex(r8, r9)
-            gnu.expr.GenericProc r8 = kawa.lib.C0620lists.cdddr
+            kawa.lib.lists.setCar$Ex(r8, r9)
+            gnu.expr.GenericProc r8 = kawa.lib.lists.cdddr
             java.lang.Object r8 = r8.apply1(r3)
             gnu.lists.Pair r8 = (gnu.lists.Pair) r8     // Catch:{ ClassCastException -> 0x0240 }
             java.lang.Boolean r9 = java.lang.Boolean.FALSE
-            kawa.lib.C0620lists.setCar$Ex(r8, r9)
+            kawa.lib.lists.setCar$Ex(r8, r9)
         L_0x0097:
             gnu.kawa.functions.AddOp r8 = gnu.kawa.functions.AddOp.$Pl
             gnu.math.IntNum r9 = Lit8
@@ -3209,15 +1583,15 @@ public class pregexp extends ModuleBody {
             java.lang.Object r8 = r8.apply2(r2, r15)
             java.lang.Boolean r9 = java.lang.Boolean.FALSE
             if (r8 == r9) goto L_0x01b1
-            gnu.expr.GenericProc r8 = kawa.lib.C0620lists.cdr
+            gnu.expr.GenericProc r8 = kawa.lib.lists.cdr
             java.lang.Object r8 = r8.apply1(r3)
             gnu.lists.Pair r8 = (gnu.lists.Pair) r8     // Catch:{ ClassCastException -> 0x027f }
             java.lang.Boolean r9 = java.lang.Boolean.FALSE
-            kawa.lib.C0620lists.setCar$Ex(r8, r9)
-            gnu.expr.GenericProc r8 = kawa.lib.C0620lists.cdr
+            kawa.lib.lists.setCar$Ex(r8, r9)
+            gnu.expr.GenericProc r8 = kawa.lib.lists.cdr
             java.lang.Object r8 = r8.apply1(r4)
             gnu.lists.Pair r8 = (gnu.lists.Pair) r8     // Catch:{ ClassCastException -> 0x0288 }
-            kawa.lib.C0620lists.setCar$Ex(r8, r2)
+            kawa.lib.lists.setCar$Ex(r8, r2)
         L_0x00c1:
             r13 = r4
             goto L_0x0018
@@ -3256,16 +1630,16 @@ public class pregexp extends ModuleBody {
             java.lang.Object r8 = r8.apply2(r9, r10)
             java.lang.Boolean r9 = java.lang.Boolean.FALSE
             if (r8 == r9) goto L_0x012d
-            gnu.expr.GenericProc r8 = kawa.lib.C0620lists.cddr
+            gnu.expr.GenericProc r8 = kawa.lib.lists.cddr
             java.lang.Object r8 = r8.apply1(r3)
             gnu.lists.Pair r8 = (gnu.lists.Pair) r8     // Catch:{ ClassCastException -> 0x0249 }
             gnu.math.IntNum r9 = Lit8
-            kawa.lib.C0620lists.setCar$Ex(r8, r9)
-            gnu.expr.GenericProc r8 = kawa.lib.C0620lists.cdddr
+            kawa.lib.lists.setCar$Ex(r8, r9)
+            gnu.expr.GenericProc r8 = kawa.lib.lists.cdddr
             java.lang.Object r8 = r8.apply1(r3)
             gnu.lists.Pair r8 = (gnu.lists.Pair) r8     // Catch:{ ClassCastException -> 0x0252 }
             java.lang.Boolean r9 = java.lang.Boolean.FALSE
-            kawa.lib.C0620lists.setCar$Ex(r8, r9)
+            kawa.lib.lists.setCar$Ex(r8, r9)
             goto L_0x0097
         L_0x012d:
             gnu.kawa.functions.IsEqv r8 = kawa.standard.Scheme.isEqv
@@ -3274,16 +1648,16 @@ public class pregexp extends ModuleBody {
             java.lang.Object r8 = r8.apply2(r9, r10)
             java.lang.Boolean r9 = java.lang.Boolean.FALSE
             if (r8 == r9) goto L_0x0159
-            gnu.expr.GenericProc r8 = kawa.lib.C0620lists.cddr
+            gnu.expr.GenericProc r8 = kawa.lib.lists.cddr
             java.lang.Object r8 = r8.apply1(r3)
             gnu.lists.Pair r8 = (gnu.lists.Pair) r8     // Catch:{ ClassCastException -> 0x025b }
             gnu.math.IntNum r9 = Lit73
-            kawa.lib.C0620lists.setCar$Ex(r8, r9)
-            gnu.expr.GenericProc r8 = kawa.lib.C0620lists.cdddr
+            kawa.lib.lists.setCar$Ex(r8, r9)
+            gnu.expr.GenericProc r8 = kawa.lib.lists.cdddr
             java.lang.Object r8 = r8.apply1(r3)
             gnu.lists.Pair r8 = (gnu.lists.Pair) r8     // Catch:{ ClassCastException -> 0x0264 }
             gnu.math.IntNum r9 = Lit8
-            kawa.lib.C0620lists.setCar$Ex(r8, r9)
+            kawa.lib.lists.setCar$Ex(r8, r9)
             goto L_0x0097
         L_0x0159:
             gnu.kawa.functions.IsEqv r8 = kawa.standard.Scheme.isEqv
@@ -3306,19 +1680,19 @@ public class pregexp extends ModuleBody {
             r8[r12] = r9
             pregexpError$V(r8)
         L_0x0187:
-            gnu.expr.GenericProc r8 = kawa.lib.C0620lists.cddr
+            gnu.expr.GenericProc r8 = kawa.lib.lists.cddr
             java.lang.Object r8 = r8.apply1(r3)
             gnu.lists.Pair r8 = (gnu.lists.Pair) r8     // Catch:{ ClassCastException -> 0x026d }
-            gnu.expr.GenericProc r9 = kawa.lib.C0620lists.car
+            gnu.expr.GenericProc r9 = kawa.lib.lists.car
             java.lang.Object r9 = r9.apply1(r5)
-            kawa.lib.C0620lists.setCar$Ex(r8, r9)
-            gnu.expr.GenericProc r8 = kawa.lib.C0620lists.cdddr
+            kawa.lib.lists.setCar$Ex(r8, r9)
+            gnu.expr.GenericProc r8 = kawa.lib.lists.cdddr
             java.lang.Object r8 = r8.apply1(r3)
             gnu.lists.Pair r8 = (gnu.lists.Pair) r8     // Catch:{ ClassCastException -> 0x0276 }
-            gnu.expr.GenericProc r9 = kawa.lib.C0620lists.cadr
+            gnu.expr.GenericProc r9 = kawa.lib.lists.cadr
             java.lang.Object r9 = r9.apply1(r5)
-            kawa.lib.C0620lists.setCar$Ex(r8, r9)
-            gnu.expr.GenericProc r8 = kawa.lib.C0620lists.caddr
+            kawa.lib.lists.setCar$Ex(r8, r9)
+            gnu.expr.GenericProc r8 = kawa.lib.lists.caddr
             java.lang.Object r2 = r8.apply1(r5)
             goto L_0x0097
         L_0x01b1:
@@ -3348,226 +1722,335 @@ public class pregexp extends ModuleBody {
             gnu.text.Char r9 = Lit47
             boolean r8 = kawa.lib.characters.isChar$Eq(r8, r9)
             if (r8 == 0) goto L_0x020b
-            gnu.expr.GenericProc r8 = kawa.lib.C0620lists.cdr
+            gnu.expr.GenericProc r8 = kawa.lib.lists.cdr
             java.lang.Object r8 = r8.apply1(r3)
             gnu.lists.Pair r8 = (gnu.lists.Pair) r8     // Catch:{ ClassCastException -> 0x02a3 }
             java.lang.Boolean r9 = java.lang.Boolean.TRUE
-            kawa.lib.C0620lists.setCar$Ex(r8, r9)
-            gnu.expr.GenericProc r8 = kawa.lib.C0620lists.cdr
+            kawa.lib.lists.setCar$Ex(r8, r9)
+            gnu.expr.GenericProc r8 = kawa.lib.lists.cdr
             java.lang.Object r8 = r8.apply1(r4)
             gnu.lists.Pair r8 = (gnu.lists.Pair) r8     // Catch:{ ClassCastException -> 0x02ac }
             gnu.kawa.functions.AddOp r9 = gnu.kawa.functions.AddOp.$Pl
             gnu.math.IntNum r10 = Lit8
             java.lang.Object r9 = r9.apply2(r2, r10)
-            kawa.lib.C0620lists.setCar$Ex(r8, r9)
+            kawa.lib.lists.setCar$Ex(r8, r9)
             goto L_0x00c1
         L_0x020b:
-            gnu.expr.GenericProc r8 = kawa.lib.C0620lists.cdr
+            gnu.expr.GenericProc r8 = kawa.lib.lists.cdr
             java.lang.Object r8 = r8.apply1(r3)
             gnu.lists.Pair r8 = (gnu.lists.Pair) r8     // Catch:{ ClassCastException -> 0x02b5 }
             java.lang.Boolean r9 = java.lang.Boolean.FALSE
-            kawa.lib.C0620lists.setCar$Ex(r8, r9)
-            gnu.expr.GenericProc r8 = kawa.lib.C0620lists.cdr
+            kawa.lib.lists.setCar$Ex(r8, r9)
+            gnu.expr.GenericProc r8 = kawa.lib.lists.cdr
             java.lang.Object r8 = r8.apply1(r4)
             gnu.lists.Pair r8 = (gnu.lists.Pair) r8     // Catch:{ ClassCastException -> 0x02be }
-            kawa.lib.C0620lists.setCar$Ex(r8, r2)
+            kawa.lib.lists.setCar$Ex(r8, r2)
             goto L_0x00c1
         L_0x0225:
             r8 = move-exception
             gnu.mapping.WrongType r9 = new gnu.mapping.WrongType
             java.lang.String r10 = "string-ref"
-            r9.<init>(r8, r10, r12, r14)
+            r9.<init>((java.lang.ClassCastException) r8, (java.lang.String) r10, (int) r12, (java.lang.Object) r14)
             throw r9
         L_0x022e:
             r8 = move-exception
             gnu.mapping.WrongType r9 = new gnu.mapping.WrongType
             java.lang.String r10 = "string-ref"
-            r9.<init>(r8, r10, r11, r2)
+            r9.<init>((java.lang.ClassCastException) r8, (java.lang.String) r10, (int) r11, (java.lang.Object) r2)
             throw r9
         L_0x0237:
             r9 = move-exception
             gnu.mapping.WrongType r10 = new gnu.mapping.WrongType
             java.lang.String r11 = "set-car!"
-            r10.<init>(r9, r11, r12, r8)
+            r10.<init>((java.lang.ClassCastException) r9, (java.lang.String) r11, (int) r12, (java.lang.Object) r8)
             throw r10
         L_0x0240:
             r9 = move-exception
             gnu.mapping.WrongType r10 = new gnu.mapping.WrongType
             java.lang.String r11 = "set-car!"
-            r10.<init>(r9, r11, r12, r8)
+            r10.<init>((java.lang.ClassCastException) r9, (java.lang.String) r11, (int) r12, (java.lang.Object) r8)
             throw r10
         L_0x0249:
             r9 = move-exception
             gnu.mapping.WrongType r10 = new gnu.mapping.WrongType
             java.lang.String r11 = "set-car!"
-            r10.<init>(r9, r11, r12, r8)
+            r10.<init>((java.lang.ClassCastException) r9, (java.lang.String) r11, (int) r12, (java.lang.Object) r8)
             throw r10
         L_0x0252:
             r9 = move-exception
             gnu.mapping.WrongType r10 = new gnu.mapping.WrongType
             java.lang.String r11 = "set-car!"
-            r10.<init>(r9, r11, r12, r8)
+            r10.<init>((java.lang.ClassCastException) r9, (java.lang.String) r11, (int) r12, (java.lang.Object) r8)
             throw r10
         L_0x025b:
             r9 = move-exception
             gnu.mapping.WrongType r10 = new gnu.mapping.WrongType
             java.lang.String r11 = "set-car!"
-            r10.<init>(r9, r11, r12, r8)
+            r10.<init>((java.lang.ClassCastException) r9, (java.lang.String) r11, (int) r12, (java.lang.Object) r8)
             throw r10
         L_0x0264:
             r9 = move-exception
             gnu.mapping.WrongType r10 = new gnu.mapping.WrongType
             java.lang.String r11 = "set-car!"
-            r10.<init>(r9, r11, r12, r8)
+            r10.<init>((java.lang.ClassCastException) r9, (java.lang.String) r11, (int) r12, (java.lang.Object) r8)
             throw r10
         L_0x026d:
             r9 = move-exception
             gnu.mapping.WrongType r10 = new gnu.mapping.WrongType
             java.lang.String r11 = "set-car!"
-            r10.<init>(r9, r11, r12, r8)
+            r10.<init>((java.lang.ClassCastException) r9, (java.lang.String) r11, (int) r12, (java.lang.Object) r8)
             throw r10
         L_0x0276:
             r9 = move-exception
             gnu.mapping.WrongType r10 = new gnu.mapping.WrongType
             java.lang.String r11 = "set-car!"
-            r10.<init>(r9, r11, r12, r8)
+            r10.<init>((java.lang.ClassCastException) r9, (java.lang.String) r11, (int) r12, (java.lang.Object) r8)
             throw r10
         L_0x027f:
             r9 = move-exception
             gnu.mapping.WrongType r10 = new gnu.mapping.WrongType
             java.lang.String r11 = "set-car!"
-            r10.<init>(r9, r11, r12, r8)
+            r10.<init>((java.lang.ClassCastException) r9, (java.lang.String) r11, (int) r12, (java.lang.Object) r8)
             throw r10
         L_0x0288:
             r9 = move-exception
             gnu.mapping.WrongType r10 = new gnu.mapping.WrongType
             java.lang.String r11 = "set-car!"
-            r10.<init>(r9, r11, r12, r8)
+            r10.<init>((java.lang.ClassCastException) r9, (java.lang.String) r11, (int) r12, (java.lang.Object) r8)
             throw r10
         L_0x0291:
             r8 = move-exception
             gnu.mapping.WrongType r9 = new gnu.mapping.WrongType
             java.lang.String r10 = "string-ref"
-            r9.<init>(r8, r10, r12, r14)
+            r9.<init>((java.lang.ClassCastException) r8, (java.lang.String) r10, (int) r12, (java.lang.Object) r14)
             throw r9
         L_0x029a:
             r8 = move-exception
             gnu.mapping.WrongType r9 = new gnu.mapping.WrongType
             java.lang.String r10 = "string-ref"
-            r9.<init>(r8, r10, r11, r2)
+            r9.<init>((java.lang.ClassCastException) r8, (java.lang.String) r10, (int) r11, (java.lang.Object) r2)
             throw r9
         L_0x02a3:
             r9 = move-exception
             gnu.mapping.WrongType r10 = new gnu.mapping.WrongType
             java.lang.String r11 = "set-car!"
-            r10.<init>(r9, r11, r12, r8)
+            r10.<init>((java.lang.ClassCastException) r9, (java.lang.String) r11, (int) r12, (java.lang.Object) r8)
             throw r10
         L_0x02ac:
             r9 = move-exception
             gnu.mapping.WrongType r10 = new gnu.mapping.WrongType
             java.lang.String r11 = "set-car!"
-            r10.<init>(r9, r11, r12, r8)
+            r10.<init>((java.lang.ClassCastException) r9, (java.lang.String) r11, (int) r12, (java.lang.Object) r8)
             throw r10
         L_0x02b5:
             r9 = move-exception
             gnu.mapping.WrongType r10 = new gnu.mapping.WrongType
             java.lang.String r11 = "set-car!"
-            r10.<init>(r9, r11, r12, r8)
+            r10.<init>((java.lang.ClassCastException) r9, (java.lang.String) r11, (int) r12, (java.lang.Object) r8)
             throw r10
         L_0x02be:
             r9 = move-exception
             gnu.mapping.WrongType r10 = new gnu.mapping.WrongType
             java.lang.String r11 = "set-car!"
-            r10.<init>(r9, r11, r12, r8)
+            r10.<init>((java.lang.ClassCastException) r9, (java.lang.String) r11, (int) r12, (java.lang.Object) r8)
             throw r10
         */
         throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.slib.pregexp.pregexpWrapQuantifierIfAny(java.lang.Object, java.lang.Object, java.lang.Object):java.lang.Object");
     }
 
-    public static Object pregexpReadNums(Object s, Object i, Object n) {
-        char c;
-        int i2;
-        LList p = LList.Empty;
-        LList lList = LList.Empty;
-        IntNum intNum = Lit8;
-        Object obj = i;
-        while (true) {
-            if (Scheme.numGEq.apply2(obj, n) != Boolean.FALSE) {
-                pregexpError$V(new Object[]{Lit76});
-            }
-            try {
-                try {
-                    c = strings.stringRef((CharSequence) s, ((Number) obj).intValue());
-                    if (!unicode.isCharNumeric(Char.make(c))) {
-                        boolean x = unicode.isCharWhitespace(Char.make(c));
-                        if (!x ? x : $Stpregexp$Mnspace$Mnsensitive$Qu$St == Boolean.FALSE) {
-                            obj = AddOp.$Pl.apply2(obj, Lit8);
-                        } else {
-                            boolean x2 = characters.isChar$Eq(Char.make(c), Lit77);
-                            if (!x2) {
-                                if (!x2) {
-                                    break;
-                                }
-                            } else if (Scheme.numEqu.apply2(intNum, Lit8) == Boolean.FALSE) {
-                                break;
-                            }
-                            Object k = AddOp.$Pl.apply2(obj, Lit8);
-                            intNum = Lit16;
-                            obj = k;
-                        }
-                    } else if (Scheme.numEqu.apply2(intNum, Lit8) != Boolean.FALSE) {
-                        p = C0620lists.cons(Char.make(c), p);
-                        Object k2 = AddOp.$Pl.apply2(obj, Lit8);
-                        intNum = Lit8;
-                        obj = k2;
-                    } else {
-                        lList = C0620lists.cons(Char.make(c), lList);
-                        Object k3 = AddOp.$Pl.apply2(obj, Lit8);
-                        intNum = Lit16;
-                        obj = k3;
-                    }
-                } catch (ClassCastException e) {
-                    throw new WrongType(e, "string-ref", 2, obj);
-                }
-            } catch (ClassCastException e2) {
-                throw new WrongType(e2, "string-ref", 1, s);
-            }
-        }
-        if (!characters.isChar$Eq(Char.make(c), Lit78)) {
-            return Boolean.FALSE;
-        }
-        Object pregexpReverse$Ex = pregexpReverse$Ex(p);
-        try {
-            Object p2 = numbers.string$To$Number(strings.list$To$String((LList) pregexpReverse$Ex));
-            Object pregexpReverse$Ex2 = pregexpReverse$Ex(lList);
-            try {
-                Object q = numbers.string$To$Number(strings.list$To$String((LList) pregexpReverse$Ex2));
-                try {
-                    if (p2 != Boolean.FALSE) {
-                        i2 = 1;
-                    } else {
-                        i2 = 0;
-                    }
-                    boolean x3 = (i2 + 1) & true;
-                    if (!x3 ? x3 : Scheme.numEqu.apply2(intNum, Lit8) != Boolean.FALSE) {
-                        return LList.list3(Lit73, Boolean.FALSE, obj);
-                    }
-                    return Scheme.numEqu.apply2(intNum, Lit8) != Boolean.FALSE ? LList.list3(p2, p2, obj) : LList.list3(p2, q, obj);
-                } catch (ClassCastException e3) {
-                    throw new WrongType(e3, "x", -2, p2);
-                }
-            } catch (ClassCastException e4) {
-                throw new WrongType(e4, "list->string", 1, pregexpReverse$Ex2);
-            }
-        } catch (ClassCastException e5) {
-            throw new WrongType(e5, "list->string", 1, pregexpReverse$Ex);
-        }
+    /* JADX WARNING: Code restructure failed: missing block: B:22:0x0086, code lost:
+        r6 = kawa.lib.characters.isChar$Eq(gnu.text.Char.make(r1), Lit77);
+     */
+    /* JADX WARNING: Code restructure failed: missing block: B:23:0x0090, code lost:
+        if (r6 == false) goto L_0x00ab;
+     */
+    /* JADX WARNING: Code restructure failed: missing block: B:25:0x009c, code lost:
+        if (kawa.standard.Scheme.numEqu.apply2(r5, Lit8) == java.lang.Boolean.FALSE) goto L_0x00ad;
+     */
+    /* JADX WARNING: Code restructure failed: missing block: B:26:0x009e, code lost:
+        r2 = gnu.kawa.functions.AddOp.$Pl.apply2(r9, Lit8);
+        r5 = Lit16;
+        r9 = r2;
+     */
+    /* JADX WARNING: Code restructure failed: missing block: B:27:0x00ab, code lost:
+        if (r6 != false) goto L_0x009e;
+     */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public static java.lang.Object pregexpReadNums(java.lang.Object r12, java.lang.Object r13, java.lang.Object r14) {
+        /*
+            r11 = 0
+            r10 = 1
+            gnu.lists.LList r3 = gnu.lists.LList.Empty
+            gnu.lists.LList r4 = gnu.lists.LList.Empty
+            gnu.math.IntNum r5 = Lit8
+            r9 = r13
+        L_0x0009:
+            gnu.kawa.functions.NumberCompare r7 = kawa.standard.Scheme.numGEq
+            java.lang.Object r7 = r7.apply2(r9, r14)
+            java.lang.Boolean r8 = java.lang.Boolean.FALSE
+            if (r7 == r8) goto L_0x001c
+            java.lang.Object[] r7 = new java.lang.Object[r10]
+            gnu.mapping.SimpleSymbol r8 = Lit76
+            r7[r11] = r8
+            pregexpError$V(r7)
+        L_0x001c:
+            r0 = r12
+            java.lang.CharSequence r0 = (java.lang.CharSequence) r0     // Catch:{ ClassCastException -> 0x0112 }
+            r7 = r0
+            r0 = r9
+            java.lang.Number r0 = (java.lang.Number) r0     // Catch:{ ClassCastException -> 0x011b }
+            r8 = r0
+            int r8 = r8.intValue()     // Catch:{ ClassCastException -> 0x011b }
+            char r1 = kawa.lib.strings.stringRef(r7, r8)
+            gnu.text.Char r7 = gnu.text.Char.make(r1)
+            boolean r7 = kawa.lib.rnrs.unicode.isCharNumeric(r7)
+            if (r7 == 0) goto L_0x006a
+            gnu.kawa.functions.NumberCompare r7 = kawa.standard.Scheme.numEqu
+            gnu.math.IntNum r8 = Lit8
+            java.lang.Object r7 = r7.apply2(r5, r8)
+            java.lang.Boolean r8 = java.lang.Boolean.FALSE
+            if (r7 == r8) goto L_0x0056
+            gnu.text.Char r7 = gnu.text.Char.make(r1)
+            gnu.lists.Pair r3 = kawa.lib.lists.cons(r7, r3)
+            gnu.kawa.functions.AddOp r7 = gnu.kawa.functions.AddOp.$Pl
+            gnu.math.IntNum r8 = Lit8
+            java.lang.Object r2 = r7.apply2(r9, r8)
+            gnu.math.IntNum r5 = Lit8
+            r9 = r2
+            goto L_0x0009
+        L_0x0056:
+            gnu.text.Char r7 = gnu.text.Char.make(r1)
+            gnu.lists.Pair r4 = kawa.lib.lists.cons(r7, r4)
+            gnu.kawa.functions.AddOp r7 = gnu.kawa.functions.AddOp.$Pl
+            gnu.math.IntNum r8 = Lit8
+            java.lang.Object r2 = r7.apply2(r9, r8)
+            gnu.math.IntNum r5 = Lit16
+            r9 = r2
+            goto L_0x0009
+        L_0x006a:
+            gnu.text.Char r7 = gnu.text.Char.make(r1)
+            boolean r6 = kawa.lib.rnrs.unicode.isCharWhitespace(r7)
+            if (r6 == 0) goto L_0x0084
+            java.lang.Object r7 = $Stpregexp$Mnspace$Mnsensitive$Qu$St
+            java.lang.Boolean r8 = java.lang.Boolean.FALSE
+            if (r7 != r8) goto L_0x0086
+        L_0x007a:
+            gnu.kawa.functions.AddOp r7 = gnu.kawa.functions.AddOp.$Pl
+            gnu.math.IntNum r8 = Lit8
+            java.lang.Object r2 = r7.apply2(r9, r8)
+            r9 = r2
+            goto L_0x0009
+        L_0x0084:
+            if (r6 != 0) goto L_0x007a
+        L_0x0086:
+            gnu.text.Char r7 = gnu.text.Char.make(r1)
+            gnu.text.Char r8 = Lit77
+            boolean r6 = kawa.lib.characters.isChar$Eq(r7, r8)
+            if (r6 == 0) goto L_0x00ab
+            gnu.kawa.functions.NumberCompare r7 = kawa.standard.Scheme.numEqu
+            gnu.math.IntNum r8 = Lit8
+            java.lang.Object r7 = r7.apply2(r5, r8)
+            java.lang.Boolean r8 = java.lang.Boolean.FALSE
+            if (r7 == r8) goto L_0x00ad
+        L_0x009e:
+            gnu.kawa.functions.AddOp r7 = gnu.kawa.functions.AddOp.$Pl
+            gnu.math.IntNum r8 = Lit8
+            java.lang.Object r2 = r7.apply2(r9, r8)
+            gnu.math.IntNum r5 = Lit16
+            r9 = r2
+            goto L_0x0009
+        L_0x00ab:
+            if (r6 != 0) goto L_0x009e
+        L_0x00ad:
+            gnu.text.Char r7 = gnu.text.Char.make(r1)
+            gnu.text.Char r8 = Lit78
+            boolean r7 = kawa.lib.characters.isChar$Eq(r7, r8)
+            if (r7 == 0) goto L_0x010f
+            java.lang.Object r7 = pregexpReverse$Ex(r3)
+            gnu.lists.LList r7 = (gnu.lists.LList) r7     // Catch:{ ClassCastException -> 0x0125 }
+            java.lang.CharSequence r7 = kawa.lib.strings.list$To$String(r7)
+            java.lang.Object r3 = kawa.lib.numbers.string$To$Number(r7)
+            java.lang.Object r7 = pregexpReverse$Ex(r4)
+            gnu.lists.LList r7 = (gnu.lists.LList) r7     // Catch:{ ClassCastException -> 0x012e }
+            java.lang.CharSequence r7 = kawa.lib.strings.list$To$String(r7)
+            java.lang.Object r4 = kawa.lib.numbers.string$To$Number(r7)
+            java.lang.Boolean r7 = java.lang.Boolean.FALSE     // Catch:{ ClassCastException -> 0x0137 }
+            if (r3 == r7) goto L_0x00f5
+            r7 = r10
+        L_0x00da:
+            int r7 = r7 + 1
+            r6 = r7 & 1
+            if (r6 == 0) goto L_0x00f7
+            gnu.kawa.functions.NumberCompare r7 = kawa.standard.Scheme.numEqu
+            gnu.math.IntNum r8 = Lit8
+            java.lang.Object r7 = r7.apply2(r5, r8)
+            java.lang.Boolean r8 = java.lang.Boolean.FALSE
+            if (r7 == r8) goto L_0x00f9
+        L_0x00ec:
+            gnu.math.IntNum r7 = Lit73
+            java.lang.Boolean r8 = java.lang.Boolean.FALSE
+            gnu.lists.Pair r7 = gnu.lists.LList.list3(r7, r8, r9)
+        L_0x00f4:
+            return r7
+        L_0x00f5:
+            r7 = r11
+            goto L_0x00da
+        L_0x00f7:
+            if (r6 != 0) goto L_0x00ec
+        L_0x00f9:
+            gnu.kawa.functions.NumberCompare r7 = kawa.standard.Scheme.numEqu
+            gnu.math.IntNum r8 = Lit8
+            java.lang.Object r7 = r7.apply2(r5, r8)
+            java.lang.Boolean r8 = java.lang.Boolean.FALSE
+            if (r7 == r8) goto L_0x010a
+            gnu.lists.Pair r7 = gnu.lists.LList.list3(r3, r3, r9)
+            goto L_0x00f4
+        L_0x010a:
+            gnu.lists.Pair r7 = gnu.lists.LList.list3(r3, r4, r9)
+            goto L_0x00f4
+        L_0x010f:
+            java.lang.Boolean r7 = java.lang.Boolean.FALSE
+            goto L_0x00f4
+        L_0x0112:
+            r7 = move-exception
+            gnu.mapping.WrongType r8 = new gnu.mapping.WrongType
+            java.lang.String r9 = "string-ref"
+            r8.<init>((java.lang.ClassCastException) r7, (java.lang.String) r9, (int) r10, (java.lang.Object) r12)
+            throw r8
+        L_0x011b:
+            r7 = move-exception
+            gnu.mapping.WrongType r8 = new gnu.mapping.WrongType
+            java.lang.String r10 = "string-ref"
+            r11 = 2
+            r8.<init>((java.lang.ClassCastException) r7, (java.lang.String) r10, (int) r11, (java.lang.Object) r9)
+            throw r8
+        L_0x0125:
+            r8 = move-exception
+            gnu.mapping.WrongType r9 = new gnu.mapping.WrongType
+            java.lang.String r11 = "list->string"
+            r9.<init>((java.lang.ClassCastException) r8, (java.lang.String) r11, (int) r10, (java.lang.Object) r7)
+            throw r9
+        L_0x012e:
+            r8 = move-exception
+            gnu.mapping.WrongType r9 = new gnu.mapping.WrongType
+            java.lang.String r11 = "list->string"
+            r9.<init>((java.lang.ClassCastException) r8, (java.lang.String) r11, (int) r10, (java.lang.Object) r7)
+            throw r9
+        L_0x0137:
+            r7 = move-exception
+            gnu.mapping.WrongType r8 = new gnu.mapping.WrongType
+            java.lang.String r9 = "x"
+            r10 = -2
+            r8.<init>((java.lang.ClassCastException) r7, (java.lang.String) r9, (int) r10, (java.lang.Object) r3)
+            throw r8
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.slib.pregexp.pregexpReadNums(java.lang.Object, java.lang.Object, java.lang.Object):java.lang.Object");
     }
 
     public static Object pregexpInvertCharList(Object vv) {
-        Object apply1 = C0620lists.car.apply1(vv);
+        Object apply1 = lists.car.apply1(vv);
         try {
-            C0620lists.setCar$Ex((Pair) apply1, Lit79);
+            lists.setCar$Ex((Pair) apply1, Lit79);
             return vv;
         } catch (ClassCastException e) {
             throw new WrongType(e, "set-car!", 1, apply1);
@@ -3581,7 +2064,7 @@ public class pregexp extends ModuleBody {
         if (kawa.lib.characters.isChar$Eq(gnu.text.Char.make(kawa.lib.strings.stringRef((java.lang.CharSequence) r13, ((java.lang.Number) r4).intValue())), Lit46) == false) goto L_0x0107;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:40:0x0107, code lost:
-        r2 = kawa.lib.C0620lists.car.apply1(r6);
+        r2 = kawa.lib.lists.car.apply1(r6);
      */
     /* JADX WARNING: Code restructure failed: missing block: B:41:0x0111, code lost:
         if (kawa.lib.characters.isChar(r2) == false) goto L_0x014d;
@@ -3596,14 +2079,14 @@ public class pregexp extends ModuleBody {
         r10 = gnu.kawa.functions.AddOp.$Pl.apply2(r14, Lit8);
      */
     /* JADX WARNING: Code restructure failed: missing block: B:48:0x0128, code lost:
-        r6 = kawa.lib.C0620lists.cons(gnu.lists.LList.list3(r11, r2, gnu.text.Char.make(kawa.lib.strings.stringRef(r8, ((java.lang.Number) r10).intValue()))), kawa.lib.C0620lists.cdr.apply1(r6));
+        r6 = kawa.lib.lists.cons(gnu.lists.LList.list3(r11, r2, gnu.text.Char.make(kawa.lib.strings.stringRef(r8, ((java.lang.Number) r10).intValue()))), kawa.lib.lists.cdr.apply1(r6));
         r14 = gnu.kawa.functions.AddOp.$Pl.apply2(r14, Lit16);
      */
     /* JADX WARNING: Code restructure failed: missing block: B:49:0x0149, code lost:
         if (r7 != false) goto L_0x00c1;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:50:0x014d, code lost:
-        r6 = kawa.lib.C0620lists.cons(gnu.text.Char.make(r1), r6);
+        r6 = kawa.lib.lists.cons(gnu.text.Char.make(r1), r6);
         r14 = gnu.kawa.functions.AddOp.$Pl.apply2(r14, Lit8);
      */
     /* JADX WARNING: Code restructure failed: missing block: B:79:0x0207, code lost:
@@ -3653,10 +2136,10 @@ public class pregexp extends ModuleBody {
             java.lang.Object r8 = r8.apply2(r9, r10)
             java.lang.Boolean r9 = java.lang.Boolean.FALSE
             if (r8 == r9) goto L_0x006c
-            boolean r8 = kawa.lib.C0620lists.isNull(r6)
+            boolean r8 = kawa.lib.lists.isNull(r6)
             if (r8 == 0) goto L_0x0055
             gnu.text.Char r8 = gnu.text.Char.make(r1)
-            gnu.lists.Pair r6 = kawa.lib.C0620lists.cons(r8, r6)
+            gnu.lists.Pair r6 = kawa.lib.lists.cons(r8, r6)
             gnu.kawa.functions.AddOp r8 = gnu.kawa.functions.AddOp.$Pl
             gnu.math.IntNum r9 = Lit8
             java.lang.Object r14 = r8.apply2(r14, r9)
@@ -3664,7 +2147,7 @@ public class pregexp extends ModuleBody {
         L_0x0055:
             gnu.mapping.SimpleSymbol r8 = Lit82
             java.lang.Object r9 = pregexpReverse$Ex(r6)
-            gnu.lists.Pair r8 = kawa.lib.C0620lists.cons(r8, r9)
+            gnu.lists.Pair r8 = kawa.lib.lists.cons(r8, r9)
             gnu.kawa.functions.AddOp r9 = gnu.kawa.functions.AddOp.$Pl
             gnu.math.IntNum r10 = Lit8
             java.lang.Object r9 = r9.apply2(r14, r10)
@@ -3680,10 +2163,10 @@ public class pregexp extends ModuleBody {
             java.lang.Object r3 = pregexpReadEscapedChar(r13, r14, r15)
             java.lang.Boolean r8 = java.lang.Boolean.FALSE
             if (r3 == r8) goto L_0x0096
-            gnu.expr.GenericProc r8 = kawa.lib.C0620lists.car
+            gnu.expr.GenericProc r8 = kawa.lib.lists.car
             java.lang.Object r8 = r8.apply1(r3)
-            gnu.lists.Pair r6 = kawa.lib.C0620lists.cons(r8, r6)
-            gnu.expr.GenericProc r8 = kawa.lib.C0620lists.cadr
+            gnu.lists.Pair r6 = kawa.lib.lists.cons(r8, r6)
+            gnu.expr.GenericProc r8 = kawa.lib.lists.cadr
             java.lang.Object r14 = r8.apply1(r3)
             goto L_0x0002
         L_0x0096:
@@ -3704,12 +2187,12 @@ public class pregexp extends ModuleBody {
             java.lang.Object r8 = r8.apply2(r9, r10)
             java.lang.Boolean r9 = java.lang.Boolean.FALSE
             if (r8 == r9) goto L_0x015f
-            boolean r7 = kawa.lib.C0620lists.isNull(r6)
+            boolean r7 = kawa.lib.lists.isNull(r6)
             if (r7 == 0) goto L_0x00d3
             if (r7 == 0) goto L_0x0107
         L_0x00c1:
             gnu.text.Char r8 = gnu.text.Char.make(r1)
-            gnu.lists.Pair r6 = kawa.lib.C0620lists.cons(r8, r6)
+            gnu.lists.Pair r6 = kawa.lib.lists.cons(r8, r6)
             gnu.kawa.functions.AddOp r8 = gnu.kawa.functions.AddOp.$Pl
             gnu.math.IntNum r9 = Lit8
             java.lang.Object r14 = r8.apply2(r14, r9)
@@ -3738,7 +2221,7 @@ public class pregexp extends ModuleBody {
             boolean r8 = kawa.lib.characters.isChar$Eq(r8, r9)
             if (r8 != 0) goto L_0x00c1
         L_0x0107:
-            gnu.expr.GenericProc r8 = kawa.lib.C0620lists.car
+            gnu.expr.GenericProc r8 = kawa.lib.lists.car
             java.lang.Object r2 = r8.apply1(r6)
             boolean r8 = kawa.lib.characters.isChar(r2)
             if (r8 == 0) goto L_0x014d
@@ -3756,9 +2239,9 @@ public class pregexp extends ModuleBody {
             char r8 = kawa.lib.strings.stringRef(r8, r9)
             gnu.text.Char r8 = gnu.text.Char.make(r8)
             gnu.lists.Pair r8 = gnu.lists.LList.list3(r11, r2, r8)
-            gnu.expr.GenericProc r9 = kawa.lib.C0620lists.cdr
+            gnu.expr.GenericProc r9 = kawa.lib.lists.cdr
             java.lang.Object r9 = r9.apply1(r6)
-            gnu.lists.Pair r6 = kawa.lib.C0620lists.cons(r8, r9)
+            gnu.lists.Pair r6 = kawa.lib.lists.cons(r8, r9)
             gnu.kawa.functions.AddOp r8 = gnu.kawa.functions.AddOp.$Pl
             gnu.math.IntNum r9 = Lit16
             java.lang.Object r14 = r8.apply2(r14, r9)
@@ -3768,7 +2251,7 @@ public class pregexp extends ModuleBody {
             goto L_0x00c1
         L_0x014d:
             gnu.text.Char r8 = gnu.text.Char.make(r1)
-            gnu.lists.Pair r6 = kawa.lib.C0620lists.cons(r8, r6)
+            gnu.lists.Pair r6 = kawa.lib.lists.cons(r8, r6)
             gnu.kawa.functions.AddOp r8 = gnu.kawa.functions.AddOp.$Pl
             gnu.math.IntNum r9 = Lit8
             java.lang.Object r14 = r8.apply2(r14, r9)
@@ -3799,22 +2282,22 @@ public class pregexp extends ModuleBody {
             gnu.math.IntNum r9 = Lit16
             java.lang.Object r8 = r8.apply2(r14, r9)
             java.lang.Object r5 = pregexpReadPosixCharClass(r13, r8, r15)
-            gnu.expr.GenericProc r8 = kawa.lib.C0620lists.car
+            gnu.expr.GenericProc r8 = kawa.lib.lists.car
             java.lang.Object r8 = r8.apply1(r5)
-            gnu.lists.Pair r6 = kawa.lib.C0620lists.cons(r8, r6)
-            gnu.expr.GenericProc r8 = kawa.lib.C0620lists.cadr
+            gnu.lists.Pair r6 = kawa.lib.lists.cons(r8, r6)
+            gnu.expr.GenericProc r8 = kawa.lib.lists.cadr
             java.lang.Object r14 = r8.apply1(r5)
             goto L_0x0002
         L_0x01b1:
             gnu.text.Char r8 = gnu.text.Char.make(r1)
-            gnu.lists.Pair r6 = kawa.lib.C0620lists.cons(r8, r6)
+            gnu.lists.Pair r6 = kawa.lib.lists.cons(r8, r6)
             gnu.kawa.functions.AddOp r8 = gnu.kawa.functions.AddOp.$Pl
             gnu.math.IntNum r9 = Lit8
             java.lang.Object r14 = r8.apply2(r14, r9)
             goto L_0x0002
         L_0x01c3:
             gnu.text.Char r8 = gnu.text.Char.make(r1)
-            gnu.lists.Pair r6 = kawa.lib.C0620lists.cons(r8, r6)
+            gnu.lists.Pair r6 = kawa.lib.lists.cons(r8, r6)
             gnu.kawa.functions.AddOp r8 = gnu.kawa.functions.AddOp.$Pl
             gnu.math.IntNum r9 = Lit8
             java.lang.Object r14 = r8.apply2(r14, r9)
@@ -3824,63 +2307,63 @@ public class pregexp extends ModuleBody {
             gnu.mapping.WrongType r9 = new gnu.mapping.WrongType
             java.lang.String r10 = "string-ref"
             r11 = 1
-            r9.<init>(r8, r10, r11, r13)
+            r9.<init>((java.lang.ClassCastException) r8, (java.lang.String) r10, (int) r11, (java.lang.Object) r13)
             throw r9
         L_0x01df:
             r8 = move-exception
             gnu.mapping.WrongType r9 = new gnu.mapping.WrongType
             java.lang.String r10 = "string-ref"
             r11 = 2
-            r9.<init>(r8, r10, r11, r14)
+            r9.<init>((java.lang.ClassCastException) r8, (java.lang.String) r10, (int) r11, (java.lang.Object) r14)
             throw r9
         L_0x01e9:
             r8 = move-exception
             gnu.mapping.WrongType r10 = new gnu.mapping.WrongType
             java.lang.String r11 = "x"
             r12 = -2
-            r10.<init>(r8, r11, r12, r9)
+            r10.<init>((java.lang.ClassCastException) r8, (java.lang.String) r11, (int) r12, (java.lang.Object) r9)
             throw r10
         L_0x01f3:
             r8 = move-exception
             gnu.mapping.WrongType r9 = new gnu.mapping.WrongType
             java.lang.String r10 = "string-ref"
             r11 = 1
-            r9.<init>(r8, r10, r11, r13)
+            r9.<init>((java.lang.ClassCastException) r8, (java.lang.String) r10, (int) r11, (java.lang.Object) r13)
             throw r9
         L_0x01fd:
             r8 = move-exception
             gnu.mapping.WrongType r9 = new gnu.mapping.WrongType
             java.lang.String r10 = "string-ref"
             r11 = 2
-            r9.<init>(r8, r10, r11, r4)
+            r9.<init>((java.lang.ClassCastException) r8, (java.lang.String) r10, (int) r11, (java.lang.Object) r4)
             throw r9
         L_0x0207:
             r8 = move-exception
             gnu.mapping.WrongType r9 = new gnu.mapping.WrongType
             java.lang.String r10 = "string-ref"
             r11 = 1
-            r9.<init>(r8, r10, r11, r13)
+            r9.<init>((java.lang.ClassCastException) r8, (java.lang.String) r10, (int) r11, (java.lang.Object) r13)
             throw r9
         L_0x0211:
             r8 = move-exception
             gnu.mapping.WrongType r9 = new gnu.mapping.WrongType
             java.lang.String r11 = "string-ref"
             r12 = 2
-            r9.<init>(r8, r11, r12, r10)
+            r9.<init>((java.lang.ClassCastException) r8, (java.lang.String) r11, (int) r12, (java.lang.Object) r10)
             throw r9
         L_0x021b:
             r8 = move-exception
             gnu.mapping.WrongType r9 = new gnu.mapping.WrongType
             java.lang.String r10 = "string-ref"
             r11 = 1
-            r9.<init>(r8, r10, r11, r13)
+            r9.<init>((java.lang.ClassCastException) r8, (java.lang.String) r10, (int) r11, (java.lang.Object) r13)
             throw r9
         L_0x0225:
             r8 = move-exception
             gnu.mapping.WrongType r9 = new gnu.mapping.WrongType
             java.lang.String r11 = "string-ref"
             r12 = 2
-            r9.<init>(r8, r11, r12, r10)
+            r9.<init>((java.lang.ClassCastException) r8, (java.lang.String) r11, (int) r12, (java.lang.Object) r10)
             throw r9
         */
         throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.slib.pregexp.pregexpReadCharList(java.lang.Object, java.lang.Object, java.lang.Object):java.lang.Object");
@@ -3951,7 +2434,7 @@ public class pregexp extends ModuleBody {
     }
 
     public static Object isPregexpAtWordBoundary(Object s, Object i, Object n) {
-        Object x;
+        Boolean x;
         Object apply2 = Scheme.numEqu.apply2(i, Lit73);
         try {
             boolean x2 = ((Boolean) apply2).booleanValue();
@@ -4239,19 +2722,19 @@ public class pregexp extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 34:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 47:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             default:
                 return super.match2(moduleMethod, obj, obj2, callContext);
@@ -4260,11 +2743,11 @@ public class pregexp extends ModuleBody {
 
     public static Object pregexpListRef(Object s, Object i) {
         Object obj = Lit73;
-        while (!C0620lists.isNull(s)) {
+        while (!lists.isNull(s)) {
             if (Scheme.numEqu.apply2(obj, i) != Boolean.FALSE) {
-                return C0620lists.car.apply1(s);
+                return lists.car.apply1(s);
             }
-            s = C0620lists.cdr.apply1(s);
+            s = lists.cdr.apply1(s);
             obj = AddOp.$Pl.apply2(obj, Lit8);
         }
         return Boolean.FALSE;
@@ -4275,23 +2758,1264 @@ public class pregexp extends ModuleBody {
     }
 
     public static Object lambda1sub(Object re) {
-        if (!C0620lists.isPair(re)) {
+        if (!lists.isPair(re)) {
             return LList.Empty;
         }
-        Object car$Mnre = C0620lists.car.apply1(re);
-        Object sub$Mncdr$Mnre = lambda1sub(C0620lists.cdr.apply1(re));
+        Object car$Mnre = lists.car.apply1(re);
+        Object sub$Mncdr$Mnre = lambda1sub(lists.cdr.apply1(re));
         if (Scheme.isEqv.apply2(car$Mnre, Lit100) != Boolean.FALSE) {
-            return C0620lists.cons(C0620lists.cons(re, Boolean.FALSE), sub$Mncdr$Mnre);
+            return lists.cons(lists.cons(re, Boolean.FALSE), sub$Mncdr$Mnre);
         }
         return append.append$V(new Object[]{lambda1sub(car$Mnre), sub$Mncdr$Mnre});
     }
 
+    /* compiled from: pregexp.scm */
+    public class frame extends ModuleBody {
+        Object backrefs;
+        Object case$Mnsensitive$Qu;
+        Procedure identity;
+        Object n;
+        Object s;
+        Object sn;
+        Object start;
+
+        public frame() {
+            ModuleMethod moduleMethod = new ModuleMethod(this, 15, pregexp.Lit112, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:460");
+            this.identity = moduleMethod;
+        }
+
+        public static Object lambda2identity(Object x) {
+            return x;
+        }
+
+        public Object apply1(ModuleMethod moduleMethod, Object obj) {
+            return moduleMethod.selector == 15 ? lambda2identity(obj) : super.apply1(moduleMethod, obj);
+        }
+
+        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
+            if (moduleMethod.selector != 15) {
+                return super.match1(moduleMethod, obj, callContext);
+            }
+            callContext.value1 = obj;
+            callContext.proc = moduleMethod;
+            callContext.pc = 1;
+            return 0;
+        }
+
+        static Boolean lambda4() {
+            return Boolean.FALSE;
+        }
+
+        /* JADX WARNING: Code restructure failed: missing block: B:103:0x02c9, code lost:
+            if (kawa.standard.Scheme.isEqv.apply2(r13, gnu.kawa.slib.pregexp.Lit17) == java.lang.Boolean.FALSE) goto L_0x02f7;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:105:0x02d7, code lost:
+            if (kawa.standard.Scheme.numGEq.apply2(r6.i, r15.n) == java.lang.Boolean.FALSE) goto L_0x02e3;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:109:0x0301, code lost:
+            if (kawa.standard.Scheme.isEqv.apply2(r13, gnu.kawa.slib.pregexp.Lit5) == java.lang.Boolean.FALSE) goto L_0x0313;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:112:0x031d, code lost:
+            if (kawa.standard.Scheme.isEqv.apply2(r13, gnu.kawa.slib.pregexp.Lit4) == java.lang.Boolean.FALSE) goto L_0x032d;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:115:0x0337, code lost:
+            if (kawa.standard.Scheme.isEqv.apply2(r13, gnu.kawa.slib.pregexp.Lit20) == java.lang.Boolean.FALSE) goto L_0x03ad;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:116:0x0339, code lost:
+            r8 = gnu.kawa.slib.pregexp.pregexpListRef(r15.backrefs, kawa.lib.lists.cadr.apply1(r6.re$1));
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:117:0x0349, code lost:
+            if (r8 == java.lang.Boolean.FALSE) goto L_0x0389;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:118:0x034b, code lost:
+            r7 = kawa.lib.lists.cdr.apply1(r8);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:120:0x0353, code lost:
+            if (r7 == java.lang.Boolean.FALSE) goto L_0x03a1;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:121:0x0355, code lost:
+            r1 = r15.s;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:123:?, code lost:
+            r1 = (java.lang.CharSequence) r1;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:124:0x0359, code lost:
+            r3 = kawa.lib.lists.car.apply1(r7);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:126:?, code lost:
+            r4 = ((java.lang.Number) r3).intValue();
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:127:0x0366, code lost:
+            r3 = kawa.lib.lists.cdr.apply1(r7);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:131:0x0389, code lost:
+            gnu.kawa.slib.pregexp.pregexpError$V(new java.lang.Object[]{gnu.kawa.slib.pregexp.Lit101, gnu.kawa.slib.pregexp.Lit102, r6.re$1});
+            r7 = java.lang.Boolean.FALSE;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:134:0x03b7, code lost:
+            if (kawa.standard.Scheme.isEqv.apply2(r13, gnu.kawa.slib.pregexp.Lit100) == java.lang.Boolean.FALSE) goto L_0x03cd;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:137:0x03d7, code lost:
+            if (kawa.standard.Scheme.isEqv.apply2(r13, gnu.kawa.slib.pregexp.Lit103) == java.lang.Boolean.FALSE) goto L_0x0405;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:139:0x03ed, code lost:
+            if (lambda3sub(kawa.lib.lists.cadr.apply1(r6.re$1), r6.i, r15.identity, gnu.kawa.slib.pregexp.lambda$Fn6) == java.lang.Boolean.FALSE) goto L_0x03fb;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:143:0x040f, code lost:
+            if (kawa.standard.Scheme.isEqv.apply2(r13, gnu.kawa.slib.pregexp.Lit104) == java.lang.Boolean.FALSE) goto L_0x043d;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:145:0x0425, code lost:
+            if (lambda3sub(kawa.lib.lists.cadr.apply1(r6.re$1), r6.i, r15.identity, gnu.kawa.slib.pregexp.lambda$Fn7) == java.lang.Boolean.FALSE) goto L_0x0431;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:149:0x0447, code lost:
+            if (kawa.standard.Scheme.isEqv.apply2(r13, gnu.kawa.slib.pregexp.Lit105) == java.lang.Boolean.FALSE) goto L_0x048f;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:150:0x0449, code lost:
+            r11 = r15.n;
+            r12 = r15.sn;
+            r15.n = r6.i;
+            r15.sn = r6.i;
+            r10 = lambda3sub(gnu.lists.LList.list4(gnu.kawa.slib.pregexp.Lit5, gnu.kawa.slib.pregexp.Lit106, kawa.lib.lists.cadr.apply1(r6.re$1), gnu.kawa.slib.pregexp.Lit12), gnu.kawa.slib.pregexp.Lit73, r15.identity, gnu.kawa.slib.pregexp.lambda$Fn8);
+            r15.n = r11;
+            r15.sn = r12;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:151:0x0477, code lost:
+            if (r10 == java.lang.Boolean.FALSE) goto L_0x0485;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:155:0x0499, code lost:
+            if (kawa.standard.Scheme.isEqv.apply2(r13, gnu.kawa.slib.pregexp.Lit107) == java.lang.Boolean.FALSE) goto L_0x04e1;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:156:0x049b, code lost:
+            r11 = r15.n;
+            r12 = r15.sn;
+            r15.n = r6.i;
+            r15.sn = r6.i;
+            r10 = lambda3sub(gnu.lists.LList.list4(gnu.kawa.slib.pregexp.Lit5, gnu.kawa.slib.pregexp.Lit108, kawa.lib.lists.cadr.apply1(r6.re$1), gnu.kawa.slib.pregexp.Lit12), gnu.kawa.slib.pregexp.Lit73, r15.identity, gnu.kawa.slib.pregexp.lambda$Fn9);
+            r15.n = r11;
+            r15.sn = r12;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:157:0x04c9, code lost:
+            if (r10 == java.lang.Boolean.FALSE) goto L_0x04d5;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:161:0x04eb, code lost:
+            if (kawa.standard.Scheme.isEqv.apply2(r13, gnu.kawa.slib.pregexp.Lit109) == java.lang.Boolean.FALSE) goto L_0x0517;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:162:0x04ed, code lost:
+            r10 = lambda3sub(kawa.lib.lists.cadr.apply1(r6.re$1), r6.i, r15.identity, gnu.kawa.slib.pregexp.lambda$Fn10);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:163:0x0501, code lost:
+            if (r10 == java.lang.Boolean.FALSE) goto L_0x050d;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:166:0x0517, code lost:
+            r14 = kawa.standard.Scheme.isEqv.apply2(r13, gnu.kawa.slib.pregexp.Lit60);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:167:0x0521, code lost:
+            if (r14 == java.lang.Boolean.FALSE) goto L_0x0551;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:169:0x0525, code lost:
+            if (r14 == java.lang.Boolean.FALSE) goto L_0x055d;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:170:0x0527, code lost:
+            r6.old = r15.case$Mnsensitive$Qu;
+            r15.case$Mnsensitive$Qu = kawa.standard.Scheme.isEqv.apply2(kawa.lib.lists.car.apply1(r6.re$1), gnu.kawa.slib.pregexp.Lit60);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:172:0x055b, code lost:
+            if (kawa.standard.Scheme.isEqv.apply2(r13, gnu.kawa.slib.pregexp.Lit61) != java.lang.Boolean.FALSE) goto L_0x0527;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:174:0x0567, code lost:
+            if (kawa.standard.Scheme.isEqv.apply2(r13, gnu.kawa.slib.pregexp.Lit68) == java.lang.Boolean.FALSE) goto L_0x05c2;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:175:0x0569, code lost:
+            r1 = kawa.lib.lists.cadr.apply1(r6.re$1);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:178:0x0573, code lost:
+            if (r1 == java.lang.Boolean.FALSE) goto L_0x05bb;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:179:0x0575, code lost:
+            r1 = 1;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:180:0x0576, code lost:
+            r6.maximal$Qu = (r1 + 1) & true;
+            r6.p = kawa.lib.lists.caddr.apply1(r6.re$1);
+            r6.q = kawa.lib.lists.cadddr.apply1(r6.re$1);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:181:0x0592, code lost:
+            if (r6.maximal$Qu == false) goto L_0x05bf;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:182:0x0594, code lost:
+            r1 = r6.q;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:185:0x0598, code lost:
+            if (r1 == java.lang.Boolean.FALSE) goto L_0x05bd;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:186:0x059a, code lost:
+            r1 = 1;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:187:0x059b, code lost:
+            r1 = (r1 + 1) & true;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:188:0x059f, code lost:
+            r6.could$Mnloop$Mninfinitely$Qu = r1;
+            r6.re = kawa.lib.lists.car.apply1(kawa.lib.lists.cddddr.apply1(r6.re$1));
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:189:0x05bb, code lost:
+            r1 = 0;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:190:0x05bd, code lost:
+            r1 = 0;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:191:0x05bf, code lost:
+            r1 = r6.maximal$Qu;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:194:0x05dc, code lost:
+            if (kawa.standard.Scheme.numGEq.apply2(r6.i, r15.n) == java.lang.Boolean.FALSE) goto L_0x05e8;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:203:0x060a, code lost:
+            r2 = move-exception;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:205:0x0613, code lost:
+            throw new gnu.mapping.WrongType(r2, "string-ref", 1, r1);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:206:0x0614, code lost:
+            r1 = move-exception;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:208:0x061d, code lost:
+            throw new gnu.mapping.WrongType(r1, "string-ref", 2, r3);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:209:0x061e, code lost:
+            r2 = move-exception;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:211:0x0627, code lost:
+            throw new gnu.mapping.WrongType(r2, "string-ref", 1, r1);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:212:0x0628, code lost:
+            r1 = move-exception;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:214:0x0631, code lost:
+            throw new gnu.mapping.WrongType(r1, "string-ref", 2, r3);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:215:0x0632, code lost:
+            r2 = move-exception;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:217:0x063b, code lost:
+            throw new gnu.mapping.WrongType(r2, "substring", 1, r1);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:218:0x063c, code lost:
+            r1 = move-exception;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:220:0x0645, code lost:
+            throw new gnu.mapping.WrongType(r1, "substring", 2, r3);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:221:0x0646, code lost:
+            r1 = move-exception;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:223:0x064f, code lost:
+            throw new gnu.mapping.WrongType(r1, "substring", 3, r3);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:224:0x0650, code lost:
+            r2 = move-exception;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:226:0x0659, code lost:
+            throw new gnu.mapping.WrongType(r2, "maximal?", -2, r1);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:227:0x065a, code lost:
+            r2 = move-exception;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:229:0x0663, code lost:
+            throw new gnu.mapping.WrongType(r2, "could-loop-infinitely?", -2, r1);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:240:?, code lost:
+            return kawa.standard.Scheme.applyToArgs.apply2(r6.sk, gnu.kawa.functions.AddOp.$Pl.apply2(r6.i, gnu.kawa.slib.pregexp.Lit8));
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:242:?, code lost:
+            return kawa.standard.Scheme.applyToArgs.apply2(r6.sk, gnu.kawa.functions.AddOp.$Pl.apply2(r6.i, gnu.kawa.slib.pregexp.Lit8));
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:243:?, code lost:
+            return kawa.standard.Scheme.applyToArgs.apply1(r6.fk);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:244:?, code lost:
+            return kawa.standard.Scheme.applyToArgs.apply1(r6.fk);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:245:?, code lost:
+            return kawa.standard.Scheme.applyToArgs.apply1(r6.fk);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:246:?, code lost:
+            return gnu.kawa.slib.pregexp.pregexpError$V(new java.lang.Object[]{gnu.kawa.slib.pregexp.Lit101});
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:247:?, code lost:
+            return kawa.standard.Scheme.applyToArgs.apply1(r6.fk);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:248:?, code lost:
+            return r6.lambda5loupOneOfChars(kawa.lib.lists.cdr.apply1(r6.re$1));
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:249:?, code lost:
+            return kawa.standard.Scheme.applyToArgs.apply1(r6.fk);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:250:?, code lost:
+            return lambda3sub(kawa.lib.lists.cadr.apply1(r6.re$1), r6.i, r6.lambda$Fn2, r6.lambda$Fn3);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:251:?, code lost:
+            return r6.lambda6loupSeq(kawa.lib.lists.cdr.apply1(r6.re$1), r6.i);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:252:?, code lost:
+            return r6.lambda7loupOr(kawa.lib.lists.cdr.apply1(r6.re$1));
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:253:?, code lost:
+            return gnu.kawa.slib.pregexp.pregexpStringMatch(kawa.lib.strings.substring(r1, r4, ((java.lang.Number) r3).intValue()), r15.s, r6.i, r15.n, r6.lambda$Fn4, r6.fk);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:254:?, code lost:
+            return kawa.standard.Scheme.applyToArgs.apply2(r6.sk, r6.i);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:255:?, code lost:
+            return lambda3sub(kawa.lib.lists.cadr.apply1(r6.re$1), r6.i, r6.lambda$Fn5, r6.fk);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:256:?, code lost:
+            return kawa.standard.Scheme.applyToArgs.apply2(r6.sk, r6.i);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:257:?, code lost:
+            return kawa.standard.Scheme.applyToArgs.apply1(r6.fk);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:258:?, code lost:
+            return kawa.standard.Scheme.applyToArgs.apply1(r6.fk);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:259:?, code lost:
+            return kawa.standard.Scheme.applyToArgs.apply2(r6.sk, r6.i);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:260:?, code lost:
+            return kawa.standard.Scheme.applyToArgs.apply2(r6.sk, r6.i);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:261:?, code lost:
+            return kawa.standard.Scheme.applyToArgs.apply1(r6.fk);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:262:?, code lost:
+            return kawa.standard.Scheme.applyToArgs.apply1(r6.fk);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:263:?, code lost:
+            return kawa.standard.Scheme.applyToArgs.apply2(r6.sk, r6.i);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:264:?, code lost:
+            return kawa.standard.Scheme.applyToArgs.apply2(r6.sk, r10);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:265:?, code lost:
+            return kawa.standard.Scheme.applyToArgs.apply1(r6.fk);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:266:?, code lost:
+            return lambda3sub(kawa.lib.lists.cadr.apply1(r6.re$1), r6.i, r6.lambda$Fn11, r6.lambda$Fn12);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:267:?, code lost:
+            return r6.lambda8loupP(gnu.kawa.slib.pregexp.Lit73, r6.i);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:268:?, code lost:
+            return gnu.kawa.slib.pregexp.pregexpError$V(new java.lang.Object[]{gnu.kawa.slib.pregexp.Lit101});
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:269:?, code lost:
+            return kawa.standard.Scheme.applyToArgs.apply1(r6.fk);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:270:?, code lost:
+            return gnu.kawa.slib.pregexp.pregexpError$V(new java.lang.Object[]{gnu.kawa.slib.pregexp.Lit101});
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:44:0x0148, code lost:
+            r14 = ((kawa.lib.lists.isPair(r6.re$1) ? 1 : 0) + true) & true;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:45:0x0152, code lost:
+            if (r14 == false) goto L_0x01a5;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:47:0x0160, code lost:
+            if (kawa.standard.Scheme.numLss.apply2(r6.i, r15.n) == java.lang.Boolean.FALSE) goto L_0x01a7;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:48:0x0162, code lost:
+            r1 = r15.s;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:50:?, code lost:
+            r1 = (java.lang.CharSequence) r1;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:51:0x0166, code lost:
+            r3 = r6.i;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:55:0x0180, code lost:
+            if (gnu.kawa.slib.pregexp.isPregexpCheckIfInCharClass(gnu.text.Char.make(kawa.lib.strings.stringRef(r1, ((java.lang.Number) r3).intValue())), r6.re$1) == java.lang.Boolean.FALSE) goto L_0x0227;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:59:0x01a5, code lost:
+            if (r14 != false) goto L_0x0162;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:60:0x01a7, code lost:
+            r14 = kawa.lib.lists.isPair(r6.re$1);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:61:0x01ad, code lost:
+            if (r14 == false) goto L_0x0269;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:62:0x01af, code lost:
+            r14 = kawa.standard.Scheme.isEqv.apply2(kawa.lib.lists.car.apply1(r6.re$1), gnu.kawa.slib.pregexp.Lit83);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:63:0x01c1, code lost:
+            if (r14 == java.lang.Boolean.FALSE) goto L_0x0231;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:65:0x01cf, code lost:
+            if (kawa.standard.Scheme.numLss.apply2(r6.i, r15.n) == java.lang.Boolean.FALSE) goto L_0x0235;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:66:0x01d1, code lost:
+            r1 = r15.s;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:68:?, code lost:
+            r1 = (java.lang.CharSequence) r1;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:69:0x01d5, code lost:
+            r3 = r6.i;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:72:0x01de, code lost:
+            r8 = kawa.lib.strings.stringRef(r1, ((java.lang.Number) r3).intValue());
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:73:0x01e7, code lost:
+            if (r15.case$Mnsensitive$Qu == java.lang.Boolean.FALSE) goto L_0x026d;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:74:0x01e9, code lost:
+            r9 = kawa.lib.characters.char$Ls$Eq$Qu;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:75:0x01eb, code lost:
+            r14 = r9.apply2(kawa.lib.lists.cadr.apply1(r6.re$1), gnu.text.Char.make(r8));
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:76:0x01fd, code lost:
+            if (r14 == java.lang.Boolean.FALSE) goto L_0x0271;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:78:0x0211, code lost:
+            if (r9.apply2(gnu.text.Char.make(r8), kawa.lib.lists.caddr.apply1(r6.re$1)) == java.lang.Boolean.FALSE) goto L_0x0275;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:82:0x0233, code lost:
+            if (r14 != java.lang.Boolean.FALSE) goto L_0x01d1;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:84:0x023b, code lost:
+            if (kawa.lib.lists.isPair(r6.re$1) == false) goto L_0x05d0;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:85:0x023d, code lost:
+            r13 = kawa.lib.lists.car.apply1(r6.re$1);
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:86:0x024f, code lost:
+            if (kawa.standard.Scheme.isEqv.apply2(r13, gnu.kawa.slib.pregexp.Lit83) == java.lang.Boolean.FALSE) goto L_0x028d;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:88:0x025d, code lost:
+            if (kawa.standard.Scheme.numGEq.apply2(r6.i, r15.n) == java.lang.Boolean.FALSE) goto L_0x027f;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:90:0x0269, code lost:
+            if (r14 == false) goto L_0x0235;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:91:0x026d, code lost:
+            r9 = kawa.lib.rnrs.unicode.char$Mnci$Ls$Eq$Qu;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:93:0x0273, code lost:
+            if (r14 != java.lang.Boolean.FALSE) goto L_0x0213;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:97:0x0297, code lost:
+            if (kawa.standard.Scheme.isEqv.apply2(r13, gnu.kawa.slib.pregexp.Lit82) == java.lang.Boolean.FALSE) goto L_0x02bf;
+         */
+        /* JADX WARNING: Code restructure failed: missing block: B:99:0x02a5, code lost:
+            if (kawa.standard.Scheme.numGEq.apply2(r6.i, r15.n) == java.lang.Boolean.FALSE) goto L_0x02b1;
+         */
+        /* Code decompiled incorrectly, please refer to instructions dump. */
+        public java.lang.Object lambda3sub(java.lang.Object r16, java.lang.Object r17, java.lang.Object r18, java.lang.Object r19) {
+            /*
+                r15 = this;
+                gnu.kawa.slib.pregexp$frame0 r6 = new gnu.kawa.slib.pregexp$frame0
+                r6.<init>()
+                r6.staticLink = r15
+                r0 = r16
+                r6.re$1 = r0
+                r0 = r17
+                r6.i = r0
+                r0 = r18
+                r6.sk = r0
+                r0 = r19
+                r6.fk = r0
+                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
+                java.lang.Object r2 = r6.re$1
+                gnu.mapping.SimpleSymbol r3 = gnu.kawa.slib.pregexp.Lit10
+                java.lang.Object r1 = r1.apply2(r2, r3)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x0047
+                gnu.kawa.functions.NumberCompare r1 = kawa.standard.Scheme.numEqu
+                java.lang.Object r2 = r6.i
+                java.lang.Object r3 = r15.start
+                java.lang.Object r1 = r1.apply2(r2, r3)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x003e
+                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
+                java.lang.Object r2 = r6.sk
+                java.lang.Object r3 = r6.i
+                java.lang.Object r1 = r1.apply2(r2, r3)
+            L_0x003d:
+                return r1
+            L_0x003e:
+                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
+                java.lang.Object r2 = r6.fk
+                java.lang.Object r1 = r1.apply1(r2)
+                goto L_0x003d
+            L_0x0047:
+                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
+                java.lang.Object r2 = r6.re$1
+                gnu.mapping.SimpleSymbol r3 = gnu.kawa.slib.pregexp.Lit12
+                java.lang.Object r1 = r1.apply2(r2, r3)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x0077
+                gnu.kawa.functions.NumberCompare r1 = kawa.standard.Scheme.numGEq
+                java.lang.Object r2 = r6.i
+                java.lang.Object r3 = r15.n
+                java.lang.Object r1 = r1.apply2(r2, r3)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x006e
+                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
+                java.lang.Object r2 = r6.sk
+                java.lang.Object r3 = r6.i
+                java.lang.Object r1 = r1.apply2(r2, r3)
+                goto L_0x003d
+            L_0x006e:
+                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
+                java.lang.Object r2 = r6.fk
+                java.lang.Object r1 = r1.apply1(r2)
+                goto L_0x003d
+            L_0x0077:
+                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
+                java.lang.Object r2 = r6.re$1
+                gnu.mapping.SimpleSymbol r3 = gnu.kawa.slib.pregexp.Lit23
+                java.lang.Object r1 = r1.apply2(r2, r3)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x0090
+                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
+                java.lang.Object r2 = r6.sk
+                java.lang.Object r3 = r6.i
+                java.lang.Object r1 = r1.apply2(r2, r3)
+                goto L_0x003d
+            L_0x0090:
+                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
+                java.lang.Object r2 = r6.re$1
+                gnu.mapping.SimpleSymbol r3 = gnu.kawa.slib.pregexp.Lit26
+                java.lang.Object r1 = r1.apply2(r2, r3)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x00c1
+                java.lang.Object r1 = r15.s
+                java.lang.Object r2 = r6.i
+                java.lang.Object r3 = r15.n
+                java.lang.Object r1 = gnu.kawa.slib.pregexp.isPregexpAtWordBoundary(r1, r2, r3)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x00b7
+                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
+                java.lang.Object r2 = r6.sk
+                java.lang.Object r3 = r6.i
+                java.lang.Object r1 = r1.apply2(r2, r3)
+                goto L_0x003d
+            L_0x00b7:
+                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
+                java.lang.Object r2 = r6.fk
+                java.lang.Object r1 = r1.apply1(r2)
+                goto L_0x003d
+            L_0x00c1:
+                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
+                java.lang.Object r2 = r6.re$1
+                gnu.mapping.SimpleSymbol r3 = gnu.kawa.slib.pregexp.Lit28
+                java.lang.Object r1 = r1.apply2(r2, r3)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x00f3
+                java.lang.Object r1 = r15.s
+                java.lang.Object r2 = r6.i
+                java.lang.Object r3 = r15.n
+                java.lang.Object r1 = gnu.kawa.slib.pregexp.isPregexpAtWordBoundary(r1, r2, r3)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x00e7
+                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
+                java.lang.Object r2 = r6.fk
+                java.lang.Object r1 = r1.apply1(r2)
+                goto L_0x003d
+            L_0x00e7:
+                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
+                java.lang.Object r2 = r6.sk
+                java.lang.Object r3 = r6.i
+                java.lang.Object r1 = r1.apply2(r2, r3)
+                goto L_0x003d
+            L_0x00f3:
+                java.lang.Object r1 = r6.re$1
+                boolean r14 = kawa.lib.characters.isChar(r1)
+                if (r14 == 0) goto L_0x0146
+                gnu.kawa.functions.NumberCompare r1 = kawa.standard.Scheme.numLss
+                java.lang.Object r2 = r6.i
+                java.lang.Object r3 = r15.n
+                java.lang.Object r1 = r1.apply2(r2, r3)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x0148
+            L_0x0109:
+                java.lang.Object r1 = r15.case$Mnsensitive$Qu
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x0196
+                gnu.expr.ModuleMethod r1 = kawa.lib.characters.char$Eq$Qu
+                r4 = r1
+            L_0x0112:
+                java.lang.Object r1 = r15.s
+                java.lang.CharSequence r1 = (java.lang.CharSequence) r1     // Catch:{ ClassCastException -> 0x05f6 }
+                java.lang.Object r3 = r6.i
+                r0 = r3
+                java.lang.Number r0 = (java.lang.Number) r0     // Catch:{ ClassCastException -> 0x0600 }
+                r2 = r0
+                int r2 = r2.intValue()     // Catch:{ ClassCastException -> 0x0600 }
+                char r1 = kawa.lib.strings.stringRef(r1, r2)
+                gnu.text.Char r1 = gnu.text.Char.make(r1)
+                java.lang.Object r2 = r6.re$1
+                java.lang.Object r1 = r4.apply2(r1, r2)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x019b
+                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
+                java.lang.Object r2 = r6.sk
+                gnu.kawa.functions.AddOp r3 = gnu.kawa.functions.AddOp.$Pl
+                java.lang.Object r4 = r6.i
+                gnu.math.IntNum r5 = gnu.kawa.slib.pregexp.Lit8
+                java.lang.Object r3 = r3.apply2(r4, r5)
+                java.lang.Object r1 = r1.apply2(r2, r3)
+                goto L_0x003d
+            L_0x0146:
+                if (r14 != 0) goto L_0x0109
+            L_0x0148:
+                java.lang.Object r1 = r6.re$1
+                boolean r1 = kawa.lib.lists.isPair(r1)
+                int r1 = r1 + 1
+                r14 = r1 & 1
+                if (r14 == 0) goto L_0x01a5
+                gnu.kawa.functions.NumberCompare r1 = kawa.standard.Scheme.numLss
+                java.lang.Object r2 = r6.i
+                java.lang.Object r3 = r15.n
+                java.lang.Object r1 = r1.apply2(r2, r3)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x01a7
+            L_0x0162:
+                java.lang.Object r1 = r15.s
+                java.lang.CharSequence r1 = (java.lang.CharSequence) r1     // Catch:{ ClassCastException -> 0x060a }
+                java.lang.Object r3 = r6.i
+                r0 = r3
+                java.lang.Number r0 = (java.lang.Number) r0     // Catch:{ ClassCastException -> 0x0614 }
+                r2 = r0
+                int r2 = r2.intValue()     // Catch:{ ClassCastException -> 0x0614 }
+                char r1 = kawa.lib.strings.stringRef(r1, r2)
+                gnu.text.Char r1 = gnu.text.Char.make(r1)
+                java.lang.Object r2 = r6.re$1
+                java.lang.Object r1 = gnu.kawa.slib.pregexp.isPregexpCheckIfInCharClass(r1, r2)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x0227
+                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
+                java.lang.Object r2 = r6.sk
+                gnu.kawa.functions.AddOp r3 = gnu.kawa.functions.AddOp.$Pl
+                java.lang.Object r4 = r6.i
+                gnu.math.IntNum r5 = gnu.kawa.slib.pregexp.Lit8
+                java.lang.Object r3 = r3.apply2(r4, r5)
+                java.lang.Object r1 = r1.apply2(r2, r3)
+                goto L_0x003d
+            L_0x0196:
+                gnu.expr.ModuleMethod r1 = kawa.lib.rnrs.unicode.char$Mnci$Eq$Qu
+                r4 = r1
+                goto L_0x0112
+            L_0x019b:
+                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
+                java.lang.Object r2 = r6.fk
+                java.lang.Object r1 = r1.apply1(r2)
+                goto L_0x003d
+            L_0x01a5:
+                if (r14 != 0) goto L_0x0162
+            L_0x01a7:
+                java.lang.Object r1 = r6.re$1
+                boolean r14 = kawa.lib.lists.isPair(r1)
+                if (r14 == 0) goto L_0x0269
+                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
+                gnu.expr.GenericProc r2 = kawa.lib.lists.car
+                java.lang.Object r3 = r6.re$1
+                java.lang.Object r2 = r2.apply1(r3)
+                gnu.mapping.SimpleSymbol r3 = gnu.kawa.slib.pregexp.Lit83
+                java.lang.Object r14 = r1.apply2(r2, r3)
+                java.lang.Boolean r1 = java.lang.Boolean.FALSE
+                if (r14 == r1) goto L_0x0231
+                gnu.kawa.functions.NumberCompare r1 = kawa.standard.Scheme.numLss
+                java.lang.Object r2 = r6.i
+                java.lang.Object r3 = r15.n
+                java.lang.Object r1 = r1.apply2(r2, r3)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x0235
+            L_0x01d1:
+                java.lang.Object r1 = r15.s
+                java.lang.CharSequence r1 = (java.lang.CharSequence) r1     // Catch:{ ClassCastException -> 0x061e }
+                java.lang.Object r3 = r6.i
+                r0 = r3
+                java.lang.Number r0 = (java.lang.Number) r0     // Catch:{ ClassCastException -> 0x0628 }
+                r2 = r0
+                int r2 = r2.intValue()     // Catch:{ ClassCastException -> 0x0628 }
+                char r8 = kawa.lib.strings.stringRef(r1, r2)
+                java.lang.Object r1 = r15.case$Mnsensitive$Qu
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x026d
+                gnu.expr.ModuleMethod r9 = kawa.lib.characters.char$Ls$Eq$Qu
+            L_0x01eb:
+                gnu.expr.GenericProc r1 = kawa.lib.lists.cadr
+                java.lang.Object r2 = r6.re$1
+                java.lang.Object r1 = r1.apply1(r2)
+                gnu.text.Char r2 = gnu.text.Char.make(r8)
+                java.lang.Object r14 = r9.apply2(r1, r2)
+                java.lang.Boolean r1 = java.lang.Boolean.FALSE
+                if (r14 == r1) goto L_0x0271
+                gnu.text.Char r1 = gnu.text.Char.make(r8)
+                gnu.expr.GenericProc r2 = kawa.lib.lists.caddr
+                java.lang.Object r3 = r6.re$1
+                java.lang.Object r2 = r2.apply1(r3)
+                java.lang.Object r1 = r9.apply2(r1, r2)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x0275
+            L_0x0213:
+                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
+                java.lang.Object r2 = r6.sk
+                gnu.kawa.functions.AddOp r3 = gnu.kawa.functions.AddOp.$Pl
+                java.lang.Object r4 = r6.i
+                gnu.math.IntNum r5 = gnu.kawa.slib.pregexp.Lit8
+                java.lang.Object r3 = r3.apply2(r4, r5)
+                java.lang.Object r1 = r1.apply2(r2, r3)
+                goto L_0x003d
+            L_0x0227:
+                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
+                java.lang.Object r2 = r6.fk
+                java.lang.Object r1 = r1.apply1(r2)
+                goto L_0x003d
+            L_0x0231:
+                java.lang.Boolean r1 = java.lang.Boolean.FALSE
+                if (r14 != r1) goto L_0x01d1
+            L_0x0235:
+                java.lang.Object r1 = r6.re$1
+                boolean r1 = kawa.lib.lists.isPair(r1)
+                if (r1 == 0) goto L_0x05d0
+                gnu.expr.GenericProc r1 = kawa.lib.lists.car
+                java.lang.Object r2 = r6.re$1
+                java.lang.Object r13 = r1.apply1(r2)
+                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
+                gnu.mapping.SimpleSymbol r2 = gnu.kawa.slib.pregexp.Lit83
+                java.lang.Object r1 = r1.apply2(r13, r2)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x028d
+                gnu.kawa.functions.NumberCompare r1 = kawa.standard.Scheme.numGEq
+                java.lang.Object r2 = r6.i
+                java.lang.Object r3 = r15.n
+                java.lang.Object r1 = r1.apply2(r2, r3)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x027f
+                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
+                java.lang.Object r2 = r6.fk
+                java.lang.Object r1 = r1.apply1(r2)
+                goto L_0x003d
+            L_0x0269:
+                if (r14 == 0) goto L_0x0235
+                goto L_0x01d1
+            L_0x026d:
+                gnu.expr.ModuleMethod r9 = kawa.lib.rnrs.unicode.char$Mnci$Ls$Eq$Qu
+                goto L_0x01eb
+            L_0x0271:
+                java.lang.Boolean r1 = java.lang.Boolean.FALSE
+                if (r14 != r1) goto L_0x0213
+            L_0x0275:
+                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
+                java.lang.Object r2 = r6.fk
+                java.lang.Object r1 = r1.apply1(r2)
+                goto L_0x003d
+            L_0x027f:
+                r1 = 1
+                java.lang.Object[] r1 = new java.lang.Object[r1]
+                r2 = 0
+                gnu.mapping.SimpleSymbol r3 = gnu.kawa.slib.pregexp.Lit101
+                r1[r2] = r3
+                java.lang.Object r1 = gnu.kawa.slib.pregexp.pregexpError$V(r1)
+                goto L_0x003d
+            L_0x028d:
+                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
+                gnu.mapping.SimpleSymbol r2 = gnu.kawa.slib.pregexp.Lit82
+                java.lang.Object r1 = r1.apply2(r13, r2)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x02bf
+                gnu.kawa.functions.NumberCompare r1 = kawa.standard.Scheme.numGEq
+                java.lang.Object r2 = r6.i
+                java.lang.Object r3 = r15.n
+                java.lang.Object r1 = r1.apply2(r2, r3)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x02b1
+                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
+                java.lang.Object r2 = r6.fk
+                java.lang.Object r1 = r1.apply1(r2)
+                goto L_0x003d
+            L_0x02b1:
+                gnu.expr.GenericProc r1 = kawa.lib.lists.cdr
+                java.lang.Object r2 = r6.re$1
+                java.lang.Object r1 = r1.apply1(r2)
+                java.lang.Object r1 = r6.lambda5loupOneOfChars(r1)
+                goto L_0x003d
+            L_0x02bf:
+                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
+                gnu.mapping.SimpleSymbol r2 = gnu.kawa.slib.pregexp.Lit17
+                java.lang.Object r1 = r1.apply2(r13, r2)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x02f7
+                gnu.kawa.functions.NumberCompare r1 = kawa.standard.Scheme.numGEq
+                java.lang.Object r2 = r6.i
+                java.lang.Object r3 = r15.n
+                java.lang.Object r1 = r1.apply2(r2, r3)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x02e3
+                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
+                java.lang.Object r2 = r6.fk
+                java.lang.Object r1 = r1.apply1(r2)
+                goto L_0x003d
+            L_0x02e3:
+                gnu.expr.GenericProc r1 = kawa.lib.lists.cadr
+                java.lang.Object r2 = r6.re$1
+                java.lang.Object r1 = r1.apply1(r2)
+                java.lang.Object r2 = r6.i
+                gnu.expr.ModuleMethod r3 = r6.lambda$Fn2
+                gnu.expr.ModuleMethod r4 = r6.lambda$Fn3
+                java.lang.Object r1 = r15.lambda3sub(r1, r2, r3, r4)
+                goto L_0x003d
+            L_0x02f7:
+                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
+                gnu.mapping.SimpleSymbol r2 = gnu.kawa.slib.pregexp.Lit5
+                java.lang.Object r1 = r1.apply2(r13, r2)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x0313
+                gnu.expr.GenericProc r1 = kawa.lib.lists.cdr
+                java.lang.Object r2 = r6.re$1
+                java.lang.Object r1 = r1.apply1(r2)
+                java.lang.Object r2 = r6.i
+                java.lang.Object r1 = r6.lambda6loupSeq(r1, r2)
+                goto L_0x003d
+            L_0x0313:
+                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
+                gnu.mapping.SimpleSymbol r2 = gnu.kawa.slib.pregexp.Lit4
+                java.lang.Object r1 = r1.apply2(r13, r2)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x032d
+                gnu.expr.GenericProc r1 = kawa.lib.lists.cdr
+                java.lang.Object r2 = r6.re$1
+                java.lang.Object r1 = r1.apply1(r2)
+                java.lang.Object r1 = r6.lambda7loupOr(r1)
+                goto L_0x003d
+            L_0x032d:
+                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
+                gnu.mapping.SimpleSymbol r2 = gnu.kawa.slib.pregexp.Lit20
+                java.lang.Object r1 = r1.apply2(r13, r2)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x03ad
+                java.lang.Object r1 = r15.backrefs
+                gnu.expr.GenericProc r2 = kawa.lib.lists.cadr
+                java.lang.Object r3 = r6.re$1
+                java.lang.Object r2 = r2.apply1(r3)
+                java.lang.Object r8 = gnu.kawa.slib.pregexp.pregexpListRef(r1, r2)
+                java.lang.Boolean r1 = java.lang.Boolean.FALSE
+                if (r8 == r1) goto L_0x0389
+                gnu.expr.GenericProc r1 = kawa.lib.lists.cdr
+                java.lang.Object r7 = r1.apply1(r8)
+            L_0x0351:
+                java.lang.Boolean r1 = java.lang.Boolean.FALSE
+                if (r7 == r1) goto L_0x03a1
+                java.lang.Object r1 = r15.s
+                java.lang.CharSequence r1 = (java.lang.CharSequence) r1     // Catch:{ ClassCastException -> 0x0632 }
+                gnu.expr.GenericProc r2 = kawa.lib.lists.car
+                java.lang.Object r3 = r2.apply1(r7)
+                r0 = r3
+                java.lang.Number r0 = (java.lang.Number) r0     // Catch:{ ClassCastException -> 0x063c }
+                r2 = r0
+                int r4 = r2.intValue()     // Catch:{ ClassCastException -> 0x063c }
+                gnu.expr.GenericProc r2 = kawa.lib.lists.cdr
+                java.lang.Object r3 = r2.apply1(r7)
+                r0 = r3
+                java.lang.Number r0 = (java.lang.Number) r0     // Catch:{ ClassCastException -> 0x0646 }
+                r2 = r0
+                int r2 = r2.intValue()     // Catch:{ ClassCastException -> 0x0646 }
+                java.lang.CharSequence r1 = kawa.lib.strings.substring(r1, r4, r2)
+                java.lang.Object r2 = r15.s
+                java.lang.Object r3 = r6.i
+                java.lang.Object r4 = r15.n
+                gnu.expr.ModuleMethod r5 = r6.lambda$Fn4
+                java.lang.Object r6 = r6.fk
+                java.lang.Object r1 = gnu.kawa.slib.pregexp.pregexpStringMatch(r1, r2, r3, r4, r5, r6)
+                goto L_0x003d
+            L_0x0389:
+                r1 = 3
+                java.lang.Object[] r1 = new java.lang.Object[r1]
+                r2 = 0
+                gnu.mapping.SimpleSymbol r3 = gnu.kawa.slib.pregexp.Lit101
+                r1[r2] = r3
+                r2 = 1
+                gnu.mapping.SimpleSymbol r3 = gnu.kawa.slib.pregexp.Lit102
+                r1[r2] = r3
+                r2 = 2
+                java.lang.Object r3 = r6.re$1
+                r1[r2] = r3
+                gnu.kawa.slib.pregexp.pregexpError$V(r1)
+                java.lang.Boolean r7 = java.lang.Boolean.FALSE
+                goto L_0x0351
+            L_0x03a1:
+                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
+                java.lang.Object r2 = r6.sk
+                java.lang.Object r3 = r6.i
+                java.lang.Object r1 = r1.apply2(r2, r3)
+                goto L_0x003d
+            L_0x03ad:
+                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
+                gnu.mapping.SimpleSymbol r2 = gnu.kawa.slib.pregexp.Lit100
+                java.lang.Object r1 = r1.apply2(r13, r2)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x03cd
+                gnu.expr.GenericProc r1 = kawa.lib.lists.cadr
+                java.lang.Object r2 = r6.re$1
+                java.lang.Object r1 = r1.apply1(r2)
+                java.lang.Object r2 = r6.i
+                gnu.expr.ModuleMethod r3 = r6.lambda$Fn5
+                java.lang.Object r4 = r6.fk
+                java.lang.Object r1 = r15.lambda3sub(r1, r2, r3, r4)
+                goto L_0x003d
+            L_0x03cd:
+                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
+                gnu.mapping.SimpleSymbol r2 = gnu.kawa.slib.pregexp.Lit103
+                java.lang.Object r1 = r1.apply2(r13, r2)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x0405
+                gnu.expr.GenericProc r1 = kawa.lib.lists.cadr
+                java.lang.Object r2 = r6.re$1
+                java.lang.Object r1 = r1.apply1(r2)
+                java.lang.Object r2 = r6.i
+                gnu.mapping.Procedure r3 = r15.identity
+                gnu.expr.ModuleMethod r4 = gnu.kawa.slib.pregexp.lambda$Fn6
+                java.lang.Object r10 = r15.lambda3sub(r1, r2, r3, r4)
+                java.lang.Boolean r1 = java.lang.Boolean.FALSE
+                if (r10 == r1) goto L_0x03fb
+                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
+                java.lang.Object r2 = r6.sk
+                java.lang.Object r3 = r6.i
+                java.lang.Object r1 = r1.apply2(r2, r3)
+                goto L_0x003d
+            L_0x03fb:
+                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
+                java.lang.Object r2 = r6.fk
+                java.lang.Object r1 = r1.apply1(r2)
+                goto L_0x003d
+            L_0x0405:
+                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
+                gnu.mapping.SimpleSymbol r2 = gnu.kawa.slib.pregexp.Lit104
+                java.lang.Object r1 = r1.apply2(r13, r2)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x043d
+                gnu.expr.GenericProc r1 = kawa.lib.lists.cadr
+                java.lang.Object r2 = r6.re$1
+                java.lang.Object r1 = r1.apply1(r2)
+                java.lang.Object r2 = r6.i
+                gnu.mapping.Procedure r3 = r15.identity
+                gnu.expr.ModuleMethod r4 = gnu.kawa.slib.pregexp.lambda$Fn7
+                java.lang.Object r10 = r15.lambda3sub(r1, r2, r3, r4)
+                java.lang.Boolean r1 = java.lang.Boolean.FALSE
+                if (r10 == r1) goto L_0x0431
+                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
+                java.lang.Object r2 = r6.fk
+                java.lang.Object r1 = r1.apply1(r2)
+                goto L_0x003d
+            L_0x0431:
+                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
+                java.lang.Object r2 = r6.sk
+                java.lang.Object r3 = r6.i
+                java.lang.Object r1 = r1.apply2(r2, r3)
+                goto L_0x003d
+            L_0x043d:
+                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
+                gnu.mapping.SimpleSymbol r2 = gnu.kawa.slib.pregexp.Lit105
+                java.lang.Object r1 = r1.apply2(r13, r2)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x048f
+                java.lang.Object r11 = r15.n
+                java.lang.Object r12 = r15.sn
+                java.lang.Object r1 = r6.i
+                r15.n = r1
+                java.lang.Object r1 = r6.i
+                r15.sn = r1
+                gnu.mapping.SimpleSymbol r1 = gnu.kawa.slib.pregexp.Lit5
+                gnu.lists.PairWithPosition r2 = gnu.kawa.slib.pregexp.Lit106
+                gnu.expr.GenericProc r3 = kawa.lib.lists.cadr
+                java.lang.Object r4 = r6.re$1
+                java.lang.Object r3 = r3.apply1(r4)
+                gnu.mapping.SimpleSymbol r4 = gnu.kawa.slib.pregexp.Lit12
+                gnu.lists.Pair r1 = gnu.lists.LList.list4(r1, r2, r3, r4)
+                gnu.math.IntNum r2 = gnu.kawa.slib.pregexp.Lit73
+                gnu.mapping.Procedure r3 = r15.identity
+                gnu.expr.ModuleMethod r4 = gnu.kawa.slib.pregexp.lambda$Fn8
+                java.lang.Object r10 = r15.lambda3sub(r1, r2, r3, r4)
+                r15.n = r11
+                r15.sn = r12
+                java.lang.Boolean r1 = java.lang.Boolean.FALSE
+                if (r10 == r1) goto L_0x0485
+                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
+                java.lang.Object r2 = r6.sk
+                java.lang.Object r3 = r6.i
+                java.lang.Object r1 = r1.apply2(r2, r3)
+                goto L_0x003d
+            L_0x0485:
+                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
+                java.lang.Object r2 = r6.fk
+                java.lang.Object r1 = r1.apply1(r2)
+                goto L_0x003d
+            L_0x048f:
+                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
+                gnu.mapping.SimpleSymbol r2 = gnu.kawa.slib.pregexp.Lit107
+                java.lang.Object r1 = r1.apply2(r13, r2)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x04e1
+                java.lang.Object r11 = r15.n
+                java.lang.Object r12 = r15.sn
+                java.lang.Object r1 = r6.i
+                r15.n = r1
+                java.lang.Object r1 = r6.i
+                r15.sn = r1
+                gnu.mapping.SimpleSymbol r1 = gnu.kawa.slib.pregexp.Lit5
+                gnu.lists.PairWithPosition r2 = gnu.kawa.slib.pregexp.Lit108
+                gnu.expr.GenericProc r3 = kawa.lib.lists.cadr
+                java.lang.Object r4 = r6.re$1
+                java.lang.Object r3 = r3.apply1(r4)
+                gnu.mapping.SimpleSymbol r4 = gnu.kawa.slib.pregexp.Lit12
+                gnu.lists.Pair r1 = gnu.lists.LList.list4(r1, r2, r3, r4)
+                gnu.math.IntNum r2 = gnu.kawa.slib.pregexp.Lit73
+                gnu.mapping.Procedure r3 = r15.identity
+                gnu.expr.ModuleMethod r4 = gnu.kawa.slib.pregexp.lambda$Fn9
+                java.lang.Object r10 = r15.lambda3sub(r1, r2, r3, r4)
+                r15.n = r11
+                r15.sn = r12
+                java.lang.Boolean r1 = java.lang.Boolean.FALSE
+                if (r10 == r1) goto L_0x04d5
+                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
+                java.lang.Object r2 = r6.fk
+                java.lang.Object r1 = r1.apply1(r2)
+                goto L_0x003d
+            L_0x04d5:
+                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
+                java.lang.Object r2 = r6.sk
+                java.lang.Object r3 = r6.i
+                java.lang.Object r1 = r1.apply2(r2, r3)
+                goto L_0x003d
+            L_0x04e1:
+                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
+                gnu.mapping.SimpleSymbol r2 = gnu.kawa.slib.pregexp.Lit109
+                java.lang.Object r1 = r1.apply2(r13, r2)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x0517
+                gnu.expr.GenericProc r1 = kawa.lib.lists.cadr
+                java.lang.Object r2 = r6.re$1
+                java.lang.Object r1 = r1.apply1(r2)
+                java.lang.Object r2 = r6.i
+                gnu.mapping.Procedure r3 = r15.identity
+                gnu.expr.ModuleMethod r4 = gnu.kawa.slib.pregexp.lambda$Fn10
+                java.lang.Object r10 = r15.lambda3sub(r1, r2, r3, r4)
+                java.lang.Boolean r1 = java.lang.Boolean.FALSE
+                if (r10 == r1) goto L_0x050d
+                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
+                java.lang.Object r2 = r6.sk
+                java.lang.Object r1 = r1.apply2(r2, r10)
+                goto L_0x003d
+            L_0x050d:
+                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
+                java.lang.Object r2 = r6.fk
+                java.lang.Object r1 = r1.apply1(r2)
+                goto L_0x003d
+            L_0x0517:
+                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
+                gnu.mapping.SimpleSymbol r2 = gnu.kawa.slib.pregexp.Lit60
+                java.lang.Object r14 = r1.apply2(r13, r2)
+                java.lang.Boolean r1 = java.lang.Boolean.FALSE
+                if (r14 == r1) goto L_0x0551
+                java.lang.Boolean r1 = java.lang.Boolean.FALSE
+                if (r14 == r1) goto L_0x055d
+            L_0x0527:
+                java.lang.Object r1 = r15.case$Mnsensitive$Qu
+                r6.old = r1
+                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
+                gnu.expr.GenericProc r2 = kawa.lib.lists.car
+                java.lang.Object r3 = r6.re$1
+                java.lang.Object r2 = r2.apply1(r3)
+                gnu.mapping.SimpleSymbol r3 = gnu.kawa.slib.pregexp.Lit60
+                java.lang.Object r1 = r1.apply2(r2, r3)
+                r15.case$Mnsensitive$Qu = r1
+                gnu.expr.GenericProc r1 = kawa.lib.lists.cadr
+                java.lang.Object r2 = r6.re$1
+                java.lang.Object r1 = r1.apply1(r2)
+                java.lang.Object r2 = r6.i
+                gnu.expr.ModuleMethod r3 = r6.lambda$Fn11
+                gnu.expr.ModuleMethod r4 = r6.lambda$Fn12
+                java.lang.Object r1 = r15.lambda3sub(r1, r2, r3, r4)
+                goto L_0x003d
+            L_0x0551:
+                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
+                gnu.mapping.SimpleSymbol r2 = gnu.kawa.slib.pregexp.Lit61
+                java.lang.Object r1 = r1.apply2(r13, r2)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 != r2) goto L_0x0527
+            L_0x055d:
+                gnu.kawa.functions.IsEqv r1 = kawa.standard.Scheme.isEqv
+                gnu.mapping.SimpleSymbol r2 = gnu.kawa.slib.pregexp.Lit68
+                java.lang.Object r1 = r1.apply2(r13, r2)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x05c2
+                gnu.expr.GenericProc r1 = kawa.lib.lists.cadr
+                java.lang.Object r2 = r6.re$1
+                java.lang.Object r1 = r1.apply1(r2)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE     // Catch:{ ClassCastException -> 0x0650 }
+                if (r1 == r2) goto L_0x05bb
+                r1 = 1
+            L_0x0576:
+                int r1 = r1 + 1
+                r1 = r1 & 1
+                r6.maximal$Qu = r1
+                gnu.expr.GenericProc r1 = kawa.lib.lists.caddr
+                java.lang.Object r2 = r6.re$1
+                java.lang.Object r1 = r1.apply1(r2)
+                r6.p = r1
+                gnu.expr.GenericProc r1 = kawa.lib.lists.cadddr
+                java.lang.Object r2 = r6.re$1
+                java.lang.Object r1 = r1.apply1(r2)
+                r6.q = r1
+                boolean r1 = r6.maximal$Qu
+                if (r1 == 0) goto L_0x05bf
+                java.lang.Object r1 = r6.q
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE     // Catch:{ ClassCastException -> 0x065a }
+                if (r1 == r2) goto L_0x05bd
+                r1 = 1
+            L_0x059b:
+                int r1 = r1 + 1
+                r1 = r1 & 1
+            L_0x059f:
+                r6.could$Mnloop$Mninfinitely$Qu = r1
+                gnu.expr.GenericProc r1 = kawa.lib.lists.car
+                gnu.expr.GenericProc r2 = kawa.lib.lists.cddddr
+                java.lang.Object r3 = r6.re$1
+                java.lang.Object r2 = r2.apply1(r3)
+                java.lang.Object r1 = r1.apply1(r2)
+                r6.re = r1
+                gnu.math.IntNum r1 = gnu.kawa.slib.pregexp.Lit73
+                java.lang.Object r2 = r6.i
+                java.lang.Object r1 = r6.lambda8loupP(r1, r2)
+                goto L_0x003d
+            L_0x05bb:
+                r1 = 0
+                goto L_0x0576
+            L_0x05bd:
+                r1 = 0
+                goto L_0x059b
+            L_0x05bf:
+                boolean r1 = r6.maximal$Qu
+                goto L_0x059f
+            L_0x05c2:
+                r1 = 1
+                java.lang.Object[] r1 = new java.lang.Object[r1]
+                r2 = 0
+                gnu.mapping.SimpleSymbol r3 = gnu.kawa.slib.pregexp.Lit101
+                r1[r2] = r3
+                java.lang.Object r1 = gnu.kawa.slib.pregexp.pregexpError$V(r1)
+                goto L_0x003d
+            L_0x05d0:
+                gnu.kawa.functions.NumberCompare r1 = kawa.standard.Scheme.numGEq
+                java.lang.Object r2 = r6.i
+                java.lang.Object r3 = r15.n
+                java.lang.Object r1 = r1.apply2(r2, r3)
+                java.lang.Boolean r2 = java.lang.Boolean.FALSE
+                if (r1 == r2) goto L_0x05e8
+                gnu.kawa.functions.ApplyToArgs r1 = kawa.standard.Scheme.applyToArgs
+                java.lang.Object r2 = r6.fk
+                java.lang.Object r1 = r1.apply1(r2)
+                goto L_0x003d
+            L_0x05e8:
+                r1 = 1
+                java.lang.Object[] r1 = new java.lang.Object[r1]
+                r2 = 0
+                gnu.mapping.SimpleSymbol r3 = gnu.kawa.slib.pregexp.Lit101
+                r1[r2] = r3
+                java.lang.Object r1 = gnu.kawa.slib.pregexp.pregexpError$V(r1)
+                goto L_0x003d
+            L_0x05f6:
+                r2 = move-exception
+                gnu.mapping.WrongType r3 = new gnu.mapping.WrongType
+                java.lang.String r4 = "string-ref"
+                r5 = 1
+                r3.<init>((java.lang.ClassCastException) r2, (java.lang.String) r4, (int) r5, (java.lang.Object) r1)
+                throw r3
+            L_0x0600:
+                r1 = move-exception
+                gnu.mapping.WrongType r2 = new gnu.mapping.WrongType
+                java.lang.String r4 = "string-ref"
+                r5 = 2
+                r2.<init>((java.lang.ClassCastException) r1, (java.lang.String) r4, (int) r5, (java.lang.Object) r3)
+                throw r2
+            L_0x060a:
+                r2 = move-exception
+                gnu.mapping.WrongType r3 = new gnu.mapping.WrongType
+                java.lang.String r4 = "string-ref"
+                r5 = 1
+                r3.<init>((java.lang.ClassCastException) r2, (java.lang.String) r4, (int) r5, (java.lang.Object) r1)
+                throw r3
+            L_0x0614:
+                r1 = move-exception
+                gnu.mapping.WrongType r2 = new gnu.mapping.WrongType
+                java.lang.String r4 = "string-ref"
+                r5 = 2
+                r2.<init>((java.lang.ClassCastException) r1, (java.lang.String) r4, (int) r5, (java.lang.Object) r3)
+                throw r2
+            L_0x061e:
+                r2 = move-exception
+                gnu.mapping.WrongType r3 = new gnu.mapping.WrongType
+                java.lang.String r4 = "string-ref"
+                r5 = 1
+                r3.<init>((java.lang.ClassCastException) r2, (java.lang.String) r4, (int) r5, (java.lang.Object) r1)
+                throw r3
+            L_0x0628:
+                r1 = move-exception
+                gnu.mapping.WrongType r2 = new gnu.mapping.WrongType
+                java.lang.String r4 = "string-ref"
+                r5 = 2
+                r2.<init>((java.lang.ClassCastException) r1, (java.lang.String) r4, (int) r5, (java.lang.Object) r3)
+                throw r2
+            L_0x0632:
+                r2 = move-exception
+                gnu.mapping.WrongType r3 = new gnu.mapping.WrongType
+                java.lang.String r4 = "substring"
+                r5 = 1
+                r3.<init>((java.lang.ClassCastException) r2, (java.lang.String) r4, (int) r5, (java.lang.Object) r1)
+                throw r3
+            L_0x063c:
+                r1 = move-exception
+                gnu.mapping.WrongType r2 = new gnu.mapping.WrongType
+                java.lang.String r4 = "substring"
+                r5 = 2
+                r2.<init>((java.lang.ClassCastException) r1, (java.lang.String) r4, (int) r5, (java.lang.Object) r3)
+                throw r2
+            L_0x0646:
+                r1 = move-exception
+                gnu.mapping.WrongType r2 = new gnu.mapping.WrongType
+                java.lang.String r4 = "substring"
+                r5 = 3
+                r2.<init>((java.lang.ClassCastException) r1, (java.lang.String) r4, (int) r5, (java.lang.Object) r3)
+                throw r2
+            L_0x0650:
+                r2 = move-exception
+                gnu.mapping.WrongType r3 = new gnu.mapping.WrongType
+                java.lang.String r4 = "maximal?"
+                r5 = -2
+                r3.<init>((java.lang.ClassCastException) r2, (java.lang.String) r4, (int) r5, (java.lang.Object) r1)
+                throw r3
+            L_0x065a:
+                r2 = move-exception
+                gnu.mapping.WrongType r3 = new gnu.mapping.WrongType
+                java.lang.String r4 = "could-loop-infinitely?"
+                r5 = -2
+                r3.<init>((java.lang.ClassCastException) r2, (java.lang.String) r4, (int) r5, (java.lang.Object) r1)
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.slib.pregexp.frame.lambda3sub(java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object):java.lang.Object");
+        }
+    }
+
     public static Object pregexpMatchPositionsAux(Object re, Object s, Object sn, Object start, Object n, Object i) {
         frame frame6 = new frame();
-        frame6.f95s = s;
-        frame6.f96sn = sn;
+        frame6.s = s;
+        frame6.sn = sn;
         frame6.start = start;
-        frame6.f94n = n;
+        frame6.n = n;
         Procedure procedure = frame6.identity;
         Object pregexpMakeBackrefList = pregexpMakeBackrefList(re);
         frame6.case$Mnsensitive$Qu = Boolean.TRUE;
@@ -4304,14 +4028,14 @@ public class pregexp extends ModuleBody {
             try {
                 Pair arg02 = (Pair) arg0;
                 Object arg03 = arg02.getCdr();
-                obj = Pair.make(C0620lists.cdr.apply1(arg02.getCar()), obj);
+                obj = Pair.make(lists.cdr.apply1(arg02.getCar()), obj);
                 arg0 = arg03;
             } catch (ClassCastException e) {
                 throw new WrongType(e, "arg0", -2, arg0);
             }
         }
         LList backrefs = LList.reverseInPlace(obj);
-        Object x = C0620lists.car.apply1(backrefs);
+        Object x = lists.car.apply1(backrefs);
         if (x != Boolean.FALSE) {
             return backrefs;
         }
@@ -4322,30 +4046,358 @@ public class pregexp extends ModuleBody {
         switch (moduleMethod.selector) {
             case 36:
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 0;
+                callContext.pc = 0;
                 return 0;
             case 37:
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 0;
+                callContext.pc = 0;
                 return 0;
             case 38:
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 0;
+                callContext.pc = 0;
                 return 0;
             case 39:
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 0;
+                callContext.pc = 0;
                 return 0;
             case 40:
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 0;
+                callContext.pc = 0;
                 return 0;
             case 41:
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 0;
+                callContext.pc = 0;
                 return 0;
             default:
                 return super.match0(moduleMethod, callContext);
+        }
+    }
+
+    /* compiled from: pregexp.scm */
+    public class frame0 extends ModuleBody {
+        boolean could$Mnloop$Mninfinitely$Qu;
+        Object fk;
+        Object i;
+        final ModuleMethod lambda$Fn11;
+        final ModuleMethod lambda$Fn12;
+        final ModuleMethod lambda$Fn2;
+        final ModuleMethod lambda$Fn3;
+        final ModuleMethod lambda$Fn4;
+        final ModuleMethod lambda$Fn5;
+        boolean maximal$Qu;
+        Object old;
+        Object p;
+        Object q;
+        Object re;
+        Object re$1;
+        Object sk;
+        frame staticLink;
+
+        public frame0() {
+            ModuleMethod moduleMethod = new ModuleMethod(this, 9, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:513");
+            this.lambda$Fn2 = moduleMethod;
+            ModuleMethod moduleMethod2 = new ModuleMethod(this, 10, (Object) null, 0);
+            moduleMethod2.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:514");
+            this.lambda$Fn3 = moduleMethod2;
+            ModuleMethod moduleMethod3 = new ModuleMethod(this, 11, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            moduleMethod3.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:541");
+            this.lambda$Fn4 = moduleMethod3;
+            ModuleMethod moduleMethod4 = new ModuleMethod(this, 12, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            moduleMethod4.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:545");
+            this.lambda$Fn5 = moduleMethod4;
+            ModuleMethod moduleMethod5 = new ModuleMethod(this, 13, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            moduleMethod5.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:587");
+            this.lambda$Fn11 = moduleMethod5;
+            ModuleMethod moduleMethod6 = new ModuleMethod(this, 14, (Object) null, 0);
+            moduleMethod6.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:590");
+            this.lambda$Fn12 = moduleMethod6;
+        }
+
+        public Object lambda5loupOneOfChars(Object chars) {
+            frame1 frame1 = new frame1();
+            frame1.staticLink = this;
+            frame1.chars = chars;
+            if (lists.isNull(frame1.chars)) {
+                return Scheme.applyToArgs.apply1(this.fk);
+            }
+            return this.staticLink.lambda3sub(lists.car.apply1(frame1.chars), this.i, this.sk, frame1.lambda$Fn13);
+        }
+
+        /* access modifiers changed from: package-private */
+        public Object lambda9(Object i1) {
+            return Scheme.applyToArgs.apply1(this.fk);
+        }
+
+        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
+            switch (moduleMethod.selector) {
+                case 9:
+                    callContext.value1 = obj;
+                    callContext.proc = moduleMethod;
+                    callContext.pc = 1;
+                    return 0;
+                case 11:
+                    callContext.value1 = obj;
+                    callContext.proc = moduleMethod;
+                    callContext.pc = 1;
+                    return 0;
+                case 12:
+                    callContext.value1 = obj;
+                    callContext.proc = moduleMethod;
+                    callContext.pc = 1;
+                    return 0;
+                case 13:
+                    callContext.value1 = obj;
+                    callContext.proc = moduleMethod;
+                    callContext.pc = 1;
+                    return 0;
+                default:
+                    return super.match1(moduleMethod, obj, callContext);
+            }
+        }
+
+        /* access modifiers changed from: package-private */
+        public Object lambda10() {
+            return Scheme.applyToArgs.apply2(this.sk, AddOp.$Pl.apply2(this.i, pregexp.Lit8));
+        }
+
+        public int match0(ModuleMethod moduleMethod, CallContext callContext) {
+            switch (moduleMethod.selector) {
+                case 10:
+                    callContext.proc = moduleMethod;
+                    callContext.pc = 0;
+                    return 0;
+                case 14:
+                    callContext.proc = moduleMethod;
+                    callContext.pc = 0;
+                    return 0;
+                default:
+                    return super.match0(moduleMethod, callContext);
+            }
+        }
+
+        public Object lambda6loupSeq(Object res, Object i2) {
+            frame2 frame2 = new frame2();
+            frame2.staticLink = this;
+            frame2.res = res;
+            if (lists.isNull(frame2.res)) {
+                return Scheme.applyToArgs.apply2(this.sk, i2);
+            }
+            return this.staticLink.lambda3sub(lists.car.apply1(frame2.res), i2, frame2.lambda$Fn14, this.fk);
+        }
+
+        public Object lambda7loupOr(Object res) {
+            frame3 frame3 = new frame3();
+            frame3.staticLink = this;
+            frame3.res = res;
+            if (lists.isNull(frame3.res)) {
+                return Scheme.applyToArgs.apply1(this.fk);
+            }
+            return this.staticLink.lambda3sub(lists.car.apply1(frame3.res), this.i, frame3.lambda$Fn15, frame3.lambda$Fn16);
+        }
+
+        /* access modifiers changed from: package-private */
+        public Object lambda11(Object i2) {
+            return Scheme.applyToArgs.apply2(this.sk, i2);
+        }
+
+        /* access modifiers changed from: package-private */
+        public Object lambda12(Object i1) {
+            Object assv = lists.assv(this.re$1, this.staticLink.backrefs);
+            try {
+                lists.setCdr$Ex((Pair) assv, lists.cons(this.i, i1));
+                return Scheme.applyToArgs.apply2(this.sk, i1);
+            } catch (ClassCastException e) {
+                throw new WrongType(e, "set-cdr!", 1, assv);
+            }
+        }
+
+        static Boolean lambda13() {
+            return Boolean.FALSE;
+        }
+
+        static Boolean lambda14() {
+            return Boolean.FALSE;
+        }
+
+        static Boolean lambda15() {
+            return Boolean.FALSE;
+        }
+
+        static Boolean lambda16() {
+            return Boolean.FALSE;
+        }
+
+        static Boolean lambda17() {
+            return Boolean.FALSE;
+        }
+
+        public Object apply1(ModuleMethod moduleMethod, Object obj) {
+            switch (moduleMethod.selector) {
+                case 9:
+                    return lambda9(obj);
+                case 11:
+                    return lambda11(obj);
+                case 12:
+                    return lambda12(obj);
+                case 13:
+                    return lambda18(obj);
+                default:
+                    return super.apply1(moduleMethod, obj);
+            }
+        }
+
+        /* access modifiers changed from: package-private */
+        public Object lambda18(Object i1) {
+            this.staticLink.case$Mnsensitive$Qu = this.old;
+            return Scheme.applyToArgs.apply2(this.sk, i1);
+        }
+
+        public Object apply0(ModuleMethod moduleMethod) {
+            switch (moduleMethod.selector) {
+                case 10:
+                    return lambda10();
+                case 14:
+                    return lambda19();
+                default:
+                    return super.apply0(moduleMethod);
+            }
+        }
+
+        /* access modifiers changed from: package-private */
+        public Object lambda19() {
+            this.staticLink.case$Mnsensitive$Qu = this.old;
+            return Scheme.applyToArgs.apply1(this.fk);
+        }
+
+        public Object lambda8loupP(Object k, Object i2) {
+            frame4 frame4 = new frame4();
+            frame4.staticLink = this;
+            frame4.k = k;
+            frame4.i = i2;
+            if (Scheme.numLss.apply2(frame4.k, this.p) != Boolean.FALSE) {
+                return this.staticLink.lambda3sub(this.re, frame4.i, frame4.lambda$Fn17, this.fk);
+            }
+            frame4.q = this.q != Boolean.FALSE ? AddOp.$Mn.apply2(this.q, this.p) : this.q;
+            return frame4.lambda24loupQ(pregexp.Lit73, frame4.i);
+        }
+    }
+
+    /* compiled from: pregexp.scm */
+    public class frame1 extends ModuleBody {
+        Object chars;
+        final ModuleMethod lambda$Fn13;
+        frame0 staticLink;
+
+        public frame1() {
+            ModuleMethod moduleMethod = new ModuleMethod(this, 1, (Object) null, 0);
+            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:508");
+            this.lambda$Fn13 = moduleMethod;
+        }
+
+        public Object apply0(ModuleMethod moduleMethod) {
+            return moduleMethod.selector == 1 ? lambda20() : super.apply0(moduleMethod);
+        }
+
+        /* access modifiers changed from: package-private */
+        public Object lambda20() {
+            return this.staticLink.lambda5loupOneOfChars(lists.cdr.apply1(this.chars));
+        }
+
+        public int match0(ModuleMethod moduleMethod, CallContext callContext) {
+            if (moduleMethod.selector != 1) {
+                return super.match0(moduleMethod, callContext);
+            }
+            callContext.proc = moduleMethod;
+            callContext.pc = 0;
+            return 0;
+        }
+    }
+
+    /* compiled from: pregexp.scm */
+    public class frame2 extends ModuleBody {
+        final ModuleMethod lambda$Fn14;
+        Object res;
+        frame0 staticLink;
+
+        public frame2() {
+            ModuleMethod moduleMethod = new ModuleMethod(this, 2, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:519");
+            this.lambda$Fn14 = moduleMethod;
+        }
+
+        public Object apply1(ModuleMethod moduleMethod, Object obj) {
+            return moduleMethod.selector == 2 ? lambda21(obj) : super.apply1(moduleMethod, obj);
+        }
+
+        /* access modifiers changed from: package-private */
+        public Object lambda21(Object i1) {
+            return this.staticLink.lambda6loupSeq(lists.cdr.apply1(this.res), i1);
+        }
+
+        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
+            if (moduleMethod.selector != 2) {
+                return super.match1(moduleMethod, obj, callContext);
+            }
+            callContext.value1 = obj;
+            callContext.proc = moduleMethod;
+            callContext.pc = 1;
+            return 0;
+        }
+    }
+
+    /* compiled from: pregexp.scm */
+    public class frame3 extends ModuleBody {
+        final ModuleMethod lambda$Fn15;
+        final ModuleMethod lambda$Fn16;
+        Object res;
+        frame0 staticLink;
+
+        public frame3() {
+            ModuleMethod moduleMethod = new ModuleMethod(this, 3, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:526");
+            this.lambda$Fn15 = moduleMethod;
+            ModuleMethod moduleMethod2 = new ModuleMethod(this, 4, (Object) null, 0);
+            moduleMethod2.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:529");
+            this.lambda$Fn16 = moduleMethod2;
+        }
+
+        public Object apply1(ModuleMethod moduleMethod, Object obj) {
+            return moduleMethod.selector == 3 ? lambda22(obj) : super.apply1(moduleMethod, obj);
+        }
+
+        /* access modifiers changed from: package-private */
+        public Object lambda22(Object i1) {
+            Object x = Scheme.applyToArgs.apply2(this.staticLink.sk, i1);
+            return x != Boolean.FALSE ? x : this.staticLink.lambda7loupOr(lists.cdr.apply1(this.res));
+        }
+
+        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
+            if (moduleMethod.selector != 3) {
+                return super.match1(moduleMethod, obj, callContext);
+            }
+            callContext.value1 = obj;
+            callContext.proc = moduleMethod;
+            callContext.pc = 1;
+            return 0;
+        }
+
+        public Object apply0(ModuleMethod moduleMethod) {
+            return moduleMethod.selector == 4 ? lambda23() : super.apply0(moduleMethod);
+        }
+
+        /* access modifiers changed from: package-private */
+        public Object lambda23() {
+            return this.staticLink.lambda7loupOr(lists.cdr.apply1(this.res));
+        }
+
+        public int match0(ModuleMethod moduleMethod, CallContext callContext) {
+            if (moduleMethod.selector != 4) {
+                return super.match0(moduleMethod, callContext);
+            }
+            callContext.proc = moduleMethod;
+            callContext.pc = 0;
+            return 0;
         }
     }
 
@@ -4368,18 +4420,152 @@ public class pregexp extends ModuleBody {
         }
     }
 
+    /* compiled from: pregexp.scm */
+    public class frame4 extends ModuleBody {
+        Object i;
+        Object k;
+        final ModuleMethod lambda$Fn17;
+        Object q;
+        frame0 staticLink;
+
+        public frame4() {
+            ModuleMethod moduleMethod = new ModuleMethod(this, 8, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:602");
+            this.lambda$Fn17 = moduleMethod;
+        }
+
+        public Object apply1(ModuleMethod moduleMethod, Object obj) {
+            return moduleMethod.selector == 8 ? lambda25(obj) : super.apply1(moduleMethod, obj);
+        }
+
+        /* access modifiers changed from: package-private */
+        public Object lambda25(Object i1) {
+            if (!this.staticLink.could$Mnloop$Mninfinitely$Qu ? this.staticLink.could$Mnloop$Mninfinitely$Qu : Scheme.numEqu.apply2(i1, this.i) != Boolean.FALSE) {
+                pregexp.pregexpError$V(new Object[]{pregexp.Lit101, pregexp.Lit110});
+            }
+            return this.staticLink.lambda8loupP(AddOp.$Pl.apply2(this.k, pregexp.Lit8), i1);
+        }
+
+        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
+            if (moduleMethod.selector != 8) {
+                return super.match1(moduleMethod, obj, callContext);
+            }
+            callContext.value1 = obj;
+            callContext.proc = moduleMethod;
+            callContext.pc = 1;
+            return 0;
+        }
+
+        public Object lambda24loupQ(Object k2, Object i2) {
+            frame5 frame5 = new frame5();
+            frame5.staticLink = this;
+            frame5.k = k2;
+            frame5.i = i2;
+            frame5.fk = frame5.fk;
+            if (this.q == Boolean.FALSE ? this.q != Boolean.FALSE : Scheme.numGEq.apply2(frame5.k, this.q) != Boolean.FALSE) {
+                return frame5.lambda26fk();
+            }
+            if (this.staticLink.maximal$Qu) {
+                return this.staticLink.staticLink.lambda3sub(this.staticLink.re, frame5.i, frame5.lambda$Fn18, frame5.fk);
+            }
+            Object x = frame5.lambda26fk();
+            return x == Boolean.FALSE ? this.staticLink.staticLink.lambda3sub(this.staticLink.re, frame5.i, frame5.lambda$Fn19, frame5.fk) : x;
+        }
+    }
+
+    /* compiled from: pregexp.scm */
+    public class frame5 extends ModuleBody {
+        Procedure fk;
+        Object i;
+        Object k;
+        final ModuleMethod lambda$Fn18;
+        final ModuleMethod lambda$Fn19;
+        frame4 staticLink;
+
+        public frame5() {
+            ModuleMethod moduleMethod = new ModuleMethod(this, 5, pregexp.Lit111, 0);
+            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:612");
+            this.fk = moduleMethod;
+            ModuleMethod moduleMethod2 = new ModuleMethod(this, 6, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            moduleMethod2.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:617");
+            this.lambda$Fn18 = moduleMethod2;
+            ModuleMethod moduleMethod3 = new ModuleMethod(this, 7, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            moduleMethod3.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/pregexp.scm:628");
+            this.lambda$Fn19 = moduleMethod3;
+        }
+
+        public Object apply0(ModuleMethod moduleMethod) {
+            return moduleMethod.selector == 5 ? lambda26fk() : super.apply0(moduleMethod);
+        }
+
+        public Object lambda26fk() {
+            return Scheme.applyToArgs.apply2(this.staticLink.staticLink.sk, this.i);
+        }
+
+        public int match0(ModuleMethod moduleMethod, CallContext callContext) {
+            if (moduleMethod.selector != 5) {
+                return super.match0(moduleMethod, callContext);
+            }
+            callContext.proc = moduleMethod;
+            callContext.pc = 0;
+            return 0;
+        }
+
+        /* access modifiers changed from: package-private */
+        public Object lambda27(Object i1) {
+            if (!this.staticLink.staticLink.could$Mnloop$Mninfinitely$Qu ? this.staticLink.staticLink.could$Mnloop$Mninfinitely$Qu : Scheme.numEqu.apply2(i1, this.i) != Boolean.FALSE) {
+                pregexp.pregexpError$V(new Object[]{pregexp.Lit101, pregexp.Lit110});
+            }
+            Object x = this.staticLink.lambda24loupQ(AddOp.$Pl.apply2(this.k, pregexp.Lit8), i1);
+            return x != Boolean.FALSE ? x : lambda26fk();
+        }
+
+        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
+            switch (moduleMethod.selector) {
+                case 6:
+                    callContext.value1 = obj;
+                    callContext.proc = moduleMethod;
+                    callContext.pc = 1;
+                    return 0;
+                case 7:
+                    callContext.value1 = obj;
+                    callContext.proc = moduleMethod;
+                    callContext.pc = 1;
+                    return 0;
+                default:
+                    return super.match1(moduleMethod, obj, callContext);
+            }
+        }
+
+        public Object apply1(ModuleMethod moduleMethod, Object obj) {
+            switch (moduleMethod.selector) {
+                case 6:
+                    return lambda27(obj);
+                case 7:
+                    return lambda28(obj);
+                default:
+                    return super.apply1(moduleMethod, obj);
+            }
+        }
+
+        /* access modifiers changed from: package-private */
+        public Object lambda28(Object i1) {
+            return this.staticLink.lambda24loupQ(AddOp.$Pl.apply2(this.k, pregexp.Lit8), i1);
+        }
+    }
+
     public static Object pregexpReplaceAux(Object str, Object ins, Object n, Object backrefs) {
         Object br;
-        Object i = Lit73;
+        Number i = Lit73;
         Object obj = "";
         while (Scheme.numGEq.apply2(i, n) == Boolean.FALSE) {
             try {
                 try {
-                    char c = strings.stringRef((CharSequence) ins, ((Number) i).intValue());
+                    char c = strings.stringRef((CharSequence) ins, i.intValue());
                     if (characters.isChar$Eq(Char.make(c), Lit19)) {
                         Object br$Mni = pregexpReadEscapedNumber(ins, i, n);
                         if (br$Mni != Boolean.FALSE) {
-                            br = C0620lists.car.apply1(br$Mni);
+                            br = lists.car.apply1(br$Mni);
                         } else {
                             try {
                                 CharSequence charSequence = (CharSequence) ins;
@@ -4394,7 +4580,7 @@ public class pregexp extends ModuleBody {
                             }
                         }
                         if (br$Mni != Boolean.FALSE) {
-                            i = C0620lists.cadr.apply1(br$Mni);
+                            i = lists.cadr.apply1(br$Mni);
                         } else if (br != Boolean.FALSE) {
                             i = AddOp.$Pl.apply2(i, Lit16);
                         } else {
@@ -4421,10 +4607,10 @@ public class pregexp extends ModuleBody {
                                 objArr[0] = obj;
                                 try {
                                     CharSequence charSequence2 = (CharSequence) str;
-                                    Object apply1 = C0620lists.car.apply1(backref);
+                                    Object apply1 = lists.car.apply1(backref);
                                     try {
                                         int intValue = ((Number) apply1).intValue();
-                                        Object apply12 = C0620lists.cdr.apply1(backref);
+                                        Object apply12 = lists.cdr.apply1(backref);
                                         try {
                                             objArr[1] = strings.substring(charSequence2, intValue, ((Number) apply12).intValue());
                                             obj = strings.stringAppend(objArr);
@@ -4444,7 +4630,7 @@ public class pregexp extends ModuleBody {
                         obj = strings.stringAppend(obj, strings.$make$string$(Char.make(c)));
                     }
                 } catch (ClassCastException e8) {
-                    throw new WrongType(e8, "string-ref", 2, i);
+                    throw new WrongType(e8, "string-ref", 2, (Object) i);
                 }
             } catch (ClassCastException e9) {
                 throw new WrongType(e9, "string-ref", 1, ins);
@@ -4466,14 +4652,14 @@ public class pregexp extends ModuleBody {
         callContext.value3 = obj3;
         callContext.value4 = obj4;
         callContext.proc = moduleMethod;
-        callContext.f236pc = 4;
+        callContext.pc = 4;
         return 0;
     }
 
     public static Pair pregexp(Object s) {
         $Stpregexp$Mnspace$Mnsensitive$Qu$St = Boolean.TRUE;
         try {
-            return LList.list2(Lit100, C0620lists.car.apply1(pregexpReadPattern(s, Lit73, Integer.valueOf(strings.stringLength((CharSequence) s)))));
+            return LList.list2(Lit100, lists.car.apply1(pregexpReadPattern(s, Lit73, Integer.valueOf(strings.stringLength((CharSequence) s)))));
         } catch (ClassCastException e) {
             throw new WrongType(e, "string-length", 1, s);
         }
@@ -4485,26 +4671,26 @@ public class pregexp extends ModuleBody {
         LList opt$Mnargs = LList.makeList(argsArray, 0);
         if (strings.isString(pat)) {
             pat = pregexp(pat);
-        } else if (!C0620lists.isPair(pat)) {
+        } else if (!lists.isPair(pat)) {
             pregexpError$V(new Object[]{Lit114, Lit115, pat});
         }
         try {
             int str$Mnlen = strings.stringLength((CharSequence) str);
-            if (C0620lists.isNull(opt$Mnargs)) {
+            if (lists.isNull(opt$Mnargs)) {
                 start = Lit73;
             } else {
-                start = C0620lists.car.apply1(opt$Mnargs);
-                Object apply1 = C0620lists.cdr.apply1(opt$Mnargs);
+                start = lists.car.apply1(opt$Mnargs);
+                Object apply1 = lists.cdr.apply1(opt$Mnargs);
                 try {
                     opt$Mnargs = (LList) apply1;
                 } catch (ClassCastException e) {
                     throw new WrongType(e, "opt-args", -2, apply1);
                 }
             }
-            if (C0620lists.isNull(opt$Mnargs)) {
+            if (lists.isNull(opt$Mnargs)) {
                 end = Integer.valueOf(str$Mnlen);
             } else {
-                end = C0620lists.car.apply1(opt$Mnargs);
+                end = lists.car.apply1(opt$Mnargs);
             }
             Object i = start;
             while (true) {
@@ -4543,10 +4729,10 @@ public class pregexp extends ModuleBody {
                 if (ix$Mnpr != Boolean.FALSE) {
                     try {
                         CharSequence charSequence = (CharSequence) str;
-                        Object apply1 = C0620lists.car.apply1(ix$Mnpr);
+                        Object apply1 = lists.car.apply1(ix$Mnpr);
                         try {
                             int intValue = ((Number) apply1).intValue();
-                            Object apply12 = C0620lists.cdr.apply1(ix$Mnpr);
+                            Object apply12 = lists.cdr.apply1(ix$Mnpr);
                             try {
                                 ix$Mnpr = strings.substring(charSequence, intValue, ((Number) apply12).intValue());
                             } catch (ClassCastException e) {
@@ -4614,9 +4800,9 @@ public class pregexp extends ModuleBody {
             while (Scheme.numGEq.apply2(obj, Integer.valueOf(n)) == Boolean.FALSE) {
                 Object temp = pregexpMatchPositions$V(pat, str, new Object[]{obj, Integer.valueOf(n)});
                 if (temp != Boolean.FALSE) {
-                    Object jk = C0620lists.car.apply1(temp);
-                    Object j = C0620lists.car.apply1(jk);
-                    Object k = C0620lists.cdr.apply1(jk);
+                    Object jk = lists.car.apply1(temp);
+                    Object j = lists.car.apply1(jk);
+                    Object k = lists.cdr.apply1(jk);
                     if (Scheme.numEqu.apply2(j, k) != Boolean.FALSE) {
                         Object i = AddOp.$Pl.apply2(k, Lit8);
                         try {
@@ -4625,7 +4811,7 @@ public class pregexp extends ModuleBody {
                                 int intValue = ((Number) obj).intValue();
                                 Object apply2 = AddOp.$Pl.apply2(j, Lit8);
                                 try {
-                                    lList = C0620lists.cons(strings.substring(charSequence, intValue, ((Number) apply2).intValue()), lList);
+                                    lList = lists.cons(strings.substring(charSequence, intValue, ((Number) apply2).intValue()), lList);
                                     bool = Boolean.TRUE;
                                     obj = i;
                                 } catch (ClassCastException e) {
@@ -4648,7 +4834,7 @@ public class pregexp extends ModuleBody {
                                 try {
                                     try {
                                         try {
-                                            lList = C0620lists.cons(strings.substring((CharSequence) str, ((Number) obj).intValue(), ((Number) j).intValue()), lList);
+                                            lList = lists.cons(strings.substring((CharSequence) str, ((Number) obj).intValue(), ((Number) j).intValue()), lList);
                                             bool = Boolean.FALSE;
                                             obj = k;
                                         } catch (ClassCastException e4) {
@@ -4666,12 +4852,12 @@ public class pregexp extends ModuleBody {
                         }
                     }
                 } else {
-                    Object valueOf = Integer.valueOf(n);
+                    Integer i2 = Integer.valueOf(n);
                     try {
                         try {
-                            lList = C0620lists.cons(strings.substring((CharSequence) str, ((Number) obj).intValue(), n), lList);
+                            lList = lists.cons(strings.substring((CharSequence) str, ((Number) obj).intValue(), n), lList);
                             bool = Boolean.FALSE;
-                            obj = valueOf;
+                            obj = i2;
                         } catch (ClassCastException e8) {
                             throw new WrongType(e8, "substring", 2, obj);
                         }
@@ -4708,8 +4894,8 @@ public class pregexp extends ModuleBody {
             }
             try {
                 int ins$Mnlen = strings.stringLength((CharSequence) ins);
-                Object m$Mni = C0620lists.caar.apply1(pp);
-                Object m$Mnn = C0620lists.cdar.apply1(pp);
+                Object m$Mni = lists.caar.apply1(pp);
+                Object m$Mnn = lists.cdar.apply1(pp);
                 Object[] objArr = new Object[3];
                 try {
                     try {
@@ -4739,65 +4925,153 @@ public class pregexp extends ModuleBody {
         }
     }
 
-    public static Object pregexpReplace$St(Object pat, Object str, Object ins) {
-        if (strings.isString(pat)) {
-            pat = pregexp(pat);
-        }
-        try {
-            int n = strings.stringLength((CharSequence) str);
-            try {
-                int ins$Mnlen = strings.stringLength((CharSequence) ins);
-                Object obj = Lit73;
-                Object obj2 = "";
-                while (Scheme.numGEq.apply2(obj, Integer.valueOf(n)) == Boolean.FALSE) {
-                    Object pp = pregexpMatchPositions$V(pat, str, new Object[]{obj, Integer.valueOf(n)});
-                    if (pp == Boolean.FALSE) {
-                        if (Scheme.numEqu.apply2(obj, Lit73) == Boolean.FALSE) {
-                            Object[] objArr = new Object[2];
-                            objArr[0] = obj2;
-                            try {
-                                try {
-                                    objArr[1] = strings.substring((CharSequence) str, ((Number) obj).intValue(), n);
-                                    str = strings.stringAppend(objArr);
-                                } catch (ClassCastException e) {
-                                    throw new WrongType(e, "substring", 2, obj);
-                                }
-                            } catch (ClassCastException e2) {
-                                throw new WrongType(e2, "substring", 1, str);
-                            }
-                        }
-                        return str;
-                    }
-                    Object i = C0620lists.cdar.apply1(pp);
-                    Object[] objArr2 = new Object[3];
-                    objArr2[0] = obj2;
-                    try {
-                        CharSequence charSequence = (CharSequence) str;
-                        try {
-                            int intValue = ((Number) obj).intValue();
-                            Object apply1 = C0620lists.caar.apply1(pp);
-                            try {
-                                objArr2[1] = strings.substring(charSequence, intValue, ((Number) apply1).intValue());
-                                objArr2[2] = pregexpReplaceAux(str, ins, Integer.valueOf(ins$Mnlen), pp);
-                                obj2 = strings.stringAppend(objArr2);
-                                obj = i;
-                            } catch (ClassCastException e3) {
-                                throw new WrongType(e3, "substring", 3, apply1);
-                            }
-                        } catch (ClassCastException e4) {
-                            throw new WrongType(e4, "substring", 2, obj);
-                        }
-                    } catch (ClassCastException e5) {
-                        throw new WrongType(e5, "substring", 1, str);
-                    }
-                }
-                return obj2;
-            } catch (ClassCastException e6) {
-                throw new WrongType(e6, "string-length", 1, ins);
-            }
-        } catch (ClassCastException e7) {
-            throw new WrongType(e7, "string-length", 1, str);
-        }
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r1v0, resolved type: gnu.math.IntNum} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r1v1, resolved type: gnu.math.IntNum} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v4, resolved type: gnu.math.IntNum} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r2v0, resolved type: java.lang.Object} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v8, resolved type: gnu.math.IntNum} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r1v2, resolved type: gnu.math.IntNum} */
+    /* JADX WARNING: Multi-variable type inference failed */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public static java.lang.Object pregexpReplace$St(java.lang.Object r13, java.lang.Object r14, java.lang.Object r15) {
+        /*
+            boolean r7 = kawa.lib.strings.isString(r13)
+            if (r7 == 0) goto L_0x000a
+            gnu.lists.Pair r13 = pregexp(r13)
+        L_0x000a:
+            r0 = r14
+            java.lang.CharSequence r0 = (java.lang.CharSequence) r0     // Catch:{ ClassCastException -> 0x00ab }
+            r7 = r0
+            int r4 = kawa.lib.strings.stringLength(r7)
+            r0 = r15
+            java.lang.CharSequence r0 = (java.lang.CharSequence) r0     // Catch:{ ClassCastException -> 0x00b5 }
+            r7 = r0
+            int r3 = kawa.lib.strings.stringLength(r7)
+            gnu.math.IntNum r1 = Lit73
+            java.lang.String r6 = ""
+        L_0x001e:
+            gnu.kawa.functions.NumberCompare r7 = kawa.standard.Scheme.numGEq
+            java.lang.Integer r8 = java.lang.Integer.valueOf(r4)
+            java.lang.Object r7 = r7.apply2(r1, r8)
+            java.lang.Boolean r8 = java.lang.Boolean.FALSE
+            if (r7 == r8) goto L_0x002d
+        L_0x002c:
+            return r6
+        L_0x002d:
+            r7 = 2
+            java.lang.Object[] r7 = new java.lang.Object[r7]
+            r8 = 0
+            r7[r8] = r1
+            r8 = 1
+            java.lang.Integer r9 = java.lang.Integer.valueOf(r4)
+            r7[r8] = r9
+            java.lang.Object r5 = pregexpMatchPositions$V(r13, r14, r7)
+            java.lang.Boolean r7 = java.lang.Boolean.FALSE
+            if (r5 != r7) goto L_0x006c
+            gnu.kawa.functions.NumberCompare r7 = kawa.standard.Scheme.numEqu
+            gnu.math.IntNum r8 = Lit73
+            java.lang.Object r7 = r7.apply2(r1, r8)
+            java.lang.Boolean r8 = java.lang.Boolean.FALSE
+            if (r7 == r8) goto L_0x0050
+        L_0x004e:
+            r6 = r14
+            goto L_0x002c
+        L_0x0050:
+            r7 = 2
+            java.lang.Object[] r8 = new java.lang.Object[r7]
+            r7 = 0
+            r8[r7] = r6
+            r9 = 1
+            java.lang.CharSequence r14 = (java.lang.CharSequence) r14     // Catch:{ ClassCastException -> 0x00bf }
+            r0 = r1
+            java.lang.Number r0 = (java.lang.Number) r0     // Catch:{ ClassCastException -> 0x00c9 }
+            r7 = r0
+            int r7 = r7.intValue()     // Catch:{ ClassCastException -> 0x00c9 }
+            java.lang.CharSequence r7 = kawa.lib.strings.substring(r14, r7, r4)
+            r8[r9] = r7
+            gnu.lists.FString r14 = kawa.lib.strings.stringAppend(r8)
+            goto L_0x004e
+        L_0x006c:
+            gnu.expr.GenericProc r7 = kawa.lib.lists.cdar
+            java.lang.Object r2 = r7.apply1(r5)
+            r7 = 3
+            java.lang.Object[] r10 = new java.lang.Object[r7]
+            r7 = 0
+            r10[r7] = r6
+            r11 = 1
+            r0 = r14
+            java.lang.CharSequence r0 = (java.lang.CharSequence) r0     // Catch:{ ClassCastException -> 0x00d3 }
+            r7 = r0
+            r0 = r1
+            java.lang.Number r0 = (java.lang.Number) r0     // Catch:{ ClassCastException -> 0x00dd }
+            r8 = r0
+            int r12 = r8.intValue()     // Catch:{ ClassCastException -> 0x00dd }
+            gnu.expr.GenericProc r8 = kawa.lib.lists.caar
+            java.lang.Object r9 = r8.apply1(r5)
+            r0 = r9
+            java.lang.Number r0 = (java.lang.Number) r0     // Catch:{ ClassCastException -> 0x00e7 }
+            r8 = r0
+            int r8 = r8.intValue()     // Catch:{ ClassCastException -> 0x00e7 }
+            java.lang.CharSequence r7 = kawa.lib.strings.substring(r7, r12, r8)
+            r10[r11] = r7
+            r7 = 2
+            java.lang.Integer r8 = java.lang.Integer.valueOf(r3)
+            java.lang.Object r8 = pregexpReplaceAux(r14, r15, r8, r5)
+            r10[r7] = r8
+            gnu.lists.FString r6 = kawa.lib.strings.stringAppend(r10)
+            r1 = r2
+            goto L_0x001e
+        L_0x00ab:
+            r7 = move-exception
+            gnu.mapping.WrongType r8 = new gnu.mapping.WrongType
+            java.lang.String r9 = "string-length"
+            r10 = 1
+            r8.<init>((java.lang.ClassCastException) r7, (java.lang.String) r9, (int) r10, (java.lang.Object) r14)
+            throw r8
+        L_0x00b5:
+            r7 = move-exception
+            gnu.mapping.WrongType r8 = new gnu.mapping.WrongType
+            java.lang.String r9 = "string-length"
+            r10 = 1
+            r8.<init>((java.lang.ClassCastException) r7, (java.lang.String) r9, (int) r10, (java.lang.Object) r15)
+            throw r8
+        L_0x00bf:
+            r7 = move-exception
+            gnu.mapping.WrongType r8 = new gnu.mapping.WrongType
+            java.lang.String r9 = "substring"
+            r10 = 1
+            r8.<init>((java.lang.ClassCastException) r7, (java.lang.String) r9, (int) r10, (java.lang.Object) r14)
+            throw r8
+        L_0x00c9:
+            r7 = move-exception
+            gnu.mapping.WrongType r8 = new gnu.mapping.WrongType
+            java.lang.String r9 = "substring"
+            r10 = 2
+            r8.<init>((java.lang.ClassCastException) r7, (java.lang.String) r9, (int) r10, (java.lang.Object) r1)
+            throw r8
+        L_0x00d3:
+            r7 = move-exception
+            gnu.mapping.WrongType r8 = new gnu.mapping.WrongType
+            java.lang.String r9 = "substring"
+            r10 = 1
+            r8.<init>((java.lang.ClassCastException) r7, (java.lang.String) r9, (int) r10, (java.lang.Object) r14)
+            throw r8
+        L_0x00dd:
+            r7 = move-exception
+            gnu.mapping.WrongType r8 = new gnu.mapping.WrongType
+            java.lang.String r9 = "substring"
+            r10 = 2
+            r8.<init>((java.lang.ClassCastException) r7, (java.lang.String) r9, (int) r10, (java.lang.Object) r1)
+            throw r8
+        L_0x00e7:
+            r7 = move-exception
+            gnu.mapping.WrongType r8 = new gnu.mapping.WrongType
+            java.lang.String r10 = "substring"
+            r11 = 3
+            r8.<init>((java.lang.ClassCastException) r7, (java.lang.String) r10, (int) r11, (java.lang.Object) r9)
+            throw r8
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.slib.pregexp.pregexpReplace$St(java.lang.Object, java.lang.Object, java.lang.Object):java.lang.Object");
     }
 
     public Object apply3(ModuleMethod moduleMethod, Object obj, Object obj2, Object obj3) {
@@ -4835,38 +5109,87 @@ public class pregexp extends ModuleBody {
         }
     }
 
-    public static Object pregexpQuote(Object s) {
-        LList cons;
-        try {
-            Object valueOf = Integer.valueOf(strings.stringLength((CharSequence) s) - 1);
-            LList lList = LList.Empty;
-            while (Scheme.numLss.apply2(valueOf, Lit73) == Boolean.FALSE) {
-                Object i = AddOp.$Mn.apply2(valueOf, Lit8);
-                try {
-                    try {
-                        char c = strings.stringRef((CharSequence) s, ((Number) valueOf).intValue());
-                        if (C0620lists.memv(Char.make(c), Lit116) != Boolean.FALSE) {
-                            cons = C0620lists.cons(Lit19, C0620lists.cons(Char.make(c), lList));
-                        } else {
-                            cons = C0620lists.cons(Char.make(c), lList);
-                        }
-                        lList = cons;
-                        valueOf = i;
-                    } catch (ClassCastException e) {
-                        throw new WrongType(e, "string-ref", 2, valueOf);
-                    }
-                } catch (ClassCastException e2) {
-                    throw new WrongType(e2, "string-ref", 1, s);
-                }
-            }
-            try {
-                return strings.list$To$String(lList);
-            } catch (ClassCastException e3) {
-                throw new WrongType(e3, "list->string", 1, (Object) lList);
-            }
-        } catch (ClassCastException e4) {
-            throw new WrongType(e4, "string-length", 1, s);
-        }
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r2v0, resolved type: java.lang.Integer} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r2v1, resolved type: java.lang.Integer} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r3v0, resolved type: java.lang.Object} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r2v2, resolved type: java.lang.Integer} */
+    /* JADX WARNING: Multi-variable type inference failed */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public static java.lang.Object pregexpQuote(java.lang.Object r10) {
+        /*
+            r9 = 1
+            r0 = r10
+            java.lang.CharSequence r0 = (java.lang.CharSequence) r0     // Catch:{ ClassCastException -> 0x0064 }
+            r5 = r0
+            int r5 = kawa.lib.strings.stringLength(r5)
+            int r5 = r5 + -1
+            java.lang.Integer r2 = java.lang.Integer.valueOf(r5)
+            gnu.lists.LList r5 = gnu.lists.LList.Empty
+        L_0x0011:
+            gnu.kawa.functions.NumberCompare r6 = kawa.standard.Scheme.numLss
+            gnu.math.IntNum r7 = Lit73
+            java.lang.Object r6 = r6.apply2(r2, r7)
+            java.lang.Boolean r7 = java.lang.Boolean.FALSE
+            if (r6 == r7) goto L_0x0024
+            gnu.lists.LList r5 = (gnu.lists.LList) r5     // Catch:{ ClassCastException -> 0x006d }
+            java.lang.CharSequence r5 = kawa.lib.strings.list$To$String(r5)
+            return r5
+        L_0x0024:
+            gnu.kawa.functions.AddOp r6 = gnu.kawa.functions.AddOp.$Mn
+            gnu.math.IntNum r7 = Lit8
+            java.lang.Object r3 = r6.apply2(r2, r7)
+            r0 = r10
+            java.lang.CharSequence r0 = (java.lang.CharSequence) r0     // Catch:{ ClassCastException -> 0x0076 }
+            r6 = r0
+            r0 = r2
+            java.lang.Number r0 = (java.lang.Number) r0     // Catch:{ ClassCastException -> 0x007f }
+            r7 = r0
+            int r7 = r7.intValue()     // Catch:{ ClassCastException -> 0x007f }
+            char r1 = kawa.lib.strings.stringRef(r6, r7)
+            gnu.text.Char r6 = gnu.text.Char.make(r1)
+            gnu.lists.PairWithPosition r7 = Lit116
+            java.lang.Object r6 = kawa.lib.lists.memv(r6, r7)
+            java.lang.Boolean r7 = java.lang.Boolean.FALSE
+            if (r6 == r7) goto L_0x005b
+            gnu.text.Char r6 = Lit19
+            gnu.text.Char r7 = gnu.text.Char.make(r1)
+            gnu.lists.Pair r5 = kawa.lib.lists.cons(r7, r5)
+            gnu.lists.Pair r4 = kawa.lib.lists.cons(r6, r5)
+        L_0x0058:
+            r5 = r4
+            r2 = r3
+            goto L_0x0011
+        L_0x005b:
+            gnu.text.Char r6 = gnu.text.Char.make(r1)
+            gnu.lists.Pair r4 = kawa.lib.lists.cons(r6, r5)
+            goto L_0x0058
+        L_0x0064:
+            r5 = move-exception
+            gnu.mapping.WrongType r6 = new gnu.mapping.WrongType
+            java.lang.String r7 = "string-length"
+            r6.<init>((java.lang.ClassCastException) r5, (java.lang.String) r7, (int) r9, (java.lang.Object) r10)
+            throw r6
+        L_0x006d:
+            r6 = move-exception
+            gnu.mapping.WrongType r7 = new gnu.mapping.WrongType
+            java.lang.String r8 = "list->string"
+            r7.<init>((java.lang.ClassCastException) r6, (java.lang.String) r8, (int) r9, (java.lang.Object) r5)
+            throw r7
+        L_0x0076:
+            r5 = move-exception
+            gnu.mapping.WrongType r6 = new gnu.mapping.WrongType
+            java.lang.String r7 = "string-ref"
+            r6.<init>((java.lang.ClassCastException) r5, (java.lang.String) r7, (int) r9, (java.lang.Object) r10)
+            throw r6
+        L_0x007f:
+            r5 = move-exception
+            gnu.mapping.WrongType r6 = new gnu.mapping.WrongType
+            java.lang.String r7 = "string-ref"
+            r8 = 2
+            r6.<init>((java.lang.ClassCastException) r5, (java.lang.String) r7, (int) r8, (java.lang.Object) r2)
+            throw r6
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.slib.pregexp.pregexpQuote(java.lang.Object):java.lang.Object");
     }
 
     public Object apply1(ModuleMethod moduleMethod, Object obj) {

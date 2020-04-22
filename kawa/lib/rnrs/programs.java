@@ -1,6 +1,6 @@
 package kawa.lib.rnrs;
 
-import android.support.p000v4.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 import gnu.expr.ApplicationMainSupport;
 import gnu.expr.ModuleBody;
 import gnu.expr.ModuleInfo;
@@ -13,7 +13,7 @@ import gnu.mapping.SimpleSymbol;
 import gnu.mapping.Values;
 import gnu.mapping.WrongType;
 import gnu.math.IntNum;
-import kawa.lib.C0620lists;
+import kawa.lib.lists;
 import kawa.lib.numbers;
 
 /* compiled from: programs.scm */
@@ -45,18 +45,18 @@ public class programs extends ModuleBody {
     }
 
     public static LList commandLine() {
-        return C0620lists.cons("kawa", LList.makeList(ApplicationMainSupport.commandLineArgArray, 0));
+        return lists.cons("kawa", LList.makeList(ApplicationMainSupport.commandLineArgArray, 0));
     }
 
     public int match0(ModuleMethod moduleMethod, CallContext callContext) {
         switch (moduleMethod.selector) {
             case 1:
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 0;
+                callContext.pc = 0;
                 return 0;
             case 2:
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 0;
+                callContext.pc = 0;
                 return 0;
             default:
                 return super.match0(moduleMethod, callContext);
@@ -104,7 +104,7 @@ public class programs extends ModuleBody {
         }
         callContext.value1 = obj;
         callContext.proc = moduleMethod;
-        callContext.f236pc = 1;
+        callContext.pc = 1;
         return 0;
     }
 }

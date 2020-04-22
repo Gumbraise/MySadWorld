@@ -33,6 +33,7 @@ public class CompileNamedPart {
     static final ClassType typeHasNamedParts = ClassType.make("gnu.mapping.HasNamedParts");
 
     public static Expression validateGetNamedPart(ApplyExp exp, InlineCalls visitor, Type required, Procedure proc) {
+        Object val;
         exp.visitArgs(visitor);
         Expression[] args = exp.getArgs();
         if (args.length != 2 || !(args[1] instanceof QuoteExp) || !(exp instanceof GetNamedExp)) {
@@ -58,9 +59,9 @@ public class CompileNamedPart {
         GetNamedExp nexp = (GetNamedExp) exp;
         if (typeval != null) {
             if (mname.equals(GetNamedPart.CLASSTYPE_FOR)) {
-                QuoteExp quoteExp = new QuoteExp(typeval);
-                return quoteExp;
-            } else if (typeval instanceof ObjectType) {
+                return new QuoteExp(typeval);
+            }
+            if (typeval instanceof ObjectType) {
                 if (mname.equals("new")) {
                     return nexp.setProcedureKind('N');
                 }
@@ -85,19 +86,15 @@ public class CompileNamedPart {
                     nexp.methods = methods;
                     return nexp.setProcedureKind(Access.METHOD_CONTEXT);
                 } else if (type.isSubtype(typeHasNamedParts)) {
-                    if (decl != null) {
-                        Object val = Declaration.followAliases(decl).getConstantValue();
-                        if (val != null) {
-                            HasNamedParts value = (HasNamedParts) val;
-                            if (value.isConstant(mname)) {
-                                return QuoteExp.getInstance(value.get(mname));
-                            }
+                    if (!(decl == null || (val = Declaration.followAliases(decl).getConstantValue()) == null)) {
+                        HasNamedParts value = (HasNamedParts) val;
+                        if (value.isConstant(mname)) {
+                            return QuoteExp.getInstance(value.get(mname));
                         }
                     }
                     Expression[] args2 = {args[0], QuoteExp.getInstance(mname)};
-                    ApplyExp applyExp = new ApplyExp(typeHasNamedParts.getDeclaredMethod("get", 1), args2);
                     Expression[] expressionArr = args2;
-                    return applyExp.setLine((Expression) exp);
+                    return new ApplyExp(typeHasNamedParts.getDeclaredMethod("get", 1), args2).setLine((Expression) exp);
                 } else if (SlotGet.lookupMember(otype, mname, caller) != null || (mname.equals(PropertyTypeConstants.PROPERTY_TYPE_LENGTH) && (type instanceof ArrayType))) {
                     ApplyExp aexp = new ApplyExp((Procedure) SlotGet.field, args);
                     aexp.setLine((Expression) exp);
@@ -110,12 +107,11 @@ public class CompileNamedPart {
             comp.error('w', "no known slot '" + mname + "' in " + type.getName());
             return exp;
         } else if (mname.length() > 1 && mname.charAt(0) == '.') {
-            NamedPart namedPart = new NamedPart(typeval, mname, 'D');
-            QuoteExp quoteExp2 = new QuoteExp(namedPart);
-            return quoteExp2;
-        } else if (CompileReflect.checkKnownClass(typeval, comp) < 0) {
-            return exp;
+            return new QuoteExp(new NamedPart(typeval, mname, 'D'));
         } else {
+            if (CompileReflect.checkKnownClass(typeval, comp) < 0) {
+                return exp;
+            }
             PrimProcedure[] methods2 = ClassMethods.getMethods((ObjectType) typeval, Compilation.mangleName(mname), 0, caller, language);
             if (methods2 == null || methods2.length <= 0) {
                 ApplyExp aexp2 = new ApplyExp((Procedure) SlotGet.staticField, args);
@@ -155,13 +151,12 @@ public class CompileNamedPart {
         String combinedName = combineName(clas, member);
         Environment env = Environment.getCurrent();
         if (combinedName != null) {
-            Translator tr = (Translator) Compilation.getCurrent();
             Symbol symbol = Namespace.EmptyNamespace.getSymbol(combinedName);
-            Declaration decl = tr.lexical.lookup((Object) symbol, false);
+            Declaration decl = ((Translator) Compilation.getCurrent()).lexical.lookup((Object) symbol, false);
             if (!Declaration.isUnknown(decl)) {
                 return new ReferenceExp(decl);
             }
-            if (symbol != null && env.isBound(symbol, null)) {
+            if (symbol != null && env.isBound(symbol, (Object) null)) {
                 return new ReferenceExp((Object) combinedName);
             }
         }
@@ -182,49 +177,13 @@ public class CompileNamedPart {
         return exp;
     }
 
-    /* JADX WARNING: Code restructure failed: missing block: B:12:?, code lost:
-        return (r0 + ':' + r1).intern();
-     */
-    /* JADX WARNING: Code restructure failed: missing block: B:5:0x0013, code lost:
-        if (r0 == null) goto L_0x0015;
-     */
-    /* JADX WARNING: Code restructure failed: missing block: B:9:0x001d, code lost:
-        if (r0 != null) goto L_0x001f;
-     */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public static java.lang.String combineName(gnu.expr.Expression r4, gnu.expr.Expression r5) {
-        /*
-            java.lang.Object r1 = r5.valueIfConstant()
-            boolean r2 = r1 instanceof gnu.mapping.SimpleSymbol
-            if (r2 == 0) goto L_0x003b
-            boolean r2 = r4 instanceof gnu.expr.ReferenceExp
-            if (r2 == 0) goto L_0x0015
-            r2 = r4
-            gnu.expr.ReferenceExp r2 = (gnu.expr.ReferenceExp) r2
-            java.lang.String r0 = r2.getSimpleName()
-            if (r0 != 0) goto L_0x001f
-        L_0x0015:
-            boolean r2 = r4 instanceof gnu.kawa.functions.GetNamedExp
-            if (r2 == 0) goto L_0x003b
-            gnu.kawa.functions.GetNamedExp r4 = (gnu.kawa.functions.GetNamedExp) r4
-            java.lang.String r0 = r4.combinedName
-            if (r0 == 0) goto L_0x003b
-        L_0x001f:
-            java.lang.StringBuilder r2 = new java.lang.StringBuilder
-            r2.<init>()
-            java.lang.StringBuilder r2 = r2.append(r0)
-            r3 = 58
-            java.lang.StringBuilder r2 = r2.append(r3)
-            java.lang.StringBuilder r2 = r2.append(r1)
-            java.lang.String r2 = r2.toString()
-            java.lang.String r2 = r2.intern()
-        L_0x003a:
-            return r2
-        L_0x003b:
-            r2 = 0
-            goto L_0x003a
-        */
-        throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.functions.CompileNamedPart.combineName(gnu.expr.Expression, gnu.expr.Expression):java.lang.String");
+    public static String combineName(Expression part1, Expression part2) {
+        String name1;
+        Object name2 = part2.valueIfConstant();
+        if (!(name2 instanceof SimpleSymbol) || ((!(part1 instanceof ReferenceExp) || (name1 = ((ReferenceExp) part1).getSimpleName()) == null) && (!(part1 instanceof GetNamedExp) || (name1 = ((GetNamedExp) part1).combinedName) == null))) {
+            return null;
+        }
+        return (name1 + ':' + name2).intern();
     }
 
     public static Expression makeExp(Expression clas, String member) {

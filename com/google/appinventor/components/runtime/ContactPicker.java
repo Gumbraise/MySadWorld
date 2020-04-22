@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.provider.Contacts.ContactMethods;
-import android.provider.Contacts.People;
-import android.provider.Contacts.Phones;
+import android.provider.Contacts;
 import android.util.Log;
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.PropertyCategory;
@@ -45,16 +43,16 @@ public class ContactPicker extends Picker implements ActivityResultListener {
     protected List phoneNumberList;
 
     public ContactPicker(ComponentContainer container) {
-        this(container, People.CONTENT_URI);
+        this(container, Contacts.People.CONTENT_URI);
     }
 
     protected ContactPicker(ComponentContainer container, Uri intentUri2) {
         super(container);
         this.havePermission = false;
         this.activityContext = container.$context();
-        if (SdkLevel.getLevel() >= 12 && intentUri2.equals(People.CONTENT_URI)) {
+        if (SdkLevel.getLevel() >= 12 && intentUri2.equals(Contacts.People.CONTENT_URI)) {
             this.intentUri = HoneycombMR1Util.getContentUri();
-        } else if (SdkLevel.getLevel() < 12 || !intentUri2.equals(Phones.CONTENT_URI)) {
+        } else if (SdkLevel.getLevel() < 12 || !intentUri2.equals(Contacts.Phones.CONTENT_URI)) {
             this.intentUri = intentUri2;
         } else {
             this.intentUri = HoneycombMR1Util.getPhoneContentUri();
@@ -66,7 +64,7 @@ public class ContactPicker extends Picker implements ActivityResultListener {
             this.container.$form().askPermission("android.permission.READ_CONTACTS", new PermissionResultHandler() {
                 public void HandlePermissionResponse(String permission, boolean granted) {
                     if (granted) {
-                        ContactPicker.this.havePermission = true;
+                        boolean unused = ContactPicker.this.havePermission = true;
                         ContactPicker.this.click();
                         return;
                     }
@@ -133,7 +131,6 @@ public class ContactPicker extends Picker implements ActivityResultListener {
         if (requestCode == this.requestCode && resultCode == -1) {
             Log.i("ContactPicker", "received intent is " + data);
             Uri receivedContactUri = data.getData();
-            String str = "";
             if (SdkLevel.getLevel() >= 12) {
                 desiredContactUri = "//com.android.contacts/contact";
             } else {
@@ -145,14 +142,14 @@ public class ContactPicker extends Picker implements ActivityResultListener {
                 try {
                     if (SdkLevel.getLevel() >= 12) {
                         CONTACT_PROJECTION = HoneycombMR1Util.getContactProjection();
-                        contactCursor = this.activityContext.getContentResolver().query(receivedContactUri, CONTACT_PROJECTION, null, null, null);
+                        contactCursor = this.activityContext.getContentResolver().query(receivedContactUri, CONTACT_PROJECTION, (String) null, (String[]) null, (String) null);
                         String id = postHoneycombGetContactNameAndPicture(contactCursor);
                         DATA_PROJECTION = HoneycombMR1Util.getDataProjection();
                         dataCursor = HoneycombMR1Util.getDataCursor(id, this.activityContext, DATA_PROJECTION);
                         postHoneycombGetContactEmailAndPhone(dataCursor);
                         this.contactUri = receivedContactUri.toString();
                     } else {
-                        contactCursor = this.activityContext.getContentResolver().query(receivedContactUri, PROJECTION, null, null, null);
+                        contactCursor = this.activityContext.getContentResolver().query(receivedContactUri, PROJECTION, (String) null, (String[]) null, (String) null);
                         preHoneycombGetContactInfo(contactCursor, receivedContactUri);
                     }
                     Log.i("ContactPicker", "Contact name = " + this.contactName + ", email address = " + this.emailAddress + ",contact Uri = " + this.contactUri + ", phone number = " + this.phoneNumber + ", contactPhotoUri = " + this.contactPictureUri);
@@ -202,19 +199,18 @@ public class ContactPicker extends Picker implements ActivityResultListener {
     }
 
     public String postHoneycombGetContactNameAndPicture(Cursor contactCursor) {
-        String id = "";
         if (!contactCursor.moveToFirst()) {
-            return id;
+            return "";
         }
         int ID_INDEX = HoneycombMR1Util.getIdIndex(contactCursor);
         int NAME_INDEX2 = HoneycombMR1Util.getNameIndex(contactCursor);
         int THUMBNAIL_INDEX = HoneycombMR1Util.getThumbnailIndex(contactCursor);
         int PHOTO_INDEX = HoneycombMR1Util.getPhotoIndex(contactCursor);
-        String id2 = guardCursorGetString(contactCursor, ID_INDEX);
+        String id = guardCursorGetString(contactCursor, ID_INDEX);
         this.contactName = guardCursorGetString(contactCursor, NAME_INDEX2);
         this.contactPictureUri = guardCursorGetString(contactCursor, THUMBNAIL_INDEX);
         Log.i("ContactPicker", "photo_uri=" + guardCursorGetString(contactCursor, PHOTO_INDEX));
-        return id2;
+        return id;
     }
 
     public void postHoneycombGetContactEmailAndPhone(Cursor dataCursor) {
@@ -241,10 +237,10 @@ public class ContactPicker extends Picker implements ActivityResultListener {
             }
         }
         if (!phoneListToStore.isEmpty()) {
-            this.phoneNumber = (String) phoneListToStore.get(0);
+            this.phoneNumber = phoneListToStore.get(0);
         }
         if (!emailListToStore.isEmpty()) {
-            this.emailAddress = (String) emailListToStore.get(0);
+            this.emailAddress = emailListToStore.get(0);
         }
         this.phoneNumberList = phoneListToStore;
         this.emailAddressList = emailListToStore;
@@ -281,7 +277,7 @@ public class ContactPicker extends Picker implements ActivityResultListener {
         try {
             String data = "";
             String[] projection = {"data"};
-            Cursor cursor = this.activityContext.getContentResolver().query(ContactMethods.CONTENT_EMAIL_URI, projection, "contact_methods._id = " + Integer.parseInt(emailId), null, null);
+            Cursor cursor = this.activityContext.getContentResolver().query(Contacts.ContactMethods.CONTENT_EMAIL_URI, projection, "contact_methods._id = " + Integer.parseInt(emailId), (String[]) null, (String) null);
             try {
                 if (cursor.moveToFirst()) {
                     data = guardCursorGetString(cursor, 0);

@@ -120,7 +120,7 @@ public class BluetoothReflection {
 
     private static Object invokeStaticMethod(Method method) {
         try {
-            return method.invoke(null, new Object[0]);
+            return method.invoke((Object) null, new Object[0]);
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         } catch (InvocationTargetException e2) {

@@ -11,8 +11,8 @@ public class ReaderString extends ReadTableEntry {
 
     /* JADX WARNING: type inference failed for: r7v4, types: [char[]] */
     /* JADX WARNING: type inference failed for: r1v4, types: [char] */
+    /* JADX WARNING: Can't fix incorrect switch cases order */
     /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=int, for r1v4, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char[], code=null, for r7v4, types: [char[]] */
     /* JADX WARNING: Unknown variable types count: 1 */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public static java.lang.String readString(gnu.text.Lexer r11, int r12, int r13) throws java.io.IOException, gnu.text.SyntaxException {

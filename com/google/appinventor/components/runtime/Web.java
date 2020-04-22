@@ -24,7 +24,6 @@ import com.google.appinventor.components.runtime.repackaged.org.json.XML;
 import com.google.appinventor.components.runtime.util.AsynchUtil;
 import com.google.appinventor.components.runtime.util.ErrorMessages;
 import com.google.appinventor.components.runtime.util.FileUtil;
-import com.google.appinventor.components.runtime.util.FileUtil.FileException;
 import com.google.appinventor.components.runtime.util.GingerbreadUtil;
 import com.google.appinventor.components.runtime.util.JsonUtil;
 import com.google.appinventor.components.runtime.util.MediaUtil;
@@ -53,7 +52,6 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import org.json.JSONException;
@@ -81,6 +79,16 @@ public class Web extends AndroidNonvisibleComponent implements Component {
     public int timeout;
     /* access modifiers changed from: private */
     public String urlString;
+
+    private static class InvalidRequestHeadersException extends Exception {
+        final int errorNumber;
+        final int index;
+
+        InvalidRequestHeadersException(int errorNumber2, int index2) {
+            this.errorNumber = errorNumber2;
+            this.index = index2;
+        }
+    }
 
     static class BuildRequestDataException extends Exception {
         final int errorNumber;
@@ -120,16 +128,6 @@ public class Web extends AndroidNonvisibleComponent implements Component {
         }
     }
 
-    private static class InvalidRequestHeadersException extends Exception {
-        final int errorNumber;
-        final int index;
-
-        InvalidRequestHeadersException(int errorNumber2, int index2) {
-            this.errorNumber = errorNumber2;
-            this.index = index2;
-        }
-    }
-
     static {
         mimeTypeToExtension.put("application/pdf", "pdf");
         mimeTypeToExtension.put("application/zip", "zip");
@@ -156,7 +154,7 @@ public class Web extends AndroidNonvisibleComponent implements Component {
     }
 
     protected Web() {
-        super(null);
+        super((Form) null);
         this.urlString = "";
         this.requestHeaders = new YailList();
         this.responseFileName = "";
@@ -252,16 +250,15 @@ public class Web extends AndroidNonvisibleComponent implements Component {
 
     @SimpleFunction
     public void Get() {
-        String str = "Get";
         final CapturedProperties webProps = capturePropertyValues("Get");
         if (webProps != null) {
             AsynchUtil.runAsynchronously(new Runnable() {
                 public void run() {
                     try {
-                        Web.this.performRequest(webProps, null, null, "GET");
+                        Web.this.performRequest(webProps, (byte[]) null, (String) null, "GET");
                     } catch (PermissionException e) {
                         Web.this.form.dispatchPermissionDeniedEvent((Component) Web.this, "Get", e);
-                    } catch (FileException e2) {
+                    } catch (FileUtil.FileException e2) {
                         Web.this.form.dispatchErrorOccurredEvent(Web.this, "Get", e2.getErrorMessageNumber(), new Object[0]);
                     } catch (RequestTimeoutException e3) {
                         Web.this.form.dispatchErrorOccurredEvent(Web.this, "Get", ErrorMessages.ERROR_WEB_REQUEST_TIMED_OUT, webProps.urlString);
@@ -286,16 +283,15 @@ public class Web extends AndroidNonvisibleComponent implements Component {
 
     @SimpleFunction(description = "Performs an HTTP POST request using the Url property and data from the specified file.<br>If the SaveResponse property is true, the response will be saved in a file and the GotFile event will be triggered. The ResponseFileName property can be used to specify the name of the file.<br>If the SaveResponse property is false, the GotText event will be triggered.")
     public void PostFile(final String path) {
-        String str = "PostFile";
         final CapturedProperties webProps = capturePropertyValues("PostFile");
         if (webProps != null) {
             AsynchUtil.runAsynchronously(new Runnable() {
                 public void run() {
                     try {
-                        Web.this.performRequest(webProps, null, path, "POST");
+                        Web.this.performRequest(webProps, (byte[]) null, path, "POST");
                     } catch (PermissionException e) {
                         Web.this.form.dispatchPermissionDeniedEvent((Component) Web.this, "PostFile", e);
-                    } catch (FileException e2) {
+                    } catch (FileUtil.FileException e2) {
                         Web.this.form.dispatchErrorOccurredEvent(Web.this, "PostFile", e2.getErrorMessageNumber(), new Object[0]);
                     } catch (RequestTimeoutException e3) {
                         Web.this.form.dispatchErrorOccurredEvent(Web.this, "PostFile", ErrorMessages.ERROR_WEB_REQUEST_TIMED_OUT, webProps.urlString);
@@ -319,16 +315,15 @@ public class Web extends AndroidNonvisibleComponent implements Component {
 
     @SimpleFunction(description = "Performs an HTTP PUT request using the Url property and data from the specified file.<br>If the SaveResponse property is true, the response will be saved in a file and the GotFile event will be triggered. The ResponseFileName property can be used to specify the name of the file.<br>If the SaveResponse property is false, the GotText event will be triggered.")
     public void PutFile(final String path) {
-        String str = "PutFile";
         final CapturedProperties webProps = capturePropertyValues("PutFile");
         if (webProps != null) {
             AsynchUtil.runAsynchronously(new Runnable() {
                 public void run() {
                     try {
-                        Web.this.performRequest(webProps, null, path, "PUT");
+                        Web.this.performRequest(webProps, (byte[]) null, path, "PUT");
                     } catch (PermissionException e) {
                         Web.this.form.dispatchPermissionDeniedEvent((Component) Web.this, "PutFile", e);
-                    } catch (FileException e2) {
+                    } catch (FileUtil.FileException e2) {
                         Web.this.form.dispatchErrorOccurredEvent(Web.this, "PutFile", e2.getErrorMessageNumber(), new Object[0]);
                     } catch (RequestTimeoutException e3) {
                         Web.this.form.dispatchErrorOccurredEvent(Web.this, "PutFile", ErrorMessages.ERROR_WEB_REQUEST_TIMED_OUT, webProps.urlString);
@@ -342,16 +337,15 @@ public class Web extends AndroidNonvisibleComponent implements Component {
 
     @SimpleFunction
     public void Delete() {
-        String str = "Delete";
         final CapturedProperties webProps = capturePropertyValues("Delete");
         if (webProps != null) {
             AsynchUtil.runAsynchronously(new Runnable() {
                 public void run() {
                     try {
-                        Web.this.performRequest(webProps, null, null, "DELETE");
+                        Web.this.performRequest(webProps, (byte[]) null, (String) null, "DELETE");
                     } catch (PermissionException e) {
                         Web.this.form.dispatchPermissionDeniedEvent((Component) Web.this, "Delete", e);
-                    } catch (FileException e2) {
+                    } catch (FileUtil.FileException e2) {
                         Web.this.form.dispatchErrorOccurredEvent(Web.this, "Delete", e2.getErrorMessageNumber(), new Object[0]);
                     } catch (RequestTimeoutException e3) {
                         Web.this.form.dispatchErrorOccurredEvent(Web.this, "Delete", ErrorMessages.ERROR_WEB_REQUEST_TIMED_OUT, webProps.urlString);
@@ -380,10 +374,10 @@ public class Web extends AndroidNonvisibleComponent implements Component {
                             requestData = str2.getBytes(str);
                         }
                         try {
-                            Web.this.performRequest(webProps, requestData, null, str4);
+                            Web.this.performRequest(webProps, requestData, (String) null, str4);
                         } catch (PermissionException e) {
                             Web.this.form.dispatchPermissionDeniedEvent((Component) Web.this, str3, e);
-                        } catch (FileException e2) {
+                        } catch (FileUtil.FileException e2) {
                             Web.this.form.dispatchErrorOccurredEvent(Web.this, str3, e2.getErrorMessageNumber(), new Object[0]);
                         } catch (RequestTimeoutException e3) {
                             Web.this.form.dispatchErrorOccurredEvent(Web.this, str3, ErrorMessages.ERROR_WEB_REQUEST_TIMED_OUT, webProps.urlString);
@@ -423,7 +417,7 @@ public class Web extends AndroidNonvisibleComponent implements Component {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public String buildRequestData(YailList list) throws BuildRequestDataException {
         StringBuilder sb = new StringBuilder();
         String delimiter = "";
@@ -603,16 +597,16 @@ public class Web extends AndroidNonvisibleComponent implements Component {
         if (httpVerb.equals("PUT") || httpVerb.equals("DELETE")) {
             connection.setRequestMethod(httpVerb);
         }
-        for (Entry<String, List<String>> header : webProps.requestHeaders.entrySet()) {
-            String name = (String) header.getKey();
-            for (String value : (List) header.getValue()) {
+        for (Map.Entry<String, List<String>> header : webProps.requestHeaders.entrySet()) {
+            String name = header.getKey();
+            for (String value : header.getValue()) {
                 connection.addRequestProperty(name, value);
             }
         }
         if (webProps.cookies != null) {
-            for (Entry<String, List<String>> cookie : webProps.cookies.entrySet()) {
-                String name2 = (String) cookie.getKey();
-                for (String value2 : (List) cookie.getValue()) {
+            for (Map.Entry<String, List<String>> cookie : webProps.cookies.entrySet()) {
+                String name2 = cookie.getKey();
+                for (String value2 : cookie.getValue()) {
                     connection.addRequestProperty(name2, value2);
                 }
             }
@@ -723,7 +717,7 @@ public class Web extends AndroidNonvisibleComponent implements Component {
         }
     }
 
-    private static File createFile(String fileName, String responseType) throws IOException, FileException {
+    private static File createFile(String fileName, String responseType) throws IOException, FileUtil.FileException {
         if (!TextUtils.isEmpty(fileName)) {
             return FileUtil.getExternalFile(fileName);
         }
@@ -731,7 +725,7 @@ public class Web extends AndroidNonvisibleComponent implements Component {
         if (indexOfSemicolon != -1) {
             responseType = responseType.substring(0, indexOfSemicolon);
         }
-        String extension = (String) mimeTypeToExtension.get(responseType);
+        String extension = mimeTypeToExtension.get(responseType);
         if (extension == null) {
             extension = "tmp";
         }

@@ -347,7 +347,7 @@ public class XDataType extends Type implements TypeValue {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Duration castToDuration(Object value, Unit unit) {
         if (!(value instanceof Duration)) {
             return (Duration) coerceFromObject(value);
@@ -383,60 +383,150 @@ public class XDataType extends Type implements TypeValue {
         return this.implementationType.compare(other);
     }
 
-    public Object valueOf(String value) {
-        char ch;
-        switch (this.typeCode) {
-            case 4:
-                String value2 = value.trim();
-                int i = value2.length();
-                do {
-                    i--;
-                    if (i < 0) {
-                        return new BigDecimal(value2);
-                    }
-                    ch = value2.charAt(i);
-                    if (ch != 'e') {
-                    }
-                    throw new IllegalArgumentException("not a valid decimal: '" + value2 + "'");
-                } while (ch != 'E');
-                throw new IllegalArgumentException("not a valid decimal: '" + value2 + "'");
-            case 18:
-            case 19:
-                String value3 = value.trim();
-                if ("INF".equals(value3)) {
-                    value3 = "Infinity";
-                } else if ("-INF".equals(value3)) {
-                    value3 = "-Infinity";
-                }
-                return this.typeCode == 18 ? Float.valueOf(value3) : Double.valueOf(value3);
-            case 28:
-                return Duration.parseDuration(value);
-            case 29:
-                return Duration.parseYearMonthDuration(value);
-            case 30:
-                return Duration.parseDayTimeDuration(value);
-            case 31:
-                String value4 = value.trim();
-                if (value4.equals("true") || value4.equals("1")) {
-                    return Boolean.TRUE;
-                }
-                if (value4.equals("false") || value4.equals("0")) {
-                    return Boolean.FALSE;
-                }
-                throw new IllegalArgumentException("not a valid boolean: '" + value4 + "'");
-            case 33:
-                return URIPath.makeURI(TextUtils.replaceWhitespace(value, true));
-            case 34:
-                return Base64Binary.valueOf(value);
-            case 35:
-                return HexBinary.valueOf(value);
-            case 37:
-                return new UntypedAtomic(value);
-            case 38:
-                return value;
-            default:
-                throw new RuntimeException("valueOf not implemented for " + this.name);
-        }
+    /* JADX WARNING: Removed duplicated region for block: B:32:0x00b1  */
+    /* JADX WARNING: Removed duplicated region for block: B:46:0x00dc A[SYNTHETIC] */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public java.lang.Object valueOf(java.lang.String r6) {
+        /*
+            r5 = this;
+            int r2 = r5.typeCode
+            switch(r2) {
+                case 4: goto L_0x00a5;
+                case 18: goto L_0x007b;
+                case 19: goto L_0x007b;
+                case 28: goto L_0x00e3;
+                case 29: goto L_0x00e9;
+                case 30: goto L_0x00ef;
+                case 31: goto L_0x0032;
+                case 33: goto L_0x0028;
+                case 34: goto L_0x00f5;
+                case 35: goto L_0x00fb;
+                case 37: goto L_0x0022;
+                case 38: goto L_0x0020;
+                default: goto L_0x0005;
+            }
+        L_0x0005:
+            java.lang.RuntimeException r2 = new java.lang.RuntimeException
+            java.lang.StringBuilder r3 = new java.lang.StringBuilder
+            r3.<init>()
+            java.lang.String r4 = "valueOf not implemented for "
+            java.lang.StringBuilder r3 = r3.append(r4)
+            java.lang.Object r4 = r5.name
+            java.lang.StringBuilder r3 = r3.append(r4)
+            java.lang.String r3 = r3.toString()
+            r2.<init>(r3)
+            throw r2
+        L_0x0020:
+            r2 = r6
+        L_0x0021:
+            return r2
+        L_0x0022:
+            gnu.kawa.xml.UntypedAtomic r2 = new gnu.kawa.xml.UntypedAtomic
+            r2.<init>(r6)
+            goto L_0x0021
+        L_0x0028:
+            r2 = 1
+            java.lang.String r2 = gnu.xml.TextUtils.replaceWhitespace(r6, r2)
+            gnu.text.URIPath r2 = gnu.text.URIPath.makeURI(r2)
+            goto L_0x0021
+        L_0x0032:
+            java.lang.String r6 = r6.trim()
+            java.lang.String r2 = "true"
+            boolean r2 = r6.equals(r2)
+            if (r2 != 0) goto L_0x0046
+            java.lang.String r2 = "1"
+            boolean r2 = r6.equals(r2)
+            if (r2 == 0) goto L_0x0049
+        L_0x0046:
+            java.lang.Boolean r2 = java.lang.Boolean.TRUE
+            goto L_0x0021
+        L_0x0049:
+            java.lang.String r2 = "false"
+            boolean r2 = r6.equals(r2)
+            if (r2 != 0) goto L_0x0059
+            java.lang.String r2 = "0"
+            boolean r2 = r6.equals(r2)
+            if (r2 == 0) goto L_0x005c
+        L_0x0059:
+            java.lang.Boolean r2 = java.lang.Boolean.FALSE
+            goto L_0x0021
+        L_0x005c:
+            java.lang.IllegalArgumentException r2 = new java.lang.IllegalArgumentException
+            java.lang.StringBuilder r3 = new java.lang.StringBuilder
+            r3.<init>()
+            java.lang.String r4 = "not a valid boolean: '"
+            java.lang.StringBuilder r3 = r3.append(r4)
+            java.lang.StringBuilder r3 = r3.append(r6)
+            java.lang.String r4 = "'"
+            java.lang.StringBuilder r3 = r3.append(r4)
+            java.lang.String r3 = r3.toString()
+            r2.<init>(r3)
+            throw r2
+        L_0x007b:
+            java.lang.String r6 = r6.trim()
+            java.lang.String r2 = "INF"
+            boolean r2 = r2.equals(r6)
+            if (r2 == 0) goto L_0x0094
+            java.lang.String r6 = "Infinity"
+        L_0x0089:
+            int r2 = r5.typeCode
+            r3 = 18
+            if (r2 != r3) goto L_0x009f
+            java.lang.Float r2 = java.lang.Float.valueOf(r6)
+            goto L_0x0021
+        L_0x0094:
+            java.lang.String r2 = "-INF"
+            boolean r2 = r2.equals(r6)
+            if (r2 == 0) goto L_0x0089
+            java.lang.String r6 = "-Infinity"
+            goto L_0x0089
+        L_0x009f:
+            java.lang.Double r2 = java.lang.Double.valueOf(r6)
+            goto L_0x0021
+        L_0x00a5:
+            java.lang.String r6 = r6.trim()
+            int r1 = r6.length()
+        L_0x00ad:
+            int r1 = r1 + -1
+            if (r1 < 0) goto L_0x00dc
+            char r0 = r6.charAt(r1)
+            r2 = 101(0x65, float:1.42E-43)
+            if (r0 == r2) goto L_0x00bd
+            r2 = 69
+            if (r0 != r2) goto L_0x00ad
+        L_0x00bd:
+            java.lang.IllegalArgumentException r2 = new java.lang.IllegalArgumentException
+            java.lang.StringBuilder r3 = new java.lang.StringBuilder
+            r3.<init>()
+            java.lang.String r4 = "not a valid decimal: '"
+            java.lang.StringBuilder r3 = r3.append(r4)
+            java.lang.StringBuilder r3 = r3.append(r6)
+            java.lang.String r4 = "'"
+            java.lang.StringBuilder r3 = r3.append(r4)
+            java.lang.String r3 = r3.toString()
+            r2.<init>(r3)
+            throw r2
+        L_0x00dc:
+            java.math.BigDecimal r2 = new java.math.BigDecimal
+            r2.<init>(r6)
+            goto L_0x0021
+        L_0x00e3:
+            gnu.math.Duration r2 = gnu.math.Duration.parseDuration(r6)
+            goto L_0x0021
+        L_0x00e9:
+            gnu.math.Duration r2 = gnu.math.Duration.parseYearMonthDuration(r6)
+            goto L_0x0021
+        L_0x00ef:
+            gnu.math.Duration r2 = gnu.math.Duration.parseDayTimeDuration(r6)
+            goto L_0x0021
+        L_0x00f5:
+            gnu.kawa.xml.Base64Binary r2 = gnu.kawa.xml.Base64Binary.valueOf(r6)
+            goto L_0x0021
+        L_0x00fb:
+            gnu.kawa.xml.HexBinary r2 = gnu.kawa.xml.HexBinary.valueOf(r6)
+            goto L_0x0021
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.xml.XDataType.valueOf(java.lang.String):java.lang.Object");
     }
 
     public static Float makeFloat(float value) {

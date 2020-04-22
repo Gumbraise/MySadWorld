@@ -25,7 +25,7 @@ public class XName extends Symbol implements Externalizable {
         this.namespaceNodes = nodes;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public String lookupNamespaceURI(String prefix) {
         for (NamespaceBinding ns = this.namespaceNodes; ns != null; ns = ns.next) {
             if (prefix == ns.prefix) {

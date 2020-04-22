@@ -71,19 +71,15 @@ public class FilePath extends Path implements Comparable<FilePath> {
     }
 
     public boolean isDirectory() {
+        int len;
+        char last;
         if (this.file.isDirectory()) {
             return true;
         }
-        if (!this.file.exists()) {
-            int len = this.path.length();
-            if (len > 0) {
-                char last = this.path.charAt(len - 1);
-                if (last == '/' || last == File.separatorChar) {
-                    return true;
-                }
-            }
+        if (this.file.exists() || (len = this.path.length()) <= 0 || ((last = this.path.charAt(len - 1)) != '/' && last != File.separatorChar)) {
+            return false;
         }
-        return false;
+        return true;
     }
 
     public boolean delete() {
@@ -166,7 +162,7 @@ public class FilePath extends Path implements Comparable<FilePath> {
             if (fileSep != '/') {
                 fname = fname.replace(fileSep, '/');
             }
-            return new URI(null, null, fname, null);
+            return new URI((String) null, (String) null, fname, (String) null);
         } catch (Throwable ex) {
             throw WrappedException.wrapIfNeeded(ex);
         }

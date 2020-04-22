@@ -36,8 +36,7 @@ public class Location {
     }
 
     public void setSignature(int signature_index2, ConstantPool constants) {
-        CpoolUtf8 sigConstant = (CpoolUtf8) constants.getForced(signature_index2, 1);
         this.signature_index = signature_index2;
-        this.type = Type.signatureToType(sigConstant.string);
+        this.type = Type.signatureToType(((CpoolUtf8) constants.getForced(signature_index2, 1)).string);
     }
 }

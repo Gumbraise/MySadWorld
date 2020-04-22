@@ -1,6 +1,6 @@
 package com.google.appinventor.components.runtime.util.theme;
 
-import android.support.p003v7.app.ActionBar;
+import android.support.v7.app.ActionBar;
 import android.text.Html;
 import com.google.appinventor.components.runtime.AppInventorCompatActivity;
 import com.google.appinventor.components.runtime.Form;

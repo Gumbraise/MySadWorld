@@ -17,6 +17,7 @@ public class TryState {
 
     public TryState(CodeAttr code) {
         this.previous = code.try_stack;
+        code.try_stack = this;
         this.start_try = code.getLabel();
     }
 

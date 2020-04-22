@@ -1,6 +1,6 @@
 package gnu.math;
 
-import android.support.p000v4.internal.view.SupportMenu;
+import android.support.v4.internal.view.SupportMenu;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
@@ -117,7 +117,7 @@ public class DateTime extends Quantity implements Cloneable {
         throw new NumberFormatException("Unrecognized date/time '" + value2 + '\'');
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public int parseDate(String str, int start, int mask2) {
         int year;
         int month;
@@ -215,7 +215,7 @@ public class DateTime extends Quantity implements Cloneable {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public int parseZone(String str, int start) {
         TimeZone zone;
         if (start < 0) {
@@ -228,8 +228,9 @@ public class DateTime extends Quantity implements Cloneable {
         if (part == start) {
             return start;
         }
+        int minutes = part >> 16;
         int pos = part & SupportMenu.USER_MASK;
-        if ((part >> 16) == 0) {
+        if (minutes == 0) {
             zone = GMT;
         } else {
             zone = TimeZone.getTimeZone("GMT" + str.substring(start, pos));
@@ -239,7 +240,7 @@ public class DateTime extends Quantity implements Cloneable {
         return pos;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public int parseZoneMinutes(String str, int start) {
         int len = str.length();
         if (start == len || start < 0) {
@@ -285,7 +286,7 @@ public class DateTime extends Quantity implements Cloneable {
         return (minute << 16) | pos;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public int parseTime(String str, int start) {
         if (start < 0) {
             return start;
@@ -577,11 +578,8 @@ public class DateTime extends Quantity implements Cloneable {
         int mask2 = components();
         if ((mask2 & 2) != 0) {
             int year = this.calendar.get(1);
-            if (this.calendar.get(0) == 0) {
-                year--;
-                if (year != 0) {
-                    sbuf.append('-');
-                }
+            if (this.calendar.get(0) == 0 && year - 1 != 0) {
+                sbuf.append('-');
             }
             append(year, sbuf, 4);
         } else {

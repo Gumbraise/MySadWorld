@@ -55,42 +55,58 @@ public class ClassMethods extends Procedure2 {
         throw new WrongType(thisProc, 1, (ClassCastException) null);
     }
 
-    private static int removeRedundantMethods(Vector methods) {
-        int mlength = methods.size();
-        int i = 1;
-        while (i < mlength) {
-            Method method1 = (Method) methods.elementAt(i);
-            ClassType class1 = method1.getDeclaringClass();
-            Type[] types1 = method1.getParameterTypes();
-            int tlen = types1.length;
-            int j = 0;
-            while (true) {
-                if (j >= i) {
-                    i++;
-                    break;
-                }
-                Method method2 = (Method) methods.elementAt(j);
-                Type[] types2 = method2.getParameterTypes();
-                if (tlen == types2.length) {
-                    int k = tlen;
-                    do {
-                        k--;
-                        if (k < 0) {
-                            break;
-                        }
-                    } while (types1[k] == types2[k]);
-                    if (k < 0) {
-                        if (class1.isSubtype(method2.getDeclaringClass())) {
-                            methods.setElementAt(method1, j);
-                        }
-                        methods.setElementAt(methods.elementAt(mlength - 1), i);
-                        mlength--;
-                    }
-                }
-                j++;
-            }
-        }
-        return mlength;
+    /* JADX WARNING: Removed duplicated region for block: B:23:0x0036 A[SYNTHETIC] */
+    /* JADX WARNING: Removed duplicated region for block: B:26:0x0026 A[SYNTHETIC] */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    private static int removeRedundantMethods(java.util.Vector r12) {
+        /*
+            int r6 = r12.size()
+            r1 = 1
+        L_0x0005:
+            if (r1 >= r6) goto L_0x0052
+            java.lang.Object r4 = r12.elementAt(r1)
+            gnu.bytecode.Method r4 = (gnu.bytecode.Method) r4
+            gnu.bytecode.ClassType r0 = r4.getDeclaringClass()
+            gnu.bytecode.Type[] r8 = r4.getParameterTypes()
+            int r7 = r8.length
+            r2 = 0
+        L_0x0017:
+            if (r2 >= r1) goto L_0x004f
+            java.lang.Object r5 = r12.elementAt(r2)
+            gnu.bytecode.Method r5 = (gnu.bytecode.Method) r5
+            gnu.bytecode.Type[] r9 = r5.getParameterTypes()
+            int r10 = r9.length
+            if (r7 == r10) goto L_0x0029
+        L_0x0026:
+            int r2 = r2 + 1
+            goto L_0x0017
+        L_0x0029:
+            r3 = r7
+        L_0x002a:
+            int r3 = r3 + -1
+            if (r3 < 0) goto L_0x0034
+            r10 = r8[r3]
+            r11 = r9[r3]
+            if (r10 == r11) goto L_0x002a
+        L_0x0034:
+            if (r3 >= 0) goto L_0x0026
+            gnu.bytecode.ClassType r10 = r5.getDeclaringClass()
+            boolean r10 = r0.isSubtype(r10)
+            if (r10 == 0) goto L_0x0043
+            r12.setElementAt(r4, r2)
+        L_0x0043:
+            int r10 = r6 + -1
+            java.lang.Object r10 = r12.elementAt(r10)
+            r12.setElementAt(r10, r1)
+            int r6 = r6 + -1
+            goto L_0x0005
+        L_0x004f:
+            int r1 = r1 + 1
+            goto L_0x0005
+        L_0x0052:
+            return r6
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.reflect.ClassMethods.removeRedundantMethods(java.util.Vector):int");
     }
 
     public static PrimProcedure[] getMethods(ObjectType dtype, String mname, char mode, ClassType caller, Language language) {
@@ -127,9 +143,8 @@ public class ClassMethods extends Procedure2 {
                     method = new Method(method, (ClassType) itype);
                 }
             }
-            PrimProcedure primProcedure = new PrimProcedure(method, mode, language);
             count = count2 + 1;
-            result[count2] = primProcedure;
+            result[count2] = new PrimProcedure(method, mode, language);
         }
     }
 
@@ -200,7 +215,7 @@ public class ClassMethods extends Procedure2 {
     }
 
     public static MethodProc apply(ObjectType dtype, String mname, char mode, Language language) {
-        PrimProcedure[] methods = getMethods(dtype, mname, mode, null, language);
+        PrimProcedure[] methods = getMethods(dtype, mname, mode, (ClassType) null, language);
         GenericProc gproc = null;
         PrimProcedure pproc = null;
         for (PrimProcedure cur : methods) {

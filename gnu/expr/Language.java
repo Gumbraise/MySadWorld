@@ -41,6 +41,7 @@ import java.io.Writer;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URL;
 import kawa.repl;
 
 public abstract class Language {
@@ -103,16 +104,13 @@ public abstract class Language {
     }
 
     public static Language detect(InputStream in) throws IOException {
+        int c;
         if (!in.markSupported()) {
             return null;
         }
         StringBuffer sbuf = new StringBuffer();
         in.mark(HttpRequestContext.HTTP_OK);
-        while (sbuf.length() < 200) {
-            int c = in.read();
-            if (c < 0 || c == 10 || c == 13) {
-                break;
-            }
+        while (sbuf.length() < 200 && (c = in.read()) >= 0 && c != 10 && c != 13) {
             sbuf.append((char) c);
         }
         in.reset();
@@ -128,6 +126,7 @@ public abstract class Language {
     }
 
     public static Language detect(String line) {
+        Language lang;
         String str = line.trim();
         int k = str.indexOf("kawa:");
         if (k >= 0) {
@@ -136,11 +135,8 @@ public abstract class Language {
             while (j < str.length() && Character.isJavaIdentifierPart(str.charAt(j))) {
                 j++;
             }
-            if (j > i) {
-                Language lang = getInstance(str.substring(i, j));
-                if (lang != null) {
-                    return lang;
-                }
+            if (j > i && (lang = getInstance(str.substring(i, j))) != null) {
+                return lang;
             }
         }
         if (str.indexOf("-*- scheme -*-") >= 0) {
@@ -165,39 +161,54 @@ public abstract class Language {
     }
 
     public static Language getInstanceFromFilenameExtension(String filename) {
+        Language lang;
         int dot = filename.lastIndexOf(46);
-        if (dot > 0) {
-            Language lang = getInstance(filename.substring(dot));
-            if (lang != null) {
-                return lang;
-            }
+        if (dot <= 0 || (lang = getInstance(filename.substring(dot))) == null) {
+            return null;
         }
-        return null;
+        return lang;
     }
 
-    public static Language getInstance(String name) {
-        int langCount = languages.length;
-        int i = 0;
-        while (i < langCount) {
-            String[] names = languages[i];
-            int nameCount = names.length - 1;
-            int j = nameCount;
-            do {
-                j--;
-                if (j >= 0) {
-                    if (name != null) {
-                    }
-                    break;
-                }
-                i++;
-            } while (!names[j].equalsIgnoreCase(name));
-            try {
-                break;
-                return getInstance(names[0], Class.forName(names[nameCount]));
-            } catch (ClassNotFoundException e) {
-            }
-        }
-        return null;
+    /* JADX WARNING: Removed duplicated region for block: B:17:0x002b A[SYNTHETIC] */
+    /* JADX WARNING: Removed duplicated region for block: B:5:0x0012 A[ADDED_TO_REGION] */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public static gnu.expr.Language getInstance(java.lang.String r8) {
+        /*
+            java.lang.String[][] r7 = languages
+            int r4 = r7.length
+            r1 = 0
+        L_0x0004:
+            if (r1 >= r4) goto L_0x002e
+            java.lang.String[][] r7 = languages
+            r6 = r7[r1]
+            int r7 = r6.length
+            int r5 = r7 + -1
+            r2 = r5
+        L_0x000e:
+            int r2 = r2 + -1
+            if (r2 < 0) goto L_0x002b
+            if (r8 == 0) goto L_0x001c
+            r7 = r6[r2]
+            boolean r7 = r7.equalsIgnoreCase(r8)
+            if (r7 == 0) goto L_0x000e
+        L_0x001c:
+            r7 = r6[r5]     // Catch:{ ClassNotFoundException -> 0x002a }
+            java.lang.Class r3 = java.lang.Class.forName(r7)     // Catch:{ ClassNotFoundException -> 0x002a }
+            r7 = 0
+            r7 = r6[r7]
+            gnu.expr.Language r7 = getInstance(r7, r3)
+        L_0x0029:
+            return r7
+        L_0x002a:
+            r0 = move-exception
+        L_0x002b:
+            int r1 = r1 + 1
+            goto L_0x0004
+        L_0x002e:
+            r7 = 0
+            goto L_0x0029
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.expr.Language.getInstance(java.lang.String):gnu.expr.Language");
     }
 
     protected Language() {
@@ -214,13 +225,13 @@ public abstract class Language {
             } catch (Exception e) {
                 method = langClass.getDeclaredMethod("getInstance", args);
             }
-            return (Language) method.invoke(null, Values.noArgs);
-        } catch (Exception e2) {
+            return (Language) method.invoke((Object) null, Values.noArgs);
+        } catch (Exception ex) {
             String langName2 = langClass.getName();
-            if (e2 instanceof InvocationTargetException) {
-                th = ((InvocationTargetException) e2).getTargetException();
+            if (ex instanceof InvocationTargetException) {
+                th = ((InvocationTargetException) ex).getTargetException();
             } else {
-                th = e2;
+                th = ex;
             }
             throw new WrappedException("getInstance for '" + langName2 + "' failed", th);
         }
@@ -265,12 +276,12 @@ public abstract class Language {
     }
 
     public void define(String sym, Object p) {
-        this.environ.define(getSymbol(sym), null, p);
+        this.environ.define(getSymbol(sym), (Object) null, p);
     }
 
     /* access modifiers changed from: protected */
     public void defAliasStFld(String name, String cname, String fname) {
-        StaticFieldLocation.define(this.environ, getSymbol(name), null, cname, fname);
+        StaticFieldLocation.define(this.environ, getSymbol(name), (Object) null, cname, fname);
     }
 
     /* access modifiers changed from: protected */
@@ -406,14 +417,11 @@ public abstract class Language {
     }
 
     public final Type getLangTypeFor(Type type) {
-        if (!type.isExisting()) {
+        Class clas;
+        if (!type.isExisting() || (clas = type.getReflectClass()) == null) {
             return type;
         }
-        Class clas = type.getReflectClass();
-        if (clas != null) {
-            return getTypeFor(clas);
-        }
-        return type;
+        return getTypeFor(clas);
     }
 
     public String formatType(Type type) {
@@ -439,6 +447,7 @@ public abstract class Language {
     }
 
     public final Type getTypeFor(Object spec, boolean lenient) {
+        String uri;
         if (spec instanceof Type) {
             return (Type) spec;
         }
@@ -448,13 +457,10 @@ public abstract class Language {
         if (lenient && ((spec instanceof FString) || (spec instanceof String) || (((spec instanceof Symbol) && ((Symbol) spec).hasEmptyNamespace()) || (spec instanceof CharSeq)))) {
             return getTypeFor(spec.toString());
         }
-        if (spec instanceof Namespace) {
-            String uri = ((Namespace) spec).getName();
-            if (uri != null && uri.startsWith("class:")) {
-                return getLangTypeFor(string2Type(uri.substring(6)));
-            }
+        if (!(spec instanceof Namespace) || (uri = ((Namespace) spec).getName()) == null || !uri.startsWith("class:")) {
+            return null;
         }
-        return null;
+        return getLangTypeFor(string2Type(uri.substring(6)));
     }
 
     public final Type asType(Object spec) {
@@ -557,8 +563,7 @@ public abstract class Language {
     }
 
     public Declaration declFromField(ModuleExp mod, Object fvalue, gnu.bytecode.Field fld) {
-        Object obj;
-        Object make;
+        Object intern;
         String fname = fld.getName();
         Type ftype = fld.getType();
         boolean isAlias = ftype.isSubtype(Compilation.typeLocation);
@@ -566,26 +571,26 @@ public abstract class Language {
         boolean isFinal = (fld.getModifiers() & 16) != 0;
         boolean isImportedInstance = fname.endsWith("$instance");
         if (isImportedInstance) {
-            make = fname;
+            intern = fname;
         } else if (!isFinal || !(fvalue instanceof Named)) {
             if (fname.startsWith(Declaration.PRIVATE_PREFIX)) {
                 externalAccess = true;
                 fname = fname.substring(Declaration.PRIVATE_PREFIX.length());
             }
-            make = Compilation.demangleName(fname, true).intern();
+            intern = Compilation.demangleName(fname, true).intern();
         } else {
-            make = ((Named) fvalue).getSymbol();
+            intern = ((Named) fvalue).getSymbol();
         }
-        if (obj instanceof String) {
+        if (intern instanceof String) {
             String uri = mod.getNamespaceUri();
-            String sname = (String) obj;
+            String sname = (String) intern;
             if (uri == null) {
-                obj = SimpleSymbol.valueOf(sname);
+                intern = SimpleSymbol.valueOf(sname);
             } else {
-                obj = Symbol.make(uri, sname);
+                intern = Symbol.make(uri, sname);
             }
         }
-        Declaration fdecl = mod.addDeclaration(obj, isAlias ? Type.objectType : getTypeFor(ftype.getReflectClass()));
+        Declaration fdecl = mod.addDeclaration(intern, isAlias ? Type.objectType : getTypeFor(ftype.getReflectClass()));
         boolean isStatic = (fld.getModifiers() & 8) != 0;
         if (isAlias) {
             fdecl.setIndirectBinding(true);
@@ -660,7 +665,7 @@ public abstract class Language {
         if (hasSeparateFunctionNamespace()) {
             property = EnvironmentKey.FUNCTION;
         }
-        Procedure prompter = (Procedure) getEnvironment().get(getSymbol("default-prompter"), property, null);
+        Procedure prompter = (Procedure) getEnvironment().get(getSymbol("default-prompter"), property, (Object) null);
         return prompter != null ? prompter : new SimplePrompter();
     }
 
@@ -700,6 +705,7 @@ public abstract class Language {
         eval(in, getOutputConsumer(out));
     }
 
+    /* JADX INFO: finally extract failed */
     public void eval(Reader in, Consumer out) throws Throwable {
         InPort port = in instanceof InPort ? (InPort) in : new InPort(in);
         CallContext ctx = CallContext.getInstance();
@@ -707,8 +713,10 @@ public abstract class Language {
         try {
             ctx.consumer = out;
             eval(port, ctx);
-        } finally {
             ctx.consumer = save;
+        } catch (Throwable th) {
+            ctx.consumer = save;
+            throw th;
         }
     }
 
@@ -717,7 +725,7 @@ public abstract class Language {
         SourceMessages messages = new SourceMessages();
         Language saveLang = setSaveCurrent(this);
         try {
-            ModuleExp.evalModule(getEnvironment(), ctx, parse(port, messages, 3), null, null);
+            ModuleExp.evalModule(getEnvironment(), ctx, parse(port, messages, 3), (URL) null, (OutPort) null);
             restoreCurrent(saveLang);
             if (messages.seenErrors()) {
                 throw new RuntimeException("invalid syntax in eval form:\n" + messages.toString(20));

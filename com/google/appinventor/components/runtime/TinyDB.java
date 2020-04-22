@@ -2,7 +2,6 @@ package com.google.appinventor.components.runtime;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.DesignerProperty;
 import com.google.appinventor.components.annotations.PropertyCategory;
@@ -45,7 +44,7 @@ public class TinyDB extends AndroidNonvisibleComponent implements Component, Del
 
     @SimpleFunction(description = "Store the given value under the given tag.  The storage persists on the phone when the app is restarted.")
     public void StoreValue(String tag, Object valueToStore) {
-        Editor sharedPrefsEditor = this.sharedPreferences.edit();
+        SharedPreferences.Editor sharedPrefsEditor = this.sharedPreferences.edit();
         try {
             sharedPrefsEditor.putString(tag, JsonUtil.getJsonRepresentation(valueToStore));
             sharedPrefsEditor.commit();
@@ -74,20 +73,20 @@ public class TinyDB extends AndroidNonvisibleComponent implements Component, Del
 
     @SimpleFunction(description = "Clear the entire data store.")
     public void ClearAll() {
-        Editor sharedPrefsEditor = this.sharedPreferences.edit();
+        SharedPreferences.Editor sharedPrefsEditor = this.sharedPreferences.edit();
         sharedPrefsEditor.clear();
         sharedPrefsEditor.commit();
     }
 
     @SimpleFunction(description = "Clear the entry with the given tag.")
     public void ClearTag(String tag) {
-        Editor sharedPrefsEditor = this.sharedPreferences.edit();
+        SharedPreferences.Editor sharedPrefsEditor = this.sharedPreferences.edit();
         sharedPrefsEditor.remove(tag);
         sharedPrefsEditor.commit();
     }
 
     public void onDelete() {
-        Editor sharedPrefsEditor = this.sharedPreferences.edit();
+        SharedPreferences.Editor sharedPrefsEditor = this.sharedPreferences.edit();
         sharedPrefsEditor.clear();
         sharedPrefsEditor.commit();
     }

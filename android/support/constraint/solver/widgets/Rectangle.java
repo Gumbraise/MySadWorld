@@ -3,42 +3,38 @@ package android.support.constraint.solver.widgets;
 public class Rectangle {
     public int height;
     public int width;
+    public int x;
+    public int y;
 
-    /* renamed from: x */
-    public int f10x;
-
-    /* renamed from: y */
-    public int f11y;
-
-    public void setBounds(int x, int y, int width2, int height2) {
-        this.f10x = x;
-        this.f11y = y;
+    public void setBounds(int x2, int y2, int width2, int height2) {
+        this.x = x2;
+        this.y = y2;
         this.width = width2;
         this.height = height2;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void grow(int w, int h) {
-        this.f10x -= w;
-        this.f11y -= h;
+        this.x -= w;
+        this.y -= h;
         this.width += w * 2;
         this.height += h * 2;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public boolean intersects(Rectangle bounds) {
-        return this.f10x >= bounds.f10x && this.f10x < bounds.f10x + bounds.width && this.f11y >= bounds.f11y && this.f11y < bounds.f11y + bounds.height;
+        return this.x >= bounds.x && this.x < bounds.x + bounds.width && this.y >= bounds.y && this.y < bounds.y + bounds.height;
     }
 
-    public boolean contains(int x, int y) {
-        return x >= this.f10x && x < this.f10x + this.width && y >= this.f11y && y < this.f11y + this.height;
+    public boolean contains(int x2, int y2) {
+        return x2 >= this.x && x2 < this.x + this.width && y2 >= this.y && y2 < this.y + this.height;
     }
 
     public int getCenterX() {
-        return (this.f10x + this.width) / 2;
+        return (this.x + this.width) / 2;
     }
 
     public int getCenterY() {
-        return (this.f11y + this.height) / 2;
+        return (this.y + this.height) / 2;
     }
 }

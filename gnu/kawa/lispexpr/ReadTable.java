@@ -103,7 +103,7 @@ public class ReadTable extends RangeTable {
         setBracketMode(defaultBracketMode);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void initCtorTable() {
         if (this.ctorTable == null) {
             this.ctorTable = Environment.make();
@@ -122,7 +122,7 @@ public class ReadTable extends RangeTable {
 
     public synchronized void putReaderCtorFld(String key, String cname, String fname) {
         initCtorTable();
-        StaticFieldLocation.define(this.ctorTable, this.ctorTable.getSymbol(key), null, cname, fname);
+        StaticFieldLocation.define(this.ctorTable, this.ctorTable.getSymbol(key), (Object) null, cname, fname);
     }
 
     public synchronized Object getReaderCtor(String key) {
@@ -131,7 +131,7 @@ public class ReadTable extends RangeTable {
     }
 
     public static ReadTable getCurrent() {
-        ReadTable table = (ReadTable) current.get(null);
+        ReadTable table = (ReadTable) current.get((Object) null);
         if (table == null) {
             Language language = Language.getDefaultLanguage();
             if (language instanceof LispLanguage) {
@@ -149,18 +149,18 @@ public class ReadTable extends RangeTable {
     }
 
     public ReadTableEntry lookup(int ch) {
-        ReadTableEntry entry = (ReadTableEntry) lookup(ch, null);
+        ReadTableEntry entry = (ReadTableEntry) lookup(ch, (Object) null);
         if (entry != null || ch < 0 || ch >= 65536) {
             return entry;
         }
         if (Character.isDigit((char) ch)) {
-            entry = (ReadTableEntry) lookup(48, null);
+            entry = (ReadTableEntry) lookup(48, (Object) null);
         } else if (Character.isLowerCase((char) ch)) {
-            entry = (ReadTableEntry) lookup(97, null);
+            entry = (ReadTableEntry) lookup(97, (Object) null);
         } else if (Character.isLetter((char) ch)) {
-            entry = (ReadTableEntry) lookup(65, null);
+            entry = (ReadTableEntry) lookup(65, (Object) null);
         } else if (Character.isWhitespace((char) ch)) {
-            entry = (ReadTableEntry) lookup(32, null);
+            entry = (ReadTableEntry) lookup(32, (Object) null);
         }
         if (entry == null && ch >= 128) {
             entry = ReadTableEntry.getConstituentInstance();

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.security.SecureRandom;
+import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.TrustManager;
@@ -18,7 +20,7 @@ public class FakeSocketFactory implements SocketFactory, LayeredSocketFactory {
     private static SSLContext createEasySSLContext() throws IOException {
         try {
             SSLContext context = SSLContext.getInstance("TLS");
-            context.init(null, new TrustManager[]{new NaiveTrustManager()}, null);
+            context.init((KeyManager[]) null, new TrustManager[]{new NaiveTrustManager()}, (SecureRandom) null);
             return context;
         } catch (Exception e) {
             throw new IOException(e.getMessage());

@@ -32,7 +32,6 @@ final class SendWorker extends Thread {
     }
 
     private void approvePendingReports() {
-        String[] arr$;
         Log.d(ACRA.LOG_TAG, "Mark all pending reports as approved.");
         for (String reportFileName : new CrashReportFinder(this.context).getCrashReportFiles()) {
             if (!this.fileNameParser.isApproved(reportFileName)) {
@@ -46,7 +45,6 @@ final class SendWorker extends Thread {
     }
 
     private void checkAndSendReports(Context context2, boolean sendOnlySilentReports2) {
-        String[] arr$;
         Log.d(ACRA.LOG_TAG, "#checkAndSendReports - start");
         String[] reportFiles = new CrashReportFinder(context2).getCrashReportFiles();
         Arrays.sort(reportFiles);

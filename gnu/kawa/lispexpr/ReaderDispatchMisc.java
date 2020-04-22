@@ -34,6 +34,10 @@ public class ReaderDispatchMisc extends ReadTableEntry {
     }
 
     public Object read(Lexer in, int ch, int count) throws IOException, SyntaxException {
+        GeneralHashTable<Integer, Object> map;
+        Object object;
+        Object list;
+        int length;
         LispReader reader = (LispReader) in;
         char saveReadState = 0;
         if (this.code >= 0) {
@@ -43,52 +47,42 @@ public class ReaderDispatchMisc extends ReadTableEntry {
             case 33:
                 return LispReader.readSpecial(reader);
             case 35:
-                if (in instanceof LispReader) {
-                    GeneralHashTable<Integer, Object> map = ((LispReader) in).sharedStructureTable;
-                    if (map != null) {
-                        Object object = map.get(Integer.valueOf(count), in);
-                        if (object != in) {
-                            return object;
-                        }
-                    }
+                if ((in instanceof LispReader) && (map = ((LispReader) in).sharedStructureTable) != null && (object = map.get(Integer.valueOf(count), in)) != in) {
+                    return object;
                 }
                 in.error("an unrecognized #n# back-reference was read");
                 return Values.empty;
             case 44:
-                if (reader.getPort().peek() == 40) {
-                    Object list = reader.readObject();
-                    int length = LList.listLength(list, false);
-                    if (length > 0 && (((Pair) list).getCar() instanceof Symbol)) {
-                        String name = ((Pair) list).getCar().toString();
-                        Object proc = ReadTable.getCurrent().getReaderCtor(name);
-                        if (proc == null) {
-                            in.error("unknown reader constructor " + name);
-                        } else if ((proc instanceof Procedure) || (proc instanceof Type)) {
-                            int length2 = length - 1;
-                            int parg = proc instanceof Type ? 1 : 0;
-                            Object[] args = new Object[(parg + length2)];
-                            Object argList = ((Pair) list).getCdr();
-                            for (int i = 0; i < length2; i++) {
-                                Pair pair = (Pair) argList;
-                                args[parg + i] = pair.getCar();
-                                argList = pair.getCdr();
-                            }
-                            if (parg <= 0) {
-                                return ((Procedure) proc).applyN(args);
-                            }
-                            try {
-                                args[0] = proc;
-                                return Invoke.make.applyN(args);
-                            } catch (Throwable ex) {
-                                in.error("caught " + ex + " applying reader constructor " + name);
-                            }
-                        } else {
-                            in.error("reader constructor must be procedure or type name");
+                if (reader.getPort().peek() != 40 || (length = LList.listLength(list, false)) <= 0 || !(((Pair) list).getCar() instanceof Symbol)) {
+                    in.error("a non-empty list starting with a symbol must follow #,");
+                } else {
+                    String name = ((Pair) list).getCar().toString();
+                    Object proc = ReadTable.getCurrent().getReaderCtor(name);
+                    if (proc == null) {
+                        in.error("unknown reader constructor " + name);
+                    } else if ((proc instanceof Procedure) || (proc instanceof Type)) {
+                        int length2 = length - 1;
+                        int parg = proc instanceof Type ? 1 : 0;
+                        Object[] args = new Object[(parg + length2)];
+                        Object argList = ((Pair) (list = reader.readObject())).getCdr();
+                        for (int i = 0; i < length2; i++) {
+                            Pair pair = (Pair) argList;
+                            args[parg + i] = pair.getCar();
+                            argList = pair.getCdr();
                         }
-                        return Boolean.FALSE;
+                        if (parg <= 0) {
+                            return ((Procedure) proc).applyN(args);
+                        }
+                        try {
+                            args[0] = proc;
+                            return Invoke.make.applyN(args);
+                        } catch (Throwable ex) {
+                            in.error("caught " + ex + " applying reader constructor " + name);
+                        }
+                    } else {
+                        in.error("reader constructor must be procedure or type name");
                     }
                 }
-                in.error("a non-empty list starting with a symbol must follow #,");
                 return Boolean.FALSE;
             case 47:
                 return readRegex(in, ch, count);
@@ -196,16 +190,13 @@ public class ReaderDispatchMisc extends ReadTableEntry {
                 }
                 if (c == 92) {
                     c = port.read();
-                    if ((c == 32 || c == 9 || c == 13 || c == 10) && (in instanceof LispReader)) {
-                        c = ((LispReader) in).readEscape(c);
-                        if (c == -2) {
+                    if ((c != 32 && c != 9 && c != 13 && c != 10) || !(in instanceof LispReader) || (c = ((LispReader) in).readEscape(c)) != -2) {
+                        if (c < 0) {
+                            in.eofError("unexpected EOF in regex literal");
                         }
-                    }
-                    if (c < 0) {
-                        in.eofError("unexpected EOF in regex literal");
-                    }
-                    if (c != ch) {
-                        in.tokenBufferAppend(92);
+                        if (c != ch) {
+                            in.tokenBufferAppend(92);
+                        }
                     }
                 }
                 in.tokenBufferAppend(c);

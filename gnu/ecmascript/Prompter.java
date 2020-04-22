@@ -7,7 +7,7 @@ class Prompter extends Procedure1 {
     Prompter() {
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public String prompt(InPort port) {
         return "(EcmaScript:" + (port.getLineNumber() + 1) + ") ";
     }

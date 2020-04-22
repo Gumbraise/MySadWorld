@@ -3,7 +3,7 @@ package com.google.appinventor.components.runtime.util;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableRow;
@@ -17,7 +17,7 @@ public final class ViewUtil {
     }
 
     public static void setChildWidthForHorizontalLayout(View view, int width) {
-        LayoutParams layoutParams = view.getLayoutParams();
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
         if (layoutParams instanceof LinearLayout.LayoutParams) {
             LinearLayout.LayoutParams linearLayoutParams = (LinearLayout.LayoutParams) layoutParams;
             switch (width) {
@@ -41,7 +41,7 @@ public final class ViewUtil {
     }
 
     public static void setChildHeightForHorizontalLayout(View view, int height) {
-        LayoutParams layoutParams = view.getLayoutParams();
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
         if (layoutParams instanceof LinearLayout.LayoutParams) {
             LinearLayout.LayoutParams linearLayoutParams = (LinearLayout.LayoutParams) layoutParams;
             switch (height) {
@@ -62,7 +62,7 @@ public final class ViewUtil {
     }
 
     public static void setChildWidthForVerticalLayout(View view, int width) {
-        LayoutParams layoutParams = view.getLayoutParams();
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
         if (layoutParams instanceof LinearLayout.LayoutParams) {
             LinearLayout.LayoutParams linearLayoutParams = (LinearLayout.LayoutParams) layoutParams;
             switch (width) {
@@ -83,7 +83,7 @@ public final class ViewUtil {
     }
 
     public static void setChildHeightForVerticalLayout(View view, int height) {
-        LayoutParams layoutParams = view.getLayoutParams();
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
         if (layoutParams instanceof LinearLayout.LayoutParams) {
             LinearLayout.LayoutParams linearLayoutParams = (LinearLayout.LayoutParams) layoutParams;
             switch (height) {
@@ -107,7 +107,7 @@ public final class ViewUtil {
     }
 
     public static void setChildWidthForTableLayout(View view, int width) {
-        LayoutParams layoutParams = view.getLayoutParams();
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
         if (layoutParams instanceof TableRow.LayoutParams) {
             TableRow.LayoutParams tableLayoutParams = (TableRow.LayoutParams) layoutParams;
             switch (width) {
@@ -128,7 +128,7 @@ public final class ViewUtil {
     }
 
     public static void setChildHeightForTableLayout(View view, int height) {
-        LayoutParams layoutParams = view.getLayoutParams();
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
         if (layoutParams instanceof TableRow.LayoutParams) {
             TableRow.LayoutParams tableLayoutParams = (TableRow.LayoutParams) layoutParams;
             switch (height) {

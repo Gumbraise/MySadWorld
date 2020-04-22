@@ -9,18 +9,17 @@ import com.google.appinventor.components.annotations.SimpleObject;
 import com.google.appinventor.components.annotations.SimpleProperty;
 import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.runtime.util.ErrorMessages;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeatureCollection;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeatureContainer;
+import com.google.appinventor.components.runtime.util.MapFactory;
 import com.google.appinventor.components.runtime.util.YailList;
 import org.json.JSONException;
 
 @SimpleObject
 @DesignerComponent(category = ComponentCategory.MAPS, description = "A FeatureCollection contains one or more map features as a group. Any events fired on a feature in the collection will also trigger the corresponding event on the collection object. FeatureCollections can be loaded from external resources as a means of populating a Map with content.", version = 2)
-public class FeatureCollection extends MapFeatureContainerBase implements MapFeatureCollection {
+public class FeatureCollection extends MapFeatureContainerBase implements MapFactory.MapFeatureCollection {
     private Map map;
     private String source = "";
 
-    public FeatureCollection(MapFeatureContainer container) {
+    public FeatureCollection(MapFactory.MapFeatureContainer container) {
         super(container);
         this.map = container.getMap();
     }

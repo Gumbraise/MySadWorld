@@ -13,9 +13,7 @@ import gnu.lists.Consumer;
 import gnu.lists.LList;
 import gnu.lists.Pair;
 import gnu.lists.PairWithPosition;
-import gnu.mapping.SimpleSymbol;
 import gnu.mapping.Symbol;
-import kawa.standard.object;
 
 public class Lambda extends Syntax {
     public static final Keyword nameKeyword = Keyword.make("name");
@@ -44,7 +42,7 @@ public class Lambda extends Syntax {
         LambdaExp lexp = new LambdaExp();
         Pair pair = (Pair) obj;
         Translator.setLine((Expression) lexp, (Object) pair);
-        rewrite(lexp, pair.getCar(), pair.getCdr(), tr, null);
+        rewrite(lexp, pair.getCar(), pair.getCdr(), tr, (TemplateScope) null);
         if (tr.getMessages().getErrorCount() > old_errors) {
             return new ErrorExp("bad lambda expression");
         }
@@ -131,7 +129,7 @@ public class Lambda extends Syntax {
                             Declaration decl = new Declaration(bindings2);
                             decl.setType(LangObjType.listType);
                             decl.setFlag(262144);
-                            decl.noteValue(null);
+                            decl.noteValue((Expression) null);
                             addParam(decl, templateScopeRest, lexp, tr);
                             return;
                         }
@@ -231,11 +229,8 @@ public class Lambda extends Syntax {
                             return;
                         }
                         if (obj == this.optionalKeyword || obj == this.keyKeyword) {
-                            Expression[] expressionArr = lexp.defaultArgs;
-                            int opt_args3 = opt_args2 + 1;
-                            LangExp langExp = new LangExp(defaultValue);
-                            expressionArr[opt_args2] = langExp;
-                            opt_args2 = opt_args3;
+                            lexp.defaultArgs[opt_args2] = new LangExp(defaultValue);
+                            opt_args2++;
                         }
                         if (obj == this.keyKeyword) {
                             int key_args3 = key_args2 + 1;
@@ -245,14 +240,13 @@ public class Lambda extends Syntax {
                         Declaration decl2 = new Declaration(name);
                         Translator.setLine(decl2, bindings2);
                         if (typeSpecPair != null) {
-                            LangExp langExp2 = new LangExp(typeSpecPair);
-                            decl2.setTypeExp(langExp2);
+                            decl2.setTypeExp(new LangExp(typeSpecPair));
                             decl2.setFlag(8192);
                         } else if (obj == this.restKeyword) {
                             decl2.setType(LangObjType.listType);
                         }
                         decl2.setFlag(262144);
-                        decl2.noteValue(null);
+                        decl2.noteValue((Expression) null);
                         addParam(decl2, templateScope, lexp, tr);
                         tr.popPositionOf(savePos);
                     }
@@ -317,137 +311,387 @@ public class Lambda extends Syntax {
         }
     }
 
-    public Object rewriteAttrs(LambdaExp lexp, Object body, Translator tr) {
-        String accessFlagName = null;
-        String allocationFlagName = null;
-        int accessFlag = 0;
-        int allocationFlag = 0;
-        SyntaxForm syntax0 = null;
-        while (true) {
-            if (!(body instanceof SyntaxForm)) {
-                if (body instanceof Pair) {
-                    Pair pair1 = (Pair) body;
-                    Object attrName = Translator.stripSyntax(pair1.getCar());
-                    if (!tr.matches(attrName, "::")) {
-                        if (!(attrName instanceof Keyword)) {
-                            break;
-                        }
-                    } else {
-                        attrName = null;
-                    }
-                    SyntaxForm syntax1 = syntax0;
-                    Object pair1_cdr = pair1.getCdr();
-                    while (pair1_cdr instanceof SyntaxForm) {
-                        syntax1 = (SyntaxForm) pair1_cdr;
-                        pair1_cdr = syntax1.getDatum();
-                    }
-                    if (!(pair1_cdr instanceof Pair)) {
-                        break;
-                    }
-                    Pair pair2 = (Pair) pair1_cdr;
-                    if (attrName == null) {
-                        if (!lexp.isClassMethod() || !"*init*".equals(lexp.getName())) {
-                            lexp.body = new LangExp(new Object[]{pair2, syntax1});
-                        } else {
-                            tr.error('e', "explicit return type for '*init*' method");
-                        }
-                    } else if (attrName == object.accessKeyword) {
-                        Expression attrExpr = tr.rewrite_car(pair2, syntax1);
-                        if (attrExpr instanceof QuoteExp) {
-                            Object attrValue = ((QuoteExp) attrExpr).getValue();
-                            if ((attrValue instanceof SimpleSymbol) || (attrValue instanceof CharSequence)) {
-                                if (lexp.nameDecl == null) {
-                                    tr.error('e', "access: not allowed for anonymous function");
-                                } else {
-                                    String value = attrValue.toString();
-                                    if ("private".equals(value)) {
-                                        accessFlag = 16777216;
-                                    } else if ("protected".equals(value)) {
-                                        accessFlag = Declaration.PROTECTED_ACCESS;
-                                    } else if ("public".equals(value)) {
-                                        accessFlag = Declaration.PUBLIC_ACCESS;
-                                    } else if ("package".equals(value)) {
-                                        accessFlag = Declaration.PACKAGE_ACCESS;
-                                    } else {
-                                        tr.error('e', "unknown access specifier");
-                                    }
-                                    if (!(accessFlagName == null || value == null)) {
-                                        tr.error('e', "duplicate access specifiers - " + accessFlagName + " and " + value);
-                                    }
-                                    accessFlagName = value;
-                                }
-                            }
-                        }
-                        tr.error('e', "access: value not a constant symbol or string");
-                    } else if (attrName == object.allocationKeyword) {
-                        Expression attrExpr2 = tr.rewrite_car(pair2, syntax1);
-                        if (attrExpr2 instanceof QuoteExp) {
-                            Object attrValue2 = ((QuoteExp) attrExpr2).getValue();
-                            if ((attrValue2 instanceof SimpleSymbol) || (attrValue2 instanceof CharSequence)) {
-                                if (lexp.nameDecl == null) {
-                                    tr.error('e', "allocation: not allowed for anonymous function");
-                                } else {
-                                    String value2 = attrValue2.toString();
-                                    if ("class".equals(value2) || "static".equals(value2)) {
-                                        allocationFlag = 2048;
-                                    } else if ("instance".equals(value2)) {
-                                        allocationFlag = 4096;
-                                    } else {
-                                        tr.error('e', "unknown allocation specifier");
-                                    }
-                                    if (!(allocationFlagName == null || value2 == null)) {
-                                        tr.error('e', "duplicate allocation specifiers - " + allocationFlagName + " and " + value2);
-                                    }
-                                    allocationFlagName = value2;
-                                }
-                            }
-                        }
-                        tr.error('e', "allocation: value not a constant symbol or string");
-                    } else if (attrName == object.throwsKeyword) {
-                        Object attrValue3 = pair2.getCar();
-                        int count = Translator.listLength(attrValue3);
-                        if (count < 0) {
-                            tr.error('e', "throws: not followed by a list");
-                        } else {
-                            Expression[] exps = new Expression[count];
-                            SyntaxForm syntax2 = syntax1;
-                            for (int i = 0; i < count; i++) {
-                                while (attrValue3 instanceof SyntaxForm) {
-                                    syntax2 = (SyntaxForm) attrValue3;
-                                    attrValue3 = syntax2.getDatum();
-                                }
-                                Pair pair3 = (Pair) attrValue3;
-                                exps[i] = tr.rewrite_car(pair3, syntax2);
-                                Translator.setLine(exps[i], (Object) pair3);
-                                attrValue3 = pair3.getCdr();
-                            }
-                            lexp.setExceptions(exps);
-                        }
-                    } else if (attrName == nameKeyword) {
-                        Expression attrExpr3 = tr.rewrite_car(pair2, syntax1);
-                        if (attrExpr3 instanceof QuoteExp) {
-                            lexp.setName(((QuoteExp) attrExpr3).getValue().toString());
-                        }
-                    } else {
-                        tr.error('w', "unknown procedure property " + attrName);
-                    }
-                    body = pair2.getCdr();
-                } else {
-                    break;
-                }
-            } else {
-                syntax0 = (SyntaxForm) body;
-                body = syntax0.getDatum();
-            }
-        }
-        int accessFlag2 = accessFlag | allocationFlag;
-        if (accessFlag2 != 0) {
-            lexp.nameDecl.setFlag((long) accessFlag2);
-        }
-        if (syntax0 != null) {
-            return SyntaxForms.fromDatumIfNeeded(body, syntax0);
-        }
-        return body;
+    /* JADX WARNING: Failed to insert additional move for type inference */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public java.lang.Object rewriteAttrs(gnu.expr.LambdaExp r27, java.lang.Object r28, kawa.lang.Translator r29) {
+        /*
+            r26 = this;
+            r5 = 0
+            r7 = 0
+            r4 = 0
+            r6 = 0
+            r18 = 0
+        L_0x0006:
+            r0 = r28
+            boolean r0 = r0 instanceof kawa.lang.SyntaxForm
+            r22 = r0
+            if (r22 == 0) goto L_0x0017
+            r18 = r28
+            kawa.lang.SyntaxForm r18 = (kawa.lang.SyntaxForm) r18
+            java.lang.Object r28 = r18.getDatum()
+            goto L_0x0006
+        L_0x0017:
+            r0 = r28
+            boolean r0 = r0 instanceof gnu.lists.Pair
+            r22 = r0
+            if (r22 != 0) goto L_0x003d
+        L_0x001f:
+            r4 = r4 | r6
+            if (r4 == 0) goto L_0x0032
+            r0 = r27
+            gnu.expr.Declaration r0 = r0.nameDecl
+            r22 = r0
+            long r0 = (long) r4
+            r24 = r0
+            r0 = r22
+            r1 = r24
+            r0.setFlag(r1)
+        L_0x0032:
+            if (r18 == 0) goto L_0x003c
+            r0 = r28
+            r1 = r18
+            java.lang.Object r28 = kawa.lang.SyntaxForms.fromDatumIfNeeded(r0, r1)
+        L_0x003c:
+            return r28
+        L_0x003d:
+            r14 = r28
+            gnu.lists.Pair r14 = (gnu.lists.Pair) r14
+            java.lang.Object r22 = r14.getCar()
+            java.lang.Object r9 = kawa.lang.Translator.stripSyntax(r22)
+            java.lang.String r22 = "::"
+            r0 = r29
+            r1 = r22
+            boolean r22 = r0.matches(r9, r1)
+            if (r22 == 0) goto L_0x006b
+            r9 = 0
+        L_0x0056:
+            r19 = r18
+            java.lang.Object r15 = r14.getCdr()
+        L_0x005c:
+            boolean r0 = r15 instanceof kawa.lang.SyntaxForm
+            r22 = r0
+            if (r22 == 0) goto L_0x0072
+            r19 = r15
+            kawa.lang.SyntaxForm r19 = (kawa.lang.SyntaxForm) r19
+            java.lang.Object r15 = r19.getDatum()
+            goto L_0x005c
+        L_0x006b:
+            boolean r0 = r9 instanceof gnu.expr.Keyword
+            r22 = r0
+            if (r22 != 0) goto L_0x0056
+            goto L_0x001f
+        L_0x0072:
+            boolean r0 = r15 instanceof gnu.lists.Pair
+            r22 = r0
+            if (r22 == 0) goto L_0x001f
+            r16 = r15
+            gnu.lists.Pair r16 = (gnu.lists.Pair) r16
+            if (r9 != 0) goto L_0x00bf
+            boolean r22 = r27.isClassMethod()
+            if (r22 == 0) goto L_0x00a3
+            java.lang.String r22 = "*init*"
+            java.lang.String r23 = r27.getName()
+            boolean r22 = r22.equals(r23)
+            if (r22 == 0) goto L_0x00a3
+            r22 = 101(0x65, float:1.42E-43)
+            java.lang.String r23 = "explicit return type for '*init*' method"
+            r0 = r29
+            r1 = r22
+            r2 = r23
+            r0.error(r1, r2)
+        L_0x009d:
+            java.lang.Object r28 = r16.getCdr()
+            goto L_0x0006
+        L_0x00a3:
+            gnu.expr.LangExp r22 = new gnu.expr.LangExp
+            r23 = 2
+            r0 = r23
+            java.lang.Object[] r0 = new java.lang.Object[r0]
+            r23 = r0
+            r24 = 0
+            r23[r24] = r16
+            r24 = 1
+            r23[r24] = r19
+            r22.<init>(r23)
+            r0 = r22
+            r1 = r27
+            r1.body = r0
+            goto L_0x009d
+        L_0x00bf:
+            gnu.expr.Keyword r22 = kawa.standard.object.accessKeyword
+            r0 = r22
+            if (r9 != r0) goto L_0x018e
+            r0 = r29
+            r1 = r16
+            r2 = r19
+            gnu.expr.Expression r8 = r0.rewrite_car((gnu.lists.Pair) r1, (kawa.lang.SyntaxForm) r2)
+            boolean r0 = r8 instanceof gnu.expr.QuoteExp
+            r22 = r0
+            if (r22 == 0) goto L_0x00e7
+            gnu.expr.QuoteExp r8 = (gnu.expr.QuoteExp) r8
+            java.lang.Object r10 = r8.getValue()
+            boolean r0 = r10 instanceof gnu.mapping.SimpleSymbol
+            r22 = r0
+            if (r22 != 0) goto L_0x00f5
+            boolean r0 = r10 instanceof java.lang.CharSequence
+            r22 = r0
+            if (r22 != 0) goto L_0x00f5
+        L_0x00e7:
+            r22 = 101(0x65, float:1.42E-43)
+            java.lang.String r23 = "access: value not a constant symbol or string"
+            r0 = r29
+            r1 = r22
+            r2 = r23
+            r0.error(r1, r2)
+            goto L_0x009d
+        L_0x00f5:
+            r0 = r27
+            gnu.expr.Declaration r0 = r0.nameDecl
+            r22 = r0
+            if (r22 != 0) goto L_0x010b
+            r22 = 101(0x65, float:1.42E-43)
+            java.lang.String r23 = "access: not allowed for anonymous function"
+            r0 = r29
+            r1 = r22
+            r2 = r23
+            r0.error(r1, r2)
+            goto L_0x009d
+        L_0x010b:
+            java.lang.String r21 = r10.toString()
+            java.lang.String r22 = "private"
+            r0 = r22
+            r1 = r21
+            boolean r22 = r0.equals(r1)
+            if (r22 == 0) goto L_0x0153
+            r4 = 16777216(0x1000000, float:2.3509887E-38)
+        L_0x011d:
+            if (r5 == 0) goto L_0x014f
+            if (r21 == 0) goto L_0x014f
+            r22 = 101(0x65, float:1.42E-43)
+            java.lang.StringBuilder r23 = new java.lang.StringBuilder
+            r23.<init>()
+            java.lang.String r24 = "duplicate access specifiers - "
+            java.lang.StringBuilder r23 = r23.append(r24)
+            r0 = r23
+            java.lang.StringBuilder r23 = r0.append(r5)
+            java.lang.String r24 = " and "
+            java.lang.StringBuilder r23 = r23.append(r24)
+            r0 = r23
+            r1 = r21
+            java.lang.StringBuilder r23 = r0.append(r1)
+            java.lang.String r23 = r23.toString()
+            r0 = r29
+            r1 = r22
+            r2 = r23
+            r0.error(r1, r2)
+        L_0x014f:
+            r5 = r21
+            goto L_0x009d
+        L_0x0153:
+            java.lang.String r22 = "protected"
+            r0 = r22
+            r1 = r21
+            boolean r22 = r0.equals(r1)
+            if (r22 == 0) goto L_0x0162
+            r4 = 33554432(0x2000000, float:9.403955E-38)
+            goto L_0x011d
+        L_0x0162:
+            java.lang.String r22 = "public"
+            r0 = r22
+            r1 = r21
+            boolean r22 = r0.equals(r1)
+            if (r22 == 0) goto L_0x0171
+            r4 = 67108864(0x4000000, float:1.5046328E-36)
+            goto L_0x011d
+        L_0x0171:
+            java.lang.String r22 = "package"
+            r0 = r22
+            r1 = r21
+            boolean r22 = r0.equals(r1)
+            if (r22 == 0) goto L_0x0180
+            r4 = 134217728(0x8000000, float:3.85186E-34)
+            goto L_0x011d
+        L_0x0180:
+            r22 = 101(0x65, float:1.42E-43)
+            java.lang.String r23 = "unknown access specifier"
+            r0 = r29
+            r1 = r22
+            r2 = r23
+            r0.error(r1, r2)
+            goto L_0x011d
+        L_0x018e:
+            gnu.expr.Keyword r22 = kawa.standard.object.allocationKeyword
+            r0 = r22
+            if (r9 != r0) goto L_0x024d
+            r0 = r29
+            r1 = r16
+            r2 = r19
+            gnu.expr.Expression r8 = r0.rewrite_car((gnu.lists.Pair) r1, (kawa.lang.SyntaxForm) r2)
+            boolean r0 = r8 instanceof gnu.expr.QuoteExp
+            r22 = r0
+            if (r22 == 0) goto L_0x01b6
+            gnu.expr.QuoteExp r8 = (gnu.expr.QuoteExp) r8
+            java.lang.Object r10 = r8.getValue()
+            boolean r0 = r10 instanceof gnu.mapping.SimpleSymbol
+            r22 = r0
+            if (r22 != 0) goto L_0x01c5
+            boolean r0 = r10 instanceof java.lang.CharSequence
+            r22 = r0
+            if (r22 != 0) goto L_0x01c5
+        L_0x01b6:
+            r22 = 101(0x65, float:1.42E-43)
+            java.lang.String r23 = "allocation: value not a constant symbol or string"
+            r0 = r29
+            r1 = r22
+            r2 = r23
+            r0.error(r1, r2)
+            goto L_0x009d
+        L_0x01c5:
+            r0 = r27
+            gnu.expr.Declaration r0 = r0.nameDecl
+            r22 = r0
+            if (r22 != 0) goto L_0x01dc
+            r22 = 101(0x65, float:1.42E-43)
+            java.lang.String r23 = "allocation: not allowed for anonymous function"
+            r0 = r29
+            r1 = r22
+            r2 = r23
+            r0.error(r1, r2)
+            goto L_0x009d
+        L_0x01dc:
+            java.lang.String r21 = r10.toString()
+            java.lang.String r22 = "class"
+            r0 = r22
+            r1 = r21
+            boolean r22 = r0.equals(r1)
+            if (r22 != 0) goto L_0x01f8
+            java.lang.String r22 = "static"
+            r0 = r22
+            r1 = r21
+            boolean r22 = r0.equals(r1)
+            if (r22 == 0) goto L_0x0230
+        L_0x01f8:
+            r6 = 2048(0x800, float:2.87E-42)
+        L_0x01fa:
+            if (r7 == 0) goto L_0x022c
+            if (r21 == 0) goto L_0x022c
+            r22 = 101(0x65, float:1.42E-43)
+            java.lang.StringBuilder r23 = new java.lang.StringBuilder
+            r23.<init>()
+            java.lang.String r24 = "duplicate allocation specifiers - "
+            java.lang.StringBuilder r23 = r23.append(r24)
+            r0 = r23
+            java.lang.StringBuilder r23 = r0.append(r7)
+            java.lang.String r24 = " and "
+            java.lang.StringBuilder r23 = r23.append(r24)
+            r0 = r23
+            r1 = r21
+            java.lang.StringBuilder r23 = r0.append(r1)
+            java.lang.String r23 = r23.toString()
+            r0 = r29
+            r1 = r22
+            r2 = r23
+            r0.error(r1, r2)
+        L_0x022c:
+            r7 = r21
+            goto L_0x009d
+        L_0x0230:
+            java.lang.String r22 = "instance"
+            r0 = r22
+            r1 = r21
+            boolean r22 = r0.equals(r1)
+            if (r22 == 0) goto L_0x023f
+            r6 = 4096(0x1000, float:5.74E-42)
+            goto L_0x01fa
+        L_0x023f:
+            r22 = 101(0x65, float:1.42E-43)
+            java.lang.String r23 = "unknown allocation specifier"
+            r0 = r29
+            r1 = r22
+            r2 = r23
+            r0.error(r1, r2)
+            goto L_0x01fa
+        L_0x024d:
+            gnu.expr.Keyword r22 = kawa.standard.object.throwsKeyword
+            r0 = r22
+            if (r9 != r0) goto L_0x02a9
+            java.lang.Object r10 = r16.getCar()
+            int r11 = kawa.lang.Translator.listLength(r10)
+            if (r11 >= 0) goto L_0x026c
+            r22 = 101(0x65, float:1.42E-43)
+            java.lang.String r23 = "throws: not followed by a list"
+            r0 = r29
+            r1 = r22
+            r2 = r23
+            r0.error(r1, r2)
+            goto L_0x009d
+        L_0x026c:
+            gnu.expr.Expression[] r12 = new gnu.expr.Expression[r11]
+            r20 = r19
+            r13 = 0
+        L_0x0271:
+            if (r13 >= r11) goto L_0x02a2
+        L_0x0273:
+            boolean r0 = r10 instanceof kawa.lang.SyntaxForm
+            r22 = r0
+            if (r22 == 0) goto L_0x0282
+            r20 = r10
+            kawa.lang.SyntaxForm r20 = (kawa.lang.SyntaxForm) r20
+            java.lang.Object r10 = r20.getDatum()
+            goto L_0x0273
+        L_0x0282:
+            r17 = r10
+            gnu.lists.Pair r17 = (gnu.lists.Pair) r17
+            r0 = r29
+            r1 = r17
+            r2 = r20
+            gnu.expr.Expression r22 = r0.rewrite_car((gnu.lists.Pair) r1, (kawa.lang.SyntaxForm) r2)
+            r12[r13] = r22
+            r22 = r12[r13]
+            r0 = r22
+            r1 = r17
+            kawa.lang.Translator.setLine((gnu.expr.Expression) r0, (java.lang.Object) r1)
+            java.lang.Object r10 = r17.getCdr()
+            int r13 = r13 + 1
+            goto L_0x0271
+        L_0x02a2:
+            r0 = r27
+            r0.setExceptions(r12)
+            goto L_0x009d
+        L_0x02a9:
+            gnu.expr.Keyword r22 = nameKeyword
+            r0 = r22
+            if (r9 != r0) goto L_0x02d2
+            r0 = r29
+            r1 = r16
+            r2 = r19
+            gnu.expr.Expression r8 = r0.rewrite_car((gnu.lists.Pair) r1, (kawa.lang.SyntaxForm) r2)
+            boolean r0 = r8 instanceof gnu.expr.QuoteExp
+            r22 = r0
+            if (r22 == 0) goto L_0x009d
+            gnu.expr.QuoteExp r8 = (gnu.expr.QuoteExp) r8
+            java.lang.Object r22 = r8.getValue()
+            java.lang.String r22 = r22.toString()
+            r0 = r27
+            r1 = r22
+            r0.setName(r1)
+            goto L_0x009d
+        L_0x02d2:
+            r22 = 119(0x77, float:1.67E-43)
+            java.lang.StringBuilder r23 = new java.lang.StringBuilder
+            r23.<init>()
+            java.lang.String r24 = "unknown procedure property "
+            java.lang.StringBuilder r23 = r23.append(r24)
+            r0 = r23
+            java.lang.StringBuilder r23 = r0.append(r9)
+            java.lang.String r23 = r23.toString()
+            r0 = r29
+            r1 = r22
+            r2 = r23
+            r0.error(r1, r2)
+            goto L_0x009d
+        */
+        throw new UnsupportedOperationException("Method not decompiled: kawa.lang.Lambda.rewriteAttrs(gnu.expr.LambdaExp, java.lang.Object, kawa.lang.Translator):java.lang.Object");
     }
 
     public Object skipAttrs(LambdaExp lexp, Object body, Translator tr) {
@@ -583,7 +827,7 @@ public class Lambda extends Syntax {
             gnu.expr.NameLookup r0 = r0.lexical
             r23 = r0
             r0 = r23
-            r0.push(r5)
+            r0.push((gnu.expr.Declaration) r5)
             gnu.expr.Declaration r5 = r5.nextDecl()
             goto L_0x0047
         L_0x00e1:
@@ -614,7 +858,7 @@ public class Lambda extends Syntax {
             r23 = 0
             gnu.expr.Declaration r24 = new gnu.expr.Declaration
             java.lang.String r25 = gnu.expr.ThisExp.THIS_NAME
-            r24.<init>(r25)
+            r24.<init>((java.lang.Object) r25)
             r0 = r27
             r1 = r23
             r2 = r24
@@ -653,11 +897,11 @@ public class Lambda extends Syntax {
             r0 = r29
             r1 = r23
             r2 = r24
-            gnu.expr.Expression r19 = r0.rewrite_car(r1, r2)
+            gnu.expr.Expression r19 = r0.rewrite_car((gnu.lists.Pair) r1, (kawa.lang.SyntaxForm) r2)
             gnu.expr.Language r23 = r29.getLanguage()
             r0 = r23
             r1 = r19
-            gnu.bytecode.Type r17 = r0.getTypeFor(r1)
+            gnu.bytecode.Type r17 = r0.getTypeFor((gnu.expr.Expression) r1)
         L_0x0175:
             r0 = r29
             r1 = r28
@@ -746,7 +990,7 @@ public class Lambda extends Syntax {
             r0 = r23
             r1 = r24
             java.lang.System.arraycopy(r7, r0, r10, r1, r9)
-            gnu.expr.Expression r23 = gnu.expr.BeginExp.canonicalize(r10)
+            gnu.expr.Expression r23 = gnu.expr.BeginExp.canonicalize((gnu.expr.Expression[]) r10)
             r0 = r23
             r1 = r27
             r1.body = r0

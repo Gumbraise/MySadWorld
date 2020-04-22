@@ -5,12 +5,8 @@ import java.text.Format;
 import java.text.ParsePosition;
 
 public class FixedRealFormat extends Format {
-
-    /* renamed from: d */
-    private int f238d;
-
-    /* renamed from: i */
-    private int f239i;
+    private int d;
+    private int i;
     public boolean internalPad;
     public char overflowChar;
     public char padChar;
@@ -19,47 +15,45 @@ public class FixedRealFormat extends Format {
     public int width;
 
     public int getMaximumFractionDigits() {
-        return this.f238d;
+        return this.d;
     }
 
     public int getMinimumIntegerDigits() {
-        return this.f239i;
+        return this.i;
     }
 
-    public void setMaximumFractionDigits(int d) {
-        this.f238d = d;
+    public void setMaximumFractionDigits(int d2) {
+        this.d = d2;
     }
 
-    public void setMinimumIntegerDigits(int i) {
-        this.f239i = i;
+    public void setMinimumIntegerDigits(int i2) {
+        this.i = i2;
     }
 
     public void format(RealNum number, StringBuffer sbuf, FieldPosition fpos) {
-        if (number instanceof RatNum) {
-            int decimals = getMaximumFractionDigits();
-            if (decimals >= 0) {
-                RatNum ratnum = (RatNum) number;
-                boolean negative = ratnum.isNegative();
-                if (negative) {
-                    ratnum = ratnum.rneg();
-                }
-                int oldSize = sbuf.length();
-                int signLen = 1;
-                if (negative) {
-                    sbuf.append('-');
-                } else if (this.showPlus) {
-                    sbuf.append('+');
-                } else {
-                    signLen = 0;
-                }
-                String string = RealNum.toScaledInt(ratnum, this.scale + decimals).toString();
-                sbuf.append(string);
-                int length = string.length();
-                format(sbuf, fpos, length, length - decimals, decimals, signLen, oldSize);
-                return;
-            }
+        int decimals;
+        if (!(number instanceof RatNum) || (decimals = getMaximumFractionDigits()) < 0) {
+            format(number.doubleValue(), sbuf, fpos);
+            return;
         }
-        format(number.doubleValue(), sbuf, fpos);
+        RatNum ratnum = (RatNum) number;
+        boolean negative = ratnum.isNegative();
+        if (negative) {
+            ratnum = ratnum.rneg();
+        }
+        int oldSize = sbuf.length();
+        int signLen = 1;
+        if (negative) {
+            sbuf.append('-');
+        } else if (this.showPlus) {
+            sbuf.append('+');
+        } else {
+            signLen = 0;
+        }
+        String string = RealNum.toScaledInt(ratnum, this.scale + decimals).toString();
+        sbuf.append(string);
+        int length = string.length();
+        format(sbuf, fpos, length, length - decimals, decimals, signLen, oldSize);
     }
 
     public StringBuffer format(long num, StringBuffer sbuf, FieldPosition fpos) {
@@ -111,25 +105,25 @@ public class FixedRealFormat extends Format {
             int length2 = length - 1;
             string = string.substring(0, seenDot) + string.substring(seenDot + 1);
         }
-        int i = string.length();
+        int i2 = string.length();
         int initial_zeros = 0;
-        while (initial_zeros < i - 1 && string.charAt(initial_zeros) == '0') {
+        while (initial_zeros < i2 - 1 && string.charAt(initial_zeros) == '0') {
             initial_zeros++;
         }
         if (initial_zeros > 0) {
             string = string.substring(initial_zeros);
-            i -= initial_zeros;
+            i2 -= initial_zeros;
         }
-        int digits = i + cur_scale;
+        int digits = i2 + cur_scale;
         if (this.width > 0) {
             while (digits < 0) {
                 sbuf.append('0');
                 digits++;
-                i++;
+                i2++;
             }
             decimals = ((this.width - signLen) - 1) - digits;
         } else {
-            decimals = (i > 16 ? 16 : i) - digits;
+            decimals = (i2 > 16 ? 16 : i2) - digits;
         }
         if (decimals < 0) {
             decimals = 0;
@@ -138,13 +132,13 @@ public class FixedRealFormat extends Format {
         while (cur_scale > 0) {
             sbuf.append('0');
             cur_scale--;
-            i++;
+            i2++;
         }
         int digStart = oldSize + signLen;
         int digEnd = digStart + digits + decimals;
-        int i2 = sbuf.length();
-        if (digEnd >= i2) {
-            digEnd = i2;
+        int i3 = sbuf.length();
+        if (digEnd >= i3) {
+            digEnd = i3;
             nextDigit = '0';
         } else {
             nextDigit = sbuf.charAt(digEnd);
@@ -198,7 +192,7 @@ public class FixedRealFormat extends Format {
 
     private void format(StringBuffer sbuf, FieldPosition fpos, int length, int digits, int decimals, int signLen, int oldSize) {
         int zero_digits;
-        int i = digits + decimals;
+        int i2 = digits + decimals;
         int zero_digits2 = getMinimumIntegerDigits();
         if (digits < 0 || digits <= zero_digits2) {
             zero_digits = zero_digits2 - digits;
@@ -209,33 +203,33 @@ public class FixedRealFormat extends Format {
             zero_digits++;
         }
         int padding = this.width - (((signLen + length) + zero_digits) + 1);
-        int i2 = zero_digits;
+        int i3 = zero_digits;
         while (true) {
-            i2--;
-            if (i2 < 0) {
+            i3--;
+            if (i3 < 0) {
                 break;
             }
             sbuf.insert(oldSize + signLen, '0');
         }
         if (padding >= 0) {
-            int i3 = oldSize;
+            int i4 = oldSize;
             if (this.internalPad && signLen > 0) {
-                i3++;
+                i4++;
             }
             while (true) {
                 padding--;
                 if (padding < 0) {
                     break;
                 }
-                sbuf.insert(i3, this.padChar);
+                sbuf.insert(i4, this.padChar);
             }
         } else if (this.overflowChar != 0) {
             sbuf.setLength(oldSize);
-            this.f239i = this.width;
+            this.i = this.width;
             while (true) {
-                int i4 = this.f239i - 1;
-                this.f239i = i4;
-                if (i4 >= 0) {
+                int i5 = this.i - 1;
+                this.i = i5;
+                if (i5 >= 0) {
                     sbuf.append(this.overflowChar);
                 } else {
                     return;

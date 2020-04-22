@@ -12,7 +12,6 @@ final class SharedPreferencesCollector {
     }
 
     public static String collect(Context context) {
-        String[] arr$;
         StringBuilder result = new StringBuilder();
         Map<String, SharedPreferences> shrdPrefs = new TreeMap<>();
         shrdPrefs.put("default", PreferenceManager.getDefaultSharedPreferences(context));
@@ -24,7 +23,7 @@ final class SharedPreferencesCollector {
         }
         for (String prefsId : shrdPrefs.keySet()) {
             result.append(prefsId).append("\n");
-            SharedPreferences prefs = (SharedPreferences) shrdPrefs.get(prefsId);
+            SharedPreferences prefs = shrdPrefs.get(prefsId);
             if (prefs != null) {
                 Map<String, ?> kv = prefs.getAll();
                 if (kv == null || kv.size() <= 0) {

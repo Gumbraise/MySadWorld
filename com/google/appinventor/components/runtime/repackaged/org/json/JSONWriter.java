@@ -39,7 +39,7 @@ public class JSONWriter {
 
     public JSONWriter array() throws JSONException {
         if (this.mode == 'i' || this.mode == 'o' || this.mode == 'a') {
-            push(null);
+            push((JSONObject) null);
             append("[");
             this.comma = false;
             return this;

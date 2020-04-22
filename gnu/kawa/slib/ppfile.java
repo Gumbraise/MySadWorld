@@ -1,6 +1,6 @@
 package gnu.kawa.slib;
 
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import gnu.expr.ModuleBody;
 import gnu.expr.ModuleInfo;
 import gnu.expr.ModuleMethod;
@@ -13,8 +13,8 @@ import gnu.mapping.SimpleSymbol;
 import gnu.mapping.WrongType;
 import gnu.text.Char;
 import gnu.text.Path;
-import kawa.lib.C0620lists;
 import kawa.lib.characters;
+import kawa.lib.lists;
 import kawa.lib.ports;
 import kawa.lib.rnrs.unicode;
 import kawa.standard.Scheme;
@@ -31,144 +31,10 @@ public class ppfile extends ModuleBody {
     public static final ModuleMethod pprint$Mnfile;
     public static final ModuleMethod pprint$Mnfilter$Mnfile;
 
-    /* compiled from: ppfile.scm */
-    public class frame extends ModuleBody {
-        Object filter;
-        final ModuleMethod lambda$Fn1;
-        LList optarg;
-
-        public frame() {
-            ModuleMethod moduleMethod = new ModuleMethod(this, 2, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/ppfile.scm:27");
-            this.lambda$Fn1 = moduleMethod;
-        }
-
-        public Object apply1(ModuleMethod moduleMethod, Object obj) {
-            return moduleMethod.selector == 2 ? lambda1(obj) : super.apply1(moduleMethod, obj);
-        }
-
-        /* access modifiers changed from: 0000 */
-        public Object lambda1(Object port) {
-            frame0 frame0 = new frame0();
-            frame0.staticLink = this;
-            frame0.port = port;
-            Procedure fun = frame0.lambda$Fn2;
-            Object outport = C0620lists.isNull(this.optarg) ? ports.current$Mnoutput$Mnport.apply0() : C0620lists.car.apply1(this.optarg);
-            if (ports.isOutputPort(outport)) {
-                return frame0.lambda2(outport);
-            }
-            try {
-                return ports.callWithOutputFile(Path.valueOf(outport), fun);
-            } catch (ClassCastException e) {
-                throw new WrongType(e, "call-with-output-file", 1, outport);
-            }
-        }
-
-        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
-            if (moduleMethod.selector != 2) {
-                return super.match1(moduleMethod, obj, callContext);
-            }
-            callContext.value1 = obj;
-            callContext.proc = moduleMethod;
-            callContext.f236pc = 1;
-            return 0;
-        }
-    }
-
-    /* compiled from: ppfile.scm */
-    public class frame0 extends ModuleBody {
-        final ModuleMethod lambda$Fn2;
-        Object port;
-        frame staticLink;
-
-        public frame0() {
-            ModuleMethod moduleMethod = new ModuleMethod(this, 1, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/ppfile.scm:34");
-            this.lambda$Fn2 = moduleMethod;
-        }
-
-        public Object apply1(ModuleMethod moduleMethod, Object obj) {
-            return moduleMethod.selector == 1 ? lambda2(obj) : super.apply1(moduleMethod, obj);
-        }
-
-        /* access modifiers changed from: 0000 */
-        public Object lambda2(Object export) {
-            Object c = readchar.peekChar.apply1(this.port);
-            while (true) {
-                boolean x = ports.isEofObject(c);
-                if (!x) {
-                    try {
-                        if (unicode.isCharWhitespace((Char) c)) {
-                            ports.display(readchar.readChar.apply1(this.port), export);
-                            c = readchar.peekChar.apply1(this.port);
-                        } else {
-                            try {
-                                if (characters.isChar$Eq(ppfile.Lit0, (Char) c)) {
-                                    while (true) {
-                                        boolean x2 = ports.isEofObject(c);
-                                        if (x2) {
-                                            return x2 ? Boolean.TRUE : Boolean.FALSE;
-                                        }
-                                        try {
-                                            if (characters.isChar$Eq(ppfile.Lit1, (Char) c)) {
-                                                ports.display(readchar.readChar.apply1(this.port), export);
-                                                c = readchar.peekChar.apply1(this.port);
-                                                break;
-                                            }
-                                            ports.display(readchar.readChar.apply1(this.port), export);
-                                            c = readchar.peekChar.apply1(this.port);
-                                        } catch (ClassCastException e) {
-                                            throw new WrongType(e, "char=?", 2, c);
-                                        }
-                                    }
-                                } else {
-                                    Object obj = this.port;
-                                    try {
-                                        Object o = ports.read((InPort) obj);
-                                        boolean x3 = ports.isEofObject(o);
-                                        if (x3) {
-                                            return x3 ? Boolean.TRUE : Boolean.FALSE;
-                                        }
-                                        C0610pp.prettyPrint(Scheme.applyToArgs.apply2(this.staticLink.filter, o), export);
-                                        c = readchar.peekChar.apply1(this.port);
-                                        if (Scheme.isEqv.apply2(ppfile.Lit1, c) != Boolean.FALSE) {
-                                            readchar.readChar.apply1(this.port);
-                                            c = readchar.peekChar.apply1(this.port);
-                                        }
-                                    } catch (ClassCastException e2) {
-                                        throw new WrongType(e2, "read", 1, obj);
-                                    }
-                                }
-                            } catch (ClassCastException e3) {
-                                throw new WrongType(e3, "char=?", 2, c);
-                            }
-                        }
-                    } catch (ClassCastException e4) {
-                        throw new WrongType(e4, "char-whitespace?", 1, c);
-                    }
-                } else if (x) {
-                    return Boolean.TRUE;
-                } else {
-                    return Boolean.FALSE;
-                }
-            }
-        }
-
-        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
-            if (moduleMethod.selector != 1) {
-                return super.match1(moduleMethod, obj, callContext);
-            }
-            callContext.value1 = obj;
-            callContext.proc = moduleMethod;
-            callContext.f236pc = 1;
-            return 0;
-        }
-    }
-
     static {
         ppfile ppfile = $instance;
         pprint$Mnfilter$Mnfile = new ModuleMethod(ppfile, 3, Lit2, -4094);
-        ModuleMethod moduleMethod = new ModuleMethod(ppfile, 4, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ModuleMethod moduleMethod = new ModuleMethod(ppfile, 4, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/ppfile.scm:70");
         lambda$Fn3 = moduleMethod;
         pprint$Mnfile = new ModuleMethod(ppfile, 5, Lit3, 8193);
@@ -225,8 +91,142 @@ public class ppfile extends ModuleBody {
         }
         callContext.values = objArr;
         callContext.proc = moduleMethod;
-        callContext.f236pc = 5;
+        callContext.pc = 5;
         return 0;
+    }
+
+    /* compiled from: ppfile.scm */
+    public class frame extends ModuleBody {
+        Object filter;
+        final ModuleMethod lambda$Fn1;
+        LList optarg;
+
+        public frame() {
+            ModuleMethod moduleMethod = new ModuleMethod(this, 2, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/ppfile.scm:27");
+            this.lambda$Fn1 = moduleMethod;
+        }
+
+        public Object apply1(ModuleMethod moduleMethod, Object obj) {
+            return moduleMethod.selector == 2 ? lambda1(obj) : super.apply1(moduleMethod, obj);
+        }
+
+        /* access modifiers changed from: package-private */
+        public Object lambda1(Object port) {
+            frame0 frame0 = new frame0();
+            frame0.staticLink = this;
+            frame0.port = port;
+            Procedure fun = frame0.lambda$Fn2;
+            Object outport = lists.isNull(this.optarg) ? ports.current$Mnoutput$Mnport.apply0() : lists.car.apply1(this.optarg);
+            if (ports.isOutputPort(outport)) {
+                return frame0.lambda2(outport);
+            }
+            try {
+                return ports.callWithOutputFile(Path.valueOf(outport), fun);
+            } catch (ClassCastException e) {
+                throw new WrongType(e, "call-with-output-file", 1, outport);
+            }
+        }
+
+        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
+            if (moduleMethod.selector != 2) {
+                return super.match1(moduleMethod, obj, callContext);
+            }
+            callContext.value1 = obj;
+            callContext.proc = moduleMethod;
+            callContext.pc = 1;
+            return 0;
+        }
+    }
+
+    /* compiled from: ppfile.scm */
+    public class frame0 extends ModuleBody {
+        final ModuleMethod lambda$Fn2;
+        Object port;
+        frame staticLink;
+
+        public frame0() {
+            ModuleMethod moduleMethod = new ModuleMethod(this, 1, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/ppfile.scm:34");
+            this.lambda$Fn2 = moduleMethod;
+        }
+
+        public Object apply1(ModuleMethod moduleMethod, Object obj) {
+            return moduleMethod.selector == 1 ? lambda2(obj) : super.apply1(moduleMethod, obj);
+        }
+
+        /* access modifiers changed from: package-private */
+        public Object lambda2(Object export) {
+            Object c = readchar.peekChar.apply1(this.port);
+            while (true) {
+                boolean x = ports.isEofObject(c);
+                if (!x) {
+                    try {
+                        if (unicode.isCharWhitespace((Char) c)) {
+                            ports.display(readchar.readChar.apply1(this.port), export);
+                            c = readchar.peekChar.apply1(this.port);
+                        } else {
+                            try {
+                                if (characters.isChar$Eq(ppfile.Lit0, (Char) c)) {
+                                    while (true) {
+                                        boolean x2 = ports.isEofObject(c);
+                                        if (x2) {
+                                            return x2 ? Boolean.TRUE : Boolean.FALSE;
+                                        }
+                                        try {
+                                            if (characters.isChar$Eq(ppfile.Lit1, (Char) c)) {
+                                                ports.display(readchar.readChar.apply1(this.port), export);
+                                                c = readchar.peekChar.apply1(this.port);
+                                                break;
+                                            }
+                                            ports.display(readchar.readChar.apply1(this.port), export);
+                                            c = readchar.peekChar.apply1(this.port);
+                                        } catch (ClassCastException e) {
+                                            throw new WrongType(e, "char=?", 2, c);
+                                        }
+                                    }
+                                } else {
+                                    Object obj = this.port;
+                                    try {
+                                        Object o = ports.read((InPort) obj);
+                                        boolean x3 = ports.isEofObject(o);
+                                        if (x3) {
+                                            return x3 ? Boolean.TRUE : Boolean.FALSE;
+                                        }
+                                        pp.prettyPrint(Scheme.applyToArgs.apply2(this.staticLink.filter, o), export);
+                                        c = readchar.peekChar.apply1(this.port);
+                                        if (Scheme.isEqv.apply2(ppfile.Lit1, c) != Boolean.FALSE) {
+                                            readchar.readChar.apply1(this.port);
+                                            c = readchar.peekChar.apply1(this.port);
+                                        }
+                                    } catch (ClassCastException e2) {
+                                        throw new WrongType(e2, "read", 1, obj);
+                                    }
+                                }
+                            } catch (ClassCastException e3) {
+                                throw new WrongType(e3, "char=?", 2, c);
+                            }
+                        }
+                    } catch (ClassCastException e4) {
+                        throw new WrongType(e4, "char-whitespace?", 1, c);
+                    }
+                } else if (x) {
+                    return Boolean.TRUE;
+                } else {
+                    return Boolean.FALSE;
+                }
+            }
+        }
+
+        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
+            if (moduleMethod.selector != 1) {
+                return super.match1(moduleMethod, obj, callContext);
+            }
+            callContext.value1 = obj;
+            callContext.proc = moduleMethod;
+            callContext.pc = 1;
+            return 0;
+        }
     }
 
     public static Object pprintFile(Object ifile, Object oport) {
@@ -255,7 +255,7 @@ public class ppfile extends ModuleBody {
         callContext.value1 = obj;
         callContext.value2 = obj2;
         callContext.proc = moduleMethod;
-        callContext.f236pc = 2;
+        callContext.pc = 2;
         return 0;
     }
 
@@ -268,12 +268,12 @@ public class ppfile extends ModuleBody {
             case 4:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 5:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             default:
                 return super.match1(moduleMethod, obj, callContext);

@@ -30,14 +30,11 @@ public class BuiltinEnvironment extends Environment {
     }
 
     public NamedLocation lookup(Symbol name, Object property, int hash) {
-        if (property == ThreadLocation.ANONYMOUS) {
+        Language lang;
+        if (property == ThreadLocation.ANONYMOUS || (lang = Language.getDefaultLanguage()) == null) {
             return null;
         }
-        Language lang = Language.getDefaultLanguage();
-        if (lang != null) {
-            return lang.lookupBuiltin(name, property, hash);
-        }
-        return null;
+        return lang.lookupBuiltin(name, property, hash);
     }
 
     public NamedLocation getLocation(Symbol key, Object property, int hash, boolean create) {

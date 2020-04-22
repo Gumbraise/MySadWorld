@@ -21,9 +21,9 @@ public class ResolutionNode {
 
     public void invalidate() {
         this.state = 0;
-        Iterator it = this.dependents.iterator();
+        Iterator<ResolutionNode> it = this.dependents.iterator();
         while (it.hasNext()) {
-            ((ResolutionNode) it.next()).invalidate();
+            it.next().invalidate();
         }
     }
 
@@ -31,17 +31,17 @@ public class ResolutionNode {
         if (this instanceof ResolutionAnchor) {
             this.state = 0;
         }
-        Iterator it = this.dependents.iterator();
+        Iterator<ResolutionNode> it = this.dependents.iterator();
         while (it.hasNext()) {
-            ((ResolutionNode) it.next()).invalidateAnchors();
+            it.next().invalidateAnchors();
         }
     }
 
     public void didResolve() {
         this.state = 1;
-        Iterator it = this.dependents.iterator();
+        Iterator<ResolutionNode> it = this.dependents.iterator();
         while (it.hasNext()) {
-            ((ResolutionNode) it.next()).resolve();
+            it.next().resolve();
         }
     }
 

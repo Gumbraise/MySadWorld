@@ -21,7 +21,7 @@ public class CatchClause extends LetExp {
     public CatchClause(LambdaExp lexp) {
         this();
         Declaration decl = lexp.firstDecl();
-        lexp.remove(null, decl);
+        lexp.remove((Declaration) null, decl);
         add(decl);
         this.body = lexp.body;
     }

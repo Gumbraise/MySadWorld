@@ -23,14 +23,12 @@ public class load extends Procedure1 {
     }
 
     public final Object apply2(Object name, Object arg2) throws Throwable {
+        Path curPath;
         try {
             Environment env = (Environment) arg2;
             Path path = Path.valueOf(name);
-            if (this.relative) {
-                Path curPath = (Path) Shell.currentLoadPath.get();
-                if (curPath != null) {
-                    path = curPath.resolve(path);
-                }
+            if (this.relative && (curPath = (Path) Shell.currentLoadPath.get()) != null) {
+                path = curPath.resolve(path);
             }
             Shell.runFile(path.openInputStream(), path, env, true, 0);
             return Values.empty;

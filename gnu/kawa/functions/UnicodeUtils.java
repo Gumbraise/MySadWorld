@@ -5,96 +5,36 @@ import gnu.mapping.Symbol;
 import java.text.BreakIterator;
 
 public class UnicodeUtils {
-
-    /* renamed from: Cc */
-    static final Symbol f64Cc;
-
-    /* renamed from: Cf */
-    static final Symbol f65Cf;
-
-    /* renamed from: Cn */
-    static final Symbol f66Cn;
-
-    /* renamed from: Co */
-    static final Symbol f67Co;
-
-    /* renamed from: Cs */
-    static final Symbol f68Cs;
-
-    /* renamed from: Ll */
-    static final Symbol f69Ll;
-
-    /* renamed from: Lm */
-    static final Symbol f70Lm;
-
-    /* renamed from: Lo */
-    static final Symbol f71Lo;
-
-    /* renamed from: Lt */
-    static final Symbol f72Lt;
-
-    /* renamed from: Lu */
-    static final Symbol f73Lu;
-
-    /* renamed from: Mc */
-    static final Symbol f74Mc;
-
-    /* renamed from: Me */
-    static final Symbol f75Me;
-
-    /* renamed from: Mn */
-    static final Symbol f76Mn;
-
-    /* renamed from: Nd */
-    static final Symbol f77Nd;
-
-    /* renamed from: Nl */
-    static final Symbol f78Nl;
-
-    /* renamed from: No */
-    static final Symbol f79No;
-
-    /* renamed from: Pc */
-    static final Symbol f80Pc;
-
-    /* renamed from: Pd */
-    static final Symbol f81Pd;
-
-    /* renamed from: Pe */
-    static final Symbol f82Pe;
-
-    /* renamed from: Pf */
-    static final Symbol f83Pf;
-
-    /* renamed from: Pi */
-    static final Symbol f84Pi;
-
-    /* renamed from: Po */
-    static final Symbol f85Po;
-
-    /* renamed from: Ps */
-    static final Symbol f86Ps;
-
-    /* renamed from: Sc */
-    static final Symbol f87Sc;
-
-    /* renamed from: Sk */
-    static final Symbol f88Sk;
-
-    /* renamed from: Sm */
-    static final Symbol f89Sm;
-
-    /* renamed from: So */
-    static final Symbol f90So;
-
-    /* renamed from: Zl */
-    static final Symbol f91Zl;
-
-    /* renamed from: Zp */
-    static final Symbol f92Zp;
-
-    /* renamed from: Zs */
-    static final Symbol f93Zs;
+    static final Symbol Cc;
+    static final Symbol Cf;
+    static final Symbol Cn;
+    static final Symbol Co;
+    static final Symbol Cs;
+    static final Symbol Ll;
+    static final Symbol Lm;
+    static final Symbol Lo;
+    static final Symbol Lt;
+    static final Symbol Lu;
+    static final Symbol Mc;
+    static final Symbol Me;
+    static final Symbol Mn;
+    static final Symbol Nd;
+    static final Symbol Nl;
+    static final Symbol No;
+    static final Symbol Pc;
+    static final Symbol Pd;
+    static final Symbol Pe;
+    static final Symbol Pf;
+    static final Symbol Pi;
+    static final Symbol Po;
+    static final Symbol Ps;
+    static final Symbol Sc;
+    static final Symbol Sk;
+    static final Symbol Sm;
+    static final Symbol So;
+    static final Symbol Zl;
+    static final Symbol Zp;
+    static final Symbol Zs;
 
     public static boolean isWhitespace(int ch) {
         if (ch == 32 || (ch >= 9 && ch <= 13)) {
@@ -182,99 +122,99 @@ public class UnicodeUtils {
     public static Symbol generalCategory(int ch) {
         switch (Character.getType(ch)) {
             case 1:
-                return f73Lu;
+                return Lu;
             case 2:
-                return f69Ll;
+                return Ll;
             case 3:
-                return f72Lt;
+                return Lt;
             case 4:
-                return f70Lm;
+                return Lm;
             case 5:
-                return f71Lo;
+                return Lo;
             case 6:
-                return f76Mn;
+                return Mn;
             case 7:
-                return f75Me;
+                return Me;
             case 8:
-                return f74Mc;
+                return Mc;
             case 9:
-                return f77Nd;
+                return Nd;
             case 10:
-                return f78Nl;
+                return Nl;
             case 11:
-                return f79No;
+                return No;
             case 12:
-                return f93Zs;
+                return Zs;
             case 13:
-                return f91Zl;
+                return Zl;
             case 14:
-                return f92Zp;
+                return Zp;
             case 15:
-                return f64Cc;
+                return Cc;
             case 16:
-                return f65Cf;
+                return Cf;
             case 18:
-                return f67Co;
+                return Co;
             case 19:
-                return f68Cs;
+                return Cs;
             case 20:
-                return f81Pd;
+                return Pd;
             case 21:
-                return f86Ps;
+                return Ps;
             case 22:
-                return f82Pe;
+                return Pe;
             case 23:
-                return f80Pc;
+                return Pc;
             case 24:
-                return f85Po;
+                return Po;
             case 25:
-                return f89Sm;
+                return Sm;
             case 26:
-                return f87Sc;
+                return Sc;
             case 27:
-                return f88Sk;
+                return Sk;
             case 28:
-                return f90So;
+                return So;
             case 29:
-                return f84Pi;
+                return Pi;
             case 30:
-                return f83Pf;
+                return Pf;
             default:
-                return f66Cn;
+                return Cn;
         }
     }
 
     static {
         Namespace empty = Namespace.EmptyNamespace;
-        f74Mc = empty.getSymbol("Mc");
-        f80Pc = empty.getSymbol("Pc");
-        f64Cc = empty.getSymbol("Cc");
-        f87Sc = empty.getSymbol("Sc");
-        f81Pd = empty.getSymbol("Pd");
-        f77Nd = empty.getSymbol("Nd");
-        f75Me = empty.getSymbol("Me");
-        f82Pe = empty.getSymbol("Pe");
-        f83Pf = empty.getSymbol("Pf");
-        f65Cf = empty.getSymbol("Cf");
-        f84Pi = empty.getSymbol("Pi");
-        f78Nl = empty.getSymbol("Nl");
-        f91Zl = empty.getSymbol("Zl");
-        f69Ll = empty.getSymbol("Ll");
-        f89Sm = empty.getSymbol("Sm");
-        f70Lm = empty.getSymbol("Lm");
-        f88Sk = empty.getSymbol("Sk");
-        f76Mn = empty.getSymbol("Mn");
-        f71Lo = empty.getSymbol("Lo");
-        f79No = empty.getSymbol("No");
-        f85Po = empty.getSymbol("Po");
-        f90So = empty.getSymbol("So");
-        f92Zp = empty.getSymbol("Zp");
-        f67Co = empty.getSymbol("Co");
-        f93Zs = empty.getSymbol("Zs");
-        f86Ps = empty.getSymbol("Ps");
-        f68Cs = empty.getSymbol("Cs");
-        f72Lt = empty.getSymbol("Lt");
-        f66Cn = empty.getSymbol("Cn");
-        f73Lu = empty.getSymbol("Lu");
+        Mc = empty.getSymbol("Mc");
+        Pc = empty.getSymbol("Pc");
+        Cc = empty.getSymbol("Cc");
+        Sc = empty.getSymbol("Sc");
+        Pd = empty.getSymbol("Pd");
+        Nd = empty.getSymbol("Nd");
+        Me = empty.getSymbol("Me");
+        Pe = empty.getSymbol("Pe");
+        Pf = empty.getSymbol("Pf");
+        Cf = empty.getSymbol("Cf");
+        Pi = empty.getSymbol("Pi");
+        Nl = empty.getSymbol("Nl");
+        Zl = empty.getSymbol("Zl");
+        Ll = empty.getSymbol("Ll");
+        Sm = empty.getSymbol("Sm");
+        Lm = empty.getSymbol("Lm");
+        Sk = empty.getSymbol("Sk");
+        Mn = empty.getSymbol("Mn");
+        Lo = empty.getSymbol("Lo");
+        No = empty.getSymbol("No");
+        Po = empty.getSymbol("Po");
+        So = empty.getSymbol("So");
+        Zp = empty.getSymbol("Zp");
+        Co = empty.getSymbol("Co");
+        Zs = empty.getSymbol("Zs");
+        Ps = empty.getSymbol("Ps");
+        Cs = empty.getSymbol("Cs");
+        Lt = empty.getSymbol("Lt");
+        Cn = empty.getSymbol("Cn");
+        Lu = empty.getSymbol("Lu");
     }
 }

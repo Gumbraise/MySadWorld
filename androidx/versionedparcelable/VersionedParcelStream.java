@@ -5,10 +5,9 @@ import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcelable;
 import android.support.annotation.RestrictTo;
-import android.support.annotation.RestrictTo.Scope;
-import android.support.p000v4.internal.view.SupportMenu;
+import android.support.v4.internal.view.SupportMenu;
 import android.util.SparseArray;
-import androidx.versionedparcelable.VersionedParcel.ParcelException;
+import androidx.versionedparcelable.VersionedParcel;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -19,7 +18,7 @@ import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.Set;
 
-@RestrictTo({Scope.LIBRARY})
+@RestrictTo({RestrictTo.Scope.LIBRARY})
 class VersionedParcelStream extends VersionedParcel {
     private static final int TYPE_BOOLEAN = 5;
     private static final int TYPE_BOOLEAN_ARRAY = 6;
@@ -45,50 +44,6 @@ class VersionedParcelStream extends VersionedParcel {
     private final DataInputStream mMasterInput;
     private final DataOutputStream mMasterOutput;
 
-    private static class FieldBuffer {
-        final DataOutputStream mDataStream = new DataOutputStream(this.mOutput);
-        private final int mFieldId;
-        final ByteArrayOutputStream mOutput = new ByteArrayOutputStream();
-        private final DataOutputStream mTarget;
-
-        FieldBuffer(int fieldId, DataOutputStream target) {
-            this.mFieldId = fieldId;
-            this.mTarget = target;
-        }
-
-        /* access modifiers changed from: 0000 */
-        public void flushField() throws IOException {
-            int i;
-            this.mDataStream.flush();
-            int size = this.mOutput.size();
-            int i2 = this.mFieldId << 16;
-            if (size >= 65535) {
-                i = 65535;
-            } else {
-                i = size;
-            }
-            this.mTarget.writeInt(i2 | i);
-            if (size >= 65535) {
-                this.mTarget.writeInt(size);
-            }
-            this.mOutput.writeTo(this.mTarget);
-        }
-    }
-
-    private static class InputBuffer {
-        final int mFieldId;
-        final DataInputStream mInputStream;
-        private final int mSize;
-
-        InputBuffer(int fieldId, int size, DataInputStream inputStream) throws IOException {
-            this.mSize = size;
-            this.mFieldId = fieldId;
-            byte[] data = new byte[this.mSize];
-            inputStream.readFully(data);
-            this.mInputStream = new DataInputStream(new ByteArrayInputStream(data));
-        }
-    }
-
     public VersionedParcelStream(InputStream input, OutputStream output) {
         DataInputStream dataInputStream;
         DataOutputStream dataOutputStream = null;
@@ -98,10 +53,7 @@ class VersionedParcelStream extends VersionedParcel {
             dataInputStream = null;
         }
         this.mMasterInput = dataInputStream;
-        if (output != null) {
-            dataOutputStream = new DataOutputStream(output);
-        }
-        this.mMasterOutput = dataOutputStream;
+        this.mMasterOutput = output != null ? new DataOutputStream(output) : dataOutputStream;
         this.mCurrentInput = this.mMasterInput;
         this.mCurrentOutput = this.mMasterOutput;
     }
@@ -125,7 +77,7 @@ class VersionedParcelStream extends VersionedParcel {
                 }
                 this.mFieldBuffer = null;
             } catch (IOException e) {
-                throw new ParcelException(e);
+                throw new VersionedParcel.ParcelException(e);
             }
         }
     }
@@ -136,7 +88,7 @@ class VersionedParcelStream extends VersionedParcel {
     }
 
     public boolean readField(int fieldId) {
-        InputBuffer buffer = (InputBuffer) this.mCachedFields.get(fieldId);
+        InputBuffer buffer = this.mCachedFields.get(fieldId);
         if (buffer != null) {
             this.mCachedFields.remove(fieldId);
             this.mCurrentInput = buffer.mInputStream;
@@ -178,7 +130,7 @@ class VersionedParcelStream extends VersionedParcel {
                 this.mCurrentOutput.writeInt(b.length);
                 this.mCurrentOutput.write(b);
             } catch (IOException e) {
-                throw new ParcelException(e);
+                throw new VersionedParcel.ParcelException(e);
             }
         } else {
             this.mCurrentOutput.writeInt(-1);
@@ -191,7 +143,7 @@ class VersionedParcelStream extends VersionedParcel {
                 this.mCurrentOutput.writeInt(len);
                 this.mCurrentOutput.write(b, offset, len);
             } catch (IOException e) {
-                throw new ParcelException(e);
+                throw new VersionedParcel.ParcelException(e);
             }
         } else {
             this.mCurrentOutput.writeInt(-1);
@@ -202,7 +154,7 @@ class VersionedParcelStream extends VersionedParcel {
         try {
             this.mCurrentOutput.writeInt(val);
         } catch (IOException e) {
-            throw new ParcelException(e);
+            throw new VersionedParcel.ParcelException(e);
         }
     }
 
@@ -210,7 +162,7 @@ class VersionedParcelStream extends VersionedParcel {
         try {
             this.mCurrentOutput.writeLong(val);
         } catch (IOException e) {
-            throw new ParcelException(e);
+            throw new VersionedParcel.ParcelException(e);
         }
     }
 
@@ -218,7 +170,7 @@ class VersionedParcelStream extends VersionedParcel {
         try {
             this.mCurrentOutput.writeFloat(val);
         } catch (IOException e) {
-            throw new ParcelException(e);
+            throw new VersionedParcel.ParcelException(e);
         }
     }
 
@@ -226,7 +178,7 @@ class VersionedParcelStream extends VersionedParcel {
         try {
             this.mCurrentOutput.writeDouble(val);
         } catch (IOException e) {
-            throw new ParcelException(e);
+            throw new VersionedParcel.ParcelException(e);
         }
     }
 
@@ -237,7 +189,7 @@ class VersionedParcelStream extends VersionedParcel {
                 this.mCurrentOutput.writeInt(bytes.length);
                 this.mCurrentOutput.write(bytes);
             } catch (IOException e) {
-                throw new ParcelException(e);
+                throw new VersionedParcel.ParcelException(e);
             }
         } else {
             this.mCurrentOutput.writeInt(-1);
@@ -248,7 +200,7 @@ class VersionedParcelStream extends VersionedParcel {
         try {
             this.mCurrentOutput.writeBoolean(val);
         } catch (IOException e) {
-            throw new ParcelException(e);
+            throw new VersionedParcel.ParcelException(e);
         }
     }
 
@@ -282,7 +234,7 @@ class VersionedParcelStream extends VersionedParcel {
         try {
             return this.mCurrentInput.readInt();
         } catch (IOException e) {
-            throw new ParcelException(e);
+            throw new VersionedParcel.ParcelException(e);
         }
     }
 
@@ -290,7 +242,7 @@ class VersionedParcelStream extends VersionedParcel {
         try {
             return this.mCurrentInput.readLong();
         } catch (IOException e) {
-            throw new ParcelException(e);
+            throw new VersionedParcel.ParcelException(e);
         }
     }
 
@@ -298,7 +250,7 @@ class VersionedParcelStream extends VersionedParcel {
         try {
             return this.mCurrentInput.readFloat();
         } catch (IOException e) {
-            throw new ParcelException(e);
+            throw new VersionedParcel.ParcelException(e);
         }
     }
 
@@ -306,7 +258,7 @@ class VersionedParcelStream extends VersionedParcel {
         try {
             return this.mCurrentInput.readDouble();
         } catch (IOException e) {
-            throw new ParcelException(e);
+            throw new VersionedParcel.ParcelException(e);
         }
     }
 
@@ -320,7 +272,7 @@ class VersionedParcelStream extends VersionedParcel {
             this.mCurrentInput.readFully(bytes);
             return new String(bytes, UTF_16);
         } catch (IOException e) {
-            throw new ParcelException(e);
+            throw new VersionedParcel.ParcelException(e);
         }
     }
 
@@ -334,7 +286,7 @@ class VersionedParcelStream extends VersionedParcel {
             this.mCurrentInput.readFully(bytes);
             return bytes;
         } catch (IOException e) {
-            throw new ParcelException(e);
+            throw new VersionedParcel.ParcelException(e);
         }
     }
 
@@ -342,7 +294,7 @@ class VersionedParcelStream extends VersionedParcel {
         try {
             return this.mCurrentInput.readBoolean();
         } catch (IOException e) {
-            throw new ParcelException(e);
+            throw new VersionedParcel.ParcelException(e);
         }
     }
 
@@ -356,7 +308,7 @@ class VersionedParcelStream extends VersionedParcel {
                     writeObject(val.get(key));
                 }
             } catch (IOException e) {
-                throw new ParcelException(e);
+                throw new VersionedParcel.ParcelException(e);
             }
         } else {
             this.mCurrentOutput.writeInt(-1);
@@ -425,7 +377,7 @@ class VersionedParcelStream extends VersionedParcel {
     private void readObject(int type, String key, Bundle b) {
         switch (type) {
             case 0:
-                b.putParcelable(key, null);
+                b.putParcelable(key, (Parcelable) null);
                 return;
             case 1:
                 b.putBundle(key, readBundle());
@@ -471,6 +423,50 @@ class VersionedParcelStream extends VersionedParcel {
                 return;
             default:
                 throw new RuntimeException("Unknown type " + type);
+        }
+    }
+
+    private static class FieldBuffer {
+        final DataOutputStream mDataStream = new DataOutputStream(this.mOutput);
+        private final int mFieldId;
+        final ByteArrayOutputStream mOutput = new ByteArrayOutputStream();
+        private final DataOutputStream mTarget;
+
+        FieldBuffer(int fieldId, DataOutputStream target) {
+            this.mFieldId = fieldId;
+            this.mTarget = target;
+        }
+
+        /* access modifiers changed from: package-private */
+        public void flushField() throws IOException {
+            int i;
+            this.mDataStream.flush();
+            int size = this.mOutput.size();
+            int i2 = this.mFieldId << 16;
+            if (size >= 65535) {
+                i = 65535;
+            } else {
+                i = size;
+            }
+            this.mTarget.writeInt(i2 | i);
+            if (size >= 65535) {
+                this.mTarget.writeInt(size);
+            }
+            this.mOutput.writeTo(this.mTarget);
+        }
+    }
+
+    private static class InputBuffer {
+        final int mFieldId;
+        final DataInputStream mInputStream;
+        private final int mSize;
+
+        InputBuffer(int fieldId, int size, DataInputStream inputStream) throws IOException {
+            this.mSize = size;
+            this.mFieldId = fieldId;
+            byte[] data = new byte[this.mSize];
+            inputStream.readFully(data);
+            this.mInputStream = new DataInputStream(new ByteArrayInputStream(data));
         }
     }
 }

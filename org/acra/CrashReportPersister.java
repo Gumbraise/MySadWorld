@@ -1,6 +1,7 @@
 package org.acra;
 
 import android.content.Context;
+import android.support.v7.widget.ActivityChooserView;
 import gnu.kawa.servlet.HttpRequestContext;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
@@ -9,7 +10,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
-import java.util.Map.Entry;
+import java.util.Map;
 import org.acra.collector.CrashReportData;
 
 final class CrashReportPersister {
@@ -34,7 +35,7 @@ final class CrashReportPersister {
         }
         try {
             BufferedInputStream bis = new BufferedInputStream(in, 8192);
-            bis.mark(ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED);
+            bis.mark(ActivityChooserView.ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED);
             boolean isEbcdic = isEbcdic(bis);
             bis.reset();
             if (!isEbcdic) {
@@ -54,10 +55,10 @@ final class CrashReportPersister {
         try {
             StringBuilder buffer = new StringBuilder(HttpRequestContext.HTTP_OK);
             OutputStreamWriter writer = new OutputStreamWriter(out, "ISO8859_1");
-            for (Entry<ReportField, String> entry : crashData.entrySet()) {
-                dumpString(buffer, ((ReportField) entry.getKey()).toString(), true);
+            for (Map.Entry<ReportField, String> entry : crashData.entrySet()) {
+                dumpString(buffer, entry.getKey().toString(), true);
                 buffer.append('=');
-                dumpString(buffer, (String) entry.getValue(), false);
+                dumpString(buffer, entry.getValue(), false);
                 buffer.append(LINE_SEPARATOR);
                 writer.write(buffer.toString());
                 buffer.setLength(0);
@@ -79,6 +80,7 @@ final class CrashReportPersister {
         return true;
     }
 
+    /* JADX WARNING: Can't fix incorrect switch cases order */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     private synchronized org.acra.collector.CrashReportData load(java.io.Reader r22) throws java.io.IOException {
         /*

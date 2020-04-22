@@ -58,21 +58,6 @@ public abstract class Type implements java.lang.reflect.Type {
     int size;
     String this_name;
 
-    static class ClassToTypeMap extends AbstractWeakHashTable<Class, Type> {
-        ClassToTypeMap() {
-        }
-
-        /* access modifiers changed from: protected */
-        public Class getKeyFromValue(Type type) {
-            return type.reflectClass;
-        }
-
-        /* access modifiers changed from: protected */
-        public boolean matches(Class oldValue, Class newValue) {
-            return oldValue == newValue;
-        }
-    }
-
     public abstract Object coerceFromObject(Object obj);
 
     public abstract int compare(Type type);
@@ -96,27 +81,25 @@ public abstract class Type implements java.lang.reflect.Type {
         Type type;
         HashMap<String, Type> map = mapNameToType;
         synchronized (map) {
-            type = (Type) map.get(name);
+            type = map.get(name);
         }
         return type;
     }
 
     public static Type getType(String name) {
         Type type;
-        Object obj;
         HashMap<String, Type> map = mapNameToType;
         synchronized (map) {
-            type = (Type) map.get(name);
-            if (type == 0) {
+            type = map.get(name);
+            if (type == null) {
                 if (name.endsWith("[]")) {
-                    obj = ArrayType.make(name);
+                    type = ArrayType.make(name);
                 } else {
                     ClassType cl = new ClassType(name);
                     cl.flags |= 16;
-                    obj = cl;
+                    type = cl;
                 }
-                map.put(name, obj);
-                type = obj;
+                map.put(name, type);
             }
         }
         return type;
@@ -134,108 +117,33 @@ public abstract class Type implements java.lang.reflect.Type {
         }
     }
 
-    /* JADX WARNING: type inference failed for: r4v1, types: [gnu.bytecode.Type] */
-    /* JADX WARNING: type inference failed for: r4v2 */
-    /* JADX WARNING: type inference failed for: r0v0, types: [gnu.bytecode.ClassType] */
-    /* JADX WARNING: type inference failed for: r4v3, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r4v4, types: [gnu.bytecode.Type] */
-    /* JADX WARNING: type inference failed for: r3v0 */
-    /* JADX WARNING: type inference failed for: r4v5, types: [gnu.bytecode.ArrayType] */
-    /* JADX WARNING: type inference failed for: r3v1, types: [gnu.bytecode.Type] */
-    /* JADX WARNING: type inference failed for: r3v3, types: [gnu.bytecode.Type] */
-    /* JADX WARNING: type inference failed for: r4v6 */
-    /* JADX WARNING: type inference failed for: r4v7 */
-    /* JADX WARNING: type inference failed for: r4v8 */
-    /* JADX WARNING: Code restructure failed: missing block: B:6:0x000f, code lost:
-        if (r3 != 0) goto L_0x0011;
-     */
-    /* JADX WARNING: Multi-variable type inference failed. Error: jadx.core.utils.exceptions.JadxRuntimeException: No candidate types for var: r4v2
-      assigns: []
-      uses: []
-      mth insns count: 49
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.fillTypeCandidates(TypeSearch.java:237)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.run(TypeSearch.java:53)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.runMultiVariableSearch(TypeInferenceVisitor.java:99)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.visit(TypeInferenceVisitor.java:92)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:27)
-    	at jadx.core.dex.visitors.DepthTraversal.lambda$visit$1(DepthTraversal.java:14)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:14)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:30)
-    	at jadx.core.ProcessClass.lambda$processDependencies$0(ProcessClass.java:49)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.ProcessClass.processDependencies(ProcessClass.java:49)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:35)
-    	at jadx.api.JadxDecompiler.processClass(JadxDecompiler.java:311)
-    	at jadx.api.JavaClass.decompile(JavaClass.java:62)
-    	at jadx.api.JadxDecompiler.lambda$appendSourcesSave$0(JadxDecompiler.java:217)
-     */
-    /* JADX WARNING: Unknown variable types count: 6 */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public static synchronized gnu.bytecode.Type make(java.lang.Class r8) {
-        /*
-            java.lang.Class<gnu.bytecode.Type> r6 = gnu.bytecode.Type.class
-            monitor-enter(r6)
-            gnu.bytecode.Type$ClassToTypeMap r5 = mapClassToType     // Catch:{ all -> 0x0038 }
-            if (r5 == 0) goto L_0x0013
-            gnu.bytecode.Type$ClassToTypeMap r5 = mapClassToType     // Catch:{ all -> 0x0038 }
-            java.lang.Object r3 = r5.get(r8)     // Catch:{ all -> 0x0038 }
-            gnu.bytecode.Type r3 = (gnu.bytecode.Type) r3     // Catch:{ all -> 0x0038 }
-            if (r3 == 0) goto L_0x0013
-        L_0x0011:
-            monitor-exit(r6)
-            return r3
-        L_0x0013:
-            boolean r5 = r8.isArray()     // Catch:{ all -> 0x0038 }
-            if (r5 == 0) goto L_0x002a
-            java.lang.Class r5 = r8.getComponentType()     // Catch:{ all -> 0x0038 }
-            gnu.bytecode.Type r5 = make(r5)     // Catch:{ all -> 0x0038 }
-            gnu.bytecode.ArrayType r4 = gnu.bytecode.ArrayType.make(r5)     // Catch:{ all -> 0x0038 }
-        L_0x0025:
-            registerTypeForClass(r8, r4)     // Catch:{ all -> 0x0038 }
-            r3 = r4
-            goto L_0x0011
-        L_0x002a:
-            boolean r5 = r8.isPrimitive()     // Catch:{ all -> 0x0038 }
-            if (r5 == 0) goto L_0x003b
-            java.lang.Error r5 = new java.lang.Error     // Catch:{ all -> 0x0038 }
-            java.lang.String r7 = "internal error - primitive type not found"
-            r5.<init>(r7)     // Catch:{ all -> 0x0038 }
-            throw r5     // Catch:{ all -> 0x0038 }
-        L_0x0038:
-            r5 = move-exception
-            monitor-exit(r6)
-            throw r5
-        L_0x003b:
-            java.lang.String r2 = r8.getName()     // Catch:{ all -> 0x0038 }
-            java.util.HashMap<java.lang.String, gnu.bytecode.Type> r1 = mapNameToType     // Catch:{ all -> 0x0038 }
-            monitor-enter(r1)     // Catch:{ all -> 0x0038 }
-            java.lang.Object r4 = r1.get(r2)     // Catch:{ all -> 0x0065 }
-            gnu.bytecode.Type r4 = (gnu.bytecode.Type) r4     // Catch:{ all -> 0x0065 }
-            if (r4 == 0) goto L_0x0052
-            java.lang.Class r5 = r4.reflectClass     // Catch:{ all -> 0x0065 }
-            if (r5 == r8) goto L_0x0063
-            java.lang.Class r5 = r4.reflectClass     // Catch:{ all -> 0x0065 }
-            if (r5 == 0) goto L_0x0063
-        L_0x0052:
-            gnu.bytecode.ClassType r0 = new gnu.bytecode.ClassType     // Catch:{ all -> 0x0065 }
-            r0.<init>(r2)     // Catch:{ all -> 0x0065 }
-            int r5 = r0.flags     // Catch:{ all -> 0x0065 }
-            r5 = r5 | 16
-            r0.flags = r5     // Catch:{ all -> 0x0065 }
-            r4 = r0
-            java.util.HashMap<java.lang.String, gnu.bytecode.Type> r5 = mapNameToType     // Catch:{ all -> 0x0065 }
-            r5.put(r2, r4)     // Catch:{ all -> 0x0065 }
-        L_0x0063:
-            monitor-exit(r1)     // Catch:{ all -> 0x0065 }
-            goto L_0x0025
-        L_0x0065:
-            r5 = move-exception
-            monitor-exit(r1)     // Catch:{ all -> 0x0065 }
-            throw r5     // Catch:{ all -> 0x0038 }
-        */
-        throw new UnsupportedOperationException("Method not decompiled: gnu.bytecode.Type.make(java.lang.Class):gnu.bytecode.Type");
+    public static synchronized Type make(Class reflectClass2) {
+        Type type;
+        Type t;
+        synchronized (Type.class) {
+            if (mapClassToType == null || (t = (Type) mapClassToType.get(reflectClass2)) == null) {
+                if (reflectClass2.isArray()) {
+                    type = ArrayType.make(make(reflectClass2.getComponentType()));
+                } else if (reflectClass2.isPrimitive()) {
+                    throw new Error("internal error - primitive type not found");
+                } else {
+                    String name = reflectClass2.getName();
+                    HashMap<String, Type> map = mapNameToType;
+                    synchronized (map) {
+                        type = map.get(name);
+                        if (type == null || !(type.reflectClass == reflectClass2 || type.reflectClass == null)) {
+                            ClassType cl = new ClassType(name);
+                            cl.flags |= 16;
+                            type = cl;
+                            mapNameToType.put(name, type);
+                        }
+                    }
+                }
+                registerTypeForClass(reflectClass2, type);
+                t = type;
+            }
+        }
+        return t;
     }
 
     public String getSignature() {
@@ -301,20 +209,18 @@ public abstract class Type implements java.lang.reflect.Type {
     }
 
     public static Type signatureToType(String sig, int off, int len) {
+        Type type;
         if (len == 0) {
             return null;
         }
         char c = sig.charAt(off);
-        if (len == 1) {
-            PrimType signatureToPrimitive = signatureToPrimitive(c);
-            if (signatureToPrimitive != null) {
-                return signatureToPrimitive;
-            }
+        if (len == 1 && (type = signatureToPrimitive(c)) != null) {
+            return type;
         }
         if (c == '[') {
-            Type type = signatureToType(sig, off + 1, len - 1);
-            if (type != null) {
-                return ArrayType.make(type);
+            Type type2 = signatureToType(sig, off + 1, len - 1);
+            if (type2 != null) {
+                return ArrayType.make(type2);
             }
             return null;
         } else if (c == 'L' && len > 2 && sig.indexOf(59, off) == (len - 1) + off) {
@@ -348,6 +254,7 @@ public abstract class Type implements java.lang.reflect.Type {
     }
 
     public static int signatureLength(String sig, int pos) {
+        int end;
         if (sig.length() <= pos) {
             return -1;
         }
@@ -361,14 +268,10 @@ public abstract class Type implements java.lang.reflect.Type {
         if (signatureToPrimitive(c) != null) {
             return arrays + 1;
         }
-        if (c != 'L') {
+        if (c != 'L' || (end = sig.indexOf(59, pos)) <= 0) {
             return -1;
         }
-        int end = sig.indexOf(59, pos);
-        if (end > 0) {
-            return ((arrays + end) + 1) - pos;
-        }
-        return -1;
+        return ((arrays + end) + 1) - pos;
     }
 
     public static int signatureLength(String sig) {
@@ -376,16 +279,14 @@ public abstract class Type implements java.lang.reflect.Type {
     }
 
     public static String signatureToName(String sig) {
+        Type type;
         int len = sig.length();
         if (len == 0) {
             return null;
         }
         char c = sig.charAt(0);
-        if (len == 1) {
-            Type type = signatureToPrimitive(c);
-            if (type != null) {
-                return type.getName();
-            }
+        if (len == 1 && (type = signatureToPrimitive(c)) != null) {
+            return type.getName();
         }
         if (c == '[') {
             int arrays = 1;
@@ -572,5 +473,20 @@ public abstract class Type implements java.lang.reflect.Type {
             return 0;
         }
         return name.hashCode();
+    }
+
+    static class ClassToTypeMap extends AbstractWeakHashTable<Class, Type> {
+        ClassToTypeMap() {
+        }
+
+        /* access modifiers changed from: protected */
+        public Class getKeyFromValue(Type type) {
+            return type.reflectClass;
+        }
+
+        /* access modifiers changed from: protected */
+        public boolean matches(Class oldValue, Class newValue) {
+            return oldValue == newValue;
+        }
     }
 }

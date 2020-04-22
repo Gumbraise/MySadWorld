@@ -1,8 +1,6 @@
 package gnu.expr;
 
 import gnu.bytecode.Type;
-import gnu.kawa.functions.AppendValues;
-import java.util.HashSet;
 
 public class FindTailCalls extends ExpExpVisitor<Expression> {
     public static void findTailCalls(Expression exp, Compilation comp) {
@@ -25,59 +23,126 @@ public class FindTailCalls extends ExpExpVisitor<Expression> {
         return exps;
     }
 
+    /* JADX WARNING: type inference failed for: r6v0, types: [gnu.expr.Expression] */
     /* access modifiers changed from: protected */
-    public Expression visitApplyExp(ApplyExp exp, Expression returnContinuation) {
-        boolean inTailContext;
-        if (returnContinuation == this.currentLambda.body) {
-            inTailContext = true;
-        } else {
-            inTailContext = false;
-        }
-        if (inTailContext) {
-            exp.setTailCall(true);
-        }
-        exp.context = this.currentLambda;
-        LambdaExp lexp = null;
-        if (exp.func instanceof ReferenceExp) {
-            Declaration binding = Declaration.followAliases(((ReferenceExp) exp.func).binding);
-            if (binding != null) {
-                if (!binding.getFlag(2048)) {
-                    exp.nextCall = binding.firstCall;
-                    binding.firstCall = exp;
-                }
-                Compilation comp = getCompilation();
-                binding.setCanCall();
-                if (!comp.mustCompile) {
-                    binding.setCanRead();
-                }
-                Expression value = binding.getValue();
-                if (value instanceof LambdaExp) {
-                    lexp = (LambdaExp) value;
-                }
-            }
-        } else if ((exp.func instanceof LambdaExp) && !(exp.func instanceof ClassExp)) {
-            lexp = (LambdaExp) exp.func;
-            visitLambdaExp(lexp, false);
-            lexp.setCanCall(true);
-        } else if (!(exp.func instanceof QuoteExp) || ((QuoteExp) exp.func).getValue() != AppendValues.appendValues) {
-            exp.func = visitExpression(exp.func, exp.func);
-        }
-        if (!(lexp == null || lexp.returnContinuation == returnContinuation || (lexp == this.currentLambda && inTailContext))) {
-            if (inTailContext) {
-                if (lexp.tailCallers == null) {
-                    lexp.tailCallers = new HashSet();
-                }
-                lexp.tailCallers.add(this.currentLambda);
-            } else if (lexp.returnContinuation == null) {
-                lexp.returnContinuation = returnContinuation;
-                lexp.inlineHome = this.currentLambda;
-            } else {
-                lexp.returnContinuation = LambdaExp.unknownContinuation;
-                lexp.inlineHome = null;
-            }
-        }
-        exp.args = visitExps(exp.args);
-        return exp;
+    /* JADX WARNING: Multi-variable type inference failed */
+    /* JADX WARNING: Unknown variable types count: 1 */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public gnu.expr.Expression visitApplyExp(gnu.expr.ApplyExp r11, gnu.expr.Expression r12) {
+        /*
+            r10 = this;
+            r8 = 0
+            r7 = 1
+            gnu.expr.LambdaExp r9 = r10.currentLambda
+            gnu.expr.Expression r9 = r9.body
+            if (r12 != r9) goto L_0x005c
+            r3 = r7
+        L_0x0009:
+            if (r3 == 0) goto L_0x000e
+            r11.setTailCall(r7)
+        L_0x000e:
+            gnu.expr.LambdaExp r9 = r10.currentLambda
+            r11.context = r9
+            r5 = 0
+            r4 = 0
+            gnu.expr.Expression r9 = r11.func
+            boolean r9 = r9 instanceof gnu.expr.ReferenceExp
+            if (r9 == 0) goto L_0x005e
+            gnu.expr.Expression r2 = r11.func
+            gnu.expr.ReferenceExp r2 = (gnu.expr.ReferenceExp) r2
+            gnu.expr.Declaration r7 = r2.binding
+            gnu.expr.Declaration r0 = gnu.expr.Declaration.followAliases(r7)
+            if (r0 == 0) goto L_0x004d
+            r8 = 2048(0x800, double:1.0118E-320)
+            boolean r7 = r0.getFlag(r8)
+            if (r7 != 0) goto L_0x0034
+            gnu.expr.ApplyExp r7 = r0.firstCall
+            r11.nextCall = r7
+            r0.firstCall = r11
+        L_0x0034:
+            gnu.expr.Compilation r1 = r10.getCompilation()
+            r0.setCanCall()
+            boolean r7 = r1.mustCompile
+            if (r7 != 0) goto L_0x0042
+            r0.setCanRead()
+        L_0x0042:
+            gnu.expr.Expression r6 = r0.getValue()
+            boolean r7 = r6 instanceof gnu.expr.LambdaExp
+            if (r7 == 0) goto L_0x004d
+            r5 = r6
+            gnu.expr.LambdaExp r5 = (gnu.expr.LambdaExp) r5
+        L_0x004d:
+            if (r5 == 0) goto L_0x0053
+            gnu.expr.Expression r7 = r5.returnContinuation
+            if (r7 != r12) goto L_0x0094
+        L_0x0053:
+            gnu.expr.Expression[] r7 = r11.args
+            gnu.expr.Expression[] r7 = r10.visitExps(r7)
+            r11.args = r7
+            return r11
+        L_0x005c:
+            r3 = r8
+            goto L_0x0009
+        L_0x005e:
+            gnu.expr.Expression r9 = r11.func
+            boolean r9 = r9 instanceof gnu.expr.LambdaExp
+            if (r9 == 0) goto L_0x0075
+            gnu.expr.Expression r9 = r11.func
+            boolean r9 = r9 instanceof gnu.expr.ClassExp
+            if (r9 != 0) goto L_0x0075
+            gnu.expr.Expression r5 = r11.func
+            gnu.expr.LambdaExp r5 = (gnu.expr.LambdaExp) r5
+            r10.visitLambdaExp((gnu.expr.LambdaExp) r5, (boolean) r8)
+            r5.setCanCall(r7)
+            goto L_0x004d
+        L_0x0075:
+            gnu.expr.Expression r7 = r11.func
+            boolean r7 = r7 instanceof gnu.expr.QuoteExp
+            if (r7 == 0) goto L_0x0089
+            gnu.expr.Expression r7 = r11.func
+            gnu.expr.QuoteExp r7 = (gnu.expr.QuoteExp) r7
+            java.lang.Object r7 = r7.getValue()
+            gnu.kawa.functions.AppendValues r8 = gnu.kawa.functions.AppendValues.appendValues
+            if (r7 != r8) goto L_0x0089
+            r4 = 1
+            goto L_0x004d
+        L_0x0089:
+            gnu.expr.Expression r7 = r11.func
+            gnu.expr.Expression r8 = r11.func
+            gnu.expr.Expression r7 = r10.visitExpression((gnu.expr.Expression) r7, (gnu.expr.Expression) r8)
+            r11.func = r7
+            goto L_0x004d
+        L_0x0094:
+            gnu.expr.LambdaExp r7 = r10.currentLambda
+            if (r5 != r7) goto L_0x009a
+            if (r3 != 0) goto L_0x0053
+        L_0x009a:
+            if (r3 == 0) goto L_0x00af
+            java.util.Set<gnu.expr.LambdaExp> r7 = r5.tailCallers
+            if (r7 != 0) goto L_0x00a7
+            java.util.HashSet r7 = new java.util.HashSet
+            r7.<init>()
+            r5.tailCallers = r7
+        L_0x00a7:
+            java.util.Set<gnu.expr.LambdaExp> r7 = r5.tailCallers
+            gnu.expr.LambdaExp r8 = r10.currentLambda
+            r7.add(r8)
+            goto L_0x0053
+        L_0x00af:
+            gnu.expr.Expression r7 = r5.returnContinuation
+            if (r7 != 0) goto L_0x00ba
+            r5.returnContinuation = r12
+            gnu.expr.LambdaExp r7 = r10.currentLambda
+            r5.inlineHome = r7
+            goto L_0x0053
+        L_0x00ba:
+            gnu.expr.ApplyExp r7 = gnu.expr.LambdaExp.unknownContinuation
+            r5.returnContinuation = r7
+            r7 = 0
+            r5.inlineHome = r7
+            goto L_0x0053
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.expr.FindTailCalls.visitApplyExp(gnu.expr.ApplyExp, gnu.expr.Expression):gnu.expr.Expression");
     }
 
     /* access modifiers changed from: protected */
@@ -114,7 +179,7 @@ public class FindTailCalls extends ExpExpVisitor<Expression> {
         return exp;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void visitLetDecls(LetExp exp) {
         Declaration decl = exp.firstDecl();
         int n = exp.inits.length;
@@ -142,6 +207,7 @@ public class FindTailCalls extends ExpExpVisitor<Expression> {
     }
 
     public void postVisitDecls(ScopeExp exp) {
+        Declaration context;
         for (Declaration decl = exp.firstDecl(); decl != null; decl = decl.nextDecl()) {
             Expression value = decl.getValue();
             if (value instanceof LambdaExp) {
@@ -153,11 +219,8 @@ public class FindTailCalls extends ExpExpVisitor<Expression> {
                     lexp.setCanCall(true);
                 }
             }
-            if (decl.getFlag(1024) && (value instanceof ReferenceExp)) {
-                Declaration context = ((ReferenceExp) value).contextDecl();
-                if (context != null && context.isPrivate()) {
-                    context.setFlag(524288);
-                }
+            if (decl.getFlag(1024) && (value instanceof ReferenceExp) && (context = ((ReferenceExp) value).contextDecl()) != null && context.isPrivate()) {
+                context.setFlag(524288);
             }
         }
     }
@@ -180,7 +243,7 @@ public class FindTailCalls extends ExpExpVisitor<Expression> {
     }
 
     /* JADX INFO: finally extract failed */
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public final void visitLambdaExp(LambdaExp exp, boolean canRead) {
         LambdaExp parent = this.currentLambda;
         this.currentLambda = exp;
@@ -234,7 +297,7 @@ public class FindTailCalls extends ExpExpVisitor<Expression> {
         return exp;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public final Expression visitSetExp(Declaration decl, Expression value) {
         if (decl == null || decl.getValue() != value || !(value instanceof LambdaExp) || (value instanceof ClassExp) || decl.isPublic()) {
             return (Expression) value.visit(this, value);

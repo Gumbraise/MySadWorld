@@ -108,7 +108,7 @@ public final class BluetoothServer extends BluetoothConnectionBase {
 
     @SimpleFunction(description = "Stop accepting an incoming connection.")
     public void StopAccepting() {
-        Object bluetoothServerSocket = this.arBluetoothServerSocket.getAndSet(null);
+        Object bluetoothServerSocket = this.arBluetoothServerSocket.getAndSet((Object) null);
         if (bluetoothServerSocket != null) {
             try {
                 BluetoothReflection.closeBluetoothServerSocket(bluetoothServerSocket);

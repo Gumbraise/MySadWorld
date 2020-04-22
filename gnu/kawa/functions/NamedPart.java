@@ -1,6 +1,6 @@
 package gnu.kawa.functions;
 
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import gnu.bytecode.ClassType;
 import gnu.bytecode.Type;
 import gnu.kawa.reflect.Invoke;
@@ -67,7 +67,7 @@ class NamedPart extends ProcedureN implements HasSetter, Externalizable {
     public Object applyN(Object[] args) throws Throwable {
         switch (this.kind) {
             case 'C':
-                return Convert.f60as.apply2(this.container, args[0]);
+                return Convert.as.apply2(this.container, args[0]);
             case 'D':
                 String fname = this.member.toString().substring(1);
                 if (args.length == 0) {

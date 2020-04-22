@@ -20,7 +20,7 @@ public class IsEqual extends Procedure2 {
         return NumberCompare.$Eq(num1, num2);
     }
 
-    /* JADX WARNING: Code restructure failed: missing block: B:92:?, code lost:
+    /* JADX WARNING: Code restructure failed: missing block: B:78:?, code lost:
         return apply(r14, r15);
      */
     /* Code decompiled incorrectly, please refer to instructions dump. */

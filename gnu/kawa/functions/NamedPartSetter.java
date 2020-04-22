@@ -21,7 +21,7 @@ class NamedPartSetter extends Setter implements Externalizable {
         return -4096;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Procedure getGetter() {
         return this.getter;
     }

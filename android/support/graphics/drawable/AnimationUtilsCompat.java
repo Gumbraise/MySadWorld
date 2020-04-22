@@ -2,15 +2,12 @@ package android.support.graphics.drawable;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.content.res.Resources.NotFoundException;
-import android.content.res.Resources.Theme;
 import android.content.res.XmlResourceParser;
-import android.os.Build.VERSION;
+import android.os.Build;
 import android.support.annotation.RestrictTo;
-import android.support.annotation.RestrictTo.Scope;
-import android.support.p000v4.view.animation.FastOutLinearInInterpolator;
-import android.support.p000v4.view.animation.FastOutSlowInInterpolator;
-import android.support.p000v4.view.animation.LinearOutSlowInInterpolator;
+import android.support.v4.view.animation.FastOutLinearInInterpolator;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.util.AttributeSet;
 import android.util.Xml;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -28,10 +25,10 @@ import java.io.IOException;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-@RestrictTo({Scope.LIBRARY_GROUP})
+@RestrictTo({RestrictTo.Scope.LIBRARY_GROUP})
 public class AnimationUtilsCompat {
-    public static Interpolator loadInterpolator(Context context, int id) throws NotFoundException {
-        if (VERSION.SDK_INT >= 21) {
+    public static Interpolator loadInterpolator(Context context, int id) throws Resources.NotFoundException {
+        if (Build.VERSION.SDK_INT >= 21) {
             return AnimationUtils.loadInterpolator(context, id);
         }
         XmlResourceParser parser = null;
@@ -44,11 +41,11 @@ public class AnimationUtilsCompat {
                 parser.close();
                 return fastOutLinearInInterpolator;
             } catch (XmlPullParserException ex) {
-                NotFoundException rnf = new NotFoundException("Can't load animation resource ID #0x" + Integer.toHexString(id));
+                Resources.NotFoundException rnf = new Resources.NotFoundException("Can't load animation resource ID #0x" + Integer.toHexString(id));
                 rnf.initCause(ex);
                 throw rnf;
             } catch (IOException ex2) {
-                NotFoundException rnf2 = new NotFoundException("Can't load animation resource ID #0x" + Integer.toHexString(id));
+                Resources.NotFoundException rnf2 = new Resources.NotFoundException("Can't load animation resource ID #0x" + Integer.toHexString(id));
                 rnf2.initCause(ex2);
                 throw rnf2;
             } catch (Throwable th) {
@@ -82,7 +79,7 @@ public class AnimationUtilsCompat {
         }
     }
 
-    private static Interpolator createInterpolatorFromXml(Context context, Resources res, Theme theme, XmlPullParser parser) throws XmlPullParserException, IOException {
+    private static Interpolator createInterpolatorFromXml(Context context, Resources res, Resources.Theme theme, XmlPullParser parser) throws XmlPullParserException, IOException {
         Interpolator interpolator = null;
         int depth = parser.getDepth();
         while (true) {

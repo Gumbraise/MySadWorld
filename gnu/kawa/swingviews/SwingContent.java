@@ -1,13 +1,13 @@
 package gnu.kawa.swingviews;
 
 import gnu.lists.CharBuffer;
-import javax.swing.text.AbstractDocument.Content;
+import javax.swing.text.AbstractDocument;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Position;
 import javax.swing.text.Segment;
 import javax.swing.undo.UndoableEdit;
 
-public class SwingContent implements Content {
+public class SwingContent implements AbstractDocument.Content {
     public final CharBuffer buffer;
 
     public SwingContent(CharBuffer buffer2) {

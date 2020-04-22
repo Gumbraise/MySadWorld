@@ -9,6 +9,7 @@ import com.google.appinventor.components.annotations.SimpleFunction;
 import com.google.appinventor.components.annotations.SimpleObject;
 import com.google.appinventor.components.annotations.SimpleProperty;
 import com.google.appinventor.components.common.ComponentCategory;
+import com.google.appinventor.components.runtime.LegoMindstormsNxtSensor;
 import com.google.appinventor.components.runtime.util.ErrorMessages;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,16 +49,16 @@ public class NxtColorSensor extends LegoMindstormsNxtSensor implements Deleteabl
             State currentState;
             if (NxtColorSensor.this.bluetooth != null && NxtColorSensor.this.bluetooth.IsConnected()) {
                 if (NxtColorSensor.this.detectColor) {
-                    SensorValue<Integer> sensorValue = NxtColorSensor.this.getColorValue("");
+                    LegoMindstormsNxtSensor.SensorValue<Integer> sensorValue = NxtColorSensor.this.getColorValue("");
                     if (sensorValue.valid) {
                         int currentColor = ((Integer) sensorValue.value).intValue();
                         if (currentColor != NxtColorSensor.this.previousColor) {
                             NxtColorSensor.this.ColorChanged(currentColor);
                         }
-                        NxtColorSensor.this.previousColor = currentColor;
+                        int unused = NxtColorSensor.this.previousColor = currentColor;
                     }
                 } else {
-                    SensorValue<Integer> sensorValue2 = NxtColorSensor.this.getLightValue("");
+                    LegoMindstormsNxtSensor.SensorValue<Integer> sensorValue2 = NxtColorSensor.this.getLightValue("");
                     if (sensorValue2.valid) {
                         if (((Integer) sensorValue2.value).intValue() < NxtColorSensor.this.bottomOfRange) {
                             currentState = State.BELOW_RANGE;
@@ -77,7 +78,7 @@ public class NxtColorSensor extends LegoMindstormsNxtSensor implements Deleteabl
                                 NxtColorSensor.this.AboveRange();
                             }
                         }
-                        NxtColorSensor.this.previousState = currentState;
+                        State unused2 = NxtColorSensor.this.previousState = currentState;
                     }
                 }
             }
@@ -99,16 +100,16 @@ public class NxtColorSensor extends LegoMindstormsNxtSensor implements Deleteabl
     }
 
     static {
-        mapColorToSensorType.put(Integer.valueOf(-65536), Integer.valueOf(14));
-        mapColorToSensorType.put(Integer.valueOf(Component.COLOR_GREEN), Integer.valueOf(15));
-        mapColorToSensorType.put(Integer.valueOf(Component.COLOR_BLUE), Integer.valueOf(16));
-        mapColorToSensorType.put(Integer.valueOf(16777215), Integer.valueOf(17));
-        mapSensorValueToColor.put(Integer.valueOf(1), Integer.valueOf(-16777216));
-        mapSensorValueToColor.put(Integer.valueOf(2), Integer.valueOf(Component.COLOR_BLUE));
-        mapSensorValueToColor.put(Integer.valueOf(3), Integer.valueOf(Component.COLOR_GREEN));
-        mapSensorValueToColor.put(Integer.valueOf(4), Integer.valueOf(-256));
-        mapSensorValueToColor.put(Integer.valueOf(5), Integer.valueOf(-65536));
-        mapSensorValueToColor.put(Integer.valueOf(6), Integer.valueOf(-1));
+        mapColorToSensorType.put(-65536, 14);
+        mapColorToSensorType.put(Integer.valueOf(Component.COLOR_GREEN), 15);
+        mapColorToSensorType.put(Integer.valueOf(Component.COLOR_BLUE), 16);
+        mapColorToSensorType.put(16777215, 17);
+        mapSensorValueToColor.put(1, -16777216);
+        mapSensorValueToColor.put(2, Integer.valueOf(Component.COLOR_BLUE));
+        mapSensorValueToColor.put(3, Integer.valueOf(Component.COLOR_GREEN));
+        mapSensorValueToColor.put(4, -256);
+        mapSensorValueToColor.put(5, -65536);
+        mapSensorValueToColor.put(6, -1);
     }
 
     public NxtColorSensor(ComponentContainer container) {
@@ -126,7 +127,7 @@ public class NxtColorSensor extends LegoMindstormsNxtSensor implements Deleteabl
 
     /* access modifiers changed from: protected */
     public void initializeSensor(String functionName) {
-        setInputMode(functionName, this.port, this.detectColor ? 13 : ((Integer) mapColorToSensorType.get(Integer.valueOf(this.generateColor))).intValue(), 0);
+        setInputMode(functionName, this.port, this.detectColor ? 13 : mapColorToSensorType.get(Integer.valueOf(this.generateColor)).intValue(), 0);
         resetInputScaledValue(functionName, this.port);
     }
 
@@ -162,15 +163,14 @@ public class NxtColorSensor extends LegoMindstormsNxtSensor implements Deleteabl
 
     @SimpleFunction(description = "Returns the current detected color, or the color None if the color can not be read or if the DetectColor property is set to False.")
     public int GetColor() {
-        String functionName = "GetColor";
-        if (!checkBluetooth(functionName)) {
+        if (!checkBluetooth("GetColor")) {
             return 16777215;
         }
         if (!this.detectColor) {
-            this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_NXT_CANNOT_DETECT_COLOR, new Object[0]);
+            this.form.dispatchErrorOccurredEvent(this, "GetColor", ErrorMessages.ERROR_NXT_CANNOT_DETECT_COLOR, new Object[0]);
             return 16777215;
         }
-        SensorValue<Integer> sensorValue = getColorValue(functionName);
+        LegoMindstormsNxtSensor.SensorValue<Integer> sensorValue = getColorValue("GetColor");
         if (sensorValue.valid) {
             return ((Integer) sensorValue.value).intValue();
         }
@@ -178,15 +178,15 @@ public class NxtColorSensor extends LegoMindstormsNxtSensor implements Deleteabl
     }
 
     /* access modifiers changed from: private */
-    public SensorValue<Integer> getColorValue(String functionName) {
+    public LegoMindstormsNxtSensor.SensorValue<Integer> getColorValue(String functionName) {
         byte[] returnPackage = getInputValues(functionName, this.port);
         if (returnPackage != null && getBooleanValueFromBytes(returnPackage, 4)) {
             int scaledValue = getSWORDValueFromBytes(returnPackage, 12);
             if (mapSensorValueToColor.containsKey(Integer.valueOf(scaledValue))) {
-                return new SensorValue<>(true, Integer.valueOf(((Integer) mapSensorValueToColor.get(Integer.valueOf(scaledValue))).intValue()));
+                return new LegoMindstormsNxtSensor.SensorValue<>(true, Integer.valueOf(mapSensorValueToColor.get(Integer.valueOf(scaledValue)).intValue()));
             }
         }
-        return new SensorValue<>(false, null);
+        return new LegoMindstormsNxtSensor.SensorValue<>(false, null);
     }
 
     @SimpleProperty(category = PropertyCategory.BEHAVIOR, description = "Whether the ColorChanged event should fire when the DetectColor property is set to True and the detected color changes.")
@@ -216,15 +216,14 @@ public class NxtColorSensor extends LegoMindstormsNxtSensor implements Deleteabl
 
     @SimpleFunction(description = "Returns the current light level as a value between 0 and 1023, or -1 if the light level can not be read or if the DetectColor property is set to True.")
     public int GetLightLevel() {
-        String functionName = "GetLightLevel";
-        if (!checkBluetooth(functionName)) {
+        if (!checkBluetooth("GetLightLevel")) {
             return -1;
         }
         if (this.detectColor) {
-            this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_NXT_CANNOT_DETECT_LIGHT, new Object[0]);
+            this.form.dispatchErrorOccurredEvent(this, "GetLightLevel", ErrorMessages.ERROR_NXT_CANNOT_DETECT_LIGHT, new Object[0]);
             return -1;
         }
-        SensorValue<Integer> sensorValue = getLightValue(functionName);
+        LegoMindstormsNxtSensor.SensorValue<Integer> sensorValue = getLightValue("GetLightLevel");
         if (sensorValue.valid) {
             return ((Integer) sensorValue.value).intValue();
         }
@@ -232,12 +231,12 @@ public class NxtColorSensor extends LegoMindstormsNxtSensor implements Deleteabl
     }
 
     /* access modifiers changed from: private */
-    public SensorValue<Integer> getLightValue(String functionName) {
+    public LegoMindstormsNxtSensor.SensorValue<Integer> getLightValue(String functionName) {
         byte[] returnPackage = getInputValues(functionName, this.port);
         if (returnPackage == null || !getBooleanValueFromBytes(returnPackage, 4)) {
-            return new SensorValue<>(false, null);
+            return new LegoMindstormsNxtSensor.SensorValue<>(false, null);
         }
-        return new SensorValue<>(true, Integer.valueOf(getUWORDValueFromBytes(returnPackage, 10)));
+        return new LegoMindstormsNxtSensor.SensorValue<>(true, Integer.valueOf(getUWORDValueFromBytes(returnPackage, 10)));
     }
 
     @SimpleProperty(category = PropertyCategory.BEHAVIOR, description = "The bottom of the range used for the BelowRange, WithinRange, and AboveRange events.")
@@ -347,16 +346,15 @@ public class NxtColorSensor extends LegoMindstormsNxtSensor implements Deleteabl
     @DesignerProperty(defaultValue = "&H00FFFFFF", editorType = "lego_nxt_generated_color")
     @SimpleProperty
     public void GenerateColor(int generateColor2) {
-        String functionName = "GenerateColor";
         if (mapColorToSensorType.containsKey(Integer.valueOf(generateColor2))) {
             this.generateColor = generateColor2;
             if (this.bluetooth != null && this.bluetooth.IsConnected()) {
-                initializeSensor(functionName);
+                initializeSensor("GenerateColor");
                 return;
             }
             return;
         }
-        this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_NXT_INVALID_GENERATE_COLOR, new Object[0]);
+        this.form.dispatchErrorOccurredEvent(this, "GenerateColor", ErrorMessages.ERROR_NXT_INVALID_GENERATE_COLOR, new Object[0]);
     }
 
     /* access modifiers changed from: private */

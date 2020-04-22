@@ -1,24 +1,20 @@
 package android.support.constraint.solver.widgets;
 
-import android.support.constraint.solver.widgets.ConstraintAnchor.Strength;
+import android.support.constraint.solver.widgets.ConstraintAnchor;
 import java.util.ArrayList;
 
 public class Snapshot {
     private ArrayList<Connection> mConnections = new ArrayList<>();
     private int mHeight;
     private int mWidth;
-
-    /* renamed from: mX */
-    private int f12mX;
-
-    /* renamed from: mY */
-    private int f13mY;
+    private int mX;
+    private int mY;
 
     static class Connection {
         private ConstraintAnchor mAnchor;
         private int mCreator;
         private int mMargin;
-        private Strength mStrengh;
+        private ConstraintAnchor.Strength mStrengh;
         private ConstraintAnchor mTarget;
 
         public Connection(ConstraintAnchor anchor) {
@@ -40,7 +36,7 @@ public class Snapshot {
             }
             this.mTarget = null;
             this.mMargin = 0;
-            this.mStrengh = Strength.STRONG;
+            this.mStrengh = ConstraintAnchor.Strength.STRONG;
             this.mCreator = 0;
         }
 
@@ -50,36 +46,36 @@ public class Snapshot {
     }
 
     public Snapshot(ConstraintWidget widget) {
-        this.f12mX = widget.getX();
-        this.f13mY = widget.getY();
+        this.mX = widget.getX();
+        this.mY = widget.getY();
         this.mWidth = widget.getWidth();
         this.mHeight = widget.getHeight();
         ArrayList<ConstraintAnchor> anchors = widget.getAnchors();
         int anchorsSize = anchors.size();
         for (int i = 0; i < anchorsSize; i++) {
-            this.mConnections.add(new Connection((ConstraintAnchor) anchors.get(i)));
+            this.mConnections.add(new Connection(anchors.get(i)));
         }
     }
 
     public void updateFrom(ConstraintWidget widget) {
-        this.f12mX = widget.getX();
-        this.f13mY = widget.getY();
+        this.mX = widget.getX();
+        this.mY = widget.getY();
         this.mWidth = widget.getWidth();
         this.mHeight = widget.getHeight();
         int connections = this.mConnections.size();
         for (int i = 0; i < connections; i++) {
-            ((Connection) this.mConnections.get(i)).updateFrom(widget);
+            this.mConnections.get(i).updateFrom(widget);
         }
     }
 
     public void applyTo(ConstraintWidget widget) {
-        widget.setX(this.f12mX);
-        widget.setY(this.f13mY);
+        widget.setX(this.mX);
+        widget.setY(this.mY);
         widget.setWidth(this.mWidth);
         widget.setHeight(this.mHeight);
         int mConnectionsSize = this.mConnections.size();
         for (int i = 0; i < mConnectionsSize; i++) {
-            ((Connection) this.mConnections.get(i)).applyTo(widget);
+            this.mConnections.get(i).applyTo(widget);
         }
     }
 }

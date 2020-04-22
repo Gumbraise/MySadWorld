@@ -14,9 +14,9 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-import kawa.ReplDocument.DocumentCloseListener;
+import kawa.ReplDocument;
 
-public class GuiConsole extends JFrame implements ActionListener, DocumentCloseListener {
+public class GuiConsole extends JFrame implements ActionListener, ReplDocument.DocumentCloseListener {
     private static String CLOSE = "Close";
     private static String EXIT = "Exit";
     private static String NEW = "New";
@@ -44,7 +44,7 @@ public class GuiConsole extends JFrame implements ActionListener, DocumentCloseL
         init(doc);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void init(ReplDocument doc) {
         this.document = doc;
         this.document.addDocumentCloseListener(this);
@@ -68,7 +68,7 @@ public class GuiConsole extends JFrame implements ActionListener, DocumentCloseL
         close();
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void close() {
         this.document.removeDocumentCloseListener(this);
         dispose();

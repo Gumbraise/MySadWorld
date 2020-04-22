@@ -67,9 +67,7 @@ public class Declaration implements SourceLocator {
     String filename;
     public ApplyExp firstCall;
     protected long flags;
-
-    /* renamed from: id */
-    protected int f55id;
+    protected int id;
     Method makeLocationMethod;
     Declaration next;
     Declaration nextCapturedVar;
@@ -84,11 +82,11 @@ public class Declaration implements SourceLocator {
         if (code >= 0) {
             throw new Error("code must be negative");
         }
-        this.f55id = code;
+        this.id = code;
     }
 
     public int getCode() {
-        return this.f55id;
+        return this.id;
     }
 
     public final Expression getTypeExp() {
@@ -181,33 +179,22 @@ public class Declaration implements SourceLocator {
         return this.context;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void loadOwningObject(Declaration owner, Compilation comp) {
         if (owner == null) {
             owner = this.base;
         }
         if (owner != null) {
-            owner.load(null, 0, comp, Target.pushObject);
+            owner.load((AccessExp) null, 0, comp, Target.pushObject);
         } else {
             getContext().currentLambda().loadHeapFrame(comp);
         }
     }
 
-    /* JADX WARNING: type inference failed for: r26v0, types: [gnu.bytecode.Type] */
-    /* JADX WARNING: type inference failed for: r26v1, types: [gnu.bytecode.ClassType] */
-    /* JADX WARNING: type inference failed for: r26v2 */
-    /* JADX WARNING: type inference failed for: r2v5, types: [gnu.bytecode.Type] */
-    /* JADX WARNING: type inference failed for: r20v0, types: [gnu.bytecode.ClassType] */
-    /* JADX WARNING: type inference failed for: r0v78, types: [gnu.bytecode.ClassType] */
-    /* JADX WARNING: type inference failed for: r20v1 */
-    /* JADX WARNING: type inference failed for: r26v3 */
-    /* JADX WARNING: type inference failed for: r20v2, types: [gnu.bytecode.ClassType] */
-    /* JADX WARNING: type inference failed for: r0v88, types: [gnu.bytecode.ClassType] */
-    /* JADX WARNING: type inference failed for: r26v4 */
-    /* JADX WARNING: type inference failed for: r20v3 */
-    /* JADX WARNING: type inference failed for: r20v4 */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r1v0, resolved type: gnu.expr.QuoteExp} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v46, resolved type: java.lang.Object} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r32v34, resolved type: gnu.mapping.Symbol} */
     /* JADX WARNING: Multi-variable type inference failed */
-    /* JADX WARNING: Unknown variable types count: 8 */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public void load(gnu.expr.AccessExp r36, int r37, gnu.expr.Compilation r38, gnu.expr.Target r39) {
         /*
@@ -318,7 +305,7 @@ public class Declaration implements SourceLocator {
             r0 = r20
             r1 = r33
             r2 = r32
-            gnu.bytecode.Method r21 = r0.getDeclaredMethod(r1, r2)
+            gnu.bytecode.Method r21 = r0.getDeclaredMethod((java.lang.String) r1, (int) r2)
         L_0x00dd:
             if (r16 == 0) goto L_0x011e
             r0 = r38
@@ -347,7 +334,7 @@ public class Declaration implements SourceLocator {
             r0 = r20
             r1 = r33
             r2 = r32
-            gnu.bytecode.Method r21 = r0.getDeclaredMethod(r1, r2)
+            gnu.bytecode.Method r21 = r0.getDeclaredMethod((java.lang.String) r1, (int) r2)
             r0 = r35
             r1 = r23
             r2 = r38
@@ -422,18 +409,18 @@ public class Declaration implements SourceLocator {
             int r8 = r36.getColumnNumber()
             gnu.bytecode.Label r27 = new gnu.bytecode.Label
             r0 = r27
-            r0.<init>(r7)
+            r0.<init>((gnu.bytecode.CodeAttr) r7)
             r0 = r27
             r0.define(r7)
             gnu.bytecode.Method r32 = gnu.expr.Compilation.getLocationMethod
             r0 = r32
             r7.emitInvokeVirtual(r0)
             gnu.bytecode.Label r10 = new gnu.bytecode.Label
-            r10.<init>(r7)
+            r10.<init>((gnu.bytecode.CodeAttr) r7)
             r10.define(r7)
             gnu.bytecode.Label r9 = new gnu.bytecode.Label
-            r9.<init>(r7)
-            r9.setTypes(r7)
+            r9.<init>((gnu.bytecode.CodeAttr) r7)
+            r9.setTypes((gnu.bytecode.CodeAttr) r7)
             if (r17 == 0) goto L_0x0354
             r7.emitGoto(r9)
         L_0x01dd:
@@ -445,7 +432,7 @@ public class Declaration implements SourceLocator {
             r1 = r29
             r7.addHandler(r0, r10, r1)
             r0 = r29
-            r7.emitDup(r0)
+            r7.emitDup((gnu.bytecode.Type) r0)
             r7.emitPushString(r12)
             r0 = r18
             r7.emitPushInt(r0)
@@ -455,7 +442,7 @@ public class Declaration implements SourceLocator {
             r0 = r29
             r1 = r32
             r2 = r33
-            gnu.bytecode.Method r32 = r0.getDeclaredMethod(r1, r2)
+            gnu.bytecode.Method r32 = r0.getDeclaredMethod((java.lang.String) r1, (int) r2)
             r0 = r32
             r7.emitInvokeVirtual(r0)
             r7.emitThrow()
@@ -504,7 +491,7 @@ public class Declaration implements SourceLocator {
         L_0x026b:
             r0 = r28
             r1 = r24
-            gnu.mapping.Location r19 = r11.getLocation(r0, r1)
+            gnu.mapping.Location r19 = r11.getLocation((gnu.mapping.Symbol) r0, (java.lang.Object) r1)
             gnu.bytecode.ClassType r32 = gnu.expr.Compilation.typeLocation
             gnu.expr.Target r32 = gnu.expr.Target.pushValue(r32)
             r0 = r38
@@ -567,7 +554,7 @@ public class Declaration implements SourceLocator {
             r0 = r32
             r1 = r38
             r2 = r39
-            r0.compile(r1, r2)
+            r0.compile((gnu.expr.Compilation) r1, (gnu.expr.Target) r2)
             goto L_0x0008
         L_0x02f7:
             gnu.bytecode.Variable r31 = r35.getVariable()
@@ -597,7 +584,7 @@ public class Declaration implements SourceLocator {
             r33 = 0
             r0 = r32
             r1 = r33
-            gnu.bytecode.Method r15 = r0.getDeclaredMethod(r14, r1)
+            gnu.bytecode.Method r15 = r0.getDeclaredMethod((java.lang.String) r14, (int) r1)
             r0 = r38
             r6.loadHeapFrame(r0)
             r7.emitInvoke(r15)
@@ -630,7 +617,7 @@ public class Declaration implements SourceLocator {
         if (isSimple()) {
             code.emitStore(getVariable());
         } else if (!this.field.getStaticFlag()) {
-            loadOwningObject(null, comp);
+            loadOwningObject((Declaration) null, comp);
             code.emitSwap();
             code.emitPutField(this.field);
         } else {
@@ -642,7 +629,7 @@ public class Declaration implements SourceLocator {
         if (this.value == QuoteExp.undefined_exp) {
             if (this.field != null && (this.field.getModifiers() & 24) == 24 && !isIndirectBinding()) {
                 try {
-                    this.value = new QuoteExp(this.field.getReflectField().get(null));
+                    this.value = new QuoteExp(this.field.getReflectField().get((Object) null));
                 } catch (Throwable th) {
                 }
             }
@@ -674,7 +661,7 @@ public class Declaration implements SourceLocator {
         return (v instanceof QuoteExp) && v != QuoteExp.undefined_exp;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public boolean shouldEarlyInit() {
         return getFlag(536870912) || isCompiletimeConstant();
     }
@@ -912,7 +899,7 @@ public class Declaration implements SourceLocator {
     protected Declaration() {
         int i = counter + 1;
         counter = i;
-        this.f55id = i;
+        this.id = i;
         this.value = QuoteExp.undefined_exp;
         this.flags = 64;
         this.makeLocationMethod = null;
@@ -926,7 +913,7 @@ public class Declaration implements SourceLocator {
     public Declaration(Object name) {
         int i = counter + 1;
         counter = i;
-        this.f55id = i;
+        this.id = i;
         this.value = QuoteExp.undefined_exp;
         this.flags = 64;
         this.makeLocationMethod = null;
@@ -936,7 +923,7 @@ public class Declaration implements SourceLocator {
     public Declaration(Object name, Type type2) {
         int i = counter + 1;
         counter = i;
-        this.f55id = i;
+        this.id = i;
         this.value = QuoteExp.undefined_exp;
         this.flags = 64;
         this.makeLocationMethod = null;
@@ -1039,7 +1026,7 @@ public class Declaration implements SourceLocator {
     public void printInfo(StringBuffer sbuf) {
         sbuf.append(this.symbol);
         sbuf.append('/');
-        sbuf.append(this.f55id);
+        sbuf.append(this.id);
         sbuf.append("/fl:");
         sbuf.append(Long.toHexString(this.flags));
         if (ignorable()) {
@@ -1056,27 +1043,23 @@ public class Declaration implements SourceLocator {
         }
         if (this.base != null) {
             sbuf.append("(base:#");
-            sbuf.append(this.base.f55id);
+            sbuf.append(this.base.id);
             sbuf.append(')');
         }
     }
 
     public String toString() {
-        return "Declaration[" + this.symbol + '/' + this.f55id + ']';
+        return "Declaration[" + this.symbol + '/' + this.id + ']';
     }
 
     public static Declaration followAliases(Declaration decl) {
+        Declaration orig;
         while (decl != null && decl.isAlias()) {
             Expression declValue = decl.getValue();
-            if (declValue instanceof ReferenceExp) {
-                Declaration orig = ((ReferenceExp) declValue).binding;
-                if (orig == null) {
-                    break;
-                }
-                decl = orig;
-            } else {
+            if (!(declValue instanceof ReferenceExp) || (orig = ((ReferenceExp) declValue).binding) == null) {
                 break;
             }
+            decl = orig;
         }
         return decl;
     }
@@ -1154,7 +1137,7 @@ public class Declaration implements SourceLocator {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Location makeIndirectLocationFor() {
         return Location.make(this.symbol instanceof Symbol ? (Symbol) this.symbol : Namespace.EmptyNamespace.getSymbol(this.symbol.toString().intern()));
     }
@@ -1167,7 +1150,7 @@ public class Declaration implements SourceLocator {
 
     public static Declaration getDeclarationValueFromStatic(String className, String fieldName, String name) {
         try {
-            Object value2 = Class.forName(className).getDeclaredField(fieldName).get(null);
+            Object value2 = Class.forName(className).getDeclaredField(fieldName).get((Object) null);
             Declaration decl = new Declaration((Object) name, ClassType.make(className).getDeclaredField(fieldName));
             decl.noteValue(new QuoteExp(value2));
             decl.setFlag(18432);
@@ -1182,12 +1165,10 @@ public class Declaration implements SourceLocator {
     }
 
     public static Declaration getDeclaration(Object proc, String name) {
+        Class procClass;
         Field procField = null;
-        if (name != null) {
-            Class procClass = PrimProcedure.getProcedureClass(proc);
-            if (procClass != null) {
-                procField = ((ClassType) Type.make(procClass)).getDeclaredField(Compilation.mangleNameIfNeeded(name));
-            }
+        if (!(name == null || (procClass = PrimProcedure.getProcedureClass(proc)) == null)) {
+            procField = ((ClassType) Type.make(procClass)).getDeclaredField(Compilation.mangleNameIfNeeded(name));
         }
         if (procField != null) {
             int fflags = procField.getModifiers();

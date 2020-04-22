@@ -6,6 +6,7 @@ import gnu.bytecode.Method;
 import gnu.bytecode.Type;
 import gnu.bytecode.Variable;
 import gnu.expr.ApplyExp;
+import gnu.expr.BeginExp;
 import gnu.expr.Compilation;
 import gnu.expr.ConditionalTarget;
 import gnu.expr.ConsumerTarget;
@@ -19,6 +20,7 @@ import gnu.expr.Inlineable;
 import gnu.expr.Keyword;
 import gnu.expr.LambdaExp;
 import gnu.expr.Language;
+import gnu.expr.LetExp;
 import gnu.expr.QuoteExp;
 import gnu.expr.ReferenceExp;
 import gnu.expr.StackTarget;
@@ -26,6 +28,9 @@ import gnu.expr.Target;
 import gnu.expr.TryExp;
 import gnu.kawa.lispexpr.LangObjType;
 import gnu.kawa.reflect.CompileReflect;
+import gnu.kawa.reflect.Invoke;
+import gnu.kawa.reflect.SlotGet;
+import gnu.lists.LList;
 import gnu.mapping.Namespace;
 import gnu.mapping.Procedure;
 import gnu.mapping.WrongArguments;
@@ -39,42 +44,6 @@ public class CompileMisc implements Inlineable {
     static ClassType typeType;
     int code;
     Procedure proc;
-
-    static class ExitThroughFinallyChecker extends ExpVisitor<Expression, TryExp> {
-        Declaration decl;
-
-        ExitThroughFinallyChecker() {
-        }
-
-        public static boolean check(Declaration decl2, Expression body) {
-            ExitThroughFinallyChecker visitor = new ExitThroughFinallyChecker();
-            visitor.decl = decl2;
-            visitor.visit(body, null);
-            return visitor.exitValue != null;
-        }
-
-        /* access modifiers changed from: protected */
-        public Expression defaultValue(Expression r, TryExp d) {
-            return r;
-        }
-
-        /* access modifiers changed from: protected */
-        public Expression visitReferenceExp(ReferenceExp exp, TryExp currentTry) {
-            if (this.decl == exp.getBinding() && currentTry != null) {
-                this.exitValue = Boolean.TRUE;
-            }
-            return exp;
-        }
-
-        /* access modifiers changed from: protected */
-        public Expression visitTryExp(TryExp exp, TryExp currentTry) {
-            if (exp.getFinallyClause() != null) {
-                currentTry = exp;
-            }
-            visitExpression(exp, currentTry);
-            return exp;
-        }
-    }
 
     public CompileMisc(Procedure proc2, int code2) {
         this.proc = proc2;
@@ -147,7 +116,7 @@ public class CompileMisc implements Inlineable {
             if (f == Boolean.FALSE || ftype.isSubtype(LangObjType.stringType)) {
                 int skip = f == Boolean.FALSE ? 1 : 0;
                 Expression[] xargs = new Expression[((args.length + 1) - skip)];
-                xargs[0] = new QuoteExp(Integer.valueOf(0), Type.intType);
+                xargs[0] = new QuoteExp(0, Type.intType);
                 System.arraycopy(args, skip, xargs, 1, xargs.length - 1);
                 ApplyExp ae = new ApplyExp(typeFormat.getDeclaredMethod("formatToString", 2), xargs);
                 ae.setType(Type.javalangStringType);
@@ -190,7 +159,7 @@ public class CompileMisc implements Inlineable {
         exp.visitArgs(visitor);
         Expression[] args = exp.getArgs();
         int alen = args.length;
-        Expression method = null;
+        LambdaExp method = null;
         int countMethods = 0;
         String name = null;
         int i = 0;
@@ -220,7 +189,7 @@ public class CompileMisc implements Inlineable {
         if (countMethods != 1 || !(method instanceof LambdaExp)) {
             return exp;
         }
-        LambdaExp lexp = (LambdaExp) method;
+        LambdaExp lexp = method;
         int i2 = 0;
         while (i2 < alen) {
             Expression arg2 = args[i2];
@@ -324,7 +293,7 @@ public class CompileMisc implements Inlineable {
         CodeAttr code2 = comp.getCode();
         Declaration param = lambda.firstDecl();
         if (!param.isSimple() || param.getCanRead() || param.getCanWrite()) {
-            Variable contVar = code2.pushScope().addVariable(code2, typeContinuation, null);
+            Variable contVar = code2.pushScope().addVariable(code2, typeContinuation, (String) null);
             Declaration contDecl = new Declaration(contVar);
             code2.emitNew(typeContinuation);
             code2.emitDup((Type) typeContinuation);
@@ -332,15 +301,14 @@ public class CompileMisc implements Inlineable {
             code2.emitInvokeSpecial(typeContinuation.getDeclaredMethod("<init>", 1));
             code2.emitStore(contVar);
             code2.emitTryStart(false, ((target instanceof IgnoreTarget) || (target instanceof ConsumerTarget)) ? null : Type.objectType);
-            ReferenceExp referenceExp = new ReferenceExp(contDecl);
-            new ApplyExp((Expression) lambda, referenceExp).compile(comp, target);
+            new ApplyExp((Expression) lambda, new ReferenceExp(contDecl)).compile(comp, target);
             if (code2.reachableHere()) {
                 code2.emitLoad(contVar);
                 code2.emitPushInt(1);
                 code2.emitPutField(typeContinuation.getField("invoked"));
             }
             code2.emitTryEnd();
-            code2.emitCatchStart(null);
+            code2.emitCatchStart((Variable) null);
             code2.emitLoad(contVar);
             if (target instanceof ConsumerTarget) {
                 comp.loadCallContext();
@@ -372,361 +340,143 @@ public class CompileMisc implements Inlineable {
                 if (lexp.min_args == 1 && lexp.max_args == 1 && !lexp.firstDecl().getCanWrite()) {
                     return lexp;
                 }
+                return null;
             }
         }
         return null;
     }
 
-    /* JADX WARNING: type inference failed for: r30v0, types: [gnu.expr.Expression] */
-    /* JADX WARNING: type inference failed for: r1v13, types: [gnu.expr.Expression] */
-    /* JADX WARNING: type inference failed for: r30v1 */
-    /* JADX WARNING: type inference failed for: r30v2 */
-    /* JADX WARNING: type inference failed for: r0v33, types: [gnu.expr.Expression] */
-    /* JADX WARNING: Multi-variable type inference failed */
-    /* JADX WARNING: Unknown variable types count: 3 */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public static gnu.expr.Expression validateApplyMap(gnu.expr.ApplyExp r38, gnu.expr.InlineCalls r39, gnu.bytecode.Type r40, gnu.mapping.Procedure r41) {
-        /*
-            r24 = r41
-            gnu.kawa.functions.Map r24 = (gnu.kawa.functions.Map) r24
-            r0 = r24
-            boolean r7 = r0.collect
-            r38.visitArgs(r39)
-            gnu.expr.Expression[] r5 = r38.getArgs()
-            int r0 = r5.length
-            r25 = r0
-            r35 = 2
-            r0 = r25
-            r1 = r35
-            if (r0 >= r1) goto L_0x001b
-        L_0x001a:
-            return r38
-        L_0x001b:
-            int r25 = r25 + -1
-            r35 = 0
-            r27 = r5[r35]
-            boolean r35 = r27.side_effects()
-            if (r35 != 0) goto L_0x00e5
-            r29 = 1
-        L_0x0029:
-            r35 = 1
-            r0 = r35
-            gnu.expr.Expression[] r15 = new gnu.expr.Expression[r0]
-            r35 = 0
-            r15[r35] = r27
-            gnu.expr.LetExp r19 = new gnu.expr.LetExp
-            r0 = r19
-            r0.<init>(r15)
-            java.lang.String r35 = "%proc"
-            gnu.bytecode.ClassType r36 = gnu.expr.Compilation.typeProcedure
-            r0 = r19
-            r1 = r35
-            r2 = r36
-            gnu.expr.Declaration r28 = r0.addDeclaration(r1, r2)
-            r35 = 0
-            r35 = r5[r35]
-            r0 = r28
-            r1 = r35
-            r0.noteValue(r1)
-            r35 = 1
-            r0 = r35
-            gnu.expr.Expression[] r0 = new gnu.expr.Expression[r0]
-            r16 = r0
-            gnu.expr.LetExp r20 = new gnu.expr.LetExp
-            r0 = r20
-            r1 = r16
-            r0.<init>(r1)
-            r19.setBody(r20)
-            gnu.expr.LambdaExp r22 = new gnu.expr.LambdaExp
-            if (r7 == 0) goto L_0x00e9
-            int r35 = r25 + 1
-        L_0x006d:
-            r0 = r22
-            r1 = r35
-            r0.<init>(r1)
-            r35 = 0
-            r16[r35] = r22
-            java.lang.String r35 = "%loop"
-            r0 = r20
-            r1 = r35
-            gnu.expr.Declaration r23 = r0.addDeclaration(r1)
-            r0 = r23
-            r1 = r22
-            r0.noteValue(r1)
-            r0 = r25
-            gnu.expr.Expression[] r0 = new gnu.expr.Expression[r0]
-            r17 = r0
-            gnu.expr.LetExp r21 = new gnu.expr.LetExp
-            r0 = r21
-            r1 = r17
-            r0.<init>(r1)
-            r0 = r25
-            gnu.expr.Declaration[] r0 = new gnu.expr.Declaration[r0]
-            r18 = r0
-            r0 = r25
-            gnu.expr.Declaration[] r0 = new gnu.expr.Declaration[r0]
-            r26 = r0
-            r13 = 0
-        L_0x00a5:
-            r0 = r25
-            if (r13 >= r0) goto L_0x00ec
-            java.lang.StringBuilder r35 = new java.lang.StringBuilder
-            r35.<init>()
-            java.lang.String r36 = "arg"
-            java.lang.StringBuilder r35 = r35.append(r36)
-            r0 = r35
-            java.lang.StringBuilder r35 = r0.append(r13)
-            java.lang.String r4 = r35.toString()
-            r0 = r22
-            gnu.expr.Declaration r35 = r0.addDeclaration(r4)
-            r18[r13] = r35
-            gnu.bytecode.ClassType r35 = gnu.expr.Compilation.typePair
-            r0 = r21
-            r1 = r35
-            gnu.expr.Declaration r35 = r0.addDeclaration(r4, r1)
-            r26[r13] = r35
-            gnu.expr.ReferenceExp r35 = new gnu.expr.ReferenceExp
-            r36 = r18[r13]
-            r35.<init>(r36)
-            r17[r13] = r35
-            r35 = r26[r13]
-            r36 = r17[r13]
-            r35.noteValue(r36)
-            int r13 = r13 + 1
-            goto L_0x00a5
-        L_0x00e5:
-            r29 = 0
-            goto L_0x0029
-        L_0x00e9:
-            r35 = r25
-            goto L_0x006d
-        L_0x00ec:
-            if (r7 == 0) goto L_0x0148
-            java.lang.String r35 = "result"
-            r0 = r22
-            r1 = r35
-            gnu.expr.Declaration r33 = r0.addDeclaration(r1)
-        L_0x00f8:
-            int r35 = r25 + 1
-            r0 = r35
-            gnu.expr.Expression[] r10 = new gnu.expr.Expression[r0]
-            if (r7 == 0) goto L_0x014b
-            int r35 = r25 + 1
-        L_0x0102:
-            r0 = r35
-            gnu.expr.Expression[] r0 = new gnu.expr.Expression[r0]
-            r31 = r0
-            r13 = 0
-        L_0x0109:
-            r0 = r25
-            if (r13 >= r0) goto L_0x014e
-            int r35 = r13 + 1
-            gnu.expr.ReferenceExp r36 = new gnu.expr.ReferenceExp
-            r37 = r26[r13]
-            r36.<init>(r37)
-            java.lang.String r37 = "car"
-            gnu.expr.ApplyExp r36 = gnu.kawa.reflect.SlotGet.makeGetField(r36, r37)
-            r37 = 0
-            r0 = r39
-            r1 = r36
-            r2 = r37
-            gnu.expr.Expression r36 = r0.visitApplyOnly(r1, r2)
-            r10[r35] = r36
-            gnu.expr.ReferenceExp r35 = new gnu.expr.ReferenceExp
-            r36 = r26[r13]
-            r35.<init>(r36)
-            java.lang.String r36 = "cdr"
-            gnu.expr.ApplyExp r35 = gnu.kawa.reflect.SlotGet.makeGetField(r35, r36)
-            r36 = 0
-            r0 = r39
-            r1 = r35
-            r2 = r36
-            gnu.expr.Expression r35 = r0.visitApplyOnly(r1, r2)
-            r31[r13] = r35
-            int r13 = r13 + 1
-            goto L_0x0109
-        L_0x0148:
-            r33 = 0
-            goto L_0x00f8
-        L_0x014b:
-            r35 = r25
-            goto L_0x0102
-        L_0x014e:
-            if (r29 != 0) goto L_0x0155
-            gnu.expr.ReferenceExp r27 = new gnu.expr.ReferenceExp
-            r27.<init>(r28)
-        L_0x0155:
-            r35 = 0
-            r10[r35] = r27
-            gnu.expr.ApplyExp r35 = new gnu.expr.ApplyExp
-            gnu.expr.ReferenceExp r36 = new gnu.expr.ReferenceExp
-            r0 = r24
-            gnu.expr.Declaration r0 = r0.applyFieldDecl
-            r37 = r0
-            r36.<init>(r37)
-            r0 = r35
-            r1 = r36
-            r0.<init>(r1, r10)
-            r36 = 0
-            r0 = r39
-            r1 = r35
-            r2 = r36
-            gnu.expr.Expression r11 = r0.visitApplyOnly(r1, r2)
-            if (r7 == 0) goto L_0x01a0
-            r35 = 2
-            r0 = r35
-            gnu.expr.Expression[] r9 = new gnu.expr.Expression[r0]
-            r35 = 0
-            r9[r35] = r11
-            r35 = 1
-            gnu.expr.ReferenceExp r36 = new gnu.expr.ReferenceExp
-            r0 = r36
-            r1 = r33
-            r0.<init>(r1)
-            r9[r35] = r36
-            gnu.bytecode.ClassType r35 = gnu.expr.Compilation.typePair
-            java.lang.String r36 = "make"
-            r0 = r35
-            r1 = r36
-            gnu.expr.ApplyExp r35 = gnu.kawa.reflect.Invoke.makeInvokeStatic(r0, r1, r9)
-            r31[r25] = r35
-        L_0x01a0:
-            gnu.expr.ApplyExp r35 = new gnu.expr.ApplyExp
-            gnu.expr.ReferenceExp r36 = new gnu.expr.ReferenceExp
-            r0 = r36
-            r1 = r23
-            r0.<init>(r1)
-            r0 = r35
-            r1 = r36
-            r2 = r31
-            r0.<init>(r1, r2)
-            r36 = 0
-            r0 = r39
-            r1 = r35
-            r2 = r36
-            gnu.expr.Expression r30 = r0.visitApplyOnly(r1, r2)
-            if (r7 == 0) goto L_0x0249
-        L_0x01c2:
-            r0 = r30
-            r1 = r22
-            r1.body = r0
-            r0 = r22
-            gnu.expr.Expression r0 = r0.body
-            r35 = r0
-            r0 = r21
-            r1 = r35
-            r0.setBody(r1)
-            r0 = r21
-            r1 = r22
-            r1.body = r0
-            if (r7 == 0) goto L_0x0256
-            int r35 = r25 + 1
-        L_0x01df:
-            r0 = r35
-            gnu.expr.Expression[] r14 = new gnu.expr.Expression[r0]
-            gnu.expr.QuoteExp r12 = new gnu.expr.QuoteExp
-            gnu.lists.LList r35 = gnu.lists.LList.Empty
-            r0 = r35
-            r12.<init>(r0)
-            r13 = r25
-        L_0x01ee:
-            int r13 = r13 + -1
-            if (r13 < 0) goto L_0x025c
-            r35 = 2
-            r0 = r35
-            gnu.expr.Expression[] r8 = new gnu.expr.Expression[r0]
-            r35 = 0
-            gnu.expr.ReferenceExp r36 = new gnu.expr.ReferenceExp
-            r37 = r18[r13]
-            r36.<init>(r37)
-            r8[r35] = r36
-            r35 = 1
-            r8[r35] = r12
-            if (r7 == 0) goto L_0x0259
-            gnu.expr.ReferenceExp r32 = new gnu.expr.ReferenceExp
-            r32.<init>(r33)
-        L_0x020e:
-            gnu.expr.IfExp r35 = new gnu.expr.IfExp
-            gnu.expr.ApplyExp r36 = new gnu.expr.ApplyExp
-            r0 = r24
-            gnu.kawa.functions.IsEq r0 = r0.isEq
-            r37 = r0
-            r0 = r36
-            r1 = r37
-            r0.<init>(r1, r8)
-            r37 = 0
-            r0 = r39
-            r1 = r36
-            r2 = r37
-            gnu.expr.Expression r36 = r0.visitApplyOnly(r1, r2)
-            r0 = r22
-            gnu.expr.Expression r0 = r0.body
-            r37 = r0
-            r0 = r35
-            r1 = r36
-            r2 = r32
-            r3 = r37
-            r0.<init>(r1, r2, r3)
-            r0 = r35
-            r1 = r22
-            r1.body = r0
-            int r35 = r13 + 1
-            r35 = r5[r35]
-            r14[r13] = r35
-            goto L_0x01ee
-        L_0x0249:
-            gnu.expr.BeginExp r35 = new gnu.expr.BeginExp
-            r0 = r35
-            r1 = r30
-            r0.<init>(r11, r1)
-            r30 = r35
-            goto L_0x01c2
-        L_0x0256:
-            r35 = r25
-            goto L_0x01df
-        L_0x0259:
-            gnu.expr.QuoteExp r32 = gnu.expr.QuoteExp.voidExp
-            goto L_0x020e
-        L_0x025c:
-            if (r7 == 0) goto L_0x0260
-            r14[r25] = r12
-        L_0x0260:
-            gnu.expr.ApplyExp r35 = new gnu.expr.ApplyExp
-            gnu.expr.ReferenceExp r36 = new gnu.expr.ReferenceExp
-            r0 = r36
-            r1 = r23
-            r0.<init>(r1)
-            r0 = r35
-            r1 = r36
-            r0.<init>(r1, r14)
-            r36 = 0
-            r0 = r39
-            r1 = r35
-            r2 = r36
-            gnu.expr.Expression r6 = r0.visitApplyOnly(r1, r2)
-            if (r7 == 0) goto L_0x029a
-            r35 = 1
-            r0 = r35
-            gnu.expr.Expression[] r0 = new gnu.expr.Expression[r0]
-            r34 = r0
-            r35 = 0
-            r34[r35] = r6
-            gnu.bytecode.ClassType r35 = gnu.expr.Compilation.scmListType
-            java.lang.String r36 = "reverseInPlace"
-            r0 = r35
-            r1 = r36
-            r2 = r34
-            gnu.expr.ApplyExp r6 = gnu.kawa.reflect.Invoke.makeInvokeStatic(r0, r1, r2)
-        L_0x029a:
-            r0 = r20
-            r0.setBody(r6)
-            if (r29 == 0) goto L_0x02a5
-            r38 = r20
-            goto L_0x001a
-        L_0x02a5:
-            r38 = r19
-            goto L_0x001a
-        */
-        throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.functions.CompileMisc.validateApplyMap(gnu.expr.ApplyExp, gnu.expr.InlineCalls, gnu.bytecode.Type, gnu.mapping.Procedure):gnu.expr.Expression");
+    static class ExitThroughFinallyChecker extends ExpVisitor<Expression, TryExp> {
+        Declaration decl;
+
+        ExitThroughFinallyChecker() {
+        }
+
+        public static boolean check(Declaration decl2, Expression body) {
+            ExitThroughFinallyChecker visitor = new ExitThroughFinallyChecker();
+            visitor.decl = decl2;
+            visitor.visit(body, null);
+            return visitor.exitValue != null;
+        }
+
+        /* access modifiers changed from: protected */
+        public Expression defaultValue(Expression r, TryExp d) {
+            return r;
+        }
+
+        /* access modifiers changed from: protected */
+        public Expression visitReferenceExp(ReferenceExp exp, TryExp currentTry) {
+            if (this.decl == exp.getBinding() && currentTry != null) {
+                this.exitValue = Boolean.TRUE;
+            }
+            return exp;
+        }
+
+        /* access modifiers changed from: protected */
+        public Expression visitTryExp(TryExp exp, TryExp currentTry) {
+            if (exp.getFinallyClause() != null) {
+                currentTry = exp;
+            }
+            visitExpression(exp, currentTry);
+            return exp;
+        }
+    }
+
+    public static Expression validateApplyMap(ApplyExp exp, InlineCalls visitor, Type required, Procedure xproc) {
+        int i;
+        int i2;
+        int i3;
+        Map mproc = (Map) xproc;
+        boolean collect = mproc.collect;
+        exp.visitArgs(visitor);
+        Expression[] args = exp.getArgs();
+        int nargs = args.length;
+        if (nargs < 2) {
+            return exp;
+        }
+        int nargs2 = nargs - 1;
+        Expression proc2 = args[0];
+        boolean procSafeForMultipleEvaluation = !proc2.side_effects();
+        LetExp letExp = new LetExp(new Expression[]{proc2});
+        Declaration procDecl = letExp.addDeclaration("%proc", Compilation.typeProcedure);
+        procDecl.noteValue(args[0]);
+        Expression[] inits2 = new Expression[1];
+        LetExp letExp2 = new LetExp(inits2);
+        letExp.setBody(letExp2);
+        if (collect) {
+            i = nargs2 + 1;
+        } else {
+            i = nargs2;
+        }
+        LambdaExp lambdaExp = new LambdaExp(i);
+        inits2[0] = lambdaExp;
+        Declaration loopDecl = letExp2.addDeclaration((Object) "%loop");
+        loopDecl.noteValue(lambdaExp);
+        Expression[] inits3 = new Expression[nargs2];
+        LetExp letExp3 = new LetExp(inits3);
+        Declaration[] largs = new Declaration[nargs2];
+        Declaration[] pargs = new Declaration[nargs2];
+        for (int i4 = 0; i4 < nargs2; i4++) {
+            String argName = "arg" + i4;
+            largs[i4] = lambdaExp.addDeclaration((Object) argName);
+            pargs[i4] = letExp3.addDeclaration(argName, Compilation.typePair);
+            inits3[i4] = new ReferenceExp(largs[i4]);
+            pargs[i4].noteValue(inits3[i4]);
+        }
+        Declaration resultDecl = collect ? lambdaExp.addDeclaration((Object) "result") : null;
+        Expression[] doArgs = new Expression[(nargs2 + 1)];
+        if (collect) {
+            i2 = nargs2 + 1;
+        } else {
+            i2 = nargs2;
+        }
+        Expression[] recArgs = new Expression[i2];
+        for (int i5 = 0; i5 < nargs2; i5++) {
+            doArgs[i5 + 1] = visitor.visitApplyOnly(SlotGet.makeGetField(new ReferenceExp(pargs[i5]), "car"), (Type) null);
+            recArgs[i5] = visitor.visitApplyOnly(SlotGet.makeGetField(new ReferenceExp(pargs[i5]), "cdr"), (Type) null);
+        }
+        if (!procSafeForMultipleEvaluation) {
+            proc2 = new ReferenceExp(procDecl);
+        }
+        doArgs[0] = proc2;
+        Expression doit = visitor.visitApplyOnly(new ApplyExp((Expression) new ReferenceExp(mproc.applyFieldDecl), doArgs), (Type) null);
+        if (collect) {
+            recArgs[nargs2] = Invoke.makeInvokeStatic(Compilation.typePair, "make", new Expression[]{doit, new ReferenceExp(resultDecl)});
+        }
+        Expression rec = visitor.visitApplyOnly(new ApplyExp((Expression) new ReferenceExp(loopDecl), recArgs), (Type) null);
+        if (!collect) {
+            rec = new BeginExp(doit, rec);
+        }
+        lambdaExp.body = rec;
+        letExp3.setBody(lambdaExp.body);
+        lambdaExp.body = letExp3;
+        if (collect) {
+            i3 = nargs2 + 1;
+        } else {
+            i3 = nargs2;
+        }
+        Expression[] initArgs = new Expression[i3];
+        QuoteExp empty = new QuoteExp(LList.Empty);
+        int i6 = nargs2;
+        while (true) {
+            i6--;
+            if (i6 < 0) {
+                break;
+            }
+            lambdaExp.body = new IfExp(visitor.visitApplyOnly(new ApplyExp((Procedure) mproc.isEq, new ReferenceExp(largs[i6]), empty), (Type) null), collect ? new ReferenceExp(resultDecl) : QuoteExp.voidExp, lambdaExp.body);
+            initArgs[i6] = args[i6 + 1];
+        }
+        if (collect) {
+            initArgs[nargs2] = empty;
+        }
+        Expression body = visitor.visitApplyOnly(new ApplyExp((Expression) new ReferenceExp(loopDecl), initArgs), (Type) null);
+        if (collect) {
+            body = Invoke.makeInvokeStatic(Compilation.scmListType, "reverseInPlace", new Expression[]{body});
+        }
+        letExp2.setBody(body);
+        if (procSafeForMultipleEvaluation) {
+            return letExp2;
+        }
+        return letExp;
     }
 }

@@ -2,7 +2,6 @@ package com.google.appinventor.components.runtime;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -73,7 +72,7 @@ public class Pedometer extends AndroidNonvisibleComponent implements Component, 
     public void Start() {
         if (this.pedometerPaused) {
             this.pedometerPaused = false;
-            this.sensorManager.registerListener(this, (Sensor) this.sensorManager.getSensorList(1).get(0), 0);
+            this.sensorManager.registerListener(this, this.sensorManager.getSensorList(1).get(0), 0);
             this.startTime = System.currentTimeMillis();
         }
     }
@@ -111,7 +110,7 @@ public class Pedometer extends AndroidNonvisibleComponent implements Component, 
 
     @SimpleFunction(description = "Saves the pedometer state to the phone. Permits permits accumulation of steps and distance between invocations of an App that uses the pedometer. Different Apps will have their own saved state.")
     public void Save() {
-        Editor editor = this.context.getSharedPreferences(PREFS_NAME, 0).edit();
+        SharedPreferences.Editor editor = this.context.getSharedPreferences(PREFS_NAME, 0).edit();
         editor.putFloat("Pedometer.stridelength", this.strideLength);
         editor.putFloat("Pedometer.distance", this.totalDistance);
         editor.putInt("Pedometer.prevStepCount", this.numStepsRaw);
@@ -181,7 +180,6 @@ public class Pedometer extends AndroidNonvisibleComponent implements Component, 
     }
 
     private boolean areStepsEquallySpaced() {
-        long[] jArr;
         float avg = 0.0f;
         int num = 0;
         for (long interval : this.stepInterval) {
@@ -224,7 +222,6 @@ public class Pedometer extends AndroidNonvisibleComponent implements Component, 
     }
 
     public void onSensorChanged(SensorEvent event) {
-        float[] fArr;
         if (event.sensor.getType() == 1) {
             float magnitude = 0.0f;
             for (float v : event.values) {
@@ -260,31 +257,31 @@ public class Pedometer extends AndroidNonvisibleComponent implements Component, 
             this.avgPos = (this.avgPos + 1) % this.avgWindow.length;
             this.lastValues[this.winPos] = 0.0f;
             for (float m : this.avgWindow) {
-                float[] fArr2 = this.lastValues;
+                float[] fArr = this.lastValues;
                 int i = this.winPos;
-                fArr2[i] = fArr2[i] + m;
+                fArr[i] = fArr[i] + m;
             }
-            float[] fArr3 = this.lastValues;
+            float[] fArr2 = this.lastValues;
             int i2 = this.winPos;
-            fArr3[i2] = fArr3[i2] / ((float) this.avgWindow.length);
+            fArr2[i2] = fArr2[i2] / ((float) this.avgWindow.length);
             if (this.startPeaking || this.winPos > 1) {
                 int i3 = this.winPos - 1;
                 if (i3 < 0) {
                     i3 += 100;
                 }
-                float[] fArr4 = this.lastValues;
+                float[] fArr3 = this.lastValues;
                 int i4 = this.winPos;
-                fArr4[i4] = fArr4[i4] + (2.0f * this.lastValues[i3]);
+                fArr3[i4] = fArr3[i4] + (2.0f * this.lastValues[i3]);
                 int i5 = i3 - 1;
                 if (i5 < 0) {
                     i5 += 100;
                 }
-                float[] fArr5 = this.lastValues;
+                float[] fArr4 = this.lastValues;
                 int i6 = this.winPos;
-                fArr5[i6] = fArr5[i6] + this.lastValues[i5];
-                float[] fArr6 = this.lastValues;
+                fArr4[i6] = fArr4[i6] + this.lastValues[i5];
+                float[] fArr5 = this.lastValues;
                 int i7 = this.winPos;
-                fArr6[i7] = fArr6[i7] / 4.0f;
+                fArr5[i7] = fArr5[i7] / 4.0f;
             } else if (!this.startPeaking && this.winPos == 1) {
                 this.lastValues[1] = (this.lastValues[1] + this.lastValues[0]) / 2.0f;
             }

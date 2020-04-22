@@ -32,6 +32,8 @@ public class InlineCalls extends ExpExpVisitor<Type> {
     }
 
     public Expression checkType(Expression exp, Type required) {
+        Expression converted;
+        Method amethod;
         boolean incompatible = true;
         Type expType = exp.getType();
         if (!(required instanceof ClassType) || !((ClassType) required).isInterface() || !expType.isSubtype(Compilation.typeProcedure) || expType.isSubtype(required)) {
@@ -41,30 +43,23 @@ public class InlineCalls extends ExpExpVisitor<Type> {
             if (required == null || required.compare(expType) != -3) {
                 incompatible = false;
             }
-            if (incompatible && (required instanceof TypeValue)) {
-                Expression converted = ((TypeValue) required).convertValue(exp);
-                if (converted != null) {
-                    return converted;
-                }
+            if (incompatible && (required instanceof TypeValue) && (converted = ((TypeValue) required).convertValue(exp)) != null) {
+                return converted;
             }
-        } else {
-            if (exp instanceof LambdaExp) {
-                Method amethod = ((ClassType) required).checkSingleAbstractMethod();
-                if (amethod != null) {
-                    LambdaExp lexp = (LambdaExp) exp;
-                    ObjectExp oexp = new ObjectExp();
-                    oexp.setLocation(exp);
-                    oexp.supers = new Expression[]{new QuoteExp(required)};
-                    oexp.setTypes(getCompilation());
-                    String mname = amethod.getName();
-                    oexp.addMethod(lexp, mname);
-                    Declaration addDeclaration = oexp.addDeclaration(mname, Compilation.typeProcedure);
-                    oexp.firstChild = lexp;
-                    oexp.declareParts(this.comp);
-                    return visit((Expression) oexp, required);
-                }
-            }
+        } else if (!(exp instanceof LambdaExp) || (amethod = ((ClassType) required).checkSingleAbstractMethod()) == null) {
             incompatible = true;
+        } else {
+            LambdaExp lexp = (LambdaExp) exp;
+            ObjectExp oexp = new ObjectExp();
+            oexp.setLocation(exp);
+            oexp.supers = new Expression[]{new QuoteExp(required)};
+            oexp.setTypes(getCompilation());
+            String mname = amethod.getName();
+            oexp.addMethod(lexp, mname);
+            Declaration addDeclaration = oexp.addDeclaration(mname, Compilation.typeProcedure);
+            oexp.firstChild = lexp;
+            oexp.declareParts(this.comp);
+            return visit((Expression) oexp, required);
         }
         if (incompatible) {
             Language language = this.comp.getLanguage();
@@ -85,11 +80,11 @@ public class InlineCalls extends ExpExpVisitor<Type> {
         }
         Expression func2 = visit(func, (Type) null);
         exp.func = func2;
-        return func2.validateApply(exp, this, required, null);
+        return func2.validateApply(exp, this, required, (Declaration) null);
     }
 
     public final Expression visitApplyOnly(ApplyExp exp, Type required) {
-        return exp.func.validateApply(exp, this, required, null);
+        return exp.func.validateApply(exp, this, required, (Declaration) null);
     }
 
     public static Integer checkIntValue(Expression exp) {
@@ -138,14 +133,11 @@ public class InlineCalls extends ExpExpVisitor<Type> {
 
     /* access modifiers changed from: protected */
     public Expression visitQuoteExp(QuoteExp exp, Type required) {
-        if (exp.getRawType() != null || exp.isSharedConstant()) {
+        Object value;
+        if (exp.getRawType() != null || exp.isSharedConstant() || (value = exp.getValue()) == null) {
             return exp;
         }
-        Object value = exp.getValue();
-        if (value == null) {
-            return exp;
-        }
-        Type vtype = this.comp.getLanguage().getTypeFor(value.getClass());
+        Type vtype = this.comp.getLanguage().getTypeFor((Class) value.getClass());
         if (vtype == Type.toStringType) {
             vtype = Type.javalangStringType;
         }
@@ -187,14 +179,12 @@ public class InlineCalls extends ExpExpVisitor<Type> {
 
     /* access modifiers changed from: protected */
     public Expression visitIfExp(IfExp exp, Type required) {
+        Declaration decl;
         Expression test = (Expression) exp.test.visit(this, null);
-        if (test instanceof ReferenceExp) {
-            Declaration decl = ((ReferenceExp) test).getBinding();
-            if (decl != null) {
-                Expression value = decl.getValue();
-                if ((value instanceof QuoteExp) && value != QuoteExp.undefined_exp) {
-                    test = value;
-                }
+        if ((test instanceof ReferenceExp) && (decl = ((ReferenceExp) test).getBinding()) != null) {
+            Expression value = decl.getValue();
+            if ((value instanceof QuoteExp) && value != QuoteExp.undefined_exp) {
+                test = value;
             }
         }
         exp.test = test;
@@ -254,6 +244,8 @@ public class InlineCalls extends ExpExpVisitor<Type> {
 
     /* access modifiers changed from: protected */
     public Expression visitLetExp(LetExp exp, Type required) {
+        ReferenceExp ref;
+        Declaration d;
         Declaration decl = exp.firstDecl();
         int n = exp.inits.length;
         int i = 0;
@@ -275,19 +267,15 @@ public class InlineCalls extends ExpExpVisitor<Type> {
         if (this.exitValue == null) {
             exp.body = visit(exp.body, required);
         }
-        if (exp.body instanceof ReferenceExp) {
-            ReferenceExp ref = (ReferenceExp) exp.body;
-            Declaration d = ref.getBinding();
-            if (d != null && d.context == exp && !ref.getDontDereference() && n == 1) {
-                Expression init2 = exp.inits[0];
-                Expression texp = d.getTypeExp();
-                if (texp == QuoteExp.classObjectExp) {
-                    return init2;
-                }
-                return visitApplyOnly(Compilation.makeCoercion(init2, texp), null);
-            }
+        if (!(exp.body instanceof ReferenceExp) || (d = ref.getBinding()) == null || d.context != exp || (ref = (ReferenceExp) exp.body).getDontDereference() || n != 1) {
+            return exp;
         }
-        return exp;
+        Expression init2 = exp.inits[0];
+        Expression texp = d.getTypeExp();
+        if (texp == QuoteExp.classObjectExp) {
+            return init2;
+        }
+        return visitApplyOnly(Compilation.makeCoercion(init2, texp), (Type) null);
     }
 
     /* access modifiers changed from: protected */
@@ -349,11 +337,11 @@ public class InlineCalls extends ExpExpVisitor<Type> {
     /* JADX WARNING: Code restructure failed: missing block: B:32:0x00b8, code lost:
         if ((r5 instanceof java.lang.reflect.Method) == false) goto L_0x00b4;
      */
-    /* JADX WARNING: Code restructure failed: missing block: B:38:?, code lost:
+    /* JADX WARNING: Code restructure failed: missing block: B:37:?, code lost:
         return (gnu.expr.Expression) ((gnu.mapping.Procedure) r5).applyN(r9);
      */
-    /* JADX WARNING: Code restructure failed: missing block: B:39:?, code lost:
-        return (gnu.expr.Expression) ((java.lang.reflect.Method) r5).invoke(null, r9);
+    /* JADX WARNING: Code restructure failed: missing block: B:38:?, code lost:
+        return (gnu.expr.Expression) ((java.lang.reflect.Method) r5).invoke((java.lang.Object) null, r9);
      */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public gnu.expr.Expression maybeInline(gnu.expr.ApplyExp r15, gnu.bytecode.Type r16, gnu.mapping.Procedure r17) {
@@ -444,7 +432,7 @@ public class InlineCalls extends ExpExpVisitor<Type> {
             java.lang.StringBuilder r12 = r12.append(r13)
             java.lang.StringBuilder r12 = r12.append(r4)
             java.lang.String r12 = r12.toString()
-            r10.error(r11, r12, r4)
+            r10.error((char) r11, (java.lang.String) r12, (java.lang.Throwable) r4)
         L_0x00b4:
             r10 = 0
             goto L_0x005f
@@ -513,11 +501,8 @@ public class InlineCalls extends ExpExpVisitor<Type> {
             i++;
         }
         Expression body = lexp.body;
-        if (makeCopy) {
-            body = Expression.deepCopy(body, mapper);
-            if (body == null && lexp.body != null) {
-                return null;
-            }
+        if (makeCopy && (body = Expression.deepCopy(body, mapper)) == null && lexp.body != null) {
+            return null;
         }
         let.body = body;
         return let;

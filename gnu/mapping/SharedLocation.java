@@ -18,9 +18,7 @@ public class SharedLocation extends NamedLocation {
     }
 
     public synchronized boolean isBound() {
-        boolean z;
-        z = this.base != null ? this.base.isBound() : this.value != Location.UNBOUND;
-        return z;
+        return this.base != null ? this.base.isBound() : this.value != Location.UNBOUND;
     }
 
     public final synchronized void set(Object newValue) {

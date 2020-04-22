@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map.Entry;
+import java.util.Map;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -18,11 +18,10 @@ public class XmlParser extends DefaultHandler {
         YailDictionary el = new YailDictionary();
         el.put("$tag", qname);
         el.put("$namespaceUri", uri);
-        String str = "$localName";
         if (localName.isEmpty()) {
             localName = qname;
         }
-        el.put(str, localName);
+        el.put("$localName", localName);
         if (qname.contains(":")) {
             el.put("$namespace", qname.split(":")[0]);
         } else {
@@ -58,13 +57,13 @@ public class XmlParser extends DefaultHandler {
     }
 
     public void endElement(String uri, String localName, String qname) {
-        for (Entry<Object, Object> e : this.currentElement.entrySet()) {
+        for (Map.Entry<Object, Object> e : this.currentElement.entrySet()) {
             if (e.getValue() instanceof ArrayList) {
                 e.setValue(YailList.makeList((List) e.getValue()));
             }
         }
         if (!this.stack.isEmpty()) {
-            this.currentElement = (YailDictionary) this.stack.pop();
+            this.currentElement = this.stack.pop();
         }
     }
 

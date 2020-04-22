@@ -8,7 +8,6 @@ import java.lang.reflect.Method;
 
 public class PropertyUtil {
     public static Component copyComponentProperties(Component source, Component target) throws Throwable {
-        Method[] componentMethods;
         if (!source.getClass().equals(target.getClass())) {
             throw new IllegalArgumentException("Source and target classes must be identical");
         }

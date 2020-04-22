@@ -119,7 +119,7 @@ public class XMLPrinter extends OutPort implements PositionConsumer, XConsumer {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public boolean mustHexEscape(int v) {
         return (v >= 127 && (v <= 159 || this.escapeNonAscii)) || v == 8232 || (v < 32 && (this.inAttribute || !(v == 9 || v == 10)));
     }
@@ -213,10 +213,10 @@ public class XMLPrinter extends OutPort implements PositionConsumer, XConsumer {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void setIndentMode() {
         String indent = null;
-        Object xmlIndent = indentLoc.get(null);
+        Object xmlIndent = indentLoc.get((Object) null);
         if (xmlIndent != null) {
             indent = xmlIndent.toString();
         }
@@ -281,11 +281,11 @@ public class XMLPrinter extends OutPort implements PositionConsumer, XConsumer {
             if (this.prev == -7) {
                 write(10);
             }
-            Object systemIdentifier = doctypeSystem.get(null);
+            Object systemIdentifier = doctypeSystem.get((Object) null);
             if (systemIdentifier != null) {
                 String systemId = systemIdentifier.toString();
                 if (systemId.length() > 0) {
-                    Object publicIdentifier = doctypePublic.get(null);
+                    Object publicIdentifier = doctypePublic.get((Object) null);
                     this.bout.write("<!DOCTYPE ");
                     this.bout.write(type.toString());
                     String publicId = publicIdentifier == null ? null : publicIdentifier.toString();
@@ -330,17 +330,18 @@ public class XMLPrinter extends OutPort implements PositionConsumer, XConsumer {
                 String prefix = ns.getPrefix();
                 while (true) {
                     j2--;
-                    if (j2 < 0) {
-                        break;
-                    }
-                    NamespaceBinding ns_j = sortedBindings[j2];
-                    String prefix_j = ns_j.getPrefix();
-                    if (prefix != prefix_j) {
-                        if (sortNamespaces) {
-                            if (prefix == null || (prefix_j != null && prefix.compareTo(prefix_j) <= 0)) {
-                                break;
+                    if (j2 >= 0) {
+                        NamespaceBinding ns_j = sortedBindings[j2];
+                        String prefix_j = ns_j.getPrefix();
+                        if (prefix != prefix_j) {
+                            if (sortNamespaces) {
+                                if (prefix == null || (prefix_j != null && prefix.compareTo(prefix_j) <= 0)) {
+                                    break;
+                                }
+                                sortedBindings[j2 + 1] = ns_j;
                             }
-                            sortedBindings[j2 + 1] = ns_j;
+                        } else {
+                            break;
                         }
                     } else {
                         break;

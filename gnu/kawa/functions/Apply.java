@@ -48,23 +48,21 @@ public class Apply extends ProcedureN {
         } else {
             while (last instanceof Pair) {
                 Pair pair = (Pair) last;
-                int i2 = i + 1;
                 proc_args[i] = pair.getCar();
                 last = pair.getCdr();
                 last_count--;
-                i = i2;
+                i++;
             }
             if (last_count > 0) {
                 Sequence last_seq = (Sequence) last;
                 int j = 0;
-                int i3 = i;
+                int i2 = i;
                 while (j < last_count) {
-                    int i4 = i3 + 1;
-                    proc_args[i3] = last_seq.get(j);
+                    proc_args[i2] = last_seq.get(j);
                     j++;
-                    i3 = i4;
+                    i2++;
                 }
-                int i5 = i3;
+                int i3 = i2;
             }
         }
         return proc_args;

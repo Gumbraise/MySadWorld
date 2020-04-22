@@ -9,7 +9,6 @@ import gnu.kawa.xml.XmlNamespace;
 import gnu.lists.LList;
 import gnu.lists.Pair;
 import gnu.mapping.Namespace;
-import gnu.mapping.Symbol;
 import gnu.xml.NamespaceBinding;
 import kawa.lang.Syntax;
 import kawa.lang.Translator;
@@ -73,10 +72,7 @@ public class MakeXmlElement extends Syntax {
             } else {
                 namespace = XmlNamespace.getInstance(nsPrefix2, nsUri);
             }
-            Symbol nsSymbol = Namespace.EmptyNamespace.getSymbol(nsPrefix2);
-            ClassType classType = typeNamespace;
-            QuoteExp quoteExp = new QuoteExp(namespace);
-            tr.letVariable(nsSymbol, classType, quoteExp).setFlag(2121728);
+            tr.letVariable(Namespace.EmptyNamespace.getSymbol(nsPrefix2), typeNamespace, new QuoteExp(namespace)).setFlag(2121728);
             namespaceList = namespacePair.getCdr();
             nsBindings = nsBindings2;
         }

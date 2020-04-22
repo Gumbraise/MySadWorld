@@ -11,14 +11,12 @@ public abstract class Quantity extends Numeric {
         return unit().dimensions();
     }
 
-    /* renamed from: re */
-    public RealNum mo11744re() {
-        return number().mo11744re();
+    public RealNum re() {
+        return number().re();
     }
 
-    /* renamed from: im */
-    public RealNum mo11743im() {
-        return number().mo11743im();
+    public RealNum im() {
+        return number().im();
     }
 
     public final double reValue() {
@@ -30,11 +28,11 @@ public abstract class Quantity extends Numeric {
     }
 
     public double doubleValue() {
-        return unit().doubleValue() * mo11744re().doubleValue();
+        return unit().doubleValue() * re().doubleValue();
     }
 
     public double doubleImagValue() {
-        return unit().doubleValue() * mo11743im().doubleValue();
+        return unit().doubleValue() * im().doubleValue();
     }
 
     public static Quantity make(Complex x, Unit u) {

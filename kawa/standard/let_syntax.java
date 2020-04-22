@@ -17,15 +17,9 @@ public class let_syntax extends Syntax {
         this.recursive = recursive2;
     }
 
-    /* JADX WARNING: type inference failed for: r33v31, types: [gnu.expr.ScopeExp] */
-    /* JADX WARNING: type inference failed for: r33v32 */
-    /* JADX WARNING: type inference failed for: r33v33 */
-    /* JADX WARNING: type inference failed for: r1v17, types: [gnu.expr.ScopeExp] */
-    /* JADX WARNING: type inference failed for: r33v35, types: [kawa.lang.TemplateScope] */
-    /* JADX WARNING: type inference failed for: r33v44 */
-    /* JADX WARNING: type inference failed for: r33v45 */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r1v14, resolved type: gnu.lists.LList} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r23v2, resolved type: kawa.lang.SyntaxForm} */
     /* JADX WARNING: Multi-variable type inference failed */
-    /* JADX WARNING: Unknown variable types count: 4 */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public gnu.expr.Expression rewrite(java.lang.Object r36, kawa.lang.Translator r37) {
         /*
@@ -197,13 +191,13 @@ public class let_syntax extends Syntax {
         L_0x016e:
             gnu.expr.Declaration r12 = new gnu.expr.Declaration
             r0 = r22
-            r12.<init>(r0)
+            r12.<init>((java.lang.Object) r0)
             kawa.lang.Macro r20 = kawa.lang.Macro.make(r12)
             r21[r15] = r20
             r31[r15] = r7
             r30[r15] = r8
             r0 = r17
-            r0.addDeclaration(r12)
+            r0.addDeclaration((gnu.expr.Declaration) r12)
             if (r23 != 0) goto L_0x01bb
             r29 = 0
         L_0x0188:
@@ -270,7 +264,7 @@ public class let_syntax extends Syntax {
             r0 = r37
             r1 = r33
             r2 = r34
-            gnu.expr.Expression r32 = r0.rewrite_car(r1, r2)
+            gnu.expr.Expression r32 = r0.rewrite_car((gnu.lists.Pair) r1, (kawa.lang.SyntaxForm) r2)
             r16[r15] = r32
             r12 = r14[r15]
             r0 = r32

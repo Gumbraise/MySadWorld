@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -18,36 +17,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.google.appinventor.components.runtime.util.AnimationUtil;
 
-public class ListPickerActivity extends AppInventorCompatActivity implements OnItemClickListener {
+public class ListPickerActivity extends AppInventorCompatActivity implements AdapterView.OnItemClickListener {
     static int backgroundColor;
     static int itemColor;
     MyAdapter adapter;
     private String closeAnim = "";
     private ListView listView;
     EditText txtSearchBox;
-
-    private static class MyAdapter extends ArrayAdapter<String> {
-        private final Context mContext;
-
-        public MyAdapter(Context context, String[] items) {
-            super(context, 17367040, items);
-            this.mContext = context;
-        }
-
-        public long getItemId(int position) {
-            return (long) ((String) getItem(position)).hashCode();
-        }
-
-        public View getView(int position, View convertView, ViewGroup parent) {
-            TextView tv = (TextView) convertView;
-            if (tv == null) {
-                tv = (TextView) LayoutInflater.from(this.mContext).inflate(17367043, parent, false);
-            }
-            tv.setText((CharSequence) getItem(position));
-            tv.setTextColor(ListPickerActivity.itemColor);
-            return tv;
-        }
-    }
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,19 +91,58 @@ public class ListPickerActivity extends AppInventorCompatActivity implements OnI
         getWindow().setSoftInputMode(3);
     }
 
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        String selected = (String) parent.getAdapter().getItem(position);
-        Intent resultIntent = new Intent();
-        resultIntent.putExtra(ListPicker.LIST_ACTIVITY_RESULT_NAME, selected);
-        resultIntent.putExtra(ListPicker.LIST_ACTIVITY_RESULT_INDEX, position + 1);
-        this.closeAnim = selected;
-        setResult(-1, resultIntent);
-        finish();
-        AnimationUtil.ApplyCloseScreenAnimation(this, this.closeAnim);
+    /* JADX WARNING: type inference failed for: r5v0, types: [android.widget.AdapterView<?>, android.widget.AdapterView] */
+    /* JADX WARNING: Unknown variable types count: 1 */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public void onItemClick(android.widget.AdapterView<?> r5, android.view.View r6, int r7, long r8) {
+        /*
+            r4 = this;
+            android.widget.Adapter r2 = r5.getAdapter()
+            java.lang.Object r1 = r2.getItem(r7)
+            java.lang.String r1 = (java.lang.String) r1
+            android.content.Intent r0 = new android.content.Intent
+            r0.<init>()
+            java.lang.String r2 = com.google.appinventor.components.runtime.ListPicker.LIST_ACTIVITY_RESULT_NAME
+            r0.putExtra(r2, r1)
+            java.lang.String r2 = com.google.appinventor.components.runtime.ListPicker.LIST_ACTIVITY_RESULT_INDEX
+            int r3 = r7 + 1
+            r0.putExtra(r2, r3)
+            r4.closeAnim = r1
+            r2 = -1
+            r4.setResult(r2, r0)
+            r4.finish()
+            java.lang.String r2 = r4.closeAnim
+            com.google.appinventor.components.runtime.util.AnimationUtil.ApplyCloseScreenAnimation(r4, r2)
+            return
+        */
+        throw new UnsupportedOperationException("Method not decompiled: com.google.appinventor.components.runtime.ListPickerActivity.onItemClick(android.widget.AdapterView, android.view.View, int, long):void");
     }
 
     public void onBackPressed() {
         AnimationUtil.ApplyCloseScreenAnimation(this, this.closeAnim);
         super.onBackPressed();
+    }
+
+    private static class MyAdapter extends ArrayAdapter<String> {
+        private final Context mContext;
+
+        public MyAdapter(Context context, String[] items) {
+            super(context, 17367040, items);
+            this.mContext = context;
+        }
+
+        public long getItemId(int position) {
+            return (long) ((String) getItem(position)).hashCode();
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+            TextView tv = (TextView) convertView;
+            if (tv == null) {
+                tv = (TextView) LayoutInflater.from(this.mContext).inflate(17367043, parent, false);
+            }
+            tv.setText((CharSequence) getItem(position));
+            tv.setTextColor(ListPickerActivity.itemColor);
+            return tv;
+        }
     }
 }

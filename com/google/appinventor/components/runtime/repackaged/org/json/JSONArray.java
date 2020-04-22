@@ -49,29 +49,13 @@ public class JSONArray {
         this(new JSONTokener(source));
     }
 
-    /* JADX WARNING: Incorrect type for immutable var: ssa=java.util.Collection, code=java.util.Collection<java.lang.Object>, for r4v0, types: [java.util.Collection<java.lang.Object>, java.util.Collection] */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public JSONArray(java.util.Collection<java.lang.Object> r4) {
-        /*
-            r3 = this;
-            r3.<init>()
-            java.util.ArrayList r1 = new java.util.ArrayList
-            r1.<init>()
-            r3.myArrayList = r1
-            if (r4 == 0) goto L_0x0024
-            java.util.Iterator r0 = r4.iterator()
-        L_0x0010:
-            boolean r1 = r0.hasNext()
-            if (r1 == 0) goto L_0x0024
-            java.util.ArrayList r1 = r3.myArrayList
-            java.lang.Object r2 = r0.next()
-            java.lang.Object r2 = com.google.appinventor.components.runtime.repackaged.org.json.JSONObject.wrap(r2)
-            r1.add(r2)
-            goto L_0x0010
-        L_0x0024:
-            return
-        */
-        throw new UnsupportedOperationException("Method not decompiled: com.google.appinventor.components.runtime.repackaged.org.json.JSONArray.<init>(java.util.Collection):void");
+    public JSONArray(Collection collection) {
+        this.myArrayList = new ArrayList();
+        if (collection != null) {
+            for (Object wrap : collection) {
+                this.myArrayList.add(JSONObject.wrap(wrap));
+            }
+        }
     }
 
     public JSONArray(Object array) throws JSONException {
@@ -377,7 +361,7 @@ public class JSONArray {
         return write(writer, 0, 0);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Writer write(Writer writer, int indentFactor, int indent) throws JSONException {
         boolean commanate = false;
         try {

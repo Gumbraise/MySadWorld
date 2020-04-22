@@ -37,11 +37,10 @@ public class Ev3UltrasonicSensor extends LegoMindstormsEv3Sensor implements Dele
     public double previousDistance = -1.0d;
     private final Runnable sensorValueChecker = new Runnable() {
         public void run() {
-            String functionName = "";
             if (Ev3UltrasonicSensor.this.bluetooth != null && Ev3UltrasonicSensor.this.bluetooth.IsConnected()) {
-                double currentDistance = Ev3UltrasonicSensor.this.getDistance(functionName);
+                double currentDistance = Ev3UltrasonicSensor.this.getDistance("");
                 if (Ev3UltrasonicSensor.this.previousDistance < 0.0d) {
-                    Ev3UltrasonicSensor.this.previousDistance = currentDistance;
+                    double unused = Ev3UltrasonicSensor.this.previousDistance = currentDistance;
                     Ev3UltrasonicSensor.this.eventHandler.postDelayed(this, 50);
                     return;
                 }
@@ -56,7 +55,7 @@ public class Ev3UltrasonicSensor extends LegoMindstormsEv3Sensor implements Dele
                 } else if (Ev3UltrasonicSensor.this.withinRangeEventEnabled && (Ev3UltrasonicSensor.this.previousDistance < ((double) Ev3UltrasonicSensor.this.bottomOfRange) || Ev3UltrasonicSensor.this.previousDistance > ((double) Ev3UltrasonicSensor.this.topOfRange))) {
                     Ev3UltrasonicSensor.this.WithinRange();
                 }
-                Ev3UltrasonicSensor.this.previousDistance = currentDistance;
+                double unused2 = Ev3UltrasonicSensor.this.previousDistance = currentDistance;
             }
             Ev3UltrasonicSensor.this.eventHandler.postDelayed(this, 50);
         }
@@ -164,11 +163,10 @@ public class Ev3UltrasonicSensor extends LegoMindstormsEv3Sensor implements Dele
     @DesignerProperty(defaultValue = "cm", editorType = "lego_ev3_ultrasonic_sensor_mode")
     @SimpleProperty
     public void Unit(String unitName) {
-        String functionName = "Unit";
         try {
             setMode(unitName);
         } catch (IllegalArgumentException e) {
-            this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, functionName);
+            this.form.dispatchErrorOccurredEvent(this, "Unit", ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, "Unit");
         }
     }
 
@@ -179,21 +177,19 @@ public class Ev3UltrasonicSensor extends LegoMindstormsEv3Sensor implements Dele
 
     @SimpleFunction(description = "Measure the distance in centimeters.")
     public void SetCmUnit() {
-        String functionName = "SetCmUnit";
         try {
             setMode("cm");
         } catch (IllegalArgumentException e) {
-            this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, functionName);
+            this.form.dispatchErrorOccurredEvent(this, "SetCmUnit", ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, "SetCmUnit");
         }
     }
 
     @SimpleFunction(description = "Measure the distance in inches.")
     public void SetInchUnit() {
-        String functionName = "SetInchUnit";
         try {
             setMode(SENSOR_MODE_INCH_STRING);
         } catch (IllegalArgumentException e) {
-            this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, functionName);
+            this.form.dispatchErrorOccurredEvent(this, "SetInchUnit", ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, "SetInchUnit");
         }
     }
 

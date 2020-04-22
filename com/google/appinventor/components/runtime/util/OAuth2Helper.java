@@ -2,13 +2,14 @@ package com.google.appinventor.components.runtime.util;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
@@ -27,12 +28,12 @@ public class OAuth2Helper {
             throw new IllegalArgumentException("Can't get authtoken from UI thread");
         }
         SharedPreferences settings = activity.getPreferences(0);
-        String accountName = settings.getString(PREF_ACCOUNT_NAME, null);
-        String authToken = settings.getString(PREF_AUTH_TOKEN, null);
+        String accountName = settings.getString(PREF_ACCOUNT_NAME, (String) null);
+        String authToken = settings.getString(PREF_AUTH_TOKEN, (String) null);
         GoogleCredential credential = new GoogleCredential();
         credential.setAccessToken(authToken);
         try {
-            Bundle authTokenBundle = (Bundle) getAccountManagerResult(activity, credential, authTokenType, accountName).getResult();
+            Bundle authTokenBundle = getAccountManagerResult(activity, credential, authTokenType, accountName).getResult();
             authToken = authTokenBundle.get("authtoken").toString();
             persistCredentials(settings, authTokenBundle.getString("authAccount"), authToken);
             return authToken;
@@ -55,14 +56,14 @@ public class OAuth2Helper {
     private AccountManagerFuture<Bundle> getAccountManagerResult(Activity activity, GoogleCredential credential, String authTokenType, String accountName) {
         GoogleAccountManager accountManager = new GoogleAccountManager(activity);
         accountManager.invalidateAuthToken(credential.getAccessToken());
-        AccountManager.get(activity).invalidateAuthToken(authTokenType, null);
+        AccountManager.get(activity).invalidateAuthToken(authTokenType, (String) null);
         Account account = accountManager.getAccountByName(accountName);
         if (account != null) {
             Log.i(TAG, "Getting token by account");
-            return accountManager.getAccountManager().getAuthToken(account, authTokenType, true, null, null);
+            return accountManager.getAccountManager().getAuthToken(account, authTokenType, true, (AccountManagerCallback) null, (Handler) null);
         }
         Log.i(TAG, "Getting token by features, possibly prompting user to select an account");
-        return accountManager.getAccountManager().getAuthTokenByFeatures("com.google", authTokenType, null, activity, null, null, null, null);
+        return accountManager.getAccountManager().getAuthTokenByFeatures("com.google", authTokenType, (String[]) null, activity, (Bundle) null, (Bundle) null, (AccountManagerCallback) null, (Handler) null);
     }
 
     private boolean isUiThread() {
@@ -71,7 +72,7 @@ public class OAuth2Helper {
 
     private void persistCredentials(SharedPreferences settings, String accountName, String authToken) {
         Log.i(TAG, "Persisting credentials, acct =" + accountName);
-        Editor editor = settings.edit();
+        SharedPreferences.Editor editor = settings.edit();
         editor.putString(PREF_ACCOUNT_NAME, accountName);
         editor.putString(PREF_AUTH_TOKEN, authToken);
         editor.commit();
@@ -79,7 +80,7 @@ public class OAuth2Helper {
 
     public static void resetAccountCredential(Activity activity) {
         Log.i(TAG, "Reset credentials");
-        Editor editor2 = activity.getPreferences(0).edit();
+        SharedPreferences.Editor editor2 = activity.getPreferences(0).edit();
         editor2.remove(PREF_AUTH_TOKEN);
         editor2.remove(PREF_ACCOUNT_NAME);
         editor2.commit();

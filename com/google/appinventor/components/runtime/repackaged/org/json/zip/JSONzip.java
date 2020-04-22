@@ -1,10 +1,10 @@
 package com.google.appinventor.components.runtime.repackaged.org.json.zip;
 
-import android.support.p000v4.view.InputDeviceCompat;
-import com.google.appinventor.components.runtime.util.Ev3Constants.Opcode;
+import android.support.v4.view.InputDeviceCompat;
+import com.google.appinventor.components.runtime.util.Ev3Constants;
 
 public abstract class JSONzip implements None, PostMortem {
-    public static final byte[] bcd = {Opcode.MOVE8_8, Opcode.MOVE8_16, Opcode.MOVE8_32, Opcode.MOVE8_F, Opcode.MOVE16_8, Opcode.MOVE16_16, Opcode.MOVE16_32, Opcode.MOVE16_F, Opcode.MOVE32_8, Opcode.MOVE32_16, Opcode.RL32, Opcode.RL16, 43, Opcode.CP_LT16};
+    public static final byte[] bcd = {Ev3Constants.Opcode.MOVE8_8, Ev3Constants.Opcode.MOVE8_16, Ev3Constants.Opcode.MOVE8_32, Ev3Constants.Opcode.MOVE8_F, Ev3Constants.Opcode.MOVE16_8, Ev3Constants.Opcode.MOVE16_16, Ev3Constants.Opcode.MOVE16_32, Ev3Constants.Opcode.MOVE16_F, Ev3Constants.Opcode.MOVE32_8, Ev3Constants.Opcode.MOVE32_16, Ev3Constants.Opcode.RL32, Ev3Constants.Opcode.RL16, 43, Ev3Constants.Opcode.CP_LT16};
     public static final int end = 256;
     public static final int endOfNumber = bcd.length;
     public static final long int14 = 16384;

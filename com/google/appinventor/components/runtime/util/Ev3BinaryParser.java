@@ -1,6 +1,6 @@
 package com.google.appinventor.components.runtime.util;
 
-import com.google.appinventor.components.runtime.util.Ev3Constants.Opcode;
+import com.google.appinventor.components.runtime.util.Ev3Constants;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -23,8 +23,8 @@ public class Ev3BinaryParser {
     private static byte PRIMPAR_SHORT = 0;
     private static byte PRIMPAR_STRING = 4;
     private static byte PRIMPAR_STRING_OLD = 0;
-    private static byte PRIMPAR_VALUE = Opcode.MOVEF_F;
-    private static byte PRIMPAR_VARIABEL = Opcode.f44JR;
+    private static byte PRIMPAR_VALUE = Ev3Constants.Opcode.MOVEF_F;
+    private static byte PRIMPAR_VARIABEL = Ev3Constants.Opcode.JR;
 
     private static class FormatLiteral {
         public int size;
@@ -164,7 +164,7 @@ public class Ev3BinaryParser {
                 case 'S':
                     try {
                         buffer.put(values[index2].getBytes("US-ASCII"));
-                        buffer.put(0);
+                        buffer.put((byte) 0);
                         index2++;
                         break;
                     } catch (UnsupportedEncodingException e) {
@@ -210,7 +210,7 @@ public class Ev3BinaryParser {
                     }
                 case 'x':
                     for (int i13 = 0; i13 < literal.size; i13++) {
-                        buffer.put(0);
+                        buffer.put((byte) 0);
                     }
                     break;
             }
@@ -497,7 +497,7 @@ public class Ev3BinaryParser {
     }
 
     public static byte[] encodeLC1(byte v) {
-        return new byte[]{(byte) (((byte) (PRIMPAR_LONG | PRIMPAR_CONST)) | PRIMPAR_1_BYTE), (byte) (v & Opcode.TST)};
+        return new byte[]{(byte) (((byte) (PRIMPAR_LONG | PRIMPAR_CONST)) | PRIMPAR_1_BYTE), (byte) (v & Ev3Constants.Opcode.TST)};
     }
 
     public static byte[] encodeLC2(short v) {
@@ -569,7 +569,7 @@ public class Ev3BinaryParser {
             } else if (obj2 instanceof String) {
                 try {
                     buffer.put(((String) obj2).getBytes("US-ASCII"));
-                    buffer.put(0);
+                    buffer.put((byte) 0);
                 } catch (UnsupportedEncodingException e) {
                     throw new IllegalArgumentException("Non-ASCII string encoding is not supported");
                 }
@@ -658,18 +658,18 @@ public class Ev3BinaryParser {
             }
         }
         int bufferCapacity = 4;
-        Iterator it = payloads.iterator();
+        Iterator<byte[]> it = payloads.iterator();
         while (it.hasNext()) {
-            bufferCapacity += ((byte[]) it.next()).length;
+            bufferCapacity += it.next().length;
         }
         ByteBuffer buffer = ByteBuffer.allocate(bufferCapacity);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
         buffer.put(needReply ? 0 : Byte.MIN_VALUE);
         buffer.put(new byte[]{(byte) (globalAllocation & 255), (byte) (((globalAllocation >>> 8) & 3) | (localAllocation << 2))});
         buffer.put(opcode);
-        Iterator it2 = payloads.iterator();
+        Iterator<byte[]> it2 = payloads.iterator();
         while (it2.hasNext()) {
-            buffer.put((byte[]) it2.next());
+            buffer.put(it2.next());
         }
         return buffer.array();
     }

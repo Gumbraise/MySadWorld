@@ -31,11 +31,10 @@ public class Ev3GyroSensor extends LegoMindstormsEv3Sensor implements Deleteable
     private boolean sensorValueChangedEventEnabled = false;
     private final Runnable sensorValueChecker = new Runnable() {
         public void run() {
-            String functionName = "";
             if (Ev3GyroSensor.this.bluetooth != null && Ev3GyroSensor.this.bluetooth.IsConnected()) {
-                double currentValue = Ev3GyroSensor.this.getSensorValue(functionName);
+                double currentValue = Ev3GyroSensor.this.getSensorValue("");
                 if (Ev3GyroSensor.this.previousValue < 0.0d) {
-                    Ev3GyroSensor.this.previousValue = currentValue;
+                    double unused = Ev3GyroSensor.this.previousValue = currentValue;
                     Ev3GyroSensor.this.eventHandler.postDelayed(this, 50);
                     return;
                 }
@@ -44,7 +43,7 @@ public class Ev3GyroSensor extends LegoMindstormsEv3Sensor implements Deleteable
                 } else if (Ev3GyroSensor.this.mode == 0 && Math.abs(currentValue - Ev3GyroSensor.this.previousValue) >= 1.0d) {
                     Ev3GyroSensor.this.SensorValueChanged(currentValue);
                 }
-                Ev3GyroSensor.this.previousValue = currentValue;
+                double unused2 = Ev3GyroSensor.this.previousValue = currentValue;
             }
             Ev3GyroSensor.this.eventHandler.postDelayed(this, 50);
         }
@@ -65,11 +64,10 @@ public class Ev3GyroSensor extends LegoMindstormsEv3Sensor implements Deleteable
     @DesignerProperty(defaultValue = "angle", editorType = "lego_ev3_gyro_sensor_mode")
     @SimpleProperty
     public void Mode(String modeName) {
-        String functionName = "Mode";
         try {
             setMode(modeName);
         } catch (IllegalArgumentException e) {
-            this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, functionName);
+            this.form.dispatchErrorOccurredEvent(this, "Mode", ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, "Mode");
         }
     }
 

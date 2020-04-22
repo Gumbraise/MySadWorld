@@ -13,39 +13,6 @@ public class LispFormat extends CompoundFormat {
     public static final String paramFromList = "<from list>";
     public static final String paramUnspecified = "<unspecified>";
 
-    /* JADX WARNING: type inference failed for: r10v0, types: [gnu.kawa.functions.LispNewlineFormat] */
-    /* JADX WARNING: type inference failed for: r10v1, types: [gnu.kawa.functions.LispCharacterFormat] */
-    /* JADX WARNING: type inference failed for: r10v2, types: [gnu.kawa.functions.LispNewlineFormat] */
-    /* JADX WARNING: type inference failed for: r10v3, types: [gnu.kawa.functions.LispIndentFormat] */
-    /* JADX WARNING: type inference failed for: r10v4, types: [gnu.kawa.functions.LispFreshlineFormat] */
-    /* JADX WARNING: type inference failed for: r10v5, types: [gnu.kawa.functions.LispTabulateFormat] */
-    /* JADX WARNING: type inference failed for: r10v6, types: [gnu.text.FlushFormat] */
-    /* JADX WARNING: type inference failed for: r10v7, types: [gnu.kawa.functions.LispEscapeFormat] */
-    /* JADX WARNING: type inference failed for: r31v3, types: [gnu.kawa.functions.LispIterationFormat] */
-    /* JADX WARNING: type inference failed for: r10v12 */
-    /* JADX WARNING: type inference failed for: r10v13, types: [gnu.kawa.functions.LispRepositionFormat] */
-    /* JADX WARNING: type inference failed for: r10v14, types: [gnu.kawa.functions.LispCharacterFormat] */
-    /* JADX WARNING: type inference failed for: r10v15 */
-    /* JADX WARNING: type inference failed for: r10v16, types: [gnu.kawa.functions.LispObjectFormat] */
-    /* JADX WARNING: type inference failed for: r25v0, types: [gnu.kawa.functions.LispRealFormat] */
-    /* JADX WARNING: type inference failed for: r10v17 */
-    /* JADX WARNING: type inference failed for: r10v18, types: [java.text.Format] */
-    /* JADX WARNING: type inference failed for: r10v19, types: [gnu.kawa.functions.LispPluralFormat] */
-    /* JADX WARNING: type inference failed for: r10v21, types: [java.text.Format] */
-    /* JADX WARNING: type inference failed for: r10v22 */
-    /* JADX WARNING: type inference failed for: r10v23 */
-    /* JADX WARNING: type inference failed for: r10v24 */
-    /* JADX WARNING: type inference failed for: r10v25 */
-    /* JADX WARNING: type inference failed for: r10v26 */
-    /* JADX WARNING: type inference failed for: r10v27 */
-    /* JADX WARNING: type inference failed for: r10v28 */
-    /* JADX WARNING: type inference failed for: r10v29 */
-    /* JADX WARNING: type inference failed for: r10v30 */
-    /* JADX WARNING: type inference failed for: r10v31 */
-    /* JADX WARNING: type inference failed for: r10v32 */
-    /* JADX WARNING: type inference failed for: r10v33 */
-    /* JADX WARNING: type inference failed for: r10v34 */
-    /* JADX WARNING: type inference failed for: r10v35 */
     /* JADX WARNING: Code restructure failed: missing block: B:129:0x0344, code lost:
         throw new java.text.ParseException("saw ~) without matching ~(", r29);
      */
@@ -58,8 +25,6 @@ public class LispFormat extends CompoundFormat {
     /* JADX WARNING: Code restructure failed: missing block: B:202:0x0618, code lost:
         throw new java.text.ParseException("saw ~] without matching ~[", r29);
      */
-    /* JADX WARNING: Multi-variable type inference failed */
-    /* JADX WARNING: Unknown variable types count: 16 */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public LispFormat(char[] r49, int r50, int r51) throws java.text.ParseException {
         /*
@@ -91,7 +56,7 @@ public class LispFormat extends CompoundFormat {
             if (r11 <= 0) goto L_0x0043
             gnu.text.LiteralFormat r11 = new gnu.text.LiteralFormat
             r0 = r33
-            r11.<init>(r0)
+            r11.<init>((java.lang.StringBuffer) r0)
             r0 = r44
             r0.push(r11)
             r11 = 0
@@ -199,7 +164,7 @@ public class LispFormat extends CompoundFormat {
             int r0 = -r0
             r47 = r0
         L_0x00f4:
-            gnu.math.IntNum r11 = gnu.math.IntNum.make(r47)
+            gnu.math.IntNum r11 = gnu.math.IntNum.make((int) r47)
         L_0x00f8:
             r0 = r44
             r0.push(r11)
@@ -378,7 +343,7 @@ public class LispFormat extends CompoundFormat {
             r25.<init>()
             r0 = r21
             r1 = r25
-            r1.f62op = r0
+            r1.op = r0
             r0 = r44
             r1 = r43
             int r11 = getParam(r0, r1)
@@ -518,7 +483,7 @@ public class LispFormat extends CompoundFormat {
             r0 = r44
             r1 = r20
             r0.push(r1)
-            gnu.math.IntNum r11 = gnu.math.IntNum.make(r46)
+            gnu.math.IntNum r11 = gnu.math.IntNum.make((int) r46)
             r0 = r44
             r0.push(r11)
             r46 = r43
@@ -595,7 +560,7 @@ public class LispFormat extends CompoundFormat {
             r0 = r44
             r1 = r31
             r0.push(r1)
-            gnu.math.IntNum r11 = gnu.math.IntNum.make(r46)
+            gnu.math.IntNum r11 = gnu.math.IntNum.make((int) r46)
             r0 = r44
             r0.push(r11)
             r46 = r43
@@ -655,10 +620,10 @@ public class LispFormat extends CompoundFormat {
             r0 = r44
             r1 = r40
             r0.push(r1)
-            gnu.math.IntNum r11 = gnu.math.IntNum.make(r46)
+            gnu.math.IntNum r11 = gnu.math.IntNum.make((int) r46)
             r0 = r44
             r0.push(r11)
-            gnu.math.IntNum r11 = gnu.math.IntNum.make(r23)
+            gnu.math.IntNum r11 = gnu.math.IntNum.make((int) r23)
             r0 = r44
             r0.push(r11)
             r46 = r43
@@ -826,10 +791,10 @@ public class LispFormat extends CompoundFormat {
             r0 = r44
             r1 = r17
             r0.push(r1)
-            gnu.math.IntNum r11 = gnu.math.IntNum.make(r46)
+            gnu.math.IntNum r11 = gnu.math.IntNum.make((int) r46)
             r0 = r44
             r0.push(r11)
-            gnu.math.IntNum r11 = gnu.math.IntNum.make(r23)
+            gnu.math.IntNum r11 = gnu.math.IntNum.make((int) r23)
             r0 = r44
             r0.push(r11)
             r46 = r43
@@ -1182,10 +1147,9 @@ public class LispFormat extends CompoundFormat {
         int i = 0;
         while (arg instanceof Pair) {
             Pair pair = (Pair) arg;
-            int i2 = i + 1;
             arr[i] = pair.getCar();
             arg = pair.getCdr();
-            i = i2;
+            i++;
         }
         if (i < count) {
             if (!(arg instanceof Sequence)) {

@@ -3,9 +3,9 @@ package com.google.appinventor.components.runtime;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build.VERSION;
+import android.os.Build;
 import android.os.Environment;
-import android.provider.MediaStore.Images.Media;
+import android.provider.MediaStore;
 import android.util.Log;
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.PropertyCategory;
@@ -58,7 +58,7 @@ public class Camera extends AndroidNonvisibleComponent implements ActivityResult
         if (!this.havePermission) {
             this.form.askPermission(new BulkPermissionRequest(this, "TakePicture", new String[]{"android.permission.CAMERA", "android.permission.WRITE_EXTERNAL_STORAGE"}) {
                 public void onGranted() {
-                    this.havePermission = true;
+                    boolean unused = this.havePermission = true;
                     this.TakePicture();
                 }
             });
@@ -76,8 +76,8 @@ public class Camera extends AndroidNonvisibleComponent implements ActivityResult
             if (this.requestCode == 0) {
                 this.requestCode = this.form.registerForActivityResult(this);
             }
-            if (VERSION.SDK_INT < 24) {
-                imageUri = this.container.$context().getContentResolver().insert(Media.INTERNAL_CONTENT_URI, values);
+            if (Build.VERSION.SDK_INT < 24) {
+                imageUri = this.container.$context().getContentResolver().insert(MediaStore.Images.Media.INTERNAL_CONTENT_URI, values);
             } else {
                 imageUri = NougatUtil.getPackageUri(this.form, image);
             }

@@ -6,8 +6,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Float;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.io.Serializable;
 import javax.imageio.ImageIO;
 
@@ -23,7 +23,7 @@ public class DrawImage extends Model implements Paintable, Serializable {
         display.addImage(this, where);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void loadImage() {
         if (this.image == null) {
             try {
@@ -40,12 +40,12 @@ public class DrawImage extends Model implements Paintable, Serializable {
 
     public void paint(Graphics2D graphics) {
         loadImage();
-        graphics.drawImage(this.image, null, null);
+        graphics.drawImage(this.image, (AffineTransform) null, (ImageObserver) null);
     }
 
     public Rectangle2D getBounds2D() {
         loadImage();
-        return new Float(0.0f, 0.0f, (float) this.image.getWidth(), (float) this.image.getHeight());
+        return new Rectangle2D.Float(0.0f, 0.0f, (float) this.image.getWidth(), (float) this.image.getHeight());
     }
 
     public Paintable transform(AffineTransform tr) {

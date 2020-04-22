@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ScrollView;
@@ -42,7 +41,7 @@ public class HVArrangement extends AndroidViewComponent implements Component, Co
         this.context = container.$context();
         this.orientation = orientation2;
         this.scrollable = scrollable2;
-        this.viewLayout = new LinearLayout(this.context, orientation2, Integer.valueOf(100), Integer.valueOf(100));
+        this.viewLayout = new LinearLayout(this.context, orientation2, 100, 100);
         this.viewLayout.setBaselineAligned(false);
         this.alignmentSetter = new AlignmentUtil(this.viewLayout);
         this.horizontalAlignment = 1;
@@ -64,8 +63,8 @@ public class HVArrangement extends AndroidViewComponent implements Component, Co
             Log.d(LOG_TAG, "Setting up frameContainer = FrameLayout()");
             this.frameContainer = new FrameLayout(this.context);
         }
-        this.frameContainer.setLayoutParams(new LayoutParams(100, 100));
-        this.frameContainer.addView(this.viewLayout.getLayoutManager(), new LayoutParams(-1, -1));
+        this.frameContainer.setLayoutParams(new ViewGroup.LayoutParams(100, 100));
+        this.frameContainer.addView(this.viewLayout.getLayoutManager(), new ViewGroup.LayoutParams(-1, -1));
         this.defaultButtonDrawable = getView().getBackground();
         container.$add(this);
         BackgroundColor(0);
@@ -210,7 +209,7 @@ public class HVArrangement extends AndroidViewComponent implements Component, Co
         } else if (this.backgroundColor == 0) {
             ViewUtil.setBackgroundDrawable(this.viewLayout.getLayoutManager(), this.defaultButtonDrawable);
         } else {
-            ViewUtil.setBackgroundDrawable(this.viewLayout.getLayoutManager(), null);
+            ViewUtil.setBackgroundDrawable(this.viewLayout.getLayoutManager(), (Drawable) null);
             this.viewLayout.getLayoutManager().setBackgroundColor(this.backgroundColor);
         }
     }

@@ -3,7 +3,7 @@ package android.support.constraint.solver.widgets;
 import android.support.constraint.solver.ArrayRow;
 import android.support.constraint.solver.LinearSystem;
 import android.support.constraint.solver.SolverVariable;
-import android.support.constraint.solver.widgets.ConstraintWidget.DimensionBehaviour;
+import android.support.constraint.solver.widgets.ConstraintWidget;
 import java.util.ArrayList;
 
 class Chain {
@@ -46,6 +46,7 @@ class Chain {
         ConstraintAnchor beginNextAnchor2;
         SolverVariable beginNextTarget2;
         float bias;
+        int count;
         ConstraintWidget next2;
         ConstraintWidget first = chainHead.mFirst;
         ConstraintWidget last = chainHead.mLast;
@@ -57,7 +58,7 @@ class Chain {
         float totalWeights = chainHead.mTotalWeight;
         ConstraintWidget constraintWidget = chainHead.mFirstMatchConstraintWidget;
         ConstraintWidget constraintWidget2 = chainHead.mLastMatchConstraintWidget;
-        boolean isWrapContent = container.mListDimensionBehaviors[orientation] == DimensionBehaviour.WRAP_CONTENT;
+        boolean isWrapContent = container.mListDimensionBehaviors[orientation] == ConstraintWidget.DimensionBehaviour.WRAP_CONTENT;
         if (orientation == 0) {
             isChainSpread = head.mHorizontalChainStyle == 0;
             isChainSpreadInside = head.mHorizontalChainStyle == 1;
@@ -91,7 +92,7 @@ class Chain {
                 system.addEquality(begin.mSolverVariable, begin.mTarget.mSolverVariable, margin, strength);
             }
             if (isWrapContent) {
-                if (widget.getVisibility() != 8 && widget.mListDimensionBehaviors[orientation] == DimensionBehaviour.MATCH_CONSTRAINT) {
+                if (widget.getVisibility() != 8 && widget.mListDimensionBehaviors[orientation] == ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT) {
                     system.addGreaterThan(widget.mListAnchors[offset + 1].mSolverVariable, widget.mListAnchors[offset].mSolverVariable, 0, 5);
                 }
                 system.addGreaterThan(widget.mListAnchors[offset].mSolverVariable, container.mListAnchors[offset].mSolverVariable, 0, 6);
@@ -119,39 +120,36 @@ class Chain {
             system.addGreaterThan(container.mListAnchors[offset + 1].mSolverVariable, last.mListAnchors[offset + 1].mSolverVariable, last.mListAnchors[offset + 1].getMargin(), 6);
         }
         ArrayList<ConstraintWidget> listMatchConstraints = chainHead.mWeightedMatchConstraintsWidgets;
-        if (listMatchConstraints != null) {
-            int count = listMatchConstraints.size();
-            if (count > 1) {
-                ConstraintWidget lastMatch = null;
-                float lastWeight = 0.0f;
-                if (chainHead.mHasUndefinedWeights && !chainHead.mHasComplexMatchWeights) {
-                    totalWeights = (float) chainHead.mWidgetsMatchCount;
-                }
-                for (int i = 0; i < count; i++) {
-                    ConstraintWidget match = (ConstraintWidget) listMatchConstraints.get(i);
-                    float currentWeight = match.mWeight[orientation];
-                    if (currentWeight < 0.0f) {
-                        if (chainHead.mHasComplexMatchWeights) {
-                            system.addEquality(match.mListAnchors[offset + 1].mSolverVariable, match.mListAnchors[offset].mSolverVariable, 0, 4);
-                        } else {
-                            currentWeight = 1.0f;
-                        }
-                    }
-                    if (currentWeight == 0.0f) {
-                        system.addEquality(match.mListAnchors[offset + 1].mSolverVariable, match.mListAnchors[offset].mSolverVariable, 0, 6);
+        if (listMatchConstraints != null && (count = listMatchConstraints.size()) > 1) {
+            ConstraintWidget lastMatch = null;
+            float lastWeight = 0.0f;
+            if (chainHead.mHasUndefinedWeights && !chainHead.mHasComplexMatchWeights) {
+                totalWeights = (float) chainHead.mWidgetsMatchCount;
+            }
+            for (int i = 0; i < count; i++) {
+                ConstraintWidget match = listMatchConstraints.get(i);
+                float currentWeight = match.mWeight[orientation];
+                if (currentWeight < 0.0f) {
+                    if (chainHead.mHasComplexMatchWeights) {
+                        system.addEquality(match.mListAnchors[offset + 1].mSolverVariable, match.mListAnchors[offset].mSolverVariable, 0, 4);
                     } else {
-                        if (lastMatch != null) {
-                            SolverVariable begin2 = lastMatch.mListAnchors[offset].mSolverVariable;
-                            SolverVariable end2 = lastMatch.mListAnchors[offset + 1].mSolverVariable;
-                            SolverVariable nextBegin = match.mListAnchors[offset].mSolverVariable;
-                            SolverVariable nextEnd = match.mListAnchors[offset + 1].mSolverVariable;
-                            ArrayRow row = system.createRow();
-                            row.createRowEqualMatchDimensions(lastWeight, totalWeights, currentWeight, begin2, end2, nextBegin, nextEnd);
-                            system.addConstraint(row);
-                        }
-                        lastMatch = match;
-                        lastWeight = currentWeight;
+                        currentWeight = 1.0f;
                     }
+                }
+                if (currentWeight == 0.0f) {
+                    system.addEquality(match.mListAnchors[offset + 1].mSolverVariable, match.mListAnchors[offset].mSolverVariable, 0, 6);
+                } else {
+                    if (lastMatch != null) {
+                        SolverVariable begin2 = lastMatch.mListAnchors[offset].mSolverVariable;
+                        SolverVariable end2 = lastMatch.mListAnchors[offset + 1].mSolverVariable;
+                        SolverVariable nextBegin = match.mListAnchors[offset].mSolverVariable;
+                        SolverVariable nextEnd = match.mListAnchors[offset + 1].mSolverVariable;
+                        ArrayRow row = system.createRow();
+                        row.createRowEqualMatchDimensions(lastWeight, totalWeights, currentWeight, begin2, end2, nextBegin, nextEnd);
+                        system.addConstraint(row);
+                    }
+                    lastMatch = match;
+                    lastWeight = currentWeight;
                 }
             }
         }

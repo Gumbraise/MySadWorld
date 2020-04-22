@@ -3,281 +3,143 @@ package com.google.appinventor.components.runtime.repackaged.org.json;
 import java.util.Iterator;
 
 public class JSONML {
-    /* JADX WARNING: Multi-variable type inference failed. Error: jadx.core.utils.exceptions.JadxRuntimeException: No candidate types for var: r7v12
-      assigns: []
-      uses: []
-      mth insns count: 194
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.fillTypeCandidates(TypeSearch.java:237)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.run(TypeSearch.java:53)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.runMultiVariableSearch(TypeInferenceVisitor.java:99)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.visit(TypeInferenceVisitor.java:92)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:27)
-    	at jadx.core.dex.visitors.DepthTraversal.lambda$visit$1(DepthTraversal.java:14)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:14)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:30)
-    	at jadx.api.JadxDecompiler.processClass(JadxDecompiler.java:311)
-    	at jadx.api.JavaClass.decompile(JavaClass.java:62)
-    	at jadx.api.JadxDecompiler.lambda$appendSourcesSave$0(JadxDecompiler.java:217)
-     */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    private static java.lang.Object parse(com.google.appinventor.components.runtime.repackaged.org.json.XMLTokener r12, boolean r13, com.google.appinventor.components.runtime.repackaged.org.json.JSONArray r14) throws com.google.appinventor.components.runtime.repackaged.org.json.JSONException {
-        /*
-            r11 = 91
-            r10 = 45
-            r2 = 0
-            r4 = 0
-            r5 = 0
-            r6 = 0
-        L_0x0008:
-            boolean r8 = r12.more()
-            if (r8 != 0) goto L_0x0015
-            java.lang.String r8 = "Bad XML"
-            com.google.appinventor.components.runtime.repackaged.org.json.JSONException r8 = r12.syntaxError(r8)
-            throw r8
-        L_0x0015:
-            java.lang.Object r7 = r12.nextContent()
-            java.lang.Character r8 = com.google.appinventor.components.runtime.repackaged.org.json.XML.f40LT
-            if (r7 != r8) goto L_0x01e9
-            java.lang.Object r7 = r12.nextToken()
-            boolean r8 = r7 instanceof java.lang.Character
-            if (r8 == 0) goto L_0x00d0
-            java.lang.Character r8 = com.google.appinventor.components.runtime.repackaged.org.json.XML.SLASH
-            if (r7 != r8) goto L_0x005f
-            java.lang.Object r7 = r12.nextToken()
-            boolean r8 = r7 instanceof java.lang.String
-            if (r8 != 0) goto L_0x0050
-            com.google.appinventor.components.runtime.repackaged.org.json.JSONException r8 = new com.google.appinventor.components.runtime.repackaged.org.json.JSONException
-            java.lang.StringBuffer r9 = new java.lang.StringBuffer
-            r9.<init>()
-            java.lang.String r10 = "Expected a closing name instead of '"
-            java.lang.StringBuffer r9 = r9.append(r10)
-            java.lang.StringBuffer r9 = r9.append(r7)
-            java.lang.String r10 = "'."
-            java.lang.StringBuffer r9 = r9.append(r10)
-            java.lang.String r9 = r9.toString()
-            r8.<init>(r9)
-            throw r8
-        L_0x0050:
-            java.lang.Object r8 = r12.nextToken()
-            java.lang.Character r9 = com.google.appinventor.components.runtime.repackaged.org.json.XML.f39GT
-            if (r8 == r9) goto L_0x018f
-            java.lang.String r8 = "Misshaped close tag"
-            com.google.appinventor.components.runtime.repackaged.org.json.JSONException r8 = r12.syntaxError(r8)
-            throw r8
-        L_0x005f:
-            java.lang.Character r8 = com.google.appinventor.components.runtime.repackaged.org.json.XML.BANG
-            if (r7 != r8) goto L_0x00be
-            char r1 = r12.next()
-            if (r1 != r10) goto L_0x0079
-            char r8 = r12.next()
-            if (r8 != r10) goto L_0x0075
-            java.lang.String r8 = "-->"
-            r12.skipPast(r8)
-            goto L_0x0008
-        L_0x0075:
-            r12.back()
-            goto L_0x0008
-        L_0x0079:
-            if (r1 != r11) goto L_0x009f
-            java.lang.Object r7 = r12.nextToken()
-            java.lang.String r8 = "CDATA"
-            boolean r8 = r7.equals(r8)
-            if (r8 == 0) goto L_0x0098
-            char r8 = r12.next()
-            if (r8 != r11) goto L_0x0098
-            if (r14 == 0) goto L_0x0008
-            java.lang.String r8 = r12.nextCDATA()
-            r14.put(r8)
-            goto L_0x0008
-        L_0x0098:
-            java.lang.String r8 = "Expected 'CDATA['"
-            com.google.appinventor.components.runtime.repackaged.org.json.JSONException r8 = r12.syntaxError(r8)
-            throw r8
-        L_0x009f:
-            r3 = 1
-        L_0x00a0:
-            java.lang.Object r7 = r12.nextMeta()
-            if (r7 != 0) goto L_0x00ad
-            java.lang.String r8 = "Missing '>' after '<!'."
-            com.google.appinventor.components.runtime.repackaged.org.json.JSONException r8 = r12.syntaxError(r8)
-            throw r8
-        L_0x00ad:
-            java.lang.Character r8 = com.google.appinventor.components.runtime.repackaged.org.json.XML.f40LT
-            if (r7 != r8) goto L_0x00b7
-            int r3 = r3 + 1
-        L_0x00b3:
-            if (r3 > 0) goto L_0x00a0
-            goto L_0x0008
-        L_0x00b7:
-            java.lang.Character r8 = com.google.appinventor.components.runtime.repackaged.org.json.XML.f39GT
-            if (r7 != r8) goto L_0x00b3
-            int r3 = r3 + -1
-            goto L_0x00b3
-        L_0x00be:
-            java.lang.Character r8 = com.google.appinventor.components.runtime.repackaged.org.json.XML.QUEST
-            if (r7 != r8) goto L_0x00c9
-            java.lang.String r8 = "?>"
-            r12.skipPast(r8)
-            goto L_0x0008
-        L_0x00c9:
-            java.lang.String r8 = "Misshaped tag"
-            com.google.appinventor.components.runtime.repackaged.org.json.JSONException r8 = r12.syntaxError(r8)
-            throw r8
-        L_0x00d0:
-            boolean r8 = r7 instanceof java.lang.String
-            if (r8 != 0) goto L_0x00f2
-            java.lang.StringBuffer r8 = new java.lang.StringBuffer
-            r8.<init>()
-            java.lang.String r9 = "Bad tagName '"
-            java.lang.StringBuffer r8 = r8.append(r9)
-            java.lang.StringBuffer r8 = r8.append(r7)
-            java.lang.String r9 = "'."
-            java.lang.StringBuffer r8 = r8.append(r9)
-            java.lang.String r8 = r8.toString()
-            com.google.appinventor.components.runtime.repackaged.org.json.JSONException r8 = r12.syntaxError(r8)
-            throw r8
-        L_0x00f2:
-            r6 = r7
-            java.lang.String r6 = (java.lang.String) r6
-            com.google.appinventor.components.runtime.repackaged.org.json.JSONArray r4 = new com.google.appinventor.components.runtime.repackaged.org.json.JSONArray
-            r4.<init>()
-            com.google.appinventor.components.runtime.repackaged.org.json.JSONObject r5 = new com.google.appinventor.components.runtime.repackaged.org.json.JSONObject
-            r5.<init>()
-            if (r13 == 0) goto L_0x011a
-            r4.put(r6)
-            if (r14 == 0) goto L_0x0109
-            r14.put(r4)
-        L_0x0109:
-            r7 = 0
-        L_0x010a:
-            if (r7 != 0) goto L_0x01fa
-            java.lang.Object r7 = r12.nextToken()
-            r0 = r7
-        L_0x0111:
-            if (r0 != 0) goto L_0x0125
-            java.lang.String r8 = "Misshaped tag"
-            com.google.appinventor.components.runtime.repackaged.org.json.JSONException r8 = r12.syntaxError(r8)
-            throw r8
-        L_0x011a:
-            java.lang.String r8 = "tagName"
-            r5.put(r8, r6)
-            if (r14 == 0) goto L_0x0109
-            r14.put(r5)
-            goto L_0x0109
-        L_0x0125:
-            boolean r8 = r0 instanceof java.lang.String
-            if (r8 != 0) goto L_0x0147
-            if (r13 == 0) goto L_0x0134
-            int r8 = r5.length()
-            if (r8 <= 0) goto L_0x0134
-            r4.put(r5)
-        L_0x0134:
-            java.lang.Character r8 = com.google.appinventor.components.runtime.repackaged.org.json.XML.SLASH
-            if (r0 != r8) goto L_0x0192
-            java.lang.Object r8 = r12.nextToken()
-            java.lang.Character r9 = com.google.appinventor.components.runtime.repackaged.org.json.XML.f39GT
-            if (r8 == r9) goto L_0x018a
-            java.lang.String r8 = "Misshaped tag"
-            com.google.appinventor.components.runtime.repackaged.org.json.JSONException r8 = r12.syntaxError(r8)
-            throw r8
-        L_0x0147:
-            java.lang.String r0 = (java.lang.String) r0
-            if (r13 != 0) goto L_0x0162
-            java.lang.String r8 = "tagName"
-            boolean r8 = r8.equals(r0)
-            if (r8 != 0) goto L_0x015b
-            java.lang.String r8 = "childNode"
-            boolean r8 = r8.equals(r0)
-            if (r8 == 0) goto L_0x0162
-        L_0x015b:
-            java.lang.String r8 = "Reserved attribute."
-            com.google.appinventor.components.runtime.repackaged.org.json.JSONException r8 = r12.syntaxError(r8)
-            throw r8
-        L_0x0162:
-            java.lang.Object r7 = r12.nextToken()
-            java.lang.Character r8 = com.google.appinventor.components.runtime.repackaged.org.json.XML.f38EQ
-            if (r7 != r8) goto L_0x0184
-            java.lang.Object r7 = r12.nextToken()
-            boolean r8 = r7 instanceof java.lang.String
-            if (r8 != 0) goto L_0x0179
-            java.lang.String r8 = "Missing value"
-            com.google.appinventor.components.runtime.repackaged.org.json.JSONException r8 = r12.syntaxError(r8)
-            throw r8
-        L_0x0179:
-            java.lang.String r7 = (java.lang.String) r7
-            java.lang.Object r8 = com.google.appinventor.components.runtime.repackaged.org.json.XML.stringToValue(r7)
-            r5.accumulate(r0, r8)
-            r7 = 0
-            goto L_0x010a
-        L_0x0184:
-            java.lang.String r8 = ""
-            r5.accumulate(r0, r8)
-            goto L_0x010a
-        L_0x018a:
-            if (r14 != 0) goto L_0x0008
-            if (r13 == 0) goto L_0x0190
-            r7 = r4
-        L_0x018f:
-            return r7
-        L_0x0190:
-            r7 = r5
-            goto L_0x018f
-        L_0x0192:
-            java.lang.Character r8 = com.google.appinventor.components.runtime.repackaged.org.json.XML.f39GT
-            if (r0 == r8) goto L_0x019d
-            java.lang.String r8 = "Misshaped tag"
-            com.google.appinventor.components.runtime.repackaged.org.json.JSONException r8 = r12.syntaxError(r8)
-            throw r8
-        L_0x019d:
-            java.lang.Object r2 = parse(r12, r13, r4)
-            java.lang.String r2 = (java.lang.String) r2
-            if (r2 == 0) goto L_0x0008
-            boolean r8 = r2.equals(r6)
-            if (r8 != 0) goto L_0x01d3
-            java.lang.StringBuffer r8 = new java.lang.StringBuffer
-            r8.<init>()
-            java.lang.String r9 = "Mismatched '"
-            java.lang.StringBuffer r8 = r8.append(r9)
-            java.lang.StringBuffer r8 = r8.append(r6)
-            java.lang.String r9 = "' and '"
-            java.lang.StringBuffer r8 = r8.append(r9)
-            java.lang.StringBuffer r8 = r8.append(r2)
-            java.lang.String r9 = "'"
-            java.lang.StringBuffer r8 = r8.append(r9)
-            java.lang.String r8 = r8.toString()
-            com.google.appinventor.components.runtime.repackaged.org.json.JSONException r8 = r12.syntaxError(r8)
-            throw r8
-        L_0x01d3:
-            r6 = 0
-            if (r13 != 0) goto L_0x01e1
-            int r8 = r4.length()
-            if (r8 <= 0) goto L_0x01e1
-            java.lang.String r8 = "childNodes"
-            r5.put(r8, r4)
-        L_0x01e1:
-            if (r14 != 0) goto L_0x0008
-            if (r13 == 0) goto L_0x01e7
-            r7 = r4
-            goto L_0x018f
-        L_0x01e7:
-            r7 = r5
-            goto L_0x018f
-        L_0x01e9:
-            if (r14 == 0) goto L_0x0008
-            boolean r8 = r7 instanceof java.lang.String
-            if (r8 == 0) goto L_0x01f5
-            java.lang.String r7 = (java.lang.String) r7
-            java.lang.Object r7 = com.google.appinventor.components.runtime.repackaged.org.json.XML.stringToValue(r7)
-        L_0x01f5:
-            r14.put(r7)
-            goto L_0x0008
-        L_0x01fa:
-            r0 = r7
-            goto L_0x0111
-        */
-        throw new UnsupportedOperationException("Method not decompiled: com.google.appinventor.components.runtime.repackaged.org.json.JSONML.parse(com.google.appinventor.components.runtime.repackaged.org.json.XMLTokener, boolean, com.google.appinventor.components.runtime.repackaged.org.json.JSONArray):java.lang.Object");
+    private static Object parse(XMLTokener x, boolean arrayForm, JSONArray ja) throws JSONException {
+        Object obj;
+        loop0:
+        while (x.more()) {
+            Object token = x.nextContent();
+            if (token == XML.LT) {
+                Object token2 = x.nextToken();
+                if (token2 instanceof Character) {
+                    if (token2 == XML.SLASH) {
+                        Object token3 = x.nextToken();
+                        if (!(token3 instanceof String)) {
+                            throw new JSONException(new StringBuffer().append("Expected a closing name instead of '").append(token3).append("'.").toString());
+                        } else if (x.nextToken() == XML.GT) {
+                            return token3;
+                        } else {
+                            throw x.syntaxError("Misshaped close tag");
+                        }
+                    } else if (token2 == XML.BANG) {
+                        char c = x.next();
+                        if (c == '-') {
+                            if (x.next() == '-') {
+                                x.skipPast("-->");
+                            } else {
+                                x.back();
+                            }
+                        } else if (c != '[') {
+                            int i = 1;
+                            do {
+                                Object token4 = x.nextMeta();
+                                if (token4 == null) {
+                                    throw x.syntaxError("Missing '>' after '<!'.");
+                                } else if (token4 == XML.LT) {
+                                    i++;
+                                    continue;
+                                } else if (token4 == XML.GT) {
+                                    i--;
+                                    continue;
+                                } else {
+                                    continue;
+                                }
+                            } while (i > 0);
+                        } else if (!x.nextToken().equals("CDATA") || x.next() != '[') {
+                            throw x.syntaxError("Expected 'CDATA['");
+                        } else if (ja != null) {
+                            ja.put((Object) x.nextCDATA());
+                        }
+                    } else if (token2 == XML.QUEST) {
+                        x.skipPast("?>");
+                    } else {
+                        throw x.syntaxError("Misshaped tag");
+                    }
+                } else if (!(token2 instanceof String)) {
+                    throw x.syntaxError(new StringBuffer().append("Bad tagName '").append(token2).append("'.").toString());
+                } else {
+                    String tagName = (String) token2;
+                    JSONArray newja = new JSONArray();
+                    JSONObject newjo = new JSONObject();
+                    if (arrayForm) {
+                        newja.put((Object) tagName);
+                        if (ja != null) {
+                            ja.put((Object) newja);
+                        }
+                    } else {
+                        newjo.put("tagName", (Object) tagName);
+                        if (ja != null) {
+                            ja.put((Object) newjo);
+                        }
+                    }
+                    Object token5 = null;
+                    while (true) {
+                        if (token5 == null) {
+                            obj = x.nextToken();
+                        } else {
+                            obj = token5;
+                        }
+                        if (obj == null) {
+                            throw x.syntaxError("Misshaped tag");
+                        } else if (!(obj instanceof String)) {
+                            if (arrayForm && newjo.length() > 0) {
+                                newja.put((Object) newjo);
+                            }
+                            if (obj == XML.SLASH) {
+                                if (x.nextToken() != XML.GT) {
+                                    throw x.syntaxError("Misshaped tag");
+                                } else if (ja == null) {
+                                    if (arrayForm) {
+                                        return newja;
+                                    }
+                                    return newjo;
+                                }
+                            } else if (obj != XML.GT) {
+                                throw x.syntaxError("Misshaped tag");
+                            } else {
+                                String closeTag = (String) parse(x, arrayForm, newja);
+                                if (closeTag == null) {
+                                    continue;
+                                } else if (!closeTag.equals(tagName)) {
+                                    throw x.syntaxError(new StringBuffer().append("Mismatched '").append(tagName).append("' and '").append(closeTag).append("'").toString());
+                                } else {
+                                    if (!arrayForm && newja.length() > 0) {
+                                        newjo.put("childNodes", (Object) newja);
+                                    }
+                                    if (ja == null) {
+                                        if (arrayForm) {
+                                            return newja;
+                                        }
+                                        return newjo;
+                                    }
+                                }
+                            }
+                        } else {
+                            String attribute = (String) obj;
+                            if (arrayForm || (!"tagName".equals(attribute) && !"childNode".equals(attribute))) {
+                                token5 = x.nextToken();
+                                if (token5 == XML.EQ) {
+                                    Object token6 = x.nextToken();
+                                    if (!(token6 instanceof String)) {
+                                        throw x.syntaxError("Missing value");
+                                    }
+                                    newjo.accumulate(attribute, XML.stringToValue((String) token6));
+                                    token5 = null;
+                                } else {
+                                    newjo.accumulate(attribute, "");
+                                }
+                            }
+                        }
+                    }
+                    throw x.syntaxError("Reserved attribute.");
+                }
+            } else if (ja != null) {
+                if (token instanceof String) {
+                    token = XML.stringToValue((String) token);
+                }
+                ja.put(token);
+            }
+        }
+        throw x.syntaxError("Bad XML");
     }
 
     public static JSONArray toJSONArray(String string) throws JSONException {
@@ -285,11 +147,11 @@ public class JSONML {
     }
 
     public static JSONArray toJSONArray(XMLTokener x) throws JSONException {
-        return (JSONArray) parse(x, true, null);
+        return (JSONArray) parse(x, true, (JSONArray) null);
     }
 
     public static JSONObject toJSONObject(XMLTokener x) throws JSONException {
-        return (JSONObject) parse(x, false, null);
+        return (JSONObject) parse(x, false, (JSONArray) null);
     }
 
     public static JSONObject toJSONObject(String string) throws JSONException {

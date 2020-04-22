@@ -24,7 +24,7 @@ public class NameLookup extends GeneralHashTable<Object, Declaration> {
 
     public static NameLookup getInstance(Environment env, Language language2) {
         Location loc = env.getLocation(KEY);
-        NameLookup nl = (NameLookup) loc.get(null);
+        NameLookup nl = (NameLookup) loc.get((Object) null);
         if (nl == null) {
             NameLookup nl2 = new NameLookup(language2);
             loc.set(nl2);
@@ -38,7 +38,7 @@ public class NameLookup extends GeneralHashTable<Object, Declaration> {
         if (instance == null) {
             env.remove(KEY);
         } else {
-            env.put(KEY, null, instance);
+            env.put(KEY, (Object) null, instance);
         }
     }
 

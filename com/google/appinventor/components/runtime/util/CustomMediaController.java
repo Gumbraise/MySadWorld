@@ -4,13 +4,11 @@ import android.content.Context;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.view.ViewParent;
 import android.widget.MediaController;
 
-public class CustomMediaController extends MediaController implements OnTouchListener {
+public class CustomMediaController extends MediaController implements View.OnTouchListener {
     private View mAnchorView;
     private int mShowTime = 3000;
 
@@ -28,7 +26,7 @@ public class CustomMediaController extends MediaController implements OnTouchLis
         super.show();
     }
 
-    public boolean addTo(ViewGroup parent, LayoutParams params) {
+    public boolean addTo(ViewGroup parent, ViewGroup.LayoutParams params) {
         ViewParent mParent = getParent();
         if (mParent == null || !(mParent instanceof ViewGroup)) {
             Log.e("CustomMediaController.addTo", "MediaController not available in fullscreen.");
@@ -51,9 +49,10 @@ public class CustomMediaController extends MediaController implements OnTouchLis
     }
 
     public boolean onTouch(View v, MotionEvent event) {
-        if (v == this.mAnchorView) {
-            show(this.mShowTime);
+        if (v != this.mAnchorView) {
+            return false;
         }
+        show(this.mShowTime);
         return false;
     }
 }

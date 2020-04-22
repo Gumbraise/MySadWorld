@@ -190,7 +190,7 @@ public class Compare extends Procedure2 {
 
     public Object apply2(Object arg1, Object arg2) {
         if ((this.flags & 32) == 0) {
-            return apply(this.flags, arg1, arg2, null) ? Boolean.TRUE : Boolean.FALSE;
+            return apply(this.flags, arg1, arg2, (NamedCollator) null) ? Boolean.TRUE : Boolean.FALSE;
         }
         if (arg1 == null || arg1 == Values.empty) {
             return arg1;
@@ -198,6 +198,6 @@ public class Compare extends Procedure2 {
         if (arg2 == null || arg2 == Values.empty) {
             return arg2;
         }
-        return atomicCompare(this.flags, KNode.atomicValue(arg1), KNode.atomicValue(arg2), null) ? Boolean.TRUE : Boolean.FALSE;
+        return atomicCompare(this.flags, KNode.atomicValue(arg1), KNode.atomicValue(arg2), (NamedCollator) null) ? Boolean.TRUE : Boolean.FALSE;
     }
 }

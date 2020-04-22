@@ -2,7 +2,7 @@ package android.support.constraint;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.support.constraint.ConstraintLayout.LayoutParams;
+import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -39,19 +39,19 @@ public class Guideline extends View {
     }
 
     public void setGuidelineBegin(int margin) {
-        LayoutParams params = (LayoutParams) getLayoutParams();
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) getLayoutParams();
         params.guideBegin = margin;
         setLayoutParams(params);
     }
 
     public void setGuidelineEnd(int margin) {
-        LayoutParams params = (LayoutParams) getLayoutParams();
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) getLayoutParams();
         params.guideEnd = margin;
         setLayoutParams(params);
     }
 
     public void setGuidelinePercent(float ratio) {
-        LayoutParams params = (LayoutParams) getLayoutParams();
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) getLayoutParams();
         params.guidePercent = ratio;
         setLayoutParams(params);
     }

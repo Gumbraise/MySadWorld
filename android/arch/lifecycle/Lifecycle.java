@@ -15,6 +15,16 @@ public abstract class Lifecycle {
         ON_ANY
     }
 
+    @MainThread
+    public abstract void addObserver(@NonNull LifecycleObserver lifecycleObserver);
+
+    @MainThread
+    @NonNull
+    public abstract State getCurrentState();
+
+    @MainThread
+    public abstract void removeObserver(@NonNull LifecycleObserver lifecycleObserver);
+
     public enum State {
         DESTROYED,
         INITIALIZED,
@@ -26,14 +36,4 @@ public abstract class Lifecycle {
             return compareTo(state) >= 0;
         }
     }
-
-    @MainThread
-    public abstract void addObserver(@NonNull LifecycleObserver lifecycleObserver);
-
-    @MainThread
-    @NonNull
-    public abstract State getCurrentState();
-
-    @MainThread
-    public abstract void removeObserver(@NonNull LifecycleObserver lifecycleObserver);
 }

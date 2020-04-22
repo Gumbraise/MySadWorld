@@ -40,7 +40,7 @@ public class StaticGet extends Procedure0 implements Inlineable {
             }
         }
         try {
-            return this.reflectField.get(null);
+            return this.reflectField.get((Object) null);
         } catch (IllegalAccessException e2) {
             throw new RuntimeException("illegal access for field " + this.fname);
         }

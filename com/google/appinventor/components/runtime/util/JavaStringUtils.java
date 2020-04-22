@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,6 +18,28 @@ public class JavaStringUtils {
     private static final MappingOrder mappingOrderEarliestOccurrence = new MappingEarliestOccurrenceFirstOrder();
     private static final MappingOrder mappingOrderLongestStringFirst = new MappingLongestStringFirstOrder();
     private static final Comparator<Range> rangeComparator = new RangeComparator();
+
+    private static class MappingOrder {
+        private MappingOrder() {
+        }
+
+        public void changeOrder(List<String> list, String text) {
+        }
+    }
+
+    private static class MappingLongestStringFirstOrder extends MappingOrder {
+        private MappingLongestStringFirstOrder() {
+            super();
+        }
+
+        public void changeOrder(List<String> keys, String text) {
+            Collections.sort(keys, new Comparator<String>() {
+                public int compare(String s, String t1) {
+                    return Integer.compare(t1.length(), s.length());
+                }
+            });
+        }
+    }
 
     private static class MappingEarliestOccurrenceFirstOrder extends MappingOrder {
         private MappingEarliestOccurrenceFirstOrder() {
@@ -44,28 +65,6 @@ public class JavaStringUtils {
                     return Integer.compare(id1, id2);
                 }
             });
-        }
-    }
-
-    private static class MappingLongestStringFirstOrder extends MappingOrder {
-        private MappingLongestStringFirstOrder() {
-            super();
-        }
-
-        public void changeOrder(List<String> keys, String text) {
-            Collections.sort(keys, new Comparator<String>() {
-                public int compare(String s, String t1) {
-                    return Integer.compare(t1.length(), s.length());
-                }
-            });
-        }
-    }
-
-    private static class MappingOrder {
-        private MappingOrder() {
-        }
-
-        public void changeOrder(List<String> list, String text) {
         }
     }
 
@@ -126,7 +125,7 @@ public class JavaStringUtils {
     public static String replaceAllMappings(String text, Map<Object, Object> mappings, MappingOrder order) {
         Map<String, String> stringMappings = new HashMap<>();
         List<String> keys = new ArrayList<>();
-        for (Entry<Object, Object> current : mappings.entrySet()) {
+        for (Map.Entry<Object, Object> current : mappings.entrySet()) {
             String key = current.getKey().toString();
             String value = current.getValue().toString();
             if (!stringMappings.containsKey(key)) {
@@ -142,17 +141,15 @@ public class JavaStringUtils {
         TreeSet<Range> ranges = new TreeSet<>(rangeComparator);
         for (String key : keys) {
             Matcher matcher = Pattern.compile(Pattern.quote(key)).matcher(text);
-            String replacement = (String) mappings.get(key);
+            String replacement = mappings.get(key);
             while (matcher.find()) {
                 ranges.add(new Range(matcher.start(), matcher.end(), replacement));
             }
         }
-        Iterator it = ranges.iterator();
+        Iterator<Range> it = ranges.iterator();
         while (it.hasNext()) {
-            Range range = (Range) it.next();
-            String left = text.substring(0, range.start);
-            String middle = range.text;
-            text = left + middle + text.substring(range.end);
+            Range range = it.next();
+            text = text.substring(0, range.start) + range.text + text.substring(range.end);
         }
         return text;
     }

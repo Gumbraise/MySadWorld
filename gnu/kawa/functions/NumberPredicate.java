@@ -1,6 +1,6 @@
 package gnu.kawa.functions;
 
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import gnu.bytecode.CodeAttr;
 import gnu.bytecode.Type;
 import gnu.expr.ApplyExp;
@@ -19,9 +19,7 @@ public class NumberPredicate extends Procedure1 implements Inlineable {
     public static final int EVEN = 2;
     public static final int ODD = 1;
     Language language;
-
-    /* renamed from: op */
-    final int f63op;
+    final int op;
 
     /* access modifiers changed from: protected */
     public final Language getLanguage() {
@@ -31,7 +29,7 @@ public class NumberPredicate extends Procedure1 implements Inlineable {
     public Object apply1(Object arg1) {
         boolean result;
         IntNum iarg1 = LangObjType.coerceIntNum(arg1);
-        switch (this.f63op) {
+        switch (this.op) {
             case 1:
                 result = iarg1.isOdd();
                 break;
@@ -49,10 +47,10 @@ public class NumberPredicate extends Procedure1 implements Inlineable {
         return getLanguage().booleanObject(result);
     }
 
-    public NumberPredicate(Language language2, String name, int op) {
+    public NumberPredicate(Language language2, String name, int op2) {
         super(name);
         this.language = language2;
-        this.f63op = op;
+        this.op = op2;
         setProperty(Procedure.validateApplyKey, "gnu.kawa.functions.CompileArith:validateApplyNumberPredicate");
     }
 
@@ -62,18 +60,18 @@ public class NumberPredicate extends Procedure1 implements Inlineable {
 
     public void compile(ApplyExp exp, Compilation comp, Target target) {
         Expression[] args = exp.getArgs();
-        if (args.length == 1 && (this.f63op == 1 || this.f63op == 2)) {
+        if (args.length == 1 && (this.op == 1 || this.op == 2)) {
             Expression arg0 = args[0];
             if (Arithmetic.classifyType(arg0.getType()) <= 4) {
                 Target wtarget = StackTarget.getInstance(Type.intType);
                 CodeAttr code = comp.getCode();
-                if (this.f63op == 2) {
+                if (this.op == 2) {
                     code.emitPushInt(1);
                 }
                 arg0.compile(comp, wtarget);
                 code.emitPushInt(1);
                 code.emitAnd();
-                if (this.f63op == 2) {
+                if (this.op == 2) {
                     code.emitSub(Type.intType);
                 }
                 target.compileFromStack(comp, Type.booleanType);

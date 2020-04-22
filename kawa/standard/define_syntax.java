@@ -54,25 +54,27 @@ public class define_syntax extends Syntax {
         SyntaxForm syntax = null;
         Object st_cdr = st.getCdr();
         while (st_cdr instanceof SyntaxForm) {
-            syntax = (SyntaxForm) st_cdr;
+            syntax = st_cdr;
             st_cdr = syntax.getDatum();
         }
         Object p = st_cdr;
         if (p instanceof Pair) {
             Pair pp = (Pair) p;
-            name = pp.getCar();
+            Object car = pp.getCar();
             p = pp.getCdr();
+            name = car;
         } else {
             name = null;
         }
         SyntaxForm nameSyntax = syntax;
+        Object obj2 = name;
         while (true) {
-            obj = name;
+            obj = obj2;
             if (!(obj instanceof SyntaxForm)) {
                 break;
             }
             nameSyntax = (SyntaxForm) obj;
-            name = nameSyntax.getDatum();
+            obj2 = nameSyntax.getDatum();
         }
         Object name2 = tr.namespaceResolve(obj);
         if (!(name2 instanceof Symbol)) {

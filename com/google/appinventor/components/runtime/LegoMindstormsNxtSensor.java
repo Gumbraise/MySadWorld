@@ -32,6 +32,11 @@ public abstract class LegoMindstormsNxtSensor extends LegoMindstormsNxtBase {
     protected int port;
     private String sensorPortLetter;
 
+    public abstract void SensorPort(String str);
+
+    /* access modifiers changed from: protected */
+    public abstract void initializeSensor(String str);
+
     static class SensorValue<T> {
         final boolean valid;
         final T value;
@@ -41,11 +46,6 @@ public abstract class LegoMindstormsNxtSensor extends LegoMindstormsNxtBase {
             this.value = value2;
         }
     }
-
-    public abstract void SensorPort(String str);
-
-    /* access modifiers changed from: protected */
-    public abstract void initializeSensor(String str);
 
     protected LegoMindstormsNxtSensor(ComponentContainer container, String logTag) {
         super(container, logTag);
@@ -58,16 +58,15 @@ public abstract class LegoMindstormsNxtSensor extends LegoMindstormsNxtBase {
 
     /* access modifiers changed from: protected */
     public final void setSensorPort(String sensorPortLetter2) {
-        String functionName = "SensorPort";
         try {
             int port2 = convertSensorPortLetterToNumber(sensorPortLetter2);
             this.sensorPortLetter = sensorPortLetter2;
             this.port = port2;
             if (this.bluetooth != null && this.bluetooth.IsConnected()) {
-                initializeSensor(functionName);
+                initializeSensor("SensorPort");
             }
         } catch (IllegalArgumentException e) {
-            this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_NXT_INVALID_SENSOR_PORT, sensorPortLetter2);
+            this.form.dispatchErrorOccurredEvent(this, "SensorPort", ErrorMessages.ERROR_NXT_INVALID_SENSOR_PORT, sensorPortLetter2);
         }
     }
 

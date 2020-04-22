@@ -2,6 +2,7 @@ package gnu.kawa.xml;
 
 import com.google.appinventor.components.runtime.util.NanoHTTPD;
 import gnu.lists.Consumable;
+import gnu.lists.Consumer;
 import gnu.lists.FilterConsumer;
 import gnu.lists.UnescapedData;
 import gnu.mapping.OutPort;
@@ -23,12 +24,12 @@ public class HttpPrinter extends FilterConsumer {
     OutPort writer;
 
     public HttpPrinter(OutputStream out) {
-        super(null);
+        super((Consumer) null);
         this.ostream = out;
     }
 
     public HttpPrinter(OutPort out) {
-        super(null);
+        super((Consumer) null);
         this.writer = out;
     }
 

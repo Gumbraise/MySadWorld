@@ -1,5 +1,6 @@
 package gnu.kawa.xml;
 
+import gnu.bytecode.Method;
 import gnu.bytecode.Type;
 import gnu.expr.ApplyExp;
 import gnu.expr.Compilation;
@@ -23,7 +24,7 @@ public class UnionNodes extends Procedure2 implements Inlineable {
     }
 
     public void compile(ApplyExp exp, Compilation comp, Target target) {
-        ConsumerTarget.compileUsingConsumer(new ApplyExp((Procedure) AppendValues.appendValues, exp.getArgs()), comp, target, SortNodes.makeSortedNodesMethod, null);
+        ConsumerTarget.compileUsingConsumer(new ApplyExp((Procedure) AppendValues.appendValues, exp.getArgs()), comp, target, SortNodes.makeSortedNodesMethod, (Method) null);
     }
 
     public Type getReturnType(Expression[] args) {

@@ -124,22 +124,39 @@ public class Variable extends Location implements Enumeration {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
+    /* JADX WARNING: Code restructure failed: missing block: B:7:0x0012, code lost:
+        r1 = (r3 = r2.start).position;
+     */
+    /* JADX WARNING: Code restructure failed: missing block: B:9:0x0016, code lost:
+        r0 = r2.end;
+     */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
     public boolean shouldEmit() {
-        Scope sc = this.scope;
-        if (!(!isSimple() || this.name == null || sc == null)) {
-            Label start = sc.start;
-            if (start != null) {
-                int pos = start.position;
-                if (pos >= 0) {
-                    Label end = sc.end;
-                    if (end != null && end.position > pos) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+        /*
+            r5 = this;
+            gnu.bytecode.Scope r2 = r5.scope
+            boolean r4 = r5.isSimple()
+            if (r4 == 0) goto L_0x0020
+            java.lang.String r4 = r5.name
+            if (r4 == 0) goto L_0x0020
+            if (r2 == 0) goto L_0x0020
+            gnu.bytecode.Label r3 = r2.start
+            if (r3 == 0) goto L_0x0020
+            int r1 = r3.position
+            if (r1 < 0) goto L_0x0020
+            gnu.bytecode.Label r0 = r2.end
+            if (r0 == 0) goto L_0x0020
+            int r4 = r0.position
+            if (r4 <= r1) goto L_0x0020
+            r4 = 1
+        L_0x001f:
+            return r4
+        L_0x0020:
+            r4 = 0
+            goto L_0x001f
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.bytecode.Variable.shouldEmit():boolean");
     }
 
     public String toString() {

@@ -34,9 +34,7 @@ public class XMLFilter implements DocumentHandler, ContentHandler, SourceLocator
     public transient int copyNamespacesMode = 1;
     String currentNamespacePrefix;
     protected int ignoringLevel;
-
-    /* renamed from: in */
-    LineBufferedReader f246in;
+    LineBufferedReader in;
     boolean inStartTag;
     SourceLocator locator;
     MappingInfo[] mappingTable = new MappingInfo[128];
@@ -54,8 +52,8 @@ public class XMLFilter implements DocumentHandler, ContentHandler, SourceLocator
     TreeList tlist;
     Object[] workStack;
 
-    public void setSourceLocator(LineBufferedReader in) {
-        this.f246in = in;
+    public void setSourceLocator(LineBufferedReader in2) {
+        this.in = in2;
         this.locator = this;
     }
 
@@ -68,17 +66,15 @@ public class XMLFilter implements DocumentHandler, ContentHandler, SourceLocator
     }
 
     public NamespaceBinding findNamespaceBinding(String prefix, String uri, NamespaceBinding oldBindings) {
+        NamespaceBinding namespaces;
         int hash = uri == null ? 0 : uri.hashCode();
         if (prefix != null) {
             hash ^= prefix.hashCode();
         }
         int bucket = hash & this.mappingTableMask;
         for (MappingInfo info = this.mappingTable[bucket]; info != null; info = info.nextInBucket) {
-            if (info.tagHash == hash && info.prefix == prefix) {
-                NamespaceBinding namespaces = info.namespaces;
-                if (namespaces != null && namespaces.getNext() == this.namespaceBindings && namespaces.getPrefix() == prefix && info.uri == uri) {
-                    return info.namespaces;
-                }
+            if (info.tagHash == hash && info.prefix == prefix && (namespaces = info.namespaces) != null && namespaces.getNext() == this.namespaceBindings && namespaces.getPrefix() == prefix && info.uri == uri) {
+                return info.namespaces;
             }
         }
         MappingInfo info2 = new MappingInfo();
@@ -97,6 +93,7 @@ public class XMLFilter implements DocumentHandler, ContentHandler, SourceLocator
 
     public MappingInfo lookupNamespaceBinding(String prefix, char[] uriChars, int uriStart, int uriLength, int uriHash, NamespaceBinding oldBindings) {
         int hash;
+        NamespaceBinding namespaces;
         if (prefix == null) {
             hash = uriHash;
         } else {
@@ -104,11 +101,8 @@ public class XMLFilter implements DocumentHandler, ContentHandler, SourceLocator
         }
         int bucket = hash & this.mappingTableMask;
         for (MappingInfo info = this.mappingTable[bucket]; info != null; info = info.nextInBucket) {
-            if (info.tagHash == hash && info.prefix == prefix) {
-                NamespaceBinding namespaces = info.namespaces;
-                if (namespaces != null && namespaces.getNext() == this.namespaceBindings && namespaces.getPrefix() == prefix && MappingInfo.equals(info.uri, uriChars, uriStart, uriLength)) {
-                    return info;
-                }
+            if (info.tagHash == hash && info.prefix == prefix && (namespaces = info.namespaces) != null && namespaces.getNext() == this.namespaceBindings && namespaces.getPrefix() == prefix && MappingInfo.equals(info.uri, uriChars, uriStart, uriLength)) {
+                return info;
             }
         }
         MappingInfo info2 = new MappingInfo();
@@ -216,7 +210,15 @@ public class XMLFilter implements DocumentHandler, ContentHandler, SourceLocator
         return "";
     }
 
-    /* access modifiers changed from: 0000 */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r1v2, resolved type: gnu.lists.TreeList} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r1v5, resolved type: gnu.lists.TreeList} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r27v0, resolved type: gnu.mapping.Symbol} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r27v1, resolved type: gnu.xml.XName} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r27v2, resolved type: gnu.mapping.Symbol} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r27v6, resolved type: gnu.xml.XName} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r25v3, resolved type: gnu.mapping.Symbol} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r1v25, resolved type: gnu.lists.TreeList} */
+    /* access modifiers changed from: package-private */
     /* JADX WARNING: Code restructure failed: missing block: B:113:0x02f7, code lost:
         if (r27 != null) goto L_0x020b;
      */
@@ -225,6 +227,7 @@ public class XMLFilter implements DocumentHandler, ContentHandler, SourceLocator
         r27 = r0;
         r9.type = r0;
      */
+    /* JADX WARNING: Multi-variable type inference failed */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public void closeStartTag() {
         /*
@@ -1029,7 +1032,7 @@ public class XMLFilter implements DocumentHandler, ContentHandler, SourceLocator
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public final boolean inElement() {
         int i = this.nesting;
         while (i > 0 && this.workStack[i - 1] == null) {
@@ -1375,11 +1378,7 @@ public class XMLFilter implements DocumentHandler, ContentHandler, SourceLocator
             }
             char ch = content[i];
             while (true) {
-                if (ch != '>') {
-                    break;
-                }
-                i--;
-                if (i < offset) {
+                if (ch != '>' || i - 1 < offset) {
                     break;
                 }
                 ch = content[i];
@@ -1398,7 +1397,7 @@ public class XMLFilter implements DocumentHandler, ContentHandler, SourceLocator
         processingInstructionCommon(target2, content, offset, length);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void processingInstructionCommon(String target, char[] content, int offset, int length) {
         if (this.stringizingLevel == 0) {
             closeStartTag();
@@ -1485,7 +1484,7 @@ public class XMLFilter implements DocumentHandler, ContentHandler, SourceLocator
         return this;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public MappingInfo lookupTag(Symbol qname) {
         String local = qname.getLocalPart();
         String prefix = qname.getPrefix();
@@ -1517,7 +1516,7 @@ public class XMLFilter implements DocumentHandler, ContentHandler, SourceLocator
         return info2;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public MappingInfo lookupTag(char[] data, int start, int length) {
         int hash = 0;
         int prefixHash = 0;
@@ -1672,38 +1671,33 @@ public class XMLFilter implements DocumentHandler, ContentHandler, SourceLocator
     }
 
     public String getSystemId() {
-        if (this.f246in == null) {
+        if (this.in == null) {
             return null;
         }
-        return this.f246in.getName();
+        return this.in.getName();
     }
 
     public String getFileName() {
-        if (this.f246in == null) {
+        if (this.in == null) {
             return null;
         }
-        return this.f246in.getName();
+        return this.in.getName();
     }
 
     public int getLineNumber() {
-        if (this.f246in == null) {
-            return -1;
-        }
-        int line = this.f246in.getLineNumber();
-        if (line >= 0) {
+        int line;
+        if (this.in != null && (line = this.in.getLineNumber()) >= 0) {
             return line + 1;
         }
         return -1;
     }
 
     public int getColumnNumber() {
-        if (this.f246in != null) {
-            int col = this.f246in.getColumnNumber();
-            if (col > 0) {
-                return col;
-            }
+        int col;
+        if (this.in == null || (col = this.in.getColumnNumber()) <= 0) {
+            return -1;
         }
-        return -1;
+        return col;
     }
 
     public boolean isStableSourceLocation() {

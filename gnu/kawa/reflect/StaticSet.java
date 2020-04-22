@@ -41,7 +41,7 @@ public class StaticSet extends Procedure1 implements Inlineable {
             }
         }
         try {
-            this.reflectField.set(null, arg1);
+            this.reflectField.set((Object) null, arg1);
             return Values.empty;
         } catch (IllegalAccessException e2) {
             throw new RuntimeException("illegal access for field " + this.fname);

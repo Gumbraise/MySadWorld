@@ -44,7 +44,7 @@ import gnu.text.SourceMessages;
 import gnu.text.SyntaxException;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map.Entry;
+import java.util.Map;
 import kawa.lang.Eval;
 
 public class Scheme extends LispLanguage {
@@ -106,7 +106,7 @@ public class Scheme extends LispLanguage {
     /* JADX WARNING: type inference failed for: r4v0, types: [kawa.standard.Scheme] */
     private void initScheme() {
         this.environ = nullEnvironment;
-        this.environ.addLocation(LispLanguage.lookup_sym, null, getNamedPartLocation);
+        this.environ.addLocation(LispLanguage.lookup_sym, (Object) null, getNamedPartLocation);
         defSntxStFld("lambda", "kawa.standard.SchemeCompilation", "lambda");
         defSntxStFld(LispLanguage.quote_sym, "kawa.lang.Quote", "plainQuote");
         defSntxStFld("%define", "kawa.standard.define", "defineRaw");
@@ -837,7 +837,7 @@ public class Scheme extends LispLanguage {
 
     public static Type getNamedType(String name) {
         getTypeMap();
-        Type type = (Type) types.get(name);
+        Type type = types.get(name);
         if (type == null && (name.startsWith("elisp:") || name.startsWith("clisp:"))) {
             int colon = name.indexOf(58);
             Class clas = getNamedType(name.substring(colon + 1)).getReflectClass();
@@ -907,9 +907,9 @@ public class Scheme extends LispLanguage {
     public String formatType(Type type) {
         if (typeToStringMap == null) {
             typeToStringMap = new HashMap<>();
-            for (Entry<String, Type> e : getTypeMap().entrySet()) {
-                String s = (String) e.getKey();
-                Type t = (Type) e.getValue();
+            for (Map.Entry<String, Type> e : getTypeMap().entrySet()) {
+                String s = e.getKey();
+                Type t = e.getValue();
                 typeToStringMap.put(t, s);
                 Type it = t.getImplementationType();
                 if (it != t) {
@@ -917,7 +917,7 @@ public class Scheme extends LispLanguage {
                 }
             }
         }
-        String str = (String) typeToStringMap.get(type);
+        String str = typeToStringMap.get(type);
         return str != null ? str : super.formatType(type);
     }
 
@@ -949,14 +949,13 @@ public class Scheme extends LispLanguage {
         return getInstance().getTypeFor(exp);
     }
 
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r42v0, resolved type: gnu.expr.Expression[]} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r49v9, resolved type: gnu.expr.Expression[]} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r39v2, resolved type: gnu.expr.Expression} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v110, resolved type: gnu.expr.ApplyExp} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r39v3, resolved type: gnu.expr.ApplyExp} */
     /* JADX WARNING: type inference failed for: r39v1 */
-    /* JADX WARNING: type inference failed for: r39v2 */
-    /* JADX WARNING: type inference failed for: r43v0, types: [gnu.expr.Expression] */
-    /* JADX WARNING: type inference failed for: r43v1 */
-    /* JADX WARNING: type inference failed for: r43v2 */
-    /* JADX WARNING: type inference failed for: r43v3 */
     /* JADX WARNING: Multi-variable type inference failed */
-    /* JADX WARNING: Unknown variable types count: 3 */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public gnu.expr.Expression checkDefaultBinding(gnu.mapping.Symbol r54, kawa.lang.Translator r55) {
         /*
@@ -1044,7 +1043,7 @@ public class Scheme extends LispLanguage {
             r48 = 1
             r0 = r18
             r1 = r48
-            r0.<init>(r1)
+            r0.<init>((int) r1)
             r0 = r18
             r1 = r54
             r0.setSymbol(r1)
@@ -1052,7 +1051,7 @@ public class Scheme extends LispLanguage {
             java.lang.Object r48 = (java.lang.Object) r48
             r0 = r18
             r1 = r48
-            gnu.expr.Declaration r29 = r0.addDeclaration(r1)
+            gnu.expr.Declaration r29 = r0.addDeclaration((java.lang.Object) r1)
             gnu.expr.ApplyExp r48 = new gnu.expr.ApplyExp
             gnu.kawa.reflect.InstanceOf r49 = instanceOf
             r50 = 2
@@ -1063,11 +1062,11 @@ public class Scheme extends LispLanguage {
             gnu.expr.ReferenceExp r52 = new gnu.expr.ReferenceExp
             r0 = r52
             r1 = r29
-            r0.<init>(r1)
+            r0.<init>((gnu.expr.Declaration) r1)
             r50[r51] = r52
             r51 = 1
             r50[r51] = r33
-            r48.<init>(r49, r50)
+            r48.<init>((gnu.mapping.Procedure) r49, (gnu.expr.Expression[]) r50)
             r0 = r48
             r1 = r18
             r1.body = r0
@@ -1206,7 +1205,7 @@ public class Scheme extends LispLanguage {
             java.lang.String r48 = r0.substring(r1, r14)
             r0 = r26
             r1 = r48
-            r0.<init>(r1)
+            r0.<init>((java.lang.String) r1)
             r10 = 0
             java.util.Vector r47 = new java.util.Vector
             r47.<init>()
@@ -1334,7 +1333,7 @@ public class Scheme extends LispLanguage {
             if (r23 == 0) goto L_0x02e0
             int r12 = -r12
         L_0x02e0:
-            gnu.math.IntNum r48 = gnu.math.IntNum.make(r12)
+            gnu.math.IntNum r48 = gnu.math.IntNum.make((int) r12)
             r47.addElement(r48)
             r15 = r14
             goto L_0x01f9
@@ -1434,7 +1433,7 @@ public class Scheme extends LispLanguage {
             r0 = r44
             r1 = r48
             r2 = r49
-            r0.<init>(r1, r2)
+            r0.<init>((gnu.mapping.Procedure) r1, (gnu.expr.Expression[]) r2)
             r43 = r44
         L_0x03aa:
             r42[r14] = r43
@@ -1462,7 +1461,7 @@ public class Scheme extends LispLanguage {
             r0 = r18
             r1 = r48
             r2 = r49
-            r0.<init>(r1, r2)
+            r0.<init>((gnu.mapping.Procedure) r1, (gnu.expr.Expression[]) r2)
             goto L_0x001e
         L_0x03de:
             gnu.expr.ApplyExp r39 = new gnu.expr.ApplyExp
@@ -1470,7 +1469,7 @@ public class Scheme extends LispLanguage {
             r0 = r39
             r1 = r48
             r2 = r42
-            r0.<init>(r1, r2)
+            r0.<init>((gnu.mapping.Procedure) r1, (gnu.expr.Expression[]) r2)
             goto L_0x03bb
         L_0x03ec:
             r31 = 0
@@ -1508,13 +1507,13 @@ public class Scheme extends LispLanguage {
             gnu.expr.Language r48 = r55.getLanguage()     // Catch:{ ClassNotFoundException -> 0x04a4, Throwable -> 0x04b1 }
             r0 = r48
             r1 = r33
-            gnu.bytecode.Type r36 = r0.getTypeFor(r1)     // Catch:{ ClassNotFoundException -> 0x04a4, Throwable -> 0x04b1 }
+            gnu.bytecode.Type r36 = r0.getTypeFor((gnu.expr.Expression) r1)     // Catch:{ ClassNotFoundException -> 0x04a4, Throwable -> 0x04b1 }
         L_0x043e:
             if (r36 == 0) goto L_0x044f
         L_0x0440:
             int r30 = r30 + -1
             if (r30 < 0) goto L_0x0449
-            gnu.bytecode.ArrayType r36 = gnu.bytecode.ArrayType.make(r36)     // Catch:{ ClassNotFoundException -> 0x04a4, Throwable -> 0x04b1 }
+            gnu.bytecode.ArrayType r36 = gnu.bytecode.ArrayType.make((gnu.bytecode.Type) r36)     // Catch:{ ClassNotFoundException -> 0x04a4, Throwable -> 0x04b1 }
             goto L_0x0440
         L_0x0449:
             gnu.expr.QuoteExp r18 = gnu.expr.QuoteExp.getInstance(r36)     // Catch:{ ClassNotFoundException -> 0x04a4, Throwable -> 0x04b1 }
@@ -1533,7 +1532,7 @@ public class Scheme extends LispLanguage {
         L_0x0467:
             int r30 = r30 + -1
             if (r30 < 0) goto L_0x049a
-            gnu.bytecode.ArrayType r36 = gnu.bytecode.ArrayType.make(r36)     // Catch:{ ClassNotFoundException -> 0x04a4, Throwable -> 0x04b1 }
+            gnu.bytecode.ArrayType r36 = gnu.bytecode.ArrayType.make((gnu.bytecode.Type) r36)     // Catch:{ ClassNotFoundException -> 0x04a4, Throwable -> 0x04b1 }
             goto L_0x0467
         L_0x0470:
             r48 = 46

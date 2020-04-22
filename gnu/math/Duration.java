@@ -58,41 +58,42 @@ public class Duration extends Quantity implements Externalizable {
     public static Duration valueOf(String str, Unit unit2) {
         boolean negative;
         int pos;
+        int pos2;
         int nfrac;
         String str2 = str.trim();
-        int pos2 = 0;
+        int pos3 = 0;
         int len = str2.length();
         if (0 >= len || str2.charAt(0) != '-') {
             negative = false;
         } else {
             negative = true;
-            pos2 = 0 + 1;
+            pos3 = 0 + 1;
         }
-        if (pos2 + 1 >= len || str2.charAt(pos2) != 'P') {
+        if (pos3 + 1 >= len || str2.charAt(pos3) != 'P') {
             return null;
         }
         int months2 = 0;
         int nanos2 = 0;
         long seconds2 = 0;
-        long part = scanPart(str2, pos2 + 1);
-        int pos3 = ((int) part) >> 16;
+        long part = scanPart(str2, pos3 + 1);
+        int pos4 = ((int) part) >> 16;
         char ch = (char) ((int) part);
         if (unit2 == Unit.second && (ch == 'Y' || ch == 'M')) {
             return null;
         }
         if (ch == 'Y') {
             months2 = ((int) (part >> 32)) * 12;
-            pos3 = ((int) part) >> 16;
-            part = scanPart(str2, pos3);
+            pos4 = ((int) part) >> 16;
+            part = scanPart(str2, pos4);
             ch = (char) ((int) part);
         }
         if (ch == 'M') {
             months2 = (int) (((long) months2) + (part >> 32));
-            pos3 = ((int) part) >> 16;
-            part = scanPart(str2, pos3);
+            pos4 = ((int) part) >> 16;
+            part = scanPart(str2, pos4);
             ch = (char) ((int) part);
         }
-        if (unit2 == Unit.month && pos3 != len) {
+        if (unit2 == Unit.month && pos4 != len) {
             return null;
         }
         if (ch == 'D') {
@@ -100,76 +101,70 @@ public class Duration extends Quantity implements Externalizable {
                 return null;
             }
             seconds2 = 86400 * ((long) ((int) (part >> 32)));
-            pos3 = ((int) part) >> 16;
-            part = scanPart(str2, pos3);
+            pos4 = ((int) part) >> 16;
+            part = scanPart(str2, pos4);
         }
         if (part != ((long) (pos << 16))) {
             return null;
         }
         if (pos != len) {
-            if (str2.charAt(pos) == 'T') {
-                int pos4 = pos + 1;
-                if (pos4 != len) {
-                    if (unit2 == Unit.month) {
-                        return null;
+            if (str2.charAt(pos) != 'T' || (pos2 = pos + 1) == len || unit2 == Unit.month) {
+                return null;
+            }
+            long part2 = scanPart(str2, pos2);
+            char ch2 = (char) ((int) part2);
+            if (ch2 == 'H') {
+                seconds2 += (long) (((int) (part2 >> 32)) * 3600);
+                pos2 = ((int) part2) >> 16;
+                part2 = scanPart(str2, pos2);
+                ch2 = (char) ((int) part2);
+            }
+            if (ch2 == 'M') {
+                seconds2 += (long) (((int) (part2 >> 32)) * 60);
+                pos2 = ((int) part2) >> 16;
+                part2 = scanPart(str2, pos2);
+                ch2 = (char) ((int) part2);
+            }
+            if (ch2 == 'S' || ch2 == '.') {
+                seconds2 += (long) ((int) (part2 >> 32));
+                pos2 = ((int) part2) >> 16;
+            }
+            if (ch2 == '.' && pos + 1 < len && Character.digit(str2.charAt(pos), 10) >= 0) {
+                int nfrac2 = 0;
+                int pos5 = pos;
+                while (true) {
+                    if (pos5 >= len) {
+                        nfrac = nfrac2;
+                        pos = pos5;
+                        break;
                     }
-                    long part2 = scanPart(str2, pos4);
-                    char ch2 = (char) ((int) part2);
-                    if (ch2 == 'H') {
-                        seconds2 += (long) (((int) (part2 >> 32)) * 3600);
-                        pos4 = ((int) part2) >> 16;
-                        part2 = scanPart(str2, pos4);
-                        ch2 = (char) ((int) part2);
+                    pos = pos5 + 1;
+                    ch2 = str2.charAt(pos5);
+                    int dig = Character.digit(ch2, 10);
+                    if (dig < 0) {
+                        nfrac = nfrac2;
+                        break;
                     }
-                    if (ch2 == 'M') {
-                        seconds2 += (long) (((int) (part2 >> 32)) * 60);
-                        pos4 = ((int) part2) >> 16;
-                        part2 = scanPart(str2, pos4);
-                        ch2 = (char) ((int) part2);
+                    if (nfrac2 < 9) {
+                        nanos2 = (nanos2 * 10) + dig;
+                    } else if (nfrac2 == 9 && dig >= 5) {
+                        nanos2++;
                     }
-                    if (ch2 == 'S' || ch2 == '.') {
-                        seconds2 += (long) ((int) (part2 >> 32));
-                        pos4 = ((int) part2) >> 16;
+                    nfrac2++;
+                    pos5 = pos;
+                }
+                while (true) {
+                    int nfrac3 = nfrac + 1;
+                    if (nfrac >= 9) {
+                        break;
                     }
-                    if (ch2 == '.' && pos + 1 < len && Character.digit(str2.charAt(pos), 10) >= 0) {
-                        int nfrac2 = 0;
-                        int pos5 = pos;
-                        while (true) {
-                            if (pos5 >= len) {
-                                nfrac = nfrac2;
-                                pos = pos5;
-                                break;
-                            }
-                            pos = pos5 + 1;
-                            ch2 = str2.charAt(pos5);
-                            int dig = Character.digit(ch2, 10);
-                            if (dig < 0) {
-                                nfrac = nfrac2;
-                                break;
-                            }
-                            if (nfrac2 < 9) {
-                                nanos2 = (nanos2 * 10) + dig;
-                            } else if (nfrac2 == 9 && dig >= 5) {
-                                nanos2++;
-                            }
-                            nfrac2++;
-                            pos5 = pos;
-                        }
-                        while (true) {
-                            int nfrac3 = nfrac + 1;
-                            if (nfrac >= 9) {
-                                break;
-                            }
-                            nanos2 *= 10;
-                            nfrac = nfrac3;
-                        }
-                        if (ch2 != 'S') {
-                            return null;
-                        }
-                    }
+                    nanos2 *= 10;
+                    nfrac = nfrac3;
+                }
+                if (ch2 != 'S') {
+                    return null;
                 }
             }
-            return null;
         }
         if (pos != len) {
             return null;

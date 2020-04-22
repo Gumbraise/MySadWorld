@@ -9,12 +9,11 @@ final class ReflectionCollector {
     }
 
     public static String collectConstants(Class<?> someClass) {
-        Field[] arr$;
         StringBuilder result = new StringBuilder();
         for (Field field : someClass.getFields()) {
             result.append(field.getName()).append("=");
             try {
-                result.append(field.get(null).toString());
+                result.append(field.get((Object) null).toString());
             } catch (IllegalArgumentException e) {
                 result.append("N/A");
             } catch (IllegalAccessException e2) {
@@ -26,14 +25,13 @@ final class ReflectionCollector {
     }
 
     public static String collectStaticGettersResults(Class<?> someClass) {
-        Method[] arr$;
         StringBuilder result = new StringBuilder();
         for (Method method : someClass.getMethods()) {
             if (method.getParameterTypes().length == 0 && ((method.getName().startsWith("get") || method.getName().startsWith("is")) && !method.getName().equals("getClass"))) {
                 try {
                     result.append(method.getName());
                     result.append('=');
-                    result.append(method.invoke(null, null));
+                    result.append(method.invoke((Object) null, (Object[]) null));
                     result.append("\n");
                 } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
                 }

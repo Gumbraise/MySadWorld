@@ -13,13 +13,11 @@ public abstract class RealNum extends Complex implements Comparable {
 
     public abstract int sign();
 
-    /* renamed from: re */
-    public final RealNum mo11744re() {
+    public final RealNum re() {
         return this;
     }
 
-    /* renamed from: im */
-    public final RealNum mo11743im() {
+    public final RealNum im() {
         return IntNum.zero();
     }
 
@@ -263,37 +261,36 @@ public abstract class RealNum extends Complex implements Comparable {
             } else {
                 pos = pos2;
                 while (pos < len) {
-                    int pos5 = pos + 1;
                     sbuf.append(dstr.charAt(pos));
-                    pos = pos5;
+                    pos++;
                 }
             }
         } else {
             exp = ((len - (neg ? 2 : 1)) - len) + dstr.indexOf(46);
-            int pos6 = pos3 + 1;
+            int pos5 = pos3 + 1;
             sbuf.append(dstr.charAt(pos3));
             sbuf.append('.');
             while (pos < len) {
-                int pos7 = pos + 1;
+                int pos6 = pos + 1;
                 char ch3 = dstr.charAt(pos);
                 if (ch3 != '.') {
                     sbuf.append(ch3);
                 }
-                pos6 = pos7;
+                pos5 = pos6;
             }
         }
-        int pos8 = sbuf.length();
+        int pos7 = sbuf.length();
         int slen = -1;
         while (true) {
-            pos8--;
-            ch = sbuf.charAt(pos8);
+            pos7--;
+            ch = sbuf.charAt(pos7);
             if (ch != '0') {
                 break;
             }
-            slen = pos8;
+            slen = pos7;
         }
         if (ch == '.') {
-            slen = pos8 + 2;
+            slen = pos7 + 2;
         }
         if (slen >= 0) {
             sbuf.setLength(slen);

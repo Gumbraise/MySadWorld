@@ -10,14 +10,7 @@ import com.google.appinventor.components.annotations.SimpleProperty;
 import com.google.appinventor.components.runtime.util.AsynchUtil;
 import com.google.appinventor.components.runtime.util.ErrorMessages;
 import com.google.appinventor.components.runtime.util.GeoJSONUtil;
-import com.google.appinventor.components.runtime.util.MapFactory.MapCircle;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeature;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeatureContainer;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeatureVisitor;
-import com.google.appinventor.components.runtime.util.MapFactory.MapLineString;
-import com.google.appinventor.components.runtime.util.MapFactory.MapMarker;
-import com.google.appinventor.components.runtime.util.MapFactory.MapPolygon;
-import com.google.appinventor.components.runtime.util.MapFactory.MapRectangle;
+import com.google.appinventor.components.runtime.util.MapFactory;
 import com.google.appinventor.components.runtime.util.YailList;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -33,7 +26,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import org.json.JSONException;
 
 @SimpleObject
-public abstract class MapFeatureContainerBase extends AndroidViewComponent implements MapFeatureContainer {
+public abstract class MapFeatureContainerBase extends AndroidViewComponent implements MapFactory.MapFeatureContainer {
     private static final int ERROR_CODE_IO_EXCEPTION = -2;
     private static final int ERROR_CODE_MALFORMED_GEOJSON = -3;
     private static final int ERROR_CODE_MALFORMED_URL = -1;
@@ -47,33 +40,33 @@ public abstract class MapFeatureContainerBase extends AndroidViewComponent imple
     private static final String GEOJSON_GEOMETRYCOLLECTION = "GeometryCollection";
     private static final String GEOJSON_TYPE = "type";
     private static final String TAG = MapFeatureContainerBase.class.getSimpleName();
-    private final MapFeatureVisitor<Void> featureAdder = new MapFeatureVisitor<Void>() {
-        public Void visit(MapMarker marker, Object... arguments) {
+    private final MapFactory.MapFeatureVisitor<Void> featureAdder = new MapFactory.MapFeatureVisitor<Void>() {
+        public Void visit(MapFactory.MapMarker marker, Object... arguments) {
             MapFeatureContainerBase.this.addFeature(marker);
             return null;
         }
 
-        public Void visit(MapLineString lineString, Object... arguments) {
+        public Void visit(MapFactory.MapLineString lineString, Object... arguments) {
             MapFeatureContainerBase.this.addFeature(lineString);
             return null;
         }
 
-        public Void visit(MapPolygon polygon, Object... arguments) {
+        public Void visit(MapFactory.MapPolygon polygon, Object... arguments) {
             MapFeatureContainerBase.this.addFeature(polygon);
             return null;
         }
 
-        public Void visit(MapCircle circle, Object... arguments) {
+        public Void visit(MapFactory.MapCircle circle, Object... arguments) {
             MapFeatureContainerBase.this.addFeature(circle);
             return null;
         }
 
-        public Void visit(MapRectangle rectangle, Object... arguments) {
+        public Void visit(MapFactory.MapRectangle rectangle, Object... arguments) {
             MapFeatureContainerBase.this.addFeature(rectangle);
             return null;
         }
     };
-    protected List<MapFeature> features = new CopyOnWriteArrayList();
+    protected List<MapFactory.MapFeature> features = new CopyOnWriteArrayList();
 
     protected MapFeatureContainerBase(ComponentContainer container) {
         super(container);
@@ -81,15 +74,15 @@ public abstract class MapFeatureContainerBase extends AndroidViewComponent imple
 
     @SimpleProperty
     public void Features(YailList features2) {
-        for (MapFeature feature : this.features) {
+        for (MapFactory.MapFeature feature : this.features) {
             feature.removeFromMap();
         }
         this.features.clear();
         ListIterator<?> it = features2.listIterator(1);
         while (it.hasNext()) {
             Object o = it.next();
-            if (o instanceof MapFeature) {
-                addFeature((MapFeature) o);
+            if (o instanceof MapFactory.MapFeature) {
+                addFeature((MapFactory.MapFeature) o);
             }
         }
         getMap().getView().invalidate();
@@ -101,7 +94,7 @@ public abstract class MapFeatureContainerBase extends AndroidViewComponent imple
     }
 
     @SimpleEvent(description = "The user clicked on a map feature.")
-    public void FeatureClick(MapFeature feature) {
+    public void FeatureClick(MapFactory.MapFeature feature) {
         EventDispatcher.dispatchEvent(this, "FeatureClick", feature);
         if (getMap() != this) {
             getMap().FeatureClick(feature);
@@ -109,7 +102,7 @@ public abstract class MapFeatureContainerBase extends AndroidViewComponent imple
     }
 
     @SimpleEvent(description = "The user long-pressed on a map feature.")
-    public void FeatureLongClick(MapFeature feature) {
+    public void FeatureLongClick(MapFactory.MapFeature feature) {
         EventDispatcher.dispatchEvent(this, "FeatureLongClick", feature);
         if (getMap() != this) {
             getMap().FeatureLongClick(feature);
@@ -117,7 +110,7 @@ public abstract class MapFeatureContainerBase extends AndroidViewComponent imple
     }
 
     @SimpleEvent(description = "The user started dragging a map feature.")
-    public void FeatureStartDrag(MapFeature feature) {
+    public void FeatureStartDrag(MapFactory.MapFeature feature) {
         EventDispatcher.dispatchEvent(this, "FeatureStartDrag", feature);
         if (getMap() != this) {
             getMap().FeatureStartDrag(feature);
@@ -125,7 +118,7 @@ public abstract class MapFeatureContainerBase extends AndroidViewComponent imple
     }
 
     @SimpleEvent(description = "The user dragged a map feature.")
-    public void FeatureDrag(MapFeature feature) {
+    public void FeatureDrag(MapFactory.MapFeature feature) {
         EventDispatcher.dispatchEvent(this, "FeatureDrag", feature);
         if (getMap() != this) {
             getMap().FeatureDrag(feature);
@@ -133,7 +126,7 @@ public abstract class MapFeatureContainerBase extends AndroidViewComponent imple
     }
 
     @SimpleEvent(description = "The user stopped dragging a map feature.")
-    public void FeatureStopDrag(MapFeature feature) {
+    public void FeatureStopDrag(MapFactory.MapFeature feature) {
         EventDispatcher.dispatchEvent(this, "FeatureStopDrag", feature);
         if (getMap() != this) {
             getMap().FeatureStopDrag(feature);
@@ -202,46 +195,46 @@ public abstract class MapFeatureContainerBase extends AndroidViewComponent imple
         throw new UnsupportedOperationException("Map.setChildHeight called");
     }
 
-    public void removeFeature(MapFeature feature) {
+    public void removeFeature(MapFactory.MapFeature feature) {
         this.features.remove(feature);
         getMap().removeFeature(feature);
     }
 
-    public Iterator<MapFeature> iterator() {
+    public Iterator<MapFactory.MapFeature> iterator() {
         return this.features.iterator();
     }
 
-    /* access modifiers changed from: 0000 */
-    public void addFeature(MapMarker marker) {
+    /* access modifiers changed from: package-private */
+    public void addFeature(MapFactory.MapMarker marker) {
         this.features.add(marker);
         getMap().addFeature(marker);
     }
 
-    /* access modifiers changed from: 0000 */
-    public void addFeature(MapLineString polyline) {
+    /* access modifiers changed from: package-private */
+    public void addFeature(MapFactory.MapLineString polyline) {
         this.features.add(polyline);
         getMap().addFeature(polyline);
     }
 
-    /* access modifiers changed from: 0000 */
-    public void addFeature(MapPolygon polygon) {
+    /* access modifiers changed from: package-private */
+    public void addFeature(MapFactory.MapPolygon polygon) {
         this.features.add(polygon);
         getMap().addFeature(polygon);
     }
 
-    /* access modifiers changed from: 0000 */
-    public void addFeature(MapCircle circle) {
+    /* access modifiers changed from: package-private */
+    public void addFeature(MapFactory.MapCircle circle) {
         this.features.add(circle);
         getMap().addFeature(circle);
     }
 
-    /* access modifiers changed from: 0000 */
-    public void addFeature(MapRectangle rectangle) {
+    /* access modifiers changed from: package-private */
+    public void addFeature(MapFactory.MapRectangle rectangle) {
         this.features.add(rectangle);
         getMap().addFeature(rectangle);
     }
 
-    public void addFeature(MapFeature feature) {
+    public void addFeature(MapFactory.MapFeature feature) {
         feature.accept(this.featureAdder, new Object[0]);
     }
 
@@ -259,7 +252,6 @@ public abstract class MapFeatureContainerBase extends AndroidViewComponent imple
     }
 
     private String loadUrl(final String url) {
-        String str = null;
         try {
             URLConnection connection = new URL(url).openConnection();
             connection.connect();
@@ -274,7 +266,7 @@ public abstract class MapFeatureContainerBase extends AndroidViewComponent imple
                         }
                     });
                     conn.disconnect();
-                    return str;
+                    return null;
                 }
             }
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
@@ -295,14 +287,14 @@ public abstract class MapFeatureContainerBase extends AndroidViewComponent imple
                     MapFeatureContainerBase.this.LoadError(url, -1, MapFeatureContainerBase.ERROR_MALFORMED_URL);
                 }
             });
-            return str;
+            return null;
         } catch (IOException e2) {
             $form().runOnUiThread(new Runnable() {
                 public void run() {
                     MapFeatureContainerBase.this.LoadError(url, -2, MapFeatureContainerBase.ERROR_IO_EXCEPTION);
                 }
             });
-            return str;
+            return null;
         }
     }
 

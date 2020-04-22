@@ -52,13 +52,13 @@ class LispIterationFormat extends ReportFormat {
         Format body2 = this.body;
         if (body2 == null) {
             int start2 = start + 1;
-            Object arg = args[start];
-            if (arg instanceof Format) {
-                body2 = (Format) arg;
+            Format body3 = args[start];
+            if (body3 instanceof Format) {
+                body2 = body3;
                 start = start2;
             } else {
                 try {
-                    body2 = new LispFormat(arg.toString());
+                    body2 = new LispFormat(body3.toString());
                     start = start2;
                 } catch (Exception e) {
                     print(dst, "<invalid argument for \"~{~}\" format>");
@@ -70,10 +70,10 @@ class LispIterationFormat extends ReportFormat {
         if (this.seenAt) {
             return format(body2, maxIterations2, args, start, dst, this.seenColon, this.atLeastOnce);
         }
-        Object arg2 = args[start];
-        Object[] curArgs = LispFormat.asArray(arg2);
+        Object arg = args[start];
+        Object[] curArgs = LispFormat.asArray(arg);
         if (curArgs == null) {
-            dst.write("{" + arg2 + "}".toString());
+            dst.write("{" + arg + "}".toString());
         } else {
             format(body2, maxIterations2, curArgs, 0, dst, this.seenColon, this.atLeastOnce);
         }

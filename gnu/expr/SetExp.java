@@ -1,5 +1,9 @@
 package gnu.expr;
 
+import gnu.bytecode.ClassType;
+import gnu.bytecode.CodeAttr;
+import gnu.bytecode.Field;
+import gnu.bytecode.Method;
 import gnu.bytecode.Type;
 import gnu.bytecode.Variable;
 import gnu.kawa.functions.AddOp;
@@ -9,6 +13,7 @@ import gnu.mapping.EnvironmentKey;
 import gnu.mapping.Location;
 import gnu.mapping.OutPort;
 import gnu.mapping.Symbol;
+import gnu.mapping.Values;
 import gnu.math.IntNum;
 
 public class SetExp extends AccessExp {
@@ -146,387 +151,139 @@ public class SetExp extends AccessExp {
         }
     }
 
-    /* JADX WARNING: type inference failed for: r4v3 */
-    /* JADX WARNING: Multi-variable type inference failed */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public void compile(gnu.expr.Compilation r28, gnu.expr.Target r29) {
-        /*
-            r27 = this;
-            r0 = r27
-            gnu.expr.Expression r0 = r0.new_value
-            r24 = r0
-            r0 = r24
-            boolean r0 = r0 instanceof gnu.expr.LambdaExp
-            r24 = r0
-            if (r24 == 0) goto L_0x0025
-            r0 = r29
-            boolean r0 = r0 instanceof gnu.expr.IgnoreTarget
-            r24 = r0
-            if (r24 == 0) goto L_0x0025
-            r0 = r27
-            gnu.expr.Expression r0 = r0.new_value
-            r24 = r0
-            gnu.expr.LambdaExp r24 = (gnu.expr.LambdaExp) r24
-            boolean r24 = r24.getInlineOnly()
-            if (r24 == 0) goto L_0x0025
-        L_0x0024:
-            return
-        L_0x0025:
-            gnu.bytecode.CodeAttr r6 = r28.getCode()
-            boolean r24 = r27.getHasValue()
-            if (r24 == 0) goto L_0x0089
-            r0 = r29
-            boolean r0 = r0 instanceof gnu.expr.IgnoreTarget
-            r24 = r0
-            if (r24 != 0) goto L_0x0089
-            r13 = 1
-        L_0x0038:
-            r22 = 0
-            r0 = r27
-            gnu.expr.Declaration r7 = r0.binding
-            gnu.expr.Expression r8 = r7.getValue()
-            boolean r0 = r8 instanceof gnu.expr.LambdaExp
-            r24 = r0
-            if (r24 == 0) goto L_0x008b
-            gnu.expr.ScopeExp r0 = r7.context
-            r24 = r0
-            r0 = r24
-            boolean r0 = r0 instanceof gnu.expr.ModuleExp
-            r24 = r0
-            if (r24 == 0) goto L_0x008b
-            boolean r24 = r7.ignorable()
-            if (r24 != 0) goto L_0x008b
-            r24 = r8
-            gnu.expr.LambdaExp r24 = (gnu.expr.LambdaExp) r24
-            java.lang.String r24 = r24.getName()
-            if (r24 == 0) goto L_0x008b
-            r0 = r27
-            gnu.expr.Expression r0 = r0.new_value
-            r24 = r0
-            r0 = r24
-            if (r8 != r0) goto L_0x008b
-            r0 = r27
-            gnu.expr.Expression r0 = r0.new_value
-            r24 = r0
-            gnu.expr.LambdaExp r24 = (gnu.expr.LambdaExp) r24
-            r0 = r24
-            r1 = r28
-            r0.compileSetField(r1)
-        L_0x007d:
-            if (r13 == 0) goto L_0x0307
-            if (r22 != 0) goto L_0x0307
-            java.lang.Error r24 = new java.lang.Error
-            java.lang.String r25 = "SetExp.compile: not implemented - return value"
-            r24.<init>(r25)
-            throw r24
-        L_0x0089:
-            r13 = 0
-            goto L_0x0038
-        L_0x008b:
-            boolean r24 = r7.shouldEarlyInit()
-            if (r24 != 0) goto L_0x0097
-            boolean r24 = r7.isAlias()
-            if (r24 == 0) goto L_0x00d6
-        L_0x0097:
-            gnu.expr.ScopeExp r0 = r7.context
-            r24 = r0
-            r0 = r24
-            boolean r0 = r0 instanceof gnu.expr.ModuleExp
-            r24 = r0
-            if (r24 == 0) goto L_0x00d6
-            boolean r24 = r27.isDefining()
-            if (r24 == 0) goto L_0x00d6
-            boolean r24 = r7.ignorable()
-            if (r24 != 0) goto L_0x00d6
-            boolean r24 = r7.shouldEarlyInit()
-            if (r24 == 0) goto L_0x00c2
-            r0 = r27
-            gnu.expr.Expression r0 = r0.new_value
-            r24 = r0
-            r0 = r24
-            r1 = r28
-            gnu.expr.BindingInitializer.create(r7, r0, r1)
-        L_0x00c2:
-            if (r13 == 0) goto L_0x007d
-            r24 = 0
-            gnu.expr.Target r25 = gnu.expr.Target.pushObject
-            r0 = r27
-            r1 = r24
-            r2 = r28
-            r3 = r25
-            r7.load(r0, r1, r2, r3)
-            r22 = 1
-            goto L_0x007d
-        L_0x00d6:
-            r4 = r27
-            gnu.expr.Declaration r15 = r27.contextDecl()
-            boolean r24 = r27.isDefining()
-            if (r24 != 0) goto L_0x00f4
-        L_0x00e2:
-            if (r7 == 0) goto L_0x00f4
-            boolean r24 = r7.isAlias()
-            if (r24 == 0) goto L_0x00f4
-            gnu.expr.Expression r8 = r7.getValue()
-            boolean r0 = r8 instanceof gnu.expr.ReferenceExp
-            r24 = r0
-            if (r24 != 0) goto L_0x010d
-        L_0x00f4:
-            boolean r24 = r7.ignorable()
-            if (r24 == 0) goto L_0x0127
-            r0 = r27
-            gnu.expr.Expression r0 = r0.new_value
-            r24 = r0
-            gnu.expr.Target r25 = gnu.expr.Target.Ignore
-            r0 = r24
-            r1 = r28
-            r2 = r25
-            r0.compile(r1, r2)
-            goto L_0x007d
-        L_0x010d:
-            r16 = r8
-            gnu.expr.ReferenceExp r16 = (gnu.expr.ReferenceExp) r16
-            r0 = r16
-            gnu.expr.Declaration r14 = r0.binding
-            if (r14 == 0) goto L_0x00f4
-            if (r15 == 0) goto L_0x011f
-            boolean r24 = r14.needsContext()
-            if (r24 != 0) goto L_0x00f4
-        L_0x011f:
-            gnu.expr.Declaration r15 = r16.contextDecl()
-            r4 = r16
-            r7 = r14
-            goto L_0x00e2
-        L_0x0127:
-            boolean r24 = r7.isAlias()
-            if (r24 == 0) goto L_0x016d
-            boolean r24 = r27.isDefining()
-            if (r24 == 0) goto L_0x016d
-            r24 = 2
-            gnu.expr.Target r25 = gnu.expr.Target.pushObject
-            r0 = r27
-            r1 = r24
-            r2 = r28
-            r3 = r25
-            r7.load(r0, r1, r2, r3)
-            java.lang.String r24 = "gnu.mapping.IndirectableLocation"
-            gnu.bytecode.ClassType r11 = gnu.bytecode.ClassType.make(r24)
-            r6.emitCheckcast(r11)
-            r0 = r27
-            gnu.expr.Expression r0 = r0.new_value
-            r24 = r0
-            gnu.expr.Target r25 = gnu.expr.Target.pushObject
-            r0 = r24
-            r1 = r28
-            r2 = r25
-            r0.compile(r1, r2)
-            java.lang.String r24 = "setAlias"
-            r25 = 1
-            r0 = r24
-            r1 = r25
-            gnu.bytecode.Method r12 = r11.getDeclaredMethod(r0, r1)
-            r6.emitInvokeVirtual(r12)
-            goto L_0x007d
-        L_0x016d:
-            boolean r24 = r7.isIndirectBinding()
-            if (r24 == 0) goto L_0x01f8
-            r24 = 2
-            gnu.expr.Target r25 = gnu.expr.Target.pushObject
-            r0 = r24
-            r1 = r28
-            r2 = r25
-            r7.load(r4, r0, r1, r2)
-            boolean r24 = r27.isSetIfUnbound()
-            if (r24 == 0) goto L_0x01b7
-            if (r13 == 0) goto L_0x018d
-            r6.emitDup()
-            r22 = 1
-        L_0x018d:
-            r6.pushScope()
-            r6.emitDup()
-            gnu.bytecode.ClassType r24 = gnu.expr.Compilation.typeLocation
-            r0 = r24
-            gnu.bytecode.Variable r20 = r6.addLocal(r0)
-            r0 = r20
-            r6.emitStore(r0)
-            gnu.bytecode.ClassType r24 = gnu.expr.Compilation.typeLocation
-            java.lang.String r25 = "isBound"
-            r26 = 0
-            gnu.bytecode.Method r24 = r24.getDeclaredMethod(r25, r26)
-            r0 = r24
-            r6.emitInvokeVirtual(r0)
-            r6.emitIfIntEqZero()
-            r0 = r20
-            r6.emitLoad(r0)
-        L_0x01b7:
-            r0 = r27
-            gnu.expr.Expression r0 = r0.new_value
-            r24 = r0
-            gnu.expr.Target r25 = gnu.expr.Target.pushObject
-            r0 = r24
-            r1 = r28
-            r2 = r25
-            r0.compile(r1, r2)
-            if (r13 == 0) goto L_0x01d5
-            boolean r24 = r27.isSetIfUnbound()
-            if (r24 != 0) goto L_0x01d5
-            r6.emitDupX()
-            r22 = 1
-        L_0x01d5:
-            java.lang.String r19 = "set"
-            gnu.bytecode.ClassType r24 = gnu.expr.Compilation.typeLocation
-            r25 = 1
-            r0 = r24
-            r1 = r19
-            r2 = r25
-            gnu.bytecode.Method r24 = r0.getDeclaredMethod(r1, r2)
-            r0 = r24
-            r6.emitInvokeVirtual(r0)
-            boolean r24 = r27.isSetIfUnbound()
-            if (r24 == 0) goto L_0x007d
-            r6.emitFi()
-            r6.popScope()
-            goto L_0x007d
-        L_0x01f8:
-            boolean r24 = r7.isSimple()
-            if (r24 == 0) goto L_0x0256
-            gnu.bytecode.Type r21 = r7.getType()
-            gnu.bytecode.Variable r23 = r7.getVariable()
-            if (r23 != 0) goto L_0x020c
-            gnu.bytecode.Variable r23 = r7.allocateVariable(r6)
-        L_0x020c:
-            r0 = r27
-            gnu.expr.Expression r0 = r0.new_value
-            r24 = r0
-            r0 = r24
-            int r9 = canUseInc(r0, r7)
-            r24 = 65536(0x10000, float:9.18355E-41)
-            r0 = r24
-            if (r9 == r0) goto L_0x0239
-            gnu.bytecode.CodeAttr r24 = r28.getCode()
-            short r0 = (short) r9
-            r25 = r0
-            r0 = r24
-            r1 = r23
-            r2 = r25
-            r0.emitInc(r1, r2)
-            if (r13 == 0) goto L_0x007d
-            r0 = r23
-            r6.emitLoad(r0)
-            r22 = 1
-            goto L_0x007d
-        L_0x0239:
-            r0 = r27
-            gnu.expr.Expression r0 = r0.new_value
-            r24 = r0
-            r0 = r24
-            r1 = r28
-            r0.compile(r1, r7)
-            if (r13 == 0) goto L_0x024f
-            r0 = r21
-            r6.emitDup(r0)
-            r22 = 1
-        L_0x024f:
-            r0 = r23
-            r6.emitStore(r0)
-            goto L_0x007d
-        L_0x0256:
-            gnu.expr.ScopeExp r0 = r7.context
-            r24 = r0
-            r0 = r24
-            boolean r0 = r0 instanceof gnu.expr.ClassExp
-            r24 = r0
-            if (r24 == 0) goto L_0x02be
-            gnu.bytecode.Field r0 = r7.field
-            r24 = r0
-            if (r24 != 0) goto L_0x02be
-            r24 = 16
-            r0 = r27
-            r1 = r24
-            boolean r24 = r0.getFlag(r1)
-            if (r24 != 0) goto L_0x02be
-            gnu.expr.ScopeExp r0 = r7.context
-            r24 = r0
-            gnu.expr.ClassExp r24 = (gnu.expr.ClassExp) r24
-            boolean r24 = r24.isMakingClassPair()
-            if (r24 == 0) goto L_0x02be
-            java.lang.String r24 = "set"
-            java.lang.String r25 = r7.getName()
-            java.lang.String r17 = gnu.expr.ClassExp.slotToMethodName(r24, r25)
-            gnu.expr.ScopeExp r5 = r7.context
-            gnu.expr.ClassExp r5 = (gnu.expr.ClassExp) r5
-            gnu.bytecode.ClassType r0 = r5.type
-            r24 = r0
-            r25 = 1
-            r0 = r24
-            r1 = r17
-            r2 = r25
-            gnu.bytecode.Method r18 = r0.getDeclaredMethod(r1, r2)
-            r0 = r28
-            r5.loadHeapFrame(r0)
-            r0 = r27
-            gnu.expr.Expression r0 = r0.new_value
-            r24 = r0
-            r0 = r24
-            r1 = r28
-            r0.compile(r1, r7)
-            if (r13 == 0) goto L_0x02b7
-            r6.emitDupX()
-            r22 = 1
-        L_0x02b7:
-            r0 = r18
-            r6.emitInvoke(r0)
-            goto L_0x007d
-        L_0x02be:
-            gnu.bytecode.Field r10 = r7.field
-            boolean r24 = r10.getStaticFlag()
-            if (r24 != 0) goto L_0x02cb
-            r0 = r28
-            r7.loadOwningObject(r15, r0)
-        L_0x02cb:
-            gnu.bytecode.Type r21 = r10.getType()
-            r0 = r27
-            gnu.expr.Expression r0 = r0.new_value
-            r24 = r0
-            r0 = r24
-            r1 = r28
-            r0.compile(r1, r7)
-            gnu.bytecode.ClassType r24 = r10.getDeclaringClass()
-            r0 = r28
-            r1 = r24
-            r0.usedClass(r1)
-            boolean r24 = r10.getStaticFlag()
-            if (r24 == 0) goto L_0x02fb
-            if (r13 == 0) goto L_0x02f6
-            r0 = r21
-            r6.emitDup(r0)
-            r22 = 1
-        L_0x02f6:
-            r6.emitPutStatic(r10)
-            goto L_0x007d
-        L_0x02fb:
-            if (r13 == 0) goto L_0x0302
-            r6.emitDupX()
-            r22 = 1
-        L_0x0302:
-            r6.emitPutField(r10)
-            goto L_0x007d
-        L_0x0307:
-            if (r13 == 0) goto L_0x0318
-            gnu.bytecode.Type r24 = r27.getType()
-            r0 = r29
-            r1 = r28
-            r2 = r24
-            r0.compileFromStack(r1, r2)
-            goto L_0x0024
-        L_0x0318:
-            gnu.mapping.Values r24 = gnu.mapping.Values.empty
-            r0 = r28
-            r1 = r24
-            r2 = r29
-            r0.compileConstant(r1, r2)
-            goto L_0x0024
-        */
-        throw new UnsupportedOperationException("Method not decompiled: gnu.expr.SetExp.compile(gnu.expr.Compilation, gnu.expr.Target):void");
+    public void compile(Compilation comp, Target target) {
+        if (!(this.new_value instanceof LambdaExp) || !(target instanceof IgnoreTarget) || !((LambdaExp) this.new_value).getInlineOnly()) {
+            CodeAttr code = comp.getCode();
+            boolean needValue = getHasValue() && !(target instanceof IgnoreTarget);
+            boolean valuePushed = false;
+            Declaration decl = this.binding;
+            Expression declValue = decl.getValue();
+            if ((declValue instanceof LambdaExp) && (decl.context instanceof ModuleExp) && !decl.ignorable() && ((LambdaExp) declValue).getName() != null && declValue == this.new_value) {
+                ((LambdaExp) this.new_value).compileSetField(comp);
+            } else if ((decl.shouldEarlyInit() || decl.isAlias()) && (decl.context instanceof ModuleExp) && isDefining() && !decl.ignorable()) {
+                if (decl.shouldEarlyInit()) {
+                    BindingInitializer.create(decl, this.new_value, comp);
+                }
+                if (needValue) {
+                    decl.load(this, 0, comp, Target.pushObject);
+                    valuePushed = true;
+                }
+            } else {
+                AccessExp access = this;
+                Declaration owner = contextDecl();
+                if (!isDefining()) {
+                    while (decl != null && decl.isAlias()) {
+                        Expression declValue2 = decl.getValue();
+                        if (declValue2 instanceof ReferenceExp) {
+                            ReferenceExp rexp = (ReferenceExp) declValue2;
+                            Declaration orig = rexp.binding;
+                            if (orig == null || (owner != null && orig.needsContext())) {
+                                break;
+                            }
+                            owner = rexp.contextDecl();
+                            access = rexp;
+                            decl = orig;
+                        } else {
+                            break;
+                        }
+                    }
+                }
+                if (decl.ignorable()) {
+                    this.new_value.compile(comp, Target.Ignore);
+                } else if (decl.isAlias() && isDefining()) {
+                    decl.load(this, 2, comp, Target.pushObject);
+                    ClassType locType = ClassType.make("gnu.mapping.IndirectableLocation");
+                    code.emitCheckcast(locType);
+                    this.new_value.compile(comp, Target.pushObject);
+                    code.emitInvokeVirtual(locType.getDeclaredMethod("setAlias", 1));
+                } else if (decl.isIndirectBinding()) {
+                    decl.load(access, 2, comp, Target.pushObject);
+                    if (isSetIfUnbound()) {
+                        if (needValue) {
+                            code.emitDup();
+                            valuePushed = true;
+                        }
+                        code.pushScope();
+                        code.emitDup();
+                        Variable symLoc = code.addLocal(Compilation.typeLocation);
+                        code.emitStore(symLoc);
+                        code.emitInvokeVirtual(Compilation.typeLocation.getDeclaredMethod("isBound", 0));
+                        code.emitIfIntEqZero();
+                        code.emitLoad(symLoc);
+                    }
+                    this.new_value.compile(comp, Target.pushObject);
+                    if (needValue && !isSetIfUnbound()) {
+                        code.emitDupX();
+                        valuePushed = true;
+                    }
+                    code.emitInvokeVirtual(Compilation.typeLocation.getDeclaredMethod("set", 1));
+                    if (isSetIfUnbound()) {
+                        code.emitFi();
+                        code.popScope();
+                    }
+                } else if (decl.isSimple()) {
+                    Type type = decl.getType();
+                    Variable var = decl.getVariable();
+                    if (var == null) {
+                        var = decl.allocateVariable(code);
+                    }
+                    int delta = canUseInc(this.new_value, decl);
+                    if (delta != 65536) {
+                        comp.getCode().emitInc(var, (short) delta);
+                        if (needValue) {
+                            code.emitLoad(var);
+                            valuePushed = true;
+                        }
+                    } else {
+                        this.new_value.compile(comp, decl);
+                        if (needValue) {
+                            code.emitDup(type);
+                            valuePushed = true;
+                        }
+                        code.emitStore(var);
+                    }
+                } else if (!(decl.context instanceof ClassExp) || decl.field != null || getFlag(16) || !((ClassExp) decl.context).isMakingClassPair()) {
+                    Field field = decl.field;
+                    if (!field.getStaticFlag()) {
+                        decl.loadOwningObject(owner, comp);
+                    }
+                    Type type2 = field.getType();
+                    this.new_value.compile(comp, decl);
+                    comp.usedClass(field.getDeclaringClass());
+                    if (field.getStaticFlag()) {
+                        if (needValue) {
+                            code.emitDup(type2);
+                            valuePushed = true;
+                        }
+                        code.emitPutStatic(field);
+                    } else {
+                        if (needValue) {
+                            code.emitDupX();
+                            valuePushed = true;
+                        }
+                        code.emitPutField(field);
+                    }
+                } else {
+                    String setName = ClassExp.slotToMethodName("set", decl.getName());
+                    ClassExp cl = (ClassExp) decl.context;
+                    Method setter = cl.type.getDeclaredMethod(setName, 1);
+                    cl.loadHeapFrame(comp);
+                    this.new_value.compile(comp, decl);
+                    if (needValue) {
+                        code.emitDupX();
+                        valuePushed = true;
+                    }
+                    code.emitInvoke(setter);
+                }
+            }
+            if (needValue && !valuePushed) {
+                throw new Error("SetExp.compile: not implemented - return value");
+            } else if (needValue) {
+                target.compileFromStack(comp, getType());
+            } else {
+                comp.compileConstant(Values.empty, target);
+            }
+        }
     }
 
     public static int canUseInc(Expression rhs, Declaration target) {

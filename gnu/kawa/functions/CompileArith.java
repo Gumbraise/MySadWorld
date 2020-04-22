@@ -1,14 +1,20 @@
 package gnu.kawa.functions;
 
 import gnu.bytecode.ClassType;
+import gnu.bytecode.CodeAttr;
+import gnu.bytecode.Method;
 import gnu.bytecode.PrimType;
 import gnu.bytecode.Type;
 import gnu.expr.ApplyExp;
+import gnu.expr.Compilation;
 import gnu.expr.Expression;
+import gnu.expr.IgnoreTarget;
 import gnu.expr.InlineCalls;
 import gnu.expr.Inlineable;
 import gnu.expr.PrimProcedure;
 import gnu.expr.QuoteExp;
+import gnu.expr.StackTarget;
+import gnu.expr.Target;
 import gnu.kawa.lispexpr.LangObjType;
 import gnu.kawa.lispexpr.LangPrimType;
 import gnu.mapping.Procedure;
@@ -17,14 +23,12 @@ import gnu.math.IntNum;
 public class CompileArith implements Inlineable {
     public static CompileArith $Mn = new CompileArith(AddOp.$Mn, 2);
     public static CompileArith $Pl = new CompileArith(AddOp.$Pl, 1);
-
-    /* renamed from: op */
-    int f59op;
+    int op;
     Procedure proc;
 
-    CompileArith(Object proc2, int op) {
+    CompileArith(Object proc2, int op2) {
         this.proc = (Procedure) proc2;
-        this.f59op = op;
+        this.op = op2;
     }
 
     public static CompileArith forMul(Object proc2) {
@@ -32,11 +36,11 @@ public class CompileArith implements Inlineable {
     }
 
     public static CompileArith forDiv(Object proc2) {
-        return new CompileArith(proc2, ((DivideOp) proc2).f58op);
+        return new CompileArith(proc2, ((DivideOp) proc2).op);
     }
 
     public static CompileArith forBitwise(Object proc2) {
-        return new CompileArith(proc2, ((BitwiseOp) proc2).f58op);
+        return new CompileArith(proc2, ((BitwiseOp) proc2).op);
     }
 
     public static boolean appropriateIntConstant(Expression[] args, int iarg, InlineCalls visitor) {
@@ -59,7 +63,7 @@ public class CompileArith implements Inlineable {
 
     public static Expression validateApplyArithOp(ApplyExp exp, InlineCalls visitor, Type required, Procedure proc2) {
         int rkind;
-        int op = ((ArithOp) proc2).f58op;
+        int op2 = ((ArithOp) proc2).op;
         exp.visitArgs(visitor);
         Expression[] args = exp.getArgs();
         if (args.length > 2) {
@@ -72,11 +76,11 @@ public class CompileArith implements Inlineable {
         int rkind2 = 0;
         if (args.length == 2 || args.length == 1) {
             int kind1 = Arithmetic.classifyType(args[0].getType());
-            if (args.length != 2 || (op >= 9 && op <= 12)) {
+            if (args.length != 2 || (op2 >= 9 && op2 <= 12)) {
                 rkind = kind1;
             } else {
                 int kind2 = Arithmetic.classifyType(args[1].getType());
-                rkind = getReturnKind(kind1, kind2, op);
+                rkind = getReturnKind(kind1, kind2, op2);
                 if (rkind == 4) {
                     if (kind1 == 1 && appropriateIntConstant(args, 1, visitor)) {
                         rkind = 1;
@@ -89,13 +93,13 @@ public class CompileArith implements Inlineable {
                     }
                 }
             }
-            rkind2 = adjustReturnKind(rkind, op);
+            rkind2 = adjustReturnKind(rkind, op2);
             exp.setType(Arithmetic.kindType(rkind2));
         }
         if (!visitor.getCompilation().mustCompile) {
             return exp;
         }
-        switch (op) {
+        switch (op2) {
             case 1:
             case 2:
                 return validateApplyAdd((AddOp) proc2, exp, visitor);
@@ -115,404 +119,96 @@ public class CompileArith implements Inlineable {
         }
     }
 
-    /* JADX WARNING: type inference failed for: r21v0, types: [gnu.bytecode.Type] */
-    /* JADX WARNING: type inference failed for: r23v0, types: [gnu.bytecode.PrimType] */
-    /* JADX WARNING: type inference failed for: r23v1 */
-    /* JADX WARNING: type inference failed for: r23v2, types: [gnu.bytecode.PrimType] */
-    /* JADX WARNING: type inference failed for: r23v3, types: [gnu.bytecode.PrimType] */
-    /* JADX WARNING: type inference failed for: r23v4, types: [gnu.bytecode.PrimType] */
-    /* JADX WARNING: type inference failed for: r23v5, types: [gnu.bytecode.Type] */
-    /* JADX WARNING: type inference failed for: r23v6 */
-    /* JADX WARNING: type inference failed for: r2v0, types: [gnu.bytecode.Type] */
-    /* JADX WARNING: type inference failed for: r23v7, types: [gnu.bytecode.Type] */
-    /* JADX WARNING: type inference failed for: r23v8 */
-    /* JADX WARNING: type inference failed for: r23v9, types: [gnu.kawa.lispexpr.LangObjType] */
-    /* JADX WARNING: type inference failed for: r23v10, types: [gnu.bytecode.PrimType] */
-    /* JADX WARNING: type inference failed for: r23v11, types: [gnu.bytecode.PrimType] */
-    /* JADX WARNING: type inference failed for: r23v12 */
-    /* JADX WARNING: type inference failed for: r23v13 */
-    /* JADX WARNING: type inference failed for: r23v14 */
-    /* JADX WARNING: type inference failed for: r23v15 */
-    /* JADX WARNING: type inference failed for: r23v16 */
-    /* JADX WARNING: type inference failed for: r23v17 */
-    /* JADX WARNING: type inference failed for: r23v18 */
-    /* JADX WARNING: type inference failed for: r23v19 */
-    /* JADX WARNING: type inference failed for: r23v20 */
-    /* JADX WARNING: type inference failed for: r23v21 */
-    /* JADX WARNING: Multi-variable type inference failed */
-    /* JADX WARNING: Unknown variable types count: 12 */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public void compile(gnu.expr.ApplyExp r25, gnu.expr.Compilation r26, gnu.expr.Target r27) {
-        /*
-            r24 = this;
-            gnu.expr.Expression[] r9 = r25.getArgs()
-            int r15 = r9.length
-            if (r15 != 0) goto L_0x0019
-            r0 = r24
-            gnu.mapping.Procedure r3 = r0.proc
-            gnu.kawa.functions.ArithOp r3 = (gnu.kawa.functions.ArithOp) r3
-            java.lang.Object r3 = r3.defaultResult()
-            r0 = r26
-            r1 = r27
-            r0.compileConstant(r3, r1)
-        L_0x0018:
-            return
-        L_0x0019:
-            r3 = 1
-            if (r15 == r3) goto L_0x0022
-            r0 = r27
-            boolean r3 = r0 instanceof gnu.expr.IgnoreTarget
-            if (r3 == 0) goto L_0x0026
-        L_0x0022:
-            gnu.expr.ApplyExp.compile(r25, r26, r27)
-            goto L_0x0018
-        L_0x0026:
-            r3 = 0
-            r3 = r9[r3]
-            gnu.bytecode.Type r3 = r3.getType()
-            int r6 = gnu.kawa.functions.Arithmetic.classifyType(r3)
-            r3 = 1
-            r3 = r9[r3]
-            gnu.bytecode.Type r3 = r3.getType()
-            int r7 = gnu.kawa.functions.Arithmetic.classifyType(r3)
-            r0 = r24
-            int r3 = r0.f59op
-            int r14 = getReturnKind(r6, r7, r3)
-            gnu.bytecode.Type r21 = gnu.kawa.functions.Arithmetic.kindType(r14)
-            if (r14 == 0) goto L_0x004d
-            r3 = 2
-            if (r15 == r3) goto L_0x0051
-        L_0x004d:
-            gnu.expr.ApplyExp.compile(r25, r26, r27)
-            goto L_0x0018
-        L_0x0051:
-            gnu.bytecode.Type r19 = r27.getType()
-            int r20 = gnu.kawa.functions.Arithmetic.classifyType(r19)
-            r3 = 1
-            r0 = r20
-            if (r0 == r3) goto L_0x0063
-            r3 = 2
-            r0 = r20
-            if (r0 != r3) goto L_0x00eb
-        L_0x0063:
-            r3 = 1
-            if (r14 < r3) goto L_0x00eb
-            r3 = 4
-            if (r14 > r3) goto L_0x00eb
-            r14 = r20
-            r3 = 1
-            r0 = r20
-            if (r0 != r3) goto L_0x00e8
-            gnu.bytecode.PrimType r23 = gnu.kawa.lispexpr.LangPrimType.intType
-        L_0x0072:
-            r0 = r24
-            int r3 = r0.f59op
-            r4 = 4
-            if (r3 < r4) goto L_0x0096
-            r0 = r24
-            int r3 = r0.f59op
-            r4 = 8
-            if (r3 > r4) goto L_0x0096
-            r0 = r24
-            gnu.mapping.Procedure r12 = r0.proc
-            gnu.kawa.functions.DivideOp r12 = (gnu.kawa.functions.DivideOp) r12
-            int r3 = r12.f58op
-            r4 = 4
-            if (r3 != r4) goto L_0x0124
-            r3 = 4
-            if (r14 <= r3) goto L_0x0096
-            r3 = 6
-            if (r14 >= r3) goto L_0x0096
-            r3 = 9
-            if (r14 > r3) goto L_0x0124
-        L_0x0096:
-            r0 = r24
-            int r3 = r0.f59op
-            r4 = 4
-            if (r3 != r4) goto L_0x0181
-            r3 = 10
-            if (r14 > r3) goto L_0x0181
-            r3 = 8
-            if (r14 == r3) goto L_0x0181
-            r3 = 7
-            if (r14 == r3) goto L_0x0181
-            r3 = 6
-            if (r14 == r3) goto L_0x00ae
-            r3 = 4
-            if (r14 <= r3) goto L_0x0174
-        L_0x00ae:
-            r3 = 6
-            if (r14 != r3) goto L_0x0170
-            gnu.kawa.lispexpr.LangObjType r11 = gnu.kawa.functions.Arithmetic.typeRatNum
-        L_0x00b3:
-            r23 = r11
-            java.lang.String r3 = "divide"
-            r4 = 2
-            gnu.bytecode.Method r17 = r11.getDeclaredMethod(r3, r4)
-        L_0x00bc:
-            gnu.expr.Target r22 = gnu.expr.StackTarget.getInstance(r23)
-            r3 = 0
-            r3 = r9[r3]
-            r0 = r26
-            r1 = r22
-            r3.compile(r0, r1)
-            r3 = 1
-            r3 = r9[r3]
-            r0 = r26
-            r1 = r22
-            r3.compile(r0, r1)
-            gnu.bytecode.CodeAttr r3 = r26.getCode()
-            r0 = r17
-            r3.emitInvokeStatic(r0)
-        L_0x00dd:
-            r0 = r27
-            r1 = r26
-            r2 = r23
-            r0.compileFromStack(r1, r2)
-            goto L_0x0018
-        L_0x00e8:
-            gnu.bytecode.PrimType r23 = gnu.kawa.lispexpr.LangPrimType.longType
-            goto L_0x0072
-        L_0x00eb:
-            r3 = 8
-            r0 = r20
-            if (r0 == r3) goto L_0x00f6
-            r3 = 7
-            r0 = r20
-            if (r0 != r3) goto L_0x010b
-        L_0x00f6:
-            r3 = 2
-            if (r14 <= r3) goto L_0x010b
-            r3 = 10
-            if (r14 > r3) goto L_0x010b
-            r14 = r20
-            r3 = 7
-            r0 = r20
-            if (r0 != r3) goto L_0x0108
-            gnu.bytecode.PrimType r23 = gnu.kawa.lispexpr.LangPrimType.floatType
-        L_0x0106:
-            goto L_0x0072
-        L_0x0108:
-            gnu.bytecode.PrimType r23 = gnu.kawa.lispexpr.LangPrimType.doubleType
-            goto L_0x0106
-        L_0x010b:
-            r3 = 7
-            if (r14 != r3) goto L_0x0112
-            gnu.bytecode.PrimType r23 = gnu.kawa.lispexpr.LangPrimType.floatType
-            goto L_0x0072
-        L_0x0112:
-            r3 = 8
-            if (r14 == r3) goto L_0x011a
-            r3 = 9
-            if (r14 != r3) goto L_0x0120
-        L_0x011a:
-            r14 = 8
-            gnu.bytecode.PrimType r23 = gnu.kawa.lispexpr.LangPrimType.doubleType
-            goto L_0x0072
-        L_0x0120:
-            r23 = r21
-            goto L_0x0072
-        L_0x0124:
-            int r3 = r12.f58op
-            r4 = 5
-            if (r3 != r4) goto L_0x0130
-            r3 = 10
-            if (r14 > r3) goto L_0x0130
-            r3 = 7
-            if (r14 != r3) goto L_0x0139
-        L_0x0130:
-            int r3 = r12.f58op
-            r4 = 4
-            if (r3 != r4) goto L_0x013d
-            r3 = 10
-            if (r14 != r3) goto L_0x013d
-        L_0x0139:
-            r14 = 8
-            goto L_0x0096
-        L_0x013d:
-            int r3 = r12.f58op
-            r4 = 7
-            if (r3 == r4) goto L_0x014a
-            int r3 = r12.f58op
-            r4 = 6
-            if (r3 != r4) goto L_0x015b
-            r3 = 4
-            if (r14 > r3) goto L_0x015b
-        L_0x014a:
-            int r3 = r12.getRoundingMode()
-            r4 = 3
-            if (r3 == r4) goto L_0x0096
-            r3 = 4
-            if (r14 == r3) goto L_0x0096
-            r3 = 7
-            if (r14 == r3) goto L_0x0096
-            r3 = 8
-            if (r14 == r3) goto L_0x0096
-        L_0x015b:
-            int r3 = r12.f58op
-            r4 = 8
-            if (r3 != r4) goto L_0x016b
-            int r3 = r12.getRoundingMode()
-            r4 = 3
-            if (r3 == r4) goto L_0x0096
-            r3 = 4
-            if (r14 == r3) goto L_0x0096
-        L_0x016b:
-            gnu.expr.ApplyExp.compile(r25, r26, r27)
-            goto L_0x0018
-        L_0x0170:
-            gnu.kawa.lispexpr.LangObjType r11 = gnu.kawa.functions.Arithmetic.typeRealNum
-            goto L_0x00b3
-        L_0x0174:
-            gnu.kawa.lispexpr.LangObjType r23 = gnu.kawa.functions.Arithmetic.typeIntNum
-            gnu.kawa.lispexpr.LangObjType r3 = gnu.kawa.functions.Arithmetic.typeRatNum
-            java.lang.String r4 = "make"
-            r5 = 2
-            gnu.bytecode.Method r17 = r3.getDeclaredMethod(r4, r5)
-            goto L_0x00bc
-        L_0x0181:
-            r3 = 4
-            if (r14 != r3) goto L_0x01df
-            r0 = r24
-            int r3 = r0.f59op
-            r4 = 1
-            if (r3 == r4) goto L_0x01d0
-            r0 = r24
-            int r3 = r0.f59op
-            r4 = 3
-            if (r3 == r4) goto L_0x01d0
-            r0 = r24
-            int r3 = r0.f59op
-            r4 = 2
-            if (r3 == r4) goto L_0x01d0
-            r0 = r24
-            int r3 = r0.f59op
-            r4 = 13
-            if (r3 == r4) goto L_0x01d0
-            r0 = r24
-            int r3 = r0.f59op
-            r4 = 14
-            if (r3 == r4) goto L_0x01d0
-            r0 = r24
-            int r3 = r0.f59op
-            r4 = 15
-            if (r3 == r4) goto L_0x01d0
-            r0 = r24
-            int r3 = r0.f59op
-            r4 = 7
-            if (r3 == r4) goto L_0x01d0
-            r0 = r24
-            int r3 = r0.f59op
-            r4 = 8
-            if (r3 == r4) goto L_0x01d0
-            r0 = r24
-            int r3 = r0.f59op
-            r4 = 9
-            if (r3 < r4) goto L_0x01df
-            r0 = r24
-            int r3 = r0.f59op
-            r4 = 11
-            if (r3 > r4) goto L_0x01df
-        L_0x01d0:
-            r3 = 0
-            r4 = r9[r3]
-            r3 = 1
-            r5 = r9[r3]
-            r3 = r24
-            r8 = r26
-            r3.compileIntNum(r4, r5, r6, r7, r8)
-            goto L_0x00dd
-        L_0x01df:
-            r3 = 1
-            if (r14 == r3) goto L_0x01fc
-            r3 = 2
-            if (r14 == r3) goto L_0x01fc
-            r3 = 7
-            if (r14 == r3) goto L_0x01ec
-            r3 = 8
-            if (r14 != r3) goto L_0x0269
-        L_0x01ec:
-            r0 = r24
-            int r3 = r0.f59op
-            r4 = 8
-            if (r3 <= r4) goto L_0x01fc
-            r0 = r24
-            int r3 = r0.f59op
-            r4 = 13
-            if (r3 < r4) goto L_0x0269
-        L_0x01fc:
-            gnu.expr.Target r22 = gnu.expr.StackTarget.getInstance(r23)
-            gnu.bytecode.CodeAttr r10 = r26.getCode()
-            r13 = 0
-        L_0x0205:
-            if (r13 >= r15) goto L_0x00dd
-            r3 = 1
-            if (r13 != r3) goto L_0x0220
-            r0 = r24
-            int r3 = r0.f59op
-            r4 = 9
-            if (r3 < r4) goto L_0x0220
-            r0 = r24
-            int r3 = r0.f59op
-            r4 = 12
-            if (r3 > r4) goto L_0x0220
-            gnu.bytecode.PrimType r3 = gnu.bytecode.Type.intType
-            gnu.expr.Target r22 = gnu.expr.StackTarget.getInstance(r3)
-        L_0x0220:
-            r3 = r9[r13]
-            r0 = r26
-            r1 = r22
-            r3.compile(r0, r1)
-            if (r13 != 0) goto L_0x022e
-        L_0x022b:
-            int r13 = r13 + 1
-            goto L_0x0205
-        L_0x022e:
-            switch(r14) {
-                case 1: goto L_0x0232;
-                case 2: goto L_0x0232;
-                case 3: goto L_0x0231;
-                case 4: goto L_0x0231;
-                case 5: goto L_0x0231;
-                case 6: goto L_0x0231;
-                case 7: goto L_0x0232;
-                case 8: goto L_0x0232;
-                default: goto L_0x0231;
+    public void compile(ApplyExp exp, Compilation comp, Target target) {
+        Type wtype;
+        Type wtype2;
+        Method meth;
+        Expression[] args = exp.getArgs();
+        int len = args.length;
+        if (len == 0) {
+            comp.compileConstant(((ArithOp) this.proc).defaultResult(), target);
+        } else if (len == 1 || (target instanceof IgnoreTarget)) {
+            ApplyExp.compile(exp, comp, target);
+        } else {
+            int kind1 = Arithmetic.classifyType(args[0].getType());
+            int kind2 = Arithmetic.classifyType(args[1].getType());
+            int kind = getReturnKind(kind1, kind2, this.op);
+            Type type = Arithmetic.kindType(kind);
+            if (kind == 0 || len != 2) {
+                ApplyExp.compile(exp, comp, target);
+                return;
             }
-        L_0x0231:
-            goto L_0x022b
-        L_0x0232:
-            r0 = r24
-            int r3 = r0.f59op
-            r4 = 9
-            if (r3 != r4) goto L_0x025b
-            r3 = 2
-            gnu.bytecode.Type[] r0 = new gnu.bytecode.Type[r3]
-            r16 = r0
-            r3 = 0
-            r16[r3] = r23
-            r3 = 1
-            gnu.bytecode.PrimType r4 = gnu.bytecode.Type.intType
-            r16[r3] = r4
-            java.lang.String r3 = "gnu.math.IntNum"
-            gnu.bytecode.ClassType r3 = gnu.bytecode.ClassType.make(r3)
-            java.lang.String r4 = "shift"
-            r0 = r16
-            gnu.bytecode.Method r18 = r3.getDeclaredMethod(r4, r0)
-            r0 = r18
-            r10.emitInvokeStatic(r0)
-            goto L_0x022b
-        L_0x025b:
-            int r4 = r24.primitiveOpcode()
-            gnu.bytecode.Type r3 = r23.getImplementationType()
-            gnu.bytecode.PrimType r3 = (gnu.bytecode.PrimType) r3
-            r10.emitBinop(r4, r3)
-            goto L_0x022b
-        L_0x0269:
-            gnu.expr.ApplyExp.compile(r25, r26, r27)
-            goto L_0x0018
-        */
-        throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.functions.CompileArith.compile(gnu.expr.ApplyExp, gnu.expr.Compilation, gnu.expr.Target):void");
+            int tkind = Arithmetic.classifyType(target.getType());
+            if ((tkind == 1 || tkind == 2) && kind >= 1 && kind <= 4) {
+                kind = tkind;
+                wtype = tkind == 1 ? LangPrimType.intType : LangPrimType.longType;
+            } else if ((tkind == 8 || tkind == 7) && kind > 2 && kind <= 10) {
+                kind = tkind;
+                wtype = tkind == 7 ? LangPrimType.floatType : LangPrimType.doubleType;
+            } else if (kind == 7) {
+                wtype = LangPrimType.floatType;
+            } else if (kind == 8 || kind == 9) {
+                kind = 8;
+                wtype = LangPrimType.doubleType;
+            } else {
+                wtype = type;
+            }
+            if (this.op >= 4 && this.op <= 8) {
+                DivideOp dproc = (DivideOp) this.proc;
+                if (dproc.op != 4 || (kind > 4 && kind < 6 && kind > 9)) {
+                    if ((dproc.op == 5 && kind <= 10 && kind != 7) || (dproc.op == 4 && kind == 10)) {
+                        kind = 8;
+                    } else if (((dproc.op != 7 && (dproc.op != 6 || kind > 4)) || !(dproc.getRoundingMode() == 3 || kind == 4 || kind == 7 || kind == 8)) && !(dproc.op == 8 && (dproc.getRoundingMode() == 3 || kind == 4))) {
+                        ApplyExp.compile(exp, comp, target);
+                        return;
+                    }
+                }
+            }
+            if (this.op == 4 && kind <= 10 && kind != 8 && kind != 7) {
+                if (kind == 6 || kind > 4) {
+                    LangObjType ctype = kind == 6 ? Arithmetic.typeRatNum : Arithmetic.typeRealNum;
+                    wtype2 = ctype;
+                    meth = ctype.getDeclaredMethod("divide", 2);
+                } else {
+                    wtype2 = Arithmetic.typeIntNum;
+                    meth = Arithmetic.typeRatNum.getDeclaredMethod("make", 2);
+                }
+                Target wtarget = StackTarget.getInstance(wtype2);
+                args[0].compile(comp, wtarget);
+                args[1].compile(comp, wtarget);
+                comp.getCode().emitInvokeStatic(meth);
+            } else if (kind == 4 && (this.op == 1 || this.op == 3 || this.op == 2 || this.op == 13 || this.op == 14 || this.op == 15 || this.op == 7 || this.op == 8 || (this.op >= 9 && this.op <= 11))) {
+                compileIntNum(args[0], args[1], kind1, kind2, comp);
+            } else if (kind == 1 || kind == 2 || ((kind == 7 || kind == 8) && (this.op <= 8 || this.op >= 13))) {
+                Target wtarget2 = StackTarget.getInstance(wtype2);
+                CodeAttr code = comp.getCode();
+                for (int i = 0; i < len; i++) {
+                    if (i == 1 && this.op >= 9 && this.op <= 12) {
+                        wtarget2 = StackTarget.getInstance(Type.intType);
+                    }
+                    args[i].compile(comp, wtarget2);
+                    if (i != 0) {
+                        switch (kind) {
+                            case 1:
+                            case 2:
+                            case 7:
+                            case 8:
+                                if (this.op != 9) {
+                                    code.emitBinop(primitiveOpcode(), (Type) (PrimType) wtype2.getImplementationType());
+                                    break;
+                                } else {
+                                    code.emitInvokeStatic(ClassType.make("gnu.math.IntNum").getDeclaredMethod("shift", new Type[]{wtype2, Type.intType}));
+                                    break;
+                                }
+                        }
+                    }
+                }
+            } else {
+                ApplyExp.compile(exp, comp, target);
+                return;
+            }
+            target.compileFromStack(comp, wtype2);
+        }
     }
 
     /* JADX WARNING: Code restructure failed: missing block: B:65:0x011f, code lost:
@@ -547,7 +243,7 @@ public class CompileArith implements Inlineable {
         /*
             r25 = this;
             r0 = r25
-            int r4 = r0.f59op
+            int r4 = r0.op
             r5 = 2
             if (r4 != r5) goto L_0x0069
             r0 = r27
@@ -601,11 +297,11 @@ public class CompileArith implements Inlineable {
             goto L_0x002c
         L_0x0069:
             r0 = r25
-            int r4 = r0.f59op
+            int r4 = r0.op
             r5 = 1
             if (r4 == r5) goto L_0x0077
             r0 = r25
-            int r4 = r0.f59op
+            int r4 = r0.op
             r5 = 3
             if (r4 != r5) goto L_0x00b5
         L_0x0077:
@@ -662,11 +358,11 @@ public class CompileArith implements Inlineable {
             r0 = r26
             r1 = r30
             r2 = r22
-            r0.compile(r1, r2)
+            r0.compile((gnu.expr.Compilation) r1, (gnu.bytecode.Type) r2)
             r0 = r27
             r1 = r30
             r2 = r23
-            r0.compile(r1, r2)
+            r0.compile((gnu.expr.Compilation) r1, (gnu.bytecode.Type) r2)
             gnu.bytecode.CodeAttr r12 = r30.getCode()
             if (r21 == 0) goto L_0x00e7
             r12.emitSwap()
@@ -677,7 +373,7 @@ public class CompileArith implements Inlineable {
             r11 = 0
             gnu.kawa.lispexpr.LangObjType r15 = gnu.kawa.functions.Arithmetic.typeIntNum
             r0 = r25
-            int r4 = r0.f59op
+            int r4 = r0.op
             switch(r4) {
                 case 1: goto L_0x011d;
                 case 2: goto L_0x0138;
@@ -708,11 +404,11 @@ public class CompileArith implements Inlineable {
             goto L_0x00c8
         L_0x00ff:
             r0 = r25
-            int r4 = r0.f59op
+            int r4 = r0.op
             r5 = 9
             if (r4 < r5) goto L_0x0116
             r0 = r25
-            int r4 = r0.f59op
+            int r4 = r0.op
             r5 = 12
             if (r4 > r5) goto L_0x0116
             gnu.kawa.lispexpr.LangObjType r22 = gnu.kawa.functions.Arithmetic.typeIntNum
@@ -761,7 +457,7 @@ public class CompileArith implements Inlineable {
             goto L_0x011f
         L_0x014f:
             r0 = r25
-            int r4 = r0.f59op
+            int r4 = r0.op
             r5 = 8
             if (r4 != r5) goto L_0x016f
             java.lang.String r19 = "remainder"
@@ -770,7 +466,7 @@ public class CompileArith implements Inlineable {
             gnu.mapping.Procedure r13 = r0.proc
             gnu.kawa.functions.DivideOp r13 = (gnu.kawa.functions.DivideOp) r13
             r0 = r25
-            int r4 = r0.f59op
+            int r4 = r0.op
             r5 = 8
             if (r4 != r5) goto L_0x0172
             int r4 = r13.rounding_mode
@@ -799,7 +495,7 @@ public class CompileArith implements Inlineable {
             goto L_0x011f
         L_0x018b:
             r0 = r25
-            int r4 = r0.f59op
+            int r4 = r0.op
             r5 = 10
             if (r4 != r5) goto L_0x019c
             java.lang.String r19 = "shiftLeft"
@@ -817,8 +513,8 @@ public class CompileArith implements Inlineable {
         throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.functions.CompileArith.compileIntNum(gnu.expr.Expression, gnu.expr.Expression, int, int, gnu.expr.Compilation):boolean");
     }
 
-    public static int getReturnKind(int kind1, int kind2, int op) {
-        if (op >= 9 && op <= 12) {
+    public static int getReturnKind(int kind1, int kind2, int op2) {
+        if (op2 >= 9 && op2 <= 12) {
             return kind1;
         }
         if (kind1 <= 0 || (kind1 > kind2 && kind2 > 0)) {
@@ -844,14 +540,14 @@ public class CompileArith implements Inlineable {
     }
 
     public Type getReturnType(Expression[] args) {
-        return Arithmetic.kindType(adjustReturnKind(getReturnKind(args), this.f59op));
+        return Arithmetic.kindType(adjustReturnKind(getReturnKind(args), this.op));
     }
 
-    static int adjustReturnKind(int rkind, int op) {
-        if (op < 4 || op > 7 || rkind <= 0) {
+    static int adjustReturnKind(int rkind, int op2) {
+        if (op2 < 4 || op2 > 7 || rkind <= 0) {
             return rkind;
         }
-        switch (op) {
+        switch (op2) {
             case 4:
                 if (rkind <= 4) {
                     return 6;
@@ -922,7 +618,7 @@ public class CompileArith implements Inlineable {
         }
         Expression arg = exp.getArg(0);
         if (kind == 1 || kind == 2) {
-            return visitor.visitApplyOnly(new ApplyExp((Procedure) BitwiseOp.xor, arg, QuoteExp.getInstance(IntNum.minusOne())), null);
+            return visitor.visitApplyOnly(new ApplyExp((Procedure) BitwiseOp.xor, arg, QuoteExp.getInstance(IntNum.minusOne())), (Type) null);
         }
         if (kind == 4) {
             cname = "gnu.math.BitOps";
@@ -944,7 +640,7 @@ public class CompileArith implements Inlineable {
     }
 
     public int primitiveOpcode() {
-        switch (this.f59op) {
+        switch (this.op) {
             case 1:
                 return 96;
             case 2:
@@ -975,73 +671,19 @@ public class CompileArith implements Inlineable {
         }
     }
 
-    /* JADX WARNING: type inference failed for: r11v0, types: [gnu.expr.Expression[]] */
-    /* JADX WARNING: type inference failed for: r5v0 */
-    /* JADX WARNING: type inference failed for: r5v1, types: [gnu.expr.Expression] */
-    /* JADX WARNING: type inference failed for: r0v0, types: [gnu.expr.Expression[]] */
-    /* JADX WARNING: type inference failed for: r7v0 */
-    /* JADX WARNING: type inference failed for: r4v0, types: [gnu.expr.ApplyExp] */
-    /* JADX WARNING: type inference failed for: r2v0, types: [gnu.expr.Expression] */
-    /* JADX WARNING: type inference failed for: r5v2 */
-    /* JADX WARNING: type inference failed for: r5v3 */
-    /* JADX WARNING: type inference failed for: r5v4 */
-    /* JADX WARNING: type inference failed for: r5v5 */
-    /* JADX WARNING: type inference failed for: r5v6 */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=gnu.expr.Expression[], code=null, for r11v0, types: [gnu.expr.Expression[]] */
-    /* JADX WARNING: Multi-variable type inference failed. Error: jadx.core.utils.exceptions.JadxRuntimeException: No candidate types for var: r5v3
-      assigns: []
-      uses: []
-      mth insns count: 17
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.fillTypeCandidates(TypeSearch.java:237)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.run(TypeSearch.java:53)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.runMultiVariableSearch(TypeInferenceVisitor.java:99)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.visit(TypeInferenceVisitor.java:92)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:27)
-    	at jadx.core.dex.visitors.DepthTraversal.lambda$visit$1(DepthTraversal.java:14)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:14)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:30)
-    	at jadx.api.JadxDecompiler.processClass(JadxDecompiler.java:311)
-    	at jadx.api.JavaClass.decompile(JavaClass.java:62)
-    	at jadx.api.JadxDecompiler.lambda$appendSourcesSave$0(JadxDecompiler.java:217)
-     */
-    /* JADX WARNING: Unknown variable types count: 8 */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public static gnu.expr.Expression pairwise(gnu.mapping.Procedure r9, gnu.expr.Expression r10, gnu.expr.Expression[] r11, gnu.expr.InlineCalls r12) {
-        /*
-            r8 = 0
-            int r3 = r11.length
-            r5 = r11[r8]
-            r1 = 1
-        L_0x0005:
-            if (r1 >= r3) goto L_0x0023
-            r6 = 2
-            gnu.expr.Expression[] r0 = new gnu.expr.Expression[r6]
-            r0[r8] = r5
-            r6 = 1
-            r7 = r11[r1]
-            r0[r6] = r7
-            gnu.expr.ApplyExp r4 = new gnu.expr.ApplyExp
-            r4.<init>(r10, r0)
-            r6 = 0
-            gnu.expr.Expression r2 = r12.maybeInline(r4, r6, r9)
-            if (r2 == 0) goto L_0x0021
-            r5 = r2
-        L_0x001e:
-            int r1 = r1 + 1
-            goto L_0x0005
-        L_0x0021:
-            r5 = r4
-            goto L_0x001e
-        L_0x0023:
-            return r5
-        */
-        throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.functions.CompileArith.pairwise(gnu.mapping.Procedure, gnu.expr.Expression, gnu.expr.Expression[], gnu.expr.InlineCalls):gnu.expr.Expression");
+    public static Expression pairwise(Procedure proc2, Expression rproc, Expression[] args, InlineCalls visitor) {
+        int len = args.length;
+        Expression prev = args[0];
+        for (int i = 1; i < len; i++) {
+            ApplyExp next = new ApplyExp(rproc, prev, args[i]);
+            Expression inlined = visitor.maybeInline(next, (Type) null, proc2);
+            prev = inlined != null ? inlined : next;
+        }
+        return prev;
     }
 
     public static Expression validateApplyNumberPredicate(ApplyExp exp, InlineCalls visitor, Type required, Procedure proc2) {
-        int i = ((NumberPredicate) proc2).f63op;
+        int i = ((NumberPredicate) proc2).op;
         Expression[] args = exp.getArgs();
         args[0] = visitor.visit(args[0], (Type) LangObjType.integerType);
         exp.setType(Type.booleanType);

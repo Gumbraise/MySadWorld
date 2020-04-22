@@ -3,17 +3,17 @@ package com.google.appinventor.components.runtime.util;
 import android.content.Intent;
 import com.google.appinventor.components.runtime.ActivityResultListener;
 import com.google.appinventor.components.runtime.ComponentContainer;
-import com.google.appinventor.components.runtime.util.ITextToSpeech.TextToSpeechCallback;
+import com.google.appinventor.components.runtime.util.ITextToSpeech;
 import gnu.expr.Declaration;
 import java.util.Locale;
 
 public class ExternalTextToSpeech implements ITextToSpeech, ActivityResultListener {
     private static final String TTS_INTENT = "com.google.tts.makeBagel";
-    private final TextToSpeechCallback callback;
+    private final ITextToSpeech.TextToSpeechCallback callback;
     private final ComponentContainer container;
     private int requestCode;
 
-    public ExternalTextToSpeech(ComponentContainer container2, TextToSpeechCallback callback2) {
+    public ExternalTextToSpeech(ComponentContainer container2, ITextToSpeech.TextToSpeechCallback callback2) {
         this.container = container2;
         this.callback = callback2;
     }

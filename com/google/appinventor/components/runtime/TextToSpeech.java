@@ -13,7 +13,6 @@ import com.google.appinventor.components.runtime.collect.Maps;
 import com.google.appinventor.components.runtime.util.ErrorMessages;
 import com.google.appinventor.components.runtime.util.ExternalTextToSpeech;
 import com.google.appinventor.components.runtime.util.ITextToSpeech;
-import com.google.appinventor.components.runtime.util.ITextToSpeech.TextToSpeechCallback;
 import com.google.appinventor.components.runtime.util.InternalTextToSpeech;
 import com.google.appinventor.components.runtime.util.SdkLevel;
 import com.google.appinventor.components.runtime.util.YailList;
@@ -50,7 +49,6 @@ public class TextToSpeech extends AndroidNonvisibleComponent implements Componen
     }
 
     private static void initLocaleMaps() {
-        Locale[] locales;
         for (Locale locale : Locale.getAvailableLocales()) {
             try {
                 String iso3Country = locale.getISO3Country();
@@ -70,9 +68,9 @@ public class TextToSpeech extends AndroidNonvisibleComponent implements Componen
     }
 
     public TextToSpeech(ComponentContainer container) {
+        super(container.$form());
         boolean useExternalLibrary;
         ITextToSpeech internalTextToSpeech;
-        super(container.$form());
         Language("");
         Country("");
         if (SdkLevel.getLevel() < 4) {
@@ -81,14 +79,14 @@ public class TextToSpeech extends AndroidNonvisibleComponent implements Componen
             useExternalLibrary = false;
         }
         Log.v(LOG_TAG, "Using " + (useExternalLibrary ? "external" : "internal") + " TTS library.");
-        TextToSpeechCallback callback = new TextToSpeechCallback() {
+        ITextToSpeech.TextToSpeechCallback callback = new ITextToSpeech.TextToSpeechCallback() {
             public void onSuccess() {
-                TextToSpeech.this.result = true;
+                boolean unused = TextToSpeech.this.result = true;
                 TextToSpeech.this.AfterSpeaking(true);
             }
 
             public void onFailure() {
-                TextToSpeech.this.result = false;
+                boolean unused = TextToSpeech.this.result = false;
                 TextToSpeech.this.AfterSpeaking(false);
             }
         };
@@ -136,9 +134,9 @@ public class TextToSpeech extends AndroidNonvisibleComponent implements Componen
     }
 
     private static Locale iso3LanguageToLocale(String iso3Language) {
-        Locale mappedLocale = (Locale) iso3LanguageToLocaleMap.get(iso3Language);
+        Locale mappedLocale = iso3LanguageToLocaleMap.get(iso3Language);
         if (mappedLocale == null) {
-            mappedLocale = (Locale) iso3LanguageToLocaleMap.get(iso3Language.toLowerCase(Locale.ENGLISH));
+            mappedLocale = iso3LanguageToLocaleMap.get(iso3Language.toLowerCase(Locale.ENGLISH));
         }
         return mappedLocale == null ? Locale.getDefault() : mappedLocale;
     }
@@ -210,9 +208,9 @@ public class TextToSpeech extends AndroidNonvisibleComponent implements Componen
     }
 
     private static Locale iso3CountryToLocale(String iso3Country) {
-        Locale mappedLocale = (Locale) iso3CountryToLocaleMap.get(iso3Country);
+        Locale mappedLocale = iso3CountryToLocaleMap.get(iso3Country);
         if (mappedLocale == null) {
-            mappedLocale = (Locale) iso3CountryToLocaleMap.get(iso3Country.toUpperCase(Locale.ENGLISH));
+            mappedLocale = iso3CountryToLocaleMap.get(iso3Country.toUpperCase(Locale.ENGLISH));
         }
         return mappedLocale == null ? Locale.getDefault() : mappedLocale;
     }
@@ -248,7 +246,6 @@ public class TextToSpeech extends AndroidNonvisibleComponent implements Componen
     }
 
     private void getLanguageAndCountryLists() {
-        Locale[] availableLocales;
         if (SdkLevel.getLevel() >= 4) {
             for (Locale locale : Locale.getAvailableLocales()) {
                 if (this.tts.isLanguageAvailable(locale) != -2) {

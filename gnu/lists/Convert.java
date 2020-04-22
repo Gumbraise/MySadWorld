@@ -1,6 +1,6 @@
 package gnu.lists;
 
-import com.google.appinventor.components.runtime.util.Ev3Constants.Opcode;
+import com.google.appinventor.components.runtime.util.Ev3Constants;
 
 public class Convert {
     public static Convert instance = new Convert();
@@ -62,7 +62,7 @@ public class Convert {
     }
 
     public Object byteToObjectUnsigned(byte value) {
-        return new Integer(value & Opcode.TST);
+        return new Integer(value & Ev3Constants.Opcode.TST);
     }
 
     public byte objectToByteUnsigned(Object obj) {

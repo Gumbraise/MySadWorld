@@ -10,6 +10,7 @@ import gnu.expr.TypeValue;
 import gnu.lists.AbstractSequence;
 import gnu.lists.AttributePredicate;
 import gnu.lists.SeqPosition;
+import gnu.mapping.Namespace;
 import gnu.mapping.Symbol;
 import java.io.Externalizable;
 import java.io.IOException;
@@ -30,7 +31,7 @@ public class AttributeType extends NodeType implements TypeValue, Externalizable
         } else if (localName == "") {
             qname2 = ElementType.MATCH_ANY_QNAME;
         } else {
-            qname2 = new Symbol(null, localName);
+            qname2 = new Symbol((Namespace) null, localName);
         }
         return new AttributeType(qname2);
     }
@@ -40,15 +41,33 @@ public class AttributeType extends NodeType implements TypeValue, Externalizable
     }
 
     public AttributeType(Symbol qname2) {
-        this(null, qname2);
+        this((String) null, qname2);
     }
 
-    public AttributeType(String name, Symbol qname2) {
-        if (name == null || name.length() <= 0) {
-            name = "ATTRIBUTE " + qname2 + " (*)";
-        }
-        super(name);
-        this.qname = qname2;
+    /* JADX WARNING: Illegal instructions before constructor call */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public AttributeType(java.lang.String r3, gnu.mapping.Symbol r4) {
+        /*
+            r2 = this;
+            if (r3 == 0) goto L_0x000e
+            int r0 = r3.length()
+            if (r0 <= 0) goto L_0x000e
+        L_0x0008:
+            r2.<init>(r3)
+            r2.qname = r4
+            return
+        L_0x000e:
+            java.lang.StringBuilder r0 = new java.lang.StringBuilder
+            r0.<init>()
+            java.lang.String r1 = "ATTRIBUTE "
+            java.lang.StringBuilder r0 = r0.append(r1)
+            java.lang.StringBuilder r0 = r0.append(r4)
+            java.lang.String r1 = " (*)"
+            java.lang.StringBuilder r0 = r0.append(r1)
+            java.lang.String r3 = r0.toString()
+            goto L_0x0008
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.xml.AttributeType.<init>(java.lang.String, gnu.mapping.Symbol):void");
     }
 
     public Type getImplementationType() {

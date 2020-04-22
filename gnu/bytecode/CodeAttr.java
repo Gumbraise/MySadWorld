@@ -1,7 +1,7 @@
 package gnu.bytecode;
 
-import android.support.p000v4.internal.view.SupportMenu;
-import com.google.appinventor.components.runtime.util.Ev3Constants.Opcode;
+import android.support.v4.internal.view.SupportMenu;
+import com.google.appinventor.components.runtime.util.Ev3Constants;
 import com.google.appinventor.components.runtime.util.FullScreenVideoUtil;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -27,12 +27,8 @@ public class CodeAttr extends Attribute implements AttrContainer {
     static final int FIXUP_TRY_HANDLER = 13;
     public static final int GENERATE_STACK_MAP_TABLE = 1;
     public static boolean instructionLineMode = false;
-
-    /* renamed from: PC */
-    int f52PC;
-
-    /* renamed from: SP */
-    int f53SP;
+    int PC;
+    int SP;
     Attribute attributes;
     byte[] code;
     ExitableBlock currentExitableBlock;
@@ -46,14 +42,14 @@ public class CodeAttr extends Attribute implements AttrContainer {
     IfState if_stack;
     LineNumbersAttr lines;
     Type[] local_types;
-    public LocalVarsAttr locals = this;
+    public LocalVarsAttr locals;
     private int max_locals;
     private int max_stack;
     Label previousLabel;
     SourceDebugExtAttr sourceDbgExt;
     public StackMapTableAttr stackMap;
     public Type[] stack_types;
-    TryState try_stack = this;
+    TryState try_stack;
     private boolean unreachable_here;
     boolean[] varsSetInCurrentBlock;
 
@@ -65,7 +61,7 @@ public class CodeAttr extends Attribute implements AttrContainer {
         this.attributes = attributes2;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public boolean useJsr() {
         return (this.flags & 2) == 0;
     }
@@ -76,10 +72,10 @@ public class CodeAttr extends Attribute implements AttrContainer {
     }
 
     public final void fixupAdd(int kind, Label label) {
-        fixupAdd(kind, this.f52PC, label);
+        fixupAdd(kind, this.PC, label);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public final void fixupAdd(int kind, int offset, Label label) {
         if (!(label == null || kind == 1 || kind == 0 || kind == 2 || kind == 11)) {
             label.needsStackMapEntry = true;
@@ -115,11 +111,11 @@ public class CodeAttr extends Attribute implements AttrContainer {
     }
 
     public final int getPC() {
-        return this.f52PC;
+        return this.PC;
     }
 
     public final int getSP() {
-        return this.f53SP;
+        return this.SP;
     }
 
     public final ConstantPool getConstants() {
@@ -160,20 +156,21 @@ public class CodeAttr extends Attribute implements AttrContainer {
 
     public void setCode(byte[] code2) {
         this.code = code2;
-        this.f52PC = code2.length;
+        this.PC = code2.length;
     }
 
     public void setCodeLength(int len) {
-        this.f52PC = len;
+        this.PC = len;
     }
 
     public int getCodeLength() {
-        return this.f52PC;
+        return this.PC;
     }
 
     public CodeAttr(Method meth) {
         super("Code");
         addToFrontOf(meth);
+        meth.code = this;
         if (meth.getDeclaringClass().getClassfileMajorVersion() >= 50) {
             this.flags |= 3;
         }
@@ -182,14 +179,14 @@ public class CodeAttr extends Attribute implements AttrContainer {
     public final void reserve(int bytes) {
         if (this.code == null) {
             this.code = new byte[(bytes + 100)];
-        } else if (this.f52PC + bytes > this.code.length) {
+        } else if (this.PC + bytes > this.code.length) {
             byte[] new_code = new byte[((this.code.length * 2) + bytes)];
-            System.arraycopy(this.code, 0, new_code, 0, this.f52PC);
+            System.arraycopy(this.code, 0, new_code, 0, this.PC);
             this.code = new_code;
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public byte invert_opcode(byte opcode) {
         int iopcode = opcode & 255;
         if ((iopcode >= 153 && iopcode <= 166) || (iopcode >= 198 && iopcode <= 199)) {
@@ -200,40 +197,40 @@ public class CodeAttr extends Attribute implements AttrContainer {
 
     public final void put1(int i) {
         byte[] bArr = this.code;
-        int i2 = this.f52PC;
-        this.f52PC = i2 + 1;
+        int i2 = this.PC;
+        this.PC = i2 + 1;
         bArr[i2] = (byte) i;
         this.unreachable_here = false;
     }
 
     public final void put2(int i) {
         byte[] bArr = this.code;
-        int i2 = this.f52PC;
-        this.f52PC = i2 + 1;
+        int i2 = this.PC;
+        this.PC = i2 + 1;
         bArr[i2] = (byte) (i >> 8);
         byte[] bArr2 = this.code;
-        int i3 = this.f52PC;
-        this.f52PC = i3 + 1;
+        int i3 = this.PC;
+        this.PC = i3 + 1;
         bArr2[i3] = (byte) i;
         this.unreachable_here = false;
     }
 
     public final void put4(int i) {
         byte[] bArr = this.code;
-        int i2 = this.f52PC;
-        this.f52PC = i2 + 1;
+        int i2 = this.PC;
+        this.PC = i2 + 1;
         bArr[i2] = (byte) (i >> 24);
         byte[] bArr2 = this.code;
-        int i3 = this.f52PC;
-        this.f52PC = i3 + 1;
+        int i3 = this.PC;
+        this.PC = i3 + 1;
         bArr2[i3] = (byte) (i >> 16);
         byte[] bArr3 = this.code;
-        int i4 = this.f52PC;
-        this.f52PC = i4 + 1;
+        int i4 = this.PC;
+        this.PC = i4 + 1;
         bArr3[i4] = (byte) (i >> 8);
         byte[] bArr4 = this.code;
-        int i5 = this.f52PC;
-        this.f52PC = i5 + 1;
+        int i5 = this.PC;
+        this.PC = i5 + 1;
         bArr4[i5] = (byte) i;
         this.unreachable_here = false;
     }
@@ -253,11 +250,11 @@ public class CodeAttr extends Attribute implements AttrContainer {
         if (this.sourceDbgExt != null) {
             linenumber = this.sourceDbgExt.fixLine(linenumber);
         }
-        fixupAdd(14, null);
-        fixupAdd(15, linenumber, null);
+        fixupAdd(14, (Label) null);
+        fixupAdd(15, linenumber, (Label) null);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void noteParamTypes() {
         Method method = getMethod();
         int offset = 0;
@@ -266,34 +263,33 @@ public class CodeAttr extends Attribute implements AttrContainer {
             if ("<init>".equals(method.getName()) && !"java.lang.Object".equals(type.getName())) {
                 type = UninitializedType.uninitializedThis((ClassType) type);
             }
-            int offset2 = 0 + 1;
             noteVarType(0, type);
-            offset = offset2;
+            offset = 0 + 1;
         }
         int arg_count = method.arg_types.length;
         int i = 0;
-        int offset3 = offset;
+        int offset2 = offset;
         while (i < arg_count) {
             Type type2 = method.arg_types[i];
-            int offset4 = offset3 + 1;
-            noteVarType(offset3, type2);
+            int offset3 = offset2 + 1;
+            noteVarType(offset2, type2);
             int size = type2.getSizeInWords();
             while (true) {
                 size--;
                 if (size <= 0) {
                     break;
                 }
-                offset4++;
+                offset3++;
             }
             i++;
-            offset3 = offset4;
+            offset2 = offset3;
         }
         if ((this.flags & 1) != 0) {
             this.stackMap = new StackMapTableAttr();
-            int[] encodedLocals = new int[(offset3 + 20)];
+            int[] encodedLocals = new int[(offset2 + 20)];
             int i2 = 0;
             int count = 0;
-            while (i2 < offset3) {
+            while (i2 < offset2) {
                 int encoded = this.stackMap.encodeVerificationType(this.local_types[i2], this);
                 int count2 = count + 1;
                 encodedLocals[count] = encoded;
@@ -312,6 +308,7 @@ public class CodeAttr extends Attribute implements AttrContainer {
     }
 
     public void noteVarType(int offset, Type type) {
+        Type prev;
         int size = type.getSizeInWords();
         if (this.local_types == null) {
             this.local_types = new Type[(offset + size + 20)];
@@ -329,11 +326,8 @@ public class CodeAttr extends Attribute implements AttrContainer {
             this.varsSetInCurrentBlock = tmp;
         }
         this.varsSetInCurrentBlock[offset] = true;
-        if (offset > 0) {
-            Type prev = this.local_types[offset - 1];
-            if (prev != null && prev.getSizeInWords() == 2) {
-                this.local_types[offset - 1] = null;
-            }
+        if (offset > 0 && (prev = this.local_types[offset - 1]) != null && prev.getSizeInWords() == 2) {
+            this.local_types[offset - 1] = null;
         }
         while (true) {
             size--;
@@ -369,7 +363,7 @@ public class CodeAttr extends Attribute implements AttrContainer {
             }
         }
         System.arraycopy(labelStack, 0, this.stack_types, 0, usedStack);
-        this.f53SP = usedStack;
+        this.SP = usedStack;
     }
 
     public final void pushType(Type type) {
@@ -378,33 +372,33 @@ public class CodeAttr extends Attribute implements AttrContainer {
         }
         if (this.stack_types == null || this.stack_types.length == 0) {
             this.stack_types = new Type[20];
-        } else if (this.f53SP + 1 >= this.stack_types.length) {
+        } else if (this.SP + 1 >= this.stack_types.length) {
             Type[] new_array = new Type[(this.stack_types.length * 2)];
-            System.arraycopy(this.stack_types, 0, new_array, 0, this.f53SP);
+            System.arraycopy(this.stack_types, 0, new_array, 0, this.SP);
             this.stack_types = new_array;
         }
         if (type.size == 8) {
             Type[] typeArr = this.stack_types;
-            int i = this.f53SP;
-            this.f53SP = i + 1;
+            int i = this.SP;
+            this.SP = i + 1;
             typeArr[i] = Type.voidType;
         }
         Type[] typeArr2 = this.stack_types;
-        int i2 = this.f53SP;
-        this.f53SP = i2 + 1;
+        int i2 = this.SP;
+        this.SP = i2 + 1;
         typeArr2[i2] = type;
-        if (this.f53SP > this.max_stack) {
-            this.max_stack = this.f53SP;
+        if (this.SP > this.max_stack) {
+            this.max_stack = this.SP;
         }
     }
 
     public final Type popType() {
-        if (this.f53SP <= 0) {
+        if (this.SP <= 0) {
             throw new Error("popType called with empty stack " + getMethod());
         }
         Type[] typeArr = this.stack_types;
-        int i = this.f53SP - 1;
-        this.f53SP = i;
+        int i = this.SP - 1;
+        this.SP = i;
         Type type = typeArr[i];
         if (type.size != 8 || popType().isVoid()) {
             return type;
@@ -413,7 +407,7 @@ public class CodeAttr extends Attribute implements AttrContainer {
     }
 
     public final Type topType() {
-        return this.stack_types[this.f53SP - 1];
+        return this.stack_types[this.SP - 1];
     }
 
     public void emitPop(int nvalues) {
@@ -588,7 +582,7 @@ public class CodeAttr extends Attribute implements AttrContainer {
     }
 
     public Variable addLocal(Type type) {
-        return this.locals.current_scope.addVariable(this, type, null);
+        return this.locals.current_scope.addVariable(this, type, (String) null);
     }
 
     public Variable addLocal(Type type, String name) {
@@ -802,6 +796,7 @@ public class CodeAttr extends Attribute implements AttrContainer {
         emitLoad(this.locals.used[0]);
     }
 
+    /* JADX WARNING: Can't fix incorrect switch cases order */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public final void emitPushPrimArray(java.lang.Object r17, gnu.bytecode.ArrayType r18) {
         /*
@@ -811,7 +806,7 @@ public class CodeAttr extends Attribute implements AttrContainer {
             r0 = r16
             r0.emitPushInt(r7)
             r0 = r16
-            r0.emitNewArray(r4)
+            r0.emitNewArray((gnu.bytecode.Type) r4)
             java.lang.String r11 = r4.getSignature()
             r12 = 0
             char r10 = r11.charAt(r12)
@@ -835,7 +830,7 @@ public class CodeAttr extends Attribute implements AttrContainer {
         L_0x0026:
             r0 = r16
             r1 = r18
-            r0.emitDup(r1)
+            r0.emitDup((gnu.bytecode.Type) r1)
             r0 = r16
             r0.emitPushInt(r6)
             switch(r10) {
@@ -961,7 +956,7 @@ public class CodeAttr extends Attribute implements AttrContainer {
         throw new UnsupportedOperationException("Method not decompiled: gnu.bytecode.CodeAttr.emitPushPrimArray(java.lang.Object, gnu.bytecode.ArrayType):void");
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void emitNewArray(int type_code) {
         reserve(2);
         put1(188);
@@ -1232,7 +1227,7 @@ public class CodeAttr extends Attribute implements AttrContainer {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void emitMaybeWide(int opcode, int index) {
         if (index >= 256) {
             put1(FullScreenVideoUtil.FULLSCREEN_VIDEO_ACTION_DURATION);
@@ -1389,7 +1384,7 @@ public class CodeAttr extends Attribute implements AttrContainer {
                     Type t2 = popType();
                     if (t2 instanceof UninitializedType) {
                         ClassType ctype = ((UninitializedType) t2).ctype;
-                        for (int i = 0; i < this.f53SP; i++) {
+                        for (int i = 0; i < this.SP; i++) {
                             if (this.stack_types[i] == t2) {
                                 this.stack_types[i] = ctype;
                             }
@@ -1459,12 +1454,12 @@ public class CodeAttr extends Attribute implements AttrContainer {
         emitInvokeMethod(method, 185);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public final void emitTransfer(Label label, int opcode) {
         label.setTypes(this);
         fixupAdd(6, label);
         put1(opcode);
-        this.f52PC += 2;
+        this.PC += 2;
     }
 
     public final void emitGoto(Label label) {
@@ -1472,7 +1467,7 @@ public class CodeAttr extends Attribute implements AttrContainer {
         fixupAdd(4, label);
         reserve(3);
         put1(167);
-        this.f52PC += 2;
+        this.PC += 2;
         setUnreachable();
     }
 
@@ -1480,7 +1475,7 @@ public class CodeAttr extends Attribute implements AttrContainer {
         fixupAdd(5, label);
         reserve(3);
         put1(168);
-        this.f52PC += 2;
+        this.PC += 2;
     }
 
     public ExitableBlock startExitableBlock(Type resultType, boolean runFinallyBlocks) {
@@ -1590,7 +1585,7 @@ public class CodeAttr extends Attribute implements AttrContainer {
         }
         reserve(3);
         emitTransfer(new_if.end_label, opcode);
-        new_if.start_stack_size = this.f53SP;
+        new_if.start_stack_size = this.SP;
     }
 
     public final void emitIfIntNotZero() {
@@ -1612,7 +1607,7 @@ public class CodeAttr extends Attribute implements AttrContainer {
         }
         reserve(3);
         emitTransfer(new_if.end_label, opcode);
-        new_if.start_stack_size = this.f53SP;
+        new_if.start_stack_size = this.SP;
     }
 
     public final void emitIfNotNull() {
@@ -1629,7 +1624,7 @@ public class CodeAttr extends Attribute implements AttrContainer {
         popType();
         reserve(3);
         emitTransfer(new_if.end_label, opcode);
-        new_if.start_stack_size = this.f53SP;
+        new_if.start_stack_size = this.SP;
     }
 
     public final void emitIfIntLt() {
@@ -1639,37 +1634,37 @@ public class CodeAttr extends Attribute implements AttrContainer {
     public final void emitIfNEq() {
         IfState new_if = new IfState(this);
         emitGotoIfEq(new_if.end_label);
-        new_if.start_stack_size = this.f53SP;
+        new_if.start_stack_size = this.SP;
     }
 
     public final void emitIfEq() {
         IfState new_if = new IfState(this);
         emitGotoIfNE(new_if.end_label);
-        new_if.start_stack_size = this.f53SP;
+        new_if.start_stack_size = this.SP;
     }
 
     public final void emitIfLt() {
         IfState new_if = new IfState(this);
         emitGotoIfGe(new_if.end_label);
-        new_if.start_stack_size = this.f53SP;
+        new_if.start_stack_size = this.SP;
     }
 
     public final void emitIfGe() {
         IfState new_if = new IfState(this);
         emitGotoIfLt(new_if.end_label);
-        new_if.start_stack_size = this.f53SP;
+        new_if.start_stack_size = this.SP;
     }
 
     public final void emitIfGt() {
         IfState new_if = new IfState(this);
         emitGotoIfLe(new_if.end_label);
-        new_if.start_stack_size = this.f53SP;
+        new_if.start_stack_size = this.SP;
     }
 
     public final void emitIfLe() {
         IfState new_if = new IfState(this);
         emitGotoIfGt(new_if.end_label);
-        new_if.start_stack_size = this.f53SP;
+        new_if.start_stack_size = this.SP;
     }
 
     public void emitRet(Variable var) {
@@ -1687,11 +1682,11 @@ public class CodeAttr extends Attribute implements AttrContainer {
     }
 
     public final void emitThen() {
-        this.if_stack.start_stack_size = this.f53SP;
+        this.if_stack.start_stack_size = this.SP;
     }
 
     public final void emitIfThen() {
-        new IfState(this, null);
+        new IfState(this, (Label) null);
     }
 
     public final void emitElse() {
@@ -1699,7 +1694,7 @@ public class CodeAttr extends Attribute implements AttrContainer {
         if (reachableHere()) {
             Label end_label = new Label(this);
             this.if_stack.end_label = end_label;
-            int growth = this.f53SP - this.if_stack.start_stack_size;
+            int growth = this.SP - this.if_stack.start_stack_size;
             this.if_stack.stack_growth = growth;
             if (growth > 0) {
                 this.if_stack.then_stacked_types = new Type[growth];
@@ -1711,10 +1706,10 @@ public class CodeAttr extends Attribute implements AttrContainer {
         } else {
             this.if_stack.end_label = null;
         }
-        while (this.f53SP > this.if_stack.start_stack_size) {
+        while (this.SP > this.if_stack.start_stack_size) {
             popType();
         }
-        this.f53SP = this.if_stack.start_stack_size;
+        this.SP = this.if_stack.start_stack_size;
         if (else_label != null) {
             else_label.define(this);
         }
@@ -1724,8 +1719,8 @@ public class CodeAttr extends Attribute implements AttrContainer {
     public final void emitFi() {
         boolean make_unreachable = false;
         if (!this.if_stack.doing_else) {
-            if (reachableHere() && this.f53SP != this.if_stack.start_stack_size) {
-                throw new Error("at PC " + this.f52PC + " then clause grows stack with no else clause");
+            if (reachableHere() && this.SP != this.if_stack.start_stack_size) {
+                throw new Error("at PC " + this.PC + " then clause grows stack with no else clause");
             }
         } else if (this.if_stack.then_stacked_types != null) {
             int then_clause_stack_size = this.if_stack.start_stack_size + this.if_stack.stack_growth;
@@ -1733,9 +1728,9 @@ public class CodeAttr extends Attribute implements AttrContainer {
                 if (this.if_stack.stack_growth > 0) {
                     System.arraycopy(this.if_stack.then_stacked_types, 0, this.stack_types, this.if_stack.start_stack_size, this.if_stack.stack_growth);
                 }
-                this.f53SP = then_clause_stack_size;
-            } else if (this.f53SP != then_clause_stack_size) {
-                throw new Error("at PC " + this.f52PC + ": SP at end of 'then' was " + then_clause_stack_size + " while SP at end of 'else' was " + this.f53SP);
+                this.SP = then_clause_stack_size;
+            } else if (this.SP != then_clause_stack_size) {
+                throw new Error("at PC " + this.PC + ": SP at end of 'then' was " + then_clause_stack_size + " while SP at end of 'else' was " + this.SP);
             }
         } else if (this.unreachable_here) {
             make_unreachable = true;
@@ -1906,7 +1901,7 @@ public class CodeAttr extends Attribute implements AttrContainer {
         emitRawReturn();
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public final void emitRawReturn() {
         if (getMethod().getReturnType().size == 0) {
             reserve(1);
@@ -1939,7 +1934,7 @@ public class CodeAttr extends Attribute implements AttrContainer {
 
     public void addHandler(Label start_try, Label end_try, ClassType catch_type) {
         int catch_type_index;
-        ClassType classType;
+        Type handler_class;
         ConstantPool constants = getConstants();
         if (catch_type == null) {
             catch_type_index = 0;
@@ -1952,35 +1947,35 @@ public class CodeAttr extends Attribute implements AttrContainer {
         handler.localTypes = start_try.localTypes;
         handler.stackTypes = new Type[1];
         if (catch_type == null) {
-            classType = Type.javalangThrowableType;
+            handler_class = Type.javalangThrowableType;
         } else {
-            classType = catch_type;
+            handler_class = catch_type;
         }
-        handler.stackTypes[0] = classType;
+        handler.stackTypes[0] = handler_class;
         setTypes(handler);
         fixupAdd(13, 0, handler);
     }
 
     public void emitWithCleanupStart() {
-        int savedSP = this.f53SP;
-        this.f53SP = 0;
-        emitTryStart(false, null);
-        this.f53SP = savedSP;
+        int savedSP = this.SP;
+        this.SP = 0;
+        emitTryStart(false, (Type) null);
+        this.SP = savedSP;
     }
 
     public void emitWithCleanupCatch(Variable catchVar) {
         Type[] savedTypes;
         emitTryEnd();
-        if (this.f53SP > 0) {
-            savedTypes = new Type[this.f53SP];
-            System.arraycopy(this.stack_types, 0, savedTypes, 0, this.f53SP);
-            this.f53SP = 0;
+        if (this.SP > 0) {
+            savedTypes = new Type[this.SP];
+            System.arraycopy(this.stack_types, 0, savedTypes, 0, this.SP);
+            this.SP = 0;
         } else {
             savedTypes = null;
         }
         this.try_stack.savedTypes = savedTypes;
         this.try_stack.saved_result = catchVar;
-        int i = this.f53SP;
+        int i = this.SP;
         emitCatchStart(catchVar);
     }
 
@@ -1995,14 +1990,14 @@ public class CodeAttr extends Attribute implements AttrContainer {
         Type[] savedTypes = this.try_stack.savedTypes;
         emitTryCatchEnd();
         if (savedTypes != null) {
-            this.f53SP = savedTypes.length;
-            if (this.f53SP >= this.stack_types.length) {
+            this.SP = savedTypes.length;
+            if (this.SP >= this.stack_types.length) {
                 this.stack_types = savedTypes;
             } else {
-                System.arraycopy(savedTypes, 0, this.stack_types, 0, this.f53SP);
+                System.arraycopy(savedTypes, 0, this.stack_types, 0, this.SP);
             }
         } else {
-            this.f53SP = 0;
+            this.SP = 0;
         }
     }
 
@@ -2012,18 +2007,17 @@ public class CodeAttr extends Attribute implements AttrContainer {
             result_type = null;
         }
         Variable[] savedStack = null;
-        if (result_type != null || this.f53SP > 0) {
+        if (result_type != null || this.SP > 0) {
             pushScope();
         }
-        if (this.f53SP > 0) {
-            savedStack = new Variable[this.f53SP];
+        if (this.SP > 0) {
+            savedStack = new Variable[this.SP];
             int i = 0;
-            while (this.f53SP > 0) {
+            while (this.SP > 0) {
                 Variable var = addLocal(topType());
                 emitStore(var);
-                int i2 = i + 1;
                 savedStack[i] = var;
-                i = i2;
+                i++;
             }
         }
         TryState try_state = new TryState(this);
@@ -2114,8 +2108,8 @@ public class CodeAttr extends Attribute implements AttrContainer {
         this.try_stack.end_try = getLabel();
         pushScope();
         if (useJsr()) {
-            this.f53SP = 0;
-            emitCatchStart(null);
+            this.SP = 0;
+            emitCatchStart((Variable) null);
             emitStore(this.try_stack.exception);
             emitJsr(this.try_stack.finally_subr);
             emitLoad(this.try_stack.exception);
@@ -2315,10 +2309,9 @@ public class CodeAttr extends Attribute implements AttrContainer {
         r12[r13] = (byte) (r5 >> 16);
         r13 = r14 + 1;
         r12[r14] = (byte) (r5 >> 8);
-        r14 = r13 + 1;
         r12[r13] = (byte) (r5 & 255);
         r21 = r22 + 3;
-        r13 = r14;
+        r13 = r13 + 1;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:107:0x037d, code lost:
         r23 = (byte) (r23 + com.google.appinventor.components.runtime.util.Ev3Constants.Opcode.OR16);
@@ -2399,8 +2392,7 @@ public class CodeAttr extends Attribute implements AttrContainer {
         if (r32.lines != null) goto L_0x0494;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:127:0x0485, code lost:
-        r0 = new gnu.bytecode.LineNumbersAttr(r32);
-        r32.lines = r0;
+        r32.lines = new gnu.bytecode.LineNumbersAttr(r32);
      */
     /* JADX WARNING: Code restructure failed: missing block: B:128:0x0494, code lost:
         r16 = r16 + 1;
@@ -2438,7 +2430,7 @@ public class CodeAttr extends Attribute implements AttrContainer {
         throw new java.lang.Error("bad pc");
      */
     /* JADX WARNING: Code restructure failed: missing block: B:140:0x04fd, code lost:
-        r32.f52PC = r15;
+        r32.PC = r15;
         r32.code = r12;
         r32.fixup_count = 0;
         r32.fixup_labels = null;
@@ -2458,7 +2450,7 @@ public class CodeAttr extends Attribute implements AttrContainer {
         if ((r7 + 1) < r32.fixup_count) goto L_0x0129;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:26:0x00d2, code lost:
-        r4 = r32.f52PC;
+        r4 = r32.PC;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:27:0x00d6, code lost:
         r32.fixup_offsets[r7] = (r4 << 4) | 9;
@@ -2467,7 +2459,7 @@ public class CodeAttr extends Attribute implements AttrContainer {
         if (r10 != null) goto L_0x0142;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:29:0x00e4, code lost:
-        r15 = r32.f52PC;
+        r15 = r32.PC;
         r5 = 0;
         r7 = 0;
      */
@@ -2611,11 +2603,9 @@ public class CodeAttr extends Attribute implements AttrContainer {
         if (r22 >= r17) goto L_0x0265;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:76:0x0245, code lost:
-        r13 = r14 + 1;
-        r21 = r22 + 1;
         r12[r14] = r32.code[r22];
-        r22 = r21;
-        r14 = r13;
+        r22 = r22 + 1;
+        r14 = r14 + 1;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:77:0x0257, code lost:
         r7 = r10.first_fixup;
@@ -2797,7 +2787,7 @@ public class CodeAttr extends Attribute implements AttrContainer {
             goto L_0x0041
         L_0x008c:
             r0 = r32
-            int r0 = r0.f52PC
+            int r0 = r0.PC
             r29 = r0
             r30 = 32768(0x8000, float:4.5918E-41)
             r0 = r29
@@ -2807,7 +2797,7 @@ public class CodeAttr extends Attribute implements AttrContainer {
             goto L_0x0041
         L_0x009e:
             r0 = r32
-            int r0 = r0.f52PC
+            int r0 = r0.PC
             r29 = r0
             r30 = 32768(0x8000, float:4.5918E-41)
             r0 = r29
@@ -2835,7 +2825,7 @@ public class CodeAttr extends Attribute implements AttrContainer {
             r1 = r30
             if (r0 < r1) goto L_0x0129
             r0 = r32
-            int r4 = r0.f52PC
+            int r4 = r0.PC
         L_0x00d6:
             r0 = r32
             int[] r0 = r0.fixup_offsets
@@ -2845,7 +2835,7 @@ public class CodeAttr extends Attribute implements AttrContainer {
             r29[r7] = r30
             if (r10 != 0) goto L_0x0142
             r0 = r32
-            int r15 = r0.f52PC
+            int r15 = r0.PC
             r5 = 0
             r7 = 0
         L_0x00ea:
@@ -3449,7 +3439,7 @@ public class CodeAttr extends Attribute implements AttrContainer {
             throw r29
         L_0x04fd:
             r0 = r32
-            r0.f52PC = r15
+            r0.PC = r15
             r0 = r32
             r0.code = r12
             r29 = 0
@@ -3515,8 +3505,8 @@ public class CodeAttr extends Attribute implements AttrContainer {
     public void write(DataOutputStream dstr) throws IOException {
         dstr.writeShort(this.max_stack);
         dstr.writeShort(this.max_locals);
-        dstr.writeInt(this.f52PC);
-        dstr.write(this.code, 0, this.f52PC);
+        dstr.writeInt(this.PC);
+        dstr.write(this.code, 0, this.PC);
         dstr.writeShort(this.exception_table_length);
         int count = this.exception_table_length;
         int i = 0;
@@ -3580,8 +3570,12 @@ public class CodeAttr extends Attribute implements AttrContainer {
         dst.printAttributes(this);
     }
 
-    /* JADX WARNING: type inference failed for: r26v103, types: [byte[]] */
-    /* JADX WARNING: type inference failed for: r26v140, types: [byte[]] */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r6v1, resolved type: byte} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r6v4, resolved type: byte} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r6v6, resolved type: byte} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r6v7, resolved type: byte} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r6v8, resolved type: byte} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r6v9, resolved type: byte} */
     /* JADX WARNING: Multi-variable type inference failed */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public void disAssemble(gnu.bytecode.ClassTypeWriter r29, int r30, int r31) {
@@ -4518,7 +4512,7 @@ public class CodeAttr extends Attribute implements AttrContainer {
     }
 
     private int readUnsignedShort(int offset) {
-        return ((this.code[offset] & Opcode.TST) << 8) | (this.code[offset + 1] & Opcode.TST);
+        return ((this.code[offset] & Ev3Constants.Opcode.TST) << 8) | (this.code[offset + 1] & Ev3Constants.Opcode.TST);
     }
 
     private int readInt(int offset) {
@@ -4550,7 +4544,7 @@ public class CodeAttr extends Attribute implements AttrContainer {
     public void endFragment(int cookie) {
         this.fixup_offsets[cookie] = (this.fixup_count << 4) | 10;
         Label after = this.fixup_labels[cookie];
-        fixupAdd(9, 0, null);
+        fixupAdd(9, 0, (Label) null);
         after.define(this);
     }
 }

@@ -9,6 +9,7 @@ import gnu.bytecode.Variable;
 import gnu.expr.ApplyExp;
 import gnu.expr.Compilation;
 import gnu.expr.ConditionalTarget;
+import gnu.expr.Declaration;
 import gnu.expr.Expression;
 import gnu.expr.Inlineable;
 import gnu.expr.Language;
@@ -50,7 +51,7 @@ public class InstanceOf extends Procedure2 implements Inlineable {
             try {
                 type = this.language.asType(((QuoteExp) typeArg).getValue());
             } catch (Exception e) {
-                comp.error('w', "unknown type spec: " + type);
+                comp.error('w', "unknown type spec: " + null);
             }
         } else {
             type = this.language.getTypeFor(typeArg);
@@ -61,7 +62,7 @@ public class InstanceOf extends Procedure2 implements Inlineable {
             }
             args[0].compile(comp, Target.pushObject);
             if (type instanceof TypeValue) {
-                ((TypeValue) type).emitIsInstance(null, comp, target);
+                ((TypeValue) type).emitIsInstance((Variable) null, comp, target);
                 return;
             } else {
                 type.emitIsInstance(code);
@@ -85,7 +86,7 @@ public class InstanceOf extends Procedure2 implements Inlineable {
 
     public static void emitIsInstance(TypeValue type, Variable incoming, Compilation comp, Target target) {
         CodeAttr code = comp.getCode();
-        type.emitTestIf(null, null, comp);
+        type.emitTestIf((Variable) null, (Declaration) null, comp);
         ConditionalTarget cond = null;
         if (target instanceof ConditionalTarget) {
             cond = (ConditionalTarget) target;

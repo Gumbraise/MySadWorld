@@ -3,83 +3,16 @@ package gnu.kawa.util;
 import java.util.AbstractMap;
 import java.util.AbstractSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-public abstract class AbstractHashTable<Entry extends Entry<K, V>, K, V> extends AbstractMap<K, V> {
+public abstract class AbstractHashTable<Entry extends Map.Entry<K, V>, K, V> extends AbstractMap<K, V> {
     public static final int DEFAULT_INITIAL_SIZE = 64;
     protected int mask;
     protected int num_bindings;
     protected Entry[] table;
-
-    static class AbstractEntrySet<Entry extends Entry<K, V>, K, V> extends AbstractSet<Entry> {
-        AbstractHashTable<Entry, K, V> htable;
-
-        public AbstractEntrySet(AbstractHashTable<Entry, K, V> htable2) {
-            this.htable = htable2;
-        }
-
-        public int size() {
-            return this.htable.size();
-        }
-
-        public Iterator<Entry> iterator() {
-            return new Iterator<Entry>() {
-                int curIndex = -1;
-                Entry currentEntry;
-                Entry nextEntry;
-                int nextIndex;
-                Entry previousEntry;
-
-                public boolean hasNext() {
-                    if (this.curIndex < 0) {
-                        this.nextIndex = AbstractEntrySet.this.htable.table.length;
-                        this.curIndex = this.nextIndex;
-                        advance();
-                    }
-                    return this.nextEntry != null;
-                }
-
-                private void advance() {
-                    while (this.nextEntry == null) {
-                        int i = this.nextIndex - 1;
-                        this.nextIndex = i;
-                        if (i >= 0) {
-                            this.nextEntry = AbstractEntrySet.this.htable.table[this.nextIndex];
-                        } else {
-                            return;
-                        }
-                    }
-                }
-
-                public Entry next() {
-                    if (this.nextEntry == null) {
-                        throw new NoSuchElementException();
-                    }
-                    this.previousEntry = this.currentEntry;
-                    this.currentEntry = this.nextEntry;
-                    this.curIndex = this.nextIndex;
-                    this.nextEntry = AbstractEntrySet.this.htable.getEntryNext(this.currentEntry);
-                    advance();
-                    return this.currentEntry;
-                }
-
-                public void remove() {
-                    if (this.previousEntry == this.currentEntry) {
-                        throw new IllegalStateException();
-                    }
-                    if (this.previousEntry == null) {
-                        AbstractEntrySet.this.htable.table[this.curIndex] = this.nextEntry;
-                    } else {
-                        AbstractEntrySet.this.htable.setEntryNext(this.previousEntry, this.nextEntry);
-                    }
-                    AbstractEntrySet.this.htable.num_bindings--;
-                    this.previousEntry = this.currentEntry;
-                }
-            };
-        }
-    }
 
     /* access modifiers changed from: protected */
     public abstract Entry[] allocEntries(int i);
@@ -128,28 +61,12 @@ public abstract class AbstractHashTable<Entry extends Entry<K, V>, K, V> extends
     }
 
     /* access modifiers changed from: protected */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=java.lang.Object, code=K, for r3v0, types: [java.lang.Object, K] */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public boolean matches(K r2, K r3) {
-        /*
-            r1 = this;
-            if (r2 == r3) goto L_0x000a
-            if (r2 == 0) goto L_0x000c
-            boolean r0 = r2.equals(r3)
-            if (r0 == 0) goto L_0x000c
-        L_0x000a:
-            r0 = 1
-        L_0x000b:
-            return r0
-        L_0x000c:
-            r0 = 0
-            goto L_0x000b
-        */
-        throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.util.AbstractHashTable.matches(java.lang.Object, java.lang.Object):boolean");
+    public boolean matches(K key1, Object key2) {
+        return key1 == key2 || (key1 != null && key1.equals(key2));
     }
 
     public V get(Object key) {
-        return get(key, null);
+        return get(key, (Object) null);
     }
 
     public Entry getNode(Object key) {
@@ -175,9 +92,8 @@ public abstract class AbstractHashTable<Entry extends Entry<K, V>, K, V> extends
         int oldCapacity = oldTable.length;
         int newCapacity = oldCapacity * 2;
         Entry[] newTable = allocEntries(newCapacity);
-        int newMask = newCapacity - 1;
         this.table = newTable;
-        this.mask = newMask;
+        this.mask = newCapacity - 1;
         int i = oldCapacity;
         while (true) {
             i--;
@@ -267,7 +183,7 @@ public abstract class AbstractHashTable<Entry extends Entry<K, V>, K, V> extends
                 Entry e = t[i];
                 while (e != null) {
                     Entry next = getEntryNext(e);
-                    setEntryNext(e, null);
+                    setEntryNext(e, (Entry) null);
                     e = next;
                 }
                 t[i] = null;
@@ -282,7 +198,76 @@ public abstract class AbstractHashTable<Entry extends Entry<K, V>, K, V> extends
         return this.num_bindings;
     }
 
-    public Set<Entry<K, V>> entrySet() {
+    public Set<Map.Entry<K, V>> entrySet() {
         return new AbstractEntrySet(this);
+    }
+
+    static class AbstractEntrySet<Entry extends Map.Entry<K, V>, K, V> extends AbstractSet<Entry> {
+        AbstractHashTable<Entry, K, V> htable;
+
+        public AbstractEntrySet(AbstractHashTable<Entry, K, V> htable2) {
+            this.htable = htable2;
+        }
+
+        public int size() {
+            return this.htable.size();
+        }
+
+        public Iterator<Entry> iterator() {
+            return new Iterator<Entry>() {
+                int curIndex = -1;
+                Entry currentEntry;
+                Entry nextEntry;
+                int nextIndex;
+                Entry previousEntry;
+
+                public boolean hasNext() {
+                    if (this.curIndex < 0) {
+                        this.nextIndex = AbstractEntrySet.this.htable.table.length;
+                        this.curIndex = this.nextIndex;
+                        advance();
+                    }
+                    return this.nextEntry != null;
+                }
+
+                private void advance() {
+                    while (this.nextEntry == null) {
+                        int i = this.nextIndex - 1;
+                        this.nextIndex = i;
+                        if (i >= 0) {
+                            this.nextEntry = AbstractEntrySet.this.htable.table[this.nextIndex];
+                        } else {
+                            return;
+                        }
+                    }
+                }
+
+                public Entry next() {
+                    if (this.nextEntry == null) {
+                        throw new NoSuchElementException();
+                    }
+                    this.previousEntry = this.currentEntry;
+                    this.currentEntry = this.nextEntry;
+                    this.curIndex = this.nextIndex;
+                    this.nextEntry = AbstractEntrySet.this.htable.getEntryNext(this.currentEntry);
+                    advance();
+                    return this.currentEntry;
+                }
+
+                public void remove() {
+                    if (this.previousEntry == this.currentEntry) {
+                        throw new IllegalStateException();
+                    }
+                    if (this.previousEntry == null) {
+                        AbstractEntrySet.this.htable.table[this.curIndex] = this.nextEntry;
+                    } else {
+                        AbstractEntrySet.this.htable.setEntryNext(this.previousEntry, this.nextEntry);
+                    }
+                    AbstractHashTable<Entry, K, V> abstractHashTable = AbstractEntrySet.this.htable;
+                    abstractHashTable.num_bindings--;
+                    this.previousEntry = this.currentEntry;
+                }
+            };
+        }
     }
 }

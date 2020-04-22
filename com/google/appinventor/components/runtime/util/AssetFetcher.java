@@ -118,11 +118,14 @@ public class AssetFetcher {
                         } catch (IOException e) {
                             Log.e(LOG_TAG, "copying assets", e);
                             error = true;
-                        } finally {
                             out.close();
+                        } catch (Throwable th) {
+                            out.close();
+                            throw th;
                         }
                     }
                     out.flush();
+                    out.close();
                     connection.disconnect();
                     outFile = outFile2;
                 } catch (Exception e2) {

@@ -3,7 +3,6 @@ package com.google.appinventor.components.runtime;
 import android.app.Activity;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Vibrator;
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.DesignerProperty;
@@ -24,13 +23,11 @@ import java.io.IOException;
 @DesignerComponent(category = ComponentCategory.MEDIA, description = "Multimedia component that plays audio and controls phone vibration.  The name of a multimedia field is specified in the <code>Source</code> property, which can be set in the Designer or in the Blocks Editor.  The length of time for a vibration is specified in the Blocks Editor in milliseconds (thousandths of a second).\n<p>For supported audio formats, see <a href=\"http://developer.android.com/guide/appendix/media-formats.html\" target=\"_blank\">Android Supported Media Formats</a>.</p>\n<p>This component is best for long sound files, such as songs, while the <code>Sound</code> component is more efficient for short files, such as sound effects.</p>", iconName = "images/player.png", nonVisible = true, version = 6)
 @SimpleObject
 @UsesPermissions(permissionNames = "android.permission.VIBRATE, android.permission.INTERNET")
-public final class Player extends AndroidNonvisibleComponent implements Component, OnCompletionListener, OnPauseListener, OnResumeListener, OnDestroyListener, OnStopListener, Deleteable {
+public final class Player extends AndroidNonvisibleComponent implements Component, MediaPlayer.OnCompletionListener, OnPauseListener, OnResumeListener, OnDestroyListener, OnStopListener, Deleteable {
     private static final boolean audioFocusSupported;
     private final Activity activity;
     private Object afChangeListener;
-
-    /* renamed from: am */
-    private AudioManager f37am;
+    private AudioManager am;
     private boolean focusOn;
     private boolean loop;
     private boolean playOnlyInForeground;
@@ -55,10 +52,11 @@ public final class Player extends AndroidNonvisibleComponent implements Componen
         }
     }
 
+    /* JADX INFO: super call moved to the top of the method (can break code semantics) */
     public Player(ComponentContainer container) {
+        super(container.$form());
         AudioManager audioManager;
         Object obj = null;
-        super(container.$form());
         this.activity = container.$context();
         this.form.registerForOnDestroy(this);
         this.form.registerForOnResume(this);
@@ -73,11 +71,8 @@ public final class Player extends AndroidNonvisibleComponent implements Componen
         } else {
             audioManager = null;
         }
-        this.f37am = audioManager;
-        if (audioFocusSupported) {
-            obj = FroyoUtil.setAudioFocusChangeListener(this);
-        }
-        this.afChangeListener = obj;
+        this.am = audioManager;
+        this.afChangeListener = audioFocusSupported ? FroyoUtil.setAudioFocusChangeListener(this) : obj;
     }
 
     @SimpleProperty(category = PropertyCategory.BEHAVIOR)
@@ -140,7 +135,7 @@ public final class Player extends AndroidNonvisibleComponent implements Componen
 
     private void requestPermanentFocus() {
         boolean z;
-        if (FroyoUtil.focusRequestGranted(this.f37am, this.afChangeListener)) {
+        if (FroyoUtil.focusRequestGranted(this.am, this.afChangeListener)) {
             z = true;
         } else {
             z = false;
@@ -244,7 +239,7 @@ public final class Player extends AndroidNonvisibleComponent implements Componen
     }
 
     private void abandonFocus() {
-        FroyoUtil.abandonFocus(this.f37am, this.afChangeListener);
+        FroyoUtil.abandonFocus(this.am, this.afChangeListener);
         this.focusOn = false;
     }
 

@@ -1,6 +1,6 @@
 package kawa.lib;
 
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import com.google.appinventor.components.common.PropertyTypeConstants;
 import gnu.expr.ApplicationMainSupport;
 import gnu.expr.Compilation;
@@ -43,8 +43,8 @@ public class system extends ModuleBody {
     static final SimpleSymbol Lit8 = ((SimpleSymbol) new SimpleSymbol("tokenize-string-using-shell").readResolve());
     static final SimpleSymbol Lit9 = ((SimpleSymbol) new SimpleSymbol("compile-file").readResolve());
 
-    /* renamed from: catch reason: not valid java name */
-    public static final ModuleMethod f270catch;
+    /* renamed from: catch  reason: not valid java name */
+    public static final ModuleMethod f9catch;
     public static Procedure command$Mnparse;
     public static final ModuleMethod compile$Mnfile;
     public static final ModuleMethod convert$Mnlist$Mnto$Mnstring$Mnarray;
@@ -66,7 +66,7 @@ public class system extends ModuleBody {
         tokenize$Mnstring$Mnto$Mnstring$Mnarray = new ModuleMethod(system2, 6, Lit7, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         tokenize$Mnstring$Mnusing$Mnshell = new ModuleMethod(system2, 7, Lit8, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         compile$Mnfile = new ModuleMethod(system2, 8, Lit9, 8194);
-        f270catch = new ModuleMethod(system2, 9, Lit10, 12291);
+        f9catch = new ModuleMethod(system2, 9, Lit10, 12291);
         process$Mncommand$Mnline$Mnassignments = new ModuleMethod(system2, 10, Lit11, 0);
         $instance.run();
     }
@@ -81,7 +81,14 @@ public class system extends ModuleBody {
     }
 
     public static Process makeProcess(Object args, Object env) {
-        Object arargs = vectors.isVector(args) ? convertVectorToStringArray(args) : C0620lists.isList(args) ? convertListToStringArray(args) : strings.isString(args) ? command$Mnparse.apply1(args) : args instanceof String[] ? args : misc.error$V("invalid arguments to make-process", new Object[0]);
+        Object arargs;
+        if (vectors.isVector(args)) {
+            arargs = convertVectorToStringArray(args);
+        } else if (lists.isList(args)) {
+            arargs = convertListToStringArray(args);
+        } else {
+            arargs = strings.isString(args) ? command$Mnparse.apply1(args) : args instanceof String[] ? args : misc.error$V("invalid arguments to make-process", new Object[0]);
+        }
         try {
             try {
                 return Runtime.getRuntime().exec((String[]) arargs, (String[]) env);
@@ -99,7 +106,7 @@ public class system extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 8:
                 if (!(obj instanceof CharSequence)) {
@@ -108,7 +115,7 @@ public class system extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             default:
                 return super.match2(moduleMethod, obj, obj2, callContext);
@@ -116,7 +123,7 @@ public class system extends ModuleBody {
     }
 
     public static InputStream openInputPipe(Object command) {
-        return makeProcess(command, null).getInputStream();
+        return makeProcess(command, (Object) null).getInputStream();
     }
 
     public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
@@ -124,32 +131,32 @@ public class system extends ModuleBody {
             case 2:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 3:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 4:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 5:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 6:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 7:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             default:
                 return super.match1(moduleMethod, obj, callContext);
@@ -157,7 +164,7 @@ public class system extends ModuleBody {
     }
 
     public static int system(Object command) {
-        return makeProcess(command, null).waitFor();
+        return makeProcess(command, (Object) null).waitFor();
     }
 
     public static Object convertVectorToStringArray(Object vec) {
@@ -187,10 +194,10 @@ public class system extends ModuleBody {
 
     public static Object convertListToStringArray(Object lst) {
         try {
-            String[] arr = new String[C0620lists.length((LList) lst)];
+            String[] arr = new String[lists.length((LList) lst)];
             int i = 0;
             Object p = lst;
-            while (!C0620lists.isNull(p)) {
+            while (!lists.isNull(p)) {
                 try {
                     Pair pp = (Pair) p;
                     Object car = pp.getCar();
@@ -209,16 +216,16 @@ public class system extends ModuleBody {
 
     public static Object tokenizeStringToStringArray(String string) {
         StringTokenizer toks = new StringTokenizer(string);
-        Object rlist = LList.Empty;
+        LList lList = LList.Empty;
         while (toks.hasMoreTokens()) {
-            rlist = C0620lists.cons(toks.nextToken(), rlist);
+            lList = lists.cons(toks.nextToken(), lList);
         }
         try {
-            int count = C0620lists.length((LList) rlist);
+            int count = lists.length(lList);
             String[] arr = new String[count];
             int i = count - 1;
-            Object p = rlist;
-            while (!C0620lists.isNull(p)) {
+            Object p = lList;
+            while (!lists.isNull(p)) {
                 try {
                     Pair pp = (Pair) p;
                     Object car = pp.getCar();
@@ -231,7 +238,7 @@ public class system extends ModuleBody {
             }
             return arr;
         } catch (ClassCastException e2) {
-            throw new WrongType(e2, PropertyTypeConstants.PROPERTY_TYPE_LENGTH, 1, rlist);
+            throw new WrongType(e2, PropertyTypeConstants.PROPERTY_TYPE_LENGTH, 1, (Object) lList);
         }
     }
 
@@ -291,8 +298,8 @@ public class system extends ModuleBody {
         }
     }
 
-    /* renamed from: catch reason: not valid java name */
-    public static Object m58catch(Object key, Procedure thunk, Procedure handler) {
+    /* renamed from: catch  reason: not valid java name */
+    public static Object m1catch(Object key, Procedure thunk, Procedure handler) {
         try {
             return thunk.apply0();
         } catch (NamedException ex) {
@@ -306,7 +313,7 @@ public class system extends ModuleBody {
         }
         try {
             try {
-                return m58catch(obj, (Procedure) obj2, (Procedure) obj3);
+                return m1catch(obj, (Procedure) obj2, (Procedure) obj3);
             } catch (ClassCastException e) {
                 throw new WrongType(e, "catch", 3, obj3);
             }
@@ -329,7 +336,7 @@ public class system extends ModuleBody {
         }
         callContext.value3 = obj3;
         callContext.proc = moduleMethod;
-        callContext.f236pc = 3;
+        callContext.pc = 3;
         return 0;
     }
 
@@ -350,7 +357,7 @@ public class system extends ModuleBody {
             return super.match0(moduleMethod, callContext);
         }
         callContext.proc = moduleMethod;
-        callContext.f236pc = 0;
+        callContext.pc = 0;
         return 0;
     }
 }

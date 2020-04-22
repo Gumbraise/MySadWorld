@@ -1,23 +1,21 @@
 package android.support.v13.view;
 
 import android.graphics.Point;
-import android.support.p000v4.view.MotionEventCompat;
+import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnLongClickListener;
-import android.view.View.OnTouchListener;
 
 public class DragStartHelper {
     private boolean mDragging;
     private int mLastTouchX;
     private int mLastTouchY;
     private final OnDragStartListener mListener;
-    private final OnLongClickListener mLongClickListener = new OnLongClickListener() {
+    private final View.OnLongClickListener mLongClickListener = new View.OnLongClickListener() {
         public boolean onLongClick(View v) {
             return DragStartHelper.this.onLongClick(v);
         }
     };
-    private final OnTouchListener mTouchListener = new OnTouchListener() {
+    private final View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         public boolean onTouch(View v, MotionEvent event) {
             return DragStartHelper.this.onTouch(v, event);
         }
@@ -39,8 +37,8 @@ public class DragStartHelper {
     }
 
     public void detach() {
-        this.mView.setOnLongClickListener(null);
-        this.mView.setOnTouchListener(null);
+        this.mView.setOnLongClickListener((View.OnLongClickListener) null);
+        this.mView.setOnTouchListener((View.OnTouchListener) null);
     }
 
     public boolean onTouch(View v, MotionEvent event) {

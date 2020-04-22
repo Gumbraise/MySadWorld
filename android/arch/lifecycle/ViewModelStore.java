@@ -5,17 +5,17 @@ import java.util.HashMap;
 public class ViewModelStore {
     private final HashMap<String, ViewModel> mMap = new HashMap<>();
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public final void put(String key, ViewModel viewModel) {
-        ViewModel oldViewModel = (ViewModel) this.mMap.put(key, viewModel);
+        ViewModel oldViewModel = this.mMap.put(key, viewModel);
         if (oldViewModel != null) {
             oldViewModel.onCleared();
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public final ViewModel get(String key) {
-        return (ViewModel) this.mMap.get(key);
+        return this.mMap.get(key);
     }
 
     public final void clear() {

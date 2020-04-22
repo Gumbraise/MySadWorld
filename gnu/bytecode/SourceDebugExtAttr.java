@@ -25,9 +25,8 @@ public class SourceDebugExtAttr extends Attribute {
             if (index > 0) {
                 return -1;
             }
-            int sourceMax = (sourceMin + repeat) - 1;
             this.lines[index] = sourceLine;
-            this.lines[index + 2] = (sourceMax - sourceLine) + 1;
+            this.lines[index + 2] = (((sourceMin + repeat) - 1) - sourceLine) + 1;
             this.lines[index + 3] = sourceLine;
             sourceMin = sourceLine;
         }
@@ -42,26 +41,25 @@ public class SourceDebugExtAttr extends Attribute {
         return sourceLine + delta;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public int fixLine(int sourceLine) {
         int outputStartLine;
-        if (this.curLineIndex >= 0) {
-            int outLine = fixLine(sourceLine, this.curLineIndex);
-            if (outLine >= 0) {
-                return outLine;
-            }
+        int outLine;
+        int outLine2;
+        if (this.curLineIndex >= 0 && (outLine2 = fixLine(sourceLine, this.curLineIndex)) >= 0) {
+            return outLine2;
         }
         int i5 = 0;
         int findex = this.curFileIndex;
-        for (int i = 0; i < this.lineCount; i++) {
-            if (i5 != this.curLineIndex && findex == this.lines[i5 + 1]) {
-                int outLine2 = fixLine(sourceLine, i5);
-                if (outLine2 >= 0) {
-                    this.curLineIndex = i5;
-                    return outLine2;
-                }
+        int i = 0;
+        while (i < this.lineCount) {
+            if (i5 == this.curLineIndex || findex != this.lines[i5 + 1] || (outLine = fixLine(sourceLine, i5)) < 0) {
+                i5 += 5;
+                i++;
+            } else {
+                this.curLineIndex = i5;
+                return outLine;
             }
-            i5 += 5;
         }
         if (this.lines == null) {
             this.lines = new int[20];
@@ -90,7 +88,7 @@ public class SourceDebugExtAttr extends Attribute {
         return sourceLine;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void addFile(String fname) {
         String fentry;
         if (this.curFileName == fname) {
@@ -157,7 +155,7 @@ public class SourceDebugExtAttr extends Attribute {
         addToFrontOf(cl);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void nonAsteriskString(String str, StringBuffer sbuf) {
         if (str == null || str.length() == 0 || str.charAt(0) == '*') {
             sbuf.append(' ');

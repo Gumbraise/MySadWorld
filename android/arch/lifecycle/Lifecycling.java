@@ -3,17 +3,15 @@ package android.arch.lifecycle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
-import android.support.annotation.RestrictTo.Scope;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RestrictTo({Scope.LIBRARY_GROUP})
+@RestrictTo({RestrictTo.Scope.LIBRARY_GROUP})
 public class Lifecycling {
     private static final int GENERATED_CALLBACK = 2;
     private static final int REFLECTIVE_CALLBACK = 1;
@@ -32,13 +30,13 @@ public class Lifecycling {
         if (getObserverConstructorType(klass) != 2) {
             return new ReflectiveGenericLifecycleObserver(object);
         }
-        List<Constructor<? extends GeneratedAdapter>> constructors = (List) sClassToAdapters.get(klass);
+        List<Constructor<? extends GeneratedAdapter>> constructors = sClassToAdapters.get(klass);
         if (constructors.size() == 1) {
-            return new SingleGeneratedAdapterObserver(createGeneratedAdapter((Constructor) constructors.get(0), object));
+            return new SingleGeneratedAdapterObserver(createGeneratedAdapter(constructors.get(0), object));
         }
         GeneratedAdapter[] adapters = new GeneratedAdapter[constructors.size()];
         for (int i = 0; i < constructors.size(); i++) {
-            adapters[i] = createGeneratedAdapter((Constructor) constructors.get(i), object);
+            adapters[i] = createGeneratedAdapter(constructors.get(i), object);
         }
         return new CompositeGeneratedAdaptersObserver(adapters);
     }
@@ -68,12 +66,12 @@ public class Lifecycling {
             if (!fullPackage.isEmpty()) {
                 adapterName = fullPackage + "." + adapterName;
             }
-            Constructor<? extends GeneratedAdapter> constructor = Class.forName(adapterName).getDeclaredConstructor(new Class[]{klass});
-            if (constructor.isAccessible()) {
-                return constructor;
+            Constructor<?> declaredConstructor = Class.forName(adapterName).getDeclaredConstructor(new Class[]{klass});
+            if (declaredConstructor.isAccessible()) {
+                return declaredConstructor;
             }
-            constructor.setAccessible(true);
-            return constructor;
+            declaredConstructor.setAccessible(true);
+            return declaredConstructor;
         } catch (ClassNotFoundException e) {
             return null;
         } catch (NoSuchMethodException e2) {
@@ -83,7 +81,7 @@ public class Lifecycling {
 
     private static int getObserverConstructorType(Class<?> klass) {
         if (sCallbackCache.containsKey(klass)) {
-            return ((Integer) sCallbackCache.get(klass)).intValue();
+            return sCallbackCache.get(klass).intValue();
         }
         int type = resolveObserverCallbackType(klass);
         sCallbackCache.put(klass, Integer.valueOf(type));
@@ -91,7 +89,6 @@ public class Lifecycling {
     }
 
     private static int resolveObserverCallbackType(Class<?> klass) {
-        Class<?>[] interfaces;
         if (klass.getCanonicalName() == null) {
             return 1;
         }
@@ -102,13 +99,13 @@ public class Lifecycling {
         } else if (ClassesInfoCache.sInstance.hasLifecycleMethods(klass)) {
             return 1;
         } else {
-            Class<?> superclass = klass.getSuperclass();
+            Class<? super Object> superclass = klass.getSuperclass();
             List<Constructor<? extends GeneratedAdapter>> adapterConstructors = null;
             if (isLifecycleParent(superclass)) {
                 if (getObserverConstructorType(superclass) == 1) {
                     return 1;
                 }
-                adapterConstructors = new ArrayList<>((Collection) sClassToAdapters.get(superclass));
+                adapterConstructors = new ArrayList<>(sClassToAdapters.get(superclass));
             }
             for (Class<?> intrface : klass.getInterfaces()) {
                 if (isLifecycleParent(intrface)) {
@@ -118,7 +115,7 @@ public class Lifecycling {
                     if (adapterConstructors == null) {
                         adapterConstructors = new ArrayList<>();
                     }
-                    adapterConstructors.addAll((Collection) sClassToAdapters.get(intrface));
+                    adapterConstructors.addAll(sClassToAdapters.get(intrface));
                 }
             }
             if (adapterConstructors == null) {

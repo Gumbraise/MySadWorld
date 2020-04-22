@@ -90,42 +90,47 @@ public class TextUtils {
     }
 
     public static String replaceWhitespace(String str, boolean collapse) {
-        char c;
-        char c2;
+        int prevSpace;
+        int prevSpace2;
+        int isSpace;
         StringBuilder sbuf = null;
         int len = str.length();
         if (collapse) {
-            c = 1;
+            prevSpace = 1;
         } else {
-            c = 0;
+            prevSpace = 0;
         }
         int i = 0;
         while (i < len) {
             int i2 = i + 1;
             char ch = str.charAt(i);
-            char c3 = ch == ' ' ? 1 : (ch == 9 || ch == 13 || ch == 10) ? (char) 2 : 0;
-            if (sbuf == null && (c3 == 2 || ((c3 == 1 && c2 > 0 && collapse) || (c3 == 1 && i2 == len && collapse)))) {
+            if (ch == ' ') {
+                isSpace = 1;
+            } else {
+                isSpace = (ch == 9 || ch == 13 || ch == 10) ? 2 : 0;
+            }
+            if (sbuf == null && (isSpace == 2 || ((isSpace == 1 && prevSpace2 > 0 && collapse) || (isSpace == 1 && i2 == len && collapse)))) {
                 sbuf = new StringBuilder();
-                int k = c2 > 0 ? i2 - 2 : i2 - 1;
+                int k = prevSpace2 > 0 ? i2 - 2 : i2 - 1;
                 for (int j = 0; j < k; j++) {
                     sbuf.append(str.charAt(j));
                 }
                 ch = ' ';
             }
             if (collapse) {
-                if (c2 > 0 && c3 == 0) {
+                if (prevSpace2 > 0 && isSpace == 0) {
                     if (sbuf != null && sbuf.length() > 0) {
                         sbuf.append(' ');
                     }
-                    c2 = 0;
-                } else if (c3 == 2 || (c3 == 1 && c2 > 0)) {
-                    c2 = 2;
-                } else if (c3 > 0) {
-                    c2 = 1;
+                    prevSpace2 = 0;
+                } else if (isSpace == 2 || (isSpace == 1 && prevSpace2 > 0)) {
+                    prevSpace2 = 2;
+                } else if (isSpace > 0) {
+                    prevSpace2 = 1;
                 } else {
-                    c2 = 0;
+                    prevSpace2 = 0;
                 }
-                if (c2 > 0) {
+                if (prevSpace2 > 0) {
                     i = i2;
                 }
             }

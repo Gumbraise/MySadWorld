@@ -57,7 +57,7 @@ public class AutoloadSyntax extends Syntax implements Externalizable {
         throw new GenericError(prefix + this.className + " while autoloading " + (getName() == null ? "" : getName().toString()));
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void load() {
         String name = getName();
         try {

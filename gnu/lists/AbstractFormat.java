@@ -50,6 +50,7 @@ public abstract class AbstractFormat extends Format {
         write(" ", out);
     }
 
+    /* JADX INFO: finally extract failed */
     public void format(Object value, Consumer out) {
         if (out instanceof OutPort) {
             OutPort pout = (OutPort) out;
@@ -57,8 +58,10 @@ public abstract class AbstractFormat extends Format {
             try {
                 pout.objectFormat = this;
                 out.writeObject(value);
-            } finally {
                 pout.objectFormat = saveFormat;
+            } catch (Throwable th) {
+                pout.objectFormat = saveFormat;
+                throw th;
             }
         } else {
             out.writeObject(value);

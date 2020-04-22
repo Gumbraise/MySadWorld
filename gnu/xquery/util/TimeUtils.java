@@ -272,7 +272,7 @@ public class TimeUtils {
     }
 
     public static DateTime currentDateTime() {
-        DateTime current = (DateTime) currentDateTimeLocal.get();
+        DateTime current = currentDateTimeLocal.get();
         if (current != null) {
             return current;
         }

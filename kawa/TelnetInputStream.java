@@ -89,31 +89,26 @@ public class TelnetInputStream extends FilterInputStream {
     }
 
     public int read(byte[] b, int offset, int length) throws IOException {
+        byte ch;
         if (length <= 0) {
             return 0;
         }
         int done = 0;
         if (this.state != 0 || this.pos >= this.count) {
-            int ch = read();
-            if (ch < 0) {
-                return ch;
+            int ch2 = read();
+            if (ch2 < 0) {
+                return ch2;
             }
-            int offset2 = offset + 1;
-            b[offset] = (byte) ch;
+            b[offset] = (byte) ch2;
             done = 0 + 1;
-            offset = offset2;
+            offset++;
         }
         if (this.state == 0) {
-            while (this.pos < this.count && done < length) {
-                byte ch2 = this.buf[this.pos];
-                if (ch2 == -1) {
-                    break;
-                }
-                int offset3 = offset + 1;
-                b[offset] = ch2;
+            while (this.pos < this.count && done < length && (ch = this.buf[this.pos]) != -1) {
+                b[offset] = ch;
                 done++;
                 this.pos++;
-                offset = offset3;
+                offset++;
             }
         }
         return done;

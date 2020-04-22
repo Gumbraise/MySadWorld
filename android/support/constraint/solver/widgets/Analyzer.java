@@ -1,7 +1,7 @@
 package android.support.constraint.solver.widgets;
 
-import android.support.constraint.solver.widgets.ConstraintAnchor.Type;
-import android.support.constraint.solver.widgets.ConstraintWidget.DimensionBehaviour;
+import android.support.constraint.solver.widgets.ConstraintAnchor;
+import android.support.constraint.solver.widgets.ConstraintWidget;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -24,12 +24,12 @@ public class Analyzer {
         layoutWidget.mVerticalWrapOptimized = false;
         List<ConstraintWidget> widgets = layoutWidget.mChildren;
         List<ConstraintWidgetGroup> widgetGroups = layoutWidget.mWidgetGroups;
-        if (layoutWidget.getHorizontalDimensionBehaviour() == DimensionBehaviour.WRAP_CONTENT) {
+        if (layoutWidget.getHorizontalDimensionBehaviour() == ConstraintWidget.DimensionBehaviour.WRAP_CONTENT) {
             horizontalWrapContent = true;
         } else {
             horizontalWrapContent = false;
         }
-        if (layoutWidget.getVerticalDimensionBehaviour() == DimensionBehaviour.WRAP_CONTENT) {
+        if (layoutWidget.getVerticalDimensionBehaviour() == ConstraintWidget.DimensionBehaviour.WRAP_CONTENT) {
             verticalWrapContent = true;
         } else {
             verticalWrapContent = false;
@@ -59,14 +59,14 @@ public class Analyzer {
             measuredHeight = Math.max(measuredHeight, getMaxDimension(group, 1));
         }
         if (horizontalWrapContent) {
-            layoutWidget.setHorizontalDimensionBehaviour(DimensionBehaviour.FIXED);
+            layoutWidget.setHorizontalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.FIXED);
             layoutWidget.setWidth(measuredWidth);
             layoutWidget.mGroupsWrapOptimized = true;
             layoutWidget.mHorizontalWrapOptimized = true;
             layoutWidget.mWrapFixedWidth = measuredWidth;
         }
         if (verticalWrapContent) {
-            layoutWidget.setVerticalDimensionBehaviour(DimensionBehaviour.FIXED);
+            layoutWidget.setVerticalDimensionBehaviour(ConstraintWidget.DimensionBehaviour.FIXED);
             layoutWidget.setHeight(measuredHeight);
             layoutWidget.mGroupsWrapOptimized = true;
             layoutWidget.mVerticalWrapOptimized = true;
@@ -99,7 +99,7 @@ public class Analyzer {
                 }
             }
             if (!(widget.mTop.mTarget == null || widget.mBottom.mTarget == null)) {
-                if (layoutWidget.getVerticalDimensionBehaviour() == DimensionBehaviour.WRAP_CONTENT) {
+                if (layoutWidget.getVerticalDimensionBehaviour() == ConstraintWidget.DimensionBehaviour.WRAP_CONTENT) {
                 }
                 if (hasWrapContent) {
                     invalidate(layoutWidget, widget, upperGroup);
@@ -109,7 +109,7 @@ public class Analyzer {
                 }
             }
             if (!(widget.mLeft.mTarget == null || widget.mRight.mTarget == null)) {
-                if (layoutWidget.getHorizontalDimensionBehaviour() == DimensionBehaviour.WRAP_CONTENT) {
+                if (layoutWidget.getHorizontalDimensionBehaviour() == ConstraintWidget.DimensionBehaviour.WRAP_CONTENT) {
                 }
                 if (hasWrapContent) {
                     invalidate(layoutWidget, widget, upperGroup);
@@ -118,9 +118,9 @@ public class Analyzer {
                     invalidate(layoutWidget, widget, upperGroup);
                 }
             }
-            if (((widget.getHorizontalDimensionBehaviour() == DimensionBehaviour.MATCH_CONSTRAINT) ^ (widget.getVerticalDimensionBehaviour() == DimensionBehaviour.MATCH_CONSTRAINT)) && widget.mDimensionRatio != 0.0f) {
+            if (((widget.getHorizontalDimensionBehaviour() == ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT) ^ (widget.getVerticalDimensionBehaviour() == ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT)) && widget.mDimensionRatio != 0.0f) {
                 resolveDimensionRatio(widget);
-            } else if (widget.getHorizontalDimensionBehaviour() == DimensionBehaviour.MATCH_CONSTRAINT || widget.getVerticalDimensionBehaviour() == DimensionBehaviour.MATCH_CONSTRAINT) {
+            } else if (widget.getHorizontalDimensionBehaviour() == ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT || widget.getVerticalDimensionBehaviour() == ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT) {
                 invalidate(layoutWidget, widget, upperGroup);
                 if (hasWrapContent) {
                     return false;
@@ -146,7 +146,7 @@ public class Analyzer {
             }
             for (ConstraintAnchor anchor : widget.mListAnchors) {
                 if (!(anchor.mTarget == null || anchor.mTarget.mOwner == widget.getParent())) {
-                    if (anchor.mType == Type.CENTER) {
+                    if (anchor.mType == ConstraintAnchor.Type.CENTER) {
                         invalidate(layoutWidget, widget, upperGroup);
                         if (hasWrapContent) {
                             return false;
@@ -189,7 +189,7 @@ public class Analyzer {
         List<ConstraintWidget> startWidgets = group.getStartWidgets(orientation);
         int size = startWidgets.size();
         for (int i = 0; i < size; i++) {
-            ConstraintWidget widget = (ConstraintWidget) startWidgets.get(i);
+            ConstraintWidget widget = startWidgets.get(i);
             if (widget.mListAnchors[offset + 1].mTarget == null || !(widget.mListAnchors[offset].mTarget == null || widget.mListAnchors[offset + 1].mTarget == null)) {
                 topLeftFlow = true;
             } else {
@@ -208,6 +208,7 @@ public class Analyzer {
         int startOffset;
         int flow;
         int dimensionPost;
+        ConstraintWidget parent;
         if (!widget.mOptimizerMeasurable) {
             return 0;
         }
@@ -288,14 +289,10 @@ public class Analyzer {
             widget.mBelongingGroup.addWidgetsToSet(widget, orientation);
             widget.setRelativePositioning(leftTop, orientation);
         }
-        if (widget.getDimensionBehaviour(orientation) == DimensionBehaviour.MATCH_CONSTRAINT && widget.mDimensionRatio != 0.0f) {
+        if (widget.getDimensionBehaviour(orientation) == ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT && widget.mDimensionRatio != 0.0f) {
             widget.mBelongingGroup.addWidgetsToSet(widget, orientation);
         }
-        if (widget.mListAnchors[startOffset].mTarget == null || widget.mListAnchors[endOffset].mTarget == null) {
-            return dimension2;
-        }
-        ConstraintWidget parent = widget.getParent();
-        if (widget.mListAnchors[startOffset].mTarget.mOwner != parent || widget.mListAnchors[endOffset].mTarget.mOwner != parent) {
+        if (widget.mListAnchors[startOffset].mTarget == null || widget.mListAnchors[endOffset].mTarget == null || widget.mListAnchors[startOffset].mTarget.mOwner != (parent = widget.getParent()) || widget.mListAnchors[endOffset].mTarget.mOwner != parent) {
             return dimension2;
         }
         widget.mBelongingGroup.addWidgetsToSet(widget, orientation);
@@ -317,7 +314,7 @@ public class Analyzer {
     public static void setPosition(List<ConstraintWidgetGroup> groups, int orientation, int containerLength) {
         int groupsSize = groups.size();
         for (int i = 0; i < groupsSize; i++) {
-            for (ConstraintWidget widget : ((ConstraintWidgetGroup) groups.get(i)).getWidgetsToSet(orientation)) {
+            for (ConstraintWidget widget : groups.get(i).getWidgetsToSet(orientation)) {
                 if (widget.mOptimizerMeasurable) {
                     updateSizeDependentWidgets(widget, orientation, containerLength);
                 }
@@ -331,7 +328,7 @@ public class Analyzer {
         ConstraintAnchor endAnchor = widget.mListAnchors[offset + 1];
         if ((startAnchor.mTarget == null || endAnchor.mTarget == null) ? false : true) {
             Optimizer.setOptimizedWidget(widget, orientation, getParentBiasOffset(widget, orientation) + startAnchor.getMargin());
-        } else if (widget.mDimensionRatio == 0.0f || widget.getDimensionBehaviour(orientation) != DimensionBehaviour.MATCH_CONSTRAINT) {
+        } else if (widget.mDimensionRatio == 0.0f || widget.getDimensionBehaviour(orientation) != ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT) {
             int end = containerLength - widget.getRelativePositioning(orientation);
             int start = end - widget.getLength(orientation);
             widget.setFrame(start, end, orientation);
@@ -339,11 +336,10 @@ public class Analyzer {
         } else {
             int length = resolveDimensionRatio(widget);
             int start2 = (int) widget.mListAnchors[offset].getResolutionNode().resolvedOffset;
-            int end2 = start2 + length;
             endAnchor.getResolutionNode().resolvedTarget = startAnchor.getResolutionNode();
             endAnchor.getResolutionNode().resolvedOffset = (float) length;
             endAnchor.getResolutionNode().state = 1;
-            widget.setFrame(start2, end2, orientation);
+            widget.setFrame(start2, start2 + length, orientation);
         }
     }
 
@@ -360,14 +356,14 @@ public class Analyzer {
     private static int resolveDimensionRatio(ConstraintWidget widget) {
         int length;
         int length2 = -1;
-        if (widget.getHorizontalDimensionBehaviour() == DimensionBehaviour.MATCH_CONSTRAINT) {
+        if (widget.getHorizontalDimensionBehaviour() == ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT) {
             if (widget.mDimensionRatioSide == 0) {
                 length2 = (int) (((float) widget.getHeight()) * widget.mDimensionRatio);
             } else {
                 length2 = (int) (((float) widget.getHeight()) / widget.mDimensionRatio);
             }
             widget.setWidth(length2);
-        } else if (widget.getVerticalDimensionBehaviour() == DimensionBehaviour.MATCH_CONSTRAINT) {
+        } else if (widget.getVerticalDimensionBehaviour() == ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT) {
             if (widget.mDimensionRatioSide == 1) {
                 length = (int) (((float) widget.getWidth()) * widget.mDimensionRatio);
             } else {

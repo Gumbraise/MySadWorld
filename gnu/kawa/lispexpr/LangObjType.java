@@ -364,7 +364,7 @@ public class LangObjType extends ObjectType implements TypeValue {
         throw new ClassCastException("cannot cast " + obj + " to type");
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Method coercionMethod() {
         switch (this.typeCode) {
             case 4:
@@ -393,7 +393,7 @@ public class LangObjType extends ObjectType implements TypeValue {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Method coercionOrNullMethod() {
         String mname;
         ClassType methodDeclaringClass = this.implementationType;
@@ -551,11 +551,8 @@ public class LangObjType extends ObjectType implements TypeValue {
     }
 
     public Expression convertValue(Expression value) {
-        if (this.typeCode == 7 || this.typeCode == 10 || this.typeCode == 9 || this.typeCode == 8 || this.typeCode == 15) {
-            return null;
-        }
-        Method method = coercionMethod();
-        if (method == null) {
+        Method method;
+        if (this.typeCode == 7 || this.typeCode == 10 || this.typeCode == 9 || this.typeCode == 8 || this.typeCode == 15 || (method = coercionMethod()) == null) {
             return null;
         }
         ApplyExp aexp = new ApplyExp(method, value);

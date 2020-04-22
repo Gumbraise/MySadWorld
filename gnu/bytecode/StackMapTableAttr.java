@@ -15,14 +15,14 @@ public class StackMapTableAttr extends MiscAttr {
     int prevPosition = -1;
 
     public StackMapTableAttr() {
-        super("StackMapTable", null, 0, 0);
+        super("StackMapTable", (byte[]) null, 0, 0);
         put2(0);
     }
 
     public StackMapTableAttr(byte[] data, CodeAttr code) {
         super("StackMapTable", data, 0, data.length);
         addToFrontOf(code);
-        this.numEntries = mo9288u2(0);
+        this.numEntries = u2(0);
     }
 
     public Method getMethod() {
@@ -34,7 +34,7 @@ public class StackMapTableAttr extends MiscAttr {
         super.write(dstr);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void emitVerificationType(int encoding) {
         int tag = encoding & 255;
         put1(tag);
@@ -43,7 +43,7 @@ public class StackMapTableAttr extends MiscAttr {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public int encodeVerificationType(Type type, CodeAttr code) {
         if (type == null) {
             return 0;
@@ -176,7 +176,7 @@ public class StackMapTableAttr extends MiscAttr {
         this.numEntries++;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void printVerificationType(int encoding, ClassTypeWriter dst) {
         int tag = encoding & 255;
         switch (tag) {
@@ -207,9 +207,8 @@ public class StackMapTableAttr extends MiscAttr {
                 dst.printConstantTersely(index, 7);
                 return;
             case 8:
-                int offset = encoding >> 8;
                 dst.print("uninitialized object created at ");
-                dst.print(offset);
+                dst.print(encoding >> 8);
                 return;
             default:
                 dst.print("<bad verification type tag " + tag + '>');
@@ -217,10 +216,10 @@ public class StackMapTableAttr extends MiscAttr {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public int extractVerificationType(int startOffset, int tag) {
         if (tag == 7 || tag == 8) {
-            return tag | (mo9288u2(startOffset + 1) << 8);
+            return tag | (u2(startOffset + 1) << 8);
         }
         return tag;
     }
@@ -237,7 +236,7 @@ public class StackMapTableAttr extends MiscAttr {
         return tmp;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public int extractVerificationTypes(int startOffset, int count, int startIndex, int[] buffer) {
         int encoding;
         int offset = startOffset;
@@ -259,7 +258,7 @@ public class StackMapTableAttr extends MiscAttr {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void printVerificationTypes(int[] encodings, int startIndex, int count, ClassTypeWriter dst) {
         int regno = 0;
         for (int i = 0; i < startIndex + count; i++) {
@@ -301,14 +300,14 @@ public class StackMapTableAttr extends MiscAttr {
         while (i < this.numEntries) {
             if (ipos < this.dataLength) {
                 int ipos2 = ipos + 1;
-                int tag = mo9286u1(ipos);
+                int tag = u1(ipos);
                 int pc_offset2 = pc_offset + 1;
                 if (tag <= 127) {
                     pc_offset = pc_offset2 + (tag & 63);
                     ipos = ipos2;
                 } else {
                     if (ipos2 + 1 < this.dataLength) {
-                        pc_offset = pc_offset2 + mo9288u2(ipos2);
+                        pc_offset = pc_offset2 + u2(ipos2);
                         ipos = ipos2 + 2;
                     } else {
                         return;
@@ -346,17 +345,16 @@ public class StackMapTableAttr extends MiscAttr {
                     curLocals += count2;
                 } else {
                     if (ipos + 1 < this.dataLength) {
-                        int num_locals = mo9288u2(ipos);
-                        int ipos3 = ipos + 2;
+                        int num_locals = u2(ipos);
                         dst.print(" - full_frame.  Locals count: ");
                         dst.println(num_locals);
                         int[] encodedTypes2 = reallocBuffer(encodedTypes, num_locals);
-                        int ipos4 = extractVerificationTypes(ipos3, num_locals, 0, encodedTypes2);
+                        int ipos3 = extractVerificationTypes(ipos + 2, num_locals, 0, encodedTypes2);
                         printVerificationTypes(encodedTypes2, 0, num_locals, dst);
                         curLocals = num_locals;
-                        if (ipos4 + 1 < this.dataLength) {
-                            int num_stack = mo9288u2(ipos4);
-                            int ipos5 = ipos4 + 2;
+                        if (ipos3 + 1 < this.dataLength) {
+                            int num_stack = u2(ipos3);
+                            int ipos4 = ipos3 + 2;
                             dst.print("    (end of locals)");
                             int nspaces = Integer.toString(pc_offset).length();
                             while (true) {
@@ -369,7 +367,7 @@ public class StackMapTableAttr extends MiscAttr {
                             dst.print("       Stack count: ");
                             dst.println(num_stack);
                             encodedTypes = reallocBuffer(encodedTypes2, num_stack);
-                            ipos = extractVerificationTypes(ipos5, num_stack, 0, encodedTypes);
+                            ipos = extractVerificationTypes(ipos4, num_stack, 0, encodedTypes);
                             printVerificationTypes(encodedTypes, 0, num_stack, dst);
                             int curStack = num_stack;
                         } else {

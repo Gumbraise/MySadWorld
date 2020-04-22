@@ -51,17 +51,15 @@ public class ConsumerTarget extends Target {
         Scope scope = code.pushScope();
         if (makeMethod.getName() == "<init>") {
             ClassType cltype = makeMethod.getDeclaringClass();
-            Type ctype2 = cltype;
+            ctype = cltype;
             code.emitNew(cltype);
-            code.emitDup(ctype2);
+            code.emitDup(ctype);
             code.emitInvoke(makeMethod);
-            ctype = ctype2;
         } else {
-            Type returnType = makeMethod.getReturnType();
+            ctype = makeMethod.getReturnType();
             code.emitInvokeStatic(makeMethod);
-            ctype = returnType;
         }
-        Variable consumer2 = scope.addVariable(code, ctype, null);
+        Variable consumer2 = scope.addVariable(code, ctype, (String) null);
         ConsumerTarget ctarget = new ConsumerTarget(consumer2);
         code.emitStore(consumer2);
         exp.compile(comp, (Target) ctarget);
@@ -80,7 +78,7 @@ public class ConsumerTarget extends Target {
         compileFromStack(comp, stackType, -1);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void compileFromStack(Compilation comp, Type stackType, int consumerPushed) {
         char sig;
         CodeAttr code = comp.getCode();

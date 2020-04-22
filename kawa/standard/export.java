@@ -42,17 +42,20 @@ public class export extends Syntax {
                             nameSyntax = (SyntaxForm) symbol;
                             symbol = nameSyntax.getDatum();
                         }
-                        if (symbol instanceof String) {
+                        boolean z = symbol instanceof String;
+                        Object symbol2 = symbol;
+                        if (z) {
                             String str = (String) symbol;
+                            symbol2 = symbol;
                             if (str.startsWith("namespace:")) {
                                 tr.error('w', "'namespace:' prefix ignored");
-                                symbol = str.substring(10).intern();
+                                symbol2 = str.substring(10).intern();
                             }
                         }
-                        if ((symbol instanceof String) || (symbol instanceof Symbol)) {
+                        if ((symbol2 instanceof String) || (symbol2 instanceof Symbol)) {
                             if (nameSyntax != null) {
                             }
-                            Declaration decl = defs.getNoDefine(symbol);
+                            Declaration decl = defs.getNoDefine(symbol2);
                             if (decl.getFlag(512)) {
                                 Translator.setLine(decl, (Object) st2);
                             }

@@ -47,7 +47,7 @@ public class SimpleEnvironment extends Environment {
         int capacity2 = 1 << this.log2Size;
         this.table = new NamedLocation[capacity2];
         this.mask = capacity2 - 1;
-        this.sharedTail = new PlainLocation(null, null, this);
+        this.sharedTail = new PlainLocation((Symbol) null, (Object) null, this);
     }
 
     public NamedLocation lookup(Symbol name, Object property, int hash) {
@@ -95,7 +95,7 @@ public class SimpleEnvironment extends Environment {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public NamedLocation newLocation(Symbol name, Object property) {
         if ((this.flags & 8) != 0) {
             return new SharedLocation(name, property, this.currentTimestamp);
@@ -103,7 +103,7 @@ public class SimpleEnvironment extends Environment {
         return new PlainLocation(name, property);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public NamedLocation newEntry(Symbol name, Object property, int index) {
         NamedLocation loc = newLocation(name, property);
         NamedLocation first = this.table[index];
@@ -150,7 +150,7 @@ public class SimpleEnvironment extends Environment {
     }
 
     /* Debug info: failed to restart local var, previous not found, register: 6 */
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public NamedLocation addLocation(Symbol name, Object property, int hash, Location loc) {
         boolean bound;
         if ((loc instanceof ThreadLocation) && ((ThreadLocation) loc).property == property) {
@@ -185,7 +185,7 @@ public class SimpleEnvironment extends Environment {
         return nloc;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void rehash() {
         NamedLocation[] oldTable = this.table;
         int oldCapacity = oldTable.length;

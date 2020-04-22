@@ -9,13 +9,13 @@ public abstract class Complex extends Quantity {
     }
 
     public boolean isExact() {
-        return mo11744re().isExact() && mo11743im().isExact();
+        return re().isExact() && im().isExact();
     }
 
     /* Debug info: failed to restart local var, previous not found, register: 4 */
     public Complex toExact() {
-        RealNum re = mo11744re();
-        RealNum im = mo11743im();
+        RealNum re = re();
+        RealNum im = im();
         RatNum xre = re.toExact();
         RatNum xim = im.toExact();
         return (xre == re && xim == im) ? this : new CComplex(xre, xim);
@@ -23,7 +23,7 @@ public abstract class Complex extends Quantity {
 
     /* Debug info: failed to restart local var, previous not found, register: 6 */
     public Complex toInexact() {
-        return isExact() ? this : new DComplex(mo11744re().doubleValue(), mo11743im().doubleValue());
+        return isExact() ? this : new DComplex(re().doubleValue(), im().doubleValue());
     }
 
     public static CComplex imOne() {
@@ -41,11 +41,11 @@ public abstract class Complex extends Quantity {
     }
 
     public double doubleValue() {
-        return mo11744re().doubleValue();
+        return re().doubleValue();
     }
 
     public double doubleImagValue() {
-        return mo11743im().doubleValue();
+        return im().doubleValue();
     }
 
     public final double doubleRealValue() {
@@ -53,7 +53,7 @@ public abstract class Complex extends Quantity {
     }
 
     public long longValue() {
-        return mo11744re().longValue();
+        return re().longValue();
     }
 
     public static Complex make(RealNum re, RealNum im) {
@@ -104,7 +104,7 @@ public abstract class Complex extends Quantity {
     }
 
     public static boolean equals(Complex x, Complex y) {
-        return x.mo11744re().equals(y.mo11744re()) && x.mo11743im().equals(x.mo11743im());
+        return x.re().equals(y.re()) && x.im().equals(x.im());
     }
 
     public boolean equals(Object obj) {
@@ -115,8 +115,8 @@ public abstract class Complex extends Quantity {
     }
 
     public static int compare(Complex x, Complex y) {
-        int code = x.mo11743im().compare(y.mo11743im());
-        return code != 0 ? code : x.mo11744re().compare(y.mo11744re());
+        int code = x.im().compare(y.im());
+        return code != 0 ? code : x.re().compare(y.re());
     }
 
     public int compare(Object obj) {
@@ -127,22 +127,22 @@ public abstract class Complex extends Quantity {
     }
 
     public boolean isZero() {
-        return mo11744re().isZero() && mo11743im().isZero();
+        return re().isZero() && im().isZero();
     }
 
     public String toString(int radix) {
-        if (mo11743im().isZero()) {
-            return mo11744re().toString(radix);
+        if (im().isZero()) {
+            return re().toString(radix);
         }
-        String imString = mo11743im().toString(radix) + "i";
+        String imString = im().toString(radix) + "i";
         if (imString.charAt(0) != '-') {
             imString = "+" + imString;
         }
-        return !mo11744re().isZero() ? mo11744re().toString(radix) + imString : imString;
+        return !re().isZero() ? re().toString(radix) + imString : imString;
     }
 
     public static Complex neg(Complex x) {
-        return make(x.mo11744re().rneg(), x.mo11743im().rneg());
+        return make(x.re().rneg(), x.im().rneg());
     }
 
     public Numeric neg() {
@@ -150,7 +150,7 @@ public abstract class Complex extends Quantity {
     }
 
     public static Complex add(Complex x, Complex y, int k) {
-        return make(RealNum.add(x.mo11744re(), y.mo11744re(), k), RealNum.add(x.mo11743im(), y.mo11743im(), k));
+        return make(RealNum.add(x.re(), y.re(), k), RealNum.add(x.im(), y.im(), k));
     }
 
     public Numeric add(Object y, int k) {
@@ -168,10 +168,10 @@ public abstract class Complex extends Quantity {
     }
 
     public static Complex times(Complex x, Complex y) {
-        RealNum x_re = x.mo11744re();
-        RealNum x_im = x.mo11743im();
-        RealNum y_re = y.mo11744re();
-        RealNum y_im = y.mo11743im();
+        RealNum x_re = x.re();
+        RealNum x_im = x.im();
+        RealNum y_re = y.re();
+        RealNum y_im = y.im();
         return make(RealNum.add(RealNum.times(x_re, y_re), RealNum.times(x_im, y_im), -1), RealNum.add(RealNum.times(x_re, y_im), RealNum.times(x_im, y_re), 1));
     }
 
@@ -193,10 +193,10 @@ public abstract class Complex extends Quantity {
         if (!x.isExact() || !y.isExact()) {
             return DComplex.div(x.doubleRealValue(), x.doubleImagValue(), y.doubleRealValue(), y.doubleImagValue());
         }
-        RealNum x_re = x.mo11744re();
-        RealNum x_im = x.mo11743im();
-        RealNum y_re = y.mo11744re();
-        RealNum y_im = y.mo11743im();
+        RealNum x_re = x.re();
+        RealNum x_im = x.im();
+        RealNum y_re = y.re();
+        RealNum y_im = y.im();
         RealNum q = RealNum.add(RealNum.times(y_re, y_re), RealNum.times(y_im, y_im), 1);
         return make(RealNum.divide(RealNum.add(RealNum.times(x_re, y_re), RealNum.times(x_im, y_im), 1), q), RealNum.divide(RealNum.add(RealNum.times(x_im, y_re), RealNum.times(x_re, y_im), -1), q));
     }

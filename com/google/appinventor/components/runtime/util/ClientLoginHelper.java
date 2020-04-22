@@ -2,11 +2,13 @@ package com.google.appinventor.components.runtime.util;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import java.io.IOException;
@@ -31,10 +33,7 @@ public class ClientLoginHelper implements IClientLoginHelper {
 
     public ClientLoginHelper(Activity activity2, String service2, String prompt, HttpClient client2) {
         this.service = service2;
-        if (client2 == null) {
-            client2 = new DefaultHttpClient();
-        }
-        this.client = client2;
+        this.client = client2 == null ? new DefaultHttpClient() : client2;
         this.activity = activity2;
         this.accountManager = AccountManager.get(activity2);
         this.accountChooser = new AccountChooser(activity2, service2, prompt, service2);
@@ -83,7 +82,6 @@ public class ClientLoginHelper implements IClientLoginHelper {
     }
 
     private static void removeGoogleAuthHeaders(HttpUriRequest request) {
-        Header[] allHeaders;
         for (Header header : request.getAllHeaders()) {
             if (header.getName().equalsIgnoreCase("Authorization") && header.getValue().startsWith(AUTHORIZATION_HEADER_PREFIX)) {
                 Log.i(LOG_TAG, "Removing header:" + header);
@@ -95,10 +93,10 @@ public class ClientLoginHelper implements IClientLoginHelper {
     public String getAuthToken() throws ClientProtocolException {
         Account account = this.accountChooser.findAccount();
         if (account != null) {
-            AccountManagerFuture<Bundle> future = this.accountManager.getAuthToken(account, this.service, null, this.activity, null, null);
+            AccountManagerFuture<Bundle> future = this.accountManager.getAuthToken(account, this.service, (Bundle) null, this.activity, (AccountManagerCallback) null, (Handler) null);
             Log.i(LOG_TAG, "Have account, auth token: " + future);
             try {
-                return ((Bundle) future.getResult()).getString("authtoken");
+                return future.getResult().getString("authtoken");
             } catch (AuthenticatorException e) {
                 e.printStackTrace();
             } catch (IOException e2) {

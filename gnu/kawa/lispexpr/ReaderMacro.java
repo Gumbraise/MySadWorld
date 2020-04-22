@@ -9,6 +9,7 @@ import java.io.IOException;
 public class ReaderMacro extends ReaderMisc {
     Procedure procedure;
 
+    /* JADX INFO: super call moved to the top of the method (can break code semantics) */
     public ReaderMacro(Procedure procedure2, boolean nonTerminating) {
         super(nonTerminating ? 6 : 5);
         this.procedure = procedure2;

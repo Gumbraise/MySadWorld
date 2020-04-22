@@ -1,6 +1,6 @@
 package com.google.appinventor.components.runtime.util;
 
-import android.os.Build.VERSION;
+import android.os.Build;
 import android.widget.TextView;
 
 public final class IceCreamSandwichUtil {
@@ -8,7 +8,7 @@ public final class IceCreamSandwichUtil {
     }
 
     public static void setAllCaps(TextView view, boolean allCaps) {
-        if (VERSION.SDK_INT >= 14) {
+        if (Build.VERSION.SDK_INT >= 14) {
             view.setAllCaps(allCaps);
         }
     }

@@ -95,10 +95,10 @@ public class XQResolveNames extends ResolveNames {
     }
 
     public XQResolveNames() {
-        this(null);
+        this((Compilation) null);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void pushBuiltin(String name, int code) {
         this.lookup.push(makeBuiltin(name, code));
     }
@@ -143,7 +143,7 @@ public class XQResolveNames extends ResolveNames {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void push(Declaration decl) {
         Compilation comp = getCompilation();
         Object name = decl.getSymbol();
@@ -176,20 +176,18 @@ public class XQResolveNames extends ResolveNames {
         this.lookup.push(decl);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Declaration flookup(Symbol sym) {
+        Declaration decl;
         Location loc = XQuery.xqEnvironment.lookup(sym, EnvironmentKey.FUNCTION);
         if (loc == null) {
             return null;
         }
         Location loc2 = loc.getBase();
-        if (loc2 instanceof StaticFieldLocation) {
-            Declaration decl = ((StaticFieldLocation) loc2).getDeclaration();
-            if (decl != null) {
-                return decl;
-            }
+        if ((loc2 instanceof StaticFieldLocation) && (decl = ((StaticFieldLocation) loc2).getDeclaration()) != null) {
+            return decl;
         }
-        Object val = loc2.get(null);
+        Object val = loc2.get((Object) null);
         if (val != null) {
             return procToDecl(sym, val);
         }
@@ -203,6 +201,7 @@ public class XQResolveNames extends ResolveNames {
 
     /* access modifiers changed from: protected */
     public Expression visitReferenceExp(ReferenceExp exp, ApplyExp call) {
+        Symbol sym;
         String mname;
         if (exp.getBinding() != null) {
             return exp;
@@ -214,9 +213,9 @@ public class XQResolveNames extends ResolveNames {
         Declaration decl = this.lookup.lookup(symbol, namespace);
         if (decl == null) {
             if (symbol instanceof Symbol) {
-                Symbol sym = (Symbol) symbol;
-                if ("".equals(sym.getNamespaceURI())) {
-                    String name = sym.getLocalName();
+                Symbol sym2 = (Symbol) symbol;
+                if ("".equals(sym2.getNamespaceURI())) {
+                    String name = sym2.getLocalName();
                     if ("request".equals(name)) {
                         mname = "getCurrentRequest";
                     } else if ("response".equals(name)) {
@@ -225,8 +224,7 @@ public class XQResolveNames extends ResolveNames {
                         mname = null;
                     }
                     if (mname != null) {
-                        ApplyExp applyExp = new ApplyExp(ClassType.make("gnu.kawa.servlet.ServletRequestContext").getDeclaredMethod(mname, 0), Expression.noExpressions);
-                        return applyExp;
+                        return new ApplyExp(ClassType.make("gnu.kawa.servlet.ServletRequestContext").getDeclaredMethod(mname, 0), Expression.noExpressions);
                     }
                 }
             }
@@ -238,43 +236,26 @@ public class XQResolveNames extends ResolveNames {
                     name2 = name2.intern();
                     if (needFunction) {
                         int i = 0;
-                        while (i < this.functionNamespacePath.length) {
-                            Symbol sym2 = this.functionNamespacePath[i].getSymbol(name2);
-                            decl = this.lookup.lookup((Object) sym2, namespace);
-                            if (decl == null) {
-                                decl = flookup(sym2);
-                                if (decl != null) {
-                                    break;
-                                }
-                                i++;
-                            } else {
-                                break;
-                            }
+                        while (i < this.functionNamespacePath.length && (decl = this.lookup.lookup((Object) (sym = this.functionNamespacePath[i].getSymbol(name2)), namespace)) == null && (decl = flookup(sym)) == null) {
+                            i++;
                         }
                     }
                 }
-                if (decl == null) {
-                    Symbol sym3 = this.parser.namespaceResolve(name2, needFunction);
-                    if (sym3 != null) {
-                        decl = this.lookup.lookup((Object) sym3, namespace);
-                        if (decl == null && (needFunction || needType)) {
-                            String uri = sym3.getNamespaceURI();
-                            Type type = null;
-                            if (XQuery.SCHEMA_NAMESPACE.equals(uri)) {
-                                type = XQuery.getStandardType(sym3.getName());
-                            } else if (needType && uri == "" && !getCompilation().isPedantic()) {
-                                type = Scheme.string2Type(sym3.getName());
-                            }
-                            if (type != null) {
-                                QuoteExp quoteExp = new QuoteExp(type);
-                                return quoteExp.setLine((Expression) exp);
-                            } else if (uri != null && uri.length() > 6 && uri.startsWith("class:")) {
-                                return CompileNamedPart.makeExp((Type) ClassType.make(uri.substring(6)), sym3.getName());
-                            } else {
-                                decl = flookup(sym3);
-                            }
-                        }
+                if (decl == null && (sym = this.parser.namespaceResolve(name2, needFunction)) != null && (decl = this.lookup.lookup((Object) sym, namespace)) == null && (needFunction || needType)) {
+                    String uri = sym.getNamespaceURI();
+                    Type type = null;
+                    if (XQuery.SCHEMA_NAMESPACE.equals(uri)) {
+                        type = XQuery.getStandardType(sym.getName());
+                    } else if (needType && uri == "" && !getCompilation().isPedantic()) {
+                        type = Scheme.string2Type(sym.getName());
                     }
+                    if (type != null) {
+                        return new QuoteExp(type).setLine((Expression) exp);
+                    }
+                    if (uri != null && uri.length() > 6 && uri.startsWith("class:")) {
+                        return CompileNamedPart.makeExp((Type) ClassType.make(uri.substring(6)), sym.getName());
+                    }
+                    decl = flookup(sym);
                 }
             }
         }
@@ -352,7 +333,7 @@ public class XQResolveNames extends ResolveNames {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Expression getCollator(Expression[] args, int argno) {
         if (args == null || args.length <= argno) {
             NamedCollator coll = this.parser.defaultCollator;
@@ -361,12 +342,12 @@ public class XQResolveNames extends ResolveNames {
         return new ApplyExp(ClassType.make("gnu.xquery.util.NamedCollator").getDeclaredMethod("find", 1), args[argno]);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Expression withCollator(Method method, Expression[] args, String name, int minArgs) {
         return withCollator((Expression) new QuoteExp(new PrimProcedure(method)), args, name, minArgs);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Expression withCollator(Expression function, Expression[] args, String name, int minArgs) {
         String err = WrongArguments.checkArgCount(name, minArgs, minArgs + 1, args.length);
         if (err != null) {
@@ -378,7 +359,7 @@ public class XQResolveNames extends ResolveNames {
         return new ApplyExp(function, xargs);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Expression withContext(Method method, Expression[] args, String name, int minArgs) {
         String err = WrongArguments.checkArgCount(name, minArgs, minArgs + 1, args.length);
         if (err != null) {
@@ -410,6 +391,10 @@ public class XQResolveNames extends ResolveNames {
     /* access modifiers changed from: protected */
     public Expression visitApplyExp(ApplyExp exp, Void ignored) {
         Expression func;
+        ApplyExp app;
+        Symbol sym;
+        Declaration decl;
+        int code;
         String mname;
         Expression func2;
         Expression func3 = exp.getFunction();
@@ -430,244 +415,227 @@ public class XQResolveNames extends ResolveNames {
         visitExps(exp.getArgs(), ignored);
         this.parser.constructorNamespaces = namespaceSave;
         Expression func4 = exp.getFunction();
-        if (func4 instanceof ReferenceExp) {
-            Declaration decl = ((ReferenceExp) func4).getBinding();
-            if (decl != null) {
-                int code = decl.getCode();
-                if (code < 0) {
-                    switch (code) {
-                        case XS_QNAME_IGNORE_DEFAULT_BUILTIN /*-36*/:
-                        case XS_QNAME_BUILTIN /*-35*/:
-                            Expression[] args = exp.getArgs();
-                            Expression err = checkArgCount(args, decl, 1, 1);
-                            if (err != null) {
-                                return err;
-                            }
-                            NamespaceBinding constructorNamespaces = this.parser.constructorNamespaces;
-                            if (code == -36) {
-                                NamespaceBinding namespaceBinding = new NamespaceBinding(null, "", constructorNamespaces);
-                                constructorNamespaces = namespaceBinding;
-                            }
-                            if (args[0] instanceof QuoteExp) {
-                                try {
-                                    QuoteExp quoteExp = new QuoteExp(QNameUtils.resolveQName(((QuoteExp) args[0]).getValue(), constructorNamespaces, this.parser.prologNamespaces));
-                                    return quoteExp;
-                                } catch (RuntimeException ex) {
-                                    return getCompilation().syntaxError(ex.getMessage());
-                                }
-                            } else {
-                                QuoteExp quoteExp2 = new QuoteExp(constructorNamespaces);
-                                ApplyExp app = new ApplyExp(ClassType.make("gnu.xquery.util.QNameUtils").getDeclaredMethod("resolveQName", 3), args[0], quoteExp2, new QuoteExp(this.parser.prologNamespaces));
-                                app.setFlag(4);
-                                return app;
-                            }
-                        case CASTABLE_AS_BUILTIN /*-34*/:
-                        case CAST_AS_BUILTIN /*-33*/:
-                            Expression[] args2 = exp.getArgs();
-                            Expression texp = args2[code == -33 ? (char) 0 : 1];
-                            Expression qexp = texp;
-                            if (texp instanceof ApplyExp) {
-                                ApplyExp taexp = (ApplyExp) texp;
-                                if (taexp.getFunction().valueIfConstant() == XQParser.proc_OccurrenceType_getInstance) {
-                                    qexp = taexp.getArg(0);
-                                }
-                            }
-                            Object value = qexp.valueIfConstant();
-                            String msg = null;
-                            if (value == SingletonType.getInstance()) {
-                                msg = "type to 'cast as' or 'castable as' must be atomic";
-                            } else if (value == XDataType.anyAtomicType) {
-                                msg = "type to 'cast as' or 'castable as' cannot be anyAtomicType";
-                            } else if (value == XDataType.anySimpleType) {
-                                msg = "type to 'cast as' or 'castable as' cannot be anySimpleType";
-                            } else if (value == XDataType.untypedType) {
-                                msg = "type to 'cast as' or 'castable as' cannot be untyped";
-                            } else if (value == XDataType.NotationType) {
-                                msg = "type to 'cast as' or 'castable as' cannot be NOTATION";
-                            }
-                            if (msg != null) {
-                                this.messages.error('e', texp, msg, "XPST0080");
-                            }
-                            boolean toQName = value == Compilation.typeSymbol && !(texp instanceof ApplyExp);
-                            if (code == -33) {
-                                if (toQName) {
-                                    return visitApplyExp(XQParser.castQName(args2[1], true), ignored);
-                                }
-                                func2 = XQParser.makeFunctionExp("gnu.xquery.util.CastAs", "castAs");
-                            } else if (!toQName || !(args2[0] instanceof QuoteExp)) {
-                                func2 = XQParser.makeFunctionExp("gnu.xquery.lang.XQParser", "castableAs");
-                            } else {
-                                try {
-                                    QNameUtils.resolveQName(((QuoteExp) args2[0]).getValue(), this.parser.constructorNamespaces, this.parser.prologNamespaces);
-                                    return XQuery.trueExp;
-                                } catch (RuntimeException e) {
-                                    return XQuery.falseExp;
-                                }
-                            }
-                            ApplyExp applyExp = new ApplyExp(func2, args2);
-                            return applyExp.setLine((Expression) exp);
-                        case ROOT_BUILTIN /*-32*/:
-                            return withContext(ClassType.make("gnu.xquery.util.NodeUtils").getDeclaredMethod("root", 1), exp.getArgs(), "fn:root", 0);
-                        case IDREF_BUILTIN /*-31*/:
-                            return withContext(ClassType.make("gnu.xquery.util.NodeUtils").getDeclaredMethod("idref", 2), exp.getArgs(), "fn:idref", 1);
-                        case ID_BUILTIN /*-30*/:
-                            return withContext(ClassType.make("gnu.xquery.util.NodeUtils").getDeclaredMethod("id$X", 3), exp.getArgs(), "fn:id", 1);
-                        case DEFAULT_COLLATION_BUILTIN /*-29*/:
-                            Expression err2 = checkArgCount(exp.getArgs(), decl, 0, 0);
-                            if (err2 != null) {
-                                return err2;
-                            }
-                            NamedCollator coll = this.parser.defaultCollator;
-                            return QuoteExp.getInstance(coll != null ? coll.getName() : NamedCollator.UNICODE_CODEPOINT_COLLATION);
-                        case NUMBER_BUILTIN /*-28*/:
-                            return withContext(ClassType.make("gnu.xquery.util.NumberValue").getDeclaredMethod("numberValue", 1), exp.getArgs(), "fn:number", 0);
-                        case MAX_BUILTIN /*-27*/:
-                            return withCollator(ClassType.make("gnu.xquery.util.MinMax").getDeclaredMethod("max", 2), exp.getArgs(), "fn:max", 1);
-                        case MIN_BUILTIN /*-26*/:
-                            return withCollator(ClassType.make("gnu.xquery.util.MinMax").getDeclaredMethod("min", 2), exp.getArgs(), "fn:min", 1);
-                        case DEEP_EQUAL_BUILTIN /*-25*/:
-                            return withCollator(ClassType.make("gnu.xquery.util.SequenceUtils").getDeclaredMethod("deepEqual", 3), exp.getArgs(), "fn:deep-equal", 2);
-                        case NAME_BUILTIN /*-24*/:
-                            return withContext(ClassType.make("gnu.xquery.util.NodeUtils").getDeclaredMethod("name", 1), exp.getArgs(), "fn:name", 0);
-                        case LANG_BUILTIN /*-23*/:
-                            return withContext(ClassType.make("gnu.xquery.util.NodeUtils").getDeclaredMethod("lang", 2), exp.getArgs(), "fn:lang", 1);
-                        case UNORDERED_BUILTIN /*-18*/:
-                            Expression[] args3 = exp.getArgs();
-                            Expression err3 = checkArgCount(args3, decl, 1, 1);
-                            if (err3 == null) {
-                                return args3[0];
-                            }
-                            return err3;
-                        case NORMALIZE_SPACE_BUILTIN /*-17*/:
-                            return withContext(ClassType.make("gnu.xquery.util.StringUtils").getDeclaredMethod("normalizeSpace", 1), exp.getArgs(), "fn:normalize-space", 0);
-                        case STRING_BUILTIN /*-16*/:
-                            return withContext(ClassType.make("gnu.xml.TextUtils").getDeclaredMethod("asString", 1), exp.getArgs(), "fn:string", 0);
-                        case INDEX_OF_BUILTIN /*-15*/:
-                            return withCollator(ClassType.make("gnu.xquery.util.SequenceUtils").getDeclaredMethod("indexOf$X", 4), exp.getArgs(), "fn:index-of", 2);
-                        case STATIC_BASE_URI_BUILTIN /*-14*/:
-                            Expression err4 = checkArgCount(exp.getArgs(), decl, 0, 0);
-                            if (err4 == null) {
-                                return getBaseUriExpr();
-                            }
-                            return err4;
-                        case RESOLVE_PREFIX_BUILTIN /*-13*/:
-                            Expression[] args4 = exp.getArgs();
-                            Expression err5 = checkArgCount(args4, decl, 1, 1);
-                            if (err5 != null) {
-                                return err5;
-                            }
-                            if (args4[0] instanceof QuoteExp) {
-                                Object val = ((QuoteExp) args4[0]).getValue();
-                                String prefix = val == null ? null : val.toString();
-                                String val2 = QNameUtils.lookupPrefix(prefix, this.parser.constructorNamespaces, this.parser.prologNamespaces);
-                                if (val2 == null) {
-                                    return getCompilation().syntaxError("unknown namespace prefix '" + prefix + "'");
-                                }
-                                QuoteExp quoteExp3 = new QuoteExp(val2);
-                                return quoteExp3;
-                            }
-                            Expression[] xargs = {args4[0], new QuoteExp(this.parser.constructorNamespaces), new QuoteExp(this.parser.prologNamespaces)};
-                            PrimProcedure primProcedure = new PrimProcedure(ClassType.make("gnu.xquery.util.QNameUtils").getDeclaredMethod("resolvePrefix", 3));
-                            ApplyExp app2 = new ApplyExp((Procedure) primProcedure, xargs);
-                            app2.setFlag(4);
-                            return app2;
-                        case RESOLVE_URI_BUILTIN /*-12*/:
-                            Expression[] args5 = exp.getArgs();
-                            Expression err6 = checkArgCount(args5, decl, 1, 2);
-                            if (err6 != null) {
-                                return err6;
-                            }
-                            Expression[] margs = new Expression[2];
-                            margs[0] = args5[0];
-                            if (args5.length == 1) {
-                                margs[1] = getBaseUriExpr();
-                            } else {
-                                margs[1] = args5[1];
-                            }
-                            ApplyExp applyExp2 = new ApplyExp(ClassType.make("gnu.xquery.util.QNameUtils").getDeclaredMethod("resolveURI", 2), margs);
-                            return applyExp2;
-                        case BASE_URI_BUILTIN /*-11*/:
-                            return withContext(ClassType.make("gnu.xquery.util.NodeUtils").getDeclaredMethod("baseUri", 1), exp.getArgs(), "fn:base-uri", 0);
-                        case DOC_AVAILABLE_BUILTIN /*-10*/:
-                        case DOC_BUILTIN /*-9*/:
-                            Expression[] args6 = exp.getArgs();
-                            ClassType cl = ClassType.make("gnu.xquery.util.NodeUtils");
-                            if (code == -9) {
-                                mname = "docCached";
-                                if (XQParser.warnOldVersion && "document".equals(decl.getName())) {
-                                    getCompilation().error('w', "replace 'document' by 'doc'");
-                                }
-                            } else {
-                                mname = "availableCached";
-                            }
-                            Method meth = cl.getDeclaredMethod(mname, 2);
-                            Expression err7 = checkArgCount(args6, decl, 1, 1);
-                            if (err7 != null) {
-                                return err7;
-                            }
-                            ApplyExp aexp = new ApplyExp(meth, args6[0], getBaseUriExpr());
-                            if (code == -9) {
-                                aexp.setType(NodeType.documentNodeTest);
-                            } else {
-                                aexp.setType(XDataType.booleanType);
-                            }
-                            return aexp;
-                        case COLLECTION_BUILTIN /*-8*/:
-                            Expression[] args7 = exp.getArgs();
-                            Method meth2 = ClassType.make("gnu.xquery.util.NodeUtils").getDeclaredMethod("collection", 2);
-                            Expression err8 = checkArgCount(args7, decl, 0, 1);
-                            if (err8 != null) {
-                                return err8;
-                            }
-                            ApplyExp aexp2 = new ApplyExp(meth2, args7.length > 0 ? args7[0] : QuoteExp.voidExp, getBaseUriExpr());
-                            aexp2.setType(NodeType.documentNodeTest);
-                            return aexp2;
-                        case NAMESPACE_URI_BUILTIN /*-7*/:
-                            return withContext(ClassType.make("gnu.xquery.util.NodeUtils").getDeclaredMethod("namespaceURI", 1), exp.getArgs(), "fn:namespace-uri", 0);
-                        case LOCAL_NAME_BUILTIN /*-6*/:
-                            return withContext(ClassType.make("gnu.xquery.util.NodeUtils").getDeclaredMethod("localName", 1), exp.getArgs(), "fn:local-name", 0);
-                        case DISTINCT_VALUES_BUILTIN /*-5*/:
-                            return withCollator(ClassType.make("gnu.xquery.util.DistinctValues").getDeclaredMethod("distinctValues$X", 3), exp.getArgs(), "fn:distinct-values", 1);
-                        case -4:
-                            return withCollator(ClassType.make("gnu.xquery.util.StringUtils").getDeclaredMethod("compare", 3), exp.getArgs(), "fn:compare", 2);
-                        case -3:
-                            Compilation comp = getCompilation();
-                            Expression[] args8 = exp.getArgs();
-                            int i = 0;
-                            while (i < args8.length - 1) {
-                                Symbol psymbol = this.parser.namespaceResolve((String) ((QuoteExp) args8[i]).getValue(), false);
-                                if (psymbol != null) {
-                                    if (psymbol.getNamespaceURI().length() == 0) {
-                                        comp.error('e', "pragma name cannot be in the empty namespace");
-                                    } else {
-                                        Expression replacement = checkPragma(psymbol, args8[i + 1]);
-                                        if (replacement != null) {
-                                            return replacement;
-                                        }
-                                    }
-                                }
-                                i += 2;
-                            }
-                            if (i < args8.length) {
-                                return args8[args8.length - 1];
-                            }
-                            String msg2 = "no recognized pragma or default in extension expression";
-                            getMessages().error('e', msg2, "XQST0079");
-                            ErrorExp errorExp = new ErrorExp(msg2);
-                            return errorExp;
-                        case -2:
-                        case -1:
-                            Symbol sym = code == -1 ? XQParser.LAST_VARNAME : XQParser.POSITION_VARNAME;
-                            Declaration decl2 = this.lookup.lookup((Object) sym, false);
-                            if (decl2 == null) {
-                                error('e', "undefined context for " + sym.getName());
-                            } else {
-                                decl2.setCanRead(true);
-                            }
-                            ReferenceExp referenceExp = new ReferenceExp(sym, decl2);
-                            return referenceExp;
+        if ((func4 instanceof ReferenceExp) && (decl = ((ReferenceExp) func4).getBinding()) != null && (code = decl.getCode()) < 0) {
+            switch (code) {
+                case XS_QNAME_IGNORE_DEFAULT_BUILTIN /*-36*/:
+                case XS_QNAME_BUILTIN /*-35*/:
+                    Expression[] args = exp.getArgs();
+                    Expression err = checkArgCount(args, decl, 1, 1);
+                    if (err != null) {
+                        return err;
                     }
-                }
+                    NamespaceBinding constructorNamespaces = this.parser.constructorNamespaces;
+                    if (code == -36) {
+                        constructorNamespaces = new NamespaceBinding((String) null, "", constructorNamespaces);
+                    }
+                    if (args[0] instanceof QuoteExp) {
+                        try {
+                            return new QuoteExp(QNameUtils.resolveQName(((QuoteExp) args[0]).getValue(), constructorNamespaces, this.parser.prologNamespaces));
+                        } catch (RuntimeException ex) {
+                            return getCompilation().syntaxError(ex.getMessage());
+                        }
+                    } else {
+                        ApplyExp app2 = new ApplyExp(ClassType.make("gnu.xquery.util.QNameUtils").getDeclaredMethod("resolveQName", 3), args[0], new QuoteExp(constructorNamespaces), new QuoteExp(this.parser.prologNamespaces));
+                        app2.setFlag(4);
+                        return app2;
+                    }
+                case CASTABLE_AS_BUILTIN /*-34*/:
+                case CAST_AS_BUILTIN /*-33*/:
+                    Expression[] args2 = exp.getArgs();
+                    Expression texp = args2[code == -33 ? (char) 0 : 1];
+                    Expression qexp = texp;
+                    if (texp instanceof ApplyExp) {
+                        ApplyExp taexp = (ApplyExp) texp;
+                        if (taexp.getFunction().valueIfConstant() == XQParser.proc_OccurrenceType_getInstance) {
+                            qexp = taexp.getArg(0);
+                        }
+                    }
+                    Object value = qexp.valueIfConstant();
+                    String msg = null;
+                    if (value == SingletonType.getInstance()) {
+                        msg = "type to 'cast as' or 'castable as' must be atomic";
+                    } else if (value == XDataType.anyAtomicType) {
+                        msg = "type to 'cast as' or 'castable as' cannot be anyAtomicType";
+                    } else if (value == XDataType.anySimpleType) {
+                        msg = "type to 'cast as' or 'castable as' cannot be anySimpleType";
+                    } else if (value == XDataType.untypedType) {
+                        msg = "type to 'cast as' or 'castable as' cannot be untyped";
+                    } else if (value == XDataType.NotationType) {
+                        msg = "type to 'cast as' or 'castable as' cannot be NOTATION";
+                    }
+                    if (msg != null) {
+                        this.messages.error('e', texp, msg, "XPST0080");
+                    }
+                    boolean toQName = value == Compilation.typeSymbol && !(texp instanceof ApplyExp);
+                    if (code == -33) {
+                        if (toQName) {
+                            return visitApplyExp(XQParser.castQName(args2[1], true), ignored);
+                        }
+                        func2 = XQParser.makeFunctionExp("gnu.xquery.util.CastAs", "castAs");
+                    } else if (!toQName || !(args2[0] instanceof QuoteExp)) {
+                        func2 = XQParser.makeFunctionExp("gnu.xquery.lang.XQParser", "castableAs");
+                    } else {
+                        try {
+                            QNameUtils.resolveQName(((QuoteExp) args2[0]).getValue(), this.parser.constructorNamespaces, this.parser.prologNamespaces);
+                            return XQuery.trueExp;
+                        } catch (RuntimeException e) {
+                            return XQuery.falseExp;
+                        }
+                    }
+                    return new ApplyExp(func2, args2).setLine((Expression) exp);
+                case ROOT_BUILTIN /*-32*/:
+                    return withContext(ClassType.make("gnu.xquery.util.NodeUtils").getDeclaredMethod("root", 1), exp.getArgs(), "fn:root", 0);
+                case IDREF_BUILTIN /*-31*/:
+                    return withContext(ClassType.make("gnu.xquery.util.NodeUtils").getDeclaredMethod("idref", 2), exp.getArgs(), "fn:idref", 1);
+                case ID_BUILTIN /*-30*/:
+                    return withContext(ClassType.make("gnu.xquery.util.NodeUtils").getDeclaredMethod("id$X", 3), exp.getArgs(), "fn:id", 1);
+                case DEFAULT_COLLATION_BUILTIN /*-29*/:
+                    Expression err2 = checkArgCount(exp.getArgs(), decl, 0, 0);
+                    if (err2 != null) {
+                        return err2;
+                    }
+                    NamedCollator coll = this.parser.defaultCollator;
+                    return QuoteExp.getInstance(coll != null ? coll.getName() : NamedCollator.UNICODE_CODEPOINT_COLLATION);
+                case NUMBER_BUILTIN /*-28*/:
+                    return withContext(ClassType.make("gnu.xquery.util.NumberValue").getDeclaredMethod("numberValue", 1), exp.getArgs(), "fn:number", 0);
+                case MAX_BUILTIN /*-27*/:
+                    return withCollator(ClassType.make("gnu.xquery.util.MinMax").getDeclaredMethod("max", 2), exp.getArgs(), "fn:max", 1);
+                case MIN_BUILTIN /*-26*/:
+                    return withCollator(ClassType.make("gnu.xquery.util.MinMax").getDeclaredMethod("min", 2), exp.getArgs(), "fn:min", 1);
+                case DEEP_EQUAL_BUILTIN /*-25*/:
+                    return withCollator(ClassType.make("gnu.xquery.util.SequenceUtils").getDeclaredMethod("deepEqual", 3), exp.getArgs(), "fn:deep-equal", 2);
+                case NAME_BUILTIN /*-24*/:
+                    return withContext(ClassType.make("gnu.xquery.util.NodeUtils").getDeclaredMethod("name", 1), exp.getArgs(), "fn:name", 0);
+                case LANG_BUILTIN /*-23*/:
+                    return withContext(ClassType.make("gnu.xquery.util.NodeUtils").getDeclaredMethod("lang", 2), exp.getArgs(), "fn:lang", 1);
+                case UNORDERED_BUILTIN /*-18*/:
+                    Expression[] args3 = exp.getArgs();
+                    Expression err3 = checkArgCount(args3, decl, 1, 1);
+                    if (err3 == null) {
+                        return args3[0];
+                    }
+                    return err3;
+                case NORMALIZE_SPACE_BUILTIN /*-17*/:
+                    return withContext(ClassType.make("gnu.xquery.util.StringUtils").getDeclaredMethod("normalizeSpace", 1), exp.getArgs(), "fn:normalize-space", 0);
+                case STRING_BUILTIN /*-16*/:
+                    return withContext(ClassType.make("gnu.xml.TextUtils").getDeclaredMethod("asString", 1), exp.getArgs(), "fn:string", 0);
+                case INDEX_OF_BUILTIN /*-15*/:
+                    return withCollator(ClassType.make("gnu.xquery.util.SequenceUtils").getDeclaredMethod("indexOf$X", 4), exp.getArgs(), "fn:index-of", 2);
+                case STATIC_BASE_URI_BUILTIN /*-14*/:
+                    Expression err4 = checkArgCount(exp.getArgs(), decl, 0, 0);
+                    if (err4 == null) {
+                        return getBaseUriExpr();
+                    }
+                    return err4;
+                case RESOLVE_PREFIX_BUILTIN /*-13*/:
+                    Expression[] args4 = exp.getArgs();
+                    Expression err5 = checkArgCount(args4, decl, 1, 1);
+                    if (err5 != null) {
+                        return err5;
+                    }
+                    if (args4[0] instanceof QuoteExp) {
+                        Object val = ((QuoteExp) args4[0]).getValue();
+                        String prefix = val == null ? null : val.toString();
+                        String val2 = QNameUtils.lookupPrefix(prefix, this.parser.constructorNamespaces, this.parser.prologNamespaces);
+                        if (val2 == null) {
+                            return getCompilation().syntaxError("unknown namespace prefix '" + prefix + "'");
+                        }
+                        return new QuoteExp(val2);
+                    }
+                    ApplyExp app3 = new ApplyExp((Procedure) new PrimProcedure(ClassType.make("gnu.xquery.util.QNameUtils").getDeclaredMethod("resolvePrefix", 3)), args4[0], new QuoteExp(this.parser.constructorNamespaces), new QuoteExp(this.parser.prologNamespaces));
+                    app3.setFlag(4);
+                    return app3;
+                case RESOLVE_URI_BUILTIN /*-12*/:
+                    Expression[] args5 = exp.getArgs();
+                    Expression err6 = checkArgCount(args5, decl, 1, 2);
+                    if (err6 != null) {
+                        return err6;
+                    }
+                    Expression[] margs = new Expression[2];
+                    margs[0] = args5[0];
+                    if (args5.length == 1) {
+                        margs[1] = getBaseUriExpr();
+                    } else {
+                        margs[1] = args5[1];
+                    }
+                    return new ApplyExp(ClassType.make("gnu.xquery.util.QNameUtils").getDeclaredMethod("resolveURI", 2), margs);
+                case BASE_URI_BUILTIN /*-11*/:
+                    return withContext(ClassType.make("gnu.xquery.util.NodeUtils").getDeclaredMethod("baseUri", 1), exp.getArgs(), "fn:base-uri", 0);
+                case DOC_AVAILABLE_BUILTIN /*-10*/:
+                case DOC_BUILTIN /*-9*/:
+                    Expression[] args6 = exp.getArgs();
+                    ClassType cl = ClassType.make("gnu.xquery.util.NodeUtils");
+                    if (code == -9) {
+                        mname = "docCached";
+                        if (XQParser.warnOldVersion && "document".equals(decl.getName())) {
+                            getCompilation().error('w', "replace 'document' by 'doc'");
+                        }
+                    } else {
+                        mname = "availableCached";
+                    }
+                    Method meth = cl.getDeclaredMethod(mname, 2);
+                    Expression err7 = checkArgCount(args6, decl, 1, 1);
+                    if (err7 != null) {
+                        return err7;
+                    }
+                    ApplyExp aexp = new ApplyExp(meth, args6[0], getBaseUriExpr());
+                    if (code == -9) {
+                        aexp.setType(NodeType.documentNodeTest);
+                    } else {
+                        aexp.setType(XDataType.booleanType);
+                    }
+                    return aexp;
+                case COLLECTION_BUILTIN /*-8*/:
+                    Expression[] args7 = exp.getArgs();
+                    Method meth2 = ClassType.make("gnu.xquery.util.NodeUtils").getDeclaredMethod("collection", 2);
+                    Expression err8 = checkArgCount(args7, decl, 0, 1);
+                    if (err8 != null) {
+                        return err8;
+                    }
+                    ApplyExp aexp2 = new ApplyExp(meth2, args7.length > 0 ? args7[0] : QuoteExp.voidExp, getBaseUriExpr());
+                    aexp2.setType(NodeType.documentNodeTest);
+                    return aexp2;
+                case NAMESPACE_URI_BUILTIN /*-7*/:
+                    return withContext(ClassType.make("gnu.xquery.util.NodeUtils").getDeclaredMethod("namespaceURI", 1), exp.getArgs(), "fn:namespace-uri", 0);
+                case LOCAL_NAME_BUILTIN /*-6*/:
+                    return withContext(ClassType.make("gnu.xquery.util.NodeUtils").getDeclaredMethod("localName", 1), exp.getArgs(), "fn:local-name", 0);
+                case DISTINCT_VALUES_BUILTIN /*-5*/:
+                    return withCollator(ClassType.make("gnu.xquery.util.DistinctValues").getDeclaredMethod("distinctValues$X", 3), exp.getArgs(), "fn:distinct-values", 1);
+                case -4:
+                    return withCollator(ClassType.make("gnu.xquery.util.StringUtils").getDeclaredMethod("compare", 3), exp.getArgs(), "fn:compare", 2);
+                case -3:
+                    Compilation comp = getCompilation();
+                    Expression[] args8 = exp.getArgs();
+                    int i = 0;
+                    while (i < args8.length - 1) {
+                        Symbol psymbol = this.parser.namespaceResolve((String) ((QuoteExp) args8[i]).getValue(), false);
+                        if (psymbol != null) {
+                            if (psymbol.getNamespaceURI().length() == 0) {
+                                comp.error('e', "pragma name cannot be in the empty namespace");
+                            } else {
+                                Expression replacement = checkPragma(psymbol, args8[i + 1]);
+                                if (replacement != null) {
+                                    return replacement;
+                                }
+                            }
+                        }
+                        i += 2;
+                    }
+                    if (i < args8.length) {
+                        return args8[args8.length - 1];
+                    }
+                    getMessages().error('e', "no recognized pragma or default in extension expression", "XQST0079");
+                    return new ErrorExp("no recognized pragma or default in extension expression");
+                case -2:
+                case -1:
+                    Symbol sym2 = code == -1 ? XQParser.LAST_VARNAME : XQParser.POSITION_VARNAME;
+                    Declaration decl2 = this.lookup.lookup((Object) sym2, false);
+                    if (decl2 == null) {
+                        error('e', "undefined context for " + sym2.getName());
+                    } else {
+                        decl2.setCanRead(true);
+                    }
+                    return new ReferenceExp(sym2, decl2);
             }
         }
         Object proc2 = exp.getFunctionValue();
@@ -677,8 +645,7 @@ public class XQResolveNames extends ResolveNames {
                 this.messages.error('e', "type constructor requires a single argument");
                 return exp;
             }
-            ApplyExp applyExp3 = new ApplyExp(XQParser.makeFunctionExp("gnu.xquery.util.CastAs", "castAs"), exp.getFunction(), args9[0]);
-            return applyExp3;
+            return new ApplyExp(XQParser.makeFunctionExp("gnu.xquery.util.CastAs", "castAs"), exp.getFunction(), args9[0]);
         }
         if (proc2 instanceof MakeElement) {
             MakeElement make = (MakeElement) proc2;
@@ -693,24 +660,17 @@ public class XQResolveNames extends ResolveNames {
             int nattrSyms = 0;
             for (int i2 = 0; i2 < args10.length; i2++) {
                 Expression arg = args10[i2];
-                if (arg instanceof ApplyExp) {
-                    ApplyExp app3 = (ApplyExp) arg;
-                    if (app3.getFunction() == MakeAttribute.makeAttributeExp) {
-                        Symbol sym2 = MakeElement.getTagName(app3);
-                        if (sym2 != null) {
-                            for (int j = 0; j != nattrSyms; j++) {
-                                if (sym2.equals(attrSyms[j])) {
-                                    getCompilation().setLine((Expression) app3);
-                                    Symbol elementSym = MakeElement.getTagName(exp);
-                                    this.messages.error('e', XMLFilter.duplicateAttributeMessage(sym2, elementSym == null ? null : elementSym.toString()), "XQST0040");
-                                }
-                            }
-                            int nattrSyms2 = nattrSyms + 1;
-                            attrSyms[nattrSyms] = sym2;
-                            nsBindings2 = maybeAddNamespace(sym2, true, nsBindings2);
-                            nattrSyms = nattrSyms2;
+                if ((arg instanceof ApplyExp) && (app = (ApplyExp) arg).getFunction() == MakeAttribute.makeAttributeExp && (sym = MakeElement.getTagName(app)) != null) {
+                    for (int j = 0; j != nattrSyms; j++) {
+                        if (sym.equals(attrSyms[j])) {
+                            getCompilation().setLine((Expression) app);
+                            Symbol elementSym = MakeElement.getTagName(exp);
+                            this.messages.error('e', XMLFilter.duplicateAttributeMessage(sym, elementSym == null ? null : elementSym.toString()), "XQST0040");
                         }
                     }
+                    attrSyms[nattrSyms] = sym;
+                    nsBindings2 = maybeAddNamespace(sym, true, nsBindings2);
+                    nattrSyms++;
                 }
             }
             if (nsBindings2 != null) {
@@ -724,7 +684,7 @@ public class XQResolveNames extends ResolveNames {
         return null;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Expression getBaseUriExpr() {
         Compilation comp = getCompilation();
         String staticBaseUri = this.parser.getStaticBaseUri();

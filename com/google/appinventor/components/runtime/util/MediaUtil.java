@@ -3,14 +3,13 @@ package com.google.appinventor.components.runtime.util;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.BitmapFactory.Options;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.net.Uri;
 import android.os.Environment;
-import android.provider.Contacts.People;
+import android.provider.Contacts;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
@@ -37,27 +36,6 @@ public class MediaUtil {
     private static String REPL_ASSET_DIR = null;
     private static ConcurrentHashMap<String, String> pathCache = new ConcurrentHashMap<>(2);
     private static final Map<String, File> tempFileMap = new HashMap();
-
-    private static class FlushedInputStream extends FilterInputStream {
-        public FlushedInputStream(InputStream inputStream) {
-            super(inputStream);
-        }
-
-        public long skip(long n) throws IOException {
-            long totalBytesSkipped = 0;
-            while (totalBytesSkipped < n) {
-                long bytesSkipped = this.in.skip(n - totalBytesSkipped);
-                if (bytesSkipped == 0) {
-                    if (read() < 0) {
-                        break;
-                    }
-                    bytesSkipped = 1;
-                }
-                totalBytesSkipped += bytesSkipped;
-            }
-            return totalBytesSkipped;
-        }
-    }
 
     private enum MediaSource {
         ASSET,
@@ -171,7 +149,7 @@ public class MediaUtil {
             }
             pathCache.put(mediaPath, newPath);
         }
-        return (String) pathCache.get(mediaPath);
+        return pathCache.get(mediaPath);
     }
 
     private static String findCaseinsensitivePathWithoutCache(Form form, String mediaPath) throws IOException {
@@ -224,7 +202,7 @@ public class MediaUtil {
                 if (SdkLevel.getLevel() >= 12) {
                     is = HoneycombMR1Util.openContactPhotoInputStreamHelper(form.getContentResolver(), Uri.parse(mediaPath));
                 } else {
-                    is = People.openContactPhotoInputStream(form.getContentResolver(), Uri.parse(mediaPath));
+                    is = Contacts.People.openContactPhotoInputStream(form.getContentResolver(), Uri.parse(mediaPath));
                 }
                 if (is != null) {
                     return is;
@@ -248,7 +226,7 @@ public class MediaUtil {
         InputStream in = openMedia(form, mediaPath, mediaSource);
         File file = null;
         try {
-            file = File.createTempFile("AI_Media_", null);
+            file = File.createTempFile("AI_Media_", (String) null);
             file.deleteOnExit();
             FileUtil.writeStreamToFile(in, file.getAbsolutePath());
             in.close();
@@ -268,7 +246,7 @@ public class MediaUtil {
     }
 
     private static File cacheMediaTempFile(Form form, String mediaPath, MediaSource mediaSource) throws IOException {
-        File tempFile = (File) tempFileMap.get(mediaPath);
+        File tempFile = tempFileMap.get(mediaPath);
         if (tempFile != null && tempFile.exists()) {
             return tempFile;
         }
@@ -341,9 +319,9 @@ public class MediaUtil {
                     ByteArrayInputStream bis = new ByteArrayInputStream(buf2);
                     try {
                         bis.mark(buf2.length);
-                        Options options = MediaUtil.getBitmapOptions(form, bis, mediaPath);
+                        BitmapFactory.Options options = MediaUtil.getBitmapOptions(form, bis, mediaPath);
                         bis.reset();
-                        BitmapDrawable originalBitmapDrawable = new BitmapDrawable(form.getResources(), MediaUtil.decodeStream(bis, null, options));
+                        BitmapDrawable originalBitmapDrawable = new BitmapDrawable(form.getResources(), MediaUtil.decodeStream(bis, (Rect) null, options));
                         originalBitmapDrawable.setTargetDensity(form.getResources().getDisplayMetrics());
                         if (options.inSampleSize != 1 || form.deviceDensity() == 1.0f) {
                             continuation.onSuccess(originalBitmapDrawable);
@@ -382,7 +360,7 @@ public class MediaUtil {
                                 Log.w(MediaUtil.LOG_TAG, "Unexpected error on close", e6);
                             }
                         }
-                    } finally {
+                    } catch (Throwable th) {
                         if (bis != null) {
                             try {
                                 bis.close();
@@ -390,6 +368,7 @@ public class MediaUtil {
                                 Log.w(MediaUtil.LOG_TAG, "Unexpected error on close", e7);
                             }
                         }
+                        throw th;
                     }
                 } catch (PermissionException e8) {
                     continuation.onFailure("PERMISSION_DENIED:" + e8.getPermissionNeeded());
@@ -406,7 +385,7 @@ public class MediaUtil {
                     }
                 } catch (IOException e11) {
                     if (mediaSource == MediaSource.CONTACT_URI) {
-                        continuation.onSuccess(new BitmapDrawable(form.getResources(), BitmapFactory.decodeResource(form.getResources(), 17301606, null)));
+                        continuation.onSuccess(new BitmapDrawable(form.getResources(), BitmapFactory.decodeResource(form.getResources(), 17301606, (BitmapFactory.Options) null)));
                         if (is != null) {
                             try {
                                 is.close();
@@ -433,7 +412,7 @@ public class MediaUtil {
                         bos.close();
                     } catch (IOException e15) {
                     }
-                } catch (Throwable th) {
+                } catch (Throwable th2) {
                     if (is != null) {
                         try {
                             is.close();
@@ -445,24 +424,45 @@ public class MediaUtil {
                         bos.close();
                     } catch (IOException e17) {
                     }
-                    throw th;
+                    throw th2;
                 }
             }
         });
     }
 
     /* access modifiers changed from: private */
-    public static Bitmap decodeStream(InputStream is, Rect outPadding, Options opts) {
+    public static Bitmap decodeStream(InputStream is, Rect outPadding, BitmapFactory.Options opts) {
         return BitmapFactory.decodeStream(new FlushedInputStream(is), outPadding, opts);
     }
 
+    private static class FlushedInputStream extends FilterInputStream {
+        public FlushedInputStream(InputStream inputStream) {
+            super(inputStream);
+        }
+
+        public long skip(long n) throws IOException {
+            long totalBytesSkipped = 0;
+            while (totalBytesSkipped < n) {
+                long bytesSkipped = this.in.skip(n - totalBytesSkipped);
+                if (bytesSkipped == 0) {
+                    if (read() < 0) {
+                        break;
+                    }
+                    bytesSkipped = 1;
+                }
+                totalBytesSkipped += bytesSkipped;
+            }
+            return totalBytesSkipped;
+        }
+    }
+
     /* access modifiers changed from: private */
-    public static Options getBitmapOptions(Form form, InputStream is, String mediaPath) {
+    public static BitmapFactory.Options getBitmapOptions(Form form, InputStream is, String mediaPath) {
         int maxWidth;
         int maxHeight;
-        Options options = new Options();
+        BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
-        decodeStream(is, null, options);
+        decodeStream(is, (Rect) null, options);
         int imageWidth = options.outWidth;
         int imageHeight = options.outHeight;
         Display display = ((WindowManager) form.getSystemService("window")).getDefaultDisplay();
@@ -477,7 +477,7 @@ public class MediaUtil {
         while (imageWidth / sampleSize > maxWidth && imageHeight / sampleSize > maxHeight) {
             sampleSize *= 2;
         }
-        Options options2 = new Options();
+        BitmapFactory.Options options2 = new BitmapFactory.Options();
         Log.d(LOG_TAG, "getBitmapOptions: sampleSize = " + sampleSize + " mediaPath = " + mediaPath + " maxWidth = " + maxWidth + " maxHeight = " + maxHeight + " display width = " + display.getWidth() + " display height = " + display.getHeight());
         options2.inSampleSize = sampleSize;
         return options2;

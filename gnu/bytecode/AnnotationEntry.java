@@ -2,7 +2,7 @@ package gnu.bytecode;
 
 import java.lang.annotation.Annotation;
 import java.util.LinkedHashMap;
-import java.util.Map.Entry;
+import java.util.Map;
 
 public class AnnotationEntry implements Annotation {
     ClassType annotationType;
@@ -28,18 +28,16 @@ public class AnnotationEntry implements Annotation {
         if (!getAnnotationType().getName().equals(other.getAnnotationType().getName())) {
             return false;
         }
-        for (Entry<String, Object> it : this.elementsValue.entrySet()) {
-            String key = (String) it.getKey();
+        for (Map.Entry<String, Object> it : this.elementsValue.entrySet()) {
             Object value1 = it.getValue();
-            Object value2 = other.elementsValue.get(key);
+            Object value2 = other.elementsValue.get(it.getKey());
             if (value1 != value2 && (value1 == null || value2 == null || !value1.equals(value2))) {
                 return false;
             }
         }
-        for (Entry<String, Object> it2 : other.elementsValue.entrySet()) {
-            String key2 = (String) it2.getKey();
+        for (Map.Entry<String, Object> it2 : other.elementsValue.entrySet()) {
             Object value22 = it2.getValue();
-            Object value12 = this.elementsValue.get(key2);
+            Object value12 = this.elementsValue.get(it2.getKey());
             if (value12 != value22 && (value12 == null || value22 == null || !value12.equals(value22))) {
                 return false;
             }
@@ -49,8 +47,8 @@ public class AnnotationEntry implements Annotation {
 
     public int hashCode() {
         int hash = 0;
-        for (Entry<String, Object> it : this.elementsValue.entrySet()) {
-            int khash = ((String) it.getKey()).hashCode();
+        for (Map.Entry<String, Object> it : this.elementsValue.entrySet()) {
+            int khash = it.getKey().hashCode();
             hash += (khash * 127) ^ it.getValue().hashCode();
         }
         return hash;
@@ -62,11 +60,11 @@ public class AnnotationEntry implements Annotation {
         sbuf.append(getAnnotationType().getName());
         sbuf.append('(');
         int count = 0;
-        for (Entry<String, Object> it : this.elementsValue.entrySet()) {
+        for (Map.Entry<String, Object> it : this.elementsValue.entrySet()) {
             if (count > 0) {
                 sbuf.append(", ");
             }
-            sbuf.append((String) it.getKey());
+            sbuf.append(it.getKey());
             sbuf.append('=');
             sbuf.append(it.getValue());
             count++;

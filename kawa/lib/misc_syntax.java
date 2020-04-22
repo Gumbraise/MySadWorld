@@ -1,6 +1,6 @@
 package kawa.lib;
 
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import gnu.expr.Compilation;
 import gnu.expr.ModuleBody;
 import gnu.expr.ModuleInfo;
@@ -72,48 +72,29 @@ public class misc_syntax extends ModuleBody {
     public static final Macro resource$Mnurl = Macro.make(Lit10, Lit11, $instance);
     public static final Macro test$Mnbegin = Macro.make(Lit6, Lit7, $instance);
 
-    /* compiled from: misc_syntax.scm */
-    public class frame extends ModuleBody {
-
-        /* renamed from: k */
-        Object f258k;
-
-        /* renamed from: p */
-        InPort f259p;
-
-        public Object lambda4f() {
-            Object x = ports.read(this.f259p);
-            if (!ports.isEofObject(x)) {
-                return new Pair(std_syntax.datum$To$SyntaxObject(this.f258k, x), lambda4f());
-            }
-            ports.closeInputPort(this.f259p);
-            return LList.Empty;
-        }
-    }
-
     static {
         SimpleSymbol simpleSymbol = (SimpleSymbol) new SimpleSymbol("resource-url").readResolve();
         Lit10 = simpleSymbol;
-        Object[] objArr = {simpleSymbol};
+        SyntaxPattern syntaxPattern = new SyntaxPattern("\f\u0018\f\u0007\b", new Object[0], 1);
         SimpleSymbol simpleSymbol2 = Lit23;
         SimpleSymbol simpleSymbol3 = (SimpleSymbol) new SimpleSymbol("module-uri").readResolve();
         Lit8 = simpleSymbol3;
-        Lit11 = new SyntaxRules(objArr, new SyntaxRule[]{new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\b", new Object[0], 1), "\u0001", "\u0011\u0018\u0004\b\b\u0011\u0018\f\b\u0011\u0018\fa\b\u0011\u0018\f)\u0011\u0018\u0014\b\u0003\u0018\u001c\u0018$\u0018,", new Object[]{PairWithPosition.make(Lit23, Pair.make((SimpleSymbol) new SimpleSymbol("gnu.text.URLPath").readResolve(), Pair.make(Pair.make(Lit24, Pair.make((SimpleSymbol) new SimpleSymbol("valueOf").readResolve(), LList.Empty)), LList.Empty)), "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm", 155655), Lit23, PairWithPosition.make(simpleSymbol2, Pair.make(PairWithPosition.make(simpleSymbol3, LList.Empty, "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm", 159755), Pair.make(Pair.make(Lit24, Pair.make((SimpleSymbol) new SimpleSymbol("resolve").readResolve(), LList.Empty)), LList.Empty)), "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm", 159755), Pair.make(Pair.make(Lit24, Pair.make((SimpleSymbol) new SimpleSymbol("toURL").readResolve(), LList.Empty)), LList.Empty), Pair.make(Pair.make(Lit24, Pair.make((SimpleSymbol) new SimpleSymbol("openConnection").readResolve(), LList.Empty)), LList.Empty), Pair.make(Pair.make(Lit24, Pair.make((SimpleSymbol) new SimpleSymbol("getURL").readResolve(), LList.Empty)), LList.Empty)}, 0)}, 1);
+        Lit11 = new SyntaxRules(new Object[]{simpleSymbol}, new SyntaxRule[]{new SyntaxRule(syntaxPattern, "\u0001", "\u0011\u0018\u0004\b\b\u0011\u0018\f\b\u0011\u0018\fa\b\u0011\u0018\f)\u0011\u0018\u0014\b\u0003\u0018\u001c\u0018$\u0018,", new Object[]{PairWithPosition.make(Lit23, Pair.make((SimpleSymbol) new SimpleSymbol("gnu.text.URLPath").readResolve(), Pair.make(Pair.make(Lit24, Pair.make((SimpleSymbol) new SimpleSymbol("valueOf").readResolve(), LList.Empty)), LList.Empty)), "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm", 155655), Lit23, PairWithPosition.make(simpleSymbol2, Pair.make(PairWithPosition.make(simpleSymbol3, LList.Empty, "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm", 159755), Pair.make(Pair.make(Lit24, Pair.make((SimpleSymbol) new SimpleSymbol("resolve").readResolve(), LList.Empty)), LList.Empty)), "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm", 159755), Pair.make(Pair.make(Lit24, Pair.make((SimpleSymbol) new SimpleSymbol("toURL").readResolve(), LList.Empty)), LList.Empty), Pair.make(Pair.make(Lit24, Pair.make((SimpleSymbol) new SimpleSymbol("openConnection").readResolve(), LList.Empty)), LList.Empty), Pair.make(Pair.make(Lit24, Pair.make((SimpleSymbol) new SimpleSymbol("getURL").readResolve(), LList.Empty)), LList.Empty)}, 0)}, 1);
         SimpleSymbol simpleSymbol4 = (SimpleSymbol) new SimpleSymbol("test-begin").readResolve();
         Lit6 = simpleSymbol4;
         Lit7 = new SyntaxRules(new Object[]{simpleSymbol4}, new SyntaxRule[]{new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\b", new Object[0], 1), "\u0001", "\u0011\u0018\u0004\u0011\u0018\f\b\u0011\u0018\u0014\t\u0003\u0018\u001c", new Object[]{Lit25, PairWithPosition.make(Lit27, PairWithPosition.make(PairWithPosition.make(Lit26, PairWithPosition.make(Values.empty, LList.Empty, "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm", 86046), "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm", 86037), PairWithPosition.make(PairWithPosition.make(Lit28, PairWithPosition.make(PairWithPosition.make(Lit29, PairWithPosition.make(PairWithPosition.make(Lit30, PairWithPosition.make(Lit26, LList.Empty, "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm", 86070), "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm", 86070), LList.Empty, "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm", 86069), "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm", 86060), LList.Empty, "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm", 86060), "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm", 86054), LList.Empty, "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm", 86054), "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm", 86037), "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm", 86024), Lit31, PairWithPosition.make(Boolean.FALSE, LList.Empty, "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm", 90144)}, 0), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\f\u000f\b", new Object[0], 2), "\u0001\u0001", "\u0011\u0018\u0004\u0011\u0018\f\b\u0011\u0018\u0014\t\u0003\b\u000b", new Object[]{Lit25, PairWithPosition.make(Lit27, PairWithPosition.make(PairWithPosition.make(Lit26, PairWithPosition.make(Values.empty, LList.Empty, "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm", 102430), "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm", 102421), PairWithPosition.make(PairWithPosition.make(Lit28, PairWithPosition.make(PairWithPosition.make(Lit29, PairWithPosition.make(PairWithPosition.make(Lit30, PairWithPosition.make(Lit26, LList.Empty, "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm", 102454), "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm", 102454), LList.Empty, "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm", 102453), "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm", 102444), LList.Empty, "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm", 102444), "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm", 102438), LList.Empty, "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm", 102438), "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm", 102421), "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm", 102408), Lit31}, 0)}, 2);
         SimpleSymbol simpleSymbol5 = Lit0;
         misc_syntax misc_syntax = $instance;
-        provide = Macro.make(simpleSymbol5, new ModuleMethod(misc_syntax, 1, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN), $instance);
+        provide = Macro.make(simpleSymbol5, new ModuleMethod(misc_syntax, 1, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN), $instance);
         SimpleSymbol simpleSymbol6 = Lit8;
-        ModuleMethod moduleMethod = new ModuleMethod(misc_syntax, 2, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ModuleMethod moduleMethod = new ModuleMethod(misc_syntax, 2, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm:29");
         module$Mnuri = Macro.make(simpleSymbol6, moduleMethod, $instance);
         SimpleSymbol simpleSymbol7 = Lit12;
-        ModuleMethod moduleMethod2 = new ModuleMethod(misc_syntax, 3, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ModuleMethod moduleMethod2 = new ModuleMethod(misc_syntax, 3, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         moduleMethod2.setProperty("source-location", "/u2/home/jis/ai2-kawa/kawa/lib/misc_syntax.scm:54");
         include = Macro.make(simpleSymbol7, moduleMethod2, $instance);
-        include$Mnrelative = Macro.make(Lit18, new ModuleMethod(misc_syntax, 4, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN), $instance);
+        include$Mnrelative = Macro.make(Lit18, new ModuleMethod(misc_syntax, 4, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN), $instance);
         $instance.run();
     }
 
@@ -127,7 +108,7 @@ public class misc_syntax extends ModuleBody {
 
     static Object lambda1(Object form) {
         Object[] objArr;
-        Object[] allocVars = SyntaxPattern.allocVars(3, null);
+        Object[] allocVars = SyntaxPattern.allocVars(3, (Object[]) null);
         if (Lit1.match(form, allocVars, 0)) {
             Object execute = Lit2.execute(allocVars, TemplateScope.make());
             Object[] objArr2 = new Object[2];
@@ -135,25 +116,22 @@ public class misc_syntax extends ModuleBody {
             Object syntaxObject$To$Datum = std_syntax.syntaxObject$To$Datum(Lit3.execute(allocVars, TemplateScope.make()));
             try {
                 objArr2[1] = misc.symbol$To$String((Symbol) syntaxObject$To$Datum);
-                return C0620lists.cons(execute, C0620lists.cons(std_syntax.datum$To$SyntaxObject(form, misc.string$To$Symbol(strings.stringAppend(objArr2))), Lit4.execute(allocVars, TemplateScope.make())));
+                return lists.cons(execute, lists.cons(std_syntax.datum$To$SyntaxObject(form, misc.string$To$Symbol(strings.stringAppend(objArr2))), Lit4.execute(allocVars, TemplateScope.make())));
             } catch (ClassCastException e) {
                 throw new WrongType(e, "symbol->string", 1, syntaxObject$To$Datum);
             }
         } else if (!Lit5.match(form, allocVars, 0)) {
             return syntax_case.error("syntax-case", form);
         } else {
-            String str = "provide requires a quoted feature-name";
-            if (str instanceof Object[]) {
-                objArr = (Object[]) str;
-            } else {
-                objArr = new Object[]{str};
+            if (!("provide requires a quoted feature-name" instanceof Object[])) {
+                objArr = new Object[]{"provide requires a quoted feature-name"};
             }
             return prim_syntax.syntaxError(form, objArr);
         }
     }
 
     static Object lambda2(Object form) {
-        return Lit9.match(form, SyntaxPattern.allocVars(1, null), 0) ? GetModuleClass.getModuleClassURI(Compilation.getCurrent()) : syntax_case.error("syntax-case", form);
+        return Lit9.match(form, SyntaxPattern.allocVars(1, (Object[]) null), 0) ? GetModuleClass.getModuleClassURI(Compilation.getCurrent()) : syntax_case.error("syntax-case", form);
     }
 
     public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
@@ -161,22 +139,22 @@ public class misc_syntax extends ModuleBody {
             case 1:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 2:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 3:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 4:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             default:
                 return super.match1(moduleMethod, obj, callContext);
@@ -184,16 +162,16 @@ public class misc_syntax extends ModuleBody {
     }
 
     static Object lambda3(Object x) {
-        Object[] allocVars = SyntaxPattern.allocVars(2, null);
+        Object[] allocVars = SyntaxPattern.allocVars(2, (Object[]) null);
         if (!Lit13.match(x, allocVars, 0)) {
             return syntax_case.error("syntax-case", x);
         }
         Object fn = std_syntax.syntaxObject$To$Datum(Lit14.execute(allocVars, TemplateScope.make()));
         Object execute = Lit15.execute(allocVars, TemplateScope.make());
         frame frame2 = new frame();
-        frame2.f258k = execute;
+        frame2.k = execute;
         try {
-            frame2.f259p = ports.openInputFile(Path.valueOf(fn));
+            frame2.p = ports.openInputFile(Path.valueOf(fn));
             Object lambda4f = frame2.lambda4f();
             Object[] allocVars2 = SyntaxPattern.allocVars(3, allocVars);
             if (!Lit16.match(lambda4f, allocVars2, 0)) {
@@ -220,8 +198,23 @@ public class misc_syntax extends ModuleBody {
         }
     }
 
+    /* compiled from: misc_syntax.scm */
+    public class frame extends ModuleBody {
+        Object k;
+        InPort p;
+
+        public Object lambda4f() {
+            Object x = ports.read(this.p);
+            if (!ports.isEofObject(x)) {
+                return new Pair(std_syntax.datum$To$SyntaxObject(this.k, x), lambda4f());
+            }
+            ports.closeInputPort(this.p);
+            return LList.Empty;
+        }
+    }
+
     static Object lambda5(Object x) {
-        Object[] allocVars = SyntaxPattern.allocVars(2, null);
+        Object[] allocVars = SyntaxPattern.allocVars(2, (Object[]) null);
         if (!Lit19.match(x, allocVars, 0)) {
             return syntax_case.error("syntax-case", x);
         }

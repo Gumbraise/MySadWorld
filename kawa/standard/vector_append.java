@@ -46,19 +46,17 @@ public class vector_append extends ProcedureN {
                         int j = 0;
                         int position2 = position;
                         while (j < vec_length) {
-                            int position3 = position2 + 1;
                             result[position2] = vec.get(j);
                             j++;
-                            position2 = position3;
+                            position2++;
                         }
                         position = position2;
                     } else if (arg2 instanceof Pair) {
                         while (arg2 != LList.Empty) {
                             Pair pair = (Pair) arg2;
-                            int position4 = position + 1;
                             result[position] = pair.getCar();
                             arg2 = pair.getCdr();
-                            position = position4;
+                            position++;
                         }
                     }
                 }

@@ -1,6 +1,6 @@
 package com.google.appinventor.components.runtime.multidex;
 
-import android.support.p000v4.internal.view.SupportMenu;
+import android.support.v4.internal.view.SupportMenu;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
@@ -22,35 +22,33 @@ class ZipEntryReader {
             throw new ZipException("Central Directory Entry not found");
         }
         in.position(8);
-        short s = in.getShort() & 65535;
-        if ((s & 1) != 0) {
-            throw new ZipException("Invalid General Purpose Bit Flag: " + s);
+        int gpbf = in.getShort() & SupportMenu.USER_MASK;
+        if ((gpbf & 1) != 0) {
+            throw new ZipException("Invalid General Purpose Bit Flag: " + gpbf);
         }
         int compressionMethod = in.getShort() & SupportMenu.USER_MASK;
-        short s2 = in.getShort() & 65535;
-        short s3 = in.getShort() & 65535;
+        int time = in.getShort() & SupportMenu.USER_MASK;
+        int modDate = in.getShort() & SupportMenu.USER_MASK;
         long crc = ((long) in.getInt()) & 4294967295L;
         long compressedSize = ((long) in.getInt()) & 4294967295L;
         long size = ((long) in.getInt()) & 4294967295L;
-        short s4 = in.getShort() & 65535;
-        short extraLength = in.getShort() & 65535;
-        short commentByteCount = in.getShort() & 65535;
+        int nameLength = in.getShort() & SupportMenu.USER_MASK;
+        int extraLength = in.getShort() & 65535;
+        int commentByteCount = in.getShort() & 65535;
         in.position(42);
         long j = ((long) in.getInt()) & 4294967295L;
-        byte[] nameBytes = new byte[s4];
+        byte[] nameBytes = new byte[nameLength];
         in.get(nameBytes, 0, nameBytes.length);
-        String str = new String(nameBytes, 0, nameBytes.length, UTF_8);
-        ZipEntry entry = new ZipEntry(str);
+        ZipEntry entry = new ZipEntry(new String(nameBytes, 0, nameBytes.length, UTF_8));
         entry.setMethod(compressionMethod);
-        entry.setTime(getTime(s2, s3));
+        entry.setTime(getTime(time, modDate));
         entry.setCrc(crc);
         entry.setCompressedSize(compressedSize);
         entry.setSize(size);
         if (commentByteCount > 0) {
             byte[] commentBytes = new byte[commentByteCount];
             in.get(commentBytes, 0, commentByteCount);
-            String str2 = new String(commentBytes, 0, commentBytes.length, UTF_8);
-            entry.setComment(str2);
+            entry.setComment(new String(commentBytes, 0, commentBytes.length, UTF_8));
         }
         if (extraLength > 0) {
             byte[] extra = new byte[extraLength];

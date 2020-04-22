@@ -107,9 +107,7 @@ public class Ev3Constants {
         public static final byte DIV32 = 30;
         public static final byte DIV8 = 28;
         public static final byte DIVF = 31;
-
-        /* renamed from: DO */
-        public static final byte f43DO = 15;
+        public static final byte DO = 15;
         public static final byte ERROR = 0;
         public static final byte FILE = -64;
         public static final byte FILENAME = -58;
@@ -124,9 +122,7 @@ public class Ev3Constants {
         public static final byte INPUT_SAMPLE = -105;
         public static final byte INPUT_TEST = -101;
         public static final byte INPUT_WRITE = -97;
-
-        /* renamed from: JR */
-        public static final byte f44JR = 64;
+        public static final byte JR = 64;
         public static final byte JR_EQ16 = 109;
         public static final byte JR_EQ32 = 110;
         public static final byte JR_EQ8 = 108;

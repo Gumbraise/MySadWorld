@@ -9,7 +9,8 @@ import com.google.appinventor.components.annotations.SimpleFunction;
 import com.google.appinventor.components.annotations.SimpleObject;
 import com.google.appinventor.components.annotations.SimpleProperty;
 import com.google.appinventor.components.common.ComponentCategory;
-import com.google.appinventor.components.runtime.util.Ev3Constants.Opcode;
+import com.google.appinventor.components.runtime.LegoMindstormsNxtSensor;
+import com.google.appinventor.components.runtime.util.Ev3Constants;
 
 @SimpleObject
 @DesignerComponent(category = ComponentCategory.LEGOMINDSTORMS, description = "A component that provides a high-level interface to an ultrasonic sensor on a LEGO MINDSTORMS NXT robot.", iconName = "images/legoMindstormsNxt.png", nonVisible = true, version = 1)
@@ -32,7 +33,7 @@ public class NxtUltrasonicSensor extends LegoMindstormsNxtSensor implements Dele
         public void run() {
             State currentState;
             if (NxtUltrasonicSensor.this.bluetooth != null && NxtUltrasonicSensor.this.bluetooth.IsConnected()) {
-                SensorValue<Integer> sensorValue = NxtUltrasonicSensor.this.getDistanceValue("");
+                LegoMindstormsNxtSensor.SensorValue<Integer> sensorValue = NxtUltrasonicSensor.this.getDistanceValue("");
                 if (sensorValue.valid) {
                     if (((Integer) sensorValue.value).intValue() < NxtUltrasonicSensor.this.bottomOfRange) {
                         currentState = State.BELOW_RANGE;
@@ -52,7 +53,7 @@ public class NxtUltrasonicSensor extends LegoMindstormsNxtSensor implements Dele
                             NxtUltrasonicSensor.this.AboveRange();
                         }
                     }
-                    NxtUltrasonicSensor.this.previousState = currentState;
+                    State unused = NxtUltrasonicSensor.this.previousState = currentState;
                 }
             }
             if (NxtUltrasonicSensor.this.isHandlerNeeded()) {
@@ -89,7 +90,7 @@ public class NxtUltrasonicSensor extends LegoMindstormsNxtSensor implements Dele
     }
 
     private void configureUltrasonicSensor(String functionName) {
-        lsWrite(functionName, this.port, new byte[]{2, Opcode.JR_FALSE, 2}, 0);
+        lsWrite(functionName, this.port, new byte[]{2, Ev3Constants.Opcode.JR_FALSE, 2}, 0);
     }
 
     @DesignerProperty(defaultValue = "4", editorType = "lego_nxt_sensor_port")
@@ -100,11 +101,10 @@ public class NxtUltrasonicSensor extends LegoMindstormsNxtSensor implements Dele
 
     @SimpleFunction(description = "Returns the current distance in centimeters as a value between 0 and 254, or -1 if the distance can not be read.")
     public int GetDistance() {
-        String functionName = "GetDistance";
-        if (!checkBluetooth(functionName)) {
+        if (!checkBluetooth("GetDistance")) {
             return -1;
         }
-        SensorValue<Integer> sensorValue = getDistanceValue(functionName);
+        LegoMindstormsNxtSensor.SensorValue<Integer> sensorValue = getDistanceValue("GetDistance");
         if (sensorValue.valid) {
             return ((Integer) sensorValue.value).intValue();
         }
@@ -112,25 +112,23 @@ public class NxtUltrasonicSensor extends LegoMindstormsNxtSensor implements Dele
     }
 
     /* access modifiers changed from: private */
-    public SensorValue<Integer> getDistanceValue(String functionName) {
-        lsWrite(functionName, this.port, new byte[]{2, Opcode.JR_TRUE}, 1);
+    public LegoMindstormsNxtSensor.SensorValue<Integer> getDistanceValue(String functionName) {
+        int value;
+        lsWrite(functionName, this.port, new byte[]{2, Ev3Constants.Opcode.JR_TRUE}, 1);
         int i = 0;
         while (true) {
             if (i >= 3) {
                 break;
             } else if (lsGetStatus(functionName, this.port) > 0) {
                 byte[] returnPackage = lsRead(functionName, this.port);
-                if (returnPackage != null) {
-                    int value = getUBYTEValueFromBytes(returnPackage, 4);
-                    if (value >= 0 && value <= 254) {
-                        return new SensorValue<>(true, Integer.valueOf(value));
-                    }
+                if (returnPackage != null && (value = getUBYTEValueFromBytes(returnPackage, 4)) >= 0 && value <= 254) {
+                    return new LegoMindstormsNxtSensor.SensorValue<>(true, Integer.valueOf(value));
                 }
             } else {
                 i++;
             }
         }
-        return new SensorValue<>(false, null);
+        return new LegoMindstormsNxtSensor.SensorValue<>(false, null);
     }
 
     @SimpleProperty(category = PropertyCategory.BEHAVIOR, description = "The bottom of the range used for the BelowRange, WithinRange, and AboveRange events.")

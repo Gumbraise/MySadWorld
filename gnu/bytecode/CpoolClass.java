@@ -58,7 +58,7 @@ public class CpoolClass extends CpoolEntry {
         return this.hash;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void write(DataOutputStream dstr) throws IOException {
         dstr.writeByte(7);
         dstr.writeShort(this.name.index);

@@ -51,11 +51,9 @@ public class ResolveNames extends ExpExpVisitor<Void> {
 
     /* access modifiers changed from: protected */
     public Expression visitReferenceExp(ReferenceExp exp, Void ignored) {
-        if (exp.getBinding() == null) {
-            Declaration decl = lookup(exp, exp.getSymbol(), exp.isProcedureName());
-            if (decl != null) {
-                exp.setBinding(decl);
-            }
+        Declaration decl;
+        if (exp.getBinding() == null && (decl = lookup(exp, exp.getSymbol(), exp.isProcedureName())) != null) {
+            exp.setBinding(decl);
         }
         return exp;
     }

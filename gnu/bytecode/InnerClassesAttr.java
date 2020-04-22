@@ -1,6 +1,6 @@
 package gnu.bytecode;
 
-import android.support.p000v4.internal.view.SupportMenu;
+import android.support.v4.internal.view.SupportMenu;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
@@ -26,7 +26,7 @@ public class InnerClassesAttr extends Attribute {
         return (InnerClassesAttr) attr;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void addClass(CpoolClass centry, ClassType owner) {
         short s = 0;
         int i = this.count;
@@ -76,6 +76,7 @@ public class InnerClassesAttr extends Attribute {
     public void print(ClassTypeWriter dst) {
         String name;
         String name2;
+        char ch;
         ClassType ctype = (ClassType) this.container;
         ConstantPool constants = this.data == null ? null : ctype.getConstants();
         dst.print("Attribute \"");
@@ -126,14 +127,12 @@ public class InnerClassesAttr extends Attribute {
                     iname = iname.substring(dot + 1);
                 }
                 int start = iname.lastIndexOf(36) + 1;
-                if (start < iname.length()) {
-                    char ch = iname.charAt(start);
-                    if (ch >= '0' && ch <= '9') {
-                        dst.print("not a member");
-                    }
+                if (start >= iname.length() || (ch = iname.charAt(start)) < '0' || ch > '9') {
+                    dst.print("member of ");
+                    dst.print(ctype.getName());
+                } else {
+                    dst.print("not a member");
                 }
-                dst.print("member of ");
-                dst.print(ctype.getName());
             }
             dst.println();
         }

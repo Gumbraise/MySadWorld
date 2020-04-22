@@ -307,7 +307,7 @@ public class GameClient extends AndroidNonvisibleComponent implements Component,
 
     /* access modifiers changed from: private */
     public void postGetInstanceLists() {
-        AsyncCallbackPair<JSONObject> readMessagesCallback = new AsyncCallbackPair<JSONObject>() {
+        postCommandToGameServer(GET_INSTANCE_LISTS_COMMAND, Lists.newArrayList(new BasicNameValuePair(GAME_ID_KEY, GameId()), new BasicNameValuePair(INSTANCE_ID_KEY, InstanceId()), new BasicNameValuePair(PLAYER_ID_KEY, UserEmailAddress())), new AsyncCallbackPair<JSONObject>() {
             public void onSuccess(JSONObject response) {
                 GameClient.this.processInstanceLists(response);
                 GameClient.this.FunctionCompleted("GetInstanceLists");
@@ -316,8 +316,7 @@ public class GameClient extends AndroidNonvisibleComponent implements Component,
             public void onFailure(String message) {
                 GameClient.this.WebServiceError("GetInstanceLists", "Failed to get up to date instance lists.");
             }
-        };
-        postCommandToGameServer(GET_INSTANCE_LISTS_COMMAND, Lists.newArrayList(new BasicNameValuePair(GAME_ID_KEY, GameId()), new BasicNameValuePair(INSTANCE_ID_KEY, InstanceId()), new BasicNameValuePair(PLAYER_ID_KEY, UserEmailAddress())), readMessagesCallback);
+        });
     }
 
     /* access modifiers changed from: private */
@@ -436,7 +435,7 @@ public class GameClient extends AndroidNonvisibleComponent implements Component,
 
     /* access modifiers changed from: private */
     public void postLeaveInstance() {
-        AsyncCallbackPair<JSONObject> setInstanceCallback = new AsyncCallbackPair<JSONObject>() {
+        postCommandToGameServer(LEAVE_INSTANCE_COMMAND, Lists.newArrayList(new BasicNameValuePair(GAME_ID_KEY, GameId()), new BasicNameValuePair(INSTANCE_ID_KEY, InstanceId()), new BasicNameValuePair(PLAYER_ID_KEY, UserEmailAddress())), new AsyncCallbackPair<JSONObject>() {
             public void onSuccess(JSONObject response) {
                 GameClient.this.SetInstance("");
                 GameClient.this.processInstanceLists(response);
@@ -446,8 +445,7 @@ public class GameClient extends AndroidNonvisibleComponent implements Component,
             public void onFailure(String message) {
                 GameClient.this.WebServiceError("LeaveInstance", message);
             }
-        };
-        postCommandToGameServer(LEAVE_INSTANCE_COMMAND, Lists.newArrayList(new BasicNameValuePair(GAME_ID_KEY, GameId()), new BasicNameValuePair(INSTANCE_ID_KEY, InstanceId()), new BasicNameValuePair(PLAYER_ID_KEY, UserEmailAddress())), setInstanceCallback);
+        });
     }
 
     @SimpleFunction(description = "Asks the server to create a new instance of this game.")
@@ -461,7 +459,7 @@ public class GameClient extends AndroidNonvisibleComponent implements Component,
 
     /* access modifiers changed from: private */
     public void postMakeNewInstance(String requestedInstanceId, Boolean makePublic) {
-        AsyncCallbackPair<JSONObject> makeNewGameCallback = new AsyncCallbackPair<JSONObject>() {
+        postCommandToGameServer(NEW_INSTANCE_COMMAND, Lists.newArrayList(new BasicNameValuePair(PLAYER_ID_KEY, UserEmailAddress()), new BasicNameValuePair(GAME_ID_KEY, GameId()), new BasicNameValuePair(INSTANCE_ID_KEY, requestedInstanceId), new BasicNameValuePair(INSTANCE_PUBLIC_KEY, makePublic.toString())), new AsyncCallbackPair<JSONObject>() {
             public void onSuccess(JSONObject response) {
                 GameClient.this.processInstanceLists(response);
                 GameClient.this.NewInstanceMade(GameClient.this.InstanceId());
@@ -471,8 +469,7 @@ public class GameClient extends AndroidNonvisibleComponent implements Component,
             public void onFailure(String message) {
                 GameClient.this.WebServiceError("MakeNewInstance", message);
             }
-        };
-        postCommandToGameServer(NEW_INSTANCE_COMMAND, Lists.newArrayList(new BasicNameValuePair(PLAYER_ID_KEY, UserEmailAddress()), new BasicNameValuePair(GAME_ID_KEY, GameId()), new BasicNameValuePair(INSTANCE_ID_KEY, requestedInstanceId), new BasicNameValuePair(INSTANCE_PUBLIC_KEY, makePublic.toString())), makeNewGameCallback, true);
+        }, true);
     }
 
     @SimpleFunction(description = "Sends a keyed message to all recipients in the recipients list. The message will consist of the contents list.")
@@ -540,7 +537,7 @@ public class GameClient extends AndroidNonvisibleComponent implements Component,
                 if (instanceId.equals("")) {
                     Log.d(GameClient.LOG_TAG, "Instance id set to empty string.");
                     if (!GameClient.this.InstanceId().equals("")) {
-                        GameClient.this.instance = new GameInstance("");
+                        GameInstance unused = GameClient.this.instance = new GameInstance("");
                         GameClient.this.InstanceIdChanged("");
                         GameClient.this.FunctionCompleted("SetInstance");
                         return;
@@ -554,7 +551,7 @@ public class GameClient extends AndroidNonvisibleComponent implements Component,
 
     /* access modifiers changed from: private */
     public void postSetInstance(String instanceId) {
-        AsyncCallbackPair<JSONObject> setInstanceCallback = new AsyncCallbackPair<JSONObject>() {
+        postCommandToGameServer(JOIN_INSTANCE_COMMAND, Lists.newArrayList(new BasicNameValuePair(GAME_ID_KEY, GameId()), new BasicNameValuePair(INSTANCE_ID_KEY, instanceId), new BasicNameValuePair(PLAYER_ID_KEY, UserEmailAddress())), new AsyncCallbackPair<JSONObject>() {
             public void onSuccess(JSONObject response) {
                 GameClient.this.processInstanceLists(response);
                 GameClient.this.FunctionCompleted("SetInstance");
@@ -563,8 +560,7 @@ public class GameClient extends AndroidNonvisibleComponent implements Component,
             public void onFailure(String message) {
                 GameClient.this.WebServiceError("SetInstance", message);
             }
-        };
-        postCommandToGameServer(JOIN_INSTANCE_COMMAND, Lists.newArrayList(new BasicNameValuePair(GAME_ID_KEY, GameId()), new BasicNameValuePair(INSTANCE_ID_KEY, instanceId), new BasicNameValuePair(PLAYER_ID_KEY, UserEmailAddress())), setInstanceCallback, true);
+        }, true);
     }
 
     @SimpleFunction(description = "Tells the server to set the leader to playerId. Only the current leader may successfully set a new leader.")
@@ -632,7 +628,7 @@ public class GameClient extends AndroidNonvisibleComponent implements Component,
                     if (responseInstanceId.equals(GameClient.this.InstanceId())) {
                         GameClient.this.updateInstanceInfo(responseObject);
                     } else if (z || GameClient.this.InstanceId().equals("")) {
-                        GameClient.this.instance = new GameInstance(responseInstanceId);
+                        GameInstance unused = GameClient.this.instance = new GameInstance(responseInstanceId);
                         GameClient.this.updateInstanceInfo(responseObject);
                         GameClient.this.InstanceIdChanged(responseInstanceId);
                     } else {

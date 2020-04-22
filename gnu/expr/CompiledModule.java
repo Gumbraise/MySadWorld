@@ -21,7 +21,7 @@ public class CompiledModule {
     }
 
     public static CompiledModule make(Class clas, Language language2) {
-        return new CompiledModule(null, clas, language2);
+        return new CompiledModule((ModuleExp) null, clas, language2);
     }
 
     public void evalModule(Environment env, CallContext ctx) throws Throwable {

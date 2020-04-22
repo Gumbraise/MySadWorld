@@ -21,9 +21,9 @@ public final class WebViewActivity extends AppInventorCompatActivity {
                     resultIntent.setData(uri);
                     WebViewActivity.this.setResult(-1, resultIntent);
                     WebViewActivity.this.finish();
-                } else {
-                    view.loadUrl(url);
+                    return true;
                 }
+                view.loadUrl(url);
                 return true;
             }
         });

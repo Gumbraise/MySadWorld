@@ -32,7 +32,7 @@ public class SynchronizedExp extends Expression {
         CodeAttr code = comp.getCode();
         this.object.compile(comp, Target.pushObject);
         code.emitDup(1);
-        Variable objvar = code.pushScope().addVariable(code, Type.pointer_type, null);
+        Variable objvar = code.pushScope().addVariable(code, Type.pointer_type, (String) null);
         code.emitStore(objvar);
         code.emitMonitorEnter();
         code.emitTryStart(false, ((target instanceof IgnoreTarget) || (target instanceof ConsumerTarget)) ? null : target.getType());
@@ -40,7 +40,7 @@ public class SynchronizedExp extends Expression {
         code.emitLoad(objvar);
         code.emitMonitorExit();
         code.emitTryEnd();
-        code.emitCatchStart(null);
+        code.emitCatchStart((Variable) null);
         code.emitLoad(objvar);
         code.emitMonitorExit();
         code.emitThrow();

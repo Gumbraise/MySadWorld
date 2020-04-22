@@ -72,7 +72,7 @@ public abstract class HttpRequestContext {
     public abstract void setResponseHeader(String str, String str2);
 
     public static HttpRequestContext getInstance() {
-        HttpRequestContext hctx = (HttpRequestContext) instance.get();
+        HttpRequestContext hctx = instance.get();
         if (hctx != null) {
             return hctx;
         }
@@ -80,7 +80,7 @@ public abstract class HttpRequestContext {
     }
 
     public static HttpRequestContext getInstance(String command) {
-        HttpRequestContext hctx = (HttpRequestContext) instance.get();
+        HttpRequestContext hctx = instance.get();
         if (hctx != null) {
             return hctx;
         }
@@ -125,11 +125,11 @@ public abstract class HttpRequestContext {
     }
 
     public String getRequestParameter(String name) {
-        List<String> p = (List) getRequestParameters().get(name);
+        List<String> p = getRequestParameters().get(name);
         if (p == null || p.isEmpty()) {
             return null;
         }
-        return (String) p.get(0);
+        return p.get(0);
     }
 
     public String getScriptPath() {
@@ -212,7 +212,7 @@ public abstract class HttpRequestContext {
 
     public void sendNotFound(String path) throws IOException {
         byte[] bmsg = ("The requested URL " + path + " was not found on this server.\r\n").getBytes();
-        sendResponseHeaders(404, null, (long) bmsg.length);
+        sendResponseHeaders(404, (String) null, (long) bmsg.length);
         try {
             getResponseStream().write(bmsg);
         } catch (IOException ex) {

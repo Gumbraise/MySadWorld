@@ -52,7 +52,7 @@ public class ServiceBasedSpeechRecognizer extends SpeechRecognizerController imp
         if (bundle.isEmpty()) {
             this.result = "";
         } else {
-            this.result = (String) bundle.getStringArrayList("results_recognition").get(0);
+            this.result = bundle.getStringArrayList("results_recognition").get(0);
         }
         this.speechListener.onResult(this.result);
     }
@@ -61,7 +61,7 @@ public class ServiceBasedSpeechRecognizer extends SpeechRecognizerController imp
         if (bundle.isEmpty()) {
             this.result = "";
         } else {
-            this.result = (String) bundle.getStringArrayList("results_recognition").get(0);
+            this.result = bundle.getStringArrayList("results_recognition").get(0);
         }
         this.speechListener.onPartialResult(this.result);
     }

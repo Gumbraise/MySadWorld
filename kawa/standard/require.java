@@ -206,7 +206,7 @@ public class require extends Syntax {
             r4 = 0
             r0 = r20
             gnu.expr.Expression r4 = r0.rewrite(r12, r4)
-            gnu.bytecode.Type r15 = r2.getTypeFor(r4)
+            gnu.bytecode.Type r15 = r2.getTypeFor((gnu.expr.Expression) r4)
             boolean r2 = r15 instanceof gnu.bytecode.ClassType
             if (r2 == 0) goto L_0x0095
             java.lang.Object r2 = r10.getCdr()
@@ -327,9 +327,7 @@ public class require extends Syntax {
             isRunnable = type.isSubtype(Compilation.typeRunnable);
         }
         Declaration decl = null;
-        ClassType thisType = ClassType.make("kawa.standard.require");
-        QuoteExp quoteExp = new QuoteExp(tname);
-        Expression dofind = Invoke.makeInvokeStatic(thisType, "find", new Expression[]{quoteExp});
+        Expression dofind = Invoke.makeInvokeStatic(ClassType.make("kawa.standard.require"), "find", new Expression[]{new QuoteExp(tname)});
         Field instanceField = null;
         Language language2 = tr.getLanguage();
         dofind.setLine(tr);
@@ -342,8 +340,8 @@ public class require extends Syntax {
                 if (renamer != null) {
                     try {
                         obj = renamer.apply1(aname);
-                    } catch (Throwable th) {
-                        obj = th;
+                    } catch (Throwable ex4) {
+                        obj = ex4;
                     }
                     if (obj != null) {
                         if (!(obj instanceof Symbol)) {
@@ -371,66 +369,65 @@ public class require extends Syntax {
                     }
                     decl.setFlag(8192);
                 }
-                if (fdecl.field != null) {
-                    if (fdecl.field.getName().equals("$instance")) {
-                        instanceField = fdecl.field;
-                    }
-                }
-                boolean isImportedInstance = fdecl.field != null && fdecl.field.getName().endsWith("$instance");
-                Declaration old = defs.lookup(aname, language2, language2.getNamespaceOf(fdecl));
-                if (isImportedInstance) {
-                    if (old == null) {
-                        adecl = defs.addDeclaration((Object) aname);
-                        adecl.setFlag(1073758208);
-                        adecl.setType(fdecl.getType());
-                        adecl.setFlag(8192);
-                    }
-                } else if (old == null || old.getFlag(512) || Declaration.followAliases(old) != Declaration.followAliases(fdecl)) {
-                    if (old == null || !old.getFlag(66048)) {
-                        adecl = defs.addDeclaration((Object) aname);
-                        if (old != null) {
-                            ScopeExp.duplicateDeclarationError(old, adecl, tr);
+                if (fdecl.field == null || !fdecl.field.getName().equals("$instance")) {
+                    boolean isImportedInstance = fdecl.field != null && fdecl.field.getName().endsWith("$instance");
+                    Declaration old = defs.lookup(aname, language2, language2.getNamespaceOf(fdecl));
+                    if (isImportedInstance) {
+                        if (old == null) {
+                            adecl = defs.addDeclaration((Object) aname);
+                            adecl.setFlag(1073758208);
+                            adecl.setType(fdecl.getType());
+                            adecl.setFlag(8192);
                         }
+                    } else if (old == null || old.getFlag(512) || Declaration.followAliases(old) != Declaration.followAliases(fdecl)) {
+                        if (old == null || !old.getFlag(66048)) {
+                            adecl = defs.addDeclaration((Object) aname);
+                            if (old != null) {
+                                ScopeExp.duplicateDeclarationError(old, adecl, tr);
+                            }
+                        } else {
+                            old.setFlag(false, 66048);
+                            adecl = old;
+                        }
+                        adecl.setAlias(true);
+                        adecl.setIndirectBinding(true);
+                    }
+                    adecl.setLocation(tr);
+                    ReferenceExp referenceExp = new ReferenceExp(fdecl);
+                    referenceExp.setContextDecl(decl);
+                    if (!isImportedInstance) {
+                        referenceExp.setDontDereference(true);
+                        if (!sharedModule) {
+                            adecl.setPrivate(true);
+                        }
+                    }
+                    adecl.setFlag(JSONzip.int14);
+                    if (fdecl.getFlag(32768)) {
+                        adecl.setFlag(32768);
+                    }
+                    if (fdecl.isProcedureDecl()) {
+                        adecl.setProcedureDecl(true);
+                    }
+                    if (isStatic) {
+                        adecl.setFlag(2048);
+                    }
+                    SetExp setExp2 = new SetExp(adecl, (Expression) referenceExp);
+                    adecl.setFlag(536870912);
+                    setExp2.setDefining(true);
+                    if (isImportedInstance) {
+                        forms.insertElementAt(setExp2, formsStart);
+                        formsStart++;
                     } else {
-                        old.setFlag(false, 66048);
-                        adecl = old;
+                        forms.addElement(setExp2);
                     }
-                    adecl.setAlias(true);
-                    adecl.setIndirectBinding(true);
-                }
-                adecl.setLocation(tr);
-                ReferenceExp referenceExp = new ReferenceExp(fdecl);
-                referenceExp.setContextDecl(decl);
-                if (!isImportedInstance) {
-                    referenceExp.setDontDereference(true);
-                    if (!sharedModule) {
-                        adecl.setPrivate(true);
-                    }
-                }
-                adecl.setFlag(JSONzip.int14);
-                if (fdecl.getFlag(32768)) {
-                    adecl.setFlag(32768);
-                }
-                if (fdecl.isProcedureDecl()) {
-                    adecl.setProcedureDecl(true);
-                }
-                if (isStatic) {
-                    adecl.setFlag(2048);
-                }
-                SetExp setExp2 = new SetExp(adecl, (Expression) referenceExp);
-                adecl.setFlag(536870912);
-                setExp2.setDefining(true);
-                if (isImportedInstance) {
-                    forms.insertElementAt(setExp2, formsStart);
-                    formsStart++;
+                    declPairs.add(adecl);
+                    declPairs.add(fdecl);
+                    adecl.noteValue(referenceExp);
+                    adecl.setFlag(131072);
+                    tr.push(adecl);
                 } else {
-                    forms.addElement(setExp2);
+                    instanceField = fdecl.field;
                 }
-                declPairs.add(adecl);
-                declPairs.add(fdecl);
-                adecl.noteValue(referenceExp);
-                adecl.setFlag(131072);
-                tr.push(adecl);
             }
         }
         int ndecls = declPairs.size();
@@ -454,8 +451,7 @@ public class require extends Syntax {
             if (decl != null) {
                 dofind = new ReferenceExp(decl);
             } else if (instanceField != null) {
-                QuoteExp quoteExp2 = new QuoteExp(type);
-                dofind = new ApplyExp((Procedure) SlotGet.staticField, quoteExp2, new QuoteExp("$instance"));
+                dofind = new ApplyExp((Procedure) SlotGet.staticField, new QuoteExp(type), new QuoteExp("$instance"));
             }
             ApplyExp applyExp = new ApplyExp(run, dofind);
             applyExp.setLine(tr);

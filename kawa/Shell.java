@@ -95,7 +95,7 @@ public class Shell {
                     args[i] = out;
                 }
             }
-            Object format = defaultFormatMethod.invoke(null, args);
+            Object format = defaultFormatMethod.invoke((Object) null, args);
             if (!(format instanceof AbstractFormat)) {
                 return (Consumer) format;
             }
@@ -133,7 +133,7 @@ public class Shell {
             saveFormat = pout.objectFormat;
         }
         try {
-            return run(language, env, inp, getOutputConsumer(pout), perr, null, messages);
+            return run(language, env, inp, getOutputConsumer(pout), perr, (URL) null, messages);
         } finally {
             if (pout != null) {
                 pout.objectFormat = saveFormat;
@@ -299,7 +299,6 @@ public class Shell {
     public static boolean runFileOrClass(String fname, boolean lineByLine, int skipLines) {
         Path path;
         InputStream fs;
-        boolean z = false;
         Language language = Language.getDefaultLanguage();
         try {
             if (fname.equals("-")) {
@@ -316,7 +315,7 @@ public class Shell {
                 return true;
             } catch (Throwable ex) {
                 ex.printStackTrace();
-                return z;
+                return false;
             }
         }
     }
@@ -343,7 +342,7 @@ public class Shell {
                 SourceMessages messages = new SourceMessages();
                 URL url = path.toURL();
                 if (lineByLine) {
-                    Throwable ex = run(language, env, src, ModuleBody.getMainPrintValues() ? getOutputConsumer(OutPort.outDefault()) : new VoidConsumer(), null, url, messages);
+                    Throwable ex = run(language, env, src, ModuleBody.getMainPrintValues() ? getOutputConsumer(OutPort.outDefault()) : new VoidConsumer(), (OutPort) null, url, messages);
                     if (ex != null) {
                         throw ex;
                     }
@@ -372,7 +371,7 @@ public class Shell {
     static CompiledModule compileSource(InPort port, Environment env, URL url, Language language, SourceMessages messages) throws SyntaxException, IOException {
         Compilation comp = language.parse(port, messages, 1, ModuleManager.getInstance().findWithSourcePath(port.getName()));
         CallContext.getInstance().values = Values.noArgs;
-        Object inst = ModuleExp.evalModule1(env, comp, url, null);
+        Object inst = ModuleExp.evalModule1(env, comp, url, (OutPort) null);
         if (inst == null || messages.seenErrors()) {
             return null;
         }

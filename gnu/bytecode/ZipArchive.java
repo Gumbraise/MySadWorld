@@ -59,8 +59,7 @@ public class ZipArchive {
                 PrintStream out = System.out;
                 byte[] buf = new byte[1024];
                 if (args.length == 2) {
-                    FileInputStream fileInputStream = new FileInputStream(archive_name);
-                    ZipInputStream zipInputStream = new ZipInputStream(new BufferedInputStream(fileInputStream));
+                    ZipInputStream zipInputStream = new ZipInputStream(new BufferedInputStream(new FileInputStream(archive_name)));
                     while (true) {
                         ZipEntry zent = zipInputStream.getNextEntry();
                         if (zent != null) {
@@ -98,8 +97,7 @@ public class ZipArchive {
                     }
                 }
             } else if (command.equals("q")) {
-                FileOutputStream fileOutputStream = new FileOutputStream(archive_name);
-                ZipOutputStream zar2 = new ZipOutputStream(fileOutputStream);
+                ZipOutputStream zar2 = new ZipOutputStream(new FileOutputStream(archive_name));
                 int i2 = 2;
                 while (i2 < args.length) {
                     File in = new File(args[i2]);

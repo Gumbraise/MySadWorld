@@ -84,16 +84,16 @@ public class LocationSensor extends AndroidNonvisibleComponent implements Compon
         }
 
         public void onLocationChanged(Location location) {
-            LocationSensor.this.lastLocation = location;
-            LocationSensor.this.longitude = location.getLongitude();
-            LocationSensor.this.latitude = location.getLatitude();
-            LocationSensor.this.speed = location.getSpeed();
+            Location unused = LocationSensor.this.lastLocation = location;
+            double unused2 = LocationSensor.this.longitude = location.getLongitude();
+            double unused3 = LocationSensor.this.latitude = location.getLatitude();
+            float unused4 = LocationSensor.this.speed = location.getSpeed();
             if (location.hasAltitude()) {
-                LocationSensor.this.hasAltitude = true;
-                LocationSensor.this.altitude = location.getAltitude();
+                boolean unused5 = LocationSensor.this.hasAltitude = true;
+                double unused6 = LocationSensor.this.altitude = location.getAltitude();
             }
             if (LocationSensor.this.longitude != 0.0d || LocationSensor.this.latitude != 0.0d) {
-                LocationSensor.this.hasLocationData = true;
+                boolean unused7 = LocationSensor.this.hasLocationData = true;
                 final double argLatitude = LocationSensor.this.latitude;
                 final double argLongitude = LocationSensor.this.longitude;
                 final double argAltitude = LocationSensor.this.altitude;
@@ -325,19 +325,17 @@ public class LocationSensor extends AndroidNonvisibleComponent implements Compon
 
     @SimpleProperty(category = PropertyCategory.BEHAVIOR, description = "Provides a textual representation of the current address or \"No address available\".")
     public String CurrentAddress() {
+        Address address;
         if ((this.hasLocationData && this.latitude <= 90.0d && this.latitude >= -90.0d && this.longitude <= 180.0d) || this.longitude >= -180.0d) {
             try {
                 List<Address> addresses = this.geocoder.getFromLocation(this.latitude, this.longitude, 1);
-                if (addresses != null && addresses.size() == 1) {
-                    Address address = (Address) addresses.get(0);
-                    if (address != null) {
-                        StringBuilder sb = new StringBuilder();
-                        for (int i = 0; i <= address.getMaxAddressLineIndex(); i++) {
-                            sb.append(address.getAddressLine(i));
-                            sb.append("\n");
-                        }
-                        return sb.toString();
+                if (!(addresses == null || addresses.size() != 1 || (address = addresses.get(0)) == null)) {
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i <= address.getMaxAddressLineIndex(); i++) {
+                        sb.append(address.getAddressLine(i));
+                        sb.append("\n");
                     }
+                    return sb.toString();
                 }
             } catch (Exception e) {
                 if ((e instanceof IllegalArgumentException) || (e instanceof IOException) || (e instanceof IndexOutOfBoundsException)) {
@@ -356,7 +354,7 @@ public class LocationSensor extends AndroidNonvisibleComponent implements Compon
             List<Address> addressObjs = this.geocoder.getFromLocationName(locationName, 1);
             Log.i(LOG_TAG, "latitude addressObjs size is " + addressObjs.size() + " for " + locationName);
             if (addressObjs != null && addressObjs.size() != 0) {
-                return ((Address) addressObjs.get(0)).getLatitude();
+                return addressObjs.get(0).getLatitude();
             }
             throw new IOException("");
         } catch (IOException e) {
@@ -371,7 +369,7 @@ public class LocationSensor extends AndroidNonvisibleComponent implements Compon
             List<Address> addressObjs = this.geocoder.getFromLocationName(locationName, 1);
             Log.i(LOG_TAG, "longitude addressObjs size is " + addressObjs.size() + " for " + locationName);
             if (addressObjs != null && addressObjs.size() != 0) {
-                return ((Address) addressObjs.get(0)).getLongitude();
+                return addressObjs.get(0).getLongitude();
             }
             throw new IOException("");
         } catch (IOException e) {
@@ -394,13 +392,13 @@ public class LocationSensor extends AndroidNonvisibleComponent implements Compon
                         this.form.askPermission("android.permission.ACCESS_FINE_LOCATION", new PermissionResultHandler() {
                             public void HandlePermissionResponse(String permission, boolean granted) {
                                 if (granted) {
-                                    this.havePermission = true;
+                                    boolean unused = this.havePermission = true;
                                     this.RefreshProvider(caller);
                                     Log.d(LocationSensor.LOG_TAG, "Permission Granted");
                                     return;
                                 }
-                                this.havePermission = false;
-                                this.enabled = false;
+                                boolean unused2 = this.havePermission = false;
+                                boolean unused3 = this.enabled = false;
                                 this.form.dispatchPermissionDeniedEvent((Component) this, caller, "android.permission.ACCESS_FINE_LOCATION");
                             }
                         });
@@ -473,7 +471,7 @@ public class LocationSensor extends AndroidNonvisibleComponent implements Compon
 
     public void removeListener(LocationSensorListener listener) {
         this.listeners.remove(listener);
-        listener.setSource(null);
+        listener.setSource((LocationSensor) null);
     }
 
     private boolean empty(String s) {

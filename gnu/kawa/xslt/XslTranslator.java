@@ -46,9 +46,7 @@ public class XslTranslator extends Lexer implements Consumer {
     StringBuffer attributeValue = new StringBuffer(100);
     Compilation comp;
     Declaration consumerDecl;
-
-    /* renamed from: in */
-    InPort f235in;
+    InPort in;
     boolean inAttribute;
     boolean inTemplate;
     XSLT interpreter;
@@ -60,10 +58,10 @@ public class XslTranslator extends Lexer implements Consumer {
     XslTranslator(InPort inp, SourceMessages messages, XSLT interpreter2) {
         super(inp, messages);
         this.interpreter = interpreter2;
-        this.f235in = inp;
+        this.in = inp;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void maybeSkipWhitespace() {
         if (!this.preserveSpace) {
             int size = this.comp.exprStack.size();
@@ -126,7 +124,7 @@ public class XslTranslator extends Lexer implements Consumer {
         return null;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Expression popTemplateBody(int start) {
         int i = this.comp.exprStack.size() - start;
         Expression[] args = new Expression[i];
@@ -135,7 +133,7 @@ public class XslTranslator extends Lexer implements Consumer {
             if (i < 0) {
                 return new ApplyExp((Procedure) AppendValues.appendValues, args);
             }
-            args[i] = (Expression) this.comp.exprStack.pop();
+            args[i] = this.comp.exprStack.pop();
         }
     }
 
@@ -153,7 +151,7 @@ public class XslTranslator extends Lexer implements Consumer {
         return null;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void append(Expression expr) {
     }
 
@@ -201,32 +199,26 @@ public class XslTranslator extends Lexer implements Consumer {
         if (xslTag == "value-of") {
             String select = popMatchingAttribute("", "select", charAt + 1);
             if (select != null) {
-                Expression exp = parseXPath(select);
-                Expression exp2 = new ApplyExp(XQParser.makeText, exp);
+                Expression exp = new ApplyExp(XQParser.makeText, parseXPath(select));
                 this.comp.exprStack.pop();
-                push(exp2);
+                push(exp);
             }
         } else if (xslTag == "copy-of") {
             String select2 = popMatchingAttribute("", "select", charAt + 1);
             if (select2 != null) {
-                Expression exp3 = parseXPath(select2);
+                Expression exp2 = parseXPath(select2);
                 this.comp.exprStack.pop();
-                push(exp3);
+                push(exp2);
             }
         } else if (xslTag == "apply-templates") {
-            String select3 = popMatchingAttribute("", "select", charAt + 1);
-            String mode = popMatchingAttribute("", "mode", charAt + 1);
-            QuoteExp quoteExp = new QuoteExp(select3);
-            Expression[] args = {quoteExp, resolveQNameExpression(mode)};
+            Expression[] args = {new QuoteExp(popMatchingAttribute("", "select", charAt + 1)), resolveQNameExpression(popMatchingAttribute("", "mode", charAt + 1))};
             this.comp.exprStack.pop();
-            ApplyExp applyExp = new ApplyExp((Expression) new QuoteExp(applyTemplatesProc), args);
-            push((Expression) applyExp);
+            push((Expression) new ApplyExp((Expression) new QuoteExp(applyTemplatesProc), args));
         } else if (xslTag == "if") {
             Expression test = XQParser.booleanValue(parseXPath(popMatchingAttribute("", "test", charAt + 1)));
             Expression clause = popTemplateBody(charAt + 1);
             this.comp.exprStack.pop();
-            IfExp ifExp = new IfExp(test, clause, QuoteExp.voidExp);
-            push((Expression) ifExp);
+            push((Expression) new IfExp(test, clause, QuoteExp.voidExp));
         } else if (xslTag == "stylesheet" || xslTag == "transform") {
             String popMatchingAttribute = popMatchingAttribute("", "version", charAt + 1);
             push((Expression) new ApplyExp((Expression) new QuoteExp(runStylesheetProc), Expression.noExpressions));
@@ -237,12 +229,10 @@ public class XslTranslator extends Lexer implements Consumer {
             String match = popMatchingAttribute("", "match", charAt + 1);
             String name = popMatchingAttribute("", "name", charAt + 1);
             String popMatchingAttribute2 = popMatchingAttribute("", "priority", charAt + 1);
-            String mode2 = popMatchingAttribute("", "mode", charAt + 1);
+            String mode = popMatchingAttribute("", "mode", charAt + 1);
             this.templateLambda.body = popTemplateBody(charAt + 1);
             this.comp.exprStack.pop();
-            QuoteExp quoteExp2 = new QuoteExp(match);
-            ApplyExp applyExp2 = new ApplyExp((Expression) new QuoteExp(defineTemplateProc), resolveQNameExpression(name), quoteExp2, new QuoteExp(DFloNum.make(0.0d)), resolveQNameExpression(mode2), this.templateLambda);
-            push((Expression) applyExp2);
+            push((Expression) new ApplyExp((Expression) new QuoteExp(defineTemplateProc), resolveQNameExpression(name), new QuoteExp(match), new QuoteExp(DFloNum.make(0.0d)), resolveQNameExpression(mode), this.templateLambda));
             this.templateLambda = null;
         } else if (xslTag == PropertyTypeConstants.PROPERTY_TYPE_TEXT) {
             this.preserveSpace = false;
@@ -251,12 +241,12 @@ public class XslTranslator extends Lexer implements Consumer {
             while (true) {
                 i--;
                 if (i >= 0) {
-                    args2[i] = (Expression) this.comp.exprStack.pop();
+                    args2[i] = this.comp.exprStack.pop();
                 } else {
                     this.comp.exprStack.pop();
-                    Expression exp4 = new ApplyExp(XQParser.makeText, args2);
-                    push(exp4);
-                    this.mexp.body = exp4;
+                    Expression exp3 = new ApplyExp(XQParser.makeText, args2);
+                    push(exp3);
+                    this.mexp.body = exp3;
                     return;
                 }
             }
@@ -266,19 +256,18 @@ public class XslTranslator extends Lexer implements Consumer {
             while (true) {
                 i2--;
                 if (i2 >= 0) {
-                    args3[i2] = (Expression) this.comp.exprStack.pop();
+                    args3[i2] = this.comp.exprStack.pop();
                 } else {
-                    QuoteExp quoteExp3 = new QuoteExp(new MakeElement());
-                    Expression exp5 = new ApplyExp((Expression) quoteExp3, args3);
-                    push(exp5);
-                    this.mexp.body = exp5;
+                    Expression exp4 = new ApplyExp((Expression) new QuoteExp(new MakeElement()), args3);
+                    push(exp4);
+                    this.mexp.body = exp4;
                     return;
                 }
             }
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Expression parseXPath(String string) {
         try {
             XQParser parser = new XQParser(new CharArrayInPort(string), this.comp.getMessages(), this.interpreter);
@@ -340,12 +329,12 @@ public class XslTranslator extends Lexer implements Consumer {
         return append(csq.subSequence(start, end));
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void push(Expression exp) {
         this.comp.exprStack.push(exp);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void push(Object value) {
         push((Expression) new QuoteExp(value));
     }
@@ -434,19 +423,19 @@ public class XslTranslator extends Lexer implements Consumer {
     }
 
     public Expression getExpression() {
-        return (Expression) this.comp.exprStack.pop();
+        return this.comp.exprStack.pop();
     }
 
     public void error(char kind, String message) {
         getMessages().error(kind, message);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Expression resolveQNameExpression(String name) {
         if (name == null) {
             return QuoteExp.nullExp;
         }
-        return new QuoteExp(Symbol.make(null, name));
+        return new QuoteExp(Symbol.make((Object) null, name));
     }
 
     public void parse(Compilation comp2) throws IOException {
@@ -457,7 +446,7 @@ public class XslTranslator extends Lexer implements Consumer {
         ModuleExp mexp2 = comp2.pushNewModule((Lexer) this);
         comp2.mustCompileHere();
         startDocument(mexp2);
-        XMLParser.parse((LineBufferedReader) this.f235in, getMessages(), (Consumer) this);
+        XMLParser.parse((LineBufferedReader) this.in, getMessages(), (Consumer) this);
         endDocument();
         comp2.pop(mexp2);
     }

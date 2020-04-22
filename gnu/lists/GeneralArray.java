@@ -71,23 +71,18 @@ public class GeneralArray extends AbstractSequence implements Array {
     }
 
     public int getEffectiveIndex(int[] indexes) {
+        int index;
         int result = this.offset;
         int i = this.dimensions.length;
         while (true) {
             i--;
-            if (i >= 0) {
-                int index = indexes[i];
-                int low = this.lowBounds[i];
-                if (index < low) {
-                    break;
-                }
-                int index2 = index - low;
-                if (index2 >= this.dimensions[i]) {
-                    break;
-                }
-                result += this.strides[i] * index2;
-            } else {
+            if (i < 0) {
                 return result;
+            }
+            int index2 = indexes[i];
+            int low = this.lowBounds[i];
+            if (index2 >= low && (index = index2 - low) < this.dimensions[i]) {
+                result += this.strides[i] * index;
             }
         }
         throw new IndexOutOfBoundsException();

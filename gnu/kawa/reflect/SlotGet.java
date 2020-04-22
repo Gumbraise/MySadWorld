@@ -323,16 +323,16 @@ public class SlotGet extends Procedure2 implements HasSetter, Inlineable {
     public Type getReturnType(Expression[] args) {
         if (args.length == 2) {
             Expression arg0 = args[0];
-            Expression arg1 = args[1];
-            if (arg1 instanceof QuoteExp) {
-                Object part = ((QuoteExp) arg1).getValue();
+            QuoteExp quoteExp = args[1];
+            if (quoteExp instanceof QuoteExp) {
+                Object part = quoteExp.getValue();
                 if (part instanceof Field) {
                     return ((Field) part).getType();
                 }
                 if (part instanceof Method) {
                     return ((Method) part).getReturnType();
                 }
-                if (!this.isStatic && (arg0.getType() instanceof ArrayType) && PropertyTypeConstants.PROPERTY_TYPE_LENGTH.equals(ClassMethods.checkName(arg1, true))) {
+                if (!this.isStatic && (arg0.getType() instanceof ArrayType) && PropertyTypeConstants.PROPERTY_TYPE_LENGTH.equals(ClassMethods.checkName(quoteExp, true))) {
                     return LangPrimType.intType;
                 }
             }

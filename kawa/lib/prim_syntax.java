@@ -1,6 +1,6 @@
 package kawa.lib;
 
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import gnu.expr.Expression;
 import gnu.expr.IfExp;
 import gnu.expr.ModuleBody;
@@ -95,56 +95,13 @@ public class prim_syntax extends ModuleBody {
     public static final Macro define$Mnprivate = Macro.make(Lit4, Lit5, $instance);
     public static final Macro define$Mnsyntax = Macro.make(Lit0, Lit1, $instance);
 
-    /* renamed from: if */
-    public static final Macro f260if;
+    /* renamed from: if  reason: not valid java name */
+    public static final Macro f4if;
     public static final Macro letrec;
     public static final Macro syntax$Mn$Grexpression = Macro.make(Lit9, Lit10, $instance);
     public static final Macro syntax$Mnbody$Mn$Grexpression = Macro.make(Lit11, Lit12, $instance);
     public static final ModuleMethod syntax$Mnerror;
     public static final Macro try$Mncatch;
-
-    /* compiled from: prim_syntax.scm */
-    public class frame extends ModuleBody {
-        Object[] $unnamed$0;
-        Object out$Mnbindings;
-        Object out$Mninits;
-
-        public Object lambda4processBinding(Object b) {
-            Object[] objArr;
-            Object[] objArr2;
-            Object[] allocVars = SyntaxPattern.allocVars(8, this.$unnamed$0);
-            if (prim_syntax.Lit34.match(b, allocVars, 0)) {
-                return Values.empty;
-            }
-            if (prim_syntax.Lit35.match(b, allocVars, 0)) {
-                this.out$Mnbindings = new Pair(prim_syntax.Lit36.execute(allocVars, TemplateScope.make()), this.out$Mnbindings);
-                this.out$Mninits = new Pair(prim_syntax.Lit37.execute(allocVars, TemplateScope.make()), this.out$Mninits);
-                return lambda4processBinding(prim_syntax.Lit38.execute(allocVars, TemplateScope.make()));
-            } else if (prim_syntax.Lit39.match(b, allocVars, 0)) {
-                this.out$Mnbindings = new Pair(prim_syntax.Lit40.execute(allocVars, TemplateScope.make()), this.out$Mnbindings);
-                this.out$Mninits = new Pair(prim_syntax.Lit41.execute(allocVars, TemplateScope.make()), this.out$Mninits);
-                return lambda4processBinding(prim_syntax.Lit42.execute(allocVars, TemplateScope.make()));
-            } else if (prim_syntax.Lit43.match(b, allocVars, 0)) {
-                String str = "missing initializion in letrec";
-                if (str instanceof Object[]) {
-                    objArr2 = (Object[]) str;
-                } else {
-                    objArr2 = new Object[]{str};
-                }
-                return prim_syntax.syntaxError(b, objArr2);
-            } else if (!prim_syntax.Lit44.match(b, allocVars, 0)) {
-                return syntax_case.error("syntax-case", b);
-            } else {
-                String str2 = "invalid bindings syntax in letrec";
-                if (str2 instanceof Object[]) {
-                    objArr = (Object[]) str2;
-                } else {
-                    objArr = new Object[]{str2};
-                }
-                return prim_syntax.syntaxError(b, objArr);
-            }
-        }
-    }
 
     static {
         SimpleSymbol simpleSymbol = (SimpleSymbol) new SimpleSymbol("syntax-body->expression").readResolve();
@@ -156,71 +113,75 @@ public class prim_syntax extends ModuleBody {
         SimpleSymbol simpleSymbol3 = (SimpleSymbol) new SimpleSymbol("define-constant").readResolve();
         Lit6 = simpleSymbol3;
         Object[] objArr = {simpleSymbol3, Lit49, Lit46};
-        Object[] objArr2 = {Lit46, Lit49};
-        Object[] objArr3 = {Lit50, Lit46, Lit51};
-        Object[] objArr4 = {Lit46};
-        Object[] objArr5 = new Object[4];
-        objArr5[0] = Lit50;
-        objArr5[1] = Lit46;
-        objArr5[2] = Lit52;
-        Object[] objArr6 = {Lit50, IntNum.make(10), Boolean.TRUE};
-        Object[] objArr7 = {Lit49};
-        Object[] objArr8 = {Lit50, Lit51};
-        Object[] objArr9 = new Object[3];
-        objArr9[0] = Lit50;
-        objArr9[1] = Lit52;
-        Lit7 = new SyntaxRules(objArr, new SyntaxRule[]{new SyntaxRule(new SyntaxPattern("\f\u0018\\\f\u0002\f\u0007,\f\u000f\f\u0017\b\b\f\n\f\u001f\f'\b", objArr2, 5), "\u0001\u0001\u0001\u0001\u0001", "\u0011\u0018\u0004Q\u0011\u0018\f\t\u0003\b\t\u000b\b\u0013\u0011\u0018\u0014\t\u001b\b#", objArr3, 0), new SyntaxRule(new SyntaxPattern("\f\u0018\\\f\u0002\f\u0007,\f\u000f\f\u0017\b\b\f\u001f\b", objArr4, 4), "\u0001\u0001\u0001\u0001", "\u0011\u0018\u0004Q\u0011\u0018\f\t\u0003\b\t\u000b\b\u0013\u0011\u0018\u0014\u0011\u0018\u001c\b\u001b", objArr5, 0), new SyntaxRule(new SyntaxPattern("\f\u0018\u001c\f\u0007\u000b\u0013", new Object[0], 3), "\u0001\u0000\u0000", "\u0011\u0018\u0004\t\u0003\u0011\u0018\f\u0011\u0018\u0014\t\n\u0012", objArr6, 0), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\f\u0002\f\u000f\f\u0017\b", objArr7, 3), "\u0001\u0001\u0001", "\u0011\u0018\u0004\t\u0003\u0011\u0018\f\t\u000b\b\u0013", objArr8, 0), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\f\u000f\b", new Object[0], 2), "\u0001\u0001", "\u0011\u0018\u0004\t\u0003\u0011\u0018\f\u0011\u0018\u0014\b\u000b", objArr9, 0)}, 5);
+        SyntaxPattern syntaxPattern = new SyntaxPattern("\f\u0018\\\f\u0002\f\u0007,\f\u000f\f\u0017\b\b\f\n\f\u001f\f'\b", new Object[]{Lit46, Lit49}, 5);
+        Object[] objArr2 = {Lit50, Lit46, Lit51};
+        SyntaxPattern syntaxPattern2 = new SyntaxPattern("\f\u0018\\\f\u0002\f\u0007,\f\u000f\f\u0017\b\b\f\u001f\b", new Object[]{Lit46}, 4);
+        Object[] objArr3 = new Object[4];
+        objArr3[0] = Lit50;
+        objArr3[1] = Lit46;
+        objArr3[2] = Lit52;
+        SyntaxPattern syntaxPattern3 = new SyntaxPattern("\f\u0018\u001c\f\u0007\u000b\u0013", new Object[0], 3);
+        Object[] objArr4 = {Lit50, IntNum.make(10), Boolean.TRUE};
+        SyntaxPattern syntaxPattern4 = new SyntaxPattern("\f\u0018\f\u0007\f\u0002\f\u000f\f\u0017\b", new Object[]{Lit49}, 3);
+        Object[] objArr5 = {Lit50, Lit51};
+        SyntaxPattern syntaxPattern5 = new SyntaxPattern("\f\u0018\f\u0007\f\u000f\b", new Object[0], 2);
+        Object[] objArr6 = new Object[3];
+        objArr6[0] = Lit50;
+        objArr6[1] = Lit52;
+        Lit7 = new SyntaxRules(objArr, new SyntaxRule[]{new SyntaxRule(syntaxPattern, "\u0001\u0001\u0001\u0001\u0001", "\u0011\u0018\u0004Q\u0011\u0018\f\t\u0003\b\t\u000b\b\u0013\u0011\u0018\u0014\t\u001b\b#", objArr2, 0), new SyntaxRule(syntaxPattern2, "\u0001\u0001\u0001\u0001", "\u0011\u0018\u0004Q\u0011\u0018\f\t\u0003\b\t\u000b\b\u0013\u0011\u0018\u0014\u0011\u0018\u001c\b\u001b", objArr3, 0), new SyntaxRule(syntaxPattern3, "\u0001\u0000\u0000", "\u0011\u0018\u0004\t\u0003\u0011\u0018\f\u0011\u0018\u0014\t\n\u0012", objArr4, 0), new SyntaxRule(syntaxPattern4, "\u0001\u0001\u0001", "\u0011\u0018\u0004\t\u0003\u0011\u0018\f\t\u000b\b\u0013", objArr5, 0), new SyntaxRule(syntaxPattern5, "\u0001\u0001", "\u0011\u0018\u0004\t\u0003\u0011\u0018\f\u0011\u0018\u0014\b\u000b", objArr6, 0)}, 5);
         SimpleSymbol simpleSymbol4 = (SimpleSymbol) new SimpleSymbol("define-private").readResolve();
         Lit4 = simpleSymbol4;
-        Object[] objArr10 = {simpleSymbol4, Lit49, Lit46};
-        Object[] objArr11 = {Lit46, Lit49};
-        Object[] objArr12 = {Lit50, Lit46, Lit53};
-        Object[] objArr13 = {Lit46};
-        Object[] objArr14 = new Object[4];
-        objArr14[0] = Lit50;
-        objArr14[1] = Lit46;
-        objArr14[2] = Lit54;
-        Object[] objArr15 = {Lit50, IntNum.make(6), Boolean.TRUE};
-        Object[] objArr16 = {Lit49};
-        Object[] objArr17 = {Lit50, Lit53};
-        Object[] objArr18 = new Object[3];
-        objArr18[0] = Lit50;
-        objArr18[1] = Lit54;
-        Lit5 = new SyntaxRules(objArr10, new SyntaxRule[]{new SyntaxRule(new SyntaxPattern("\f\u0018\\\f\u0002\f\u0007,\f\u000f\f\u0017\b\b\f\n\f\u001f\f'\b", objArr11, 5), "\u0001\u0001\u0001\u0001\u0001", "\u0011\u0018\u0004Q\u0011\u0018\f\t\u0003\b\t\u000b\b\u0013\u0011\u0018\u0014\t\u001b\b#", objArr12, 0), new SyntaxRule(new SyntaxPattern("\f\u0018\\\f\u0002\f\u0007,\f\u000f\f\u0017\b\b\f\u001f\b", objArr13, 4), "\u0001\u0001\u0001\u0001", "\u0011\u0018\u0004Q\u0011\u0018\f\t\u0003\b\t\u000b\b\u0013\u0011\u0018\u0014\u0011\u0018\u001c\b\u001b", objArr14, 0), new SyntaxRule(new SyntaxPattern("\f\u0018\u001c\f\u0007\u000b\u0013", new Object[0], 3), "\u0001\u0000\u0000", "\u0011\u0018\u0004\t\u0003\u0011\u0018\f\u0011\u0018\u0014\t\n\u0012", objArr15, 0), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\f\u0002\f\u000f\f\u0017\b", objArr16, 3), "\u0001\u0001\u0001", "\u0011\u0018\u0004\t\u0003\u0011\u0018\f\t\u000b\b\u0013", objArr17, 0), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\f\u000f\b", new Object[0], 2), "\u0001\u0001", "\u0011\u0018\u0004\t\u0003\u0011\u0018\f\u0011\u0018\u0014\b\u000b", objArr18, 0)}, 5);
+        Object[] objArr7 = {simpleSymbol4, Lit49, Lit46};
+        SyntaxPattern syntaxPattern6 = new SyntaxPattern("\f\u0018\\\f\u0002\f\u0007,\f\u000f\f\u0017\b\b\f\n\f\u001f\f'\b", new Object[]{Lit46, Lit49}, 5);
+        Object[] objArr8 = {Lit50, Lit46, Lit53};
+        SyntaxPattern syntaxPattern7 = new SyntaxPattern("\f\u0018\\\f\u0002\f\u0007,\f\u000f\f\u0017\b\b\f\u001f\b", new Object[]{Lit46}, 4);
+        Object[] objArr9 = new Object[4];
+        objArr9[0] = Lit50;
+        objArr9[1] = Lit46;
+        objArr9[2] = Lit54;
+        SyntaxPattern syntaxPattern8 = new SyntaxPattern("\f\u0018\u001c\f\u0007\u000b\u0013", new Object[0], 3);
+        Object[] objArr10 = {Lit50, IntNum.make(6), Boolean.TRUE};
+        SyntaxPattern syntaxPattern9 = new SyntaxPattern("\f\u0018\f\u0007\f\u0002\f\u000f\f\u0017\b", new Object[]{Lit49}, 3);
+        Object[] objArr11 = {Lit50, Lit53};
+        SyntaxPattern syntaxPattern10 = new SyntaxPattern("\f\u0018\f\u0007\f\u000f\b", new Object[0], 2);
+        Object[] objArr12 = new Object[3];
+        objArr12[0] = Lit50;
+        objArr12[1] = Lit54;
+        Lit5 = new SyntaxRules(objArr7, new SyntaxRule[]{new SyntaxRule(syntaxPattern6, "\u0001\u0001\u0001\u0001\u0001", "\u0011\u0018\u0004Q\u0011\u0018\f\t\u0003\b\t\u000b\b\u0013\u0011\u0018\u0014\t\u001b\b#", objArr8, 0), new SyntaxRule(syntaxPattern7, "\u0001\u0001\u0001\u0001", "\u0011\u0018\u0004Q\u0011\u0018\f\t\u0003\b\t\u000b\b\u0013\u0011\u0018\u0014\u0011\u0018\u001c\b\u001b", objArr9, 0), new SyntaxRule(syntaxPattern8, "\u0001\u0000\u0000", "\u0011\u0018\u0004\t\u0003\u0011\u0018\f\u0011\u0018\u0014\t\n\u0012", objArr10, 0), new SyntaxRule(syntaxPattern9, "\u0001\u0001\u0001", "\u0011\u0018\u0004\t\u0003\u0011\u0018\f\t\u000b\b\u0013", objArr11, 0), new SyntaxRule(syntaxPattern10, "\u0001\u0001", "\u0011\u0018\u0004\t\u0003\u0011\u0018\f\u0011\u0018\u0014\b\u000b", objArr12, 0)}, 5);
         SimpleSymbol simpleSymbol5 = (SimpleSymbol) new SimpleSymbol("define").readResolve();
         Lit2 = simpleSymbol5;
-        Object[] objArr19 = {simpleSymbol5, Lit49, Lit46};
-        Object[] objArr20 = {Lit46, Lit49};
-        Object[] objArr21 = {Lit50, Lit46, Lit55};
-        Object[] objArr22 = {Lit46};
-        Object[] objArr23 = new Object[4];
-        objArr23[0] = Lit50;
-        objArr23[1] = Lit46;
-        objArr23[2] = Lit56;
-        Object[] objArr24 = {Lit50, IntNum.make(2), Boolean.TRUE};
-        Object[] objArr25 = {Lit49};
-        Object[] objArr26 = {Lit50, Lit55};
-        Object[] objArr27 = new Object[3];
-        objArr27[0] = Lit50;
-        objArr27[1] = Lit56;
-        Lit3 = new SyntaxRules(objArr19, new SyntaxRule[]{new SyntaxRule(new SyntaxPattern("\f\u0018\\\f\u0002\f\u0007,\f\u000f\f\u0017\b\b\f\n\f\u001f\f'\b", objArr20, 5), "\u0001\u0001\u0001\u0001\u0001", "\u0011\u0018\u0004Q\u0011\u0018\f\t\u0003\b\t\u000b\b\u0013\u0011\u0018\u0014\t\u001b\b#", objArr21, 0), new SyntaxRule(new SyntaxPattern("\f\u0018\\\f\u0002\f\u0007,\f\u000f\f\u0017\b\b\f\u001f\b", objArr22, 4), "\u0001\u0001\u0001\u0001", "\u0011\u0018\u0004Q\u0011\u0018\f\t\u0003\b\t\u000b\b\u0013\u0011\u0018\u0014\u0011\u0018\u001c\b\u001b", objArr23, 0), new SyntaxRule(new SyntaxPattern("\f\u0018\u001c\f\u0007\u000b\u0013", new Object[0], 3), "\u0001\u0000\u0000", "\u0011\u0018\u0004\t\u0003\u0011\u0018\f\u0011\u0018\u0014\t\n\u0012", objArr24, 0), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\f\u0002\f\u000f\f\u0017\b", objArr25, 3), "\u0001\u0001\u0001", "\u0011\u0018\u0004\t\u0003\u0011\u0018\f\t\u000b\b\u0013", objArr26, 0), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\f\u000f\b", new Object[0], 2), "\u0001\u0001", "\u0011\u0018\u0004\t\u0003\u0011\u0018\f\u0011\u0018\u0014\b\u000b", objArr27, 0)}, 5);
+        Object[] objArr13 = {simpleSymbol5, Lit49, Lit46};
+        SyntaxPattern syntaxPattern11 = new SyntaxPattern("\f\u0018\\\f\u0002\f\u0007,\f\u000f\f\u0017\b\b\f\n\f\u001f\f'\b", new Object[]{Lit46, Lit49}, 5);
+        Object[] objArr14 = {Lit50, Lit46, Lit55};
+        SyntaxPattern syntaxPattern12 = new SyntaxPattern("\f\u0018\\\f\u0002\f\u0007,\f\u000f\f\u0017\b\b\f\u001f\b", new Object[]{Lit46}, 4);
+        Object[] objArr15 = new Object[4];
+        objArr15[0] = Lit50;
+        objArr15[1] = Lit46;
+        objArr15[2] = Lit56;
+        SyntaxPattern syntaxPattern13 = new SyntaxPattern("\f\u0018\u001c\f\u0007\u000b\u0013", new Object[0], 3);
+        Object[] objArr16 = {Lit50, IntNum.make(2), Boolean.TRUE};
+        SyntaxPattern syntaxPattern14 = new SyntaxPattern("\f\u0018\f\u0007\f\u0002\f\u000f\f\u0017\b", new Object[]{Lit49}, 3);
+        Object[] objArr17 = {Lit50, Lit55};
+        SyntaxPattern syntaxPattern15 = new SyntaxPattern("\f\u0018\f\u0007\f\u000f\b", new Object[0], 2);
+        Object[] objArr18 = new Object[3];
+        objArr18[0] = Lit50;
+        objArr18[1] = Lit56;
+        Lit3 = new SyntaxRules(objArr13, new SyntaxRule[]{new SyntaxRule(syntaxPattern11, "\u0001\u0001\u0001\u0001\u0001", "\u0011\u0018\u0004Q\u0011\u0018\f\t\u0003\b\t\u000b\b\u0013\u0011\u0018\u0014\t\u001b\b#", objArr14, 0), new SyntaxRule(syntaxPattern12, "\u0001\u0001\u0001\u0001", "\u0011\u0018\u0004Q\u0011\u0018\f\t\u0003\b\t\u000b\b\u0013\u0011\u0018\u0014\u0011\u0018\u001c\b\u001b", objArr15, 0), new SyntaxRule(syntaxPattern13, "\u0001\u0000\u0000", "\u0011\u0018\u0004\t\u0003\u0011\u0018\f\u0011\u0018\u0014\t\n\u0012", objArr16, 0), new SyntaxRule(syntaxPattern14, "\u0001\u0001\u0001", "\u0011\u0018\u0004\t\u0003\u0011\u0018\f\t\u000b\b\u0013", objArr17, 0), new SyntaxRule(syntaxPattern15, "\u0001\u0001", "\u0011\u0018\u0004\t\u0003\u0011\u0018\f\u0011\u0018\u0014\b\u000b", objArr18, 0)}, 5);
         SimpleSymbol simpleSymbol6 = (SimpleSymbol) new SimpleSymbol("define-syntax").readResolve();
         Lit0 = simpleSymbol6;
-        Object[] objArr28 = {Lit57, Lit46, Lit58};
-        Object[] objArr29 = {Lit57, Lit46};
-        Lit1 = new SyntaxRules(new Object[]{simpleSymbol6, Lit46}, new SyntaxRule[]{new SyntaxRule(new SyntaxPattern("\f\u0018l\\\f\u0002\f\u0007,\f\u000f\f\u0017\b\b\u001b#", new Object[]{Lit46}, 5), "\u0001\u0001\u0001\u0000\u0000", "\u0011\u0018\u0004Q\u0011\u0018\f\t\u0003\b\t\u000b\b\u0013\b\u0011\u0018\u0014\t\u001a\"", objArr28, 0), new SyntaxRule(new SyntaxPattern("\f\u0018\\\f\u0002\f\u0007,\f\u000f\f\u0017\b\b\f\u001f\b", new Object[]{Lit46}, 4), "\u0001\u0001\u0001\u0001", "\u0011\u0018\u0004Q\u0011\u0018\f\t\u0003\b\t\u000b\b\u0013\b\u001b", objArr29, 0), new SyntaxRule(new SyntaxPattern("\f\u0018\u001c\f\u0007\u000b\u0013", new Object[0], 3), "\u0001\u0000\u0000", "\u0011\u0018\u0004\t\u0003\b\u0011\u0018\f\t\n\u0012", new Object[]{Lit57, Lit58}, 0), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\f\u000f\b", new Object[0], 2), "\u0001\u0001", "\u0011\u0018\u0004\t\u0003\b\u000b", new Object[]{Lit57}, 0)}, 5);
+        Lit1 = new SyntaxRules(new Object[]{simpleSymbol6, Lit46}, new SyntaxRule[]{new SyntaxRule(new SyntaxPattern("\f\u0018l\\\f\u0002\f\u0007,\f\u000f\f\u0017\b\b\u001b#", new Object[]{Lit46}, 5), "\u0001\u0001\u0001\u0000\u0000", "\u0011\u0018\u0004Q\u0011\u0018\f\t\u0003\b\t\u000b\b\u0013\b\u0011\u0018\u0014\t\u001a\"", new Object[]{Lit57, Lit46, Lit58}, 0), new SyntaxRule(new SyntaxPattern("\f\u0018\\\f\u0002\f\u0007,\f\u000f\f\u0017\b\b\f\u001f\b", new Object[]{Lit46}, 4), "\u0001\u0001\u0001\u0001", "\u0011\u0018\u0004Q\u0011\u0018\f\t\u0003\b\t\u000b\b\u0013\b\u001b", new Object[]{Lit57, Lit46}, 0), new SyntaxRule(new SyntaxPattern("\f\u0018\u001c\f\u0007\u000b\u0013", new Object[0], 3), "\u0001\u0000\u0000", "\u0011\u0018\u0004\t\u0003\b\u0011\u0018\f\t\n\u0012", new Object[]{Lit57, Lit58}, 0), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\f\u000f\b", new Object[0], 2), "\u0001\u0001", "\u0011\u0018\u0004\t\u0003\b\u000b", new Object[]{Lit57}, 0)}, 5);
         prim_syntax prim_syntax = $instance;
         syntax$Mnerror = new ModuleMethod(prim_syntax, 1, Lit8, -4095);
         SimpleSymbol simpleSymbol7 = Lit13;
-        ModuleMethod moduleMethod = new ModuleMethod(prim_syntax, 2, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ModuleMethod moduleMethod = new ModuleMethod(prim_syntax, 2, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/kawa/lib/prim_syntax.scm:69");
-        f260if = Macro.make(simpleSymbol7, moduleMethod, $instance);
+        f4if = Macro.make(simpleSymbol7, moduleMethod, $instance);
         SimpleSymbol simpleSymbol8 = Lit25;
-        ModuleMethod moduleMethod2 = new ModuleMethod(prim_syntax, 3, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ModuleMethod moduleMethod2 = new ModuleMethod(prim_syntax, 3, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         moduleMethod2.setProperty("source-location", "/u2/home/jis/ai2-kawa/kawa/lib/prim_syntax.scm:89");
         try$Mncatch = Macro.make(simpleSymbol8, moduleMethod2, $instance);
         SimpleSymbol simpleSymbol9 = Lit29;
-        ModuleMethod moduleMethod3 = new ModuleMethod(prim_syntax, 4, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ModuleMethod moduleMethod3 = new ModuleMethod(prim_syntax, 4, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         moduleMethod3.setProperty("source-location", "/u2/home/jis/ai2-kawa/kawa/lib/prim_syntax.scm:98");
         letrec = Macro.make(simpleSymbol9, moduleMethod3, $instance);
         $instance.run();
@@ -260,36 +221,30 @@ public class prim_syntax extends ModuleBody {
         }
         callContext.values = objArr;
         callContext.proc = moduleMethod;
-        callContext.f236pc = 5;
+        callContext.pc = 5;
         return 0;
     }
 
     static Object lambda1(Object x) {
         Object[] objArr;
         Object[] objArr2;
-        Object[] allocVars = SyntaxPattern.allocVars(6, null);
+        Object[] allocVars = SyntaxPattern.allocVars(6, (Object[]) null);
         if (Lit14.match(x, allocVars, 0)) {
-            return new IfExp(SyntaxForms.rewrite(Lit15.execute(allocVars, TemplateScope.make())), SyntaxForms.rewrite(Lit16.execute(allocVars, TemplateScope.make())), null);
+            return new IfExp(SyntaxForms.rewrite(Lit15.execute(allocVars, TemplateScope.make())), SyntaxForms.rewrite(Lit16.execute(allocVars, TemplateScope.make())), (Expression) null);
         } else if (Lit17.match(x, allocVars, 0)) {
             return new IfExp(SyntaxForms.rewrite(Lit18.execute(allocVars, TemplateScope.make())), SyntaxForms.rewrite(Lit19.execute(allocVars, TemplateScope.make())), SyntaxForms.rewrite(Lit20.execute(allocVars, TemplateScope.make())));
         } else if (Lit21.match(x, allocVars, 0)) {
             Object execute = Lit22.execute(allocVars, TemplateScope.make());
-            String str = "too many expressions for 'if'";
-            if (str instanceof Object[]) {
-                objArr2 = (Object[]) str;
-            } else {
-                objArr2 = new Object[]{str};
+            if (!("too many expressions for 'if'" instanceof Object[])) {
+                objArr2 = new Object[]{"too many expressions for 'if'"};
             }
             return syntaxError(execute, objArr2);
         } else if (!Lit23.match(x, allocVars, 0)) {
             return syntax_case.error("syntax-case", x);
         } else {
             Object execute2 = Lit24.execute(allocVars, TemplateScope.make());
-            String str2 = "too few expressions for 'if'";
-            if (str2 instanceof Object[]) {
-                objArr = (Object[]) str2;
-            } else {
-                objArr = new Object[]{str2};
+            if (!("too few expressions for 'if'" instanceof Object[])) {
+                objArr = new Object[]{"too few expressions for 'if'"};
             }
             return syntaxError(execute2, objArr);
         }
@@ -300,17 +255,17 @@ public class prim_syntax extends ModuleBody {
             case 2:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 3:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 4:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             default:
                 return super.match1(moduleMethod, obj, callContext);
@@ -318,7 +273,7 @@ public class prim_syntax extends ModuleBody {
     }
 
     static Object lambda2(Object x) {
-        Object[] allocVars = SyntaxPattern.allocVars(5, null);
+        Object[] allocVars = SyntaxPattern.allocVars(5, (Object[]) null);
         if (!Lit26.match(x, allocVars, 0)) {
             return syntax_case.error("syntax-case", x);
         }
@@ -330,7 +285,7 @@ public class prim_syntax extends ModuleBody {
         LList lList = LList.Empty;
         frame2.out$Mninits = LList.Empty;
         frame2.out$Mnbindings = lList;
-        frame2.$unnamed$0 = SyntaxPattern.allocVars(3, null);
+        frame2.$unnamed$0 = SyntaxPattern.allocVars(3, (Object[]) null);
         if (!Lit30.match(form, frame2.$unnamed$0, 0)) {
             return syntax_case.error("syntax-case", form);
         }
@@ -351,6 +306,43 @@ public class prim_syntax extends ModuleBody {
                 return lambda3(obj);
             default:
                 return super.apply1(moduleMethod, obj);
+        }
+    }
+
+    /* compiled from: prim_syntax.scm */
+    public class frame extends ModuleBody {
+        Object[] $unnamed$0;
+        Object out$Mnbindings;
+        Object out$Mninits;
+
+        public Object lambda4processBinding(Object b) {
+            Object[] objArr;
+            Object[] objArr2;
+            Object[] allocVars = SyntaxPattern.allocVars(8, this.$unnamed$0);
+            if (prim_syntax.Lit34.match(b, allocVars, 0)) {
+                return Values.empty;
+            }
+            if (prim_syntax.Lit35.match(b, allocVars, 0)) {
+                this.out$Mnbindings = new Pair(prim_syntax.Lit36.execute(allocVars, TemplateScope.make()), this.out$Mnbindings);
+                this.out$Mninits = new Pair(prim_syntax.Lit37.execute(allocVars, TemplateScope.make()), this.out$Mninits);
+                return lambda4processBinding(prim_syntax.Lit38.execute(allocVars, TemplateScope.make()));
+            } else if (prim_syntax.Lit39.match(b, allocVars, 0)) {
+                this.out$Mnbindings = new Pair(prim_syntax.Lit40.execute(allocVars, TemplateScope.make()), this.out$Mnbindings);
+                this.out$Mninits = new Pair(prim_syntax.Lit41.execute(allocVars, TemplateScope.make()), this.out$Mninits);
+                return lambda4processBinding(prim_syntax.Lit42.execute(allocVars, TemplateScope.make()));
+            } else if (prim_syntax.Lit43.match(b, allocVars, 0)) {
+                if (!("missing initializion in letrec" instanceof Object[])) {
+                    objArr2 = new Object[]{"missing initializion in letrec"};
+                }
+                return prim_syntax.syntaxError(b, objArr2);
+            } else if (!prim_syntax.Lit44.match(b, allocVars, 0)) {
+                return syntax_case.error("syntax-case", b);
+            } else {
+                if (!("invalid bindings syntax in letrec" instanceof Object[])) {
+                    objArr = new Object[]{"invalid bindings syntax in letrec"};
+                }
+                return prim_syntax.syntaxError(b, objArr);
+            }
         }
     }
 }

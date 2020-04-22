@@ -1,6 +1,6 @@
 package android.support.v13.view.inputmethod;
 
-import android.os.Build.VERSION;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,7 +13,7 @@ public final class EditorInfoCompat {
     public static final int IME_FLAG_NO_PERSONALIZED_LEARNING = 16777216;
 
     public static void setContentMimeTypes(@NonNull EditorInfo editorInfo, @Nullable String[] contentMimeTypes) {
-        if (VERSION.SDK_INT >= 25) {
+        if (Build.VERSION.SDK_INT >= 25) {
             editorInfo.contentMimeTypes = contentMimeTypes;
             return;
         }
@@ -25,7 +25,7 @@ public final class EditorInfoCompat {
 
     @NonNull
     public static String[] getContentMimeTypes(EditorInfo editorInfo) {
-        if (VERSION.SDK_INT >= 25) {
+        if (Build.VERSION.SDK_INT >= 25) {
             String[] result = editorInfo.contentMimeTypes;
             if (result != null) {
                 return result;

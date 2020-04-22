@@ -5,7 +5,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.support.p000v4.app.NotificationCompat.Builder;
+import android.support.v4.app.NotificationCompat;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsMessage;
 import android.util.Log;
@@ -68,7 +68,6 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
     }
 
     private String getMessage(Intent intent) {
-        String msg = "";
         try {
             if (intent.getAction().equals("com.google.android.apps.googlevoice.SMS_RECEIVED")) {
                 return intent.getExtras().getString(Texting.MESSAGE_TAG);
@@ -89,7 +88,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
             return sb2.toString();
         } catch (NullPointerException e) {
             Log.w(TAG, "Unable to retrieve message body from SmsMessage", e);
-            return msg;
+            return "";
         }
     }
 
@@ -104,7 +103,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                 newIntent.setAction("android.intent.action.MAIN");
                 newIntent.addCategory("android.intent.category.LAUNCHER");
                 newIntent.addFlags(805306368);
-                ((NotificationManager) context.getSystemService("notification")).notify(null, NOTIFICATION_ID, new Builder(context).setSmallIcon(17301648).setTicker(phone + " : " + msg).setWhen(System.currentTimeMillis()).setAutoCancel(true).setDefaults(1).setContentTitle("Sms from " + phone).setContentText(msg).setContentIntent(PendingIntent.getActivity(context, 0, newIntent, Declaration.PACKAGE_ACCESS)).setNumber(Texting.getCachedMsgCount()).build());
+                ((NotificationManager) context.getSystemService("notification")).notify((String) null, NOTIFICATION_ID, new NotificationCompat.Builder(context).setSmallIcon(17301648).setTicker(phone + " : " + msg).setWhen(System.currentTimeMillis()).setAutoCancel(true).setDefaults(1).setContentTitle("Sms from " + phone).setContentText(msg).setContentIntent(PendingIntent.getActivity(context, 0, newIntent, Declaration.PACKAGE_ACCESS)).setNumber(Texting.getCachedMsgCount()).build());
                 Log.i(TAG, "Notification sent, classname: " + classname);
                 Intent intent = newIntent;
             } catch (ClassNotFoundException e) {

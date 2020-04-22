@@ -1,11 +1,11 @@
 package com.google.appinventor.components.runtime.util;
 
-import android.os.Build.VERSION;
+import android.os.Build;
 import android.view.View;
 import com.google.appinventor.components.runtime.Component;
 import com.google.appinventor.components.runtime.ComponentContainer;
 import com.google.appinventor.components.runtime.Form;
-import com.google.appinventor.components.runtime.LocationSensor.LocationSensorListener;
+import com.google.appinventor.components.runtime.LocationSensor;
 import com.google.appinventor.components.runtime.Map;
 import java.util.Iterator;
 import java.util.List;
@@ -75,7 +75,7 @@ public final class MapFactory {
 
         double getLatitude();
 
-        LocationSensorListener getLocationListener();
+        LocationSensor.LocationSensorListener getLocationListener();
 
         double getLongitude();
 
@@ -288,21 +288,6 @@ public final class MapFactory {
         void removeFeature(MapFeature mapFeature);
     }
 
-    public static final class MapFeatureType {
-        public static final String TYPE_CIRCLE = "Circle";
-        public static final String TYPE_LINESTRING = "LineString";
-        public static final String TYPE_MARKER = "Marker";
-        public static final String TYPE_MULTILINESTRING = "MultiLineString";
-        public static final String TYPE_MULTIPOINT = "MultiPoint";
-        public static final String TYPE_MULTIPOLYGON = "MultiPolygon";
-        public static final String TYPE_POINT = "Point";
-        public static final String TYPE_POLYGON = "Polygon";
-        public static final String TYPE_RECTANGLE = "Rectangle";
-
-        private MapFeatureType() {
-        }
-    }
-
     public interface MapFeatureVisitor<T> {
         T visit(MapCircle mapCircle, Object... objArr);
 
@@ -422,8 +407,23 @@ public final class MapFactory {
         TERRAIN
     }
 
+    public static final class MapFeatureType {
+        public static final String TYPE_CIRCLE = "Circle";
+        public static final String TYPE_LINESTRING = "LineString";
+        public static final String TYPE_MARKER = "Marker";
+        public static final String TYPE_MULTILINESTRING = "MultiLineString";
+        public static final String TYPE_MULTIPOINT = "MultiPoint";
+        public static final String TYPE_MULTIPOLYGON = "MultiPolygon";
+        public static final String TYPE_POINT = "Point";
+        public static final String TYPE_POLYGON = "Polygon";
+        public static final String TYPE_RECTANGLE = "Rectangle";
+
+        private MapFeatureType() {
+        }
+    }
+
     public static MapController newMap(Form form) {
-        if (VERSION.SDK_INT < 8) {
+        if (Build.VERSION.SDK_INT < 8) {
             return new DummyMapController();
         }
         return new NativeOpenStreetMapController(form);

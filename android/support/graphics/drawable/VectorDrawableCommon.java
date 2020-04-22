@@ -1,13 +1,13 @@
 package android.support.graphics.drawable;
 
-import android.content.res.Resources.Theme;
+import android.content.res.Resources;
 import android.graphics.ColorFilter;
-import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.Region;
 import android.graphics.drawable.Drawable;
-import android.support.p000v4.graphics.drawable.DrawableCompat;
-import android.support.p000v4.graphics.drawable.TintAwareDrawable;
+import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.graphics.drawable.TintAwareDrawable;
 
 abstract class VectorDrawableCommon extends Drawable implements TintAwareDrawable {
     Drawable mDelegateDrawable;
@@ -15,7 +15,7 @@ abstract class VectorDrawableCommon extends Drawable implements TintAwareDrawabl
     VectorDrawableCommon() {
     }
 
-    public void setColorFilter(int color, Mode mode) {
+    public void setColorFilter(int color, PorterDuff.Mode mode) {
         if (this.mDelegateDrawable != null) {
             this.mDelegateDrawable.setColorFilter(color, mode);
         } else {
@@ -71,7 +71,7 @@ abstract class VectorDrawableCommon extends Drawable implements TintAwareDrawabl
         }
     }
 
-    public void applyTheme(Theme t) {
+    public void applyTheme(Resources.Theme t) {
         if (this.mDelegateDrawable != null) {
             DrawableCompat.applyTheme(this.mDelegateDrawable, t);
         }

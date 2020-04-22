@@ -12,21 +12,19 @@ public class PrecedingSiblingAxis extends TreeScanner {
     }
 
     public void scan(AbstractSequence seq, int ipos, PositionConsumer out) {
+        int child;
         int end = seq.endPos();
         int parent = seq.parentPos(ipos);
-        if (parent != end) {
-            int child = seq.firstChildPos(parent);
-            if (child != 0) {
-                if (this.type.isInstancePos(seq, child)) {
+        if (parent != end && (child = seq.firstChildPos(parent)) != 0) {
+            if (this.type.isInstancePos(seq, child)) {
+                out.writePosition(seq, child);
+            }
+            while (true) {
+                child = seq.nextMatching(child, this.type, ipos, false);
+                if (child != 0) {
                     out.writePosition(seq, child);
-                }
-                while (true) {
-                    child = seq.nextMatching(child, this.type, ipos, false);
-                    if (child != 0) {
-                        out.writePosition(seq, child);
-                    } else {
-                        return;
-                    }
+                } else {
+                    return;
                 }
             }
         }

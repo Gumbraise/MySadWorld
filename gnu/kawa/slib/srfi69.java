@@ -1,6 +1,6 @@
 package gnu.kawa.slib;
 
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import com.google.appinventor.components.common.PropertyTypeConstants;
 import gnu.expr.ModuleBody;
 import gnu.expr.ModuleInfo;
@@ -19,9 +19,8 @@ import gnu.mapping.Symbol;
 import gnu.mapping.Values;
 import gnu.mapping.WrongType;
 import gnu.math.IntNum;
-import kawa.lib.C0620lists;
 import kawa.lib.kawa.hashtable;
-import kawa.lib.kawa.hashtable.HashTable;
+import kawa.lib.lists;
 import kawa.lib.misc;
 import kawa.lib.numbers;
 import kawa.lib.rnrs.hashtables;
@@ -84,56 +83,56 @@ public class srfi69 extends ModuleBody {
         ModuleInfo.register(this);
     }
 
-    public static HashTable alist$To$HashTable(Object obj) {
+    public static hashtable.HashTable alist$To$HashTable(Object obj) {
         return alist$To$HashTable(obj, Scheme.isEqual);
     }
 
-    public static HashTable alist$To$HashTable(Object obj, Object obj2) {
+    public static hashtable.HashTable alist$To$HashTable(Object obj, Object obj2) {
         return alist$To$HashTable(obj, obj2, appropriateHashFunctionFor(obj2));
     }
 
     public static Object hash(Object obj) {
-        return hash(obj, null);
+        return hash(obj, (IntNum) null);
     }
 
     public static Object hashByIdentity(Object obj) {
-        return hashByIdentity(obj, null);
+        return hashByIdentity(obj, (IntNum) null);
     }
 
-    public static Object hashTableRef(HashTable hashTable, Object obj) {
+    public static Object hashTableRef(hashtable.HashTable hashTable, Object obj) {
         return hashTableRef(hashTable, obj, Boolean.FALSE);
     }
 
-    public static void hashTableUpdate$Ex(HashTable hashTable, Object obj, Object obj2) {
+    public static void hashTableUpdate$Ex(hashtable.HashTable hashTable, Object obj, Object obj2) {
         hashTableUpdate$Ex(hashTable, obj, obj2, Boolean.FALSE);
     }
 
-    public static HashTable makeHashTable() {
+    public static hashtable.HashTable makeHashTable() {
         return makeHashTable(Scheme.isEqual);
     }
 
-    public static HashTable makeHashTable(Procedure procedure) {
+    public static hashtable.HashTable makeHashTable(Procedure procedure) {
         return makeHashTable(procedure, appropriateHashFunctionFor(procedure), 64);
     }
 
-    public static HashTable makeHashTable(Procedure procedure, Procedure procedure2) {
+    public static hashtable.HashTable makeHashTable(Procedure procedure, Procedure procedure2) {
         return makeHashTable(procedure, procedure2, 64);
     }
 
     public static Object stringCiHash(Object obj) {
-        return stringCiHash(obj, null);
+        return stringCiHash(obj, (IntNum) null);
     }
 
     public static Object stringHash(CharSequence charSequence) {
-        return stringHash(charSequence, null);
+        return stringHash(charSequence, (IntNum) null);
     }
 
     static Object symbolHash(Symbol symbol) {
-        return symbolHash(symbol, null);
+        return symbolHash(symbol, (IntNum) null);
     }
 
     static Object vectorHash(Object obj) {
-        return vectorHash(obj, null);
+        return vectorHash(obj, (IntNum) null);
     }
 
     public final void run(CallContext $ctx) {
@@ -155,18 +154,18 @@ public class srfi69 extends ModuleBody {
         hash$Mntable$Mnupdate$Ex$Sldefault = new ModuleMethod(srfi69, 20, Lit11, 16388);
         hash$Mntable$Mnwalk = new ModuleMethod(srfi69, 21, Lit12, 8194);
         hash$Mntable$Mnfold = new ModuleMethod(srfi69, 22, Lit13, 12291);
-        ModuleMethod moduleMethod = new ModuleMethod(srfi69, 23, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ModuleMethod moduleMethod = new ModuleMethod(srfi69, 23, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/srfi69.scm:166");
         lambda$Fn1 = moduleMethod;
         alist$Mn$Grhash$Mntable = new ModuleMethod(srfi69, 24, Lit14, 16385);
         hash$Mntable$Mn$Gralist = new ModuleMethod(srfi69, 28, Lit15, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         hash$Mntable$Mncopy = new ModuleMethod(srfi69, 29, Lit16, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         hash$Mntable$Mnmerge$Ex = new ModuleMethod(srfi69, 30, Lit17, 8194);
-        ModuleMethod moduleMethod2 = new ModuleMethod(srfi69, 31, null, 12291);
+        ModuleMethod moduleMethod2 = new ModuleMethod(srfi69, 31, (Object) null, 12291);
         moduleMethod2.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/srfi69.scm:183");
         lambda$Fn2 = moduleMethod2;
         hash$Mntable$Mnkeys = new ModuleMethod(srfi69, 32, Lit18, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        ModuleMethod moduleMethod3 = new ModuleMethod(srfi69, 33, null, 12291);
+        ModuleMethod moduleMethod3 = new ModuleMethod(srfi69, 33, (Object) null, 12291);
         moduleMethod3.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/srfi69.scm:186");
         lambda$Fn3 = moduleMethod3;
         hash$Mntable$Mnvalues = new ModuleMethod(srfi69, 34, Lit19, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -186,38 +185,38 @@ public class srfi69 extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 3:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 5:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 7:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 9:
-                if (!(obj instanceof HashTable)) {
+                if (!(obj instanceof hashtable.HashTable)) {
                     return -786431;
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 10:
-                if (!(obj instanceof HashTable)) {
+                if (!(obj instanceof hashtable.HashTable)) {
                     return -786431;
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 11:
                 if (!(obj instanceof Procedure)) {
@@ -225,49 +224,49 @@ public class srfi69 extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 23:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 24:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 28:
-                if (!(obj instanceof HashTable)) {
+                if (!(obj instanceof hashtable.HashTable)) {
                     return -786431;
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 29:
-                if (!(obj instanceof HashTable)) {
+                if (!(obj instanceof hashtable.HashTable)) {
                     return -786431;
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 32:
-                if (!(obj instanceof HashTable)) {
+                if (!(obj instanceof hashtable.HashTable)) {
                     return -786431;
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 34:
-                if (!(obj instanceof HashTable)) {
+                if (!(obj instanceof hashtable.HashTable)) {
                     return -786431;
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             default:
                 return super.match1(moduleMethod, obj, callContext);
@@ -286,7 +285,7 @@ public class srfi69 extends ModuleBody {
                 }
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 3:
                 callContext.value1 = obj;
@@ -295,7 +294,7 @@ public class srfi69 extends ModuleBody {
                 }
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 5:
                 callContext.value1 = obj;
@@ -304,7 +303,7 @@ public class srfi69 extends ModuleBody {
                 }
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 7:
                 callContext.value1 = obj;
@@ -313,7 +312,7 @@ public class srfi69 extends ModuleBody {
                 }
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 11:
                 if (!(obj instanceof Procedure)) {
@@ -325,19 +324,19 @@ public class srfi69 extends ModuleBody {
                 }
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 15:
-                if (!(obj instanceof HashTable)) {
+                if (!(obj instanceof hashtable.HashTable)) {
                     return -786431;
                 }
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 21:
-                if (!(obj instanceof HashTable)) {
+                if (!(obj instanceof hashtable.HashTable)) {
                     return -786431;
                 }
                 callContext.value1 = obj;
@@ -346,25 +345,25 @@ public class srfi69 extends ModuleBody {
                 }
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 24:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 30:
-                if (!(obj instanceof HashTable)) {
+                if (!(obj instanceof hashtable.HashTable)) {
                     return -786431;
                 }
                 callContext.value1 = obj;
-                if (!(obj2 instanceof HashTable)) {
+                if (!(obj2 instanceof hashtable.HashTable)) {
                     return -786430;
                 }
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             default:
                 return super.match2(moduleMethod, obj, obj2, callContext);
@@ -396,18 +395,18 @@ public class srfi69 extends ModuleBody {
         return bound == null ? Integer.valueOf(h) : IntNum.modulo(IntNum.make(h), bound);
     }
 
-    public static Procedure hashTableEquivalenceFunction(HashTable hash$Mntable) {
+    public static Procedure hashTableEquivalenceFunction(hashtable.HashTable hash$Mntable) {
         return hash$Mntable.equivalenceFunction;
     }
 
-    public static Procedure hashTableHashFunction(HashTable hash$Mntable) {
+    public static Procedure hashTableHashFunction(hashtable.HashTable hash$Mntable) {
         return hash$Mntable.hashFunction;
     }
 
     static Procedure appropriateHashFunctionFor(Object comparison) {
         boolean x;
-        boolean x2;
-        boolean x3;
+        Object x2;
+        Object x3;
         if (comparison == Scheme.isEq) {
             x = true;
         } else {
@@ -418,25 +417,25 @@ public class srfi69 extends ModuleBody {
             return (Procedure) x4;
         }
         if (comparison == strings.string$Eq$Qu) {
-            x2 = true;
+            x2 = 1;
         } else {
-            x2 = false;
+            x2 = null;
         }
-        Object x5 = x2 ? string$Mnhash : x2 ? Boolean.TRUE : Boolean.FALSE;
+        Object x5 = x2 != null ? string$Mnhash : x2 != null ? Boolean.TRUE : Boolean.FALSE;
         if (x5 != Boolean.FALSE) {
             return (Procedure) x5;
         }
         if (comparison == unicode.string$Mnci$Eq$Qu) {
-            x3 = true;
+            x3 = 1;
         } else {
-            x3 = false;
+            x3 = null;
         }
-        Object x6 = x3 ? string$Mnci$Mnhash : x3 ? Boolean.TRUE : Boolean.FALSE;
+        Object x6 = x3 != null ? string$Mnci$Mnhash : x3 != null ? Boolean.TRUE : Boolean.FALSE;
         return x6 != Boolean.FALSE ? (Procedure) x6 : hash;
     }
 
-    public static HashTable makeHashTable(Procedure comparison, Procedure hash2, int size) {
-        return new HashTable(comparison, hash2, size);
+    public static hashtable.HashTable makeHashTable(Procedure comparison, Procedure hash2, int size) {
+        return new hashtable.HashTable(comparison, hash2, size);
     }
 
     public Object apply0(ModuleMethod moduleMethod) {
@@ -448,7 +447,7 @@ public class srfi69 extends ModuleBody {
             return super.match0(moduleMethod, callContext);
         }
         callContext.proc = moduleMethod;
-        callContext.f236pc = 0;
+        callContext.pc = 0;
         return 0;
     }
 
@@ -465,40 +464,40 @@ public class srfi69 extends ModuleBody {
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 15:
-                if (!(obj instanceof HashTable)) {
+                if (!(obj instanceof hashtable.HashTable)) {
                     return -786431;
                 }
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 17:
-                if (!(obj instanceof HashTable)) {
+                if (!(obj instanceof hashtable.HashTable)) {
                     return -786431;
                 }
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 18:
-                if (!(obj instanceof HashTable)) {
+                if (!(obj instanceof hashtable.HashTable)) {
                     return -786431;
                 }
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 22:
-                if (!(obj instanceof HashTable)) {
+                if (!(obj instanceof hashtable.HashTable)) {
                     return -786431;
                 }
                 callContext.value1 = obj;
@@ -508,35 +507,35 @@ public class srfi69 extends ModuleBody {
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 24:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 31:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 33:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             default:
                 return super.match3(moduleMethod, obj, obj2, obj3, callContext);
         }
     }
 
-    public static Object hashTableRef(HashTable hash$Mntable, Object key, Object obj) {
+    public static Object hashTableRef(hashtable.HashTable hash$Mntable, Object key, Object obj) {
         HashNode node = hash$Mntable.getNode(key);
         if (node != null) {
             return node.getValue();
@@ -547,11 +546,11 @@ public class srfi69 extends ModuleBody {
         return misc.error$V("hash-table-ref: no value associated with", new Object[]{key});
     }
 
-    public static Object hashTableRef$SlDefault(HashTable hash$Mntable, Object key, Object obj) {
+    public static Object hashTableRef$SlDefault(hashtable.HashTable hash$Mntable, Object key, Object obj) {
         return hash$Mntable.get(key, obj);
     }
 
-    public static void hashTableUpdate$Ex(HashTable hash$Mntable, Object key, Object function, Object thunk) {
+    public static void hashTableUpdate$Ex(hashtable.HashTable hash$Mntable, Object key, Object function, Object thunk) {
         hashtable.hashtableCheckMutable(hash$Mntable);
         HashNode node = hash$Mntable.getNode(key);
         if (node != null) {
@@ -566,7 +565,7 @@ public class srfi69 extends ModuleBody {
     public int match4(ModuleMethod moduleMethod, Object obj, Object obj2, Object obj3, Object obj4, CallContext callContext) {
         switch (moduleMethod.selector) {
             case 18:
-                if (!(obj instanceof HashTable)) {
+                if (!(obj instanceof hashtable.HashTable)) {
                     return -786431;
                 }
                 callContext.value1 = obj;
@@ -574,10 +573,10 @@ public class srfi69 extends ModuleBody {
                 callContext.value3 = obj3;
                 callContext.value4 = obj4;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 4;
+                callContext.pc = 4;
                 return 0;
             case 20:
-                if (!(obj instanceof HashTable)) {
+                if (!(obj instanceof hashtable.HashTable)) {
                     return -786431;
                 }
                 callContext.value1 = obj;
@@ -585,7 +584,7 @@ public class srfi69 extends ModuleBody {
                 callContext.value3 = obj3;
                 callContext.value4 = obj4;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 4;
+                callContext.pc = 4;
                 return 0;
             case 24:
                 callContext.value1 = obj;
@@ -593,14 +592,14 @@ public class srfi69 extends ModuleBody {
                 callContext.value3 = obj3;
                 callContext.value4 = obj4;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 4;
+                callContext.pc = 4;
                 return 0;
             default:
                 return super.match4(moduleMethod, obj, obj2, obj3, obj4, callContext);
         }
     }
 
-    public static void hashTableUpdate$Ex$SlDefault(HashTable hash$Mntable, Object key, Object function, Object obj) {
+    public static void hashTableUpdate$Ex$SlDefault(hashtable.HashTable hash$Mntable, Object key, Object function, Object obj) {
         hashtable.hashtableCheckMutable(hash$Mntable);
         HashNode node = hash$Mntable.getNode(key);
         if (node == null) {
@@ -610,25 +609,25 @@ public class srfi69 extends ModuleBody {
         }
     }
 
-    public static void hashTableWalk(HashTable hash$Mntable, Procedure proc) {
+    public static void hashTableWalk(hashtable.HashTable hash$Mntable, Procedure proc) {
         hash$Mntable.walk(proc);
     }
 
-    public static Object hashTableFold(HashTable hash$Mntable, Procedure proc, Object acc) {
+    public static Object hashTableFold(hashtable.HashTable hash$Mntable, Procedure proc, Object acc) {
         return hash$Mntable.fold(proc, acc);
     }
 
-    public static HashTable alist$To$HashTable(Object alist, Object comparison, Object hash2, Object size) {
+    public static hashtable.HashTable alist$To$HashTable(Object alist, Object comparison, Object hash2, Object size) {
         try {
             try {
                 try {
-                    HashTable hash$Mntable = makeHashTable((Procedure) comparison, (Procedure) hash2, ((Number) size).intValue());
+                    hashtable.HashTable hash$Mntable = makeHashTable((Procedure) comparison, (Procedure) hash2, ((Number) size).intValue());
                     Object arg0 = alist;
                     while (arg0 != LList.Empty) {
                         try {
                             Pair arg02 = (Pair) arg0;
                             Object elem = arg02.getCar();
-                            hashTableUpdate$Ex$SlDefault(hash$Mntable, C0620lists.car.apply1(elem), lambda$Fn1, C0620lists.cdr.apply1(elem));
+                            hashTableUpdate$Ex$SlDefault(hash$Mntable, lists.car.apply1(elem), lambda$Fn1, lists.cdr.apply1(elem));
                             arg0 = arg02.getCdr();
                         } catch (ClassCastException e) {
                             throw new WrongType(e, "arg0", -2, arg0);
@@ -650,14 +649,14 @@ public class srfi69 extends ModuleBody {
         switch (moduleMethod.selector) {
             case 18:
                 try {
-                    hashTableUpdate$Ex((HashTable) obj, obj2, obj3, obj4);
+                    hashTableUpdate$Ex((hashtable.HashTable) obj, obj2, obj3, obj4);
                     return Values.empty;
                 } catch (ClassCastException e) {
                     throw new WrongType(e, "hash-table-update!", 1, obj);
                 }
             case 20:
                 try {
-                    hashTableUpdate$Ex$SlDefault((HashTable) obj, obj2, obj3, obj4);
+                    hashTableUpdate$Ex$SlDefault((hashtable.HashTable) obj, obj2, obj3, obj4);
                     return Values.empty;
                 } catch (ClassCastException e2) {
                     throw new WrongType(e2, "hash-table-update!/default", 1, obj);
@@ -669,11 +668,11 @@ public class srfi69 extends ModuleBody {
         }
     }
 
-    public static HashTable alist$To$HashTable(Object obj, Object obj2, Object obj3) {
+    public static hashtable.HashTable alist$To$HashTable(Object obj, Object obj2, Object obj3) {
         Object[] objArr = new Object[2];
         objArr[0] = Lit0;
         try {
-            objArr[1] = Integer.valueOf(C0620lists.length((LList) obj) * 2);
+            objArr[1] = Integer.valueOf(lists.length((LList) obj) * 2);
             return alist$To$HashTable(obj, obj2, obj3, numbers.max(objArr));
         } catch (ClassCastException e) {
             throw new WrongType(e, PropertyTypeConstants.PROPERTY_TYPE_LENGTH, 1, obj);
@@ -684,15 +683,15 @@ public class srfi69 extends ModuleBody {
         return x;
     }
 
-    public static Object hashTable$To$Alist(HashTable hash$Mntable) {
+    public static Object hashTable$To$Alist(hashtable.HashTable hash$Mntable) {
         return hash$Mntable.toAlist();
     }
 
-    public static HashTable hashTableCopy(HashTable hash$Mntable) {
-        return new HashTable(hash$Mntable, true);
+    public static hashtable.HashTable hashTableCopy(hashtable.HashTable hash$Mntable) {
+        return new hashtable.HashTable(hash$Mntable, true);
     }
 
-    public static void hashTableMerge$Ex(HashTable hash$Mntable1, HashTable hash$Mntable2) {
+    public static void hashTableMerge$Ex(hashtable.HashTable hash$Mntable1, hashtable.HashTable hash$Mntable2) {
         hash$Mntable1.putAll(hash$Mntable2);
     }
 
@@ -738,14 +737,14 @@ public class srfi69 extends ModuleBody {
                 }
             case 15:
                 try {
-                    return hashTableRef((HashTable) obj, obj2);
+                    return hashTableRef((hashtable.HashTable) obj, obj2);
                 } catch (ClassCastException e8) {
                     throw new WrongType(e8, "hash-table-ref", 1, obj);
                 }
             case 21:
                 try {
                     try {
-                        hashTableWalk((HashTable) obj, (Procedure) obj2);
+                        hashTableWalk((hashtable.HashTable) obj, (Procedure) obj2);
                         return Values.empty;
                     } catch (ClassCastException e9) {
                         throw new WrongType(e9, "hash-table-walk", 2, obj2);
@@ -758,7 +757,7 @@ public class srfi69 extends ModuleBody {
             case 30:
                 try {
                     try {
-                        hashTableMerge$Ex((HashTable) obj, (HashTable) obj2);
+                        hashTableMerge$Ex((hashtable.HashTable) obj, (hashtable.HashTable) obj2);
                         return Values.empty;
                     } catch (ClassCastException e11) {
                         throw new WrongType(e11, "hash-table-merge!", 2, obj2);
@@ -771,15 +770,15 @@ public class srfi69 extends ModuleBody {
         }
     }
 
-    public static Object hashTableKeys(HashTable hash$Mntable) {
+    public static Object hashTableKeys(hashtable.HashTable hash$Mntable) {
         return hashTableFold(hash$Mntable, lambda$Fn2, LList.Empty);
     }
 
     static Pair lambda2(Object key, Object val, Object acc) {
-        return C0620lists.cons(key, acc);
+        return lists.cons(key, acc);
     }
 
-    public static Object hashTableValues(HashTable hash$Mntable) {
+    public static Object hashTableValues(hashtable.HashTable hash$Mntable) {
         return hashTableFold(hash$Mntable, lambda$Fn3, LList.Empty);
     }
 
@@ -799,13 +798,13 @@ public class srfi69 extends ModuleBody {
                 return hashByIdentity(obj);
             case 9:
                 try {
-                    return hashTableEquivalenceFunction((HashTable) obj);
+                    return hashTableEquivalenceFunction((hashtable.HashTable) obj);
                 } catch (ClassCastException e2) {
                     throw new WrongType(e2, "hash-table-equivalence-function", 1, obj);
                 }
             case 10:
                 try {
-                    return hashTableHashFunction((HashTable) obj);
+                    return hashTableHashFunction((hashtable.HashTable) obj);
                 } catch (ClassCastException e3) {
                     throw new WrongType(e3, "hash-table-hash-function", 1, obj);
                 }
@@ -821,25 +820,25 @@ public class srfi69 extends ModuleBody {
                 return alist$To$HashTable(obj);
             case 28:
                 try {
-                    return hashTable$To$Alist((HashTable) obj);
+                    return hashTable$To$Alist((hashtable.HashTable) obj);
                 } catch (ClassCastException e5) {
                     throw new WrongType(e5, "hash-table->alist", 1, obj);
                 }
             case 29:
                 try {
-                    return hashTableCopy((HashTable) obj);
+                    return hashTableCopy((hashtable.HashTable) obj);
                 } catch (ClassCastException e6) {
                     throw new WrongType(e6, "hash-table-copy", 1, obj);
                 }
             case 32:
                 try {
-                    return hashTableKeys((HashTable) obj);
+                    return hashTableKeys((hashtable.HashTable) obj);
                 } catch (ClassCastException e7) {
                     throw new WrongType(e7, "hash-table-keys", 1, obj);
                 }
             case 34:
                 try {
-                    return hashTableValues((HashTable) obj);
+                    return hashTableValues((hashtable.HashTable) obj);
                 } catch (ClassCastException e8) {
                     throw new WrongType(e8, "hash-table-values", 1, obj);
                 }
@@ -849,7 +848,7 @@ public class srfi69 extends ModuleBody {
     }
 
     static Pair lambda3(Object key, Object val, Object acc) {
-        return C0620lists.cons(val, acc);
+        return lists.cons(val, acc);
     }
 
     public Object apply3(ModuleMethod moduleMethod, Object obj, Object obj2, Object obj3) {
@@ -870,19 +869,19 @@ public class srfi69 extends ModuleBody {
                 }
             case 15:
                 try {
-                    return hashTableRef((HashTable) obj, obj2, obj3);
+                    return hashTableRef((hashtable.HashTable) obj, obj2, obj3);
                 } catch (ClassCastException e4) {
                     throw new WrongType(e4, "hash-table-ref", 1, obj);
                 }
             case 17:
                 try {
-                    return hashTableRef$SlDefault((HashTable) obj, obj2, obj3);
+                    return hashTableRef$SlDefault((hashtable.HashTable) obj, obj2, obj3);
                 } catch (ClassCastException e5) {
                     throw new WrongType(e5, "hash-table-ref/default", 1, obj);
                 }
             case 18:
                 try {
-                    hashTableUpdate$Ex((HashTable) obj, obj2, obj3);
+                    hashTableUpdate$Ex((hashtable.HashTable) obj, obj2, obj3);
                     return Values.empty;
                 } catch (ClassCastException e6) {
                     throw new WrongType(e6, "hash-table-update!", 1, obj);
@@ -890,7 +889,7 @@ public class srfi69 extends ModuleBody {
             case 22:
                 try {
                     try {
-                        return hashTableFold((HashTable) obj, (Procedure) obj2, obj3);
+                        return hashTableFold((hashtable.HashTable) obj, (Procedure) obj2, obj3);
                     } catch (ClassCastException e7) {
                         throw new WrongType(e7, "hash-table-fold", 2, obj2);
                     }

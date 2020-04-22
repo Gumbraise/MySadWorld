@@ -6,17 +6,7 @@ import com.google.appinventor.components.runtime.Component;
 import com.google.appinventor.components.runtime.LineString;
 import com.google.appinventor.components.runtime.Marker;
 import com.google.appinventor.components.runtime.Polygon;
-import com.google.appinventor.components.runtime.util.MapFactory.HasFill;
-import com.google.appinventor.components.runtime.util.MapFactory.HasStroke;
-import com.google.appinventor.components.runtime.util.MapFactory.MapCircle;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeature;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeatureContainer;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeatureType;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeatureVisitor;
-import com.google.appinventor.components.runtime.util.MapFactory.MapLineString;
-import com.google.appinventor.components.runtime.util.MapFactory.MapMarker;
-import com.google.appinventor.components.runtime.util.MapFactory.MapPolygon;
-import com.google.appinventor.components.runtime.util.MapFactory.MapRectangle;
+import com.google.appinventor.components.runtime.util.MapFactory;
 import com.google.common.annotations.VisibleForTesting;
 import gnu.lists.FString;
 import gnu.lists.LList;
@@ -68,239 +58,12 @@ public final class GeoJSONUtil {
     private static final int VALUE = 2;
     private static final Map<String, Integer> colors = new HashMap();
 
-    private static final class FeatureWriter implements MapFeatureVisitor<Void> {
-        private final PrintStream out;
-
-        private FeatureWriter(PrintStream out2) {
-            this.out = out2;
-        }
-
-        private void writeType(String type) {
-            this.out.print("\"type\":\"");
-            this.out.print(type);
-            this.out.print("\"");
-        }
-
-        private void writeProperty(String property, Object value) {
-            try {
-                String result = JsonUtil.getJsonRepresentation(value);
-                this.out.print(",\"");
-                this.out.print(property);
-                this.out.print("\":");
-                this.out.print(result);
-            } catch (JSONException e) {
-                Log.w("GeoJSONUtil", "Unable to serialize the value of \"" + property + "\" as JSON", e);
-            }
-        }
-
-        private void writeProperty(String property, String value) {
-            if (value != null && !TextUtils.isEmpty(value)) {
-                writeProperty(property, (Object) value);
-            }
-        }
-
-        private void writeColorProperty(String property, int color) {
-            this.out.print(",\"");
-            this.out.print(property);
-            this.out.print("\":\"&H");
-            String unpadded = Integer.toHexString(color);
-            for (int i = 8; i > unpadded.length(); i--) {
-                this.out.print("0");
-            }
-            this.out.print(unpadded);
-            this.out.print("\"");
-        }
-
-        private void writePointGeometry(GeoPoint point) {
-            this.out.print("\"geometry\":{\"type\":\"Point\",\"coordinates\":[");
-            this.out.print(point.getLongitude());
-            this.out.print(",");
-            this.out.print(point.getLatitude());
-            if (hasAltitude(point)) {
-                this.out.print(",");
-                this.out.print(point.getAltitude());
-            }
-            this.out.print("]}");
-        }
-
-        private void writePropertiesHeader(String runtimeType) {
-            this.out.print(",\"properties\":{\"$Type\":\"" + runtimeType + "\"");
-        }
-
-        private void writeProperties(MapFeature feature) {
-            writeProperty(GeoJSONUtil.PROPERTY_DESCRIPTION, feature.Description());
-            writeProperty(GeoJSONUtil.PROPERTY_DRAGGABLE, (Object) Boolean.valueOf(feature.Draggable()));
-            writeProperty(GeoJSONUtil.PROPERTY_INFOBOX, (Object) Boolean.valueOf(feature.EnableInfobox()));
-            writeProperty(GeoJSONUtil.PROPERTY_TITLE, feature.Title());
-            writeProperty(GeoJSONUtil.PROPERTY_VISIBLE, (Object) Boolean.valueOf(feature.Visible()));
-        }
-
-        private void writeProperties(HasStroke feature) {
-            writeColorProperty(GeoJSONUtil.PROPERTY_STROKE, feature.StrokeColor());
-            writeProperty(GeoJSONUtil.PROPERTY_STROKE_OPACITY, (Object) Float.valueOf(feature.StrokeOpacity()));
-            writeProperty(GeoJSONUtil.PROPERTY_STROKE_WIDTH, (Object) Integer.valueOf(feature.StrokeWidth()));
-        }
-
-        private void writeProperties(HasFill feature) {
-            writeColorProperty(GeoJSONUtil.PROPERTY_FILL, feature.FillColor());
-            writeProperty(GeoJSONUtil.PROPERTY_FILL_OPACITY, (Object) Float.valueOf(feature.FillOpacity()));
-        }
-
-        private void writePoints(List<GeoPoint> points) {
-            boolean first = true;
-            for (GeoPoint p : points) {
-                if (!first) {
-                    this.out.print(',');
-                }
-                this.out.print("[");
-                this.out.print(p.getLongitude());
-                this.out.print(",");
-                this.out.print(p.getLatitude());
-                if (hasAltitude(p)) {
-                    this.out.print(",");
-                    this.out.print(p.getAltitude());
-                }
-                this.out.print("]");
-                first = false;
-            }
-        }
-
-        private void writeLineGeometry(MapLineString lineString) {
-            this.out.print("\"geometry\":{\"type\":\"LineString\",\"coordinates\":[");
-            writePoints(lineString.getPoints());
-            this.out.print("]}");
-        }
-
-        private void writeMultipolygonGeometryNoHoles(MapPolygon polygon) {
-            this.out.print("\"geometry\":{\"type\":\"MultiPolygon\",\"coordinates\":[");
-            Iterator<List<List<GeoPoint>>> holePointIterator = polygon.getHolePoints().iterator();
-            boolean first = true;
-            for (List writePoints : polygon.getPoints()) {
-                if (!first) {
-                    this.out.print(",");
-                }
-                this.out.print("[");
-                writePoints(writePoints);
-                if (holePointIterator.hasNext()) {
-                    for (List<GeoPoint> holePoints : (List) holePointIterator.next()) {
-                        this.out.print(",");
-                        writePoints(holePoints);
-                    }
-                }
-                this.out.print("]");
-                first = false;
-            }
-            this.out.print("]}");
-        }
-
-        private void writePolygonGeometryNoHoles(MapPolygon polygon) {
-            this.out.print("\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[");
-            writePoints((List) polygon.getPoints().get(0));
-            if (!polygon.getHolePoints().isEmpty()) {
-                for (List<GeoPoint> points : (List) polygon.getHolePoints().get(0)) {
-                    this.out.print(",");
-                    writePoints(points);
-                }
-            }
-            this.out.print("]}");
-        }
-
-        private void writePolygonGeometry(MapPolygon polygon) {
-            if (polygon.getPoints().size() > 1) {
-                writeMultipolygonGeometryNoHoles(polygon);
-            } else {
-                writePolygonGeometryNoHoles(polygon);
-            }
-        }
-
-        public Void visit(MapMarker marker, Object... arguments) {
-            this.out.print("{");
-            writeType(GeoJSONUtil.GEOJSON_FEATURE);
-            this.out.print(',');
-            writePointGeometry(marker.getCentroid());
-            writePropertiesHeader(marker.getClass().getName());
-            writeProperties((MapFeature) marker);
-            writeProperties((HasStroke) marker);
-            writeProperties((HasFill) marker);
-            writeProperty(GeoJSONUtil.PROPERTY_ANCHOR_HORIZONTAL, (Object) Integer.valueOf(marker.AnchorHorizontal()));
-            writeProperty(GeoJSONUtil.PROPERTY_ANCHOR_VERTICAL, (Object) Integer.valueOf(marker.AnchorVertical()));
-            writeProperty(GeoJSONUtil.PROPERTY_HEIGHT, (Object) Integer.valueOf(marker.Height()));
-            writeProperty(GeoJSONUtil.PROPERTY_IMAGE, marker.ImageAsset());
-            writeProperty(GeoJSONUtil.PROPERTY_WIDTH, (Object) Integer.valueOf(marker.Width()));
-            this.out.print("}}");
-            return null;
-        }
-
-        public Void visit(MapLineString lineString, Object... arguments) {
-            this.out.print("{");
-            writeType(GeoJSONUtil.GEOJSON_FEATURE);
-            this.out.print(',');
-            writeLineGeometry(lineString);
-            writePropertiesHeader(lineString.getClass().getName());
-            writeProperties((MapFeature) lineString);
-            writeProperties((HasStroke) lineString);
-            this.out.print("}}");
-            return null;
-        }
-
-        public Void visit(MapPolygon polygon, Object... arguments) {
-            this.out.print("{");
-            writeType(GeoJSONUtil.GEOJSON_FEATURE);
-            this.out.print(',');
-            writePolygonGeometry(polygon);
-            writePropertiesHeader(polygon.getClass().getName());
-            writeProperties((MapFeature) polygon);
-            writeProperties((HasStroke) polygon);
-            writeProperties((HasFill) polygon);
-            this.out.print("}}");
-            return null;
-        }
-
-        public Void visit(MapCircle circle, Object... arguments) {
-            this.out.print("{");
-            writeType(GeoJSONUtil.GEOJSON_FEATURE);
-            this.out.print(',');
-            writePointGeometry(circle.getCentroid());
-            writePropertiesHeader(circle.getClass().getName());
-            writeProperties((MapFeature) circle);
-            writeProperties((HasStroke) circle);
-            writeProperties((HasFill) circle);
-            this.out.print("}}");
-            return null;
-        }
-
-        public Void visit(MapRectangle rectangle, Object... arguments) {
-            this.out.print("{");
-            writeType(GeoJSONUtil.GEOJSON_FEATURE);
-            this.out.print(",\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[");
-            this.out.print("[" + rectangle.WestLongitude() + "," + rectangle.NorthLatitude() + "],");
-            this.out.print("[" + rectangle.WestLongitude() + "," + rectangle.SouthLatitude() + "],");
-            this.out.print("[" + rectangle.EastLongitude() + "," + rectangle.SouthLatitude() + "],");
-            this.out.print("[" + rectangle.EastLongitude() + "," + rectangle.NorthLatitude() + "],");
-            this.out.print("[" + rectangle.WestLongitude() + "," + rectangle.NorthLatitude() + "]]}");
-            writePropertiesHeader(rectangle.getClass().getName());
-            writeProperties((MapFeature) rectangle);
-            writeProperties((HasStroke) rectangle);
-            writeProperties((HasFill) rectangle);
-            writeProperty("NorthLatitude", (Object) Double.valueOf(rectangle.NorthLatitude()));
-            writeProperty("WestLongitude", (Object) Double.valueOf(rectangle.WestLongitude()));
-            writeProperty("SouthLatitude", (Object) Double.valueOf(rectangle.SouthLatitude()));
-            writeProperty("EastLongitude", (Object) Double.valueOf(rectangle.EastLongitude()));
-            this.out.print("}}");
-            return null;
-        }
-
-        private static boolean hasAltitude(GeoPoint point) {
-            return Double.compare(0.0d, point.getAltitude()) != 0;
-        }
-    }
-
     private interface PropertyApplication {
-        void apply(MapFeature mapFeature, Object obj);
+        void apply(MapFactory.MapFeature mapFeature, Object obj);
     }
 
     static {
-        colors.put("black", Integer.valueOf(-16777216));
+        colors.put("black", -16777216);
         colors.put("blue", Integer.valueOf(Component.COLOR_BLUE));
         colors.put("cyan", Integer.valueOf(Component.COLOR_CYAN));
         colors.put("darkgray", Integer.valueOf(Component.COLOR_DKGRAY));
@@ -310,38 +73,38 @@ public final class GeoJSONUtil {
         colors.put("magenta", Integer.valueOf(Component.COLOR_MAGENTA));
         colors.put("orange", Integer.valueOf(Component.COLOR_ORANGE));
         colors.put("pink", Integer.valueOf(Component.COLOR_PINK));
-        colors.put("red", Integer.valueOf(-65536));
-        colors.put("white", Integer.valueOf(-1));
-        colors.put("yellow", Integer.valueOf(-256));
+        colors.put("red", -65536);
+        colors.put("white", -1);
+        colors.put("yellow", -256);
         SUPPORTED_PROPERTIES.put(PROPERTY_ANCHOR_HORIZONTAL.toLowerCase(), new PropertyApplication() {
-            public void apply(MapFeature feature, Object value) {
-                if (feature instanceof MapMarker) {
-                    ((MapMarker) feature).AnchorHorizontal(GeoJSONUtil.parseIntegerOrString(value));
+            public void apply(MapFactory.MapFeature feature, Object value) {
+                if (feature instanceof MapFactory.MapMarker) {
+                    ((MapFactory.MapMarker) feature).AnchorHorizontal(GeoJSONUtil.parseIntegerOrString(value));
                 }
             }
         });
         SUPPORTED_PROPERTIES.put(PROPERTY_ANCHOR_VERTICAL.toLowerCase(), new PropertyApplication() {
-            public void apply(MapFeature feature, Object value) {
-                if (feature instanceof MapMarker) {
-                    ((MapMarker) feature).AnchorHorizontal();
+            public void apply(MapFactory.MapFeature feature, Object value) {
+                if (feature instanceof MapFactory.MapMarker) {
+                    ((MapFactory.MapMarker) feature).AnchorHorizontal();
                 }
             }
         });
         SUPPORTED_PROPERTIES.put(PROPERTY_DESCRIPTION, new PropertyApplication() {
-            public void apply(MapFeature feature, Object value) {
+            public void apply(MapFactory.MapFeature feature, Object value) {
                 feature.Description(value.toString());
             }
         });
         SUPPORTED_PROPERTIES.put(PROPERTY_DRAGGABLE, new PropertyApplication() {
-            public void apply(MapFeature feature, Object value) {
+            public void apply(MapFactory.MapFeature feature, Object value) {
                 feature.Draggable(GeoJSONUtil.parseBooleanOrString(value));
             }
         });
         SUPPORTED_PROPERTIES.put(PROPERTY_FILL, new PropertyApplication() {
-            public void apply(MapFeature feature, Object value) {
+            public void apply(MapFactory.MapFeature feature, Object value) {
                 int parseColor;
-                if (feature instanceof HasFill) {
-                    HasFill hasFill = (HasFill) feature;
+                if (feature instanceof MapFactory.HasFill) {
+                    MapFactory.HasFill hasFill = (MapFactory.HasFill) feature;
                     if (value instanceof Number) {
                         parseColor = ((Number) value).intValue();
                     } else {
@@ -352,36 +115,36 @@ public final class GeoJSONUtil {
             }
         });
         SUPPORTED_PROPERTIES.put(PROPERTY_FILL_OPACITY, new PropertyApplication() {
-            public void apply(MapFeature feature, Object value) {
-                if (feature instanceof HasFill) {
-                    ((HasFill) feature).FillOpacity(GeoJSONUtil.parseFloatOrString(value));
+            public void apply(MapFactory.MapFeature feature, Object value) {
+                if (feature instanceof MapFactory.HasFill) {
+                    ((MapFactory.HasFill) feature).FillOpacity(GeoJSONUtil.parseFloatOrString(value));
                 }
             }
         });
         SUPPORTED_PROPERTIES.put(PROPERTY_HEIGHT, new PropertyApplication() {
-            public void apply(MapFeature feature, Object value) {
-                if (feature instanceof MapMarker) {
-                    ((MapMarker) feature).Height(GeoJSONUtil.parseIntegerOrString(value));
+            public void apply(MapFactory.MapFeature feature, Object value) {
+                if (feature instanceof MapFactory.MapMarker) {
+                    ((MapFactory.MapMarker) feature).Height(GeoJSONUtil.parseIntegerOrString(value));
                 }
             }
         });
         SUPPORTED_PROPERTIES.put(PROPERTY_IMAGE, new PropertyApplication() {
-            public void apply(MapFeature feature, Object value) {
-                if (feature instanceof MapMarker) {
-                    ((MapMarker) feature).ImageAsset(value.toString());
+            public void apply(MapFactory.MapFeature feature, Object value) {
+                if (feature instanceof MapFactory.MapMarker) {
+                    ((MapFactory.MapMarker) feature).ImageAsset(value.toString());
                 }
             }
         });
         SUPPORTED_PROPERTIES.put(PROPERTY_INFOBOX, new PropertyApplication() {
-            public void apply(MapFeature feature, Object value) {
+            public void apply(MapFactory.MapFeature feature, Object value) {
                 feature.EnableInfobox(GeoJSONUtil.parseBooleanOrString(value));
             }
         });
         SUPPORTED_PROPERTIES.put(PROPERTY_STROKE, new PropertyApplication() {
-            public void apply(MapFeature feature, Object value) {
+            public void apply(MapFactory.MapFeature feature, Object value) {
                 int parseColor;
-                if (feature instanceof HasStroke) {
-                    HasStroke hasStroke = (HasStroke) feature;
+                if (feature instanceof MapFactory.HasStroke) {
+                    MapFactory.HasStroke hasStroke = (MapFactory.HasStroke) feature;
                     if (value instanceof Number) {
                         parseColor = ((Number) value).intValue();
                     } else {
@@ -392,33 +155,33 @@ public final class GeoJSONUtil {
             }
         });
         SUPPORTED_PROPERTIES.put(PROPERTY_STROKE_OPACITY, new PropertyApplication() {
-            public void apply(MapFeature feature, Object value) {
-                if (feature instanceof HasStroke) {
-                    ((HasStroke) feature).StrokeOpacity(GeoJSONUtil.parseFloatOrString(value));
+            public void apply(MapFactory.MapFeature feature, Object value) {
+                if (feature instanceof MapFactory.HasStroke) {
+                    ((MapFactory.HasStroke) feature).StrokeOpacity(GeoJSONUtil.parseFloatOrString(value));
                 }
             }
         });
         SUPPORTED_PROPERTIES.put(PROPERTY_STROKE_WIDTH, new PropertyApplication() {
-            public void apply(MapFeature feature, Object value) {
-                if (feature instanceof HasStroke) {
-                    ((HasStroke) feature).StrokeWidth(GeoJSONUtil.parseIntegerOrString(value));
+            public void apply(MapFactory.MapFeature feature, Object value) {
+                if (feature instanceof MapFactory.HasStroke) {
+                    ((MapFactory.HasStroke) feature).StrokeWidth(GeoJSONUtil.parseIntegerOrString(value));
                 }
             }
         });
         SUPPORTED_PROPERTIES.put(PROPERTY_TITLE, new PropertyApplication() {
-            public void apply(MapFeature feature, Object value) {
+            public void apply(MapFactory.MapFeature feature, Object value) {
                 feature.Title(value.toString());
             }
         });
         SUPPORTED_PROPERTIES.put(PROPERTY_WIDTH, new PropertyApplication() {
-            public void apply(MapFeature feature, Object value) {
-                if (feature instanceof MapMarker) {
-                    ((MapMarker) feature).Width(GeoJSONUtil.parseIntegerOrString(value));
+            public void apply(MapFactory.MapFeature feature, Object value) {
+                if (feature instanceof MapFactory.MapMarker) {
+                    ((MapFactory.MapMarker) feature).Width(GeoJSONUtil.parseIntegerOrString(value));
                 }
             }
         });
         SUPPORTED_PROPERTIES.put(PROPERTY_VISIBLE, new PropertyApplication() {
-            public void apply(MapFeature feature, Object value) {
+            public void apply(MapFactory.MapFeature feature, Object value) {
                 feature.Visible(GeoJSONUtil.parseBooleanOrString(value));
             }
         });
@@ -430,7 +193,7 @@ public final class GeoJSONUtil {
     @VisibleForTesting
     static int parseColor(String value) {
         String lcValue = value.toLowerCase();
-        Integer result = (Integer) colors.get(lcValue);
+        Integer result = colors.get(lcValue);
         if (result != null) {
             return result.intValue();
         }
@@ -482,7 +245,7 @@ public final class GeoJSONUtil {
         throw new IllegalArgumentException("Invalid hex character. Expected [0-9A-Fa-f].");
     }
 
-    public static MapFeature processGeoJSONFeature(String logTag, MapFeatureContainer container, YailList descriptions) {
+    public static MapFactory.MapFeature processGeoJSONFeature(String logTag, MapFactory.MapFeatureContainer container, YailList descriptions) {
         String type = null;
         YailList geometry = null;
         YailList properties = null;
@@ -506,7 +269,7 @@ public final class GeoJSONUtil {
         } else if (geometry == null) {
             throw new IllegalArgumentException("No geometry defined for feature.");
         } else {
-            MapFeature feature = processGeometry(logTag, container, geometry);
+            MapFactory.MapFeature feature = processGeometry(logTag, container, geometry);
             if (properties != null) {
                 processProperties(logTag, feature, properties);
             }
@@ -514,45 +277,78 @@ public final class GeoJSONUtil {
         }
     }
 
-    private static MapFeature processGeometry(String logTag, MapFeatureContainer container, YailList geometry) {
-        String type = null;
-        YailList coordinates = null;
-        Iterator it = ((LList) geometry.getCdr()).iterator();
-        while (it.hasNext()) {
-            YailList keyvalue = (YailList) it.next();
-            String key = keyvalue.getString(0);
-            Object value = keyvalue.getObject(1);
-            if (GEOJSON_TYPE.equals(key)) {
-                type = (String) value;
-            } else if (GEOJSON_COORDINATES.equals(key)) {
-                coordinates = (YailList) value;
-            } else {
-                Log.w(logTag, String.format("Unsupported field \"%s\" in JSON format", new Object[]{key}));
-            }
-        }
-        if (coordinates != null) {
-            return processCoordinates(container, type, coordinates);
-        }
-        throw new IllegalArgumentException("No coordinates found in GeoJSON Feature");
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r5v0, resolved type: java.lang.Object} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v3, resolved type: com.google.appinventor.components.runtime.util.YailList} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r4v3, resolved type: java.lang.String} */
+    /* JADX WARNING: Multi-variable type inference failed */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    private static com.google.appinventor.components.runtime.util.MapFactory.MapFeature processGeometry(java.lang.String r11, com.google.appinventor.components.runtime.util.MapFactory.MapFeatureContainer r12, com.google.appinventor.components.runtime.util.YailList r13) {
+        /*
+            r10 = 1
+            r9 = 0
+            r4 = 0
+            r0 = 0
+            java.lang.Object r6 = r13.getCdr()
+            gnu.lists.LList r6 = (gnu.lists.LList) r6
+            java.util.Iterator r6 = r6.iterator()
+        L_0x000e:
+            boolean r7 = r6.hasNext()
+            if (r7 == 0) goto L_0x0049
+            java.lang.Object r3 = r6.next()
+            r2 = r3
+            com.google.appinventor.components.runtime.util.YailList r2 = (com.google.appinventor.components.runtime.util.YailList) r2
+            java.lang.String r1 = r2.getString(r9)
+            java.lang.Object r5 = r2.getObject(r10)
+            java.lang.String r7 = "type"
+            boolean r7 = r7.equals(r1)
+            if (r7 == 0) goto L_0x002f
+            r4 = r5
+            java.lang.String r4 = (java.lang.String) r4
+            goto L_0x000e
+        L_0x002f:
+            java.lang.String r7 = "coordinates"
+            boolean r7 = r7.equals(r1)
+            if (r7 == 0) goto L_0x003b
+            r0 = r5
+            com.google.appinventor.components.runtime.util.YailList r0 = (com.google.appinventor.components.runtime.util.YailList) r0
+            goto L_0x000e
+        L_0x003b:
+            java.lang.String r7 = "Unsupported field \"%s\" in JSON format"
+            java.lang.Object[] r8 = new java.lang.Object[r10]
+            r8[r9] = r1
+            java.lang.String r7 = java.lang.String.format(r7, r8)
+            android.util.Log.w(r11, r7)
+            goto L_0x000e
+        L_0x0049:
+            if (r0 != 0) goto L_0x0053
+            java.lang.IllegalArgumentException r6 = new java.lang.IllegalArgumentException
+            java.lang.String r7 = "No coordinates found in GeoJSON Feature"
+            r6.<init>(r7)
+            throw r6
+        L_0x0053:
+            com.google.appinventor.components.runtime.util.MapFactory$MapFeature r6 = processCoordinates(r12, r4, r0)
+            return r6
+        */
+        throw new UnsupportedOperationException("Method not decompiled: com.google.appinventor.components.runtime.util.GeoJSONUtil.processGeometry(java.lang.String, com.google.appinventor.components.runtime.util.MapFactory$MapFeatureContainer, com.google.appinventor.components.runtime.util.YailList):com.google.appinventor.components.runtime.util.MapFactory$MapFeature");
     }
 
-    private static MapFeature processCoordinates(MapFeatureContainer container, String type, YailList coordinates) {
-        if (MapFeatureType.TYPE_POINT.equals(type)) {
+    private static MapFactory.MapFeature processCoordinates(MapFactory.MapFeatureContainer container, String type, YailList coordinates) {
+        if (MapFactory.MapFeatureType.TYPE_POINT.equals(type)) {
             return markerFromGeoJSON(container, coordinates);
         }
-        if (MapFeatureType.TYPE_LINESTRING.equals(type)) {
+        if (MapFactory.MapFeatureType.TYPE_LINESTRING.equals(type)) {
             return lineStringFromGeoJSON(container, coordinates);
         }
-        if (MapFeatureType.TYPE_POLYGON.equals(type)) {
+        if (MapFactory.MapFeatureType.TYPE_POLYGON.equals(type)) {
             return polygonFromGeoJSON(container, coordinates);
         }
-        if (MapFeatureType.TYPE_MULTIPOLYGON.equals(type)) {
+        if (MapFactory.MapFeatureType.TYPE_MULTIPOLYGON.equals(type)) {
             return multipolygonFromGeoJSON(container, coordinates);
         }
         throw new IllegalArgumentException();
     }
 
-    private static MapMarker markerFromGeoJSON(MapFeatureContainer container, YailList coordinates) {
+    private static MapFactory.MapMarker markerFromGeoJSON(MapFactory.MapFeatureContainer container, YailList coordinates) {
         if (coordinates.length() != 3) {
             throw new IllegalArgumentException("Invalid coordinate supplied in GeoJSON");
         }
@@ -562,7 +358,7 @@ public final class GeoJSONUtil {
         return marker;
     }
 
-    private static MapLineString lineStringFromGeoJSON(MapFeatureContainer container, YailList coordinates) {
+    private static MapFactory.MapLineString lineStringFromGeoJSON(MapFactory.MapFeatureContainer container, YailList coordinates) {
         if (coordinates.size() < 2) {
             throw new IllegalArgumentException("Too few coordinates supplied in GeoJSON");
         }
@@ -571,7 +367,7 @@ public final class GeoJSONUtil {
         return lineString;
     }
 
-    private static MapPolygon polygonFromGeoJSON(MapFeatureContainer container, YailList coordinates) {
+    private static MapFactory.MapPolygon polygonFromGeoJSON(MapFactory.MapFeatureContainer container, YailList coordinates) {
         Polygon polygon = new Polygon(container);
         Iterator i = coordinates.iterator();
         i.next();
@@ -583,7 +379,7 @@ public final class GeoJSONUtil {
         return polygon;
     }
 
-    private static MapPolygon multipolygonFromGeoJSON(MapFeatureContainer container, YailList coordinates) {
+    private static MapFactory.MapPolygon multipolygonFromGeoJSON(MapFactory.MapFeatureContainer container, YailList coordinates) {
         Polygon polygon = new Polygon(container);
         List<YailList> points = new ArrayList<>();
         List<YailList> holePoints = new ArrayList<>();
@@ -600,14 +396,14 @@ public final class GeoJSONUtil {
         return polygon;
     }
 
-    private static void processProperties(String logTag, MapFeature feature, YailList properties) {
+    private static void processProperties(String logTag, MapFactory.MapFeature feature, YailList properties) {
         Iterator it = properties.iterator();
         while (it.hasNext()) {
             Object o = it.next();
             if (o instanceof YailList) {
                 YailList pair = (YailList) o;
                 String key = pair.get(1).toString();
-                PropertyApplication application = (PropertyApplication) SUPPORTED_PROPERTIES.get(key.toLowerCase());
+                PropertyApplication application = SUPPORTED_PROPERTIES.get(key.toLowerCase());
                 if (application != null) {
                     application.apply(feature, pair.get(2));
                 } else {
@@ -676,7 +472,7 @@ public final class GeoJSONUtil {
         List<YailList> pairs = new ArrayList<>();
         Iterator<String> j = object.keys();
         while (j.hasNext()) {
-            String key = (String) j.next();
+            String key = j.next();
             Object value = object.get(key);
             if ((value instanceof Boolean) || (value instanceof Integer) || (value instanceof Long) || (value instanceof Double) || (value instanceof String)) {
                 pairs.add(YailList.makeList(new Object[]{key, value}));
@@ -717,20 +513,246 @@ public final class GeoJSONUtil {
         return content;
     }
 
-    public static void writeFeaturesAsGeoJSON(List<MapFeature> featuresToSave, String path) throws IOException {
+    private static final class FeatureWriter implements MapFactory.MapFeatureVisitor<Void> {
+        private final PrintStream out;
+
+        private FeatureWriter(PrintStream out2) {
+            this.out = out2;
+        }
+
+        private void writeType(String type) {
+            this.out.print("\"type\":\"");
+            this.out.print(type);
+            this.out.print("\"");
+        }
+
+        private void writeProperty(String property, Object value) {
+            try {
+                String result = JsonUtil.getJsonRepresentation(value);
+                this.out.print(",\"");
+                this.out.print(property);
+                this.out.print("\":");
+                this.out.print(result);
+            } catch (JSONException e) {
+                Log.w("GeoJSONUtil", "Unable to serialize the value of \"" + property + "\" as JSON", e);
+            }
+        }
+
+        private void writeProperty(String property, String value) {
+            if (value != null && !TextUtils.isEmpty(value)) {
+                writeProperty(property, (Object) value);
+            }
+        }
+
+        private void writeColorProperty(String property, int color) {
+            this.out.print(",\"");
+            this.out.print(property);
+            this.out.print("\":\"&H");
+            String unpadded = Integer.toHexString(color);
+            for (int i = 8; i > unpadded.length(); i--) {
+                this.out.print("0");
+            }
+            this.out.print(unpadded);
+            this.out.print("\"");
+        }
+
+        private void writePointGeometry(GeoPoint point) {
+            this.out.print("\"geometry\":{\"type\":\"Point\",\"coordinates\":[");
+            this.out.print(point.getLongitude());
+            this.out.print(",");
+            this.out.print(point.getLatitude());
+            if (hasAltitude(point)) {
+                this.out.print(",");
+                this.out.print(point.getAltitude());
+            }
+            this.out.print("]}");
+        }
+
+        private void writePropertiesHeader(String runtimeType) {
+            this.out.print(",\"properties\":{\"$Type\":\"" + runtimeType + "\"");
+        }
+
+        private void writeProperties(MapFactory.MapFeature feature) {
+            writeProperty(GeoJSONUtil.PROPERTY_DESCRIPTION, feature.Description());
+            writeProperty(GeoJSONUtil.PROPERTY_DRAGGABLE, (Object) Boolean.valueOf(feature.Draggable()));
+            writeProperty(GeoJSONUtil.PROPERTY_INFOBOX, (Object) Boolean.valueOf(feature.EnableInfobox()));
+            writeProperty(GeoJSONUtil.PROPERTY_TITLE, feature.Title());
+            writeProperty(GeoJSONUtil.PROPERTY_VISIBLE, (Object) Boolean.valueOf(feature.Visible()));
+        }
+
+        private void writeProperties(MapFactory.HasStroke feature) {
+            writeColorProperty(GeoJSONUtil.PROPERTY_STROKE, feature.StrokeColor());
+            writeProperty(GeoJSONUtil.PROPERTY_STROKE_OPACITY, (Object) Float.valueOf(feature.StrokeOpacity()));
+            writeProperty(GeoJSONUtil.PROPERTY_STROKE_WIDTH, (Object) Integer.valueOf(feature.StrokeWidth()));
+        }
+
+        private void writeProperties(MapFactory.HasFill feature) {
+            writeColorProperty(GeoJSONUtil.PROPERTY_FILL, feature.FillColor());
+            writeProperty(GeoJSONUtil.PROPERTY_FILL_OPACITY, (Object) Float.valueOf(feature.FillOpacity()));
+        }
+
+        private void writePoints(List<GeoPoint> points) {
+            boolean first = true;
+            for (GeoPoint p : points) {
+                if (!first) {
+                    this.out.print(',');
+                }
+                this.out.print("[");
+                this.out.print(p.getLongitude());
+                this.out.print(",");
+                this.out.print(p.getLatitude());
+                if (hasAltitude(p)) {
+                    this.out.print(",");
+                    this.out.print(p.getAltitude());
+                }
+                this.out.print("]");
+                first = false;
+            }
+        }
+
+        private void writeLineGeometry(MapFactory.MapLineString lineString) {
+            this.out.print("\"geometry\":{\"type\":\"LineString\",\"coordinates\":[");
+            writePoints(lineString.getPoints());
+            this.out.print("]}");
+        }
+
+        private void writeMultipolygonGeometryNoHoles(MapFactory.MapPolygon polygon) {
+            this.out.print("\"geometry\":{\"type\":\"MultiPolygon\",\"coordinates\":[");
+            Iterator<List<List<GeoPoint>>> holePointIterator = polygon.getHolePoints().iterator();
+            boolean first = true;
+            for (List<GeoPoint> writePoints : polygon.getPoints()) {
+                if (!first) {
+                    this.out.print(",");
+                }
+                this.out.print("[");
+                writePoints(writePoints);
+                if (holePointIterator.hasNext()) {
+                    for (List<GeoPoint> holePoints : holePointIterator.next()) {
+                        this.out.print(",");
+                        writePoints(holePoints);
+                    }
+                }
+                this.out.print("]");
+                first = false;
+            }
+            this.out.print("]}");
+        }
+
+        private void writePolygonGeometryNoHoles(MapFactory.MapPolygon polygon) {
+            this.out.print("\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[");
+            writePoints(polygon.getPoints().get(0));
+            if (!polygon.getHolePoints().isEmpty()) {
+                for (List<GeoPoint> points : polygon.getHolePoints().get(0)) {
+                    this.out.print(",");
+                    writePoints(points);
+                }
+            }
+            this.out.print("]}");
+        }
+
+        private void writePolygonGeometry(MapFactory.MapPolygon polygon) {
+            if (polygon.getPoints().size() > 1) {
+                writeMultipolygonGeometryNoHoles(polygon);
+            } else {
+                writePolygonGeometryNoHoles(polygon);
+            }
+        }
+
+        public Void visit(MapFactory.MapMarker marker, Object... arguments) {
+            this.out.print("{");
+            writeType(GeoJSONUtil.GEOJSON_FEATURE);
+            this.out.print(',');
+            writePointGeometry(marker.getCentroid());
+            writePropertiesHeader(marker.getClass().getName());
+            writeProperties((MapFactory.MapFeature) marker);
+            writeProperties((MapFactory.HasStroke) marker);
+            writeProperties((MapFactory.HasFill) marker);
+            writeProperty(GeoJSONUtil.PROPERTY_ANCHOR_HORIZONTAL, (Object) Integer.valueOf(marker.AnchorHorizontal()));
+            writeProperty(GeoJSONUtil.PROPERTY_ANCHOR_VERTICAL, (Object) Integer.valueOf(marker.AnchorVertical()));
+            writeProperty(GeoJSONUtil.PROPERTY_HEIGHT, (Object) Integer.valueOf(marker.Height()));
+            writeProperty(GeoJSONUtil.PROPERTY_IMAGE, marker.ImageAsset());
+            writeProperty(GeoJSONUtil.PROPERTY_WIDTH, (Object) Integer.valueOf(marker.Width()));
+            this.out.print("}}");
+            return null;
+        }
+
+        public Void visit(MapFactory.MapLineString lineString, Object... arguments) {
+            this.out.print("{");
+            writeType(GeoJSONUtil.GEOJSON_FEATURE);
+            this.out.print(',');
+            writeLineGeometry(lineString);
+            writePropertiesHeader(lineString.getClass().getName());
+            writeProperties((MapFactory.MapFeature) lineString);
+            writeProperties((MapFactory.HasStroke) lineString);
+            this.out.print("}}");
+            return null;
+        }
+
+        public Void visit(MapFactory.MapPolygon polygon, Object... arguments) {
+            this.out.print("{");
+            writeType(GeoJSONUtil.GEOJSON_FEATURE);
+            this.out.print(',');
+            writePolygonGeometry(polygon);
+            writePropertiesHeader(polygon.getClass().getName());
+            writeProperties((MapFactory.MapFeature) polygon);
+            writeProperties((MapFactory.HasStroke) polygon);
+            writeProperties((MapFactory.HasFill) polygon);
+            this.out.print("}}");
+            return null;
+        }
+
+        public Void visit(MapFactory.MapCircle circle, Object... arguments) {
+            this.out.print("{");
+            writeType(GeoJSONUtil.GEOJSON_FEATURE);
+            this.out.print(',');
+            writePointGeometry(circle.getCentroid());
+            writePropertiesHeader(circle.getClass().getName());
+            writeProperties((MapFactory.MapFeature) circle);
+            writeProperties((MapFactory.HasStroke) circle);
+            writeProperties((MapFactory.HasFill) circle);
+            this.out.print("}}");
+            return null;
+        }
+
+        public Void visit(MapFactory.MapRectangle rectangle, Object... arguments) {
+            this.out.print("{");
+            writeType(GeoJSONUtil.GEOJSON_FEATURE);
+            this.out.print(",\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[");
+            this.out.print("[" + rectangle.WestLongitude() + "," + rectangle.NorthLatitude() + "],");
+            this.out.print("[" + rectangle.WestLongitude() + "," + rectangle.SouthLatitude() + "],");
+            this.out.print("[" + rectangle.EastLongitude() + "," + rectangle.SouthLatitude() + "],");
+            this.out.print("[" + rectangle.EastLongitude() + "," + rectangle.NorthLatitude() + "],");
+            this.out.print("[" + rectangle.WestLongitude() + "," + rectangle.NorthLatitude() + "]]}");
+            writePropertiesHeader(rectangle.getClass().getName());
+            writeProperties((MapFactory.MapFeature) rectangle);
+            writeProperties((MapFactory.HasStroke) rectangle);
+            writeProperties((MapFactory.HasFill) rectangle);
+            writeProperty("NorthLatitude", (Object) Double.valueOf(rectangle.NorthLatitude()));
+            writeProperty("WestLongitude", (Object) Double.valueOf(rectangle.WestLongitude()));
+            writeProperty("SouthLatitude", (Object) Double.valueOf(rectangle.SouthLatitude()));
+            writeProperty("EastLongitude", (Object) Double.valueOf(rectangle.EastLongitude()));
+            this.out.print("}}");
+            return null;
+        }
+
+        private static boolean hasAltitude(GeoPoint point) {
+            return Double.compare(0.0d, point.getAltitude()) != 0;
+        }
+    }
+
+    public static void writeFeaturesAsGeoJSON(List<MapFactory.MapFeature> featuresToSave, String path) throws IOException {
         PrintStream out = null;
         try {
             PrintStream out2 = new PrintStream(new FileOutputStream(path));
             try {
                 FeatureWriter writer = new FeatureWriter(out2);
                 out2.print("{\"type\": \"FeatureCollection\", \"features\":[");
-                Iterator<MapFeature> it = featuresToSave.iterator();
+                Iterator<MapFactory.MapFeature> it = featuresToSave.iterator();
                 if (it.hasNext()) {
-                    ((MapFeature) it.next()).accept(writer, new Object[0]);
+                    it.next().accept(writer, new Object[0]);
                     while (it.hasNext()) {
-                        MapFeature feature = (MapFeature) it.next();
                         out2.print(',');
-                        feature.accept(writer, new Object[0]);
+                        it.next().accept(writer, new Object[0]);
                     }
                 }
                 out2.print("]}");

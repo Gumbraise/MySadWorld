@@ -2,9 +2,8 @@ package com.google.appinventor.components.runtime.multidex;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.pm.ApplicationInfo;
-import android.os.Build.VERSION;
+import android.os.Build;
 import android.util.Log;
 import com.google.appinventor.components.runtime.util.IOUtils;
 import java.io.BufferedOutputStream;
@@ -46,9 +45,9 @@ final class MultiDexExtractor {
             if (isModified(context, sourceApk, getZipCrc(sourceApk))) {
                 return true;
             }
+            return false;
         } catch (IOException e) {
         }
-        return false;
     }
 
     static List<File> load(Context context, ApplicationInfo applicationInfo, File dexDir, boolean forceReload) throws IOException {
@@ -163,7 +162,7 @@ final class MultiDexExtractor {
     }
 
     private static void putStoredApkInfo(Context context, long timeStamp, long crc, int totalDexNumber) {
-        Editor edit = getMultiDexPreferences(context).edit();
+        SharedPreferences.Editor edit = getMultiDexPreferences(context).edit();
         edit.putLong(KEY_TIME_STAMP, timeStamp);
         edit.putLong(KEY_CRC, crc);
         edit.putInt(KEY_DEX_NUMBER, totalDexNumber);
@@ -171,7 +170,7 @@ final class MultiDexExtractor {
     }
 
     private static SharedPreferences getMultiDexPreferences(Context context) {
-        return context.getSharedPreferences(PREFS_FILE, VERSION.SDK_INT < 11 ? 0 : 4);
+        return context.getSharedPreferences(PREFS_FILE, Build.VERSION.SDK_INT < 11 ? 0 : 4);
     }
 
     private static void prepareDexDir(File dexDir, final String extractedFilePrefix) throws IOException {
@@ -301,13 +300,13 @@ final class MultiDexExtractor {
 
     static {
         try {
-            sApplyMethod = Editor.class.getMethod("apply", new Class[0]);
+            sApplyMethod = SharedPreferences.Editor.class.getMethod("apply", new Class[0]);
         } catch (NoSuchMethodException e) {
             sApplyMethod = null;
         }
     }
 
-    private static void apply(Editor editor) {
+    private static void apply(SharedPreferences.Editor editor) {
         if (sApplyMethod != null) {
             try {
                 sApplyMethod.invoke(editor, new Object[0]);

@@ -6,23 +6,22 @@ import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.os.Build.VERSION;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.VisibleForTesting;
-import android.support.p000v4.app.ActivityCompat;
-import android.support.p000v4.content.ContextCompat;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ScrollView;
@@ -37,7 +36,7 @@ import com.google.appinventor.components.annotations.SimpleProperty;
 import com.google.appinventor.components.annotations.UsesPermissions;
 import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.common.ComponentConstants;
-import com.google.appinventor.components.runtime.AppInventorCompatActivity.Theme;
+import com.google.appinventor.components.runtime.AppInventorCompatActivity;
 import com.google.appinventor.components.runtime.collect.Lists;
 import com.google.appinventor.components.runtime.collect.Maps;
 import com.google.appinventor.components.runtime.collect.Sets;
@@ -70,7 +69,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 import org.json.JSONException;
@@ -78,7 +76,7 @@ import org.json.JSONException;
 @DesignerComponent(androidMinSdk = 7, category = ComponentCategory.USERINTERFACE, description = "Top-level component containing all other components in the program", showOnPalette = false, version = 27)
 @SimpleObject
 @UsesPermissions(permissionNames = "android.permission.INTERNET,android.permission.ACCESS_WIFI_STATE,android.permission.ACCESS_NETWORK_STATE")
-public class Form extends AppInventorCompatActivity implements Component, ComponentContainer, HandlesEventDispatching, OnGlobalLayoutListener {
+public class Form extends AppInventorCompatActivity implements Component, ComponentContainer, HandlesEventDispatching, ViewTreeObserver.OnGlobalLayoutListener {
     public static final String APPINVENTOR_URL_SCHEME = "appinventor";
     private static final String ARGUMENT_NAME = "APP_INVENTOR_START";
     public static final String ASSETS_PREFIX = "file:///android_asset/";
@@ -154,26 +152,6 @@ public class Form extends AppInventorCompatActivity implements Component, Compon
     private LinearLayout viewLayout;
     private String yandexTranslateTagline = "";
 
-    private static class MultiDexInstaller extends AsyncTask<Form, Void, Boolean> {
-        Form ourForm;
-
-        private MultiDexInstaller() {
-        }
-
-        /* access modifiers changed from: protected */
-        public Boolean doInBackground(Form... form) {
-            this.ourForm = form[0];
-            Log.d(Form.LOG_TAG, "Doing Full MultiDex Install");
-            MultiDex.install(this.ourForm, true);
-            return Boolean.valueOf(true);
-        }
-
-        /* access modifiers changed from: protected */
-        public void onPostExecute(Boolean v) {
-            this.ourForm.onCreateFinish();
-        }
-    }
-
     public static class PercentStorageRecord {
         AndroidViewComponent component;
         Dim dim;
@@ -188,6 +166,26 @@ public class Form extends AppInventorCompatActivity implements Component, Compon
             this.component = component2;
             this.length = length2;
             this.dim = dim2;
+        }
+    }
+
+    private static class MultiDexInstaller extends AsyncTask<Form, Void, Boolean> {
+        Form ourForm;
+
+        private MultiDexInstaller() {
+        }
+
+        /* access modifiers changed from: protected */
+        public Boolean doInBackground(Form... form) {
+            this.ourForm = form[0];
+            Log.d(Form.LOG_TAG, "Doing Full MultiDex Install");
+            MultiDex.install(this.ourForm, true);
+            return true;
+        }
+
+        /* access modifiers changed from: protected */
+        public void onPostExecute(Boolean v) {
+            this.ourForm.onCreateFinish();
         }
     }
 
@@ -223,7 +221,7 @@ public class Form extends AppInventorCompatActivity implements Component, Compon
         new MultiDexInstaller().execute(new Form[]{this});
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void onCreateFinish() {
         Log.d(LOG_TAG, "onCreateFinish called " + System.currentTimeMillis());
         if (this.progress != null) {
@@ -383,11 +381,11 @@ public class Form extends AppInventorCompatActivity implements Component, Compon
             OtherScreenClosed(this.nextFormName, decodeJSONStringForForm(resultString, "other screen closed"));
             return;
         }
-        ActivityResultListener component = (ActivityResultListener) this.activityResultMap.get(Integer.valueOf(requestCode));
+        ActivityResultListener component = this.activityResultMap.get(Integer.valueOf(requestCode));
         if (component != null) {
             component.resultReturned(requestCode, resultCode, data);
         }
-        Set<ActivityResultListener> listeners = (Set) this.activityResultMultiMap.get(Integer.valueOf(requestCode));
+        Set<ActivityResultListener> listeners = this.activityResultMultiMap.get(Integer.valueOf(requestCode));
         if (listeners != null) {
             for (ActivityResultListener listener : (ActivityResultListener[]) listeners.toArray(new ActivityResultListener[0])) {
                 listener.resultReturned(requestCode, resultCode, data);
@@ -415,7 +413,7 @@ public class Form extends AppInventorCompatActivity implements Component, Compon
     }
 
     public void registerForActivityResult(ActivityResultListener listener, int requestCode) {
-        Set<ActivityResultListener> listeners = (Set) this.activityResultMultiMap.get(Integer.valueOf(requestCode));
+        Set<ActivityResultListener> listeners = this.activityResultMultiMap.get(Integer.valueOf(requestCode));
         if (listeners == null) {
             listeners = Sets.newHashSet();
             this.activityResultMultiMap.put(Integer.valueOf(requestCode), listeners);
@@ -425,7 +423,7 @@ public class Form extends AppInventorCompatActivity implements Component, Compon
 
     public void unregisterForActivityResult(ActivityResultListener listener) {
         List<Integer> keysToDelete = Lists.newArrayList();
-        for (Entry<Integer, ActivityResultListener> mapEntry : this.activityResultMap.entrySet()) {
+        for (Map.Entry<Integer, ActivityResultListener> mapEntry : this.activityResultMap.entrySet()) {
             if (listener.equals(mapEntry.getValue())) {
                 keysToDelete.add(mapEntry.getKey());
             }
@@ -433,23 +431,22 @@ public class Form extends AppInventorCompatActivity implements Component, Compon
         for (Integer key : keysToDelete) {
             this.activityResultMap.remove(key);
         }
-        Iterator<Entry<Integer, Set<ActivityResultListener>>> it = this.activityResultMultiMap.entrySet().iterator();
+        Iterator<Map.Entry<Integer, Set<ActivityResultListener>>> it = this.activityResultMultiMap.entrySet().iterator();
         while (it.hasNext()) {
-            Entry<Integer, Set<ActivityResultListener>> entry = (Entry) it.next();
-            ((Set) entry.getValue()).remove(listener);
-            if (((Set) entry.getValue()).size() == 0) {
+            Map.Entry<Integer, Set<ActivityResultListener>> entry = it.next();
+            entry.getValue().remove(listener);
+            if (entry.getValue().size() == 0) {
                 it.remove();
             }
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void ReplayFormOrientation() {
         Log.d(LOG_TAG, "ReplayFormOrientation()");
-        LinkedHashMap<Integer, PercentStorageRecord> temp = (LinkedHashMap) this.dimChanges.clone();
         this.dimChanges.clear();
-        for (PercentStorageRecord r : temp.values()) {
-            if (r.dim == Dim.HEIGHT) {
+        for (PercentStorageRecord r : ((LinkedHashMap) this.dimChanges.clone()).values()) {
+            if (r.dim == PercentStorageRecord.Dim.HEIGHT) {
                 r.component.Height(r.length);
             } else {
                 r.component.Width(r.length);
@@ -457,19 +454,19 @@ public class Form extends AppInventorCompatActivity implements Component, Compon
         }
     }
 
-    private Integer generateHashCode(AndroidViewComponent component, Dim dim) {
-        if (dim == Dim.HEIGHT) {
+    private Integer generateHashCode(AndroidViewComponent component, PercentStorageRecord.Dim dim) {
+        if (dim == PercentStorageRecord.Dim.HEIGHT) {
             return Integer.valueOf((component.hashCode() * 2) + 1);
         }
         return Integer.valueOf(component.hashCode() * 2);
     }
 
-    public void registerPercentLength(AndroidViewComponent component, int length, Dim dim) {
+    public void registerPercentLength(AndroidViewComponent component, int length, PercentStorageRecord.Dim dim) {
         PercentStorageRecord r = new PercentStorageRecord(component, length, dim);
         this.dimChanges.put(generateHashCode(component, dim), r);
     }
 
-    public void unregisterPercentLength(AndroidViewComponent component, Dim dim) {
+    public void unregisterPercentLength(AndroidViewComponent component, PercentStorageRecord.Dim dim) {
         this.dimChanges.remove(generateHashCode(component, dim));
     }
 
@@ -621,7 +618,7 @@ public class Form extends AppInventorCompatActivity implements Component, Compon
                 } else {
                     Form.this.Sizing("Responsive");
                 }
-                Form.this.screenInitialized = true;
+                boolean unused = Form.this.screenInitialized = true;
                 for (OnInitializeListener onInitializeListener : Form.this.onInitializeListeners) {
                     onInitializeListener.onInitialize();
                 }
@@ -755,22 +752,22 @@ public class Form extends AppInventorCompatActivity implements Component, Compon
         boolean needsTitleBar = this.titleBar != null && this.titleBar.getParent() == this.frameWithTitle;
         this.frameWithTitle.removeAllViews();
         if (needsTitleBar) {
-            this.frameWithTitle.addView(this.titleBar, new LayoutParams(-1, -2));
+            this.frameWithTitle.addView(this.titleBar, new ViewGroup.LayoutParams(-1, -2));
         }
         if (this.scrollable) {
             this.frameLayout = new ScrollView(this);
-            if (VERSION.SDK_INT >= 24) {
+            if (Build.VERSION.SDK_INT >= 24) {
                 ((ScrollView) this.frameLayout).setFillViewport(true);
             }
         } else {
             this.frameLayout = new FrameLayout(this);
         }
-        this.frameLayout.addView(this.viewLayout.getLayoutManager(), new LayoutParams(-1, -1));
+        this.frameLayout.addView(this.viewLayout.getLayoutManager(), new ViewGroup.LayoutParams(-1, -1));
         setBackground(this.frameLayout);
         Log.d(LOG_TAG, "About to create a new ScaledFrameLayout");
         this.scaleLayout = new ScaledFrameLayout(this);
-        this.scaleLayout.addView(this.frameLayout, new LayoutParams(-1, -1));
-        this.frameWithTitle.addView(this.scaleLayout, new LayoutParams(-1, -1));
+        this.scaleLayout.addView(this.frameLayout, new ViewGroup.LayoutParams(-1, -1));
+        this.frameWithTitle.addView(this.scaleLayout, new ViewGroup.LayoutParams(-1, -1));
         this.frameLayout.getViewTreeObserver().addOnGlobalLayoutListener(this);
         this.scaleLayout.requestLayout();
         this.androidUIHandler.post(new Runnable() {
@@ -1143,14 +1140,14 @@ public class Form extends AppInventorCompatActivity implements Component, Compon
         }
         this.usesDarkTheme = false;
         if (theme.equals(ComponentConstants.DEFAULT_THEME)) {
-            setAppInventorTheme(Theme.CLASSIC);
+            setAppInventorTheme(AppInventorCompatActivity.Theme.CLASSIC);
         } else if (theme.equals("AppTheme.Light.DarkActionBar")) {
-            setAppInventorTheme(Theme.DEVICE_DEFAULT);
+            setAppInventorTheme(AppInventorCompatActivity.Theme.DEVICE_DEFAULT);
         } else if (theme.equals("AppTheme.Light")) {
-            setAppInventorTheme(Theme.BLACK_TITLE_TEXT);
+            setAppInventorTheme(AppInventorCompatActivity.Theme.BLACK_TITLE_TEXT);
         } else if (theme.equals("AppTheme")) {
             this.usesDarkTheme = true;
-            setAppInventorTheme(Theme.DARK);
+            setAppInventorTheme(AppInventorCompatActivity.Theme.DARK);
         }
     }
 
@@ -1183,12 +1180,12 @@ public class Form extends AppInventorCompatActivity implements Component, Compon
 
     @SimpleProperty(description = "The dotted version number of the platform, such as 4.2.2 or 10.0. This is platform specific and there is no guarantee that it has a particular format.")
     public String PlatformVersion() {
-        return VERSION.RELEASE;
+        return Build.VERSION.RELEASE;
     }
 
     public static void switchForm(String nextFormName2) {
         if (activeForm != null) {
-            activeForm.startNewForm(nextFormName2, null);
+            activeForm.startNewForm(nextFormName2, (Object) null);
             return;
         }
         throw new IllegalStateException("activeForm is null");
@@ -1328,7 +1325,7 @@ public class Form extends AppInventorCompatActivity implements Component, Compon
 
     public static void finishActivity() {
         if (activeForm != null) {
-            activeForm.closeForm(null);
+            activeForm.closeForm((Intent) null);
             return;
         }
         throw new IllegalStateException("activeForm is null");
@@ -1339,7 +1336,7 @@ public class Form extends AppInventorCompatActivity implements Component, Compon
             throw new IllegalStateException("activeForm is null");
         } else if (activeForm instanceof ReplForm) {
             ((ReplForm) activeForm).setResult(result);
-            activeForm.closeForm(null);
+            activeForm.closeForm((Intent) null);
         } else {
             String jString = jsonEncodeForForm(result, "close screen with value");
             Intent resultIntent = new Intent();
@@ -1404,7 +1401,7 @@ public class Form extends AppInventorCompatActivity implements Component, Compon
     }
 
     public void addExitButtonToMenu(Menu menu) {
-        menu.add(0, 0, 1, "Stop this application").setOnMenuItemClickListener(new OnMenuItemClickListener() {
+        menu.add(0, 0, 1, "Stop this application").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
                 Form.this.showExitApplicationNotification();
                 return true;
@@ -1413,7 +1410,7 @@ public class Form extends AppInventorCompatActivity implements Component, Compon
     }
 
     public void addAboutInfoToMenu(Menu menu) {
-        menu.add(0, 0, 2, "About this application").setOnMenuItemClickListener(new OnMenuItemClickListener() {
+        menu.add(0, 0, 2, "About this application").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
                 Form.this.showAboutApplicationNotification();
                 return true;
@@ -1437,14 +1434,14 @@ public class Form extends AppInventorCompatActivity implements Component, Compon
                 Form.this.closeApplicationFromMenu();
             }
         };
-        C033814 r7 = new Runnable() {
+        AnonymousClass14 r7 = new Runnable() {
             public void run() {
             }
         };
         Notifier.twoButtonDialog(this, "Stop this application and exit? You'll need to relaunch the application to use it again.", "Stop application?", "Stop and exit", "Don't stop", false, stopApplication, r7, r7);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void setYandexTranslateTagline() {
         this.yandexTranslateTagline = "<p><small>Language translation powered by Yandex.Translate</small></p>";
     }
@@ -1526,10 +1523,10 @@ public class Form extends AppInventorCompatActivity implements Component, Compon
 
     public void callInitialize(Object component) throws Throwable {
         try {
-            Method method = component.getClass().getMethod("Initialize", null);
+            Method method = component.getClass().getMethod("Initialize", (Class[]) null);
             try {
                 Log.i(LOG_TAG, "calling Initialize method for Object " + component.toString());
-                method.invoke(component, null);
+                method.invoke(component, (Object[]) null);
             } catch (InvocationTargetException e) {
                 Log.i(LOG_TAG, "invoke exception: " + e.getMessage());
                 throw e.getTargetException();
@@ -1558,7 +1555,7 @@ public class Form extends AppInventorCompatActivity implements Component, Compon
             if (this.backgroundColor != 0) {
                 i = this.backgroundColor;
             }
-            setDraw.setColorFilter(i, Mode.DST_OVER);
+            setDraw.setColorFilter(i, PorterDuff.Mode.DST_OVER);
         }
         ViewUtil.setBackgroundImage(bgview, setDraw);
         bgview.invalidate();
@@ -1596,7 +1593,7 @@ public class Form extends AppInventorCompatActivity implements Component, Compon
     }
 
     public boolean isDeniedPermission(String permission) {
-        return VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, permission) == -1;
+        return Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, permission) == -1;
     }
 
     public void assertPermission(String permission) {
@@ -1624,7 +1621,7 @@ public class Form extends AppInventorCompatActivity implements Component, Compon
         final List<String> permissionsToAsk = request.getPermissions();
         Iterator<String> it = permissionsToAsk.iterator();
         while (it.hasNext()) {
-            if (!isDeniedPermission((String) it.next())) {
+            if (!isDeniedPermission(it.next())) {
                 it.remove();
             }
         }
@@ -1634,7 +1631,7 @@ public class Form extends AppInventorCompatActivity implements Component, Compon
             this.androidUIHandler.post(new Runnable() {
                 public void run() {
                     final Iterator<String> it = permissionsToAsk.iterator();
-                    Form.this.askPermission((String) it.next(), new PermissionResultHandler() {
+                    Form.this.askPermission(it.next(), new PermissionResultHandler() {
                         final List<String> deniedPermissions = new ArrayList();
 
                         public void HandlePermissionResponse(String permission, boolean granted) {
@@ -1656,7 +1653,7 @@ public class Form extends AppInventorCompatActivity implements Component, Compon
     }
 
     public void onRequestPermissionsResult(int requestCode, String[] permissions2, int[] grantResults) {
-        PermissionResultHandler responder = (PermissionResultHandler) this.permissionHandlers.get(Integer.valueOf(requestCode));
+        PermissionResultHandler responder = this.permissionHandlers.get(Integer.valueOf(requestCode));
         if (responder == null) {
             Log.e(LOG_TAG, "Received permission response which we cannot match.");
             return;
@@ -1691,7 +1688,7 @@ public class Form extends AppInventorCompatActivity implements Component, Compon
         return openAssetInternal(getAssetPathForExtension(component, asset));
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     @VisibleForTesting
     public InputStream openAssetInternal(String path) throws IOException {
         if (path.startsWith(ASSETS_PREFIX)) {

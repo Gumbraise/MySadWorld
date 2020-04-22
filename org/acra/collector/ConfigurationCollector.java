@@ -36,7 +36,6 @@ public final class ConfigurationCollector {
     private static final HashMap<String, SparseArray<String>> mValueArrays = new HashMap<>();
 
     static {
-        Field[] arr$;
         mValueArrays.put(PREFIX_HARDKEYBOARDHIDDEN, mHardKeyboardHiddenValues);
         mValueArrays.put(PREFIX_KEYBOARD, mKeyboardValues);
         mValueArrays.put(PREFIX_KEYBOARDHIDDEN, mKeyboardHiddenValues);
@@ -51,23 +50,23 @@ public final class ConfigurationCollector {
                 String fieldName = f.getName();
                 try {
                     if (fieldName.startsWith(PREFIX_HARDKEYBOARDHIDDEN)) {
-                        mHardKeyboardHiddenValues.put(f.getInt(null), fieldName);
+                        mHardKeyboardHiddenValues.put(f.getInt((Object) null), fieldName);
                     } else if (fieldName.startsWith(PREFIX_KEYBOARD)) {
-                        mKeyboardValues.put(f.getInt(null), fieldName);
+                        mKeyboardValues.put(f.getInt((Object) null), fieldName);
                     } else if (fieldName.startsWith(PREFIX_KEYBOARDHIDDEN)) {
-                        mKeyboardHiddenValues.put(f.getInt(null), fieldName);
+                        mKeyboardHiddenValues.put(f.getInt((Object) null), fieldName);
                     } else if (fieldName.startsWith(PREFIX_NAVIGATION)) {
-                        mNavigationValues.put(f.getInt(null), fieldName);
+                        mNavigationValues.put(f.getInt((Object) null), fieldName);
                     } else if (fieldName.startsWith(PREFIX_NAVIGATIONHIDDEN)) {
-                        mNavigationHiddenValues.put(f.getInt(null), fieldName);
+                        mNavigationHiddenValues.put(f.getInt((Object) null), fieldName);
                     } else if (fieldName.startsWith(PREFIX_ORIENTATION)) {
-                        mOrientationValues.put(f.getInt(null), fieldName);
+                        mOrientationValues.put(f.getInt((Object) null), fieldName);
                     } else if (fieldName.startsWith(PREFIX_SCREENLAYOUT)) {
-                        mScreenLayoutValues.put(f.getInt(null), fieldName);
+                        mScreenLayoutValues.put(f.getInt((Object) null), fieldName);
                     } else if (fieldName.startsWith(PREFIX_TOUCHSCREEN)) {
-                        mTouchScreenValues.put(f.getInt(null), fieldName);
+                        mTouchScreenValues.put(f.getInt((Object) null), fieldName);
                     } else if (fieldName.startsWith(PREFIX_UI_MODE)) {
-                        mUiModeValues.put(f.getInt(null), fieldName);
+                        mUiModeValues.put(f.getInt((Object) null), fieldName);
                     }
                 } catch (IllegalArgumentException e) {
                     Log.w(ACRA.LOG_TAG, "Error while inspecting device configuration: ", e);
@@ -79,7 +78,6 @@ public final class ConfigurationCollector {
     }
 
     public static String toString(Configuration conf) {
-        Field[] arr$;
         StringBuilder result = new StringBuilder();
         for (Field f : conf.getClass().getFields()) {
             try {
@@ -107,16 +105,16 @@ public final class ConfigurationCollector {
             return Integer.toString(f.getInt(conf));
         }
         if (fieldName.equals(FIELD_UIMODE)) {
-            return activeFlags((SparseArray) mValueArrays.get(PREFIX_UI_MODE), f.getInt(conf));
+            return activeFlags(mValueArrays.get(PREFIX_UI_MODE), f.getInt(conf));
         }
         if (fieldName.equals(FIELD_SCREENLAYOUT)) {
-            return activeFlags((SparseArray) mValueArrays.get(PREFIX_SCREENLAYOUT), f.getInt(conf));
+            return activeFlags(mValueArrays.get(PREFIX_SCREENLAYOUT), f.getInt(conf));
         }
-        SparseArray<String> values = (SparseArray) mValueArrays.get(fieldName.toUpperCase() + '_');
+        SparseArray<String> values = mValueArrays.get(fieldName.toUpperCase() + '_');
         if (values == null) {
             return Integer.toString(f.getInt(conf));
         }
-        String value = (String) values.get(f.getInt(conf));
+        String value = values.get(f.getInt(conf));
         if (value == null) {
             return Integer.toString(f.getInt(conf));
         }
@@ -124,17 +122,15 @@ public final class ConfigurationCollector {
     }
 
     private static String activeFlags(SparseArray<String> valueNames, int bitfield) {
+        int value;
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < valueNames.size(); i++) {
             int maskValue = valueNames.keyAt(i);
-            if (((String) valueNames.get(maskValue)).endsWith(SUFFIX_MASK)) {
-                int value = bitfield & maskValue;
-                if (value > 0) {
-                    if (result.length() > 0) {
-                        result.append('+');
-                    }
-                    result.append((String) valueNames.get(value));
+            if (valueNames.get(maskValue).endsWith(SUFFIX_MASK) && (value = bitfield & maskValue) > 0) {
+                if (result.length() > 0) {
+                    result.append('+');
                 }
+                result.append(valueNames.get(value));
             }
         }
         return result.toString();

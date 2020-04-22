@@ -8,7 +8,7 @@ public class VoidConsumer extends FilterConsumer {
     }
 
     public VoidConsumer() {
-        super(null);
+        super((Consumer) null);
         this.skipping = true;
     }
 

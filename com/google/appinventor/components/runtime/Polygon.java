@@ -13,14 +13,7 @@ import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.runtime.errors.DispatchableError;
 import com.google.appinventor.components.runtime.util.ErrorMessages;
 import com.google.appinventor.components.runtime.util.GeometryUtil;
-import com.google.appinventor.components.runtime.util.MapFactory.MapCircle;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeatureContainer;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeatureType;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeatureVisitor;
-import com.google.appinventor.components.runtime.util.MapFactory.MapLineString;
-import com.google.appinventor.components.runtime.util.MapFactory.MapMarker;
-import com.google.appinventor.components.runtime.util.MapFactory.MapPolygon;
-import com.google.appinventor.components.runtime.util.MapFactory.MapRectangle;
+import com.google.appinventor.components.runtime.util.MapFactory;
 import com.google.appinventor.components.runtime.util.YailList;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -32,42 +25,42 @@ import org.osmdroid.util.GeoPoint;
 
 @SimpleObject
 @DesignerComponent(category = ComponentCategory.MAPS, description = "Polygon", version = 2)
-public class Polygon extends PolygonBase implements MapPolygon {
+public class Polygon extends PolygonBase implements MapFactory.MapPolygon {
     private static final String TAG = Polygon.class.getSimpleName();
-    private static final MapFeatureVisitor<Double> distanceComputation = new MapFeatureVisitor<Double>() {
-        public Double visit(MapMarker marker, Object... arguments) {
+    private static final MapFactory.MapFeatureVisitor<Double> distanceComputation = new MapFactory.MapFeatureVisitor<Double>() {
+        public Double visit(MapFactory.MapMarker marker, Object... arguments) {
             if (arguments[1].booleanValue()) {
-                return Double.valueOf(GeometryUtil.distanceBetweenCentroids(marker, (MapPolygon) arguments[0]));
+                return Double.valueOf(GeometryUtil.distanceBetweenCentroids(marker, (MapFactory.MapPolygon) arguments[0]));
             }
-            return Double.valueOf(GeometryUtil.distanceBetweenEdges(marker, (MapPolygon) arguments[0]));
+            return Double.valueOf(GeometryUtil.distanceBetweenEdges(marker, (MapFactory.MapPolygon) arguments[0]));
         }
 
-        public Double visit(MapLineString lineString, Object... arguments) {
+        public Double visit(MapFactory.MapLineString lineString, Object... arguments) {
             if (arguments[1].booleanValue()) {
-                return Double.valueOf(GeometryUtil.distanceBetweenCentroids(lineString, (MapPolygon) arguments[0]));
+                return Double.valueOf(GeometryUtil.distanceBetweenCentroids(lineString, (MapFactory.MapPolygon) arguments[0]));
             }
-            return Double.valueOf(GeometryUtil.distanceBetweenEdges(lineString, (MapPolygon) arguments[0]));
+            return Double.valueOf(GeometryUtil.distanceBetweenEdges(lineString, (MapFactory.MapPolygon) arguments[0]));
         }
 
-        public Double visit(MapPolygon polygon, Object... arguments) {
+        public Double visit(MapFactory.MapPolygon polygon, Object... arguments) {
             if (arguments[1].booleanValue()) {
-                return Double.valueOf(GeometryUtil.distanceBetweenCentroids(polygon, (MapPolygon) arguments[0]));
+                return Double.valueOf(GeometryUtil.distanceBetweenCentroids(polygon, (MapFactory.MapPolygon) arguments[0]));
             }
-            return Double.valueOf(GeometryUtil.distanceBetweenEdges(polygon, (MapPolygon) arguments[0]));
+            return Double.valueOf(GeometryUtil.distanceBetweenEdges(polygon, (MapFactory.MapPolygon) arguments[0]));
         }
 
-        public Double visit(MapCircle circle, Object... arguments) {
+        public Double visit(MapFactory.MapCircle circle, Object... arguments) {
             if (arguments[1].booleanValue()) {
-                return Double.valueOf(GeometryUtil.distanceBetweenCentroids((MapPolygon) arguments[0], circle));
+                return Double.valueOf(GeometryUtil.distanceBetweenCentroids((MapFactory.MapPolygon) arguments[0], circle));
             }
-            return Double.valueOf(GeometryUtil.distanceBetweenEdges((MapPolygon) arguments[0], circle));
+            return Double.valueOf(GeometryUtil.distanceBetweenEdges((MapFactory.MapPolygon) arguments[0], circle));
         }
 
-        public Double visit(MapRectangle rectangle, Object... arguments) {
+        public Double visit(MapFactory.MapRectangle rectangle, Object... arguments) {
             if (arguments[1].booleanValue()) {
-                return Double.valueOf(GeometryUtil.distanceBetweenCentroids((MapPolygon) arguments[0], rectangle));
+                return Double.valueOf(GeometryUtil.distanceBetweenCentroids((MapFactory.MapPolygon) arguments[0], rectangle));
             }
-            return Double.valueOf(GeometryUtil.distanceBetweenEdges((MapPolygon) arguments[0], rectangle));
+            return Double.valueOf(GeometryUtil.distanceBetweenEdges((MapFactory.MapPolygon) arguments[0], rectangle));
         }
     };
     private List<List<List<GeoPoint>>> holePoints = new ArrayList();
@@ -75,7 +68,7 @@ public class Polygon extends PolygonBase implements MapPolygon {
     private boolean multipolygon = false;
     private List<List<GeoPoint>> points = new ArrayList();
 
-    public Polygon(MapFeatureContainer container) {
+    public Polygon(MapFactory.MapFeatureContainer container) {
         super(container, distanceComputation);
         container.addFeature(this);
     }
@@ -83,14 +76,14 @@ public class Polygon extends PolygonBase implements MapPolygon {
     public void Initialize() {
         this.initialized = true;
         clearGeometry();
-        this.map.getController().updateFeaturePosition((MapPolygon) this);
+        this.map.getController().updateFeaturePosition((MapFactory.MapPolygon) this);
         this.map.getController().updateFeatureHoles(this);
         this.map.getController().updateFeatureText(this);
     }
 
     @SimpleProperty(category = PropertyCategory.BEHAVIOR, description = "Returns the type of the feature. For polygons, this returns the text \"Polygon\".")
     public String Type() {
-        return MapFeatureType.TYPE_POLYGON;
+        return MapFactory.MapFeatureType.TYPE_POLYGON;
     }
 
     @SimpleProperty(category = PropertyCategory.BEHAVIOR, description = "Gets or sets the sequence of points used to draw the polygon.")
@@ -99,7 +92,7 @@ public class Polygon extends PolygonBase implements MapPolygon {
             return YailList.makeEmptyList();
         }
         if (!this.multipolygon) {
-            return GeometryUtil.pointsListToYailList((List) this.points.get(0));
+            return GeometryUtil.pointsListToYailList(this.points.get(0));
         }
         List<YailList> result = new LinkedList<>();
         for (List<GeoPoint> part : this.points) {
@@ -123,7 +116,7 @@ public class Polygon extends PolygonBase implements MapPolygon {
             }
             if (this.initialized) {
                 clearGeometry();
-                this.map.getController().updateFeaturePosition((MapPolygon) this);
+                this.map.getController().updateFeaturePosition((MapFactory.MapPolygon) this);
             }
         } catch (DispatchableError e) {
             this.container.$form().dispatchErrorOccurredEvent(this, "Points", e.getErrorCode(), e.getArguments());
@@ -136,7 +129,7 @@ public class Polygon extends PolygonBase implements MapPolygon {
         boolean z;
         if (TextUtils.isEmpty(pointString)) {
             this.points = new ArrayList();
-            this.map.getController().updateFeaturePosition((MapPolygon) this);
+            this.map.getController().updateFeaturePosition((MapFactory.MapPolygon) this);
             return;
         }
         try {
@@ -144,7 +137,7 @@ public class Polygon extends PolygonBase implements MapPolygon {
             if (content.length() == 0) {
                 this.points = new ArrayList();
                 this.multipolygon = false;
-                this.map.getController().updateFeaturePosition((MapPolygon) this);
+                this.map.getController().updateFeaturePosition((MapFactory.MapPolygon) this);
                 return;
             }
             this.points = GeometryUtil.multiPolygonToList(content);
@@ -156,7 +149,7 @@ public class Polygon extends PolygonBase implements MapPolygon {
             this.multipolygon = z;
             if (this.initialized) {
                 clearGeometry();
-                this.map.getController().updateFeaturePosition((MapPolygon) this);
+                this.map.getController().updateFeaturePosition((MapFactory.MapPolygon) this);
             }
         } catch (JSONException e) {
             this.container.$form().dispatchErrorOccurredEvent(this, "PointsFromString", ErrorMessages.ERROR_POLYGON_PARSE_ERROR, e.getMessage());
@@ -171,7 +164,7 @@ public class Polygon extends PolygonBase implements MapPolygon {
             return YailList.makeEmptyList();
         }
         if (!this.multipolygon) {
-            return GeometryUtil.multiPolygonToYailList((List) this.holePoints.get(0));
+            return GeometryUtil.multiPolygonToYailList(this.holePoints.get(0));
         }
         List<YailList> result = new LinkedList<>();
         for (List<List<GeoPoint>> polyholes : this.holePoints) {
@@ -243,8 +236,8 @@ public class Polygon extends PolygonBase implements MapPolygon {
         return this.holePoints;
     }
 
-    public <T> T accept(MapFeatureVisitor<T> visitor, Object... arguments) {
-        return visitor.visit((MapPolygon) this, arguments);
+    public <T> T accept(MapFactory.MapFeatureVisitor<T> visitor, Object... arguments) {
+        return visitor.visit((MapFactory.MapPolygon) this, arguments);
     }
 
     /* access modifiers changed from: protected */
@@ -264,7 +257,7 @@ public class Polygon extends PolygonBase implements MapPolygon {
         clearGeometry();
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     @VisibleForTesting
     public boolean isInitialized() {
         return this.initialized;

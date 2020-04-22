@@ -1,23 +1,11 @@
 package com.google.appinventor.components.runtime.util;
 
 import android.view.View;
-import com.google.appinventor.components.runtime.LocationSensor.LocationSensorListener;
-import com.google.appinventor.components.runtime.util.MapFactory.HasFill;
-import com.google.appinventor.components.runtime.util.MapFactory.HasStroke;
-import com.google.appinventor.components.runtime.util.MapFactory.MapCircle;
-import com.google.appinventor.components.runtime.util.MapFactory.MapController;
-import com.google.appinventor.components.runtime.util.MapFactory.MapEventListener;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeature;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeatureCollection;
-import com.google.appinventor.components.runtime.util.MapFactory.MapLineString;
-import com.google.appinventor.components.runtime.util.MapFactory.MapMarker;
-import com.google.appinventor.components.runtime.util.MapFactory.MapPolygon;
-import com.google.appinventor.components.runtime.util.MapFactory.MapRectangle;
-import com.google.appinventor.components.runtime.util.MapFactory.MapScaleUnits;
-import com.google.appinventor.components.runtime.util.MapFactory.MapType;
+import com.google.appinventor.components.runtime.LocationSensor;
+import com.google.appinventor.components.runtime.util.MapFactory;
 import org.osmdroid.util.BoundingBox;
 
-class DummyMapController implements MapController {
+class DummyMapController implements MapFactory.MapController {
     DummyMapController() {
     }
 
@@ -53,11 +41,11 @@ class DummyMapController implements MapController {
         throw new UnsupportedOperationException();
     }
 
-    public void setMapType(MapType type) {
+    public void setMapType(MapFactory.MapType type) {
         throw new UnsupportedOperationException();
     }
 
-    public MapType getMapType() {
+    public MapFactory.MapType getMapType() {
         throw new UnsupportedOperationException();
     }
 
@@ -113,31 +101,31 @@ class DummyMapController implements MapController {
         throw new UnsupportedOperationException();
     }
 
-    public void addEventListener(MapEventListener listener) {
+    public void addEventListener(MapFactory.MapEventListener listener) {
         throw new UnsupportedOperationException();
     }
 
-    public void addFeature(MapMarker marker) {
+    public void addFeature(MapFactory.MapMarker marker) {
         throw new UnsupportedOperationException();
     }
 
-    public void updateFeaturePosition(MapMarker marker) {
+    public void updateFeaturePosition(MapFactory.MapMarker marker) {
         throw new UnsupportedOperationException();
     }
 
-    public void updateFeatureFill(HasFill marker) {
+    public void updateFeatureFill(MapFactory.HasFill marker) {
         throw new UnsupportedOperationException();
     }
 
-    public void updateFeatureImage(MapMarker marker) {
+    public void updateFeatureImage(MapFactory.MapMarker marker) {
         throw new UnsupportedOperationException();
     }
 
-    public void updateFeatureText(MapFeature marker) {
+    public void updateFeatureText(MapFactory.MapFeature marker) {
         throw new UnsupportedOperationException();
     }
 
-    public void updateFeatureDraggable(MapFeature marker) {
+    public void updateFeatureDraggable(MapFactory.MapFeature marker) {
         throw new UnsupportedOperationException();
     }
 
@@ -149,87 +137,87 @@ class DummyMapController implements MapController {
         throw new UnsupportedOperationException();
     }
 
-    public void addFeature(MapLineString polyline) {
+    public void addFeature(MapFactory.MapLineString polyline) {
         throw new UnsupportedOperationException();
     }
 
-    public void addFeature(MapPolygon polygon) {
+    public void addFeature(MapFactory.MapPolygon polygon) {
         throw new UnsupportedOperationException();
     }
 
-    public void addFeature(MapCircle circle) {
+    public void addFeature(MapFactory.MapCircle circle) {
         throw new UnsupportedOperationException();
     }
 
-    public void addFeature(MapRectangle circle) {
+    public void addFeature(MapFactory.MapRectangle circle) {
         throw new UnsupportedOperationException();
     }
 
-    public void removeFeature(MapFeature feature) {
+    public void removeFeature(MapFactory.MapFeature feature) {
         throw new UnsupportedOperationException();
     }
 
-    public void showFeature(MapFeature feature) {
+    public void showFeature(MapFactory.MapFeature feature) {
         throw new UnsupportedOperationException();
     }
 
-    public void hideFeature(MapFeature feature) {
+    public void hideFeature(MapFactory.MapFeature feature) {
         throw new UnsupportedOperationException();
     }
 
-    public boolean isFeatureVisible(MapFeature feature) {
+    public boolean isFeatureVisible(MapFactory.MapFeature feature) {
         throw new UnsupportedOperationException();
     }
 
-    public boolean isFeatureCollectionVisible(MapFeatureCollection collection) {
+    public boolean isFeatureCollectionVisible(MapFactory.MapFeatureCollection collection) {
         throw new UnsupportedOperationException();
     }
 
-    public void setFeatureCollectionVisible(MapFeatureCollection collection, boolean visible) {
+    public void setFeatureCollectionVisible(MapFactory.MapFeatureCollection collection, boolean visible) {
         throw new UnsupportedOperationException();
     }
 
-    public void showInfobox(MapFeature feature) {
+    public void showInfobox(MapFactory.MapFeature feature) {
         throw new UnsupportedOperationException();
     }
 
-    public void hideInfobox(MapFeature feature) {
+    public void hideInfobox(MapFactory.MapFeature feature) {
         throw new UnsupportedOperationException();
     }
 
-    public boolean isInfoboxVisible(MapFeature feature) {
+    public boolean isInfoboxVisible(MapFactory.MapFeature feature) {
         throw new UnsupportedOperationException();
     }
 
-    public void updateFeaturePosition(MapLineString polyline) {
+    public void updateFeaturePosition(MapFactory.MapLineString polyline) {
         throw new UnsupportedOperationException();
     }
 
-    public void updateFeaturePosition(MapPolygon polygon) {
+    public void updateFeaturePosition(MapFactory.MapPolygon polygon) {
         throw new UnsupportedOperationException();
     }
 
-    public void updateFeatureHoles(MapPolygon polygon) {
+    public void updateFeatureHoles(MapFactory.MapPolygon polygon) {
         throw new UnsupportedOperationException();
     }
 
-    public void updateFeaturePosition(MapCircle circle) {
+    public void updateFeaturePosition(MapFactory.MapCircle circle) {
         throw new UnsupportedOperationException();
     }
 
-    public void updateFeaturePosition(MapRectangle rectangle) {
+    public void updateFeaturePosition(MapFactory.MapRectangle rectangle) {
         throw new UnsupportedOperationException();
     }
 
-    public void updateFeatureStroke(HasStroke marker) {
+    public void updateFeatureStroke(MapFactory.HasStroke marker) {
         throw new UnsupportedOperationException();
     }
 
-    public void updateFeatureSize(MapMarker marker) {
+    public void updateFeatureSize(MapFactory.MapMarker marker) {
         throw new UnsupportedOperationException();
     }
 
-    public LocationSensorListener getLocationListener() {
+    public LocationSensor.LocationSensorListener getLocationListener() {
         throw new UnsupportedOperationException();
     }
 
@@ -245,11 +233,11 @@ class DummyMapController implements MapController {
         throw new UnsupportedOperationException();
     }
 
-    public void setScaleUnits(MapScaleUnits units) {
+    public void setScaleUnits(MapFactory.MapScaleUnits units) {
         throw new UnsupportedOperationException();
     }
 
-    public MapScaleUnits getScaleUnits() {
+    public MapFactory.MapScaleUnits getScaleUnits() {
         throw new UnsupportedOperationException();
     }
 }

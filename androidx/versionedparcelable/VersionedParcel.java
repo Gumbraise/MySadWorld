@@ -9,8 +9,7 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.annotation.RestrictTo;
-import android.support.annotation.RestrictTo.Scope;
-import android.support.p000v4.util.ArraySet;
+import android.support.v4.util.ArraySet;
 import android.util.Size;
 import android.util.SizeF;
 import android.util.SparseBooleanArray;
@@ -27,7 +26,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-@RestrictTo({Scope.LIBRARY_GROUP})
+@RestrictTo({RestrictTo.Scope.LIBRARY_GROUP})
 public abstract class VersionedParcel {
     private static final int EX_BAD_PARCELABLE = -2;
     private static final int EX_ILLEGAL_ARGUMENT = -3;
@@ -43,12 +42,6 @@ public abstract class VersionedParcel {
     private static final int TYPE_SERIALIZABLE = 3;
     private static final int TYPE_STRING = 4;
     private static final int TYPE_VERSIONED_PARCELABLE = 1;
-
-    public static class ParcelException extends RuntimeException {
-        public ParcelException(Throwable source) {
-            super(source);
-        }
-    }
 
     /* access modifiers changed from: protected */
     public abstract void closeField();
@@ -673,7 +666,7 @@ public abstract class VersionedParcel {
     /* access modifiers changed from: protected */
     public void writeVersionedParcelable(VersionedParcelable p) {
         if (p == null) {
-            writeString(null);
+            writeString((String) null);
             return;
         }
         writeVersionedParcelableCreator(p);
@@ -684,7 +677,7 @@ public abstract class VersionedParcel {
 
     private void writeVersionedParcelableCreator(VersionedParcelable p) {
         try {
-            writeString(findParcelClass(p.getClass()).getName());
+            writeString(findParcelClass((Class<? extends VersionedParcelable>) p.getClass()).getName());
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(p.getClass().getSimpleName() + " does not have a Parcelizer", e);
         }
@@ -697,7 +690,7 @@ public abstract class VersionedParcel {
 
     private void writeSerializable(Serializable s) {
         if (s == null) {
-            writeString(null);
+            writeString((String) null);
             return;
         }
         String name = s.getClass().getName();
@@ -760,11 +753,8 @@ public abstract class VersionedParcel {
     }
 
     public Exception readException(Exception def, int fieldId) {
-        if (!readField(fieldId)) {
-            return def;
-        }
-        int code = readExceptionCode();
-        if (code != 0) {
+        int code;
+        if (readField(fieldId) && (code = readExceptionCode()) != 0) {
             return readException(code, readString());
         }
         return def;
@@ -974,6 +964,7 @@ public abstract class VersionedParcel {
     }
 
     /* access modifiers changed from: protected */
+    /* JADX WARNING: Can't fix incorrect switch cases order */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public <T> T[] readArray(T[] r5) {
         /*
@@ -1070,7 +1061,7 @@ public abstract class VersionedParcel {
 
     protected static <T extends VersionedParcelable> T readFromParcel(String parcelCls, VersionedParcel versionedParcel) {
         try {
-            return (VersionedParcelable) Class.forName(parcelCls, true, VersionedParcel.class.getClassLoader()).getDeclaredMethod("read", new Class[]{VersionedParcel.class}).invoke(null, new Object[]{versionedParcel});
+            return (VersionedParcelable) Class.forName(parcelCls, true, VersionedParcel.class.getClassLoader()).getDeclaredMethod("read", new Class[]{VersionedParcel.class}).invoke((Object) null, new Object[]{versionedParcel});
         } catch (IllegalAccessException e) {
             throw new RuntimeException("VersionedParcel encountered IllegalAccessException", e);
         } catch (InvocationTargetException e2) {
@@ -1087,7 +1078,7 @@ public abstract class VersionedParcel {
 
     protected static <T extends VersionedParcelable> void writeToParcel(T val, VersionedParcel versionedParcel) {
         try {
-            findParcelClass(val).getDeclaredMethod("write", new Class[]{val.getClass(), VersionedParcel.class}).invoke(null, new Object[]{val, versionedParcel});
+            findParcelClass(val).getDeclaredMethod("write", new Class[]{val.getClass(), VersionedParcel.class}).invoke((Object) null, new Object[]{val, versionedParcel});
         } catch (IllegalAccessException e) {
             throw new RuntimeException("VersionedParcel encountered IllegalAccessException", e);
         } catch (InvocationTargetException e2) {
@@ -1103,10 +1094,16 @@ public abstract class VersionedParcel {
     }
 
     private static <T extends VersionedParcelable> Class findParcelClass(T val) throws ClassNotFoundException {
-        return findParcelClass(val.getClass());
+        return findParcelClass((Class<? extends VersionedParcelable>) val.getClass());
     }
 
     private static Class findParcelClass(Class<? extends VersionedParcelable> cls) throws ClassNotFoundException {
         return Class.forName(String.format("%s.%sParcelizer", new Object[]{cls.getPackage().getName(), cls.getSimpleName()}), false, cls.getClassLoader());
+    }
+
+    public static class ParcelException extends RuntimeException {
+        public ParcelException(Throwable source) {
+            super(source);
+        }
     }
 }

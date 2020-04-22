@@ -1,8 +1,8 @@
 package gnu.kawa.util;
 
-import java.util.Map.Entry;
+import java.util.Map;
 
-public class HashNode<K, V> implements Entry<K, V> {
+public class HashNode<K, V> implements Map.Entry<K, V> {
     int hash;
     K key;
     public HashNode<K, V> next;
@@ -40,25 +40,44 @@ public class HashNode<K, V> implements Entry<K, V> {
         return getValue();
     }
 
-    public boolean equals(Object o) {
-        if (!(o instanceof HashNode)) {
-            return false;
-        }
-        HashNode h2 = (HashNode) o;
-        if (this.key == null) {
-            if (h2.key != null) {
-                return false;
-            }
-        } else if (!this.key.equals(h2.key)) {
-            return false;
-        }
-        if (this.value == null) {
-            if (h2.value != null) {
-                return false;
-            }
-        } else if (!this.value.equals(h2.value)) {
-            return false;
-        }
-        return true;
+    /* JADX WARNING: Removed duplicated region for block: B:10:0x0019 A[RETURN, SYNTHETIC] */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public boolean equals(java.lang.Object r5) {
+        /*
+            r4 = this;
+            r1 = 0
+            boolean r2 = r5 instanceof gnu.kawa.util.HashNode
+            if (r2 != 0) goto L_0x0006
+        L_0x0005:
+            return r1
+        L_0x0006:
+            r0 = r5
+            gnu.kawa.util.HashNode r0 = (gnu.kawa.util.HashNode) r0
+            K r2 = r4.key
+            if (r2 != 0) goto L_0x001b
+            K r2 = r0.key
+            if (r2 != 0) goto L_0x0005
+        L_0x0011:
+            V r2 = r4.value
+            if (r2 != 0) goto L_0x0026
+            V r2 = r0.value
+            if (r2 != 0) goto L_0x0005
+        L_0x0019:
+            r1 = 1
+            goto L_0x0005
+        L_0x001b:
+            K r2 = r4.key
+            K r3 = r0.key
+            boolean r2 = r2.equals(r3)
+            if (r2 == 0) goto L_0x0005
+            goto L_0x0011
+        L_0x0026:
+            V r2 = r4.value
+            V r3 = r0.value
+            boolean r2 = r2.equals(r3)
+            if (r2 == 0) goto L_0x0005
+            goto L_0x0019
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.util.HashNode.equals(java.lang.Object):boolean");
     }
 }

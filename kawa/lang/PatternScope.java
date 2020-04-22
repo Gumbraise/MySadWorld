@@ -1,6 +1,7 @@
 package kawa.lang;
 
 import gnu.expr.Declaration;
+import gnu.expr.Expression;
 import gnu.expr.LetExp;
 import java.util.Vector;
 
@@ -11,7 +12,7 @@ public class PatternScope extends LetExp {
     PatternScope previousSyntax;
 
     public PatternScope() {
-        super(null);
+        super((Expression[]) null);
     }
 
     public static PatternScope push(Translator tr) {

@@ -19,7 +19,7 @@ public class ReaderDispatch extends ReadTableEntry {
     }
 
     public ReadTableEntry lookup(int key) {
-        return (ReadTableEntry) this.table.lookup(key, null);
+        return (ReadTableEntry) this.table.lookup(key, (Object) null);
     }
 
     public ReaderDispatch() {
@@ -81,7 +81,7 @@ public class ReaderDispatch extends ReadTableEntry {
                 count2 = (count2 * 10) + digit;
             }
         }
-        ReadTableEntry entry = (ReadTableEntry) this.table.lookup(ch2, null);
+        ReadTableEntry entry = (ReadTableEntry) this.table.lookup(ch2, (Object) null);
         if (entry != null) {
             return entry.read(in, ch2, count2);
         }

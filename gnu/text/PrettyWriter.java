@@ -84,10 +84,7 @@ public class PrettyWriter extends Writer {
         int i = 1;
         this.out = out2;
         this.lineLength = lineLength2;
-        if (lineLength2 <= 1) {
-            i = 0;
-        }
-        this.prettyPrintingMode = i;
+        this.prettyPrintingMode = lineLength2 <= 1 ? 0 : i;
     }
 
     public PrettyWriter(Writer out2, boolean prettyPrintingMode2) {
@@ -243,18 +240,7 @@ public class PrettyWriter extends Writer {
         while (count > 0) {
             int i = start;
             while (true) {
-                if (i < end) {
-                    if (this.prettyPrintingMode > 0) {
-                        c = str[i];
-                        if (c == 10 || (c == ' ' && this.currentBlock < 0)) {
-                            write(str, start, i - start);
-                            write((int) c);
-                            start = i + 1;
-                            count = end - start;
-                        }
-                    }
-                    i++;
-                } else {
+                if (i >= end) {
                     while (true) {
                         int available = ensureSpaceInBuffer(count);
                         if (available < count) {
@@ -267,10 +253,9 @@ public class PrettyWriter extends Writer {
                         int i2 = fillPointer;
                         start2 = start;
                         while (i2 < newFillPtr) {
-                            int start3 = start2 + 1;
                             this.buffer[i2] = str[start2];
                             i2++;
-                            start2 = start3;
+                            start2++;
                         }
                         this.bufferFillPointer = newFillPtr;
                         count -= cnt;
@@ -280,6 +265,8 @@ public class PrettyWriter extends Writer {
                         start = start2;
                     }
                     start = start2;
+                } else if (this.prettyPrintingMode <= 0 || ((c = str[i]) != 10 && (c != ' ' || this.currentBlock >= 0))) {
+                    i++;
                 }
             }
             write(str, start, i - start);
@@ -305,7 +292,7 @@ public class PrettyWriter extends Writer {
         this.blocks[this.blockDepth - 6] = sectionStartLine;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void reallyStartLogicalBlock(int column, String prefix2, String suffix2) {
         int perLineEnd = getPerLinePrefixEnd();
         int prefixLength = getPrefixLength();
@@ -333,7 +320,7 @@ public class PrettyWriter extends Writer {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public int enqueueTab(int flags, int colnum, int colinc) {
         int addr = enqueue(6, 5);
         this.queueInts[addr + 2] = flags;
@@ -369,7 +356,7 @@ public class PrettyWriter extends Writer {
         this.blocks[this.blockDepth - 4] = column;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void reallyEndLogicalBlock() {
         int oldIndent = getPrefixLength();
         this.blockDepth -= 6;
@@ -462,23 +449,11 @@ public class PrettyWriter extends Writer {
         }
     }
 
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=int, for r4v0, types: [int, char] */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public int enqueueIndent(int r4, int r5) {
-        /*
-            r3 = this;
-            r1 = 3
-            r2 = 4
-            int r0 = r3.enqueue(r1, r2)
-            int[] r1 = r3.queueInts
-            int r2 = r0 + 2
-            r1[r2] = r4
-            int[] r1 = r3.queueInts
-            int r2 = r0 + 3
-            r1[r2] = r5
-            return r0
-        */
-        throw new UnsupportedOperationException("Method not decompiled: gnu.text.PrettyWriter.enqueueIndent(char, int):int");
+    public int enqueueIndent(char kind, int amount) {
+        int result = enqueue(3, 4);
+        this.queueInts[result + 2] = kind;
+        this.queueInts[result + 3] = amount;
+        return result;
     }
 
     public void addIndentation(int amount, boolean current) {
@@ -490,19 +465,19 @@ public class PrettyWriter extends Writer {
     public void startLogicalBlock(String prefix2, boolean perLine, String suffix2) {
         int outerBlock;
         if (this.queueSize == 0 && this.bufferFillPointer == 0) {
-            Object llen = lineLengthLoc.get(null);
+            Object llen = lineLengthLoc.get((Object) null);
             if (llen == null) {
                 this.lineLength = 80;
             } else {
                 this.lineLength = Integer.parseInt(llen.toString());
             }
-            Object mwidth = miserWidthLoc.get(null);
+            Object mwidth = miserWidthLoc.get((Object) null);
             if (mwidth == null || mwidth == Boolean.FALSE || mwidth == LList.Empty) {
                 this.miserWidth = -1;
             } else {
                 this.miserWidth = Integer.parseInt(mwidth.toString());
             }
-            indentLoc.get(null);
+            indentLoc.get((Object) null);
         }
         if (prefix2 != null) {
             write(prefix2);
@@ -583,10 +558,11 @@ public class PrettyWriter extends Writer {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public int computeTabSize(int tab, int sectionStart, int column) {
         boolean isSection;
         boolean isRelative;
+        int rem;
         int origin = 0;
         int flags = this.queueInts[tab + 2];
         if ((flags & 1) != 0) {
@@ -605,12 +581,9 @@ public class PrettyWriter extends Writer {
         int colnum = this.queueInts[tab + 3];
         int colinc = this.queueInts[tab + 4];
         if (isRelative) {
-            if (colinc > 1) {
-                int rem = (column + colnum) % colinc;
-                if (rem != 0) {
-                    int colinc2 = rem;
-                    colnum += rem;
-                }
+            if (colinc > 1 && (rem = (column + colnum) % colinc) != 0) {
+                int colinc2 = rem;
+                colnum += rem;
             }
             return colnum;
         } else if (column <= colnum + origin) {
@@ -620,7 +593,7 @@ public class PrettyWriter extends Writer {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public int indexColumn(int index) {
         int column = this.bufferStartColumn;
         int sectionStart = getSectionColumn();
@@ -649,7 +622,7 @@ public class PrettyWriter extends Writer {
         return column + index;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void expandTabs(int through) {
         int numInsertions = 0;
         int additional = 0;
@@ -721,7 +694,7 @@ public class PrettyWriter extends Writer {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public int ensureSpaceInBuffer(int want) {
         char[] buffer2 = this.buffer;
         int length = buffer2.length;
@@ -750,7 +723,8 @@ public class PrettyWriter extends Writer {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
+    /* JADX WARNING: Can't fix incorrect switch cases order */
     /* JADX WARNING: Code restructure failed: missing block: B:12:0x0069, code lost:
         if (r2 == false) goto L_0x0035;
      */
@@ -769,11 +743,8 @@ public class PrettyWriter extends Writer {
     /* JADX WARNING: Code restructure failed: missing block: B:18:0x0074, code lost:
         r5 = move-exception;
      */
-    /* JADX WARNING: Code restructure failed: missing block: B:19:0x0075, code lost:
-        r0 = new java.lang.RuntimeException(r5);
-     */
     /* JADX WARNING: Code restructure failed: missing block: B:20:0x007c, code lost:
-        throw r0;
+        throw new java.lang.RuntimeException(r5);
      */
     /* JADX WARNING: Code restructure failed: missing block: B:41:?, code lost:
         outputLine(r9);
@@ -1067,23 +1038,23 @@ public class PrettyWriter extends Writer {
         return this.miserWidth;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public boolean isMisering() {
         int mwidth = getMiserWidth();
         return mwidth > 0 && this.lineLength - getStartColumn() <= mwidth;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public int getMaxLines() {
         return -1;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public boolean printReadably() {
         return true;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public int fitsOnLine(int sectionEnd, boolean forceNewlines) {
         int available = this.lineLength;
         if (!printReadably() && getMaxLines() == this.lineNumber) {
@@ -1104,9 +1075,10 @@ public class PrettyWriter extends Writer {
     public void lineAbbreviationHappened() {
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void outputLine(int newline) throws IOException {
         int amountToPrint;
+        int maxLines;
         char[] buffer2 = this.buffer;
         boolean isLiteral = this.queueInts[newline + 4] == 76;
         int amountToConsume = posnIndex(this.queueInts[newline + 1]);
@@ -1129,17 +1101,14 @@ public class PrettyWriter extends Writer {
         }
         this.out.write(buffer2, 0, amountToPrint);
         int lineNumber2 = this.lineNumber + 1;
-        if (!printReadably()) {
-            int maxLines = getMaxLines();
-            if (maxLines > 0 && lineNumber2 >= maxLines) {
-                this.out.write(" ..");
-                int suffixLength = getSuffixLength();
-                if (suffixLength != 0) {
-                    char[] suffix2 = this.suffix;
-                    this.out.write(suffix2, suffix2.length - suffixLength, suffixLength);
-                }
-                lineAbbreviationHappened();
+        if (!printReadably() && (maxLines = getMaxLines()) > 0 && lineNumber2 >= maxLines) {
+            this.out.write(" ..");
+            int suffixLength = getSuffixLength();
+            if (suffixLength != 0) {
+                char[] suffix2 = this.suffix;
+                this.out.write(suffix2, suffix2.length - suffixLength, suffixLength);
             }
+            lineAbbreviationHappened();
         }
         this.lineNumber = lineNumber2;
         this.out.write(10);
@@ -1164,7 +1133,7 @@ public class PrettyWriter extends Writer {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void outputPartialLine() {
         int count;
         int tail = this.queueTail;
@@ -1239,21 +1208,35 @@ public class PrettyWriter extends Writer {
         this.buffer = null;
     }
 
+    /* JADX WARNING: Removed duplicated region for block: B:10:0x0006 A[SYNTHETIC] */
+    /* JADX WARNING: Removed duplicated region for block: B:4:0x000c  */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
     public int getColumnNumber() {
-        char ch;
-        int i = this.bufferFillPointer;
-        do {
-            i--;
-            if (i >= 0) {
-                ch = this.buffer[i];
-                if (ch == 10) {
-                    break;
-                }
-            } else {
-                return this.bufferStartColumn + this.bufferFillPointer;
-            }
-        } while (ch != 13);
-        return this.bufferFillPointer - (i + 1);
+        /*
+            r4 = this;
+            int r1 = r4.bufferFillPointer
+        L_0x0002:
+            int r1 = r1 + -1
+            if (r1 >= 0) goto L_0x000c
+            int r2 = r4.bufferStartColumn
+            int r3 = r4.bufferFillPointer
+            int r2 = r2 + r3
+        L_0x000b:
+            return r2
+        L_0x000c:
+            char[] r2 = r4.buffer
+            char r0 = r2[r1]
+            r2 = 10
+            if (r0 == r2) goto L_0x0018
+            r2 = 13
+            if (r0 != r2) goto L_0x0002
+        L_0x0018:
+            int r2 = r4.bufferFillPointer
+            int r3 = r1 + 1
+            int r2 = r2 - r3
+            goto L_0x000b
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.text.PrettyWriter.getColumnNumber():int");
     }
 
     public void setColumnNumber(int column) {

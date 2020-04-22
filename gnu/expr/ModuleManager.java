@@ -17,15 +17,13 @@ public class ModuleManager {
     ModuleSet packageInfoChain;
 
     public void setCompilationDirectory(String path) {
+        char sep;
         if (path == null) {
             path = "";
         }
         int plen = path.length();
-        if (plen > 0) {
-            char sep = File.separatorChar;
-            if (path.charAt(plen - 1) != sep) {
-                path = path + sep;
-            }
+        if (plen > 0 && path.charAt(plen - 1) != (sep = File.separatorChar)) {
+            path = path + sep;
         }
         this.compilationDirectory = path;
     }

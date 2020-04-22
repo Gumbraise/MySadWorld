@@ -3,6 +3,7 @@ package gnu.xquery.util;
 import gnu.kawa.functions.NumberCompare;
 import gnu.kawa.xml.KNode;
 import gnu.kawa.xml.UntypedAtomic;
+import gnu.lists.Consumer;
 import gnu.lists.FilterConsumer;
 import gnu.mapping.CallContext;
 import gnu.mapping.Procedure;
@@ -11,26 +12,24 @@ public class OrderedTuples extends FilterConsumer {
     Procedure body;
     Object[] comps;
     int first;
-
-    /* renamed from: n */
-    int f248n;
+    int n;
     int[] next;
     Object[] tuples = new Object[10];
 
     public void writeObject(Object v) {
-        if (this.f248n >= this.tuples.length) {
-            Object[] tmp = new Object[(this.f248n * 2)];
-            System.arraycopy(this.tuples, 0, tmp, 0, this.f248n);
+        if (this.n >= this.tuples.length) {
+            Object[] tmp = new Object[(this.n * 2)];
+            System.arraycopy(this.tuples, 0, tmp, 0, this.n);
             this.tuples = tmp;
         }
         Object[] objArr = this.tuples;
-        int i = this.f248n;
-        this.f248n = i + 1;
+        int i = this.n;
+        this.n = i + 1;
         objArr[i] = v;
     }
 
     OrderedTuples() {
-        super(null);
+        super((Consumer) null);
     }
 
     public static OrderedTuples make$V(Procedure body2, Object[] comps2) {
@@ -45,7 +44,7 @@ public class OrderedTuples extends FilterConsumer {
         emit(ctx);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void emit(CallContext ctx) throws Throwable {
         int p = this.first;
         while (p >= 0) {
@@ -54,13 +53,13 @@ public class OrderedTuples extends FilterConsumer {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void emit(int index, CallContext ctx) throws Throwable {
         this.body.checkN((Object[]) this.tuples[index], ctx);
         ctx.runUntilDone();
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public int cmp(int a, int b) throws Throwable {
         int c;
         boolean z;
@@ -97,8 +96,10 @@ public class OrderedTuples extends FilterConsumer {
                     if (!isNaN1 || !isNaN2) {
                         if (isNaN1 || isNaN2) {
                             c = isNaN1 == (flags.charAt(1) == 'L') ? -1 : 1;
+                        } else if (!(val12 instanceof Number) || !(val22 instanceof Number)) {
+                            c = collator.compare(val12.toString(), val22.toString());
                         } else {
-                            c = (!(val12 instanceof Number) || !(val22 instanceof Number)) ? collator.compare(val12.toString(), val22.toString()) : NumberCompare.compare(val12, val22, false);
+                            c = NumberCompare.compare(val12, val22, false);
                         }
                     }
                 }
@@ -113,15 +114,15 @@ public class OrderedTuples extends FilterConsumer {
         return 0;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public int listsort(int list) throws Throwable {
         int e;
-        if (this.f248n == 0) {
+        if (this.n == 0) {
             return -1;
         }
-        this.next = new int[this.f248n];
+        this.next = new int[this.n];
         int i = 1;
-        while (i != this.f248n) {
+        while (i != this.n) {
             this.next[i - 1] = i;
             i++;
         }

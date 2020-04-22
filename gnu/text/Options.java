@@ -30,7 +30,7 @@ public class Options {
     }
 
     public OptionInfo add(String key, int kind, String documentation) {
-        return add(key, kind, null, documentation);
+        return add(key, kind, (Object) null, documentation);
     }
 
     public OptionInfo add(String key, int kind, Object defaultValue, String documentation) {
@@ -75,7 +75,7 @@ public class Options {
     }
 
     public void set(String key, Object value) {
-        set(key, value, null);
+        set(key, value, (SourceMessages) null);
     }
 
     public void set(String key, Object value, SourceMessages messages) {
@@ -129,7 +129,7 @@ public class Options {
     }
 
     public OptionInfo getInfo(String key) {
-        OptionInfo info = this.infoTable == null ? null : (OptionInfo) this.infoTable.get(key);
+        OptionInfo info = this.infoTable == null ? null : this.infoTable.get(key);
         if (info == null && this.previous != null) {
             info = this.previous.getInfo(key);
         }
@@ -231,12 +231,10 @@ public class Options {
         int i = 0;
         while (i < len) {
             int i2 = i + 1;
-            String key = (String) options.elementAt(i);
             int i3 = i2 + 1;
             options.setElementAt(options.elementAt(i2), i2);
-            int i4 = i3 + 1;
-            set(key, options.elementAt(i3));
-            i = i4;
+            set((String) options.elementAt(i), options.elementAt(i3));
+            i = i3 + 1;
         }
     }
 
@@ -245,10 +243,9 @@ public class Options {
         while (true) {
             i -= 3;
             if (i >= 0) {
-                String key = (String) options.elementAt(i);
                 Object oldValue = options.elementAt(i + 1);
-                options.setElementAt(null, i + 1);
-                reset(key, oldValue);
+                options.setElementAt((Object) null, i + 1);
+                reset((String) options.elementAt(i), oldValue);
             } else {
                 return;
             }

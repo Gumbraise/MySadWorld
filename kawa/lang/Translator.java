@@ -1,12 +1,10 @@
 package kawa.lang;
 
-import gnu.bytecode.Type;
 import gnu.expr.ApplyExp;
 import gnu.expr.Compilation;
 import gnu.expr.Declaration;
 import gnu.expr.ErrorExp;
 import gnu.expr.Expression;
-import gnu.expr.InlineCalls;
 import gnu.expr.Keyword;
 import gnu.expr.LambdaExp;
 import gnu.expr.Language;
@@ -20,7 +18,6 @@ import gnu.expr.ScopeExp;
 import gnu.expr.Special;
 import gnu.kawa.functions.AppendValues;
 import gnu.kawa.functions.CompileNamedPart;
-import gnu.kawa.functions.GetNamedPart;
 import gnu.kawa.lispexpr.LispLanguage;
 import gnu.kawa.reflect.StaticFieldLocation;
 import gnu.kawa.xml.MakeAttribute;
@@ -77,6 +74,7 @@ public class Translator extends Compilation {
         return rewrite(input);
     }
 
+    /* JADX INFO: finally extract failed */
     public final Expression rewrite_car(Pair pair, SyntaxForm syntax) {
         if (syntax == null || syntax.getScope() == this.current_scope || (pair.getCar() instanceof SyntaxForm)) {
             return rewrite_car(pair, false);
@@ -84,9 +82,12 @@ public class Translator extends Compilation {
         ScopeExp save_scope = this.current_scope;
         try {
             setCurrentScope(syntax.getScope());
-            return rewrite_car(pair, false);
-        } finally {
+            Expression rewrite_car = rewrite_car(pair, false);
             setCurrentScope(save_scope);
+            return rewrite_car;
+        } catch (Throwable th) {
+            setCurrentScope(save_scope);
+            throw th;
         }
     }
 
@@ -102,7 +103,7 @@ public class Translator extends Compilation {
         return this.currentSyntax;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Expression apply_rewrite(Syntax syntax, Pair form) {
         Expression expression = errorExp;
         Syntax saveSyntax = this.currentSyntax;
@@ -133,52 +134,29 @@ public class Translator extends Compilation {
     }
 
     public boolean matches(Object form, SyntaxForm syntax, String literal) {
+        ReferenceExp rexp;
         if (syntax != null) {
         }
         if (form instanceof SyntaxForm) {
             form = ((SyntaxForm) form).getDatum();
         }
-        if ((form instanceof SimpleSymbol) && !selfEvaluatingSymbol(form)) {
-            ReferenceExp rexp = getOriginalRef(this.lexical.lookup(form, -1));
-            if (rexp != null) {
-                form = rexp.getSymbol();
-            }
+        if ((form instanceof SimpleSymbol) && !selfEvaluatingSymbol(form) && (rexp = getOriginalRef(this.lexical.lookup(form, -1))) != null) {
+            form = rexp.getSymbol();
         }
         return (form instanceof SimpleSymbol) && ((Symbol) form).getLocalPart() == literal;
     }
 
-    /* JADX WARNING: Incorrect type for immutable var: ssa=gnu.mapping.Symbol, code=java.lang.Object, for r6v0, types: [gnu.mapping.Symbol, java.lang.Object] */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public boolean matches(java.lang.Object r4, kawa.lang.SyntaxForm r5, java.lang.Object r6) {
-        /*
-            r3 = this;
-            if (r5 == 0) goto L_0x0002
-        L_0x0002:
-            boolean r1 = r4 instanceof kawa.lang.SyntaxForm
-            if (r1 == 0) goto L_0x000c
-            kawa.lang.SyntaxForm r4 = (kawa.lang.SyntaxForm) r4
-            java.lang.Object r4 = r4.getDatum()
-        L_0x000c:
-            boolean r1 = r4 instanceof gnu.mapping.SimpleSymbol
-            if (r1 == 0) goto L_0x0027
-            boolean r1 = r3.selfEvaluatingSymbol(r4)
-            if (r1 != 0) goto L_0x0027
-            gnu.expr.NameLookup r1 = r3.lexical
-            r2 = -1
-            gnu.expr.Declaration r1 = r1.lookup(r4, r2)
-            gnu.expr.ReferenceExp r0 = getOriginalRef(r1)
-            if (r0 == 0) goto L_0x0027
-            java.lang.Object r4 = r0.getSymbol()
-        L_0x0027:
-            if (r4 != r6) goto L_0x002b
-            r1 = 1
-        L_0x002a:
-            return r1
-        L_0x002b:
-            r1 = 0
-            goto L_0x002a
-        */
-        throw new UnsupportedOperationException("Method not decompiled: kawa.lang.Translator.matches(java.lang.Object, kawa.lang.SyntaxForm, gnu.mapping.Symbol):boolean");
+    public boolean matches(Object form, SyntaxForm syntax, Symbol literal) {
+        ReferenceExp rexp;
+        if (syntax != null) {
+        }
+        if (form instanceof SyntaxForm) {
+            form = ((SyntaxForm) form).getDatum();
+        }
+        if ((form instanceof SimpleSymbol) && !selfEvaluatingSymbol(form) && (rexp = getOriginalRef(this.lexical.lookup(form, -1))) != null) {
+            form = rexp.getSymbol();
+        }
+        return form == literal;
     }
 
     public Object matchQuoted(Pair pair) {
@@ -211,7 +189,7 @@ public class Translator extends Compilation {
         return decl2;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Syntax check_if_Syntax(Declaration decl) {
         Declaration d = Declaration.followAliases(decl);
         Object obj = null;
@@ -234,7 +212,7 @@ public class Translator extends Compilation {
                 error('e', "unable to evaluate macro for " + decl.getSymbol());
             }
         } else if (decl.getFlag(32768) && !decl.needsContext()) {
-            obj = StaticFieldLocation.make(decl).get(null);
+            obj = StaticFieldLocation.make(decl).get((Object) null);
         }
         if (obj instanceof Syntax) {
             return (Syntax) obj;
@@ -262,7 +240,7 @@ public class Translator extends Compilation {
                     symbol = (Symbol) sym;
                     String name = symbol.getName();
                 }
-                Object proc2 = this.env.get(symbol, getLanguage().hasSeparateFunctionNamespace() ? EnvironmentKey.FUNCTION : null, null);
+                Object proc2 = this.env.get(symbol, getLanguage().hasSeparateFunctionNamespace() ? EnvironmentKey.FUNCTION : null, (Object) null);
                 if (proc2 instanceof Syntax) {
                     return apply_rewrite((Syntax) proc2, p);
                 }
@@ -340,29 +318,67 @@ public class Translator extends Compilation {
         return CompileNamedPart.makeExp(part1, part2);
     }
 
-    public Namespace namespaceResolvePrefix(Expression context) {
-        Object val;
-        if (context instanceof ReferenceExp) {
-            ReferenceExp rexp = (ReferenceExp) context;
-            Declaration decl = rexp.getBinding();
-            if (decl == null || decl.getFlag(65536)) {
-                Object rsym = rexp.getSymbol();
-                val = this.env.get((EnvironmentKey) rsym instanceof Symbol ? (Symbol) rsym : this.env.getSymbol(rsym.toString()), (Object) null);
-            } else if (decl.isNamespaceDecl()) {
-                val = decl.getConstantValue();
-            } else {
-                val = null;
-            }
-            if (val instanceof Namespace) {
-                Namespace ns = (Namespace) val;
-                String uri = ns.getName();
-                if (uri == null || !uri.startsWith("class:")) {
-                    return ns;
-                }
-                return null;
-            }
-        }
-        return null;
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r6v0, resolved type: gnu.mapping.Namespace} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r6v1, resolved type: java.lang.Object} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r6v2, resolved type: gnu.mapping.Namespace} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r6v3, resolved type: java.lang.Object} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r6v4, resolved type: gnu.mapping.Namespace} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r6v5, resolved type: gnu.mapping.Namespace} */
+    /* JADX WARNING: Multi-variable type inference failed */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public gnu.mapping.Namespace namespaceResolvePrefix(gnu.expr.Expression r11) {
+        /*
+            r10 = this;
+            r7 = 0
+            boolean r8 = r11 instanceof gnu.expr.ReferenceExp
+            if (r8 == 0) goto L_0x0057
+            r2 = r11
+            gnu.expr.ReferenceExp r2 = (gnu.expr.ReferenceExp) r2
+            gnu.expr.Declaration r0 = r2.getBinding()
+            if (r0 == 0) goto L_0x0017
+            r8 = 65536(0x10000, double:3.2379E-319)
+            boolean r8 = r0.getFlag(r8)
+            if (r8 == 0) goto L_0x004a
+        L_0x0017:
+            java.lang.Object r3 = r2.getSymbol()
+            boolean r8 = r3 instanceof gnu.mapping.Symbol
+            if (r8 == 0) goto L_0x003f
+            gnu.mapping.Symbol r3 = (gnu.mapping.Symbol) r3
+            r4 = r3
+        L_0x0022:
+            gnu.mapping.Environment r8 = r10.env
+            java.lang.Object r6 = r8.get((gnu.mapping.EnvironmentKey) r4, (java.lang.Object) r7)
+        L_0x0028:
+            boolean r8 = r6 instanceof gnu.mapping.Namespace
+            if (r8 == 0) goto L_0x0057
+            r1 = r6
+            gnu.mapping.Namespace r1 = (gnu.mapping.Namespace) r1
+            java.lang.String r5 = r1.getName()
+            if (r5 == 0) goto L_0x003e
+            java.lang.String r8 = "class:"
+            boolean r8 = r5.startsWith(r8)
+            if (r8 == 0) goto L_0x003e
+            r1 = r7
+        L_0x003e:
+            return r1
+        L_0x003f:
+            gnu.mapping.Environment r8 = r10.env
+            java.lang.String r9 = r3.toString()
+            gnu.mapping.Symbol r4 = r8.getSymbol(r9)
+            goto L_0x0022
+        L_0x004a:
+            boolean r8 = r0.isNamespaceDecl()
+            if (r8 == 0) goto L_0x0055
+            java.lang.Object r6 = r0.getConstantValue()
+            goto L_0x0028
+        L_0x0055:
+            r6 = 0
+            goto L_0x0028
+        L_0x0057:
+            r1 = r7
+            goto L_0x003e
+        */
+        throw new UnsupportedOperationException("Method not decompiled: kawa.lang.Translator.namespaceResolvePrefix(gnu.expr.Expression):gnu.mapping.Namespace");
     }
 
     public Symbol namespaceResolve(Namespace ns, Expression member) {
@@ -441,6 +457,7 @@ public class Translator extends Compilation {
         }
     }
 
+    /* JADX INFO: finally extract failed */
     public void rewriteInBody(Object exp) {
         if (exp instanceof SyntaxForm) {
             SyntaxForm sf = (SyntaxForm) exp;
@@ -448,8 +465,10 @@ public class Translator extends Compilation {
             try {
                 setCurrentScope(sf.getScope());
                 rewriteInBody(sf.getDatum());
-            } finally {
                 setCurrentScope(save_scope);
+            } catch (Throwable th) {
+                setCurrentScope(save_scope);
+                throw th;
             }
         } else if (exp instanceof Values) {
             Object[] vals = ((Values) exp).getValues();
@@ -487,39 +506,23 @@ public class Translator extends Compilation {
         return name;
     }
 
-    /* JADX WARNING: type inference failed for: r0v82, types: [gnu.expr.ThisExp] */
+    /* JADX INFO: finally extract failed */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r1v0, resolved type: gnu.expr.Special} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r27v1, resolved type: gnu.expr.LambdaExp} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r27v2, resolved type: gnu.expr.LambdaExp} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v68, resolved type: gnu.expr.LambdaExp} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v70, resolved type: gnu.expr.LambdaExp} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v72, resolved type: gnu.expr.LambdaExp} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r31v47, resolved type: gnu.expr.LambdaExp} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r27v7, resolved type: gnu.expr.LambdaExp} */
     /* JADX WARNING: type inference failed for: r23v1 */
-    /* JADX WARNING: type inference failed for: r0v83, types: [gnu.expr.Expression] */
-    /* JADX WARNING: type inference failed for: r0v87, types: [gnu.expr.ReferenceExp] */
     /* JADX WARNING: type inference failed for: r0v103, types: [gnu.expr.ThisExp] */
     /* JADX WARNING: type inference failed for: r0v104, types: [gnu.expr.ReferenceExp] */
     /* JADX WARNING: Code restructure failed: missing block: B:126:0x02c6, code lost:
         if ((r16 instanceof gnu.bytecode.ArrayClassLoader) == false) goto L_0x011c;
      */
-    /* JADX WARNING: Multi-variable type inference failed. Error: jadx.core.utils.exceptions.JadxRuntimeException: No candidate types for var: r0v103, types: [gnu.expr.ThisExp]
-      assigns: [gnu.expr.ThisExp, gnu.expr.ReferenceExp]
-      uses: [gnu.expr.ThisExp, ?[OBJECT, ARRAY], gnu.expr.ReferenceExp]
-      mth insns count: 388
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.fillTypeCandidates(TypeSearch.java:237)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.run(TypeSearch.java:53)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.runMultiVariableSearch(TypeInferenceVisitor.java:99)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.visit(TypeInferenceVisitor.java:92)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:27)
-    	at jadx.core.dex.visitors.DepthTraversal.lambda$visit$1(DepthTraversal.java:14)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:14)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:30)
-    	at jadx.core.ProcessClass.lambda$processDependencies$0(ProcessClass.java:49)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.ProcessClass.processDependencies(ProcessClass.java:49)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:35)
-    	at jadx.api.JadxDecompiler.processClass(JadxDecompiler.java:311)
-    	at jadx.api.JavaClass.decompile(JavaClass.java:62)
-    	at jadx.api.JadxDecompiler.lambda$appendSourcesSave$0(JadxDecompiler.java:217)
-     */
+    /* JADX WARNING: Multi-variable type inference failed */
     /* JADX WARNING: Removed duplicated region for block: B:51:0x011e  */
-    /* JADX WARNING: Unknown variable types count: 4 */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public gnu.expr.Expression rewrite(java.lang.Object r36, boolean r37) {
         /*
@@ -587,7 +590,7 @@ public class Translator extends Compilation {
             r0 = r31
             r1 = r36
             r2 = r37
-            gnu.expr.Declaration r10 = r0.lookup(r1, r2)
+            gnu.expr.Declaration r10 = r0.lookup((java.lang.Object) r1, (boolean) r2)
             r5 = 0
             r0 = r35
             gnu.expr.ScopeExp r0 = r0.current_scope
@@ -739,19 +742,19 @@ public class Translator extends Compilation {
             r31 = r0
             r0 = r23
             r1 = r31
-            r0.<init>(r1)
+            r0.<init>((gnu.expr.Declaration) r1)
         L_0x01af:
             gnu.expr.QuoteExp r31 = gnu.expr.QuoteExp.getInstance(r12)
             r0 = r23
             r1 = r31
-            gnu.expr.Expression r25 = gnu.kawa.functions.CompileNamedPart.makeExp(r0, r1)
+            gnu.expr.Expression r25 = gnu.kawa.functions.CompileNamedPart.makeExp((gnu.expr.Expression) r0, (gnu.expr.Expression) r1)
             goto L_0x0032
         L_0x01bd:
             gnu.expr.ThisExp r23 = new gnu.expr.ThisExp
             gnu.expr.Declaration r31 = r4.firstDecl()
             r0 = r23
             r1 = r31
-            r0.<init>(r1)
+            r0.<init>((gnu.expr.Declaration) r1)
             goto L_0x01af
         L_0x01cb:
             r21 = r36
@@ -818,7 +821,7 @@ public class Translator extends Compilation {
             r32 = 0
             r0 = r35
             r1 = r32
-            boolean r32 = r0.inlineOk(r1)     // Catch:{ Throwable -> 0x02ce }
+            boolean r32 = r0.inlineOk((gnu.expr.Expression) r1)     // Catch:{ Throwable -> 0x02ce }
             if (r32 != 0) goto L_0x0280
             gnu.expr.Declaration r32 = getNamedPartDecl     // Catch:{ Throwable -> 0x02ce }
             r0 = r32
@@ -848,7 +851,7 @@ public class Translator extends Compilation {
             gnu.expr.Declaration r6 = new gnu.expr.Declaration     // Catch:{ Throwable -> 0x02ce }
             java.lang.String r32 = "(module-instance)"
             r0 = r32
-            r6.<init>(r0)     // Catch:{ Throwable -> 0x02ce }
+            r6.<init>((java.lang.Object) r0)     // Catch:{ Throwable -> 0x02ce }
             gnu.expr.QuoteExp r32 = new gnu.expr.QuoteExp     // Catch:{ Throwable -> 0x03c7 }
             java.lang.Object r33 = r17.getInstance()     // Catch:{ Throwable -> 0x03c7 }
             r32.<init>(r33)     // Catch:{ Throwable -> 0x03c7 }
@@ -944,7 +947,7 @@ public class Translator extends Compilation {
             r0.setContextDecl(r5)
             r0 = r24
             r1 = r35
-            r0.setLine(r1)
+            r0.setLine((gnu.expr.Compilation) r1)
             if (r37 == 0) goto L_0x037d
             if (r28 == 0) goto L_0x037d
             r31 = 8
@@ -1044,40 +1047,77 @@ public class Translator extends Compilation {
         }
     }
 
-    public Type exp2Type(Pair typeSpecPair) {
-        Object saved = pushPositionOf(typeSpecPair);
-        try {
-            Expression texp = InlineCalls.inlineCalls(rewrite_car(typeSpecPair, false), this);
-            if (texp instanceof ErrorExp) {
-                return null;
-            }
-            Type type = getLanguage().getTypeFor(texp);
-            if (type == null) {
-                try {
-                    Object t = texp.eval(this.env);
-                    if (t instanceof Class) {
-                        type = Type.make((Class) t);
-                    } else if (t instanceof Type) {
-                        type = (Type) t;
-                    }
-                } catch (Throwable th) {
-                }
-            }
-            if (type == null) {
-                if (texp instanceof ReferenceExp) {
-                    error('e', "unknown type name '" + ((ReferenceExp) texp).getName() + '\'');
-                } else {
-                    error('e', "invalid type spec (must be \"type\" or 'type or <type>)");
-                }
-                Type type2 = Type.pointer_type;
-                popPositionOf(saved);
-                return type2;
-            }
-            popPositionOf(saved);
-            return type;
-        } finally {
-            popPositionOf(saved);
-        }
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r2v0, resolved type: java.lang.Object} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v0, resolved type: gnu.bytecode.Type} */
+    /* JADX WARNING: Multi-variable type inference failed */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public gnu.bytecode.Type exp2Type(gnu.lists.Pair r9) {
+        /*
+            r8 = this;
+            java.lang.Object r1 = r8.pushPositionOf(r9)
+            r5 = 0
+            gnu.expr.Expression r3 = r8.rewrite_car((gnu.lists.Pair) r9, (boolean) r5)     // Catch:{ all -> 0x0071 }
+            gnu.expr.Expression r3 = gnu.expr.InlineCalls.inlineCalls(r3, r8)     // Catch:{ all -> 0x0071 }
+            boolean r5 = r3 instanceof gnu.expr.ErrorExp     // Catch:{ all -> 0x0071 }
+            if (r5 == 0) goto L_0x0016
+            r4 = 0
+            r8.popPositionOf(r1)
+        L_0x0015:
+            return r4
+        L_0x0016:
+            gnu.expr.Language r5 = r8.getLanguage()     // Catch:{ all -> 0x0071 }
+            gnu.bytecode.Type r4 = r5.getTypeFor((gnu.expr.Expression) r3)     // Catch:{ all -> 0x0071 }
+            if (r4 != 0) goto L_0x0030
+            gnu.mapping.Environment r5 = r8.env     // Catch:{ Throwable -> 0x007a }
+            java.lang.Object r2 = r3.eval((gnu.mapping.Environment) r5)     // Catch:{ Throwable -> 0x007a }
+            boolean r5 = r2 instanceof java.lang.Class     // Catch:{ Throwable -> 0x007a }
+            if (r5 == 0) goto L_0x0060
+            java.lang.Class r2 = (java.lang.Class) r2     // Catch:{ Throwable -> 0x007a }
+            gnu.bytecode.Type r4 = gnu.bytecode.Type.make(r2)     // Catch:{ Throwable -> 0x007a }
+        L_0x0030:
+            if (r4 != 0) goto L_0x0076
+            boolean r5 = r3 instanceof gnu.expr.ReferenceExp     // Catch:{ all -> 0x0071 }
+            if (r5 == 0) goto L_0x0069
+            r5 = 101(0x65, float:1.42E-43)
+            java.lang.StringBuilder r6 = new java.lang.StringBuilder     // Catch:{ all -> 0x0071 }
+            r6.<init>()     // Catch:{ all -> 0x0071 }
+            java.lang.String r7 = "unknown type name '"
+            java.lang.StringBuilder r6 = r6.append(r7)     // Catch:{ all -> 0x0071 }
+            gnu.expr.ReferenceExp r3 = (gnu.expr.ReferenceExp) r3     // Catch:{ all -> 0x0071 }
+            java.lang.String r7 = r3.getName()     // Catch:{ all -> 0x0071 }
+            java.lang.StringBuilder r6 = r6.append(r7)     // Catch:{ all -> 0x0071 }
+            r7 = 39
+            java.lang.StringBuilder r6 = r6.append(r7)     // Catch:{ all -> 0x0071 }
+            java.lang.String r6 = r6.toString()     // Catch:{ all -> 0x0071 }
+            r8.error(r5, r6)     // Catch:{ all -> 0x0071 }
+        L_0x005a:
+            gnu.bytecode.ClassType r4 = gnu.bytecode.Type.pointer_type     // Catch:{ all -> 0x0071 }
+            r8.popPositionOf(r1)
+            goto L_0x0015
+        L_0x0060:
+            boolean r5 = r2 instanceof gnu.bytecode.Type     // Catch:{ Throwable -> 0x007a }
+            if (r5 == 0) goto L_0x0030
+            r0 = r2
+            gnu.bytecode.Type r0 = (gnu.bytecode.Type) r0     // Catch:{ Throwable -> 0x007a }
+            r4 = r0
+            goto L_0x0030
+        L_0x0069:
+            r5 = 101(0x65, float:1.42E-43)
+            java.lang.String r6 = "invalid type spec (must be \"type\" or 'type or <type>)"
+            r8.error(r5, r6)     // Catch:{ all -> 0x0071 }
+            goto L_0x005a
+        L_0x0071:
+            r5 = move-exception
+            r8.popPositionOf(r1)
+            throw r5
+        L_0x0076:
+            r8.popPositionOf(r1)
+            goto L_0x0015
+        L_0x007a:
+            r5 = move-exception
+            goto L_0x0030
+        */
+        throw new UnsupportedOperationException("Method not decompiled: kawa.lang.Translator.exp2Type(gnu.lists.Pair):gnu.bytecode.Type");
     }
 
     public Expression rewrite_with_position(Object exp, boolean function, PairWithPosition pair) {
@@ -1121,270 +1161,350 @@ public class Translator extends Compilation {
         return obj;
     }
 
-    public void scanForm(Object st, ScopeExp defs) {
-        if (st instanceof SyntaxForm) {
-            SyntaxForm sf = (SyntaxForm) st;
-            ScopeExp save_scope = currentScope();
-            try {
-                setCurrentScope(sf.getScope());
-                int first = this.formStack.size();
-                scanForm(sf.getDatum(), defs);
-                this.formStack.add(wrapSyntax(popForms(first), sf));
-            } finally {
-                setCurrentScope(save_scope);
-            }
-        } else {
-            if (st instanceof Values) {
-                if (st == Values.empty) {
-                    st = QuoteExp.voidExp;
-                } else {
-                    Object[] vals = ((Values) st).getValues();
-                    for (int i = 0; i < vals.length; i++) {
-                        scanForm(vals[i], defs);
-                    }
-                    return;
-                }
-            }
-            if (st instanceof Pair) {
-                Pair st_pair = (Pair) st;
-                Declaration saveContext = this.macroContext;
-                Syntax syntax = null;
-                ScopeExp savedScope = this.current_scope;
-                Object savedPosition = pushPositionOf(st);
-                if ((st instanceof SourceLocator) && defs.getLineNumber() < 0) {
-                    defs.setLocation((SourceLocator) st);
-                }
-                try {
-                    Object obj = st_pair.getCar();
-                    if (obj instanceof SyntaxForm) {
-                        SyntaxForm sf2 = (SyntaxForm) st_pair.getCar();
-                        setCurrentScope(sf2.getScope());
-                        obj = sf2.getDatum();
-                    }
-                    if (obj instanceof Pair) {
-                        Pair p = (Pair) obj;
-                        if (p.getCar() == LispLanguage.lookup_sym && (p.getCdr() instanceof Pair)) {
-                            Pair p2 = (Pair) p.getCdr();
-                            if (p2.getCdr() instanceof Pair) {
-                                Expression part1 = rewrite(p2.getCar());
-                                Expression part2 = rewrite(((Pair) p2.getCdr()).getCar());
-                                Object value1 = part1.valueIfConstant();
-                                Object value2 = part2.valueIfConstant();
-                                if (!(value1 instanceof Class) || !(value2 instanceof Symbol)) {
-                                    obj = namespaceResolve(part1, part2);
-                                } else {
-                                    try {
-                                        obj = GetNamedPart.getNamedPart(value1, (Symbol) value2);
-                                        if (obj instanceof Syntax) {
-                                            syntax = (Syntax) obj;
-                                        }
-                                    } catch (Throwable th) {
-                                        obj = null;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if ((obj instanceof Symbol) && !selfEvaluatingSymbol(obj)) {
-                        Expression func = rewrite(obj, true);
-                        if (func instanceof ReferenceExp) {
-                            Declaration decl = ((ReferenceExp) func).getBinding();
-                            if (decl != null) {
-                                syntax = check_if_Syntax(decl);
-                            } else {
-                                Object obj2 = resolve(obj, true);
-                                if (obj2 instanceof Syntax) {
-                                    syntax = (Syntax) obj2;
-                                }
-                            }
-                        }
-                    } else if (obj == begin.begin) {
-                        syntax = (Syntax) obj;
-                    }
-                    if (syntax != null) {
-                        String save_filename = getFileName();
-                        int save_line = getLineNumber();
-                        int save_column = getColumnNumber();
-                        try {
-                            setLine((Object) st_pair);
-                            syntax.scanForm(st_pair, defs, this);
-                            return;
-                        } finally {
-                            this.macroContext = saveContext;
-                            setLine(save_filename, save_line, save_column);
-                        }
-                    }
-                } finally {
-                    if (savedScope != this.current_scope) {
-                        setCurrentScope(savedScope);
-                    }
-                    popPositionOf(savedPosition);
-                }
-            }
-            this.formStack.add(st);
-        }
+    /* JADX INFO: finally extract failed */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r9v3, resolved type: java.lang.Object} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v41, resolved type: kawa.lang.Syntax} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r1v13, resolved type: gnu.mapping.Symbol} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r1v18, resolved type: gnu.mapping.Values} */
+    /* JADX WARNING: Code restructure failed: missing block: B:27:0x00c6, code lost:
+        r10 = (gnu.lists.Pair) r9;
+     */
+    /* JADX WARNING: Multi-variable type inference failed */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public void scanForm(java.lang.Object r29, gnu.expr.ScopeExp r30) {
+        /*
+            r28 = this;
+            r0 = r29
+            boolean r0 = r0 instanceof kawa.lang.SyntaxForm
+            r26 = r0
+            if (r26 == 0) goto L_0x005a
+            r20 = r29
+            kawa.lang.SyntaxForm r20 = (kawa.lang.SyntaxForm) r20
+            gnu.expr.ScopeExp r17 = r28.currentScope()
+            kawa.lang.TemplateScope r26 = r20.getScope()     // Catch:{ all -> 0x0051 }
+            r0 = r28
+            r1 = r26
+            r0.setCurrentScope(r1)     // Catch:{ all -> 0x0051 }
+            r0 = r28
+            java.util.Stack r0 = r0.formStack     // Catch:{ all -> 0x0051 }
+            r26 = r0
+            int r6 = r26.size()     // Catch:{ all -> 0x0051 }
+            java.lang.Object r26 = r20.getDatum()     // Catch:{ all -> 0x0051 }
+            r0 = r28
+            r1 = r26
+            r2 = r30
+            r0.scanForm(r1, r2)     // Catch:{ all -> 0x0051 }
+            r0 = r28
+            java.util.Stack r0 = r0.formStack     // Catch:{ all -> 0x0051 }
+            r26 = r0
+            r0 = r28
+            java.lang.Object r27 = r0.popForms(r6)     // Catch:{ all -> 0x0051 }
+            r0 = r27
+            r1 = r20
+            java.lang.Object r27 = wrapSyntax(r0, r1)     // Catch:{ all -> 0x0051 }
+            r26.add(r27)     // Catch:{ all -> 0x0051 }
+            r0 = r28
+            r1 = r17
+            r0.setCurrentScope(r1)
+        L_0x0050:
+            return
+        L_0x0051:
+            r26 = move-exception
+            r0 = r28
+            r1 = r17
+            r0.setCurrentScope(r1)
+            throw r26
+        L_0x005a:
+            r0 = r29
+            boolean r0 = r0 instanceof gnu.mapping.Values
+            r26 = r0
+            if (r26 == 0) goto L_0x006c
+            gnu.mapping.Values r26 = gnu.mapping.Values.empty
+            r0 = r29
+            r1 = r26
+            if (r0 != r1) goto L_0x01ae
+            gnu.expr.QuoteExp r29 = gnu.expr.QuoteExp.voidExp
+        L_0x006c:
+            r0 = r29
+            boolean r0 = r0 instanceof gnu.lists.Pair
+            r26 = r0
+            if (r26 == 0) goto L_0x0225
+            r21 = r29
+            gnu.lists.Pair r21 = (gnu.lists.Pair) r21
+            r0 = r28
+            gnu.expr.Declaration r13 = r0.macroContext
+            r22 = 0
+            r0 = r28
+            gnu.expr.ScopeExp r0 = r0.current_scope
+            r19 = r0
+            java.lang.Object r18 = r28.pushPositionOf(r29)
+            r0 = r29
+            boolean r0 = r0 instanceof gnu.text.SourceLocator
+            r26 = r0
+            if (r26 == 0) goto L_0x00a1
+            int r26 = r30.getLineNumber()
+            if (r26 >= 0) goto L_0x00a1
+            r26 = r29
+            gnu.text.SourceLocator r26 = (gnu.text.SourceLocator) r26
+            r0 = r30
+            r1 = r26
+            r0.setLocation(r1)
+        L_0x00a1:
+            java.lang.Object r9 = r21.getCar()     // Catch:{ all -> 0x01fc }
+            boolean r0 = r9 instanceof kawa.lang.SyntaxForm     // Catch:{ all -> 0x01fc }
+            r26 = r0
+            if (r26 == 0) goto L_0x00c0
+            java.lang.Object r20 = r21.getCar()     // Catch:{ all -> 0x01fc }
+            kawa.lang.SyntaxForm r20 = (kawa.lang.SyntaxForm) r20     // Catch:{ all -> 0x01fc }
+            kawa.lang.TemplateScope r26 = r20.getScope()     // Catch:{ all -> 0x01fc }
+            r0 = r28
+            r1 = r26
+            r0.setCurrentScope(r1)     // Catch:{ all -> 0x01fc }
+            java.lang.Object r9 = r20.getDatum()     // Catch:{ all -> 0x01fc }
+        L_0x00c0:
+            boolean r0 = r9 instanceof gnu.lists.Pair     // Catch:{ all -> 0x01fc }
+            r26 = r0
+            if (r26 == 0) goto L_0x013b
+            r0 = r9
+            gnu.lists.Pair r0 = (gnu.lists.Pair) r0     // Catch:{ all -> 0x01fc }
+            r10 = r0
+            java.lang.Object r26 = r10.getCar()     // Catch:{ all -> 0x01fc }
+            gnu.mapping.Symbol r27 = gnu.kawa.lispexpr.LispLanguage.lookup_sym     // Catch:{ all -> 0x01fc }
+            r0 = r26
+            r1 = r27
+            if (r0 != r1) goto L_0x013b
+            java.lang.Object r26 = r10.getCdr()     // Catch:{ all -> 0x01fc }
+            r0 = r26
+            boolean r0 = r0 instanceof gnu.lists.Pair     // Catch:{ all -> 0x01fc }
+            r26 = r0
+            if (r26 == 0) goto L_0x013b
+            java.lang.Object r10 = r10.getCdr()     // Catch:{ all -> 0x01fc }
+            gnu.lists.Pair r10 = (gnu.lists.Pair) r10     // Catch:{ all -> 0x01fc }
+            java.lang.Object r26 = r10.getCdr()     // Catch:{ all -> 0x01fc }
+            r0 = r26
+            boolean r0 = r0 instanceof gnu.lists.Pair     // Catch:{ all -> 0x01fc }
+            r26 = r0
+            if (r26 == 0) goto L_0x013b
+            java.lang.Object r26 = r10.getCar()     // Catch:{ all -> 0x01fc }
+            r0 = r28
+            r1 = r26
+            gnu.expr.Expression r11 = r0.rewrite(r1)     // Catch:{ all -> 0x01fc }
+            java.lang.Object r26 = r10.getCdr()     // Catch:{ all -> 0x01fc }
+            gnu.lists.Pair r26 = (gnu.lists.Pair) r26     // Catch:{ all -> 0x01fc }
+            java.lang.Object r26 = r26.getCar()     // Catch:{ all -> 0x01fc }
+            r0 = r28
+            r1 = r26
+            gnu.expr.Expression r12 = r0.rewrite(r1)     // Catch:{ all -> 0x01fc }
+            java.lang.Object r24 = r11.valueIfConstant()     // Catch:{ all -> 0x01fc }
+            java.lang.Object r25 = r12.valueIfConstant()     // Catch:{ all -> 0x01fc }
+            r0 = r24
+            boolean r0 = r0 instanceof java.lang.Class     // Catch:{ all -> 0x01fc }
+            r26 = r0
+            if (r26 == 0) goto L_0x01d0
+            r0 = r25
+            boolean r0 = r0 instanceof gnu.mapping.Symbol     // Catch:{ all -> 0x01fc }
+            r26 = r0
+            if (r26 == 0) goto L_0x01d0
+            gnu.mapping.Symbol r25 = (gnu.mapping.Symbol) r25     // Catch:{ Throwable -> 0x01cc }
+            java.lang.Object r9 = gnu.kawa.functions.GetNamedPart.getNamedPart(r24, r25)     // Catch:{ Throwable -> 0x01cc }
+            boolean r0 = r9 instanceof kawa.lang.Syntax     // Catch:{ Throwable -> 0x01cc }
+            r26 = r0
+            if (r26 == 0) goto L_0x013b
+            r0 = r9
+            kawa.lang.Syntax r0 = (kawa.lang.Syntax) r0     // Catch:{ Throwable -> 0x01cc }
+            r22 = r0
+        L_0x013b:
+            boolean r0 = r9 instanceof gnu.mapping.Symbol     // Catch:{ all -> 0x01fc }
+            r26 = r0
+            if (r26 == 0) goto L_0x01ef
+            r0 = r28
+            boolean r26 = r0.selfEvaluatingSymbol(r9)     // Catch:{ all -> 0x01fc }
+            if (r26 != 0) goto L_0x01ef
+            r26 = 1
+            r0 = r28
+            r1 = r26
+            gnu.expr.Expression r7 = r0.rewrite(r9, r1)     // Catch:{ all -> 0x01fc }
+            boolean r0 = r7 instanceof gnu.expr.ReferenceExp     // Catch:{ all -> 0x01fc }
+            r26 = r0
+            if (r26 == 0) goto L_0x0167
+            gnu.expr.ReferenceExp r7 = (gnu.expr.ReferenceExp) r7     // Catch:{ all -> 0x01fc }
+            gnu.expr.Declaration r4 = r7.getBinding()     // Catch:{ all -> 0x01fc }
+            if (r4 == 0) goto L_0x01d8
+            r0 = r28
+            kawa.lang.Syntax r22 = r0.check_if_Syntax(r4)     // Catch:{ all -> 0x01fc }
+        L_0x0167:
+            r0 = r28
+            gnu.expr.ScopeExp r0 = r0.current_scope
+            r26 = r0
+            r0 = r19
+            r1 = r26
+            if (r0 == r1) goto L_0x017a
+            r0 = r28
+            r1 = r19
+            r0.setCurrentScope(r1)
+        L_0x017a:
+            r0 = r28
+            r1 = r18
+            r0.popPositionOf(r1)
+            if (r22 == 0) goto L_0x0225
+            java.lang.String r15 = r28.getFileName()
+            int r16 = r28.getLineNumber()
+            int r14 = r28.getColumnNumber()
+            r0 = r28
+            r1 = r21
+            r0.setLine((java.lang.Object) r1)     // Catch:{ all -> 0x0218 }
+            r0 = r22
+            r1 = r21
+            r2 = r30
+            r3 = r28
+            r0.scanForm(r1, r2, r3)     // Catch:{ all -> 0x0218 }
+            r0 = r28
+            r0.macroContext = r13
+            r0 = r28
+            r1 = r16
+            r0.setLine(r15, r1, r14)
+            goto L_0x0050
+        L_0x01ae:
+            gnu.mapping.Values r29 = (gnu.mapping.Values) r29
+            java.lang.Object[] r23 = r29.getValues()
+            r8 = 0
+        L_0x01b5:
+            r0 = r23
+            int r0 = r0.length
+            r26 = r0
+            r0 = r26
+            if (r8 >= r0) goto L_0x0050
+            r26 = r23[r8]
+            r0 = r28
+            r1 = r26
+            r2 = r30
+            r0.scanForm(r1, r2)
+            int r8 = r8 + 1
+            goto L_0x01b5
+        L_0x01cc:
+            r5 = move-exception
+            r9 = 0
+            goto L_0x013b
+        L_0x01d0:
+            r0 = r28
+            gnu.mapping.Symbol r9 = r0.namespaceResolve((gnu.expr.Expression) r11, (gnu.expr.Expression) r12)     // Catch:{ all -> 0x01fc }
+            goto L_0x013b
+        L_0x01d8:
+            r26 = 1
+            r0 = r28
+            r1 = r26
+            java.lang.Object r9 = r0.resolve(r9, r1)     // Catch:{ all -> 0x01fc }
+            boolean r0 = r9 instanceof kawa.lang.Syntax     // Catch:{ all -> 0x01fc }
+            r26 = r0
+            if (r26 == 0) goto L_0x0167
+            r0 = r9
+            kawa.lang.Syntax r0 = (kawa.lang.Syntax) r0     // Catch:{ all -> 0x01fc }
+            r22 = r0
+            goto L_0x0167
+        L_0x01ef:
+            kawa.standard.begin r26 = kawa.standard.begin.begin     // Catch:{ all -> 0x01fc }
+            r0 = r26
+            if (r9 != r0) goto L_0x0167
+            r0 = r9
+            kawa.lang.Syntax r0 = (kawa.lang.Syntax) r0     // Catch:{ all -> 0x01fc }
+            r22 = r0
+            goto L_0x0167
+        L_0x01fc:
+            r26 = move-exception
+            r0 = r28
+            gnu.expr.ScopeExp r0 = r0.current_scope
+            r27 = r0
+            r0 = r19
+            r1 = r27
+            if (r0 == r1) goto L_0x0210
+            r0 = r28
+            r1 = r19
+            r0.setCurrentScope(r1)
+        L_0x0210:
+            r0 = r28
+            r1 = r18
+            r0.popPositionOf(r1)
+            throw r26
+        L_0x0218:
+            r26 = move-exception
+            r0 = r28
+            r0.macroContext = r13
+            r0 = r28
+            r1 = r16
+            r0.setLine(r15, r1, r14)
+            throw r26
+        L_0x0225:
+            r0 = r28
+            java.util.Stack r0 = r0.formStack
+            r26 = r0
+            r0 = r26
+            r1 = r29
+            r0.add(r1)
+            goto L_0x0050
+        */
+        throw new UnsupportedOperationException("Method not decompiled: kawa.lang.Translator.scanForm(java.lang.Object, gnu.expr.ScopeExp):void");
     }
 
     /* JADX INFO: finally extract failed */
-    /* JADX WARNING: type inference failed for: r5v0 */
-    /* JADX WARNING: type inference failed for: r5v1 */
-    /* JADX WARNING: type inference failed for: r4v0 */
-    /* JADX WARNING: type inference failed for: r5v2, types: [gnu.lists.LList] */
-    /* JADX WARNING: type inference failed for: r4v1, types: [gnu.lists.Pair] */
-    /* JADX WARNING: type inference failed for: r5v6 */
-    /* JADX WARNING: type inference failed for: r4v2 */
-    /* JADX WARNING: type inference failed for: r5v7 */
-    /* JADX WARNING: type inference failed for: r4v3, types: [gnu.lists.Pair] */
-    /* JADX WARNING: type inference failed for: r6v0, types: [gnu.lists.Pair, java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r5v8 */
-    /* JADX WARNING: type inference failed for: r4v4 */
-    /* JADX WARNING: type inference failed for: r5v9 */
-    /* JADX WARNING: type inference failed for: r5v10, types: [gnu.lists.LList] */
-    /* JADX WARNING: type inference failed for: r5v11 */
-    /* JADX WARNING: type inference failed for: r5v12 */
-    /* JADX WARNING: type inference failed for: r4v5 */
-    /* JADX WARNING: type inference failed for: r5v13 */
-    /* JADX WARNING: type inference failed for: r5v14 */
-    /* JADX WARNING: type inference failed for: r4v6 */
-    /* JADX WARNING: type inference failed for: r4v7 */
-    /* JADX WARNING: type inference failed for: r5v15 */
-    /* JADX WARNING: type inference failed for: r4v8 */
-    /* JADX WARNING: type inference failed for: r5v16 */
-    /* JADX WARNING: type inference failed for: r5v17 */
-    /* JADX WARNING: type inference failed for: r4v9 */
-    /* JADX WARNING: type inference failed for: r5v18 */
-    /* JADX WARNING: type inference failed for: r5v19 */
-    /* JADX WARNING: Multi-variable type inference failed. Error: jadx.core.utils.exceptions.JadxRuntimeException: No candidate types for var: r5v1
-      assigns: []
-      uses: []
-      mth insns count: 94
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.fillTypeCandidates(TypeSearch.java:237)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.run(TypeSearch.java:53)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.runMultiVariableSearch(TypeInferenceVisitor.java:99)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.visit(TypeInferenceVisitor.java:92)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:27)
-    	at jadx.core.dex.visitors.DepthTraversal.lambda$visit$1(DepthTraversal.java:14)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:14)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:30)
-    	at jadx.core.ProcessClass.lambda$processDependencies$0(ProcessClass.java:49)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.ProcessClass.processDependencies(ProcessClass.java:49)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:35)
-    	at jadx.api.JadxDecompiler.processClass(JadxDecompiler.java:311)
-    	at jadx.api.JavaClass.decompile(JavaClass.java:62)
-    	at jadx.api.JadxDecompiler.lambda$appendSourcesSave$0(JadxDecompiler.java:217)
-     */
-    /* JADX WARNING: Unknown variable types count: 12 */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public gnu.lists.LList scanBody(java.lang.Object r13, gnu.expr.ScopeExp r14, boolean r15) {
-        /*
-            r12 = this;
-            if (r15 == 0) goto L_0x0036
-            gnu.lists.LList r5 = gnu.lists.LList.Empty
-        L_0x0004:
-            r4 = 0
-        L_0x0005:
-            gnu.lists.LList r10 = gnu.lists.LList.Empty
-            if (r13 == r10) goto L_0x0035
-            boolean r10 = r13 instanceof kawa.lang.SyntaxForm
-            if (r10 == 0) goto L_0x0056
-            r9 = r13
-            kawa.lang.SyntaxForm r9 = (kawa.lang.SyntaxForm) r9
-            gnu.expr.ScopeExp r8 = r12.current_scope
-            kawa.lang.TemplateScope r10 = r9.getScope()     // Catch:{ all -> 0x0051 }
-            r12.setCurrentScope(r10)     // Catch:{ all -> 0x0051 }
-            java.util.Stack r10 = r12.formStack     // Catch:{ all -> 0x0051 }
-            int r1 = r10.size()     // Catch:{ all -> 0x0051 }
-            java.lang.Object r10 = r9.getDatum()     // Catch:{ all -> 0x0051 }
-            gnu.lists.LList r0 = r12.scanBody(r10, r14, r15)     // Catch:{ all -> 0x0051 }
-            if (r15 == 0) goto L_0x003f
-            java.lang.Object r0 = kawa.lang.SyntaxForms.fromDatumIfNeeded(r0, r9)     // Catch:{ all -> 0x0051 }
-            gnu.lists.LList r0 = (gnu.lists.LList) r0     // Catch:{ all -> 0x0051 }
-            if (r4 != 0) goto L_0x0038
-            r12.setCurrentScope(r8)
-            r5 = r0
-        L_0x0035:
-            return r5
-        L_0x0036:
-            r5 = 0
-            goto L_0x0004
-        L_0x0038:
-            r4.setCdrBackdoor(r0)     // Catch:{ all -> 0x0051 }
-            r12.setCurrentScope(r8)
-            goto L_0x0035
-        L_0x003f:
-            java.util.Stack r10 = r12.formStack     // Catch:{ all -> 0x0051 }
-            java.lang.Object r11 = r12.popForms(r1)     // Catch:{ all -> 0x0051 }
-            java.lang.Object r11 = wrapSyntax(r11, r9)     // Catch:{ all -> 0x0051 }
-            r10.add(r11)     // Catch:{ all -> 0x0051 }
-            r5 = 0
-            r12.setCurrentScope(r8)
-            goto L_0x0035
-        L_0x0051:
-            r10 = move-exception
-            r12.setCurrentScope(r8)
-            throw r10
-        L_0x0056:
-            boolean r10 = r13 instanceof gnu.lists.Pair
-            if (r10 == 0) goto L_0x00bc
-            r7 = r13
-            gnu.lists.Pair r7 = (gnu.lists.Pair) r7
-            java.util.Stack r10 = r12.formStack
-            int r1 = r10.size()
-            java.lang.Object r10 = r7.getCar()
-            r12.scanForm(r10, r14)
-            int r10 = r12.getState()
-            r11 = 2
-            if (r10 != r11) goto L_0x008f
-            java.lang.Object r10 = r7.getCar()
-            java.lang.Object r11 = r12.pendingForm
-            if (r10 == r11) goto L_0x0083
-            java.lang.Object r10 = r12.pendingForm
-            java.lang.Object r11 = r7.getCdr()
-            gnu.lists.Pair r7 = makePair(r7, r10, r11)
-        L_0x0083:
-            gnu.lists.Pair r10 = new gnu.lists.Pair
-            kawa.standard.begin r11 = kawa.standard.begin.begin
-            r10.<init>(r11, r7)
-            r12.pendingForm = r10
-            gnu.lists.LList r5 = gnu.lists.LList.Empty
-            goto L_0x0035
-        L_0x008f:
-            java.util.Stack r10 = r12.formStack
-            int r2 = r10.size()
-            if (r15 == 0) goto L_0x00b6
-            r3 = r1
-        L_0x0098:
-            if (r3 >= r2) goto L_0x00b1
-            java.util.Stack r10 = r12.formStack
-            java.lang.Object r10 = r10.elementAt(r3)
-            gnu.lists.LList r11 = gnu.lists.LList.Empty
-            gnu.lists.Pair r6 = makePair(r7, r10, r11)
-            if (r4 != 0) goto L_0x00ad
-            r5 = r6
-        L_0x00a9:
-            r4 = r6
-            int r3 = r3 + 1
-            goto L_0x0098
-        L_0x00ad:
-            r4.setCdrBackdoor(r6)
-            goto L_0x00a9
-        L_0x00b1:
-            java.util.Stack r10 = r12.formStack
-            r10.setSize(r1)
-        L_0x00b6:
-            java.lang.Object r13 = r7.getCdr()
-            goto L_0x0005
-        L_0x00bc:
-            java.util.Stack r10 = r12.formStack
-            java.lang.String r11 = "body is not a proper list"
-            gnu.expr.Expression r11 = r12.syntaxError(r11)
-            r10.add(r11)
-            goto L_0x0035
-        */
-        throw new UnsupportedOperationException("Method not decompiled: kawa.lang.Translator.scanBody(java.lang.Object, gnu.expr.ScopeExp, boolean):gnu.lists.LList");
+    public LList scanBody(Object body, ScopeExp defs, boolean makeList) {
+        LList list = makeList ? LList.Empty : null;
+        Pair lastPair = null;
+        while (body != LList.Empty) {
+            if (body instanceof SyntaxForm) {
+                SyntaxForm sf = (SyntaxForm) body;
+                ScopeExp save_scope = this.current_scope;
+                try {
+                    setCurrentScope(sf.getScope());
+                    int first = this.formStack.size();
+                    LList f = scanBody(sf.getDatum(), defs, makeList);
+                    if (makeList) {
+                        LList f2 = (LList) SyntaxForms.fromDatumIfNeeded(f, sf);
+                        if (lastPair == null) {
+                            setCurrentScope(save_scope);
+                            return f2;
+                        }
+                        lastPair.setCdrBackdoor(f2);
+                        setCurrentScope(save_scope);
+                        return list;
+                    }
+                    this.formStack.add(wrapSyntax(popForms(first), sf));
+                    setCurrentScope(save_scope);
+                    return null;
+                } catch (Throwable th) {
+                    setCurrentScope(save_scope);
+                    throw th;
+                }
+            } else if (body instanceof Pair) {
+                Pair pair = (Pair) body;
+                int first2 = this.formStack.size();
+                scanForm(pair.getCar(), defs);
+                if (getState() == 2) {
+                    if (pair.getCar() != this.pendingForm) {
+                        pair = makePair(pair, this.pendingForm, pair.getCdr());
+                    }
+                    this.pendingForm = new Pair(begin.begin, pair);
+                    return LList.Empty;
+                }
+                int fsize = this.formStack.size();
+                if (makeList) {
+                    for (int i = first2; i < fsize; i++) {
+                        LList npair = makePair(pair, this.formStack.elementAt(i), LList.Empty);
+                        if (lastPair == null) {
+                            list = npair;
+                        } else {
+                            lastPair.setCdrBackdoor(npair);
+                        }
+                        lastPair = npair;
+                    }
+                    this.formStack.setSize(first2);
+                }
+                body = pair.getCdr();
+            } else {
+                this.formStack.add(syntaxError("body is not a proper list"));
+                return list;
+            }
+        }
+        return list;
     }
 
     public static Pair makePair(Pair pair, Object car, Object cdr) {
@@ -1396,7 +1516,7 @@ public class Translator extends Compilation {
 
     public Expression rewrite_body(Object exp) {
         Object saved = pushPositionOf(exp);
-        LetExp defs = new LetExp(null);
+        LetExp defs = new LetExp((Expression[]) null);
         int first = this.formStack.size();
         defs.outer = this.current_scope;
         this.current_scope = defs;
@@ -1419,7 +1539,7 @@ public class Translator extends Compilation {
                 defs.inits = inits;
             }
             rewriteBody(list);
-            Expression body = makeBody(first, null);
+            Expression body = makeBody(first, (ScopeExp) null);
             setLineOf(body);
             if (ndecls == 0) {
                 return body;
@@ -1503,12 +1623,16 @@ public class Translator extends Compilation {
     }
 
     public void finishModule(ModuleExp mexp) {
+        String msg2;
         boolean moduleStatic = mexp.isStatic();
         for (Declaration decl = mexp.firstDecl(); decl != null; decl = decl.nextDecl()) {
             if (decl.getFlag(512)) {
-                String msg1 = "'";
-                String msg2 = decl.getFlag(1024) ? "' exported but never defined" : decl.getFlag(2048) ? "' declared static but never defined" : "' declared but never defined";
-                error('e', decl, msg1, msg2);
+                if (decl.getFlag(1024)) {
+                    msg2 = "' exported but never defined";
+                } else {
+                    msg2 = decl.getFlag(2048) ? "' declared static but never defined" : "' declared but never defined";
+                }
+                error('e', decl, "'", msg2);
             }
             if (mexp.getFlag(16384) || (this.generateMain && !this.immediate)) {
                 if (!decl.getFlag(1024)) {
@@ -1560,14 +1684,13 @@ public class Translator extends Compilation {
                 referenceExp.setLine((Compilation) this);
                 setLine(posExp);
                 int beforeSize = this.formStack.size();
-                require.importDefinitions(null, info, null, this.formStack, defs, this);
+                require.importDefinitions((String) null, info, (Procedure) null, this.formStack, defs, this);
                 int desiredPosition = savedSize.intValue();
                 if (savedSize.intValue() != beforeSize) {
                     int curSize = this.formStack.size();
-                    int count = curSize - desiredPosition;
                     vectorReverse(this.formStack, desiredPosition, beforeSize - desiredPosition);
                     vectorReverse(this.formStack, beforeSize, curSize - beforeSize);
-                    vectorReverse(this.formStack, desiredPosition, count);
+                    vectorReverse(this.formStack, desiredPosition, curSize - desiredPosition);
                 }
                 setLine((Expression) referenceExp);
             }
@@ -1605,7 +1728,7 @@ public class Translator extends Compilation {
     public void pushRenamedAlias(Declaration alias) {
         Declaration decl = getOriginalRef(alias).getBinding();
         ScopeExp templateScope = alias.context;
-        decl.setSymbol(null);
+        decl.setSymbol((Object) null);
         Declaration old = templateScope.lookup(decl.getSymbol());
         if (old != null) {
             templateScope.remove(old);

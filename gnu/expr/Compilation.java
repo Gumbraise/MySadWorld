@@ -23,7 +23,6 @@ import gnu.mapping.Values;
 import gnu.mapping.WrappedException;
 import gnu.text.Lexer;
 import gnu.text.Options;
-import gnu.text.Options.OptionInfo;
 import gnu.text.Path;
 import gnu.text.SourceLocator;
 import gnu.text.SourceMessages;
@@ -138,10 +137,10 @@ public class Compilation implements SourceLocator {
     public static ClassType typeSymbol = ClassType.make("gnu.mapping.Symbol");
     public static ClassType typeType = ClassType.make("gnu.bytecode.Type");
     public static ClassType typeValues = ClassType.make("gnu.mapping.Values");
-    public static OptionInfo warnAsError = options.add("warn-as-error", 1, Boolean.FALSE, "Make all warnings into errors");
-    public static OptionInfo warnInvokeUnknownMethod = options.add("warn-invoke-unknown-method", 1, warnUnknownMember, "warn if invoke calls an unknown method (subsumed by warn-unknown-member)");
-    public static OptionInfo warnUndefinedVariable = options.add("warn-undefined-variable", 1, Boolean.TRUE, "warn if no compiler-visible binding for a variable");
-    public static OptionInfo warnUnknownMember = options.add("warn-unknown-member", 1, Boolean.TRUE, "warn if referencing an unknown method or field");
+    public static Options.OptionInfo warnAsError = options.add("warn-as-error", 1, Boolean.FALSE, "Make all warnings into errors");
+    public static Options.OptionInfo warnInvokeUnknownMethod = options.add("warn-invoke-unknown-method", 1, warnUnknownMember, "warn if invoke calls an unknown method (subsumed by warn-unknown-member)");
+    public static Options.OptionInfo warnUndefinedVariable = options.add("warn-undefined-variable", 1, Boolean.TRUE, "warn if no compiler-visible binding for a variable");
+    public static Options.OptionInfo warnUnknownMember = options.add("warn-unknown-member", 1, Boolean.TRUE, "warn if referencing an unknown method or field");
     Variable callContextVar;
     Variable callContextVarForInit;
     public String classPrefix = classPrefixDefault;
@@ -426,6 +425,8 @@ public class Compilation implements SourceLocator {
 
     public static String mangleURI(String name) {
         int end;
+        int dot;
+        int extLen;
         boolean hasSlash = name.indexOf(47) >= 0;
         int len = name.length();
         if (len > 6 && name.startsWith("class:")) {
@@ -459,16 +460,10 @@ public class Compilation implements SourceLocator {
                 if (!first) {
                     sbuf.append('.');
                 }
-                if (end == len) {
-                    int dot = name.lastIndexOf(46, len);
-                    if (dot > start + 1 && !first) {
-                        int extLen = len - dot;
-                        if (extLen <= 4 || (extLen == 5 && name.endsWith("html"))) {
-                            len -= extLen;
-                            end = len;
-                            name = name.substring(0, len);
-                        }
-                    }
+                if (end == len && (dot = name.lastIndexOf(46, len)) > start + 1 && !first && ((extLen = len - dot) <= 4 || (extLen == 5 && name.endsWith("html")))) {
+                    len -= extLen;
+                    end = len;
+                    name = name.substring(0, len);
                 }
                 sbuf.append(name.substring(start, end));
             }
@@ -1027,46 +1022,80 @@ public class Compilation implements SourceLocator {
         this.callContextVar = callContextSave;
     }
 
-    /* access modifiers changed from: 0000 */
-    public void callInitMethods(ClassType clas, Vector<ClassType> seen) {
-        if (clas != null) {
-            String name = clas.getName();
-            if (!"java.lang.Object".equals(name)) {
-                int i = seen.size();
-                do {
-                    i--;
-                    if (i < 0) {
-                        seen.addElement(clas);
-                        ClassType[] interfaces = clas.getInterfaces();
-                        if (interfaces != null) {
-                            for (ClassType callInitMethods : interfaces) {
-                                callInitMethods(callInitMethods, seen);
-                            }
-                        }
-                        int clEnvArgs = 1;
-                        if (!clas.isInterface()) {
-                            clEnvArgs = 0;
-                        } else if (clas instanceof PairClassType) {
-                            clas = ((PairClassType) clas).instanceType;
-                        } else {
-                            try {
-                                clas = (ClassType) Type.make(Class.forName(clas.getName() + "$class"));
-                            } catch (Throwable th) {
-                                return;
-                            }
-                        }
-                        Method meth = clas.getDeclaredMethod("$finit$", clEnvArgs);
-                        if (meth != null) {
-                            CodeAttr code = getCode();
-                            code.emitPushThis();
-                            code.emitInvoke(meth);
-                            return;
-                        }
-                        return;
-                    }
-                } while (((ClassType) seen.elementAt(i)).getName() != name);
-            }
-        }
+    /* JADX WARNING: type inference failed for: r9v10, types: [gnu.bytecode.Type] */
+    /* access modifiers changed from: package-private */
+    /* JADX WARNING: Multi-variable type inference failed */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public void callInitMethods(gnu.bytecode.ClassType r12, java.util.Vector<gnu.bytecode.ClassType> r13) {
+        /*
+            r11 = this;
+            if (r12 != 0) goto L_0x0003
+        L_0x0002:
+            return
+        L_0x0003:
+            java.lang.String r8 = r12.getName()
+            java.lang.String r9 = "java.lang.Object"
+            boolean r9 = r9.equals(r8)
+            if (r9 != 0) goto L_0x0002
+            int r4 = r13.size()
+        L_0x0013:
+            int r4 = r4 + -1
+            if (r4 < 0) goto L_0x0024
+            java.lang.Object r9 = r13.elementAt(r4)
+            gnu.bytecode.ClassType r9 = (gnu.bytecode.ClassType) r9
+            java.lang.String r9 = r9.getName()
+            if (r9 != r8) goto L_0x0013
+            goto L_0x0002
+        L_0x0024:
+            r13.addElement(r12)
+            gnu.bytecode.ClassType[] r5 = r12.getInterfaces()
+            if (r5 == 0) goto L_0x0039
+            int r7 = r5.length
+            r4 = 0
+        L_0x002f:
+            if (r4 >= r7) goto L_0x0039
+            r9 = r5[r4]
+            r11.callInitMethods(r9, r13)
+            int r4 = r4 + 1
+            goto L_0x002f
+        L_0x0039:
+            r1 = 1
+            boolean r9 = r12.isInterface()
+            if (r9 == 0) goto L_0x0081
+            boolean r9 = r12 instanceof gnu.expr.PairClassType
+            if (r9 == 0) goto L_0x005b
+            gnu.expr.PairClassType r12 = (gnu.expr.PairClassType) r12
+            gnu.bytecode.ClassType r12 = r12.instanceType
+        L_0x0048:
+            java.lang.String r9 = "$finit$"
+            gnu.bytecode.Method r6 = r12.getDeclaredMethod((java.lang.String) r9, (int) r1)
+            if (r6 == 0) goto L_0x0002
+            gnu.bytecode.CodeAttr r2 = r11.getCode()
+            r2.emitPushThis()
+            r2.emitInvoke(r6)
+            goto L_0x0002
+        L_0x005b:
+            java.lang.StringBuilder r9 = new java.lang.StringBuilder     // Catch:{ Throwable -> 0x007f }
+            r9.<init>()     // Catch:{ Throwable -> 0x007f }
+            java.lang.String r10 = r12.getName()     // Catch:{ Throwable -> 0x007f }
+            java.lang.StringBuilder r9 = r9.append(r10)     // Catch:{ Throwable -> 0x007f }
+            java.lang.String r10 = "$class"
+            java.lang.StringBuilder r9 = r9.append(r10)     // Catch:{ Throwable -> 0x007f }
+            java.lang.String r9 = r9.toString()     // Catch:{ Throwable -> 0x007f }
+            java.lang.Class r9 = java.lang.Class.forName(r9)     // Catch:{ Throwable -> 0x007f }
+            gnu.bytecode.Type r9 = gnu.bytecode.Type.make(r9)     // Catch:{ Throwable -> 0x007f }
+            r0 = r9
+            gnu.bytecode.ClassType r0 = (gnu.bytecode.ClassType) r0     // Catch:{ Throwable -> 0x007f }
+            r12 = r0
+            goto L_0x0048
+        L_0x007f:
+            r3 = move-exception
+            goto L_0x0002
+        L_0x0081:
+            r1 = 0
+            goto L_0x0048
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.expr.Compilation.callInitMethods(gnu.bytecode.ClassType, java.util.Vector):void");
     }
 
     public void generateMatchMethods(LambdaExp lexp) {
@@ -1148,7 +1177,7 @@ public class Compilation implements SourceLocator {
                                     Label falseLabel = new Label(code);
                                     ConditionalTarget ctarget = new ConditionalTarget(label, falseLabel, getLanguage());
                                     code.emitDup();
-                                    ((TypeValue) ptype).emitIsInstance(null, this, ctarget);
+                                    ((TypeValue) ptype).emitIsInstance((Variable) null, this, ctarget);
                                     falseLabel.define(code);
                                     code.emitPushInt(-786432 | k2);
                                     code.emitReturn();
@@ -1458,7 +1487,7 @@ public class Compilation implements SourceLocator {
                         if (varArgs) {
                             Type lastArgType = primArgTypes[explicitFrameArg + singleArgs];
                             if (lastArgType instanceof ArrayType) {
-                                varArgsToArray(source, singleArgs, counter, lastArgType, null);
+                                varArgsToArray(source, singleArgs, counter, lastArgType, (Variable) null);
                             } else if ("gnu.lists.LList".equals(lastArgType.getName())) {
                                 code.emitLoad(code.getArg(2));
                                 code.emitPushInt(singleArgs);
@@ -1560,7 +1589,7 @@ public class Compilation implements SourceLocator {
                 code.emitArrayLoad(Type.objectType);
             }
             if (mustConvert) {
-                CheckedTarget.emitCheckedCoerce(this, source, source.getName(), 0, elType, null);
+                CheckedTarget.emitCheckedCoerce(this, source, source.getName(), 0, elType, (Variable) null);
             }
             code.emitArrayStore(elType);
             testLabel.define(code);
@@ -1574,13 +1603,11 @@ public class Compilation implements SourceLocator {
     }
 
     private Method startClassInit() {
+        Method registerMethod;
         this.method = this.curClass.addMethod("<clinit>", apply0args, (Type) Type.voidType, 9);
         CodeAttr code = this.method.startCode();
-        if (this.generateMain || generatingApplet() || generatingServlet()) {
-            Method registerMethod = ((ClassType) Type.make(getLanguage().getClass())).getDeclaredMethod("registerEnvironment", 0);
-            if (registerMethod != null) {
-                code.emitInvokeStatic(registerMethod);
-            }
+        if ((this.generateMain || generatingApplet() || generatingServlet()) && (registerMethod = ((ClassType) Type.make(getLanguage().getClass())).getDeclaredMethod("registerEnvironment", 0)) != null) {
+            code.emitInvokeStatic(registerMethod);
         }
         return this.method;
     }
@@ -1664,7 +1691,7 @@ public class Compilation implements SourceLocator {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void generateBytecode() {
         Type[] arg_types;
         Variable declareThis;
@@ -1685,7 +1712,7 @@ public class Compilation implements SourceLocator {
             this.moduleClass = new ClassType(generateClassName("frame"));
             this.moduleClass.setSuper(neededSuper);
             addClass(this.moduleClass);
-            generateConstructor(this.moduleClass, null);
+            generateConstructor(this.moduleClass, (LambdaExp) null);
         }
         this.curClass = module.type;
         LambdaExp saveLambda = this.curLambda;
@@ -1842,8 +1869,7 @@ public class Compilation implements SourceLocator {
             code4.fixupChain(label, afterLiterals);
         }
         if (this.generateMain && this.curClass == this.mainClass) {
-            Type[] args = {new ArrayType(javaStringType)};
-            this.method = this.curClass.addMethod("main", 9, args, (Type) Type.voidType);
+            this.method = this.curClass.addMethod("main", 9, new Type[]{new ArrayType(javaStringType)}, (Type) Type.voidType);
             CodeAttr code5 = this.method.startCode();
             if (Shell.defaultFormatName != null) {
                 code5.emitPushString(Shell.defaultFormatName);
@@ -1912,8 +1938,7 @@ public class Compilation implements SourceLocator {
                                 }
                                 moduleSource = Path.relativize(mi.getSourceAbsPathname(), path);
                             } catch (Throwable ex3) {
-                                WrappedException wrappedException = new WrappedException("exception while fixing up '" + moduleSource + '\'', ex3);
-                                throw wrappedException;
+                                throw new WrappedException("exception while fixing up '" + moduleSource + '\'', ex3);
                             }
                         }
                         compileConstant(moduleSource);
@@ -2018,7 +2043,7 @@ public class Compilation implements SourceLocator {
         pushChain(scope, sc);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void pushChain(ScopeExp scope, ScopeExp limit) {
         if (scope != limit) {
             pushChain(scope.outer, limit);
@@ -2198,7 +2223,7 @@ public class Compilation implements SourceLocator {
     }
 
     public void letStart() {
-        pushScope(new LetExp(null));
+        pushScope(new LetExp((Expression[]) null));
     }
 
     public Declaration letVariable(Object name, Type type, Expression init) {
@@ -2213,10 +2238,9 @@ public class Compilation implements SourceLocator {
         Declaration decl = let.firstDecl();
         int i = 0;
         while (decl != null) {
-            int i2 = i + 1;
             inits[i] = decl.getValue();
             decl = decl.nextDecl();
-            i = i2;
+            i++;
         }
         let.inits = inits;
         this.lexical.push((ScopeExp) let);
@@ -2238,9 +2262,8 @@ public class Compilation implements SourceLocator {
     public void loopStart() {
         LambdaExp loopLambda = new LambdaExp();
         LetExp let = new LetExp(new Expression[]{loopLambda});
-        String fname = "%do%loop";
-        let.addDeclaration((Object) fname).noteValue(loopLambda);
-        loopLambda.setName(fname);
+        let.addDeclaration((Object) "%do%loop").noteValue(loopLambda);
+        loopLambda.setName("%do%loop");
         let.outer = this.current_scope;
         loopLambda.outer = let;
         this.current_scope = loopLambda;
@@ -2268,7 +2291,7 @@ public class Compilation implements SourceLocator {
         while (true) {
             i--;
             if (i >= 0) {
-                inits[i] = (Expression) this.exprStack.pop();
+                inits[i] = this.exprStack.pop();
             } else {
                 LetExp let = (LetExp) loopLambda.outer;
                 let.setBody(new ApplyExp((Expression) new ReferenceExp(let.firstDecl()), inits));
@@ -2290,7 +2313,7 @@ public class Compilation implements SourceLocator {
     public Expression loopRepeat(Expression[] exps) {
         LambdaExp loopLambda = (LambdaExp) this.current_scope;
         ScopeExp let = loopLambda.outer;
-        loopLambda.body = new IfExp((Expression) this.exprStack.pop(), new BeginExp(loopLambda.body, new ApplyExp((Expression) new ReferenceExp(let.firstDecl()), exps)), QuoteExp.voidExp);
+        loopLambda.body = new IfExp(this.exprStack.pop(), new BeginExp(loopLambda.body, new ApplyExp((Expression) new ReferenceExp(let.firstDecl()), exps)), QuoteExp.voidExp);
         this.lexical.pop((ScopeExp) loopLambda);
         this.current_scope = let.outer;
         return let;
@@ -2357,7 +2380,7 @@ public class Compilation implements SourceLocator {
         if (!function || !getLanguage().hasSeparateFunctionNamespace()) {
             return env.get((EnvironmentKey) symbol, (Object) null);
         }
-        return env.getFunction(symbol, null);
+        return env.getFunction(symbol, (Object) null);
     }
 
     public static void setupLiterals(int key) {
@@ -2365,7 +2388,7 @@ public class Compilation implements SourceLocator {
         try {
             Class clas = comp.loader.loadClass(comp.mainClass.getName());
             for (Literal init = comp.litTable.literalsChain; init != null; init = init.next) {
-                clas.getDeclaredField(init.field.getName()).set(null, init.value);
+                clas.getDeclaredField(init.field.getName()).set((Object) null, init.value);
             }
             comp.litTable = null;
         } catch (Throwable ex) {
@@ -2414,7 +2437,7 @@ public class Compilation implements SourceLocator {
     }
 
     public static Compilation getCurrent() {
-        return (Compilation) current.get();
+        return current.get();
     }
 
     public static void setCurrent(Compilation comp) {
@@ -2422,7 +2445,7 @@ public class Compilation implements SourceLocator {
     }
 
     public static Compilation setSaveCurrent(Compilation comp) {
-        Compilation save = (Compilation) current.get();
+        Compilation save = current.get();
         current.set(comp);
         return save;
     }

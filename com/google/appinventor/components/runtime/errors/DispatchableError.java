@@ -8,7 +8,7 @@ public class DispatchableError extends RuntimeError {
     private final int errorCode;
 
     public DispatchableError(int errorCode2) {
-        super(ErrorMessages.formatMessage(errorCode2, null));
+        super(ErrorMessages.formatMessage(errorCode2, (Object[]) null));
         this.errorCode = errorCode2;
         this.arguments = new Object[0];
     }

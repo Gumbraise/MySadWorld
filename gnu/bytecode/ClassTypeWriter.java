@@ -179,7 +179,7 @@ public class ClassTypeWriter extends PrintWriter {
         printAttributes(method);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public CpoolEntry getCpoolEntry(int index) {
         CpoolEntry[] pool = this.ctype.constants.pool;
         if (pool == null || index < 0 || index >= pool.length) {
@@ -188,7 +188,7 @@ public class ClassTypeWriter extends PrintWriter {
         return pool[index];
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public final void printConstantTersely(CpoolEntry entry, int expected_tag) {
         if (entry == null) {
             print("<invalid constant index>");
@@ -201,12 +201,12 @@ public class ClassTypeWriter extends PrintWriter {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public final void printConstantTersely(int index, int expected_tag) {
         printConstantTersely(getCpoolEntry(index), expected_tag);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public final void printContantUtf8AsClass(int type_index) {
         CpoolEntry entry = getCpoolEntry(type_index);
         if (entry == null || entry.getTag() != 1) {
@@ -217,21 +217,19 @@ public class ClassTypeWriter extends PrintWriter {
         Type.printSignature(name, 0, name.length(), this);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public final void printConstantOperand(int index) {
+        CpoolEntry entry;
         print(' ');
         printOptionalIndex(index);
         CpoolEntry[] pool = this.ctype.constants.pool;
-        if (pool != null && index >= 0 && index < pool.length) {
-            CpoolEntry entry = pool[index];
-            if (entry != null) {
-                print('<');
-                entry.print(this, 1);
-                print('>');
-                return;
-            }
+        if (pool == null || index < 0 || index >= pool.length || (entry = pool[index]) == null) {
+            print("<invalid constant index>");
+            return;
         }
-        print("<invalid constant index>");
+        print('<');
+        entry.print(this, 1);
+        print('>');
     }
 
     public final void printQuotedString(String string) {
@@ -289,49 +287,46 @@ public class ClassTypeWriter extends PrintWriter {
         printOptionalIndex(entry.index);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void printName(String name) {
         print(name);
     }
 
     public final int printSignature(String sig, int pos) {
+        String name;
         int len = sig.length();
         if (pos >= len) {
             print("<empty signature>");
             return pos;
         }
         int sig_length = Type.signatureLength(sig, pos);
-        if (sig_length > 0) {
-            String name = Type.signatureToName(sig.substring(pos, pos + sig_length));
-            if (name != null) {
-                print(name);
-                return pos + sig_length;
+        if (sig_length <= 0 || (name = Type.signatureToName(sig.substring(pos, pos + sig_length))) == null) {
+            char c = sig.charAt(pos);
+            if (c != '(') {
+                print(c);
+                return pos + 1;
             }
-        }
-        char c = sig.charAt(pos);
-        if (c != '(') {
+            int pos2 = pos + 1;
             print(c);
-            return pos + 1;
-        }
-        int pos2 = pos + 1;
-        print(c);
-        int nargs = 0;
-        while (pos2 < len) {
-            char c2 = sig.charAt(pos2);
-            if (c2 == ')') {
-                int pos3 = pos2 + 1;
-                print(c2);
-                return printSignature(sig, pos3);
+            int nargs = 0;
+            while (pos2 < len) {
+                char c2 = sig.charAt(pos2);
+                if (c2 == ')') {
+                    print(c2);
+                    return printSignature(sig, pos2 + 1);
+                }
+                int nargs2 = nargs + 1;
+                if (nargs > 0) {
+                    print(',');
+                }
+                pos2 = printSignature(sig, pos2);
+                nargs = nargs2;
             }
-            int nargs2 = nargs + 1;
-            if (nargs > 0) {
-                print(',');
-            }
-            pos2 = printSignature(sig, pos2);
-            nargs = nargs2;
+            print("<truncated method signature>");
+            return pos2;
         }
-        print("<truncated method signature>");
-        return pos2;
+        print(name);
+        return pos + sig_length;
     }
 
     public final void printSignature(String sig) {

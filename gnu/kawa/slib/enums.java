@@ -1,6 +1,6 @@
 package gnu.kawa.slib;
 
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import gnu.expr.Keyword;
 import gnu.expr.ModuleBody;
 import gnu.expr.ModuleInfo;
@@ -20,7 +20,7 @@ import kawa.lang.Quote;
 import kawa.lang.SyntaxPattern;
 import kawa.lang.SyntaxTemplate;
 import kawa.lang.TemplateScope;
-import kawa.lib.C0620lists;
+import kawa.lib.lists;
 import kawa.lib.misc;
 import kawa.lib.prim_syntax;
 import kawa.lib.std_syntax;
@@ -108,12 +108,12 @@ public class enums extends ModuleBody {
             case 1:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 2:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             default:
                 return super.match1(moduleMethod, obj, callContext);
@@ -130,8 +130,8 @@ public class enums extends ModuleBody {
         Lit20 = new SyntaxTemplate("\u0001\u0001\u0003", "\u0011\u0018\u0004\u0011\u0018\f\t\u000b\t\u0010\b\u0015\u0013", new Object[]{simpleSymbol, "findkeywords"}, 1);
         SimpleSymbol simpleSymbol2 = Lit11;
         enums enums = $instance;
-        define$Mnenum = Macro.make(simpleSymbol2, new ModuleMethod(enums, 1, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN), $instance);
-        $Prvt$$Pcdefine$Mnenum = Macro.make(Lit21, new ModuleMethod(enums, 2, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN), $instance);
+        define$Mnenum = Macro.make(simpleSymbol2, new ModuleMethod(enums, 1, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN), $instance);
+        $Prvt$$Pcdefine$Mnenum = Macro.make(Lit21, new ModuleMethod(enums, 2, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN), $instance);
         $instance.run();
     }
 
@@ -140,20 +140,20 @@ public class enums extends ModuleBody {
         Apply apply = Scheme.apply;
         ModuleMethod moduleMethod = strings.string$Mnappend;
         Object obj = LList.Empty;
-        Object obj2 = syms;
-        while (obj2 != LList.Empty) {
+        LList lList = syms;
+        while (lList != LList.Empty) {
             try {
-                Pair arg0 = (Pair) obj2;
+                Pair arg0 = (Pair) lList;
                 Object arg02 = arg0.getCdr();
                 Object car = arg0.getCar();
                 try {
                     obj = Pair.make(misc.symbol$To$String((Symbol) car), obj);
-                    obj2 = arg02;
+                    lList = arg02;
                 } catch (ClassCastException e) {
                     throw new WrongType(e, "symbol->string", 1, car);
                 }
             } catch (ClassCastException e2) {
-                throw new WrongType(e2, "arg0", -2, obj2);
+                throw new WrongType(e2, "arg0", -2, lList);
             }
         }
         Object apply2 = apply.apply2(moduleMethod, LList.reverseInPlace(obj));
@@ -179,7 +179,7 @@ public class enums extends ModuleBody {
     static Object lambda1(Object form) {
         Object[] objArr;
         Object[] objArr2;
-        Object[] allocVars = SyntaxPattern.allocVars(6, null);
+        Object[] allocVars = SyntaxPattern.allocVars(6, (Object[]) null);
         if (Lit12.match(form, allocVars, 0)) {
             if (std_syntax.isIdentifier(Lit13.execute(allocVars, TemplateScope.make()))) {
                 return Lit14.execute(allocVars, TemplateScope.make());
@@ -188,19 +188,13 @@ public class enums extends ModuleBody {
         if (Lit15.match(form, allocVars, 0)) {
             return Lit16.execute(allocVars, TemplateScope.make());
         } else if (Lit17.match(form, allocVars, 0)) {
-            String str = "no enum type name given";
-            if (str instanceof Object[]) {
-                objArr2 = (Object[]) str;
-            } else {
-                objArr2 = new Object[]{str};
+            if (!("no enum type name given" instanceof Object[])) {
+                objArr2 = new Object[]{"no enum type name given"};
             }
             return prim_syntax.syntaxError(form, objArr2);
         } else if (Lit18.match(form, allocVars, 0)) {
-            String str2 = "no enum constants given";
-            if (str2 instanceof Object[]) {
-                objArr = (Object[]) str2;
-            } else {
-                objArr = new Object[]{str2};
+            if (!("no enum constants given" instanceof Object[])) {
+                objArr = new Object[]{"no enum constants given"};
             }
             return prim_syntax.syntaxError(form, objArr);
         } else if (!Lit19.match(form, allocVars, 0)) {
@@ -211,15 +205,15 @@ public class enums extends ModuleBody {
     }
 
     static LList mapNames(Symbol t$Mnname, LList e$Mnnames, int i) {
-        if (C0620lists.isNull(e$Mnnames)) {
+        if (lists.isNull(e$Mnnames)) {
             return LList.Empty;
         }
-        Object apply1 = C0620lists.car.apply1(e$Mnnames);
+        Object apply1 = lists.car.apply1(e$Mnnames);
         try {
             Object makeFieldDesc = makeFieldDesc(t$Mnname, (Symbol) apply1, i);
-            Object apply12 = C0620lists.cdr.apply1(e$Mnnames);
+            Object apply12 = lists.cdr.apply1(e$Mnnames);
             try {
-                return C0620lists.cons(makeFieldDesc, mapNames(t$Mnname, (LList) apply12, i + 1));
+                return lists.cons(makeFieldDesc, mapNames(t$Mnname, (LList) apply12, i + 1));
             } catch (ClassCastException e) {
                 throw new WrongType(e, "map-names", 1, apply12);
             }
@@ -229,7 +223,7 @@ public class enums extends ModuleBody {
     }
 
     static Object lambda2(Object form) {
-        Object[] allocVars = SyntaxPattern.allocVars(5, null);
+        Object[] allocVars = SyntaxPattern.allocVars(5, (Object[]) null);
         if (!Lit22.match(form, allocVars, 0)) {
             return syntax_case.error("syntax-case", form);
         }
@@ -240,7 +234,7 @@ public class enums extends ModuleBody {
             Object execute2 = Lit25.execute(allocVars, TemplateScope.make());
             try {
                 LList e$Mnnames = (LList) execute2;
-                C0620lists.length(e$Mnnames);
+                lists.length(e$Mnnames);
                 LList field$Mndescs = mapNames(t$Mnname, e$Mnnames, 0);
                 LList init = makeInit();
                 LList values$Mnmethod = makeValues(t$Mnarr, e$Mnnames);

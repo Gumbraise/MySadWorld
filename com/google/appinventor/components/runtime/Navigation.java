@@ -15,7 +15,7 @@ import com.google.appinventor.components.runtime.util.ErrorMessages;
 import com.google.appinventor.components.runtime.util.GeoJSONUtil;
 import com.google.appinventor.components.runtime.util.GeometryUtil;
 import com.google.appinventor.components.runtime.util.JsonUtil;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeature;
+import com.google.appinventor.components.runtime.util.MapFactory;
 import com.google.appinventor.components.runtime.util.YailDictionary;
 import com.google.appinventor.components.runtime.util.YailList;
 import java.io.BufferedOutputStream;
@@ -131,7 +131,7 @@ public class Navigation extends AndroidNonvisibleComponent implements Component 
     }
 
     @SimpleProperty(description = "Set the start location.")
-    public void StartLocation(MapFeature feature) {
+    public void StartLocation(MapFactory.MapFeature feature) {
         GeoPoint point = feature.getCentroid();
         double latitude = point.getLatitude();
         double longitude = point.getLongitude();
@@ -182,7 +182,6 @@ public class Navigation extends AndroidNonvisibleComponent implements Component 
     @DesignerProperty(defaultValue = "foot-walking", editorType = "navigation_method")
     @SimpleProperty(description = "The transportation method used for determining the route.")
     public void TransportationMethod(String method2) {
-        TransportMethod[] values;
         for (TransportMethod t : TransportMethod.values()) {
             if (method2.equals(t.method())) {
                 this.method = t;
@@ -191,7 +190,7 @@ public class Navigation extends AndroidNonvisibleComponent implements Component 
     }
 
     @SimpleProperty(description = "Set the end location.")
-    public void EndLocation(MapFeature feature) {
+    public void EndLocation(MapFactory.MapFeature feature) {
         GeoPoint point = feature.getCentroid();
         double latitude = point.getLatitude();
         double longitude = point.getLongitude();
@@ -229,8 +228,7 @@ public class Navigation extends AndroidNonvisibleComponent implements Component 
     /* access modifiers changed from: private */
     public void performRequest(GeoPoint start, GeoPoint end, TransportMethod method2) throws IOException, JSONException {
         BufferedOutputStream bufferedOutputStream;
-        URL url = new URL(this.serviceUrl + method2.method() + "/geojson/");
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        HttpURLConnection connection = (HttpURLConnection) new URL(this.serviceUrl + method2.method() + "/geojson/").openConnection();
         connection.setDoInput(true);
         connection.setDoOutput(true);
         connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
@@ -258,11 +256,11 @@ public class Navigation extends AndroidNonvisibleComponent implements Component 
                 YailDictionary summary = (YailDictionary) yailDictionary.getObjectAtKeyPath(Arrays.asList(new String[]{"properties", "summary"}));
                 final double distance = ((Double) summary.get("distance")).doubleValue();
                 final double duration = ((Double) summary.get("duration")).doubleValue();
-                final YailList directions = YailList.makeList(getDirections(feature));
+                final YailList directions = YailList.makeList((List) getDirections(feature));
                 final YailList coordinates = getLineStringCoords(feature);
                 this.form.runOnUiThread(new Runnable() {
                     public void run() {
-                        Navigation.this.lastResponse = response;
+                        YailDictionary unused = Navigation.this.lastResponse = response;
                         Navigation.this.GotDirections(directions, coordinates, distance, duration);
                     }
                 });

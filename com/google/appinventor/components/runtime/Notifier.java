@@ -2,10 +2,8 @@ package com.google.appinventor.components.runtime;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.graphics.Typeface;
 import android.os.Handler;
 import android.text.Html;
@@ -73,11 +71,11 @@ public final class Notifier extends AndroidNonvisibleComponent implements Compon
 
     public static void oneButtonAlert(Activity activity2, String message, String title, String buttonText, final Runnable callBack) {
         Log.i(LOG_TAG, "One button alert " + message);
-        AlertDialog alertDialog = new Builder(activity2).create();
+        AlertDialog alertDialog = new AlertDialog.Builder(activity2).create();
         alertDialog.setTitle(title);
         alertDialog.setCancelable(false);
         alertDialog.setMessage(stringToHTML(message));
-        alertDialog.setButton(-3, buttonText, new OnClickListener() {
+        alertDialog.setButton(-3, buttonText, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 if (callBack != null) {
                     callBack.run();
@@ -88,7 +86,7 @@ public final class Notifier extends AndroidNonvisibleComponent implements Compon
     }
 
     public static void oneButtonAlert(Activity activity2, String message, String title, String buttonText) {
-        oneButtonAlert(activity2, message, title, buttonText, null);
+        oneButtonAlert(activity2, message, title, buttonText, (Runnable) null);
     }
 
     private static SpannableString stringToHTML(String message) {
@@ -115,22 +113,22 @@ public final class Notifier extends AndroidNonvisibleComponent implements Compon
 
     public static void twoButtonDialog(Activity activity2, String message, String title, String button1Text, String button2Text, boolean cancelable, final Runnable positiveAction, final Runnable negativeAction, final Runnable cancelAction) {
         Log.i(LOG_TAG, "ShowChooseDialog: " + message);
-        AlertDialog alertDialog = new Builder(activity2).create();
+        AlertDialog alertDialog = new AlertDialog.Builder(activity2).create();
         alertDialog.setTitle(title);
         alertDialog.setCancelable(false);
         alertDialog.setMessage(stringToHTML(message));
-        alertDialog.setButton(-1, button1Text, new OnClickListener() {
+        alertDialog.setButton(-1, button1Text, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 positiveAction.run();
             }
         });
-        alertDialog.setButton(-3, button2Text, new OnClickListener() {
+        alertDialog.setButton(-3, button2Text, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 negativeAction.run();
             }
         });
         if (cancelable) {
-            alertDialog.setButton(-2, activity2.getString(17039360), new OnClickListener() {
+            alertDialog.setButton(-2, activity2.getString(17039360), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     cancelAction.run();
                 }
@@ -160,7 +158,7 @@ public final class Notifier extends AndroidNonvisibleComponent implements Compon
     }
 
     private void textInputDialog(String message, String title, boolean cancelable, boolean maskInput) {
-        AlertDialog alertDialog = new Builder(this.activity).create();
+        AlertDialog alertDialog = new AlertDialog.Builder(this.activity).create();
         alertDialog.setTitle(title);
         alertDialog.setMessage(stringToHTML(message));
         final EditText input = new EditText(this.activity);
@@ -169,7 +167,7 @@ public final class Notifier extends AndroidNonvisibleComponent implements Compon
         }
         alertDialog.setView(input);
         alertDialog.setCancelable(false);
-        alertDialog.setButton(-1, "OK", new OnClickListener() {
+        alertDialog.setButton(-1, "OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 Notifier.this.HideKeyboard(input);
                 Notifier.this.AfterTextInput(input.getText().toString());
@@ -177,7 +175,7 @@ public final class Notifier extends AndroidNonvisibleComponent implements Compon
         });
         if (cancelable) {
             final String cancelButtonText = this.activity.getString(17039360);
-            alertDialog.setButton(-2, cancelButtonText, new OnClickListener() {
+            alertDialog.setButton(-2, cancelButtonText, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     Notifier.this.HideKeyboard(input);
                     Notifier.this.TextInputCanceled();

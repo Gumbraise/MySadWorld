@@ -1,5 +1,6 @@
 package gnu.mapping;
 
+import android.support.v7.widget.ActivityChooserView;
 import java.util.Hashtable;
 
 public abstract class Environment extends PropertySet {
@@ -13,22 +14,6 @@ public abstract class Environment extends PropertySet {
     static final Hashtable envTable = new Hashtable(50);
     static Environment global;
     int flags = 23;
-
-    static class InheritedLocal extends InheritableThreadLocal<Environment> {
-        InheritedLocal() {
-        }
-
-        /* access modifiers changed from: protected */
-        public Environment childValue(Environment parentValue) {
-            if (parentValue == null) {
-                parentValue = Environment.getCurrent();
-            }
-            SimpleEnvironment env = parentValue.cloneForThread();
-            env.flags |= 8;
-            env.flags &= -17;
-            return env;
-        }
-    }
 
     public abstract NamedLocation addLocation(Symbol symbol, Object obj, Location location);
 
@@ -99,7 +84,7 @@ public abstract class Environment extends PropertySet {
 
     public final void setIndirectDefines() {
         this.flags |= 32;
-        ((InheritingEnvironment) this).baseTimestamp = ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED;
+        ((InheritingEnvironment) this).baseTimestamp = ActivityChooserView.ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED;
     }
 
     public final Location getLocation(Symbol key, Object property) {
@@ -107,7 +92,7 @@ public abstract class Environment extends PropertySet {
     }
 
     public final Location getLocation(Symbol key) {
-        return getLocation(key, null, true);
+        return getLocation(key, (Object) null, true);
     }
 
     public final Location lookup(Symbol key, Object property) {
@@ -115,7 +100,7 @@ public abstract class Environment extends PropertySet {
     }
 
     public final Location lookup(Symbol key) {
-        return getLocation(key, null, false);
+        return getLocation(key, (Object) null, false);
     }
 
     public final NamedLocation getLocation(Symbol name, Object property, boolean create) {
@@ -141,7 +126,7 @@ public abstract class Environment extends PropertySet {
     }
 
     public final boolean isBound(Symbol key) {
-        return isBound(key, null);
+        return isBound(key, (Object) null);
     }
 
     public final boolean containsKey(Object key) {
@@ -172,12 +157,12 @@ public abstract class Environment extends PropertySet {
     }
 
     public final Object get(String key, Object defaultValue) {
-        return get(getSymbol(key), null, defaultValue);
+        return get(getSymbol(key), (Object) null, defaultValue);
     }
 
     public Object get(Symbol sym) {
         String unb = Location.UNBOUND;
-        Object val = get(sym, null, unb);
+        Object val = get(sym, (Object) null, unb);
         if (val != unb) {
             return val;
         }
@@ -204,7 +189,7 @@ public abstract class Environment extends PropertySet {
             key = k.getKeySymbol();
             property = k.getKeyProperty();
         }
-        return get(key instanceof Symbol ? (Symbol) key : getSymbol((String) key), property, null);
+        return get(key instanceof Symbol ? (Symbol) key : getSymbol((String) key), property, (Object) null);
     }
 
     public void put(Symbol key, Object property, Object newValue) {
@@ -217,12 +202,12 @@ public abstract class Environment extends PropertySet {
     }
 
     public final void put(Symbol key, Object newValue) {
-        put(key, null, newValue);
+        put(key, (Object) null, newValue);
     }
 
     public final Object put(Object key, Object newValue) {
         Location loc = getLocation(key, true);
-        Object oldValue = loc.get(null);
+        Object oldValue = loc.get((Object) null);
         loc.set(newValue);
         return oldValue;
     }
@@ -244,7 +229,7 @@ public abstract class Environment extends PropertySet {
         if (loc == null) {
             return null;
         }
-        Object obj = loc.get(null);
+        Object obj = loc.get((Object) null);
         loc.undefine();
         return obj;
     }
@@ -260,7 +245,7 @@ public abstract class Environment extends PropertySet {
     }
 
     public final void remove(Symbol sym) {
-        remove(sym, null, sym.hashCode());
+        remove(sym, (Object) null, sym.hashCode());
     }
 
     public final void removeFunction(Symbol sym) {
@@ -273,7 +258,7 @@ public abstract class Environment extends PropertySet {
             return remove(k.getKeySymbol(), k.getKeyProperty());
         }
         Symbol symbol = key instanceof Symbol ? (Symbol) key : getSymbol((String) key);
-        return remove(symbol, null, symbol.hashCode() ^ System.identityHashCode(null));
+        return remove(symbol, (Object) null, symbol.hashCode() ^ System.identityHashCode((Object) null));
     }
 
     public Namespace defaultNamespace() {
@@ -293,10 +278,10 @@ public abstract class Environment extends PropertySet {
             if (env != null) {
                 return env;
             }
-            SimpleEnvironment simpleEnvironment = new SimpleEnvironment();
-            simpleEnvironment.setName(name);
-            envTable.put(name, simpleEnvironment);
-            return simpleEnvironment;
+            Environment env2 = new SimpleEnvironment();
+            env2.setName(name);
+            envTable.put(name, env2);
+            return env2;
         }
     }
 
@@ -361,9 +346,9 @@ public abstract class Environment extends PropertySet {
         return toString();
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public SimpleEnvironment cloneForThread() {
-        InheritingEnvironment env = new InheritingEnvironment(null, this);
+        InheritingEnvironment env = new InheritingEnvironment((String) null, this);
         if (this instanceof InheritingEnvironment) {
             InheritingEnvironment p = (InheritingEnvironment) this;
             int numInherited = p.numInherited;
@@ -391,5 +376,21 @@ public abstract class Environment extends PropertySet {
             }
         }
         return env;
+    }
+
+    static class InheritedLocal extends InheritableThreadLocal<Environment> {
+        InheritedLocal() {
+        }
+
+        /* access modifiers changed from: protected */
+        public Environment childValue(Environment parentValue) {
+            if (parentValue == null) {
+                parentValue = Environment.getCurrent();
+            }
+            SimpleEnvironment env = parentValue.cloneForThread();
+            env.flags |= 8;
+            env.flags &= -17;
+            return env;
+        }
     }
 }

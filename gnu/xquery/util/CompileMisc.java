@@ -11,6 +11,7 @@ import gnu.expr.ConsumerTarget;
 import gnu.expr.Declaration;
 import gnu.expr.ErrorExp;
 import gnu.expr.Expression;
+import gnu.expr.IfExp;
 import gnu.expr.InlineCalls;
 import gnu.expr.LambdaExp;
 import gnu.expr.LetExp;
@@ -18,14 +19,11 @@ import gnu.expr.PrimProcedure;
 import gnu.expr.QuoteExp;
 import gnu.expr.ReferenceExp;
 import gnu.expr.Target;
+import gnu.kawa.functions.AddOp;
+import gnu.kawa.functions.ValuesMap;
 import gnu.kawa.reflect.CompileReflect;
-import gnu.kawa.reflect.OccurrenceType;
-import gnu.kawa.xml.ChildAxis;
 import gnu.kawa.xml.CoerceNodes;
-import gnu.kawa.xml.DescendantAxis;
-import gnu.kawa.xml.DescendantOrSelfAxis;
-import gnu.kawa.xml.NodeSetType;
-import gnu.kawa.xml.NodeType;
+import gnu.kawa.xml.SortNodes;
 import gnu.kawa.xml.XDataType;
 import gnu.mapping.Procedure;
 import gnu.math.IntNum;
@@ -69,9 +67,8 @@ public class CompileMisc {
                 try {
                     return BooleanValue.booleanValue(((QuoteExp) arg).getValue()) ? XQuery.trueExp : XQuery.falseExp;
                 } catch (Throwable th) {
-                    String message = "cannot convert to a boolean";
-                    visitor.getMessages().error('e', message);
-                    return new ErrorExp(message);
+                    visitor.getMessages().error('e', "cannot convert to a boolean");
+                    return new ErrorExp("cannot convert to a boolean");
                 }
             }
         }
@@ -83,391 +80,394 @@ public class CompileMisc {
         return exp;
     }
 
-    /* JADX WARNING: type inference failed for: r7v0 */
-    /* JADX WARNING: type inference failed for: r14v0 */
-    /* JADX WARNING: type inference failed for: r21v0, types: [gnu.expr.Expression] */
-    /* JADX WARNING: type inference failed for: r21v1 */
-    /* JADX WARNING: type inference failed for: r21v2 */
-    /* JADX WARNING: type inference failed for: r2v1, types: [gnu.expr.Expression] */
-    /* JADX WARNING: type inference failed for: r0v19, types: [gnu.expr.Expression] */
-    /* JADX WARNING: type inference failed for: r18v0 */
-    /* JADX WARNING: type inference failed for: r18v1 */
-    /* JADX WARNING: type inference failed for: r18v2 */
-    /* JADX WARNING: type inference failed for: r1v8, types: [gnu.expr.Expression] */
-    /* JADX WARNING: type inference failed for: r0v56, types: [gnu.expr.Expression] */
-    /* JADX WARNING: type inference failed for: r18v3 */
-    /* JADX WARNING: type inference failed for: r18v4 */
-    /* JADX WARNING: type inference failed for: r21v3 */
-    /* JADX WARNING: Multi-variable type inference failed */
-    /* JADX WARNING: Unknown variable types count: 9 */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public static gnu.expr.Expression validateApplyValuesFilter(gnu.expr.ApplyExp r32, gnu.expr.InlineCalls r33, gnu.bytecode.Type r34, gnu.mapping.Procedure r35) {
-        /*
-            r26 = r35
-            gnu.xquery.util.ValuesFilter r26 = (gnu.xquery.util.ValuesFilter) r26
-            r32.visitArgs(r33)
-            gnu.expr.Expression[] r4 = r32.getArgs()
-            r27 = 1
-            r7 = r4[r27]
-            boolean r0 = r7 instanceof gnu.expr.LambdaExp
-            r27 = r0
-            if (r27 == 0) goto L_0x0030
-            r14 = r7
-            gnu.expr.LambdaExp r14 = (gnu.expr.LambdaExp) r14
-            int r0 = r14.min_args
-            r27 = r0
-            r28 = 3
-            r0 = r27
-            r1 = r28
-            if (r0 != r1) goto L_0x0030
-            int r0 = r14.max_args
-            r27 = r0
-            r28 = 3
-            r0 = r27
-            r1 = r28
-            if (r0 == r1) goto L_0x0031
-        L_0x0030:
-            return r32
-        L_0x0031:
-            r27 = 0
-            r27 = r4[r27]
-            gnu.bytecode.Type r27 = r27.getType()
-            r0 = r32
-            r1 = r27
-            r0.setType(r1)
-            gnu.expr.Compilation r15 = r33.getCompilation()
-            gnu.expr.Declaration r6 = r14.firstDecl()
-            gnu.expr.Declaration r16 = r6.nextDecl()
-            gnu.expr.Declaration r10 = r16.nextDecl()
-            r27 = 1
-            r0 = r27
-            r14.setInlineOnly(r0)
-            r0 = r32
-            r14.returnContinuation = r0
-            gnu.expr.LambdaExp r27 = r33.getCurrentLambda()
-            r0 = r27
-            r14.inlineHome = r0
-            r0 = r16
-            r14.remove(r0, r10)
-            r27 = 2
-            r0 = r27
-            r14.min_args = r0
-            r27 = 2
-            r0 = r27
-            r14.max_args = r0
-            boolean r27 = r10.getCanRead()
-            if (r27 != 0) goto L_0x0088
-            r0 = r26
-            char r0 = r0.kind
-            r27 = r0
-            r28 = 82
-            r0 = r27
-            r1 = r28
-            if (r0 != r1) goto L_0x0030
-        L_0x0088:
-            r15.letStart()
-            r27 = 0
-            r21 = r4[r27]
-            r0 = r26
-            char r0 = r0.kind
-            r27 = r0
-            r28 = 80
-            r0 = r27
-            r1 = r28
-            if (r0 != r1) goto L_0x0218
-            gnu.bytecode.Type r23 = r21.getType()
-            gnu.bytecode.ClassType r27 = gnu.expr.Compilation.typeValues
-            java.lang.String r28 = "countValues"
-            r29 = 1
-            gnu.bytecode.Method r25 = r27.getDeclaredMethod(r28, r29)
-        L_0x00ab:
-            java.lang.String r27 = "sequence"
-            r0 = r27
-            r1 = r23
-            r2 = r21
-            gnu.expr.Declaration r24 = r15.letVariable(r0, r1, r2)
-            r15.letEnter()
-            gnu.expr.Expression r0 = r14.body
-            r18 = r0
-            gnu.expr.Expression r0 = r14.body
-            r27 = r0
-            gnu.bytecode.Type r20 = r27.getType()
-            gnu.kawa.xml.XDataType r27 = gnu.kawa.xml.XDataType.booleanType
-            r0 = r20
-            r1 = r27
-            if (r0 == r1) goto L_0x00f6
-            gnu.expr.ApplyExp r19 = new gnu.expr.ApplyExp
-            gnu.bytecode.Method r27 = gnu.xquery.util.ValuesFilter.matchesMethod
-            r28 = 2
-            r0 = r28
-            gnu.expr.Expression[] r0 = new gnu.expr.Expression[r0]
-            r28 = r0
-            r29 = 0
-            r28[r29] = r18
-            r29 = 1
-            gnu.expr.ReferenceExp r30 = new gnu.expr.ReferenceExp
-            r0 = r30
-            r1 = r16
-            r0.<init>(r1)
-            r28[r29] = r30
-            r0 = r19
-            r1 = r27
-            r2 = r28
-            r0.<init>(r1, r2)
-            r18 = r19
-        L_0x00f6:
-            r0 = r26
-            char r0 = r0.kind
-            r27 = r0
-            r28 = 82
-            r0 = r27
-            r1 = r28
-            if (r0 != r1) goto L_0x0185
-            gnu.expr.Declaration r17 = new gnu.expr.Declaration
-            r27 = 0
-            gnu.bytecode.PrimType r28 = gnu.bytecode.Type.intType
-            r0 = r17
-            r1 = r27
-            r2 = r28
-            r0.<init>(r1, r2)
-            gnu.expr.ApplyExp r8 = new gnu.expr.ApplyExp
-            gnu.kawa.functions.AddOp r27 = gnu.kawa.functions.AddOp.$Mn
-            r28 = 2
-            r0 = r28
-            gnu.expr.Expression[] r0 = new gnu.expr.Expression[r0]
-            r28 = r0
-            r29 = 0
-            gnu.expr.ReferenceExp r30 = new gnu.expr.ReferenceExp
-            r0 = r30
-            r0.<init>(r10)
-            r28[r29] = r30
-            r29 = 1
-            gnu.expr.ReferenceExp r30 = new gnu.expr.ReferenceExp
-            r0 = r30
-            r1 = r17
-            r0.<init>(r1)
-            r28[r29] = r30
-            r0 = r27
-            r1 = r28
-            r8.<init>(r0, r1)
-            gnu.expr.ApplyExp r9 = new gnu.expr.ApplyExp
-            gnu.kawa.functions.AddOp r27 = gnu.kawa.functions.AddOp.$Pl
-            r28 = 2
-            r0 = r28
-            gnu.expr.Expression[] r0 = new gnu.expr.Expression[r0]
-            r28 = r0
-            r29 = 0
-            r28[r29] = r8
-            r29 = 1
-            gnu.expr.QuoteExp r30 = new gnu.expr.QuoteExp
-            gnu.math.IntNum r31 = gnu.math.IntNum.one()
-            r30.<init>(r31)
-            r28[r29] = r30
-            r0 = r27
-            r1 = r28
-            r9.<init>(r0, r1)
-            gnu.expr.LetExp r12 = new gnu.expr.LetExp
-            r27 = 1
-            r0 = r27
-            gnu.expr.Expression[] r0 = new gnu.expr.Expression[r0]
-            r27 = r0
-            r28 = 0
-            r27[r28] = r9
-            r0 = r27
-            r12.<init>(r0)
-            r0 = r17
-            r14.replaceFollowing(r6, r0)
-            r0 = r16
-            r12.add(r0)
-            r0 = r18
-            r12.body = r0
-            r18 = r12
-        L_0x0185:
-            gnu.expr.IfExp r19 = new gnu.expr.IfExp
-            gnu.expr.ReferenceExp r27 = new gnu.expr.ReferenceExp
-            r0 = r27
-            r0.<init>(r6)
-            gnu.expr.QuoteExp r28 = gnu.expr.QuoteExp.voidExp
-            r0 = r19
-            r1 = r18
-            r2 = r27
-            r3 = r28
-            r0.<init>(r1, r2, r3)
-            r0 = r19
-            r14.body = r0
-            gnu.expr.ApplyExp r5 = new gnu.expr.ApplyExp
-            gnu.kawa.functions.ValuesMap r27 = gnu.kawa.functions.ValuesMap.valuesMapWithPos
-            r28 = 2
-            r0 = r28
-            gnu.expr.Expression[] r0 = new gnu.expr.Expression[r0]
-            r28 = r0
-            r29 = 0
-            r28[r29] = r14
-            r29 = 1
-            gnu.expr.ReferenceExp r30 = new gnu.expr.ReferenceExp
-            r0 = r30
-            r1 = r24
-            r0.<init>(r1)
-            r28[r29] = r30
-            r0 = r27
-            r1 = r28
-            r5.<init>(r0, r1)
-            gnu.bytecode.Type r27 = r6.getType()
-            r0 = r27
-            r5.setType(r0)
-            r14.returnContinuation = r5
-            gnu.expr.ApplyExp r11 = new gnu.expr.ApplyExp
-            r27 = 1
-            r0 = r27
-            gnu.expr.Expression[] r0 = new gnu.expr.Expression[r0]
-            r27 = r0
-            r28 = 0
-            gnu.expr.ReferenceExp r29 = new gnu.expr.ReferenceExp
-            r0 = r29
-            r1 = r24
-            r0.<init>(r1)
-            r27[r28] = r29
-            r0 = r25
-            r1 = r27
-            r11.<init>(r0, r1)
-            gnu.expr.LetExp r13 = new gnu.expr.LetExp
-            r27 = 1
-            r0 = r27
-            gnu.expr.Expression[] r0 = new gnu.expr.Expression[r0]
-            r27 = r0
-            r28 = 0
-            r27[r28] = r11
-            r0 = r27
-            r13.<init>(r0)
-            r13.add(r10)
-            gnu.kawa.functions.ValuesMap r27 = gnu.kawa.functions.ValuesMap.valuesMapWithPos
-            r0 = r33
-            r1 = r34
-            r2 = r27
-            gnu.expr.Expression r27 = gnu.kawa.functions.CompileMisc.validateApplyValuesMap(r5, r0, r1, r2)
-            r0 = r27
-            r13.body = r0
-            gnu.expr.LetExp r32 = r15.letDone(r13)
-            goto L_0x0030
-        L_0x0218:
-            gnu.bytecode.ClassType r23 = gnu.kawa.xml.SortNodes.typeSortedNodes
-            gnu.expr.ApplyExp r22 = new gnu.expr.ApplyExp
-            gnu.kawa.xml.SortNodes r27 = gnu.kawa.xml.SortNodes.sortNodes
-            r28 = 1
-            r0 = r28
-            gnu.expr.Expression[] r0 = new gnu.expr.Expression[r0]
-            r28 = r0
-            r29 = 0
-            r28[r29] = r21
-            r0 = r22
-            r1 = r27
-            r2 = r28
-            r0.<init>(r1, r2)
-            gnu.bytecode.ClassType r27 = gnu.kawa.xml.CoerceNodes.typeNodes
-            java.lang.String r28 = "size"
-            r29 = 0
-            gnu.bytecode.Method r25 = r27.getDeclaredMethod(r28, r29)
-            r21 = r22
-            goto L_0x00ab
-        */
-        throw new UnsupportedOperationException("Method not decompiled: gnu.xquery.util.CompileMisc.validateApplyValuesFilter(gnu.expr.ApplyExp, gnu.expr.InlineCalls, gnu.bytecode.Type, gnu.mapping.Procedure):gnu.expr.Expression");
-    }
-
-    public static Expression validateApplyRelativeStep(ApplyExp exp, InlineCalls visitor, Type required, Procedure proc) {
-        Type rtype;
+    public static Expression validateApplyValuesFilter(ApplyExp exp, InlineCalls visitor, Type required, Procedure proc) {
+        Type seqType;
+        Method sizeMethod;
+        ValuesFilter vproc = (ValuesFilter) proc;
         exp.visitArgs(visitor);
         Expression[] args = exp.getArgs();
-        Expression exp1 = args[0];
         Expression exp2 = args[1];
-        Compilation comp = visitor.getCompilation();
-        if ((exp2 instanceof LambdaExp) && comp.mustCompile) {
-            LambdaExp lexp2 = (LambdaExp) exp2;
-            if (lexp2.min_args == 3 && lexp2.max_args == 3) {
-                lexp2.setInlineOnly(true);
-                lexp2.returnContinuation = exp;
-                lexp2.inlineHome = visitor.getCurrentLambda();
-                Expression exp22 = lexp2.body;
-                Declaration posArg = lexp2.firstDecl().nextDecl();
-                Declaration lastArg = posArg.nextDecl();
-                posArg.setNext(lastArg.nextDecl());
-                lastArg.setNext(null);
-                lexp2.min_args = 2;
-                lexp2.max_args = 2;
-                Type type1 = exp1.getType();
-                if (type1 == null || NodeType.anyNodeTest.compare(type1) != -3) {
-                    Type rtype2 = exp.getTypeRaw();
-                    if (rtype2 == null || rtype2 == Type.pointer_type) {
-                        Type rtypePrime = OccurrenceType.itemPrimeType(exp22.getType());
-                        if (NodeType.anyNodeTest.compare(rtypePrime) >= 0) {
-                            rtype = NodeSetType.getInstance(rtypePrime);
-                        } else {
-                            rtype = OccurrenceType.getInstance(rtypePrime, 0, -1);
-                        }
-                        exp.setType(rtype);
-                    }
-                    if (lastArg.getCanRead()) {
-                        ClassType typeNodes = CoerceNodes.typeNodes;
-                        comp.letStart();
-                        Declaration sequence = comp.letVariable(null, typeNodes, new ApplyExp((Procedure) CoerceNodes.coerceNodes, exp1));
-                        comp.letEnter();
-                        Method sizeMethod = typeNodes.getDeclaredMethod("size", 0);
-                        ReferenceExp referenceExp = new ReferenceExp(sequence);
-                        LetExp lastLet = new LetExp(new Expression[]{new ApplyExp(sizeMethod, referenceExp)});
-                        lastLet.addDeclaration(lastArg);
-                        Expression function = exp.getFunction();
-                        ReferenceExp referenceExp2 = new ReferenceExp(sequence);
-                        lastLet.body = new ApplyExp(function, referenceExp2, lexp2);
-                        return comp.letDone(lastLet);
-                    }
-                    ApplyExp result = exp;
-                    if (exp22 instanceof ApplyExp) {
-                        ApplyExp aexp2 = (ApplyExp) exp22;
-                        if (aexp2.getFunction().valueIfConstant() instanceof ValuesFilter) {
-                            Expression vexp2 = aexp2.getArgs()[1];
-                            if (vexp2 instanceof LambdaExp) {
-                                LambdaExp lvexp2 = (LambdaExp) vexp2;
-                                Declaration dot2 = lvexp2.firstDecl();
-                                if (dot2 != null) {
-                                    Declaration pos2 = dot2.nextDecl();
-                                    if (pos2 != null && pos2.nextDecl() == null && !pos2.getCanRead() && ClassType.make("java.lang.Number").compare(lvexp2.body.getType()) == -3) {
-                                        exp22 = aexp2.getArg(0);
-                                        lexp2.body = exp22;
-                                        aexp2.setArg(0, exp);
-                                        result = aexp2;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if (!(exp1 instanceof ApplyExp) || !(exp22 instanceof ApplyExp)) {
-                        return result;
-                    }
-                    ApplyExp aexp1 = (ApplyExp) exp1;
-                    ApplyExp aexp22 = (ApplyExp) exp22;
-                    Object p1 = aexp1.getFunction().valueIfConstant();
-                    Object p2 = aexp22.getFunction().valueIfConstant();
-                    if (p1 != RelativeStep.relativeStep || !(p2 instanceof ChildAxis) || aexp1.getArgCount() != 2) {
-                        return result;
-                    }
-                    Expression exp12 = aexp1.getArg(1);
-                    if (!(exp12 instanceof LambdaExp)) {
-                        return result;
-                    }
-                    LambdaExp lexp12 = (LambdaExp) exp12;
-                    if (!(lexp12.body instanceof ApplyExp) || ((ApplyExp) lexp12.body).getFunction().valueIfConstant() != DescendantOrSelfAxis.anyNode) {
-                        return result;
-                    }
-                    exp.setArg(0, aexp1.getArg(0));
-                    aexp22.setFunction(new QuoteExp(DescendantAxis.make(((ChildAxis) p2).getNodePredicate())));
-                    return result;
-                }
-                String message = "step input is " + visitor.getCompilation().getLanguage().formatType(type1) + " - not a node sequence";
-                visitor.getMessages().error('e', message);
-                ErrorExp errorExp = new ErrorExp(message);
-                return errorExp;
-            }
+        if (!(exp2 instanceof LambdaExp)) {
+            return exp;
         }
-        return exp;
+        LambdaExp lexp2 = (LambdaExp) exp2;
+        if (lexp2.min_args != 3 || lexp2.max_args != 3) {
+            return exp;
+        }
+        exp.setType(args[0].getType());
+        Compilation parser = visitor.getCompilation();
+        Declaration dotArg = lexp2.firstDecl();
+        Declaration posArg = dotArg.nextDecl();
+        Declaration lastArg = posArg.nextDecl();
+        lexp2.setInlineOnly(true);
+        lexp2.returnContinuation = exp;
+        lexp2.inlineHome = visitor.getCurrentLambda();
+        lexp2.remove(posArg, lastArg);
+        lexp2.min_args = 2;
+        lexp2.max_args = 2;
+        if (!lastArg.getCanRead() && vproc.kind != 'R') {
+            return exp;
+        }
+        parser.letStart();
+        Expression seq = args[0];
+        if (vproc.kind == 'P') {
+            seqType = seq.getType();
+            sizeMethod = Compilation.typeValues.getDeclaredMethod("countValues", 1);
+        } else {
+            seqType = SortNodes.typeSortedNodes;
+            ApplyExp applyExp = new ApplyExp((Procedure) SortNodes.sortNodes, seq);
+            sizeMethod = CoerceNodes.typeNodes.getDeclaredMethod("size", 0);
+            seq = applyExp;
+        }
+        Declaration sequence = parser.letVariable("sequence", seqType, seq);
+        parser.letEnter();
+        Expression pred = lexp2.body;
+        if (lexp2.body.getType() != XDataType.booleanType) {
+            pred = new ApplyExp(ValuesFilter.matchesMethod, pred, new ReferenceExp(posArg));
+        }
+        if (vproc.kind == 'R') {
+            Declaration declaration = new Declaration((Object) null, (Type) Type.intType);
+            Expression init = new ApplyExp((Procedure) AddOp.$Mn, new ReferenceExp(lastArg), new ReferenceExp(declaration));
+            LetExp let = new LetExp(new Expression[]{new ApplyExp((Procedure) AddOp.$Pl, init, new QuoteExp(IntNum.one()))});
+            lexp2.replaceFollowing(dotArg, declaration);
+            let.add(posArg);
+            let.body = pred;
+            pred = let;
+        }
+        lexp2.body = new IfExp(pred, new ReferenceExp(dotArg), QuoteExp.voidExp);
+        ApplyExp doMap = new ApplyExp((Procedure) ValuesMap.valuesMapWithPos, lexp2, new ReferenceExp(sequence));
+        doMap.setType(dotArg.getType());
+        lexp2.returnContinuation = doMap;
+        LetExp let2 = new LetExp(new Expression[]{new ApplyExp(sizeMethod, new ReferenceExp(sequence))});
+        let2.add(lastArg);
+        let2.body = gnu.kawa.functions.CompileMisc.validateApplyValuesMap(doMap, visitor, required, ValuesMap.valuesMapWithPos);
+        return parser.letDone(let2);
+    }
+
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r1v8, resolved type: gnu.xquery.util.RelativeStep} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r1v10, resolved type: gnu.kawa.xml.DescendantOrSelfAxis} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r1v22, resolved type: gnu.bytecode.ClassType} */
+    /* JADX WARNING: Multi-variable type inference failed */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public static gnu.expr.Expression validateApplyRelativeStep(gnu.expr.ApplyExp r40, gnu.expr.InlineCalls r41, gnu.bytecode.Type r42, gnu.mapping.Procedure r43) {
+        /*
+            r40.visitArgs(r41)
+            gnu.expr.Expression[] r5 = r40.getArgs()
+            r35 = 0
+            r9 = r5[r35]
+            r35 = 1
+            r11 = r5[r35]
+            gnu.expr.Compilation r6 = r41.getCompilation()
+            boolean r0 = r11 instanceof gnu.expr.LambdaExp
+            r35 = r0
+            if (r35 == 0) goto L_0x003f
+            boolean r0 = r6.mustCompile
+            r35 = r0
+            if (r35 == 0) goto L_0x003f
+            r17 = r11
+            gnu.expr.LambdaExp r17 = (gnu.expr.LambdaExp) r17
+            r0 = r17
+            int r0 = r0.min_args
+            r35 = r0
+            r36 = 3
+            r0 = r35
+            r1 = r36
+            if (r0 != r1) goto L_0x003f
+            r0 = r17
+            int r0 = r0.max_args
+            r35 = r0
+            r36 = 3
+            r0 = r35
+            r1 = r36
+            if (r0 == r1) goto L_0x0042
+        L_0x003f:
+            r26 = r40
+        L_0x0041:
+            return r26
+        L_0x0042:
+            r35 = 1
+            r0 = r17
+            r1 = r35
+            r0.setInlineOnly(r1)
+            r0 = r40
+            r1 = r17
+            r1.returnContinuation = r0
+            gnu.expr.LambdaExp r35 = r41.getCurrentLambda()
+            r0 = r35
+            r1 = r17
+            r1.inlineHome = r0
+            r0 = r17
+            gnu.expr.Expression r11 = r0.body
+            gnu.expr.Declaration r8 = r17.firstDecl()
+            gnu.expr.Declaration r24 = r8.nextDecl()
+            gnu.expr.Declaration r13 = r24.nextDecl()
+            gnu.expr.Declaration r35 = r13.nextDecl()
+            r0 = r24
+            r1 = r35
+            r0.setNext(r1)
+            r35 = 0
+            r0 = r35
+            r13.setNext(r0)
+            r35 = 2
+            r0 = r35
+            r1 = r17
+            r1.min_args = r0
+            r35 = 2
+            r0 = r35
+            r1 = r17
+            r1.max_args = r0
+            gnu.bytecode.Type r31 = r9.getType()
+            if (r31 == 0) goto L_0x00e6
+            gnu.kawa.xml.NodeType r35 = gnu.kawa.xml.NodeType.anyNodeTest
+            r0 = r35
+            r1 = r31
+            int r35 = r0.compare(r1)
+            r36 = -3
+            r0 = r35
+            r1 = r36
+            if (r0 != r1) goto L_0x00e6
+            gnu.expr.Compilation r35 = r41.getCompilation()
+            gnu.expr.Language r12 = r35.getLanguage()
+            java.lang.StringBuilder r35 = new java.lang.StringBuilder
+            r35.<init>()
+            java.lang.String r36 = "step input is "
+            java.lang.StringBuilder r35 = r35.append(r36)
+            r0 = r31
+            java.lang.String r36 = r12.formatType(r0)
+            java.lang.StringBuilder r35 = r35.append(r36)
+            java.lang.String r36 = " - not a node sequence"
+            java.lang.StringBuilder r35 = r35.append(r36)
+            java.lang.String r19 = r35.toString()
+            gnu.text.SourceMessages r35 = r41.getMessages()
+            r36 = 101(0x65, float:1.42E-43)
+            r0 = r35
+            r1 = r36
+            r2 = r19
+            r0.error(r1, r2)
+            gnu.expr.ErrorExp r26 = new gnu.expr.ErrorExp
+            r0 = r26
+            r1 = r19
+            r0.<init>(r1)
+            goto L_0x0041
+        L_0x00e6:
+            gnu.bytecode.Type r27 = r40.getTypeRaw()
+            if (r27 == 0) goto L_0x00f4
+            gnu.bytecode.ClassType r35 = gnu.bytecode.Type.pointer_type
+            r0 = r27
+            r1 = r35
+            if (r0 != r1) goto L_0x0113
+        L_0x00f4:
+            gnu.bytecode.Type r32 = r11.getType()
+            gnu.bytecode.Type r28 = gnu.kawa.reflect.OccurrenceType.itemPrimeType(r32)
+            gnu.kawa.xml.NodeType r35 = gnu.kawa.xml.NodeType.anyNodeTest
+            r0 = r35
+            r1 = r28
+            int r20 = r0.compare(r1)
+            if (r20 < 0) goto L_0x01ae
+            gnu.bytecode.Type r27 = gnu.kawa.xml.NodeSetType.getInstance(r28)
+        L_0x010c:
+            r0 = r40
+            r1 = r27
+            r0.setType(r1)
+        L_0x0113:
+            boolean r35 = r13.getCanRead()
+            if (r35 == 0) goto L_0x01be
+            gnu.bytecode.ClassType r33 = gnu.kawa.xml.CoerceNodes.typeNodes
+            r6.letStart()
+            r35 = 0
+            gnu.expr.ApplyExp r36 = new gnu.expr.ApplyExp
+            gnu.kawa.xml.CoerceNodes r37 = gnu.kawa.xml.CoerceNodes.coerceNodes
+            r38 = 1
+            r0 = r38
+            gnu.expr.Expression[] r0 = new gnu.expr.Expression[r0]
+            r38 = r0
+            r39 = 0
+            r38[r39] = r9
+            r36.<init>((gnu.mapping.Procedure) r37, (gnu.expr.Expression[]) r38)
+            r0 = r35
+            r1 = r33
+            r2 = r36
+            gnu.expr.Declaration r29 = r6.letVariable(r0, r1, r2)
+            r6.letEnter()
+            java.lang.String r35 = "size"
+            r36 = 0
+            r0 = r33
+            r1 = r35
+            r2 = r36
+            gnu.bytecode.Method r30 = r0.getDeclaredMethod((java.lang.String) r1, (int) r2)
+            gnu.expr.ApplyExp r14 = new gnu.expr.ApplyExp
+            r35 = 1
+            r0 = r35
+            gnu.expr.Expression[] r0 = new gnu.expr.Expression[r0]
+            r35 = r0
+            r36 = 0
+            gnu.expr.ReferenceExp r37 = new gnu.expr.ReferenceExp
+            r0 = r37
+            r1 = r29
+            r0.<init>((gnu.expr.Declaration) r1)
+            r35[r36] = r37
+            r0 = r30
+            r1 = r35
+            r14.<init>((gnu.bytecode.Method) r0, (gnu.expr.Expression[]) r1)
+            gnu.expr.LetExp r15 = new gnu.expr.LetExp
+            r35 = 1
+            r0 = r35
+            gnu.expr.Expression[] r0 = new gnu.expr.Expression[r0]
+            r35 = r0
+            r36 = 0
+            r35[r36] = r14
+            r0 = r35
+            r15.<init>(r0)
+            r15.addDeclaration((gnu.expr.Declaration) r13)
+            gnu.expr.ApplyExp r35 = new gnu.expr.ApplyExp
+            gnu.expr.Expression r36 = r40.getFunction()
+            r37 = 2
+            r0 = r37
+            gnu.expr.Expression[] r0 = new gnu.expr.Expression[r0]
+            r37 = r0
+            r38 = 0
+            gnu.expr.ReferenceExp r39 = new gnu.expr.ReferenceExp
+            r0 = r39
+            r1 = r29
+            r0.<init>((gnu.expr.Declaration) r1)
+            r37[r38] = r39
+            r38 = 1
+            r37[r38] = r17
+            r35.<init>((gnu.expr.Expression) r36, (gnu.expr.Expression[]) r37)
+            r0 = r35
+            r15.body = r0
+            gnu.expr.LetExp r26 = r6.letDone(r15)
+            goto L_0x0041
+        L_0x01ae:
+            r35 = 0
+            r36 = -1
+            r0 = r28
+            r1 = r35
+            r2 = r36
+            gnu.bytecode.Type r27 = gnu.kawa.reflect.OccurrenceType.getInstance(r0, r1, r2)
+            goto L_0x010c
+        L_0x01be:
+            r26 = r40
+            boolean r0 = r11 instanceof gnu.expr.ApplyExp
+            r35 = r0
+            if (r35 == 0) goto L_0x0238
+            r4 = r11
+            gnu.expr.ApplyExp r4 = (gnu.expr.ApplyExp) r4
+            gnu.expr.Expression r35 = r4.getFunction()
+            java.lang.Object r25 = r35.valueIfConstant()
+            r0 = r25
+            boolean r0 = r0 instanceof gnu.xquery.util.ValuesFilter
+            r35 = r0
+            if (r35 == 0) goto L_0x0238
+            gnu.expr.Expression[] r35 = r4.getArgs()
+            r36 = 1
+            r34 = r35[r36]
+            r0 = r34
+            boolean r0 = r0 instanceof gnu.expr.LambdaExp
+            r35 = r0
+            if (r35 == 0) goto L_0x0238
+            r18 = r34
+            gnu.expr.LambdaExp r18 = (gnu.expr.LambdaExp) r18
+            gnu.expr.Declaration r7 = r18.firstDecl()
+            if (r7 == 0) goto L_0x0238
+            gnu.expr.Declaration r23 = r7.nextDecl()
+            if (r23 == 0) goto L_0x0238
+            gnu.expr.Declaration r35 = r23.nextDecl()
+            if (r35 != 0) goto L_0x0238
+            boolean r35 = r23.getCanRead()
+            if (r35 != 0) goto L_0x0238
+            java.lang.String r35 = "java.lang.Number"
+            gnu.bytecode.ClassType r35 = gnu.bytecode.ClassType.make(r35)
+            r0 = r18
+            gnu.expr.Expression r0 = r0.body
+            r36 = r0
+            gnu.bytecode.Type r36 = r36.getType()
+            int r35 = r35.compare(r36)
+            r36 = -3
+            r0 = r35
+            r1 = r36
+            if (r0 != r1) goto L_0x0238
+            r35 = 0
+            r0 = r35
+            gnu.expr.Expression r11 = r4.getArg(r0)
+            r0 = r17
+            r0.body = r11
+            r35 = 0
+            r0 = r35
+            r1 = r40
+            r4.setArg(r0, r1)
+            r26 = r4
+        L_0x0238:
+            boolean r0 = r9 instanceof gnu.expr.ApplyExp
+            r35 = r0
+            if (r35 == 0) goto L_0x0041
+            boolean r0 = r11 instanceof gnu.expr.ApplyExp
+            r35 = r0
+            if (r35 == 0) goto L_0x0041
+            r3 = r9
+            gnu.expr.ApplyExp r3 = (gnu.expr.ApplyExp) r3
+            r4 = r11
+            gnu.expr.ApplyExp r4 = (gnu.expr.ApplyExp) r4
+            gnu.expr.Expression r35 = r3.getFunction()
+            java.lang.Object r21 = r35.valueIfConstant()
+            gnu.expr.Expression r35 = r4.getFunction()
+            java.lang.Object r22 = r35.valueIfConstant()
+            gnu.xquery.util.RelativeStep r35 = gnu.xquery.util.RelativeStep.relativeStep
+            r0 = r21
+            r1 = r35
+            if (r0 != r1) goto L_0x0041
+            r0 = r22
+            boolean r0 = r0 instanceof gnu.kawa.xml.ChildAxis
+            r35 = r0
+            if (r35 == 0) goto L_0x0041
+            int r35 = r3.getArgCount()
+            r36 = 2
+            r0 = r35
+            r1 = r36
+            if (r0 != r1) goto L_0x0041
+            r35 = 1
+            r0 = r35
+            gnu.expr.Expression r10 = r3.getArg(r0)
+            boolean r0 = r10 instanceof gnu.expr.LambdaExp
+            r35 = r0
+            if (r35 == 0) goto L_0x0041
+            r16 = r10
+            gnu.expr.LambdaExp r16 = (gnu.expr.LambdaExp) r16
+            r0 = r16
+            gnu.expr.Expression r0 = r0.body
+            r35 = r0
+            r0 = r35
+            boolean r0 = r0 instanceof gnu.expr.ApplyExp
+            r35 = r0
+            if (r35 == 0) goto L_0x0041
+            r0 = r16
+            gnu.expr.Expression r0 = r0.body
+            r35 = r0
+            gnu.expr.ApplyExp r35 = (gnu.expr.ApplyExp) r35
+            gnu.expr.Expression r35 = r35.getFunction()
+            java.lang.Object r35 = r35.valueIfConstant()
+            gnu.kawa.xml.DescendantOrSelfAxis r36 = gnu.kawa.xml.DescendantOrSelfAxis.anyNode
+            r0 = r35
+            r1 = r36
+            if (r0 != r1) goto L_0x0041
+            r35 = 0
+            r36 = 0
+            r0 = r36
+            gnu.expr.Expression r36 = r3.getArg(r0)
+            r0 = r40
+            r1 = r35
+            r2 = r36
+            r0.setArg(r1, r2)
+            gnu.expr.QuoteExp r35 = new gnu.expr.QuoteExp
+            gnu.kawa.xml.ChildAxis r22 = (gnu.kawa.xml.ChildAxis) r22
+            gnu.lists.NodePredicate r36 = r22.getNodePredicate()
+            gnu.kawa.xml.DescendantAxis r36 = gnu.kawa.xml.DescendantAxis.make(r36)
+            r35.<init>(r36)
+            r0 = r35
+            r4.setFunction(r0)
+            goto L_0x0041
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.xquery.util.CompileMisc.validateApplyRelativeStep(gnu.expr.ApplyExp, gnu.expr.InlineCalls, gnu.bytecode.Type, gnu.mapping.Procedure):gnu.expr.Expression");
     }
 
     public static Expression validateApplyOrderedMap(ApplyExp exp, InlineCalls visitor, Type required, Procedure proc) {
@@ -488,7 +488,7 @@ public class CompileMisc {
             return;
         }
         CodeAttr code = comp.getCode();
-        Variable consumer = code.pushScope().addVariable(code, typeTuples, null);
+        Variable consumer = code.pushScope().addVariable(code, typeTuples, (String) null);
         args[1].compile(comp, Target.pushValue(typeTuples));
         code.emitStore(consumer);
         args[0].compile(comp, (Target) new ConsumerTarget(consumer));

@@ -18,7 +18,7 @@ public abstract class ModuleWithContext extends ModuleBody {
         }
         ctx.next = 0;
         ctx.proc = this;
-        ctx.f236pc = proc.selector;
+        ctx.pc = proc.selector;
         return 0;
     }
 
@@ -38,7 +38,7 @@ public abstract class ModuleWithContext extends ModuleBody {
             ctx.where = 1;
             ctx.next = 0;
             ctx.proc = this;
-            ctx.f236pc = proc.selector;
+            ctx.pc = proc.selector;
             return 0;
         }
         ctx.where = 0;
@@ -62,7 +62,7 @@ public abstract class ModuleWithContext extends ModuleBody {
             ctx.where = 33;
             ctx.next = 0;
             ctx.proc = this;
-            ctx.f236pc = proc.selector;
+            ctx.pc = proc.selector;
             return 0;
         }
         ctx.where = 0;
@@ -87,7 +87,7 @@ public abstract class ModuleWithContext extends ModuleBody {
             ctx.where = ErrorMessages.ERROR_SOUND_RECORDER;
             ctx.next = 0;
             ctx.proc = this;
-            ctx.f236pc = proc.selector;
+            ctx.pc = proc.selector;
             return 0;
         }
         ctx.where = 0;
@@ -113,7 +113,7 @@ public abstract class ModuleWithContext extends ModuleBody {
             ctx.where = 17185;
             ctx.next = 0;
             ctx.proc = this;
-            ctx.f236pc = proc.selector;
+            ctx.pc = proc.selector;
             return 0;
         }
         ctx.where = 0;
@@ -151,7 +151,7 @@ public abstract class ModuleWithContext extends ModuleBody {
         ctx.where = 0;
         ctx.next = 0;
         ctx.proc = this;
-        ctx.f236pc = proc.selector;
+        ctx.pc = proc.selector;
         return 0;
     }
 

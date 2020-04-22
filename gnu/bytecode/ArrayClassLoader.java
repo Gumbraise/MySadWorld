@@ -94,38 +94,76 @@ public class ArrayClassLoader extends ClassLoader {
         return clas;
     }
 
-    public Class loadClass(String name) throws ClassNotFoundException {
-        Class clas;
-        Object r = this.cmap.get(name);
-        if (r != null) {
-            return (Class) r;
-        }
-        Object r2 = this.map.get(name);
-        if (r2 instanceof ClassType) {
-            ClassType ctype = (ClassType) r2;
-            if (ctype.isExisting()) {
-                r2 = ctype.reflectClass;
-            } else {
-                r2 = ctype.writeToArray();
-            }
-        }
-        if (r2 instanceof byte[]) {
-            synchronized (this) {
-                Object r3 = this.map.get(name);
-                if (r3 instanceof byte[]) {
-                    byte[] bytes = (byte[]) r3;
-                    clas = defineClass(name, bytes, 0, bytes.length);
-                    this.cmap.put(name, clas);
-                } else {
-                    clas = (Class) r3;
-                }
-            }
-        } else if (r2 == null) {
-            clas = getParent().loadClass(name);
-        } else {
-            clas = (Class) r2;
-        }
-        return clas;
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r4v4, resolved type: java.lang.Object} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v0, resolved type: java.lang.Class<?>} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r4v10, resolved type: byte[]} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r4v11, resolved type: java.lang.Class} */
+    /* JADX WARNING: Multi-variable type inference failed */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public java.lang.Class loadClass(java.lang.String r8) throws java.lang.ClassNotFoundException {
+        /*
+            r7 = this;
+            java.util.Hashtable r5 = r7.cmap
+            java.lang.Object r4 = r5.get(r8)
+            if (r4 == 0) goto L_0x000b
+            java.lang.Class r4 = (java.lang.Class) r4
+        L_0x000a:
+            return r4
+        L_0x000b:
+            java.util.Hashtable r5 = r7.map
+            java.lang.Object r4 = r5.get(r8)
+            boolean r5 = r4 instanceof gnu.bytecode.ClassType
+            if (r5 == 0) goto L_0x0020
+            r3 = r4
+            gnu.bytecode.ClassType r3 = (gnu.bytecode.ClassType) r3
+            boolean r5 = r3.isExisting()
+            if (r5 == 0) goto L_0x0043
+            java.lang.Class r4 = r3.reflectClass
+        L_0x0020:
+            boolean r5 = r4 instanceof byte[]
+            if (r5 == 0) goto L_0x0050
+            monitor-enter(r7)
+            java.util.Hashtable r5 = r7.map     // Catch:{ all -> 0x004d }
+            java.lang.Object r4 = r5.get(r8)     // Catch:{ all -> 0x004d }
+            boolean r5 = r4 instanceof byte[]     // Catch:{ all -> 0x004d }
+            if (r5 == 0) goto L_0x0048
+            byte[] r4 = (byte[]) r4     // Catch:{ all -> 0x004d }
+            r0 = r4
+            byte[] r0 = (byte[]) r0     // Catch:{ all -> 0x004d }
+            r1 = r0
+            r5 = 0
+            int r6 = r1.length     // Catch:{ all -> 0x004d }
+            java.lang.Class r2 = r7.defineClass(r8, r1, r5, r6)     // Catch:{ all -> 0x004d }
+            java.util.Hashtable r5 = r7.cmap     // Catch:{ all -> 0x004d }
+            r5.put(r8, r2)     // Catch:{ all -> 0x004d }
+        L_0x0040:
+            monitor-exit(r7)     // Catch:{ all -> 0x004d }
+        L_0x0041:
+            r4 = r2
+            goto L_0x000a
+        L_0x0043:
+            byte[] r4 = r3.writeToArray()
+            goto L_0x0020
+        L_0x0048:
+            r0 = r4
+            java.lang.Class r0 = (java.lang.Class) r0     // Catch:{ all -> 0x004d }
+            r2 = r0
+            goto L_0x0040
+        L_0x004d:
+            r5 = move-exception
+            monitor-exit(r7)     // Catch:{ all -> 0x004d }
+            throw r5
+        L_0x0050:
+            if (r4 != 0) goto L_0x005b
+            java.lang.ClassLoader r5 = r7.getParent()
+            java.lang.Class r2 = r5.loadClass(r8)
+            goto L_0x0041
+        L_0x005b:
+            r2 = r4
+            java.lang.Class r2 = (java.lang.Class) r2
+            goto L_0x0041
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.bytecode.ArrayClassLoader.loadClass(java.lang.String):java.lang.Class");
     }
 
     public static Package getContextPackage(String cname) {

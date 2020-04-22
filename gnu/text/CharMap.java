@@ -1,7 +1,6 @@
 package gnu.text;
 
 import gnu.kawa.util.AbstractWeakHashTable;
-import gnu.kawa.util.AbstractWeakHashTable.WEntry;
 
 /* compiled from: Char */
 class CharMap extends AbstractWeakHashTable<Char, Char> {
@@ -10,8 +9,8 @@ class CharMap extends AbstractWeakHashTable<Char, Char> {
 
     public Char get(int key) {
         cleanup();
-        for (WEntry<Char, Char> node = ((WEntry[]) this.table)[hashToIndex(key)]; node != null; node = node.next) {
-            Char val = (Char) node.getValue();
+        for (AbstractWeakHashTable.WEntry<Char, Char> node = ((AbstractWeakHashTable.WEntry[]) this.table)[hashToIndex(key)]; node != null; node = node.next) {
+            Char val = node.getValue();
             if (val != null && val.intValue() == key) {
                 return val;
             }

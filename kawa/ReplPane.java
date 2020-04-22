@@ -5,6 +5,7 @@ import gnu.mapping.OutPort;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JTextPane;
+import javax.swing.text.AttributeSet;
 import javax.swing.text.EditorKit;
 import javax.swing.text.Element;
 import javax.swing.text.MutableAttributeSet;
@@ -19,6 +20,7 @@ public class ReplPane extends JTextPane implements KeyListener {
     public ReplPane(ReplDocument document2) {
         super(document2);
         this.document = document2;
+        document2.pane = this;
         document2.paneCount++;
         addKeyListener(this);
         addFocusListener(document2);
@@ -41,7 +43,7 @@ public class ReplPane extends JTextPane implements KeyListener {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void enter() {
         String str;
         int pos = getCaretPosition();
@@ -52,7 +54,7 @@ public class ReplPane extends JTextPane implements KeyListener {
             int lineAfterCaret = b.indexOf(10, pos);
             if (lineAfterCaret == len) {
                 if (len <= this.document.outputMark || b.charAt(len - 1) != 10) {
-                    this.document.insertString(len, "\n", null);
+                    this.document.insertString(len, "\n", (AttributeSet) null);
                 } else {
                     lineAfterCaret--;
                 }

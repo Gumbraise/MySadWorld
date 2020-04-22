@@ -23,18 +23,6 @@ public class FileUtil {
     private static final String DOCUMENT_DIRECTORY = "My Documents/";
     private static final String FILENAME_PREFIX = "app_inventor_";
 
-    public static class FileException extends RuntimeError {
-        private final int msgNumber;
-
-        public FileException(int errorMsgNumber) {
-            this.msgNumber = errorMsgNumber;
-        }
-
-        public int getErrorMessageNumber() {
-            return this.msgNumber;
-        }
-    }
-
     private FileUtil() {
     }
 
@@ -183,6 +171,18 @@ public class FileUtil {
                 throw new FileException(ErrorMessages.ERROR_MEDIA_EXTERNAL_STORAGE_READONLY);
             }
             throw new FileException(ErrorMessages.ERROR_MEDIA_EXTERNAL_STORAGE_NOT_AVAILABLE);
+        }
+    }
+
+    public static class FileException extends RuntimeError {
+        private final int msgNumber;
+
+        public FileException(int errorMsgNumber) {
+            this.msgNumber = errorMsgNumber;
+        }
+
+        public int getErrorMessageNumber() {
+            return this.msgNumber;
         }
     }
 }

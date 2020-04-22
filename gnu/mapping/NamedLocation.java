@@ -1,8 +1,8 @@
 package gnu.mapping;
 
-import java.util.Map.Entry;
+import java.util.Map;
 
-public abstract class NamedLocation extends IndirectableLocation implements Entry, EnvironmentKey {
+public abstract class NamedLocation extends IndirectableLocation implements Map.Entry, EnvironmentKey {
     final Symbol name;
     NamedLocation next;
     final Object property;
@@ -12,12 +12,10 @@ public abstract class NamedLocation extends IndirectableLocation implements Entr
     }
 
     public Environment getEnvironment() {
+        Environment env;
         for (NamedLocation loc = this; loc != null; loc = loc.next) {
-            if (loc.name == null) {
-                Environment env = (Environment) loc.value;
-                if (env != null) {
-                    return env;
-                }
+            if (loc.name == null && (env = (Environment) loc.value) != null) {
+                return env;
             }
         }
         return super.getEnvironment();

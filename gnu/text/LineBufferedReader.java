@@ -14,9 +14,7 @@ public class LineBufferedReader extends Reader {
     public char[] buffer;
     private int flags;
     int highestPos;
-
-    /* renamed from: in */
-    protected Reader f244in;
+    protected Reader in;
     public int limit;
     protected int lineNumber;
     private int lineStartPos;
@@ -27,7 +25,7 @@ public class LineBufferedReader extends Reader {
     public char readState = 10;
 
     public void close() throws IOException {
-        this.f244in.close();
+        this.in.close();
     }
 
     public char getReadState() {
@@ -54,19 +52,19 @@ public class LineBufferedReader extends Reader {
         }
     }
 
-    public LineBufferedReader(InputStream in) {
-        this.f244in = new InputStreamReader(in);
+    public LineBufferedReader(InputStream in2) {
+        this.in = new InputStreamReader(in2);
     }
 
-    public LineBufferedReader(Reader in) {
-        this.f244in = in;
+    public LineBufferedReader(Reader in2) {
+        this.in = in2;
     }
 
     public void lineStart(boolean revisited) throws IOException {
     }
 
     public int fill(int len) throws IOException {
-        return this.f244in.read(this.buffer, this.pos, len);
+        return this.in.read(this.buffer, this.pos, len);
     }
 
     private void clearMark() {
@@ -210,59 +208,19 @@ public class LineBufferedReader extends Reader {
         }
     }
 
-    /* JADX WARNING: type inference failed for: r0v0 */
-    /* JADX WARNING: type inference failed for: r0v1 */
-    /* JADX WARNING: type inference failed for: r5v5, types: [char[]] */
-    /* JADX WARNING: type inference failed for: r0v2, types: [char] */
-    /* JADX WARNING: type inference failed for: r0v3 */
-    /* JADX WARNING: type inference failed for: r0v4 */
-    /* JADX WARNING: type inference failed for: r0v5 */
-    /* JADX WARNING: type inference failed for: r0v6, types: [int] */
-    /* JADX WARNING: type inference failed for: r0v7 */
-    /* JADX WARNING: type inference failed for: r0v8 */
-    /* JADX WARNING: type inference failed for: r5v16, types: [char[]] */
-    /* JADX WARNING: type inference failed for: r0v9, types: [int, char] */
-    /* JADX WARNING: type inference failed for: r0v10 */
-    /* JADX WARNING: type inference failed for: r0v11 */
-    /* JADX WARNING: type inference failed for: r0v12 */
-    /* JADX WARNING: type inference failed for: r0v13 */
-    /* JADX WARNING: type inference failed for: r0v14 */
-    /* JADX WARNING: type inference failed for: r0v15 */
-    /* JADX WARNING: type inference failed for: r0v16 */
-    /* JADX WARNING: type inference failed for: r0v17 */
-    /* JADX WARNING: type inference failed for: r0v18 */
-    /* JADX WARNING: type inference failed for: r0v19 */
-    /* JADX WARNING: type inference failed for: r0v20 */
-    /* JADX WARNING: type inference failed for: r0v21 */
-    /* JADX WARNING: type inference failed for: r0v22 */
-    /* JADX WARNING: type inference failed for: r0v23 */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r0v2, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r0v9, types: [int, char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char[], code=null, for r5v16, types: [char[]] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char[], code=null, for r5v5, types: [char[]] */
-    /* JADX WARNING: Multi-variable type inference failed. Error: jadx.core.utils.exceptions.JadxRuntimeException: No candidate types for var: r0v3
-      assigns: []
-      uses: []
-      mth insns count: 77
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.fillTypeCandidates(TypeSearch.java:237)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.run(TypeSearch.java:53)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.runMultiVariableSearch(TypeInferenceVisitor.java:99)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.visit(TypeInferenceVisitor.java:92)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:27)
-    	at jadx.core.dex.visitors.DepthTraversal.lambda$visit$1(DepthTraversal.java:14)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:14)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:30)
-    	at jadx.core.ProcessClass.lambda$processDependencies$0(ProcessClass.java:49)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.ProcessClass.processDependencies(ProcessClass.java:49)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:35)
-    	at jadx.api.JadxDecompiler.processClass(JadxDecompiler.java:311)
-    	at jadx.api.JavaClass.decompile(JavaClass.java:62)
-    	at jadx.api.JadxDecompiler.lambda$appendSourcesSave$0(JadxDecompiler.java:217)
-     */
-    /* JADX WARNING: Unknown variable types count: 13 */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v5, resolved type: char} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v7, resolved type: char} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v8, resolved type: char} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v12, resolved type: char} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v13, resolved type: char} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v14, resolved type: char} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v15, resolved type: char} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v16, resolved type: char} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v17, resolved type: char} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v18, resolved type: char} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v19, resolved type: char} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v20, resolved type: char} */
+    /* JADX WARNING: Multi-variable type inference failed */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public int read(char[] r10, int r11, int r12) throws java.io.IOException {
         /*
@@ -404,12 +362,10 @@ public class LineBufferedReader extends Reader {
     }
 
     public int getColumnNumber() {
+        char prev;
         int start = 0;
-        if (this.pos > 0) {
-            char prev = this.buffer[this.pos - 1];
-            if (prev == 10 || prev == 13) {
-                return 0;
-            }
+        if (this.pos > 0 && ((prev = this.buffer[this.pos - 1]) == 10 || prev == 13)) {
+            return 0;
         }
         if (this.readAheadLimit <= 0) {
             return this.pos - this.lineStartPos;
@@ -522,7 +478,7 @@ public class LineBufferedReader extends Reader {
     /* JADX WARNING: Code restructure failed: missing block: B:22:0x0064, code lost:
         r9.pos++;
      */
-    /* JADX WARNING: Code restructure failed: missing block: B:30:?, code lost:
+    /* JADX WARNING: Code restructure failed: missing block: B:28:?, code lost:
         return new java.lang.String(r9.buffer, r3, r1 - r3);
      */
     /* Code decompiled incorrectly, please refer to instructions dump. */
@@ -598,59 +554,19 @@ public class LineBufferedReader extends Reader {
         throw new UnsupportedOperationException("Method not decompiled: gnu.text.LineBufferedReader.readLine():java.lang.String");
     }
 
-    /* JADX WARNING: type inference failed for: r0v0 */
-    /* JADX WARNING: type inference failed for: r0v1 */
-    /* JADX WARNING: type inference failed for: r0v2 */
-    /* JADX WARNING: type inference failed for: r0v3, types: [int] */
-    /* JADX WARNING: type inference failed for: r0v4 */
-    /* JADX WARNING: type inference failed for: r0v5 */
-    /* JADX WARNING: type inference failed for: r4v5, types: [char[]] */
-    /* JADX WARNING: type inference failed for: r0v6, types: [char] */
-    /* JADX WARNING: type inference failed for: r0v7 */
-    /* JADX WARNING: type inference failed for: r0v8 */
-    /* JADX WARNING: type inference failed for: r4v10, types: [char[]] */
-    /* JADX WARNING: type inference failed for: r0v9, types: [char] */
-    /* JADX WARNING: type inference failed for: r0v10 */
-    /* JADX WARNING: type inference failed for: r0v11 */
-    /* JADX WARNING: type inference failed for: r0v12 */
-    /* JADX WARNING: type inference failed for: r0v13 */
-    /* JADX WARNING: type inference failed for: r0v14 */
-    /* JADX WARNING: type inference failed for: r0v15 */
-    /* JADX WARNING: type inference failed for: r0v16 */
-    /* JADX WARNING: type inference failed for: r0v17 */
-    /* JADX WARNING: type inference failed for: r0v18 */
-    /* JADX WARNING: type inference failed for: r0v19 */
-    /* JADX WARNING: type inference failed for: r0v20 */
-    /* JADX WARNING: type inference failed for: r0v21 */
-    /* JADX WARNING: type inference failed for: r0v22 */
-    /* JADX WARNING: type inference failed for: r0v23 */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r0v6, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char, code=null, for r0v9, types: [char] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char[], code=null, for r4v10, types: [char[]] */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=char[], code=null, for r4v5, types: [char[]] */
-    /* JADX WARNING: Multi-variable type inference failed. Error: jadx.core.utils.exceptions.JadxRuntimeException: No candidate types for var: r0v0
-      assigns: []
-      uses: []
-      mth insns count: 67
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.fillTypeCandidates(TypeSearch.java:237)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.run(TypeSearch.java:53)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.runMultiVariableSearch(TypeInferenceVisitor.java:99)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.visit(TypeInferenceVisitor.java:92)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:27)
-    	at jadx.core.dex.visitors.DepthTraversal.lambda$visit$1(DepthTraversal.java:14)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:14)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:30)
-    	at jadx.core.ProcessClass.lambda$processDependencies$0(ProcessClass.java:49)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.ProcessClass.processDependencies(ProcessClass.java:49)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:35)
-    	at jadx.api.JadxDecompiler.processClass(JadxDecompiler.java:311)
-    	at jadx.api.JavaClass.decompile(JavaClass.java:62)
-    	at jadx.api.JadxDecompiler.lambda$appendSourcesSave$0(JadxDecompiler.java:217)
-     */
-    /* JADX WARNING: Unknown variable types count: 13 */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v2, resolved type: char} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v4, resolved type: char} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v5, resolved type: char} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v11, resolved type: char} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v12, resolved type: char} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v13, resolved type: char} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v14, resolved type: char} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v15, resolved type: char} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v16, resolved type: char} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v17, resolved type: char} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v18, resolved type: char} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v19, resolved type: char} */
+    /* JADX WARNING: Multi-variable type inference failed */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public int skip(int r9) throws java.io.IOException {
         /*
@@ -737,7 +653,7 @@ public class LineBufferedReader extends Reader {
     }
 
     public boolean ready() throws IOException {
-        return this.pos < this.limit || this.f244in.ready();
+        return this.pos < this.limit || this.in.ready();
     }
 
     public final void skip_quick() throws IOException {
@@ -848,20 +764,18 @@ public class LineBufferedReader extends Reader {
     }
 
     public int peek() throws IOException {
-        if (this.pos < this.limit && this.pos > 0) {
-            char ch = this.buffer[this.pos - 1];
-            if (!(ch == 10 || ch == 13)) {
-                char ch2 = this.buffer[this.pos];
-                if (ch2 != 13 || !getConvertCR()) {
-                    return ch2;
-                }
-                return 10;
+        char ch;
+        if (this.pos >= this.limit || this.pos <= 0 || (ch = this.buffer[this.pos - 1]) == 10 || ch == 13) {
+            int c = read();
+            if (c >= 0) {
+                unread_quick();
             }
+            return c;
         }
-        int c = read();
-        if (c >= 0) {
-            unread_quick();
+        char ch2 = this.buffer[this.pos];
+        if (ch2 != 13 || !getConvertCR()) {
+            return ch2;
         }
-        return c;
+        return 10;
     }
 }

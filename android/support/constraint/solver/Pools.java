@@ -11,6 +11,9 @@ final class Pools {
         void releaseAll(T[] tArr, int i);
     }
 
+    private Pools() {
+    }
+
     static class SimplePool<T> implements Pool<T> {
         private final Object[] mPool;
         private int mPoolSize;
@@ -63,8 +66,5 @@ final class Pools {
             }
             return false;
         }
-    }
-
-    private Pools() {
     }
 }

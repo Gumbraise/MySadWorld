@@ -8,9 +8,7 @@ public abstract class ScopeExp extends Expression {
     static int counter;
     Declaration decls;
     protected int frameSize;
-
-    /* renamed from: id */
-    public int f57id;
+    public int id;
     Declaration last;
     public ScopeExp outer;
     private Scope scope;
@@ -106,7 +104,7 @@ public abstract class ScopeExp extends Expression {
     public ScopeExp() {
         int i = counter + 1;
         counter = i;
-        this.f57id = i;
+        this.id = i;
     }
 
     public LambdaExp currentLambda() {
@@ -245,10 +243,9 @@ public abstract class ScopeExp extends Expression {
         Declaration decl = firstDecl();
         int i = 0;
         while (decl != null) {
-            int i2 = i + 1;
             decl.evalIndex = i;
             decl = decl.nextDecl();
-            i = i2;
+            i++;
         }
         this.frameSize = i;
     }
@@ -259,6 +256,6 @@ public abstract class ScopeExp extends Expression {
     }
 
     public String toString() {
-        return getClass().getName() + "#" + this.f57id;
+        return getClass().getName() + "#" + this.id;
     }
 }

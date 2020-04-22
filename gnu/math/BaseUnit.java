@@ -1,5 +1,6 @@
 package gnu.math;
 
+import android.support.v7.widget.ActivityChooserView;
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
@@ -18,7 +19,7 @@ public class BaseUnit extends NamedUnit implements Externalizable {
 
     public BaseUnit() {
         this.name = unitName;
-        this.index = ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED;
+        this.index = ActivityChooserView.ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED;
         this.dims = Dimensions.Empty;
     }
 

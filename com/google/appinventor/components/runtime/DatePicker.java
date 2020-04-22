@@ -1,7 +1,6 @@
 package com.google.appinventor.components.runtime;
 
 import android.app.DatePickerDialog;
-import android.app.DatePickerDialog.OnDateSetListener;
 import android.os.Handler;
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.PropertyCategory;
@@ -24,15 +23,15 @@ public class DatePicker extends ButtonBase {
     private boolean customDate = false;
     /* access modifiers changed from: private */
     public DatePickerDialog date;
-    private OnDateSetListener datePickerListener = new OnDateSetListener() {
+    private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(android.widget.DatePicker datePicker, int selectedYear, int selectedMonth, int selectedDay) {
             if (datePicker.isShown()) {
-                DatePicker.this.year = selectedYear;
-                DatePicker.this.javaMonth = selectedMonth;
-                DatePicker.this.month = DatePicker.this.javaMonth + 1;
-                DatePicker.this.day = selectedDay;
+                int unused = DatePicker.this.year = selectedYear;
+                int unused2 = DatePicker.this.javaMonth = selectedMonth;
+                int unused3 = DatePicker.this.month = DatePicker.this.javaMonth + 1;
+                int unused4 = DatePicker.this.day = selectedDay;
                 DatePicker.this.date.updateDate(DatePicker.this.year, DatePicker.this.javaMonth, DatePicker.this.day);
-                DatePicker.this.instant = Dates.DateInstant(DatePicker.this.year, DatePicker.this.month, DatePicker.this.day);
+                Calendar unused5 = DatePicker.this.instant = Dates.DateInstant(DatePicker.this.year, DatePicker.this.month, DatePicker.this.day);
                 DatePicker.this.androidUIHandler.post(new Runnable() {
                     public void run() {
                         DatePicker.this.AfterDateSet();

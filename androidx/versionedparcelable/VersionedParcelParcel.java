@@ -6,10 +6,9 @@ import android.os.IInterface;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.RestrictTo;
-import android.support.annotation.RestrictTo.Scope;
 import android.util.SparseIntArray;
 
-@RestrictTo({Scope.LIBRARY})
+@RestrictTo({RestrictTo.Scope.LIBRARY})
 class VersionedParcelParcel extends VersionedParcel {
     private static final boolean DEBUG = false;
     private static final String TAG = "VersionedParcelParcel";
@@ -70,9 +69,8 @@ class VersionedParcelParcel extends VersionedParcel {
         if (this.mCurrentField >= 0) {
             int currentFieldPosition = this.mPositionLookup.get(this.mCurrentField);
             int position = this.mParcel.dataPosition();
-            int size = position - currentFieldPosition;
             this.mParcel.setDataPosition(currentFieldPosition);
-            this.mParcel.writeInt(size);
+            this.mParcel.writeInt(position - currentFieldPosition);
             this.mParcel.setDataPosition(position);
         }
     }

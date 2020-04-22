@@ -49,7 +49,7 @@ public class IfExp extends Expression {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Expression select(boolean truth) {
         if (truth) {
             return this.then_clause;
@@ -71,11 +71,8 @@ public class IfExp extends Expression {
         if (!(target instanceof ConditionalTarget) || !(else_clause2 instanceof QuoteExp)) {
             if ((else_clause2 instanceof ExitExp) && (((ExitExp) else_clause2).result instanceof QuoteExp)) {
                 BlockExp block = ((ExitExp) else_clause2).block;
-                if (block.exitTarget instanceof IgnoreTarget) {
-                    falseLabel = block.exitableBlock.exitIsGoto();
-                    if (falseLabel != null) {
-                        falseInherited = true;
-                    }
+                if ((block.exitTarget instanceof IgnoreTarget) && (falseLabel = block.exitableBlock.exitIsGoto()) != null) {
+                    falseInherited = true;
                 }
             }
             falseInherited = false;

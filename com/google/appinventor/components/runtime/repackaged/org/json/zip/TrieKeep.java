@@ -1,7 +1,7 @@
 package com.google.appinventor.components.runtime.repackaged.org.json.zip;
 
 import com.google.appinventor.components.runtime.repackaged.org.json.Kim;
-import com.google.appinventor.components.runtime.util.Ev3Constants.Opcode;
+import com.google.appinventor.components.runtime.util.Ev3Constants;
 
 class TrieKeep extends Keep {
     private int[] froms = new int[this.capacity];
@@ -35,7 +35,7 @@ class TrieKeep extends Keep {
         }
 
         public Node get(byte cell) {
-            return get((int) cell & Opcode.TST);
+            return get((int) cell & Ev3Constants.Opcode.TST);
         }
 
         public boolean postMortem(PostMortem pm) {
@@ -75,7 +75,7 @@ class TrieKeep extends Keep {
         }
 
         public void set(byte cell, Node node) {
-            set((int) cell & Opcode.TST, node);
+            set((int) cell & Ev3Constants.Opcode.TST, node);
         }
 
         public Node vet(int cell) {
@@ -89,7 +89,7 @@ class TrieKeep extends Keep {
         }
 
         public Node vet(byte cell) {
-            return vet((int) cell & Opcode.TST);
+            return vet((int) cell & Ev3Constants.Opcode.TST);
         }
     }
 

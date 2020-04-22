@@ -25,11 +25,11 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
 public class ReplDocument extends DefaultStyledDocument implements DocumentListener, FocusListener {
-    static Style blueStyle = styles.addStyle("blue", null);
-    public static Style defaultStyle = styles.addStyle("default", null);
-    public static Style inputStyle = styles.addStyle("input", null);
-    static Style promptStyle = styles.addStyle("prompt", null);
-    public static Style redStyle = styles.addStyle("red", null);
+    static Style blueStyle = styles.addStyle("blue", (Style) null);
+    public static Style defaultStyle = styles.addStyle("default", (Style) null);
+    public static Style inputStyle = styles.addStyle("input", (Style) null);
+    static Style promptStyle = styles.addStyle("prompt", (Style) null);
+    public static Style redStyle = styles.addStyle("red", (Style) null);
     public static StyleContext styles = new StyleContext();
     Object closeListeners;
     SwingContent content;
@@ -42,7 +42,7 @@ public class ReplDocument extends DefaultStyledDocument implements DocumentListe
     int length;
     final ReplPaneOutPort out_stream;
     public int outputMark;
-    JTextPane pane = this;
+    JTextPane pane;
     int paneCount;
     Future thread;
 
@@ -125,8 +125,7 @@ public class ReplDocument extends DefaultStyledDocument implements DocumentListe
             public void run() {
                 boolean moveCaret = ReplDocument.this.pane != null && ReplDocument.this.pane.getCaretPosition() == ReplDocument.this.outputMark;
                 ReplDocument.this.insertString(ReplDocument.this.outputMark, str, style);
-                int len = str.length();
-                ReplDocument.this.outputMark += len;
+                ReplDocument.this.outputMark += str.length();
                 if (moveCaret) {
                     ReplDocument.this.pane.setCaretPosition(ReplDocument.this.outputMark);
                 }
@@ -159,7 +158,7 @@ public class ReplDocument extends DefaultStyledDocument implements DocumentListe
     }
 
     public void focusGained(FocusEvent e) {
-        JTextPane jTextPane;
+        ReplPane replPane;
         Object source = e.getSource();
         if (source instanceof ReplPane) {
             this.pane = (ReplPane) source;
@@ -167,11 +166,11 @@ public class ReplDocument extends DefaultStyledDocument implements DocumentListe
             this.pane = null;
         }
         if (source instanceof ReplPane) {
-            jTextPane = (ReplPane) source;
+            replPane = (ReplPane) source;
         } else {
-            jTextPane = null;
+            replPane = null;
         }
-        this.pane = jTextPane;
+        this.pane = replPane;
     }
 
     public void focusLost(FocusEvent e) {
@@ -208,7 +207,7 @@ public class ReplDocument extends DefaultStyledDocument implements DocumentListe
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void close() {
         this.in_r.appendEOF();
         try {
@@ -258,7 +257,7 @@ public class ReplDocument extends DefaultStyledDocument implements DocumentListe
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void fireDocumentClosed() {
         if (this.closeListeners instanceof DocumentCloseListener) {
             ((DocumentCloseListener) this.closeListeners).closed(this);

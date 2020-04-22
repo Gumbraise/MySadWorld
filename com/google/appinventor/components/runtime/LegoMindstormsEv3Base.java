@@ -21,7 +21,7 @@ public class LegoMindstormsEv3Base extends AndroidNonvisibleComponent implements
     }
 
     protected LegoMindstormsEv3Base() {
-        super(null);
+        super((Form) null);
         this.logTag = null;
     }
 

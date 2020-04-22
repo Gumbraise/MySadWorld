@@ -1,7 +1,6 @@
 package com.google.appinventor.components.runtime;
 
 import android.media.SoundPool;
-import android.media.SoundPool.OnLoadCompleteListener;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.util.Log;
@@ -50,14 +49,20 @@ public class Sound extends AndroidNonvisibleComponent implements Component, OnRe
     private final Vibrator vibe;
     private final boolean waitForLoadToComplete;
 
+    static /* synthetic */ int access$310(Sound x0) {
+        int i = x0.delayRetries;
+        x0.delayRetries = i - 1;
+        return i;
+    }
+
     private class OnLoadHelper {
         private OnLoadHelper() {
         }
 
         public void setOnloadCompleteListener(SoundPool soundPool) {
-            soundPool.setOnLoadCompleteListener(new OnLoadCompleteListener() {
+            soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
                 public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
-                    Sound.this.loadComplete = true;
+                    boolean unused = Sound.this.loadComplete = true;
                 }
             });
         }
@@ -101,7 +106,7 @@ public class Sound extends AndroidNonvisibleComponent implements Component, OnRe
         }
         this.soundId = 0;
         if (this.sourcePath.length() != 0) {
-            Integer existingSoundId = (Integer) this.soundMap.get(this.sourcePath);
+            Integer existingSoundId = this.soundMap.get(this.sourcePath);
             if (existingSoundId != null) {
                 this.soundId = existingSoundId.intValue();
                 return;
@@ -165,7 +170,7 @@ public class Sound extends AndroidNonvisibleComponent implements Component, OnRe
                 if (Sound.this.loadComplete) {
                     Sound.this.playAndCheckResult();
                 } else if (Sound.this.delayRetries > 0) {
-                    Sound.this.delayRetries = Sound.this.delayRetries - 1;
+                    Sound.access$310(Sound.this);
                     Sound.this.playWhenLoadComplete();
                 } else {
                     Sound.this.form.dispatchErrorOccurredEvent(Sound.this.thisComponent, "Play", ErrorMessages.ERROR_SOUND_NOT_READY, Sound.this.sourcePath);

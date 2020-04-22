@@ -23,10 +23,10 @@ public class ReaderParens extends ReadTableEntry {
 
     public static ReaderParens getInstance(char open2, char close2, int kind2) {
         if (open2 != '(' || close2 != ')' || kind2 != 5) {
-            return new ReaderParens(open2, close2, kind2, null);
+            return new ReaderParens(open2, close2, kind2, (Object) null);
         }
         if (instance == null) {
-            instance = new ReaderParens(open2, close2, kind2, null);
+            instance = new ReaderParens(open2, close2, kind2, (Object) null);
         }
         return instance;
     }

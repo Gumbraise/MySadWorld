@@ -38,20 +38,8 @@ public class WeakIdentityHashMap<K, V> extends AbstractHashTable<WeakHashNode<K,
     }
 
     /* access modifiers changed from: protected */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=java.lang.Object, code=K, for r3v0, types: [java.lang.Object, K] */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public boolean matches(K r2, K r3) {
-        /*
-            r1 = this;
-            if (r2 != r3) goto L_0x0004
-            r0 = 1
-        L_0x0003:
-            return r0
-        L_0x0004:
-            r0 = 0
-            goto L_0x0003
-        */
-        throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.util.WeakIdentityHashMap.matches(java.lang.Object, java.lang.Object):boolean");
+    public boolean matches(K key1, Object key2) {
+        return key1 == key2;
     }
 
     /* access modifiers changed from: protected */
@@ -76,7 +64,7 @@ public class WeakIdentityHashMap<K, V> extends AbstractHashTable<WeakHashNode<K,
         return super.remove(key);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void cleanup() {
         AbstractWeakHashTable.cleanup(this, this.rqueue);
     }

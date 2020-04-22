@@ -64,16 +64,16 @@ public class CheckedTarget extends StackTarget {
 
     public void compileFromStack(Compilation comp, Type stackType) {
         if (!compileFromStack0(comp, stackType)) {
-            emitCheckedCoerce(comp, this.proc, this.procname, this.argno, this.type, null);
+            emitCheckedCoerce(comp, this.proc, this.procname, this.argno, this.type, (Variable) null);
         }
     }
 
     public static void emitCheckedCoerce(Compilation comp, String procname2, int argno2, Type type) {
-        emitCheckedCoerce(comp, null, procname2, argno2, type, null);
+        emitCheckedCoerce(comp, (LambdaExp) null, procname2, argno2, type, (Variable) null);
     }
 
     public static void emitCheckedCoerce(Compilation comp, LambdaExp proc2, int argno2, Type type) {
-        emitCheckedCoerce(comp, proc2, proc2.getName(), argno2, type, null);
+        emitCheckedCoerce(comp, proc2, proc2.getName(), argno2, type, (Variable) null);
     }
 
     public static void emitCheckedCoerce(Compilation comp, LambdaExp proc2, int argno2, Type type, Variable argValue) {

@@ -71,11 +71,11 @@ public abstract class Location {
     }
 
     public final Object getValue() {
-        return get(null);
+        return get((Object) null);
     }
 
     public final Object setValue(Object newValue) {
-        Object value = get(null);
+        Object value = get((Object) null);
         set(newValue);
         return value;
     }
@@ -108,14 +108,14 @@ public abstract class Location {
     }
 
     public static IndirectableLocation make(String name) {
-        PlainLocation loc = new PlainLocation(Namespace.EmptyNamespace.getSymbol(name.intern()), null);
+        PlainLocation loc = new PlainLocation(Namespace.EmptyNamespace.getSymbol(name.intern()), (Object) null);
         loc.base = null;
         loc.value = UNBOUND;
         return loc;
     }
 
     public static IndirectableLocation make(Symbol name) {
-        PlainLocation loc = new PlainLocation(name, null);
+        PlainLocation loc = new PlainLocation(name, (Object) null);
         loc.base = null;
         loc.value = UNBOUND;
         return loc;

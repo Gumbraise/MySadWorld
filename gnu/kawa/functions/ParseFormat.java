@@ -25,18 +25,15 @@ public class ParseFormat extends Procedure1 {
         return parseFormat(fmt, this.emacsStyle ? '?' : '~');
     }
 
-    /* JADX WARNING: type inference failed for: r23v0 */
-    /* JADX WARNING: type inference failed for: r22v1, types: [java.text.Format] */
-    /* JADX WARNING: type inference failed for: r23v1 */
-    /* JADX WARNING: type inference failed for: r22v2, types: [java.text.Format] */
-    /* JADX WARNING: type inference failed for: r23v2 */
-    /* JADX WARNING: type inference failed for: r23v3 */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r23v0, resolved type: java.text.Format} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r23v1, resolved type: java.text.Format} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r23v2, resolved type: java.text.Format} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r23v3, resolved type: java.text.Format} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r22v3, resolved type: gnu.text.PadFormat} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r23v4, resolved type: java.text.Format} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v21, resolved type: gnu.text.PadFormat} */
     /* JADX WARNING: type inference failed for: r22v4 */
-    /* JADX WARNING: type inference failed for: r1v1, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r1v2, types: [java.text.Format] */
-    /* JADX WARNING: type inference failed for: r23v4 */
     /* JADX WARNING: Multi-variable type inference failed */
-    /* JADX WARNING: Unknown variable types count: 5 */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public static gnu.text.ReportFormat parseFormat(gnu.text.LineBufferedReader r31, char r32) throws java.text.ParseException, java.io.IOException {
         /*
@@ -81,7 +78,7 @@ public class ParseFormat extends Procedure1 {
             r0.setLength(r5)
             gnu.text.LiteralFormat r5 = new gnu.text.LiteralFormat
             r0 = r29
-            r5.<init>(r0)
+            r5.<init>((char[]) r0)
             r0 = r24
             r0.addElement(r5)
         L_0x0059:
@@ -368,7 +365,7 @@ public class ParseFormat extends Procedure1 {
             if (r8 != r4) goto L_0x0016
             gnu.kawa.functions.LispFormat r4 = new gnu.kawa.functions.LispFormat     // Catch:{ IOException -> 0x002f, ParseException -> 0x005e, IndexOutOfBoundsException -> 0x007e }
             java.lang.String r5 = r7.toString()     // Catch:{ IOException -> 0x002f, ParseException -> 0x005e, IndexOutOfBoundsException -> 0x007e }
-            r4.<init>(r5)     // Catch:{ IOException -> 0x002f, ParseException -> 0x005e, IndexOutOfBoundsException -> 0x007e }
+            r4.<init>((java.lang.String) r5)     // Catch:{ IOException -> 0x002f, ParseException -> 0x005e, IndexOutOfBoundsException -> 0x007e }
             r7 = r4
             goto L_0x0006
         L_0x0016:
@@ -401,7 +398,7 @@ public class ParseFormat extends Procedure1 {
         L_0x004f:
             gnu.mapping.CharArrayInPort r2 = new gnu.mapping.CharArrayInPort     // Catch:{ IOException -> 0x002f, ParseException -> 0x005e, IndexOutOfBoundsException -> 0x007e }
             java.lang.String r4 = r7.toString()     // Catch:{ IOException -> 0x002f, ParseException -> 0x005e, IndexOutOfBoundsException -> 0x007e }
-            r2.<init>(r4)     // Catch:{ IOException -> 0x002f, ParseException -> 0x005e, IndexOutOfBoundsException -> 0x007e }
+            r2.<init>((java.lang.String) r4)     // Catch:{ IOException -> 0x002f, ParseException -> 0x005e, IndexOutOfBoundsException -> 0x007e }
             goto L_0x0027
         L_0x0059:
             r4 = move-exception

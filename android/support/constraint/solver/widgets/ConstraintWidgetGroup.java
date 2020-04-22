@@ -1,6 +1,6 @@
 package android.support.constraint.solver.widgets;
 
-import android.support.constraint.solver.widgets.ConstraintAnchor.Type;
+import android.support.constraint.solver.widgets.ConstraintAnchor;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -38,7 +38,7 @@ public class ConstraintWidgetGroup {
         return null;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Set<ConstraintWidget> getWidgetsToSet(int orientation) {
         if (orientation == 0) {
             return this.mWidgetsToSetHorizontal;
@@ -49,7 +49,7 @@ public class ConstraintWidgetGroup {
         return null;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void addWidgetsToSet(ConstraintWidget widget, int orientation) {
         if (orientation == 0) {
             this.mWidgetsToSetHorizontal.add(widget);
@@ -58,14 +58,14 @@ public class ConstraintWidgetGroup {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public List<ConstraintWidget> getWidgetsToSolve() {
         if (!this.mWidgetsToSolve.isEmpty()) {
             return this.mWidgetsToSolve;
         }
         int size = this.mConstrainedGroup.size();
         for (int i = 0; i < size; i++) {
-            ConstraintWidget widget = (ConstraintWidget) this.mConstrainedGroup.get(i);
+            ConstraintWidget widget = this.mConstrainedGroup.get(i);
             if (!widget.mOptimizerMeasurable) {
                 getWidgetsToSolveTraversal((ArrayList) this.mWidgetsToSolve, widget);
             }
@@ -101,11 +101,11 @@ public class ConstraintWidgetGroup {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void updateUnresolvedWidgets() {
         int size = this.mUnresolvedWidgets.size();
         for (int i = 0; i < size; i++) {
-            updateResolvedDimension((ConstraintWidget) this.mUnresolvedWidgets.get(i));
+            updateResolvedDimension(this.mUnresolvedWidgets.get(i));
         }
     }
 
@@ -132,10 +132,10 @@ public class ConstraintWidgetGroup {
                 if (!targetAnchor.mOwner.mOptimizerMeasured) {
                     updateResolvedDimension(targetAnchor.mOwner);
                 }
-                if (targetAnchor.mType == Type.RIGHT) {
-                    end3 = targetAnchor.mOwner.f5mX + targetAnchor.mOwner.getWidth();
-                } else if (targetAnchor.mType == Type.LEFT) {
-                    end3 = targetAnchor.mOwner.f5mX;
+                if (targetAnchor.mType == ConstraintAnchor.Type.RIGHT) {
+                    end3 = targetAnchor.mOwner.mX + targetAnchor.mOwner.getWidth();
+                } else if (targetAnchor.mType == ConstraintAnchor.Type.LEFT) {
+                    end3 = targetAnchor.mOwner.mX;
                 }
             }
             if (rightSide) {
@@ -149,7 +149,7 @@ public class ConstraintWidgetGroup {
                 if (!targetAnchor3.mOwner.mOptimizerMeasured) {
                     updateResolvedDimension(targetAnchor3.mOwner);
                 }
-                int start = (targetAnchor3.mOwner.f6mY + targetAnchor3.mOwner.mBaselineDistance) - widget.mBaselineDistance;
+                int start = (targetAnchor3.mOwner.mY + targetAnchor3.mOwner.mBaselineDistance) - widget.mBaselineDistance;
                 widget.setVerticalDimension(start, start + widget.mHeight);
                 widget.mOptimizerMeasured = true;
                 return;
@@ -166,10 +166,10 @@ public class ConstraintWidgetGroup {
                 if (!targetAnchor2.mOwner.mOptimizerMeasured) {
                     updateResolvedDimension(targetAnchor2.mOwner);
                 }
-                if (targetAnchor2.mType == Type.BOTTOM) {
-                    end = targetAnchor2.mOwner.f6mY + targetAnchor2.mOwner.getHeight();
-                } else if (targetAnchor2.mType == Type.TOP) {
-                    end = targetAnchor2.mOwner.f6mY;
+                if (targetAnchor2.mType == ConstraintAnchor.Type.BOTTOM) {
+                    end = targetAnchor2.mOwner.mY + targetAnchor2.mOwner.getHeight();
+                } else if (targetAnchor2.mType == ConstraintAnchor.Type.TOP) {
+                    end = targetAnchor2.mOwner.mY;
                 }
             }
             if (bottomSide) {

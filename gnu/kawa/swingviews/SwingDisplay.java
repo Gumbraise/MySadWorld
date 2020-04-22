@@ -15,9 +15,10 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionListener;
 import java.util.WeakHashMap;
-import javax.swing.Box.Filler;
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JMenuBar;
 import javax.swing.JTextField;
 import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
@@ -31,7 +32,7 @@ public class SwingDisplay extends Display {
     }
 
     public Window makeWindow() {
-        SwingFrame window = new SwingFrame(null, null, null);
+        SwingFrame window = new SwingFrame((String) null, (JMenuBar) null, (Object) null);
         window.display = this;
         return window;
     }
@@ -53,21 +54,21 @@ public class SwingDisplay extends Display {
     }
 
     static synchronized Document getSwingDocument(Text model) {
-        PlainDocument plainDocument;
+        Document document;
         synchronized (SwingDisplay.class) {
             if (documents == null) {
                 documents = new WeakHashMap();
             }
             Object existing = documents.get(model);
             if (existing != null) {
-                plainDocument = (Document) existing;
+                document = (Document) existing;
             } else {
-                PlainDocument plainDocument2 = new PlainDocument(new SwingContent(model.buffer));
-                documents.put(model, plainDocument2);
-                plainDocument = plainDocument2;
+                Document doc = new PlainDocument(new SwingContent(model.buffer));
+                documents.put(model, doc);
+                document = doc;
             }
         }
-        return plainDocument;
+        return document;
     }
 
     public void addBox(Box model, Object where) {
@@ -75,7 +76,7 @@ public class SwingDisplay extends Display {
     }
 
     public void addSpacer(Spacer model, Object where) {
-        addView(new Filler(model.getMinimumSize(), model.getPreferredSize(), model.getMaximumSize()), where);
+        addView(new Box.Filler(model.getMinimumSize(), model.getPreferredSize(), model.getMaximumSize()), where);
     }
 
     public void addView(Object view, Object where) {

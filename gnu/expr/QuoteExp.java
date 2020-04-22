@@ -18,7 +18,7 @@ public class QuoteExp extends Expression {
     public static QuoteExp abstractExp = makeShared(Special.abstractSpecial);
     public static final QuoteExp classObjectExp = makeShared(Type.objectType);
     public static QuoteExp falseExp = makeShared(Boolean.FALSE);
-    public static QuoteExp nullExp = makeShared(null, Type.nullType);
+    public static QuoteExp nullExp = makeShared((Object) null, Type.nullType);
     public static QuoteExp trueExp = makeShared(Boolean.TRUE);
     public static QuoteExp undefined_exp = makeShared(Special.undefined);
     public static QuoteExp voidExp = makeShared(Values.empty, Type.voidType);
@@ -67,7 +67,7 @@ public class QuoteExp extends Expression {
     }
 
     public static QuoteExp getInstance(Object value2) {
-        return getInstance(value2, null);
+        return getInstance(value2, (SourceLocator) null);
     }
 
     public static QuoteExp getInstance(Object value2, SourceLocator position) {
@@ -143,6 +143,7 @@ public class QuoteExp extends Expression {
 
     public Expression validateApply(ApplyExp exp, InlineCalls visitor, Type required, Declaration decl) {
         ApplyExp nexp;
+        Expression e;
         if (this == undefined_exp) {
             return exp;
         }
@@ -162,20 +163,15 @@ public class QuoteExp extends Expression {
         }
         Expression[] args = exp.args;
         MethodProc asMProc = proc instanceof MethodProc ? (MethodProc) proc : null;
-        int i = 0;
-        while (i < nargs) {
+        for (int i = 0; i < nargs; i++) {
             Type ptype = asMProc != null ? asMProc.getParameterType(i) : null;
             if (i == nargs - 1 && ptype != null && asMProc.maxArgs() < 0 && i == asMProc.minArgs()) {
                 ptype = null;
             }
             args[i] = visitor.visit(args[i], ptype);
-            i++;
         }
-        if (exp.getFlag(4)) {
-            Expression e = exp.inlineIfConstant(proc, visitor);
-            if (e != exp) {
-                return visitor.visit(e, required);
-            }
+        if (exp.getFlag(4) && (e = exp.inlineIfConstant(proc, visitor)) != exp) {
+            return visitor.visit(e, required);
         }
         Compilation comp = visitor.getCompilation();
         if (!comp.inlineOk(proc)) {
@@ -197,11 +193,10 @@ public class QuoteExp extends Expression {
                 nexp = new ApplyExp((Procedure) mproc, margs);
             }
             return nexp.setLine((Expression) exp);
-        } else if (exp.getFunction() == this) {
-            return exp;
+        } else if (exp.getFunction() != this) {
+            return new ApplyExp((Expression) this, exp.getArgs()).setLine((Expression) exp);
         } else {
-            ApplyExp applyExp = new ApplyExp((Expression) this, exp.getArgs());
-            return applyExp.setLine((Expression) exp);
+            return exp;
         }
     }
 

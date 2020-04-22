@@ -3,9 +3,7 @@ package com.google.appinventor.components.runtime;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.DesignerProperty;
 import com.google.appinventor.components.annotations.PropertyCategory;
@@ -60,13 +58,13 @@ public final class Image extends AndroidViewComponent {
         this.clickable = clickable2;
         this.view.setClickable(this.clickable);
         if (this.clickable) {
-            this.view.setOnClickListener(new OnClickListener() {
+            this.view.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     Image.this.Click();
                 }
             });
         } else {
-            this.view.setOnClickListener(null);
+            this.view.setOnClickListener((View.OnClickListener) null);
         }
     }
 
@@ -131,9 +129,9 @@ public final class Image extends AndroidViewComponent {
     @SimpleProperty(description = "Specifies whether the image should be resized to match the size of the ImageView.")
     public void ScalePictureToFit(boolean scale) {
         if (scale) {
-            this.view.setScaleType(ScaleType.FIT_XY);
+            this.view.setScaleType(ImageView.ScaleType.FIT_XY);
         } else {
-            this.view.setScaleType(ScaleType.FIT_CENTER);
+            this.view.setScaleType(ImageView.ScaleType.FIT_CENTER);
         }
     }
 
@@ -147,10 +145,10 @@ public final class Image extends AndroidViewComponent {
     public void Scaling(int mode) {
         switch (mode) {
             case 0:
-                this.view.setScaleType(ScaleType.FIT_CENTER);
+                this.view.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 break;
             case 1:
-                this.view.setScaleType(ScaleType.FIT_XY);
+                this.view.setScaleType(ImageView.ScaleType.FIT_XY);
                 break;
             default:
                 throw new IllegalArgumentError("Illegal scaling mode: " + mode);

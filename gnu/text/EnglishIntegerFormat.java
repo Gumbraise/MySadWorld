@@ -32,7 +32,7 @@ public class EnglishIntegerFormat extends NumberFormat {
         return cardinalEnglish;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void format999(StringBuffer sbuf, int num, boolean ordinal2) {
         if (num >= 100) {
             int num100s = num / 100;
@@ -61,7 +61,7 @@ public class EnglishIntegerFormat extends NumberFormat {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void format(StringBuffer sbuf, long num, int exp1000, boolean ordinal2) {
         if (num >= 1000) {
             format(sbuf, num / 1000, exp1000 + 1, false);

@@ -1,6 +1,7 @@
 package gnu.kawa.xml;
 
-import android.support.p000v4.internal.view.SupportMenu;
+import android.support.v4.internal.view.SupportMenu;
+import android.support.v7.widget.ActivityChooserView;
 import com.google.appinventor.components.common.PropertyTypeConstants;
 import gnu.bytecode.ClassType;
 import gnu.kawa.functions.Arithmetic;
@@ -10,7 +11,7 @@ import java.math.BigDecimal;
 
 public class XIntegerType extends XDataType {
     public static final XIntegerType byteType = new XIntegerType("byte", (XDataType) shortType, 11, IntNum.make(-128), IntNum.make(127));
-    public static final XIntegerType intType = new XIntegerType("int", (XDataType) longType, 9, IntNum.make(Integer.MIN_VALUE), IntNum.make((int) ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED));
+    public static final XIntegerType intType = new XIntegerType("int", (XDataType) longType, 9, IntNum.make(Integer.MIN_VALUE), IntNum.make((int) ActivityChooserView.ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED));
     public static final XIntegerType integerType = new XIntegerType(PropertyTypeConstants.PROPERTY_TYPE_INTEGER, decimalType, 5, (IntNum) null, (IntNum) null);
     public static final XIntegerType longType = new XIntegerType("long", (XDataType) integerType, 8, IntNum.make(Long.MIN_VALUE), IntNum.make(Long.MAX_VALUE));
     public static final XIntegerType negativeIntegerType = new XIntegerType("negativeInteger", (XDataType) nonPositiveIntegerType, 7, (IntNum) null, IntNum.minusOne());

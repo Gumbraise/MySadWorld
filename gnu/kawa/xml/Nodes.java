@@ -59,14 +59,14 @@ public class Nodes extends Values implements NodeList {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void maybeStartTextNode() {
         if (this.curFragment == null) {
             throw new IllegalArgumentException("non-node where node required");
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void handleNonNode() {
         if (this.curFragment == null) {
             throw new ClassCastException("atomic value where node is required");
@@ -203,14 +203,14 @@ public class Nodes extends Values implements NodeList {
         maybeEndNonTextNode();
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void startFragment() {
         this.curNode = new NodeTree();
         this.curFragment = new XMLFilter(this.curNode);
         writePosition(this.curNode, 0);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void finishFragment() {
         this.curNode = null;
         this.curFragment = null;

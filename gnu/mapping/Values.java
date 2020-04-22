@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.io.ObjectStreamException;
+import java.util.List;
 
 public class Values extends TreeList implements Printable, Externalizable {
     public static final Values empty = new Values(noArgs);
@@ -44,38 +45,19 @@ public class Values extends TreeList implements Printable, Externalizable {
         return new Values(vals);
     }
 
-    /* JADX WARNING: Incorrect type for immutable var: ssa=java.util.List, code=java.util.List<java.lang.Object>, for r5v0, types: [java.util.List, java.util.List<java.lang.Object>] */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public static java.lang.Object make(java.util.List<java.lang.Object> r5) {
-        /*
-            r3 = 0
-            if (r5 != 0) goto L_0x0009
-            r0 = r3
-        L_0x0004:
-            if (r0 != 0) goto L_0x000e
-            gnu.mapping.Values r2 = empty
-        L_0x0008:
-            return r2
-        L_0x0009:
-            int r0 = r5.size()
-            goto L_0x0004
-        L_0x000e:
-            r4 = 1
-            if (r0 != r4) goto L_0x0016
-            java.lang.Object r2 = r5.get(r3)
-            goto L_0x0008
-        L_0x0016:
-            gnu.mapping.Values r2 = new gnu.mapping.Values
-            r2.<init>()
-            java.util.Iterator r1 = r5.iterator()
-        L_0x001f:
-            boolean r3 = r1.hasNext()
-            if (r3 == 0) goto L_0x0008
-            java.lang.Object r3 = r1.next()
-            r2.writeObject(r3)
-            goto L_0x001f
-        */
-        throw new UnsupportedOperationException("Method not decompiled: gnu.mapping.Values.make(java.util.List):java.lang.Object");
+    public static Object make(List seq) {
+        int count = seq == null ? 0 : seq.size();
+        if (count == 0) {
+            return empty;
+        }
+        if (count == 1) {
+            return seq.get(0);
+        }
+        Values vals = new Values();
+        for (Object writeObject : seq) {
+            vals.writeObject(writeObject);
+        }
+        return vals;
     }
 
     public static Object make(TreeList list) {
@@ -83,18 +65,16 @@ public class Values extends TreeList implements Printable, Externalizable {
     }
 
     public static Object make(TreeList list, int startPosition, int endPosition) {
-        if (startPosition != endPosition) {
-            int next = list.nextDataIndex(startPosition);
-            if (next > 0) {
-                if (next == endPosition || list.nextDataIndex(next) < 0) {
-                    return list.getPosNext(startPosition << 1);
-                }
-                Values vals = new Values();
-                list.consumeIRange(startPosition, endPosition, vals);
-                return vals;
-            }
+        int next;
+        if (startPosition == endPosition || (next = list.nextDataIndex(startPosition)) <= 0) {
+            return empty;
         }
-        return empty;
+        if (next == endPosition || list.nextDataIndex(next) < 0) {
+            return list.getPosNext(startPosition << 1);
+        }
+        Values vals = new Values();
+        list.consumeIRange(startPosition, endPosition, vals);
+        return vals;
     }
 
     /* Debug info: failed to restart local var, previous not found, register: 3 */

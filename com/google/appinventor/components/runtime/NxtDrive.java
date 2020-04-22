@@ -132,17 +132,16 @@ public class NxtDrive extends LegoMindstormsNxtBase {
 
     private void turnIndefinitely(String functionName, int power, int forwardMotorIndex, int reverseMotorIndex) {
         if (checkBluetooth(functionName)) {
-            setOutputState(functionName, ((Integer) this.driveMotorPorts.get(forwardMotorIndex)).intValue(), power, 1, 1, 0, 32, 0);
-            setOutputState(functionName, ((Integer) this.driveMotorPorts.get(reverseMotorIndex)).intValue(), -power, 1, 1, 0, 32, 0);
+            setOutputState(functionName, this.driveMotorPorts.get(forwardMotorIndex).intValue(), power, 1, 1, 0, 32, 0);
+            setOutputState(functionName, this.driveMotorPorts.get(reverseMotorIndex).intValue(), -power, 1, 1, 0, 32, 0);
         }
     }
 
     @SimpleFunction(description = "Stop the drive motors of the robot.")
     public void Stop() {
-        String functionName = "Stop";
-        if (checkBluetooth(functionName)) {
+        if (checkBluetooth("Stop")) {
             for (Integer intValue : this.driveMotorPorts) {
-                setOutputState(functionName, intValue.intValue(), 0, 2, 0, 0, 0, 0);
+                setOutputState("Stop", intValue.intValue(), 0, 2, 0, 0, 0, 0);
             }
         }
     }

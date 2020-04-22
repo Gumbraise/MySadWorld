@@ -30,13 +30,11 @@ public class LocationEnumeration implements Iterator<Location>, Enumeration<Loca
     }
 
     public Location nextLocation() {
+        NamedLocation first;
         if (this.nextLoc != null || hasMoreElements()) {
             NamedLocation namedLocation = this.prevLoc;
-            if (this.prevLoc == null) {
-                NamedLocation first = this.bindings[this.index];
-                if (this.nextLoc != first) {
-                    this.prevLoc = first;
-                }
+            if (this.prevLoc == null && this.nextLoc != (first = this.bindings[this.index])) {
+                this.prevLoc = first;
             }
             while (this.prevLoc != null && this.prevLoc.next != this.nextLoc) {
                 this.prevLoc = this.prevLoc.next;
@@ -67,6 +65,7 @@ public class LocationEnumeration implements Iterator<Location>, Enumeration<Loca
         } else {
             this.bindings[this.index] = this.nextLoc;
         }
-        this.env.num_bindings--;
+        SimpleEnvironment simpleEnvironment = this.env;
+        simpleEnvironment.num_bindings--;
     }
 }

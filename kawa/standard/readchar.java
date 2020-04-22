@@ -15,12 +15,13 @@ public class readchar extends Procedure0or1 {
     public static final readchar readChar = new readchar(false);
     boolean peeking;
 
+    /* JADX INFO: super call moved to the top of the method (can break code semantics) */
     public readchar(boolean peeking2) {
         super(peeking2 ? "peek-char" : "read-char");
         this.peeking = peeking2;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public final Object readChar(InPort port) {
         try {
             int ch = this.peeking ? port.peek() : port.read();
@@ -33,7 +34,7 @@ public class readchar extends Procedure0or1 {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public final Object readChar(Reader port) {
         int ch;
         try {
@@ -53,7 +54,7 @@ public class readchar extends Procedure0or1 {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public final Object readChar(InputStream port) {
         int ch;
         try {

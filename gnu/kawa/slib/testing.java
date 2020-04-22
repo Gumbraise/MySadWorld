@@ -1,6 +1,6 @@
 package gnu.kawa.slib;
 
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import gnu.expr.ModuleBody;
 import gnu.expr.ModuleInfo;
 import gnu.expr.ModuleMethod;
@@ -29,7 +29,7 @@ import kawa.lang.SyntaxRule;
 import kawa.lang.SyntaxRules;
 import kawa.lang.SyntaxTemplate;
 import kawa.lang.TemplateScope;
-import kawa.lib.C0620lists;
+import kawa.lib.lists;
 import kawa.lib.misc;
 import kawa.lib.numbers;
 import kawa.lib.parameters;
@@ -306,327 +306,6 @@ public class testing extends ModuleBody {
     public static final Macro test$Mnskip = Macro.make(Lit137, Lit138, $instance);
     public static final Macro test$Mnwith$Mnrunner = Macro.make(Lit125, Lit126, $instance);
 
-    /* compiled from: testing.scm */
-    public class frame extends ModuleBody {
-
-        /* renamed from: p */
-        Object f230p;
-
-        public Object lambda4loop(Object r) {
-            if (r == this.f230p) {
-                return C0620lists.cdr.apply1(r);
-            }
-            return C0620lists.cons(C0620lists.car.apply1(r), lambda4loop(C0620lists.cdr.apply1(r)));
-        }
-    }
-
-    /* compiled from: testing.scm */
-    public class frame0 extends ModuleBody {
-        Object error;
-        final ModuleMethod lambda$Fn4;
-
-        public frame0() {
-            ModuleMethod moduleMethod = new ModuleMethod(this, 1, null, 8194);
-            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm:640");
-            this.lambda$Fn4 = moduleMethod;
-        }
-
-        public Object apply2(ModuleMethod moduleMethod, Object obj, Object obj2) {
-            if (moduleMethod.selector == 1) {
-                return lambda5(obj, obj2) ? Boolean.TRUE : Boolean.FALSE;
-            }
-            return super.apply2(moduleMethod, obj, obj2);
-        }
-
-        /* access modifiers changed from: 0000 */
-        public boolean lambda5(Object value, Object expected) {
-            Object apply2 = Scheme.numGEq.apply2(value, AddOp.$Mn.apply2(expected, this.error));
-            try {
-                boolean x = ((Boolean) apply2).booleanValue();
-                if (x) {
-                    return ((Boolean) Scheme.numLEq.apply2(value, AddOp.$Pl.apply2(expected, this.error))).booleanValue();
-                }
-                return x;
-            } catch (ClassCastException e) {
-                throw new WrongType(e, "x", -2, apply2);
-            }
-        }
-
-        public int match2(ModuleMethod moduleMethod, Object obj, Object obj2, CallContext callContext) {
-            if (moduleMethod.selector != 1) {
-                return super.match2(moduleMethod, obj, obj2, callContext);
-            }
-            callContext.value1 = obj;
-            callContext.value2 = obj2;
-            callContext.proc = moduleMethod;
-            callContext.f236pc = 2;
-            return 0;
-        }
-    }
-
-    /* compiled from: testing.scm */
-    public class frame1 extends ModuleBody {
-        Object first;
-        final ModuleMethod lambda$Fn10;
-        final ModuleMethod lambda$Fn5 = new ModuleMethod(this, 2, null, 0);
-        final ModuleMethod lambda$Fn6 = new ModuleMethod(this, 3, null, 0);
-        final ModuleMethod lambda$Fn7;
-        final ModuleMethod lambda$Fn8;
-        final ModuleMethod lambda$Fn9;
-
-        /* renamed from: r */
-        Object f231r;
-        LList rest;
-        Object saved$Mnrunner;
-        Object saved$Mnrunner$1;
-
-        public frame1() {
-            ModuleMethod moduleMethod = new ModuleMethod(this, 4, null, 0);
-            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm:897");
-            this.lambda$Fn7 = moduleMethod;
-            this.lambda$Fn8 = new ModuleMethod(this, 5, null, 0);
-            this.lambda$Fn9 = new ModuleMethod(this, 6, null, 0);
-            ModuleMethod moduleMethod2 = new ModuleMethod(this, 7, null, 0);
-            moduleMethod2.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm:897");
-            this.lambda$Fn10 = moduleMethod2;
-        }
-
-        /* access modifiers changed from: 0000 */
-        public Object lambda6() {
-            return ((Procedure) testing.test$Mnrunner$Mncurrent).apply1(this.first);
-        }
-
-        /* access modifiers changed from: 0000 */
-        public Object lambda7() {
-            return Scheme.apply.apply2(testing.test$Mnapply, this.rest);
-        }
-
-        /* access modifiers changed from: 0000 */
-        public Object lambda10() {
-            return Scheme.apply.apply3(testing.test$Mnapply, this.first, this.rest);
-        }
-
-        /* access modifiers changed from: 0000 */
-        public Object lambda9() {
-            return ((Procedure) testing.test$Mnrunner$Mncurrent).apply1(this.f231r);
-        }
-
-        public Object apply0(ModuleMethod moduleMethod) {
-            switch (moduleMethod.selector) {
-                case 2:
-                    return lambda6();
-                case 3:
-                    return lambda7();
-                case 4:
-                    return lambda8();
-                case 5:
-                    return lambda9();
-                case 6:
-                    return lambda10();
-                case 7:
-                    return lambda11();
-                default:
-                    return super.apply0(moduleMethod);
-            }
-        }
-
-        /* access modifiers changed from: 0000 */
-        public Object lambda11() {
-            return ((Procedure) testing.test$Mnrunner$Mncurrent).apply1(this.saved$Mnrunner);
-        }
-
-        /* access modifiers changed from: 0000 */
-        public Object lambda8() {
-            return ((Procedure) testing.test$Mnrunner$Mncurrent).apply1(this.saved$Mnrunner$1);
-        }
-
-        public int match0(ModuleMethod moduleMethod, CallContext callContext) {
-            switch (moduleMethod.selector) {
-                case 2:
-                    callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
-                    return 0;
-                case 3:
-                    callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
-                    return 0;
-                case 4:
-                    callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
-                    return 0;
-                case 5:
-                    callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
-                    return 0;
-                case 6:
-                    callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
-                    return 0;
-                case 7:
-                    callContext.proc = moduleMethod;
-                    callContext.f236pc = 0;
-                    return 0;
-                default:
-                    return super.match0(moduleMethod, callContext);
-            }
-        }
-    }
-
-    /* compiled from: testing.scm */
-    public class frame2 extends ModuleBody {
-        Object count;
-
-        /* renamed from: i */
-        Object f232i;
-        final ModuleMethod lambda$Fn11;
-
-        /* renamed from: n */
-        Object f233n;
-
-        public frame2() {
-            ModuleMethod moduleMethod = new ModuleMethod(this, 8, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm:903");
-            this.lambda$Fn11 = moduleMethod;
-        }
-
-        public Object apply1(ModuleMethod moduleMethod, Object obj) {
-            if (moduleMethod.selector == 8) {
-                return lambda12(obj) ? Boolean.TRUE : Boolean.FALSE;
-            }
-            return super.apply1(moduleMethod, obj);
-        }
-
-        /* access modifiers changed from: 0000 */
-        public boolean lambda12(Object runner) {
-            this.f232i = AddOp.$Pl.apply2(this.f232i, testing.Lit13);
-            Object apply2 = Scheme.numGEq.apply2(this.f232i, this.f233n);
-            try {
-                boolean x = ((Boolean) apply2).booleanValue();
-                return x ? ((Boolean) Scheme.numLss.apply2(this.f232i, AddOp.$Pl.apply2(this.f233n, this.count))).booleanValue() : x;
-            } catch (ClassCastException e) {
-                throw new WrongType(e, "x", -2, apply2);
-            }
-        }
-
-        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
-            if (moduleMethod.selector != 8) {
-                return super.match1(moduleMethod, obj, callContext);
-            }
-            callContext.value1 = obj;
-            callContext.proc = moduleMethod;
-            callContext.f236pc = 1;
-            return 0;
-        }
-    }
-
-    /* compiled from: testing.scm */
-    public class frame3 extends ModuleBody {
-        final ModuleMethod lambda$Fn12;
-        LList pred$Mnlist;
-
-        public frame3() {
-            ModuleMethod moduleMethod = new ModuleMethod(this, 9, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm:915");
-            this.lambda$Fn12 = moduleMethod;
-        }
-
-        public Object apply1(ModuleMethod moduleMethod, Object obj) {
-            return moduleMethod.selector == 9 ? lambda13(obj) : super.apply1(moduleMethod, obj);
-        }
-
-        /* access modifiers changed from: 0000 */
-        public Object lambda13(Object runner) {
-            Boolean result = Boolean.TRUE;
-            for (Object obj = this.pred$Mnlist; !C0620lists.isNull(obj); obj = C0620lists.cdr.apply1(obj)) {
-                if (Scheme.applyToArgs.apply2(C0620lists.car.apply1(obj), runner) == Boolean.FALSE) {
-                    result = Boolean.FALSE;
-                }
-            }
-            return result;
-        }
-
-        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
-            if (moduleMethod.selector != 9) {
-                return super.match1(moduleMethod, obj, callContext);
-            }
-            callContext.value1 = obj;
-            callContext.proc = moduleMethod;
-            callContext.f236pc = 1;
-            return 0;
-        }
-    }
-
-    /* compiled from: testing.scm */
-    public class frame4 extends ModuleBody {
-        final ModuleMethod lambda$Fn13;
-        LList pred$Mnlist;
-
-        public frame4() {
-            ModuleMethod moduleMethod = new ModuleMethod(this, 10, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm:931");
-            this.lambda$Fn13 = moduleMethod;
-        }
-
-        public Object apply1(ModuleMethod moduleMethod, Object obj) {
-            return moduleMethod.selector == 10 ? lambda14(obj) : super.apply1(moduleMethod, obj);
-        }
-
-        /* access modifiers changed from: 0000 */
-        public Object lambda14(Object runner) {
-            Boolean result = Boolean.FALSE;
-            for (Object obj = this.pred$Mnlist; !C0620lists.isNull(obj); obj = C0620lists.cdr.apply1(obj)) {
-                if (Scheme.applyToArgs.apply2(C0620lists.car.apply1(obj), runner) != Boolean.FALSE) {
-                    result = Boolean.TRUE;
-                }
-            }
-            return result;
-        }
-
-        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
-            if (moduleMethod.selector != 10) {
-                return super.match1(moduleMethod, obj, callContext);
-            }
-            callContext.value1 = obj;
-            callContext.proc = moduleMethod;
-            callContext.f236pc = 1;
-            return 0;
-        }
-    }
-
-    /* compiled from: testing.scm */
-    public class frame5 extends ModuleBody {
-        final ModuleMethod lambda$Fn14;
-        Object name;
-
-        public frame5() {
-            ModuleMethod moduleMethod = new ModuleMethod(this, 11, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm:971");
-            this.lambda$Fn14 = moduleMethod;
-        }
-
-        public Object apply1(ModuleMethod moduleMethod, Object obj) {
-            if (moduleMethod.selector == 11) {
-                return lambda15(obj) ? Boolean.TRUE : Boolean.FALSE;
-            }
-            return super.apply1(moduleMethod, obj);
-        }
-
-        /* access modifiers changed from: 0000 */
-        public boolean lambda15(Object runner) {
-            return IsEqual.apply(this.name, testing.testRunnerTestName(runner));
-        }
-
-        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
-            if (moduleMethod.selector != 11) {
-                return super.match1(moduleMethod, obj, callContext);
-            }
-            callContext.value1 = obj;
-            callContext.proc = moduleMethod;
-            callContext.f236pc = 1;
-            return 0;
-        }
-    }
-
     public testing() {
         ModuleInfo.register(this);
     }
@@ -641,7 +320,7 @@ public class testing extends ModuleBody {
     static {
         SimpleSymbol simpleSymbol = (SimpleSymbol) new SimpleSymbol("test-expect-fail").readResolve();
         Lit139 = simpleSymbol;
-        Object[] objArr = {simpleSymbol};
+        SyntaxPattern syntaxPattern = new SyntaxPattern("\f\u0018\r\u0007\u0000\b\b", new Object[0], 1);
         SimpleSymbol simpleSymbol2 = Lit143;
         SimpleSymbol simpleSymbol3 = (SimpleSymbol) new SimpleSymbol("test-runner-get").readResolve();
         Lit60 = simpleSymbol3;
@@ -653,34 +332,36 @@ public class testing extends ModuleBody {
         Lit136 = simpleSymbol6;
         SimpleSymbol simpleSymbol7 = (SimpleSymbol) new SimpleSymbol("%test-runner-fail-list").readResolve();
         Lit33 = simpleSymbol7;
-        Lit140 = new SyntaxRules(objArr, new SyntaxRule[]{new SyntaxRule(new SyntaxPattern("\f\u0018\r\u0007\u0000\b\b", new Object[0], 1), "\u0003", "\u0011\u0018\u0004\u0011\u0018\f\b\u0011\u0018\u0014\u0011\u0018\u001c\b\u0011\u0018$Q\u0011\u0018,\b\u0005\u0011\u00184\b\u0003\u0018<", new Object[]{Lit144, PairWithPosition.make(PairWithPosition.make(simpleSymbol2, PairWithPosition.make(PairWithPosition.make(simpleSymbol3, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3952660), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3952660), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3952652), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3952651), simpleSymbol4, Lit143, Lit145, simpleSymbol5, simpleSymbol6, PairWithPosition.make(PairWithPosition.make(simpleSymbol7, PairWithPosition.make(Lit143, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3964958), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3964934), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3964934)}, 1)}, 1);
+        Lit140 = new SyntaxRules(new Object[]{simpleSymbol}, new SyntaxRule[]{new SyntaxRule(syntaxPattern, "\u0003", "\u0011\u0018\u0004\u0011\u0018\f\b\u0011\u0018\u0014\u0011\u0018\u001c\b\u0011\u0018$Q\u0011\u0018,\b\u0005\u0011\u00184\b\u0003\u0018<", new Object[]{Lit144, PairWithPosition.make(PairWithPosition.make(simpleSymbol2, PairWithPosition.make(PairWithPosition.make(simpleSymbol3, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3952660), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3952660), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3952652), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3952651), simpleSymbol4, Lit143, Lit145, simpleSymbol5, simpleSymbol6, PairWithPosition.make(PairWithPosition.make(simpleSymbol7, PairWithPosition.make(Lit143, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3964958), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3964934), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3964934)}, 1)}, 1);
         SimpleSymbol simpleSymbol8 = (SimpleSymbol) new SimpleSymbol("test-skip").readResolve();
         Lit137 = simpleSymbol8;
-        Object[] objArr2 = {simpleSymbol8};
+        SyntaxPattern syntaxPattern2 = new SyntaxPattern("\f\u0018\r\u0007\u0000\b\b", new Object[0], 1);
         SimpleSymbol simpleSymbol9 = (SimpleSymbol) new SimpleSymbol("%test-runner-skip-list!").readResolve();
         Lit32 = simpleSymbol9;
         SimpleSymbol simpleSymbol10 = (SimpleSymbol) new SimpleSymbol("%test-runner-skip-list").readResolve();
         Lit31 = simpleSymbol10;
-        Lit138 = new SyntaxRules(objArr2, new SyntaxRule[]{new SyntaxRule(new SyntaxPattern("\f\u0018\r\u0007\u0000\b\b", new Object[0], 1), "\u0003", "\u0011\u0018\u0004\u0011\u0018\f\b\u0011\u0018\u0014\u0011\u0018\u001c\b\u0011\u0018$Q\u0011\u0018,\b\u0005\u0011\u00184\b\u0003\u0018<", new Object[]{Lit144, PairWithPosition.make(PairWithPosition.make(Lit143, PairWithPosition.make(PairWithPosition.make(Lit60, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3919892), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3919892), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3919884), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3919883), simpleSymbol9, Lit143, Lit145, Lit131, Lit136, PairWithPosition.make(PairWithPosition.make(simpleSymbol10, PairWithPosition.make(Lit143, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3932190), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3932166), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3932166)}, 1)}, 1);
+        Lit138 = new SyntaxRules(new Object[]{simpleSymbol8}, new SyntaxRule[]{new SyntaxRule(syntaxPattern2, "\u0003", "\u0011\u0018\u0004\u0011\u0018\f\b\u0011\u0018\u0014\u0011\u0018\u001c\b\u0011\u0018$Q\u0011\u0018,\b\u0005\u0011\u00184\b\u0003\u0018<", new Object[]{Lit144, PairWithPosition.make(PairWithPosition.make(Lit143, PairWithPosition.make(PairWithPosition.make(Lit60, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3919892), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3919892), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3919884), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3919883), simpleSymbol9, Lit143, Lit145, Lit131, Lit136, PairWithPosition.make(PairWithPosition.make(simpleSymbol10, PairWithPosition.make(Lit143, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3932190), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3932166), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3932166)}, 1)}, 1);
         SimpleSymbol simpleSymbol11 = (SimpleSymbol) new SimpleSymbol("test-match-any").readResolve();
         Lit134 = simpleSymbol11;
-        Object[] objArr3 = {simpleSymbol11};
+        SyntaxPattern syntaxPattern3 = new SyntaxPattern("\f\u0018\r\u0007\u0000\b\b", new Object[0], 1);
         SimpleSymbol simpleSymbol12 = (SimpleSymbol) new SimpleSymbol("%test-match-any").readResolve();
         Lit133 = simpleSymbol12;
-        Lit135 = new SyntaxRules(objArr3, new SyntaxRule[]{new SyntaxRule(new SyntaxPattern("\f\u0018\r\u0007\u0000\b\b", new Object[0], 1), "\u0003", "\u0011\u0018\u0004\b\u0005\u0011\u0018\f\b\u0003", new Object[]{simpleSymbol12, Lit136}, 1)}, 1);
-        Object[] objArr4 = {Lit131};
+        Lit135 = new SyntaxRules(new Object[]{simpleSymbol11}, new SyntaxRule[]{new SyntaxRule(syntaxPattern3, "\u0003", "\u0011\u0018\u0004\b\u0005\u0011\u0018\f\b\u0003", new Object[]{simpleSymbol12, Lit136}, 1)}, 1);
+        Object[] objArr = {Lit131};
+        SyntaxPattern syntaxPattern4 = new SyntaxPattern("\f\u0018\r\u0007\u0000\b\b", new Object[0], 1);
         SimpleSymbol simpleSymbol13 = (SimpleSymbol) new SimpleSymbol("%test-match-all").readResolve();
         Lit130 = simpleSymbol13;
-        Lit132 = new SyntaxRules(objArr4, new SyntaxRule[]{new SyntaxRule(new SyntaxPattern("\f\u0018\r\u0007\u0000\b\b", new Object[0], 1), "\u0003", "\u0011\u0018\u0004\b\u0005\u0011\u0018\f\b\u0003", new Object[]{simpleSymbol13, Lit136}, 1)}, 1);
+        Lit132 = new SyntaxRules(objArr, new SyntaxRule[]{new SyntaxRule(syntaxPattern4, "\u0003", "\u0011\u0018\u0004\b\u0005\u0011\u0018\f\b\u0003", new Object[]{simpleSymbol13, Lit136}, 1)}, 1);
         SimpleSymbol simpleSymbol14 = (SimpleSymbol) new SimpleSymbol("test-match-nth").readResolve();
         Lit128 = simpleSymbol14;
-        Object[] objArr5 = {simpleSymbol14};
+        SyntaxPattern syntaxPattern5 = new SyntaxPattern("\f\u0018\f\u0007\b", new Object[0], 1);
         IntNum make = IntNum.make(1);
         Lit13 = make;
-        Object[] objArr6 = {Lit128, PairWithPosition.make(make, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3727384)};
+        Object[] objArr2 = {Lit128, PairWithPosition.make(make, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3727384)};
+        SyntaxPattern syntaxPattern6 = new SyntaxPattern("\f\u0018\f\u0007\f\u000f\b", new Object[0], 2);
         SimpleSymbol simpleSymbol15 = (SimpleSymbol) new SimpleSymbol("%test-match-nth").readResolve();
         Lit127 = simpleSymbol15;
-        Lit129 = new SyntaxRules(objArr5, new SyntaxRule[]{new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\b", new Object[0], 1), "\u0001", "\u0011\u0018\u0004\t\u0003\u0018\f", objArr6, 0), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\f\u000f\b", new Object[0], 2), "\u0001\u0001", "\u0011\u0018\u0004\t\u0003\b\u000b", new Object[]{simpleSymbol15}, 0)}, 2);
+        Lit129 = new SyntaxRules(new Object[]{simpleSymbol14}, new SyntaxRule[]{new SyntaxRule(syntaxPattern5, "\u0001", "\u0011\u0018\u0004\t\u0003\u0018\f", objArr2, 0), new SyntaxRule(syntaxPattern6, "\u0001\u0001", "\u0011\u0018\u0004\t\u0003\b\u000b", new Object[]{simpleSymbol15}, 0)}, 2);
         SimpleSymbol simpleSymbol16 = (SimpleSymbol) new SimpleSymbol("test-with-runner").readResolve();
         Lit125 = simpleSymbol16;
         Lit126 = new SyntaxRules(new Object[]{simpleSymbol16}, new SyntaxRule[]{new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\r\u000f\b\b\b", new Object[0], 2), "\u0001\u0003", "\u0011\u0018\u0004\u0011\u0018\f\b\u0011\u0018\u0014Y\u0011\u0018\u001c\t\u0010\b\u0011\u0018$\b\u0003A\u0011\u0018\u001c\t\u0010\b\r\u000b\u0018,", new Object[]{Lit144, PairWithPosition.make(PairWithPosition.make(Lit148, PairWithPosition.make(PairWithPosition.make(Lit146, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3657754), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3657754), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3657740), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3657739), Lit165, Lit147, Lit146, PairWithPosition.make(PairWithPosition.make(Lit147, PairWithPosition.make(LList.Empty, PairWithPosition.make(PairWithPosition.make(Lit146, PairWithPosition.make(Lit148, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3674156), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3674135), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3674135), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3674132), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3674124), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3674124)}, 1)}, 2);
@@ -694,8 +375,8 @@ public class testing extends ModuleBody {
         SimpleSymbol simpleSymbol20 = (SimpleSymbol) new SimpleSymbol("test-name").readResolve();
         Lit7 = simpleSymbol20;
         Lit119 = new SyntaxTemplate("\u0001\u0001\u0001\u0001\u0001", "\u0011\u0018\u0004I\u0011\u0018\f\b\u0011\u0018\u0014\b\u000b©\u0011\u0018\u001c\u0011\u0018$\b\u0011\u0018,A\u0011\u0018,\u0011\u00184\b\u000b\b#\b\u0011\u0018<\u0011\u0018$\t\u0013\b\u001b", new Object[]{Lit150, PairWithPosition.make(Lit149, PairWithPosition.make(PairWithPosition.make(Lit60, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3469326), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3469326), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3469323), Lit160, Lit52, Lit149, Lit145, PairWithPosition.make(simpleSymbol19, PairWithPosition.make(simpleSymbol20, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3477545), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3477545), Lit115}, 0);
-        Object[] objArr7 = {Lit115};
-        Object[] objArr8 = {Boolean.TRUE};
+        Object[] objArr3 = {Lit115};
+        SyntaxPattern syntaxPattern7 = new SyntaxPattern("\f\u0018\f\u0007\f\u0002\f\u000f\b", new Object[]{Boolean.TRUE}, 2);
         SimpleSymbol simpleSymbol21 = (SimpleSymbol) new SimpleSymbol("%test-on-test-begin").readResolve();
         Lit86 = simpleSymbol21;
         SimpleSymbol simpleSymbol22 = (SimpleSymbol) new SimpleSymbol("test-result-set!").readResolve();
@@ -704,10 +385,11 @@ public class testing extends ModuleBody {
         Lit87 = simpleSymbol23;
         SimpleSymbol simpleSymbol24 = (SimpleSymbol) new SimpleSymbol("%test-report-result").readResolve();
         Lit83 = simpleSymbol24;
-        Object[] objArr9 = {Lit158, simpleSymbol21, simpleSymbol22, PairWithPosition.make(PairWithPosition.make(Lit15, PairWithPosition.make(Lit152, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3223581), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3223581), PairWithPosition.make(Boolean.TRUE, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3223596), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3223580), simpleSymbol23, Lit154, Lit144, PairWithPosition.make(Lit15, PairWithPosition.make(Lit155, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3239966), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3239966), PairWithPosition.make(Boolean.FALSE, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3244041), Lit151, Lit156, PairWithPosition.make(PairWithPosition.make(Lit15, PairWithPosition.make(Lit157, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3252256), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3252256), PairWithPosition.make(Lit151, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3252269), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3252255), PairWithPosition.make(Boolean.TRUE, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3256331), PairWithPosition.make(PairWithPosition.make(simpleSymbol24, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3260424), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3260424)};
+        Object[] objArr4 = {Lit158, simpleSymbol21, simpleSymbol22, PairWithPosition.make(PairWithPosition.make(Lit15, PairWithPosition.make(Lit152, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3223581), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3223581), PairWithPosition.make(Boolean.TRUE, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3223596), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3223580), simpleSymbol23, Lit154, Lit144, PairWithPosition.make(Lit15, PairWithPosition.make(Lit155, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3239966), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3239966), PairWithPosition.make(Boolean.FALSE, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3244041), Lit151, Lit156, PairWithPosition.make(PairWithPosition.make(Lit15, PairWithPosition.make(Lit157, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3252256), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3252256), PairWithPosition.make(Lit151, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3252269), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3252255), PairWithPosition.make(Boolean.TRUE, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3256331), PairWithPosition.make(PairWithPosition.make(simpleSymbol24, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3260424), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3260424)};
+        SyntaxPattern syntaxPattern8 = new SyntaxPattern("\f\u0018\f\u0007\f\u000f\f\u0017\b", new Object[0], 3);
         SimpleSymbol simpleSymbol25 = Lit158;
         SimpleSymbol simpleSymbol26 = simpleSymbol25;
-        Lit116 = new SyntaxRules(objArr7, new SyntaxRule[]{new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\f\u0002\f\u000f\b", objArr8, 2), "\u0001\u0001", "\u0011\u0018\u0004\b)\u0011\u0018\f\b\u00039\u0011\u0018\u0014\t\u0003\u0018\u001cũ\u0011\u0018$\t\u0003\b\u0011\u0018,\u0011\u00184\t\u0010Q\u0011\u0018\u0014\t\u0003\u0011\u0018<\b\u000b\u0018D\b\u0011\u0018L\u0011\u0018T9\u0011\u0018\u0014\t\u0003\u0018\\\u0018d\u0018l", objArr9, 0), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\f\u000f\f\u0017\b", new Object[0], 3), "\u0001\u0001\u0001", "\u0011\u0018\u0004)\u0011\u0018\f\b\u0003\b\u0011\u0018\u00141\b\u0011\u0018\u001c\b\u000b9\u0011\u0018$\t\u0003\u0018,ũ\u0011\u00184\t\u0003\b\u0011\u0018<\u0011\u0018\u0014\t\u0010Q\u0011\u0018$\t\u0003\u0011\u0018D\b\u0013\u0018L\b\u0011\u0018T\u0011\u0018\\9\u0011\u0018$\t\u0003\u0018d\u0018l\u0018t", new Object[]{Lit161, Lit86, Lit144, Lit153, Lit78, PairWithPosition.make(PairWithPosition.make(Lit15, PairWithPosition.make(Lit152, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3276828), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3276828), PairWithPosition.make(Lit153, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3276843), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3276827), Lit87, Lit154, PairWithPosition.make(Lit15, PairWithPosition.make(Lit155, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3293213), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3293213), PairWithPosition.make(Boolean.FALSE, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3297288), Lit151, Lit156, PairWithPosition.make(PairWithPosition.make(Lit15, PairWithPosition.make(Lit157, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3305503), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3305503), PairWithPosition.make(Lit151, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3305516), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3305502), PairWithPosition.make(PairWithPosition.make(simpleSymbol26, PairWithPosition.make(PairWithPosition.make(PairWithPosition.make((SimpleSymbol) new SimpleSymbol("and").readResolve(), PairWithPosition.make(PairWithPosition.make(Lit159, PairWithPosition.make(Lit153, PairWithPosition.make((SimpleSymbol) new SimpleSymbol("<gnu.bytecode.ClassType>").readResolve(), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3309604), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3309601), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3309590), PairWithPosition.make(PairWithPosition.make(PairWithPosition.make((SimpleSymbol) new SimpleSymbol("$lookup$").readResolve(), Pair.make((SimpleSymbol) new SimpleSymbol("gnu.bytecode.ClassType").readResolve(), Pair.make(Pair.make((SimpleSymbol) new SimpleSymbol(LispLanguage.quasiquote_sym).readResolve(), Pair.make((SimpleSymbol) new SimpleSymbol("isSubclass").readResolve(), LList.Empty)), LList.Empty)), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3313673), PairWithPosition.make(Lit153, PairWithPosition.make(Lit156, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3313710), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3313707), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3313672), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3313672), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3309590), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3309585), PairWithPosition.make(PairWithPosition.make(Lit159, PairWithPosition.make(Lit151, PairWithPosition.make(Lit153, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3317784), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3317781), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3317770), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3317770), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3309584), PairWithPosition.make(PairWithPosition.make((SimpleSymbol) new SimpleSymbol("else").readResolve(), PairWithPosition.make(Boolean.TRUE, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3321871), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3321865), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3321865), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3309584), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3309578), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3309578), PairWithPosition.make(PairWithPosition.make(Lit83, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3325959), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3325959)}, 0)}, 3);
+        Lit116 = new SyntaxRules(objArr3, new SyntaxRule[]{new SyntaxRule(syntaxPattern7, "\u0001\u0001", "\u0011\u0018\u0004\b)\u0011\u0018\f\b\u00039\u0011\u0018\u0014\t\u0003\u0018\u001cũ\u0011\u0018$\t\u0003\b\u0011\u0018,\u0011\u00184\t\u0010Q\u0011\u0018\u0014\t\u0003\u0011\u0018<\b\u000b\u0018D\b\u0011\u0018L\u0011\u0018T9\u0011\u0018\u0014\t\u0003\u0018\\\u0018d\u0018l", objArr4, 0), new SyntaxRule(syntaxPattern8, "\u0001\u0001\u0001", "\u0011\u0018\u0004)\u0011\u0018\f\b\u0003\b\u0011\u0018\u00141\b\u0011\u0018\u001c\b\u000b9\u0011\u0018$\t\u0003\u0018,ũ\u0011\u00184\t\u0003\b\u0011\u0018<\u0011\u0018\u0014\t\u0010Q\u0011\u0018$\t\u0003\u0011\u0018D\b\u0013\u0018L\b\u0011\u0018T\u0011\u0018\\9\u0011\u0018$\t\u0003\u0018d\u0018l\u0018t", new Object[]{Lit161, Lit86, Lit144, Lit153, Lit78, PairWithPosition.make(PairWithPosition.make(Lit15, PairWithPosition.make(Lit152, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3276828), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3276828), PairWithPosition.make(Lit153, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3276843), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3276827), Lit87, Lit154, PairWithPosition.make(Lit15, PairWithPosition.make(Lit155, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3293213), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3293213), PairWithPosition.make(Boolean.FALSE, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3297288), Lit151, Lit156, PairWithPosition.make(PairWithPosition.make(Lit15, PairWithPosition.make(Lit157, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3305503), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3305503), PairWithPosition.make(Lit151, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3305516), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3305502), PairWithPosition.make(PairWithPosition.make(simpleSymbol26, PairWithPosition.make(PairWithPosition.make(PairWithPosition.make((SimpleSymbol) new SimpleSymbol("and").readResolve(), PairWithPosition.make(PairWithPosition.make(Lit159, PairWithPosition.make(Lit153, PairWithPosition.make((SimpleSymbol) new SimpleSymbol("<gnu.bytecode.ClassType>").readResolve(), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3309604), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3309601), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3309590), PairWithPosition.make(PairWithPosition.make(PairWithPosition.make((SimpleSymbol) new SimpleSymbol("$lookup$").readResolve(), Pair.make((SimpleSymbol) new SimpleSymbol("gnu.bytecode.ClassType").readResolve(), Pair.make(Pair.make((SimpleSymbol) new SimpleSymbol(LispLanguage.quasiquote_sym).readResolve(), Pair.make((SimpleSymbol) new SimpleSymbol("isSubclass").readResolve(), LList.Empty)), LList.Empty)), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3313673), PairWithPosition.make(Lit153, PairWithPosition.make(Lit156, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3313710), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3313707), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3313672), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3313672), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3309590), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3309585), PairWithPosition.make(PairWithPosition.make(Lit159, PairWithPosition.make(Lit151, PairWithPosition.make(Lit153, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3317784), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3317781), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3317770), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3317770), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3309584), PairWithPosition.make(PairWithPosition.make((SimpleSymbol) new SimpleSymbol("else").readResolve(), PairWithPosition.make(Boolean.TRUE, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3321871), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3321865), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3321865), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3309584), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3309578), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3309578), PairWithPosition.make(PairWithPosition.make(Lit83, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3325959), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 3325959)}, 0)}, 3);
         SimpleSymbol simpleSymbol27 = (SimpleSymbol) new SimpleSymbol("%test-comp2body").readResolve();
         Lit89 = simpleSymbol27;
         SimpleSymbol simpleSymbol28 = (SimpleSymbol) new SimpleSymbol("%test-approximimate=").readResolve();
@@ -719,27 +401,30 @@ public class testing extends ModuleBody {
         SimpleSymbol simpleSymbol30 = (SimpleSymbol) new SimpleSymbol("%test-end").readResolve();
         Lit69 = simpleSymbol30;
         Lit98 = new SyntaxTemplate("\u0001\u0001", "\u0011\u0018\u0004\u0011\u0018\f\b\u000b", new Object[]{simpleSymbol30, Boolean.FALSE}, 0);
-        Object[] objArr10 = {Lit92};
+        Object[] objArr5 = {Lit92};
+        SyntaxPattern syntaxPattern9 = new SyntaxPattern("\f\u0018\f\u0007\f\u000f\b", new Object[0], 2);
         SimpleSymbol simpleSymbol31 = (SimpleSymbol) new SimpleSymbol("%test-evaluate-with-catch").readResolve();
         Lit84 = simpleSymbol31;
-        Lit93 = new SyntaxRules(objArr10, new SyntaxRule[]{new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\f\u000f\b", new Object[0], 2), "\u0001\u0001", "\u0011\u0018\u0004\t\u0010ű\u0011\u0018\f)\u0011\u0018\u0014\b\u0003\b\u0011\u0018\u0004\t\u0010\b\u0011\u0018\u0004Q\b\u0011\u0018\u001c\b\u0011\u0018$\b\u000b9\u0011\u0018,\t\u0003\u00184\b\u0011\u0018<\t\u0003\u0018D\u0018L", new Object[]{Lit144, Lit161, Lit86, Lit162, simpleSymbol31, Lit78, PairWithPosition.make(PairWithPosition.make(Lit15, PairWithPosition.make(Lit155, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 2666526), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 2666526), PairWithPosition.make(Lit162, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 2666539), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 2666525), Lit87, PairWithPosition.make(Lit162, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 2670622), PairWithPosition.make(PairWithPosition.make(Lit83, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 2674696), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 2674696)}, 0)}, 2);
+        Lit93 = new SyntaxRules(objArr5, new SyntaxRule[]{new SyntaxRule(syntaxPattern9, "\u0001\u0001", "\u0011\u0018\u0004\t\u0010ű\u0011\u0018\f)\u0011\u0018\u0014\b\u0003\b\u0011\u0018\u0004\t\u0010\b\u0011\u0018\u0004Q\b\u0011\u0018\u001c\b\u0011\u0018$\b\u000b9\u0011\u0018,\t\u0003\u00184\b\u0011\u0018<\t\u0003\u0018D\u0018L", new Object[]{Lit144, Lit161, Lit86, Lit162, simpleSymbol31, Lit78, PairWithPosition.make(PairWithPosition.make(Lit15, PairWithPosition.make(Lit155, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 2666526), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 2666526), PairWithPosition.make(Lit162, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 2666539), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 2666525), Lit87, PairWithPosition.make(Lit162, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 2670622), PairWithPosition.make(PairWithPosition.make(Lit83, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 2674696), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 2674696)}, 0)}, 2);
         SimpleSymbol simpleSymbol32 = (SimpleSymbol) new SimpleSymbol("test-result-ref").readResolve();
         Lit75 = simpleSymbol32;
-        Object[] objArr11 = {simpleSymbol32};
-        Object[] objArr12 = {Lit75, PairWithPosition.make(Boolean.FALSE, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 1933348)};
+        SyntaxPattern syntaxPattern10 = new SyntaxPattern("\f\u0018\f\u0007\f\u000f\b", new Object[0], 2);
+        Object[] objArr6 = {Lit75, PairWithPosition.make(Boolean.FALSE, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 1933348)};
+        SyntaxPattern syntaxPattern11 = new SyntaxPattern("\f\u0018\f\u0007\f\u000f\f\u0017\b", new Object[0], 3);
         SimpleSymbol simpleSymbol33 = (SimpleSymbol) new SimpleSymbol("test-result-alist").readResolve();
         Lit51 = simpleSymbol33;
-        Lit76 = new SyntaxRules(objArr11, new SyntaxRule[]{new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\f\u000f\b", new Object[0], 2), "\u0001\u0001", "\u0011\u0018\u0004\t\u0003\t\u000b\u0018\f", objArr12, 0), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\f\u000f\f\u0017\b", new Object[0], 3), "\u0001\u0001\u0001", "\u0011\u0018\u0004\b\u0011\u0018\f\b\u0011\u0018\u0014\t\u000b\b\u0011\u0018\u001c\b\u0003\b\u0011\u0018$\u0011\u0018\f\u0011\u0018,\b\u0013", new Object[]{Lit144, Lit164, (SimpleSymbol) new SimpleSymbol("assq").readResolve(), simpleSymbol33, Lit161, PairWithPosition.make((SimpleSymbol) new SimpleSymbol("cdr").readResolve(), PairWithPosition.make(Lit164, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 1945619), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 1945614)}, 0)}, 3);
+        Lit76 = new SyntaxRules(new Object[]{simpleSymbol32}, new SyntaxRule[]{new SyntaxRule(syntaxPattern10, "\u0001\u0001", "\u0011\u0018\u0004\t\u0003\t\u000b\u0018\f", objArr6, 0), new SyntaxRule(syntaxPattern11, "\u0001\u0001\u0001", "\u0011\u0018\u0004\b\u0011\u0018\f\b\u0011\u0018\u0014\t\u000b\b\u0011\u0018\u001c\b\u0003\b\u0011\u0018$\u0011\u0018\f\u0011\u0018,\b\u0013", new Object[]{Lit144, Lit164, (SimpleSymbol) new SimpleSymbol("assq").readResolve(), simpleSymbol33, Lit161, PairWithPosition.make((SimpleSymbol) new SimpleSymbol("cdr").readResolve(), PairWithPosition.make(Lit164, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 1945619), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 1945614)}, 0)}, 3);
         SimpleSymbol simpleSymbol34 = (SimpleSymbol) new SimpleSymbol("test-group-with-cleanup").readResolve();
         Lit72 = simpleSymbol34;
-        Object[] objArr13 = {simpleSymbol34};
+        SyntaxPattern syntaxPattern12 = new SyntaxPattern("\f\u0018\f\u0007\f\u000f\f\u0017\b", new Object[0], 3);
         SimpleSymbol simpleSymbol35 = (SimpleSymbol) new SimpleSymbol("test-group").readResolve();
         Lit70 = simpleSymbol35;
-        Lit73 = new SyntaxRules(objArr13, new SyntaxRule[]{new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\f\u000f\f\u0017\b", new Object[0], 3), "\u0001\u0001\u0001", "\u0011\u0018\u0004\t\u0003\b\u0011\u0018\f\u0011\u0018\u00149\u0011\u0018\u001c\t\u0010\b\u000b\b\u0011\u0018\u001c\t\u0010\b\u0013", new Object[]{simpleSymbol35, Lit165, PairWithPosition.make(Lit147, PairWithPosition.make(LList.Empty, PairWithPosition.make(Boolean.FALSE, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 1826831), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 1826828), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 1826820), Lit147}, 0), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\f\u000f\b", new Object[0], 2), "\u0001\u0001", "\u0011\u0018\u0004\t\u0003\u0011\u0018\f\b\u000b", new Object[]{Lit72, Boolean.FALSE}, 0), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\f\u000f\f\u0017\f\u001f#", new Object[0], 5), "\u0001\u0001\u0001\u0001\u0000", "\u0011\u0018\u0004\t\u00039\u0011\u0018\f\t\u000b\b\u0013\t\u001b\"", new Object[]{Lit72, (SimpleSymbol) new SimpleSymbol("begin").readResolve()}, 0)}, 5);
-        Object[] objArr14 = {Lit70};
+        Lit73 = new SyntaxRules(new Object[]{simpleSymbol34}, new SyntaxRule[]{new SyntaxRule(syntaxPattern12, "\u0001\u0001\u0001", "\u0011\u0018\u0004\t\u0003\b\u0011\u0018\f\u0011\u0018\u00149\u0011\u0018\u001c\t\u0010\b\u000b\b\u0011\u0018\u001c\t\u0010\b\u0013", new Object[]{simpleSymbol35, Lit165, PairWithPosition.make(Lit147, PairWithPosition.make(LList.Empty, PairWithPosition.make(Boolean.FALSE, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 1826831), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 1826828), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 1826820), Lit147}, 0), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\f\u000f\b", new Object[0], 2), "\u0001\u0001", "\u0011\u0018\u0004\t\u0003\u0011\u0018\f\b\u000b", new Object[]{Lit72, Boolean.FALSE}, 0), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\f\u000f\f\u0017\f\u001f#", new Object[0], 5), "\u0001\u0001\u0001\u0001\u0000", "\u0011\u0018\u0004\t\u00039\u0011\u0018\f\t\u000b\b\u0013\t\u001b\"", new Object[]{Lit72, (SimpleSymbol) new SimpleSymbol("begin").readResolve()}, 0)}, 5);
+        Object[] objArr7 = {Lit70};
+        SyntaxPattern syntaxPattern13 = new SyntaxPattern("\f\u0018\f\u0007\u000b", new Object[0], 2);
         SimpleSymbol simpleSymbol36 = (SimpleSymbol) new SimpleSymbol("%test-should-execute").readResolve();
         Lit62 = simpleSymbol36;
-        Lit71 = new SyntaxRules(objArr14, new SyntaxRule[]{new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\u000b", new Object[0], 2), "\u0001\u0000", "\u0011\u0018\u0004\u0011\u0018\f\u0011\u0018\u0014\u0011\u0018\u001c\b\u0011\u0018$\b\u0011\u0018,\u0011\u00184\b\u0003\b\u0011\u0018<\u0011\u0018D\b\u0011\u0018LY\u0011\u0018T\t\u0010\b\u0011\u0018\\\b\u00031\u0011\u0018T\t\u0010\n\b\u0011\u0018T\t\u0010\b\u0011\u0018d\b\u0003", new Object[]{Lit144, PairWithPosition.make(PairWithPosition.make(Lit149, PairWithPosition.make(PairWithPosition.make(Lit146, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 1769487), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 1769487), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 1769484), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 1769483), Lit52, Lit149, (SimpleSymbol) new SimpleSymbol("list").readResolve(), Lit145, PairWithPosition.make(Lit15, PairWithPosition.make(Lit7, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 1777707), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 1777707), Lit161, PairWithPosition.make(simpleSymbol36, PairWithPosition.make(Lit149, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 1781794), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 1781772), Lit165, Lit147, (SimpleSymbol) new SimpleSymbol("test-begin").readResolve(), Lit94}, 0)}, 2);
+        Lit71 = new SyntaxRules(objArr7, new SyntaxRule[]{new SyntaxRule(syntaxPattern13, "\u0001\u0000", "\u0011\u0018\u0004\u0011\u0018\f\u0011\u0018\u0014\u0011\u0018\u001c\b\u0011\u0018$\b\u0011\u0018,\u0011\u00184\b\u0003\b\u0011\u0018<\u0011\u0018D\b\u0011\u0018LY\u0011\u0018T\t\u0010\b\u0011\u0018\\\b\u00031\u0011\u0018T\t\u0010\n\b\u0011\u0018T\t\u0010\b\u0011\u0018d\b\u0003", new Object[]{Lit144, PairWithPosition.make(PairWithPosition.make(Lit149, PairWithPosition.make(PairWithPosition.make(Lit146, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 1769487), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 1769487), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 1769484), LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 1769483), Lit52, Lit149, (SimpleSymbol) new SimpleSymbol("list").readResolve(), Lit145, PairWithPosition.make(Lit15, PairWithPosition.make(Lit7, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 1777707), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 1777707), Lit161, PairWithPosition.make(simpleSymbol36, PairWithPosition.make(Lit149, LList.Empty, "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 1781794), "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm", 1781772), Lit165, Lit147, (SimpleSymbol) new SimpleSymbol("test-begin").readResolve(), Lit94}, 0)}, 2);
         SimpleSymbol simpleSymbol37 = Lit12;
         SimpleSymbol simpleSymbol38 = (SimpleSymbol) new SimpleSymbol("xpass").readResolve();
         Lit9 = simpleSymbol38;
@@ -791,13 +476,13 @@ public class testing extends ModuleBody {
         test$Mnrunner$Mnreset = new ModuleMethod(testing, 47, Lit55, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         test$Mnrunner$Mngroup$Mnpath = new ModuleMethod(testing, 48, Lit56, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         $Pctest$Mnnull$Mncallback = new ModuleMethod(testing, 49, Lit57, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        ModuleMethod moduleMethod = new ModuleMethod(testing, 50, null, 12291);
+        ModuleMethod moduleMethod = new ModuleMethod(testing, 50, (Object) null, 12291);
         moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm:182");
         lambda$Fn1 = moduleMethod;
-        ModuleMethod moduleMethod2 = new ModuleMethod(testing, 51, null, 12291);
+        ModuleMethod moduleMethod2 = new ModuleMethod(testing, 51, (Object) null, 12291);
         moduleMethod2.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm:187");
         lambda$Fn2 = moduleMethod2;
-        ModuleMethod moduleMethod3 = new ModuleMethod(testing, 52, null, 12291);
+        ModuleMethod moduleMethod3 = new ModuleMethod(testing, 52, (Object) null, 12291);
         moduleMethod3.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm:188");
         lambda$Fn3 = moduleMethod3;
         test$Mnrunner$Mnnull = new ModuleMethod(testing, 53, Lit58, 0);
@@ -825,31 +510,31 @@ public class testing extends ModuleBody {
         test$Mnrunner$Mntest$Mnname = new ModuleMethod(testing, 75, Lit88, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         $Prvt$$Pctest$Mnapproximimate$Eq = new ModuleMethod(testing, 76, Lit91, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         SimpleSymbol simpleSymbol43 = Lit94;
-        ModuleMethod moduleMethod4 = new ModuleMethod(testing, 77, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ModuleMethod moduleMethod4 = new ModuleMethod(testing, 77, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         moduleMethod4.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm:660");
         test$Mnend = Macro.make(simpleSymbol43, moduleMethod4, $instance);
         SimpleSymbol simpleSymbol44 = Lit99;
-        ModuleMethod moduleMethod5 = new ModuleMethod(testing, 78, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ModuleMethod moduleMethod5 = new ModuleMethod(testing, 78, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         moduleMethod5.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm:669");
         test$Mnassert = Macro.make(simpleSymbol44, moduleMethod5, $instance);
         SimpleSymbol simpleSymbol45 = Lit104;
-        ModuleMethod moduleMethod6 = new ModuleMethod(testing, 79, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ModuleMethod moduleMethod6 = new ModuleMethod(testing, 79, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         moduleMethod6.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm:696");
         test$Mneqv = Macro.make(simpleSymbol45, moduleMethod6, $instance);
         SimpleSymbol simpleSymbol46 = Lit106;
-        ModuleMethod moduleMethod7 = new ModuleMethod(testing, 80, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ModuleMethod moduleMethod7 = new ModuleMethod(testing, 80, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         moduleMethod7.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm:698");
         test$Mneq = Macro.make(simpleSymbol46, moduleMethod7, $instance);
         SimpleSymbol simpleSymbol47 = Lit108;
-        ModuleMethod moduleMethod8 = new ModuleMethod(testing, 81, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ModuleMethod moduleMethod8 = new ModuleMethod(testing, 81, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         moduleMethod8.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm:700");
         test$Mnequal = Macro.make(simpleSymbol47, moduleMethod8, $instance);
         SimpleSymbol simpleSymbol48 = Lit110;
-        ModuleMethod moduleMethod9 = new ModuleMethod(testing, 82, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ModuleMethod moduleMethod9 = new ModuleMethod(testing, 82, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         moduleMethod9.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm:702");
         test$Mnapproximate = Macro.make(simpleSymbol48, moduleMethod9, $instance);
         SimpleSymbol simpleSymbol49 = Lit117;
-        ModuleMethod moduleMethod10 = new ModuleMethod(testing, 83, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ModuleMethod moduleMethod10 = new ModuleMethod(testing, 83, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         moduleMethod10.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm:843");
         test$Mnerror = Macro.make(simpleSymbol49, moduleMethod10, $instance);
         test$Mnapply = new ModuleMethod(testing, 84, Lit124, -4095);
@@ -875,7 +560,7 @@ public class testing extends ModuleBody {
             case 12:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 13:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -883,7 +568,7 @@ public class testing extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 15:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -891,7 +576,7 @@ public class testing extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 17:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -899,7 +584,7 @@ public class testing extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 19:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -907,7 +592,7 @@ public class testing extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 21:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -915,7 +600,7 @@ public class testing extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 23:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -923,7 +608,7 @@ public class testing extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 25:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -931,7 +616,7 @@ public class testing extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 27:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -939,7 +624,7 @@ public class testing extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 29:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -947,7 +632,7 @@ public class testing extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 31:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -955,7 +640,7 @@ public class testing extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 33:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -963,7 +648,7 @@ public class testing extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 35:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -971,7 +656,7 @@ public class testing extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 37:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -979,7 +664,7 @@ public class testing extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 39:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -987,7 +672,7 @@ public class testing extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 41:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -995,7 +680,7 @@ public class testing extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 43:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -1003,7 +688,7 @@ public class testing extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 45:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -1011,117 +696,117 @@ public class testing extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 47:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 48:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 49:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 57:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 60:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 63:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 65:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 66:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 68:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 73:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 75:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 76:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 77:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 78:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 79:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 80:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 81:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 82:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 83:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 88:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 89:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 90:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             default:
                 return super.match1(moduleMethod, obj, callContext);
@@ -1145,7 +830,7 @@ public class testing extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 16:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -1154,7 +839,7 @@ public class testing extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 18:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -1163,7 +848,7 @@ public class testing extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 20:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -1172,7 +857,7 @@ public class testing extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 22:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -1181,7 +866,7 @@ public class testing extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 24:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -1190,7 +875,7 @@ public class testing extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 26:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -1199,7 +884,7 @@ public class testing extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 28:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -1208,7 +893,7 @@ public class testing extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 30:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -1217,7 +902,7 @@ public class testing extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 32:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -1226,7 +911,7 @@ public class testing extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 34:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -1235,7 +920,7 @@ public class testing extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 36:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -1244,7 +929,7 @@ public class testing extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 38:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -1253,7 +938,7 @@ public class testing extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 40:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -1262,7 +947,7 @@ public class testing extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 42:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -1271,7 +956,7 @@ public class testing extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 44:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -1280,7 +965,7 @@ public class testing extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 46:
                 if (!(obj instanceof test$Mnrunner)) {
@@ -1289,37 +974,37 @@ public class testing extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 58:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 64:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 69:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 74:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 85:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             default:
                 return super.match2(moduleMethod, obj, obj2, callContext);
@@ -1571,7 +1256,7 @@ public class testing extends ModuleBody {
         try {
             Object testRunnerGroupStack = testRunnerGroupStack((test$Mnrunner) runner);
             try {
-                return C0620lists.reverse((LList) testRunnerGroupStack);
+                return lists.reverse((LList) testRunnerGroupStack);
             } catch (ClassCastException e) {
                 throw new WrongType(e, "reverse", 1, testRunnerGroupStack);
             }
@@ -1601,23 +1286,23 @@ public class testing extends ModuleBody {
         switch (moduleMethod.selector) {
             case 53:
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 0;
+                callContext.pc = 0;
                 return 0;
             case 54:
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 0;
+                callContext.pc = 0;
                 return 0;
             case 55:
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 0;
+                callContext.pc = 0;
                 return 0;
             case 56:
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 0;
+                callContext.pc = 0;
                 return 0;
             case 72:
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 0;
+                callContext.pc = 0;
                 return 0;
             default:
                 return super.match0(moduleMethod, callContext);
@@ -1635,49 +1320,49 @@ public class testing extends ModuleBody {
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 51:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 52:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 59:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 61:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 62:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 67:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             default:
                 return super.match3(moduleMethod, obj, obj2, obj3, callContext);
@@ -1723,8 +1408,8 @@ public class testing extends ModuleBody {
 
     static Object $PcTestAnySpecifierMatches(Object list, Object runner) {
         Boolean result = Boolean.FALSE;
-        for (Object l = list; !C0620lists.isNull(l); l = C0620lists.cdr.apply1(l)) {
-            if ($PcTestSpecificierMatches(C0620lists.car.apply1(l), runner) != Boolean.FALSE) {
+        for (Object l = list; !lists.isNull(l); l = lists.cdr.apply1(l)) {
+            if ($PcTestSpecificierMatches(lists.car.apply1(l), runner) != Boolean.FALSE) {
                 result = Boolean.TRUE;
             }
         }
@@ -1821,26 +1506,26 @@ public class testing extends ModuleBody {
             r3 = move-exception
             gnu.mapping.WrongType r4 = new gnu.mapping.WrongType
             java.lang.String r6 = "%test-runner-run-list"
-            r4.<init>(r3, r6, r5, r8)
+            r4.<init>((java.lang.ClassCastException) r3, (java.lang.String) r6, (int) r5, (java.lang.Object) r8)
             throw r4
         L_0x0067:
             r4 = move-exception
             gnu.mapping.WrongType r5 = new gnu.mapping.WrongType
             java.lang.String r6 = "x"
             r7 = -2
-            r5.<init>(r4, r6, r7, r3)
+            r5.<init>((java.lang.ClassCastException) r4, (java.lang.String) r6, (int) r7, (java.lang.Object) r3)
             throw r5
         L_0x0071:
             r3 = move-exception
             gnu.mapping.WrongType r4 = new gnu.mapping.WrongType
             java.lang.String r6 = "%test-runner-skip-list"
-            r4.<init>(r3, r6, r5, r8)
+            r4.<init>((java.lang.ClassCastException) r3, (java.lang.String) r6, (int) r5, (java.lang.Object) r8)
             throw r4
         L_0x007a:
             r3 = move-exception
             gnu.mapping.WrongType r4 = new gnu.mapping.WrongType
             java.lang.String r6 = "%test-runner-fail-list"
-            r4.<init>(r3, r6, r5, r8)
+            r4.<init>((java.lang.ClassCastException) r3, (java.lang.String) r6, (int) r5, (java.lang.Object) r8)
             throw r4
         */
         throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.slib.testing.$PcTestShouldExecute(java.lang.Object):java.lang.Object");
@@ -1856,18 +1541,18 @@ public class testing extends ModuleBody {
             try {
                 try {
                     try {
-                        $PcTestRunnerSkipSave$Ex((test$Mnrunner) runner, C0620lists.cons($PcTestRunnerSkipList((test$Mnrunner) runner), $PcTestRunnerSkipSave((test$Mnrunner) runner)));
+                        $PcTestRunnerSkipSave$Ex((test$Mnrunner) runner, lists.cons($PcTestRunnerSkipList((test$Mnrunner) runner), $PcTestRunnerSkipSave((test$Mnrunner) runner)));
                         try {
                             try {
                                 try {
-                                    $PcTestRunnerFailSave$Ex((test$Mnrunner) runner, C0620lists.cons($PcTestRunnerFailList((test$Mnrunner) runner), $PcTestRunnerFailSave((test$Mnrunner) runner)));
+                                    $PcTestRunnerFailSave$Ex((test$Mnrunner) runner, lists.cons($PcTestRunnerFailList((test$Mnrunner) runner), $PcTestRunnerFailSave((test$Mnrunner) runner)));
                                     try {
                                         try {
                                             try {
-                                                $PcTestRunnerCountList$Ex((test$Mnrunner) runner, C0620lists.cons(C0620lists.cons($PcTestRunnerTotalCount((test$Mnrunner) runner), count), $PcTestRunnerCountList((test$Mnrunner) runner)));
+                                                $PcTestRunnerCountList$Ex((test$Mnrunner) runner, lists.cons(lists.cons($PcTestRunnerTotalCount((test$Mnrunner) runner), count), $PcTestRunnerCountList((test$Mnrunner) runner)));
                                                 try {
                                                     try {
-                                                        testRunnerGroupStack$Ex((test$Mnrunner) runner, C0620lists.cons(suite$Mnname, testRunnerGroupStack((test$Mnrunner) runner)));
+                                                        testRunnerGroupStack$Ex((test$Mnrunner) runner, lists.cons(suite$Mnname, testRunnerGroupStack((test$Mnrunner) runner)));
                                                     } catch (ClassCastException e) {
                                                         throw new WrongType(e, "test-runner-group-stack", 0, runner);
                                                     }
@@ -1909,7 +1594,7 @@ public class testing extends ModuleBody {
     public static Boolean testOnGroupBeginSimple(Object runner, Object suite$Mnname, Object count) {
         Object log$Mnfile$Mnname;
         try {
-            if (C0620lists.isNull(testRunnerGroupStack((test$Mnrunner) runner))) {
+            if (lists.isNull(testRunnerGroupStack((test$Mnrunner) runner))) {
                 ports.display("%%%% Starting test ");
                 ports.display(suite$Mnname);
                 if (strings.isString(Boolean.TRUE)) {
@@ -1957,7 +1642,7 @@ public class testing extends ModuleBody {
             if (ports.isOutputPort(log)) {
                 ports.display("Group end: ", log);
                 try {
-                    ports.display(C0620lists.car.apply1(testRunnerGroupStack((test$Mnrunner) runner)), log);
+                    ports.display(lists.car.apply1(testRunnerGroupStack((test$Mnrunner) runner)), log);
                     ports.newline(log);
                 } catch (ClassCastException e) {
                     throw new WrongType(e, "test-runner-group-stack", 0, runner);
@@ -2047,16 +1732,16 @@ public class testing extends ModuleBody {
     static Object $PcTestFormatLine(Object runner) {
         try {
             Object line$Mninfo = testResultAlist((test$Mnrunner) runner);
-            Object source$Mnfile = C0620lists.assq(Lit4, line$Mninfo);
-            Object source$Mnline = C0620lists.assq(Lit5, line$Mninfo);
-            Object file = source$Mnfile != Boolean.FALSE ? C0620lists.cdr.apply1(source$Mnfile) : "";
+            Object source$Mnfile = lists.assq(Lit4, line$Mninfo);
+            Object source$Mnline = lists.assq(Lit5, line$Mninfo);
+            String file = source$Mnfile != Boolean.FALSE ? lists.cdr.apply1(source$Mnfile) : "";
             if (source$Mnline == Boolean.FALSE) {
                 return "";
             }
             Object[] objArr = new Object[4];
             objArr[0] = file;
             objArr[1] = ":";
-            Object apply1 = C0620lists.cdr.apply1(source$Mnline);
+            Object apply1 = lists.cdr.apply1(source$Mnline);
             try {
                 objArr[2] = numbers.number$To$String((Number) apply1);
                 objArr[3] = ": ";
@@ -2076,20 +1761,20 @@ public class testing extends ModuleBody {
             Object line = $PcTestFormatLine(r);
             try {
                 testResultAlist$Ex((test$Mnrunner) r, line$Mninfo);
-                if (C0620lists.isNull(groups)) {
+                if (lists.isNull(groups)) {
                     misc.error$V(strings.stringAppend(line, "test-end not in a group"), new Object[0]);
                 }
-                if (suite$Mnname == Boolean.FALSE ? suite$Mnname != Boolean.FALSE : !IsEqual.apply(suite$Mnname, C0620lists.car.apply1(groups))) {
+                if (suite$Mnname == Boolean.FALSE ? suite$Mnname != Boolean.FALSE : !IsEqual.apply(suite$Mnname, lists.car.apply1(groups))) {
                     try {
-                        Scheme.applyToArgs.apply4(testRunnerOnBadEndName((test$Mnrunner) r), r, suite$Mnname, C0620lists.car.apply1(groups));
+                        Scheme.applyToArgs.apply4(testRunnerOnBadEndName((test$Mnrunner) r), r, suite$Mnname, lists.car.apply1(groups));
                     } catch (ClassCastException e) {
                         throw new WrongType(e, "test-runner-on-bad-end-name", 0, r);
                     }
                 }
                 try {
                     Object count$Mnlist = $PcTestRunnerCountList((test$Mnrunner) r);
-                    Object expected$Mncount = C0620lists.cdar.apply1(count$Mnlist);
-                    Object saved$Mncount = C0620lists.caar.apply1(count$Mnlist);
+                    Object expected$Mncount = lists.cdar.apply1(count$Mnlist);
+                    Object saved$Mncount = lists.caar.apply1(count$Mnlist);
                     try {
                         Object group$Mncount = AddOp.$Mn.apply2($PcTestRunnerTotalCount((test$Mnrunner) r), saved$Mncount);
                         if (expected$Mncount == Boolean.FALSE ? expected$Mncount != Boolean.FALSE : Scheme.numEqu.apply2(expected$Mncount, group$Mncount) == Boolean.FALSE) {
@@ -2103,23 +1788,23 @@ public class testing extends ModuleBody {
                             Scheme.applyToArgs.apply2(testRunnerOnGroupEnd((test$Mnrunner) r), r);
                             try {
                                 try {
-                                    testRunnerGroupStack$Ex((test$Mnrunner) r, C0620lists.cdr.apply1(testRunnerGroupStack((test$Mnrunner) r)));
+                                    testRunnerGroupStack$Ex((test$Mnrunner) r, lists.cdr.apply1(testRunnerGroupStack((test$Mnrunner) r)));
                                     try {
                                         try {
-                                            $PcTestRunnerSkipList$Ex((test$Mnrunner) r, C0620lists.car.apply1($PcTestRunnerSkipSave((test$Mnrunner) r)));
+                                            $PcTestRunnerSkipList$Ex((test$Mnrunner) r, lists.car.apply1($PcTestRunnerSkipSave((test$Mnrunner) r)));
                                             try {
                                                 try {
-                                                    $PcTestRunnerSkipSave$Ex((test$Mnrunner) r, C0620lists.cdr.apply1($PcTestRunnerSkipSave((test$Mnrunner) r)));
+                                                    $PcTestRunnerSkipSave$Ex((test$Mnrunner) r, lists.cdr.apply1($PcTestRunnerSkipSave((test$Mnrunner) r)));
                                                     try {
                                                         try {
-                                                            $PcTestRunnerFailList$Ex((test$Mnrunner) r, C0620lists.car.apply1($PcTestRunnerFailSave((test$Mnrunner) r)));
+                                                            $PcTestRunnerFailList$Ex((test$Mnrunner) r, lists.car.apply1($PcTestRunnerFailSave((test$Mnrunner) r)));
                                                             try {
                                                                 try {
-                                                                    $PcTestRunnerFailSave$Ex((test$Mnrunner) r, C0620lists.cdr.apply1($PcTestRunnerFailSave((test$Mnrunner) r)));
+                                                                    $PcTestRunnerFailSave$Ex((test$Mnrunner) r, lists.cdr.apply1($PcTestRunnerFailSave((test$Mnrunner) r)));
                                                                     try {
-                                                                        $PcTestRunnerCountList$Ex((test$Mnrunner) r, C0620lists.cdr.apply1(count$Mnlist));
+                                                                        $PcTestRunnerCountList$Ex((test$Mnrunner) r, lists.cdr.apply1(count$Mnlist));
                                                                         try {
-                                                                            if (!C0620lists.isNull(testRunnerGroupStack((test$Mnrunner) r))) {
+                                                                            if (!lists.isNull(testRunnerGroupStack((test$Mnrunner) r))) {
                                                                                 return Values.empty;
                                                                             }
                                                                             try {
@@ -2188,10 +1873,10 @@ public class testing extends ModuleBody {
             }
             try {
                 Object results = testResultAlist((test$Mnrunner) runner);
-                Object source$Mnfile = C0620lists.assq(Lit4, results);
-                Object source$Mnline = C0620lists.assq(Lit5, results);
-                Object source$Mnform = C0620lists.assq(Lit6, results);
-                Object test$Mnname = C0620lists.assq(Lit7, results);
+                Object source$Mnfile = lists.assq(Lit4, results);
+                Object source$Mnline = lists.assq(Lit5, results);
+                Object source$Mnform = lists.assq(Lit6, results);
+                Object test$Mnname = lists.assq(Lit7, results);
                 ports.display("Test begin:", log);
                 ports.newline(log);
                 if (test$Mnname != Boolean.FALSE) {
@@ -2216,28 +1901,28 @@ public class testing extends ModuleBody {
         try {
             Object log = testRunnerAuxValue((test$Mnrunner) runner);
             try {
-                Object p = C0620lists.assq(Lit1, testResultAlist((test$Mnrunner) runner));
-                Object kind = p != Boolean.FALSE ? C0620lists.cdr.apply1(p) : Boolean.FALSE;
-                if (C0620lists.memq(kind, Lit8) != Boolean.FALSE) {
+                Object p = lists.assq(Lit1, testResultAlist((test$Mnrunner) runner));
+                Object kind = p != Boolean.FALSE ? lists.cdr.apply1(p) : Boolean.FALSE;
+                if (lists.memq(kind, Lit8) != Boolean.FALSE) {
                     try {
                         Object results = testResultAlist((test$Mnrunner) runner);
-                        Object source$Mnfile = C0620lists.assq(Lit4, results);
-                        Object source$Mnline = C0620lists.assq(Lit5, results);
-                        Object test$Mnname = C0620lists.assq(Lit7, results);
+                        Object source$Mnfile = lists.assq(Lit4, results);
+                        Object source$Mnline = lists.assq(Lit5, results);
+                        Object test$Mnname = lists.assq(Lit7, results);
                         if (!(source$Mnfile == Boolean.FALSE && source$Mnline == Boolean.FALSE)) {
                             if (source$Mnfile != Boolean.FALSE) {
-                                ports.display(C0620lists.cdr.apply1(source$Mnfile));
+                                ports.display(lists.cdr.apply1(source$Mnfile));
                             }
                             ports.display(":");
                             if (source$Mnline != Boolean.FALSE) {
-                                ports.display(C0620lists.cdr.apply1(source$Mnline));
+                                ports.display(lists.cdr.apply1(source$Mnline));
                             }
                             ports.display(": ");
                         }
                         ports.display(kind == Lit9 ? "XPASS" : "FAIL");
                         if (test$Mnname != Boolean.FALSE) {
                             ports.display(" ");
-                            ports.display(C0620lists.cdr.apply1(test$Mnname));
+                            ports.display(lists.cdr.apply1(test$Mnname));
                         }
                         ports.newline();
                     } catch (ClassCastException e) {
@@ -2250,9 +1935,9 @@ public class testing extends ModuleBody {
                 ports.display("Test end:", log);
                 ports.newline(log);
                 try {
-                    for (Object list = testResultAlist((test$Mnrunner) runner); C0620lists.isPair(list); list = C0620lists.cdr.apply1(list)) {
-                        Object pair = C0620lists.car.apply1(list);
-                        if (C0620lists.memq(C0620lists.car.apply1(pair), Lit10) == Boolean.FALSE) {
+                    for (Object list = testResultAlist((test$Mnrunner) runner); lists.isPair(list); list = lists.cdr.apply1(list)) {
+                        Object pair = lists.car.apply1(list);
+                        if (lists.memq(lists.car.apply1(pair), Lit10) == Boolean.FALSE) {
                             $PcTestWriteResult1(pair, log);
                         }
                     }
@@ -2270,9 +1955,9 @@ public class testing extends ModuleBody {
 
     static Object $PcTestWriteResult1(Object pair, Object port) {
         ports.display("  ", port);
-        ports.display(C0620lists.car.apply1(pair), port);
+        ports.display(lists.car.apply1(pair), port);
         ports.display(": ", port);
-        ports.write(C0620lists.cdr.apply1(pair), port);
+        ports.write(lists.cdr.apply1(pair), port);
         ports.newline(port);
         return Values.empty;
     }
@@ -2280,17 +1965,17 @@ public class testing extends ModuleBody {
     public static Object testResultSet$Ex(Object runner, Object pname, Object value) {
         try {
             Object alist = testResultAlist((test$Mnrunner) runner);
-            Object p = C0620lists.assq(pname, alist);
+            Object p = lists.assq(pname, alist);
             if (p != Boolean.FALSE) {
                 try {
-                    C0620lists.setCdr$Ex((Pair) p, value);
+                    lists.setCdr$Ex((Pair) p, value);
                     return Values.empty;
                 } catch (ClassCastException e) {
                     throw new WrongType(e, "set-cdr!", 1, p);
                 }
             } else {
                 try {
-                    testResultAlist$Ex((test$Mnrunner) runner, C0620lists.cons(C0620lists.cons(pname, value), alist));
+                    testResultAlist$Ex((test$Mnrunner) runner, lists.cons(lists.cons(pname, value), alist));
                     return Values.empty;
                 } catch (ClassCastException e2) {
                     throw new WrongType(e2, "test-result-alist!", 0, runner);
@@ -2335,8 +2020,8 @@ public class testing extends ModuleBody {
         frame frame6 = new frame();
         try {
             Object alist = testResultAlist((test$Mnrunner) runner);
-            frame6.f230p = C0620lists.assq(pname, alist);
-            if (frame6.f230p != Boolean.FALSE) {
+            frame6.p = lists.assq(pname, alist);
+            if (frame6.p != Boolean.FALSE) {
                 try {
                     testResultAlist$Ex((test$Mnrunner) runner, frame6.lambda4loop(alist));
                 } catch (ClassCastException e) {
@@ -2348,18 +2033,30 @@ public class testing extends ModuleBody {
         }
     }
 
+    /* compiled from: testing.scm */
+    public class frame extends ModuleBody {
+        Object p;
+
+        public Object lambda4loop(Object r) {
+            if (r == this.p) {
+                return lists.cdr.apply1(r);
+            }
+            return lists.cons(lists.car.apply1(r), lambda4loop(lists.cdr.apply1(r)));
+        }
+    }
+
     public static Object testResultKind$V(Object[] argsArray) {
         Object runner;
         LList rest = LList.makeList(argsArray, 0);
-        if (C0620lists.isPair(rest)) {
-            runner = C0620lists.car.apply1(rest);
+        if (lists.isPair(rest)) {
+            runner = lists.car.apply1(rest);
         } else {
             runner = ((Procedure) test$Mnrunner$Mncurrent).apply0();
         }
         try {
-            Object p = C0620lists.assq(Lit1, testResultAlist((test$Mnrunner) runner));
+            Object p = lists.assq(Lit1, testResultAlist((test$Mnrunner) runner));
             if (p != Boolean.FALSE) {
-                return C0620lists.cdr.apply1(p);
+                return lists.cdr.apply1(p);
             }
             return Boolean.FALSE;
         } catch (ClassCastException e) {
@@ -2372,27 +2069,27 @@ public class testing extends ModuleBody {
             case 70:
                 callContext.values = objArr;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 5;
+                callContext.pc = 5;
                 return 0;
             case 71:
                 callContext.values = objArr;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 5;
+                callContext.pc = 5;
                 return 0;
             case 84:
                 callContext.values = objArr;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 5;
+                callContext.pc = 5;
                 return 0;
             case 86:
                 callContext.values = objArr;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 5;
+                callContext.pc = 5;
                 return 0;
             case 87:
                 callContext.values = objArr;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 5;
+                callContext.pc = 5;
                 return 0;
             default:
                 return super.matchN(moduleMethod, objArr, callContext);
@@ -2402,15 +2099,15 @@ public class testing extends ModuleBody {
     public static Object isTestPassed$V(Object[] argsArray) {
         Object obj;
         LList rest = LList.makeList(argsArray, 0);
-        Object runner = C0620lists.isPair(rest) ? C0620lists.car.apply1(rest) : testRunnerGet();
+        Object runner = lists.isPair(rest) ? lists.car.apply1(rest) : testRunnerGet();
         try {
-            Object p = C0620lists.assq(Lit1, testResultAlist((test$Mnrunner) runner));
+            Object p = lists.assq(Lit1, testResultAlist((test$Mnrunner) runner));
             if (p != Boolean.FALSE) {
-                obj = C0620lists.cdr.apply1(p);
+                obj = lists.cdr.apply1(p);
             } else {
                 obj = Boolean.FALSE;
             }
-            return C0620lists.memq(obj, Lit11);
+            return lists.memq(obj, Lit11);
         } catch (ClassCastException e) {
             throw new WrongType(e, "test-result-alist", 0, runner);
         }
@@ -2510,12 +2207,12 @@ public class testing extends ModuleBody {
     static Pair $PcTestSourceLine2(Object form) {
         Object line = std_syntax.syntaxLine(form);
         Object file = $PcTestSyntaxFile(form);
-        Object line$Mnpair = line != Boolean.FALSE ? LList.list1(C0620lists.cons(Lit5, line)) : LList.Empty;
-        Pair cons = C0620lists.cons(Lit6, std_syntax.syntaxObject$To$Datum(form));
+        Object line$Mnpair = line != Boolean.FALSE ? LList.list1(lists.cons(Lit5, line)) : LList.Empty;
+        Pair cons = lists.cons(Lit6, std_syntax.syntaxObject$To$Datum(form));
         if (file != Boolean.FALSE) {
-            line$Mnpair = C0620lists.cons(C0620lists.cons(Lit4, file), line$Mnpair);
+            line$Mnpair = lists.cons(lists.cons(Lit4, file), line$Mnpair);
         }
-        return C0620lists.cons(cons, line$Mnpair);
+        return lists.cons(cons, line$Mnpair);
     }
 
     public static boolean $PcTestOnTestBegin(Object r) {
@@ -2524,8 +2221,8 @@ public class testing extends ModuleBody {
             Scheme.applyToArgs.apply2(testRunnerOnTestBegin((test$Mnrunner) r), r);
             SimpleSymbol simpleSymbol = Lit2;
             try {
-                Object p = C0620lists.assq(Lit1, testResultAlist((test$Mnrunner) r));
-                return ((simpleSymbol == (p != Boolean.FALSE ? C0620lists.cdr.apply1(p) : Boolean.FALSE) ? 1 : 0) + 1) & true;
+                Object p = lists.assq(Lit1, testResultAlist((test$Mnrunner) r));
+                return ((simpleSymbol == (p != Boolean.FALSE ? lists.cdr.apply1(p) : Boolean.FALSE) ? 1 : 0) + 1) & true;
             } catch (ClassCastException e) {
                 throw new WrongType(e, "test-result-alist", 0, r);
             }
@@ -2536,16 +2233,21 @@ public class testing extends ModuleBody {
 
     public static Object $PcTestOnTestEnd(Object r, Object result) {
         Object obj;
-        SimpleSymbol simpleSymbol = Lit1;
+        SimpleSymbol simpleSymbol;
+        SimpleSymbol simpleSymbol2 = Lit1;
         try {
-            Object p = C0620lists.assq(Lit1, testResultAlist((test$Mnrunner) r));
+            Object p = lists.assq(Lit1, testResultAlist((test$Mnrunner) r));
             if (p != Boolean.FALSE) {
-                obj = C0620lists.cdr.apply1(p);
+                obj = lists.cdr.apply1(p);
             } else {
                 obj = Boolean.FALSE;
             }
-            SimpleSymbol simpleSymbol2 = obj == Lit3 ? result != Boolean.FALSE ? Lit9 : Lit3 : result != Boolean.FALSE ? Lit12 : Lit14;
-            return testResultSet$Ex(r, simpleSymbol, simpleSymbol2);
+            if (obj == Lit3) {
+                simpleSymbol = result != Boolean.FALSE ? Lit9 : Lit3;
+            } else {
+                simpleSymbol = result != Boolean.FALSE ? Lit12 : Lit14;
+            }
+            return testResultSet$Ex(r, simpleSymbol2, simpleSymbol);
         } catch (ClassCastException e) {
             throw new WrongType(e, "test-result-alist", 0, r);
         }
@@ -2553,10 +2255,54 @@ public class testing extends ModuleBody {
 
     public static Object testRunnerTestName(Object runner) {
         try {
-            Object p = C0620lists.assq(Lit7, testResultAlist((test$Mnrunner) runner));
-            return p != Boolean.FALSE ? C0620lists.cdr.apply1(p) : "";
+            Object p = lists.assq(Lit7, testResultAlist((test$Mnrunner) runner));
+            return p != Boolean.FALSE ? lists.cdr.apply1(p) : "";
         } catch (ClassCastException e) {
             throw new WrongType(e, "test-result-alist", 0, runner);
+        }
+    }
+
+    /* compiled from: testing.scm */
+    public class frame0 extends ModuleBody {
+        Object error;
+        final ModuleMethod lambda$Fn4;
+
+        public frame0() {
+            ModuleMethod moduleMethod = new ModuleMethod(this, 1, (Object) null, 8194);
+            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm:640");
+            this.lambda$Fn4 = moduleMethod;
+        }
+
+        public Object apply2(ModuleMethod moduleMethod, Object obj, Object obj2) {
+            if (moduleMethod.selector == 1) {
+                return lambda5(obj, obj2) ? Boolean.TRUE : Boolean.FALSE;
+            }
+            return super.apply2(moduleMethod, obj, obj2);
+        }
+
+        /* access modifiers changed from: package-private */
+        public boolean lambda5(Object value, Object expected) {
+            Object apply2 = Scheme.numGEq.apply2(value, AddOp.$Mn.apply2(expected, this.error));
+            try {
+                boolean x = ((Boolean) apply2).booleanValue();
+                if (x) {
+                    return ((Boolean) Scheme.numLEq.apply2(value, AddOp.$Pl.apply2(expected, this.error))).booleanValue();
+                }
+                return x;
+            } catch (ClassCastException e) {
+                throw new WrongType(e, "x", -2, apply2);
+            }
+        }
+
+        public int match2(ModuleMethod moduleMethod, Object obj, Object obj2, CallContext callContext) {
+            if (moduleMethod.selector != 1) {
+                return super.match2(moduleMethod, obj, obj2, callContext);
+            }
+            callContext.value1 = obj;
+            callContext.value2 = obj2;
+            callContext.proc = moduleMethod;
+            callContext.pc = 2;
+            return 0;
         }
     }
 
@@ -2568,7 +2314,7 @@ public class testing extends ModuleBody {
 
     static Object lambda16(Object x) {
         Pair list2 = LList.list2(x, LList.list2(Lit15, $PcTestSourceLine2(x)));
-        Object[] allocVars = SyntaxPattern.allocVars(3, null);
+        Object[] allocVars = SyntaxPattern.allocVars(3, (Object[]) null);
         if (Lit95.match(list2, allocVars, 0)) {
             return Lit96.execute(allocVars, TemplateScope.make());
         } else if (!Lit97.match(list2, allocVars, 0)) {
@@ -2580,7 +2326,7 @@ public class testing extends ModuleBody {
 
     static Object lambda17(Object x) {
         Pair list2 = LList.list2(x, LList.list2(Lit15, $PcTestSourceLine2(x)));
-        Object[] allocVars = SyntaxPattern.allocVars(4, null);
+        Object[] allocVars = SyntaxPattern.allocVars(4, (Object[]) null);
         if (Lit100.match(list2, allocVars, 0)) {
             return Lit101.execute(allocVars, TemplateScope.make());
         } else if (!Lit102.match(list2, allocVars, 0)) {
@@ -2592,7 +2338,7 @@ public class testing extends ModuleBody {
 
     static Object $PcTestComp2(Object comp, Object x) {
         Pair list3 = LList.list3(x, LList.list2(Lit15, $PcTestSourceLine2(x)), comp);
-        Object[] allocVars = SyntaxPattern.allocVars(6, null);
+        Object[] allocVars = SyntaxPattern.allocVars(6, (Object[]) null);
         if (Lit16.match(list3, allocVars, 0)) {
             return Lit17.execute(allocVars, TemplateScope.make());
         } else if (!Lit18.match(list3, allocVars, 0)) {
@@ -2603,20 +2349,20 @@ public class testing extends ModuleBody {
     }
 
     static Object lambda18(Object x) {
-        return $PcTestComp2(Lit105.execute(null, TemplateScope.make()), x);
+        return $PcTestComp2(Lit105.execute((Object[]) null, TemplateScope.make()), x);
     }
 
     static Object lambda19(Object x) {
-        return $PcTestComp2(Lit107.execute(null, TemplateScope.make()), x);
+        return $PcTestComp2(Lit107.execute((Object[]) null, TemplateScope.make()), x);
     }
 
     static Object lambda20(Object x) {
-        return $PcTestComp2(Lit109.execute(null, TemplateScope.make()), x);
+        return $PcTestComp2(Lit109.execute((Object[]) null, TemplateScope.make()), x);
     }
 
     static Object lambda21(Object x) {
         Pair list2 = LList.list2(x, LList.list2(Lit15, $PcTestSourceLine2(x)));
-        Object[] allocVars = SyntaxPattern.allocVars(6, null);
+        Object[] allocVars = SyntaxPattern.allocVars(6, (Object[]) null);
         if (Lit111.match(list2, allocVars, 0)) {
             return Lit112.execute(allocVars, TemplateScope.make());
         } else if (!Lit113.match(list2, allocVars, 0)) {
@@ -2628,7 +2374,7 @@ public class testing extends ModuleBody {
 
     static Object lambda22(Object x) {
         Pair list2 = LList.list2(x, LList.list2(Lit15, $PcTestSourceLine2(x)));
-        Object[] allocVars = SyntaxPattern.allocVars(5, null);
+        Object[] allocVars = SyntaxPattern.allocVars(5, (Object[]) null);
         if (Lit118.match(list2, allocVars, 0)) {
             return Lit119.execute(allocVars, TemplateScope.make());
         } else if (Lit120.match(list2, allocVars, 0)) {
@@ -2811,10 +2557,10 @@ public class testing extends ModuleBody {
         if (r != Boolean.FALSE) {
             try {
                 Object run$Mnlist = $PcTestRunnerRunList((test$Mnrunner) r);
-                if (C0620lists.isNull(frame12.rest)) {
+                if (lists.isNull(frame12.rest)) {
                     try {
                         try {
-                            $PcTestRunnerRunList$Ex((test$Mnrunner) r, C0620lists.reverse$Ex((LList) run$Mnlist));
+                            $PcTestRunnerRunList$Ex((test$Mnrunner) r, lists.reverse$Ex((LList) run$Mnlist));
                             return Scheme.applyToArgs.apply1(frame12.first);
                         } catch (ClassCastException e) {
                             throw new WrongType(e, "reverse!", 1, run$Mnlist);
@@ -2828,7 +2574,7 @@ public class testing extends ModuleBody {
                         if (run$Mnlist == Boolean.TRUE) {
                             cons = LList.list1(frame12.first);
                         } else {
-                            cons = C0620lists.cons(frame12.first, run$Mnlist);
+                            cons = lists.cons(frame12.first, run$Mnlist);
                         }
                         $PcTestRunnerRunList$Ex(test_mnrunner, cons);
                         Scheme.apply.apply2(test$Mnapply, frame12.rest);
@@ -2846,24 +2592,130 @@ public class testing extends ModuleBody {
                 throw new WrongType(e5, "%test-runner-run-list", 0, r);
             }
         } else {
-            frame12.f231r = testRunnerCreate();
+            frame12.r = testRunnerCreate();
             frame12.saved$Mnrunner = ((Procedure) test$Mnrunner$Mncurrent).apply0();
             misc.dynamicWind(frame12.lambda$Fn8, frame12.lambda$Fn9, frame12.lambda$Fn10);
             ApplyToArgs applyToArgs = Scheme.applyToArgs;
-            Object obj = frame12.f231r;
+            Object obj = frame12.r;
             try {
-                return applyToArgs.apply2(testRunnerOnFinal((test$Mnrunner) obj), frame12.f231r);
+                return applyToArgs.apply2(testRunnerOnFinal((test$Mnrunner) obj), frame12.r);
             } catch (ClassCastException e6) {
                 throw new WrongType(e6, "test-runner-on-final", 0, obj);
             }
         }
     }
 
+    /* compiled from: testing.scm */
+    public class frame1 extends ModuleBody {
+        Object first;
+        final ModuleMethod lambda$Fn10;
+        final ModuleMethod lambda$Fn5 = new ModuleMethod(this, 2, (Object) null, 0);
+        final ModuleMethod lambda$Fn6 = new ModuleMethod(this, 3, (Object) null, 0);
+        final ModuleMethod lambda$Fn7;
+        final ModuleMethod lambda$Fn8;
+        final ModuleMethod lambda$Fn9;
+        Object r;
+        LList rest;
+        Object saved$Mnrunner;
+        Object saved$Mnrunner$1;
+
+        public frame1() {
+            ModuleMethod moduleMethod = new ModuleMethod(this, 4, (Object) null, 0);
+            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm:897");
+            this.lambda$Fn7 = moduleMethod;
+            this.lambda$Fn8 = new ModuleMethod(this, 5, (Object) null, 0);
+            this.lambda$Fn9 = new ModuleMethod(this, 6, (Object) null, 0);
+            ModuleMethod moduleMethod2 = new ModuleMethod(this, 7, (Object) null, 0);
+            moduleMethod2.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm:897");
+            this.lambda$Fn10 = moduleMethod2;
+        }
+
+        /* access modifiers changed from: package-private */
+        public Object lambda6() {
+            return ((Procedure) testing.test$Mnrunner$Mncurrent).apply1(this.first);
+        }
+
+        /* access modifiers changed from: package-private */
+        public Object lambda7() {
+            return Scheme.apply.apply2(testing.test$Mnapply, this.rest);
+        }
+
+        /* access modifiers changed from: package-private */
+        public Object lambda10() {
+            return Scheme.apply.apply3(testing.test$Mnapply, this.first, this.rest);
+        }
+
+        /* access modifiers changed from: package-private */
+        public Object lambda9() {
+            return ((Procedure) testing.test$Mnrunner$Mncurrent).apply1(this.r);
+        }
+
+        public Object apply0(ModuleMethod moduleMethod) {
+            switch (moduleMethod.selector) {
+                case 2:
+                    return lambda6();
+                case 3:
+                    return lambda7();
+                case 4:
+                    return lambda8();
+                case 5:
+                    return lambda9();
+                case 6:
+                    return lambda10();
+                case 7:
+                    return lambda11();
+                default:
+                    return super.apply0(moduleMethod);
+            }
+        }
+
+        /* access modifiers changed from: package-private */
+        public Object lambda11() {
+            return ((Procedure) testing.test$Mnrunner$Mncurrent).apply1(this.saved$Mnrunner);
+        }
+
+        /* access modifiers changed from: package-private */
+        public Object lambda8() {
+            return ((Procedure) testing.test$Mnrunner$Mncurrent).apply1(this.saved$Mnrunner$1);
+        }
+
+        public int match0(ModuleMethod moduleMethod, CallContext callContext) {
+            switch (moduleMethod.selector) {
+                case 2:
+                    callContext.proc = moduleMethod;
+                    callContext.pc = 0;
+                    return 0;
+                case 3:
+                    callContext.proc = moduleMethod;
+                    callContext.pc = 0;
+                    return 0;
+                case 4:
+                    callContext.proc = moduleMethod;
+                    callContext.pc = 0;
+                    return 0;
+                case 5:
+                    callContext.proc = moduleMethod;
+                    callContext.pc = 0;
+                    return 0;
+                case 6:
+                    callContext.proc = moduleMethod;
+                    callContext.pc = 0;
+                    return 0;
+                case 7:
+                    callContext.proc = moduleMethod;
+                    callContext.pc = 0;
+                    return 0;
+                default:
+                    return super.match0(moduleMethod, callContext);
+            }
+        }
+    }
+
     public static Procedure $PcTestMatchNth(Object n, Object count) {
         frame2 frame22 = new frame2();
-        frame22.f233n = n;
+        frame22.n = n;
         frame22.count = count;
-        frame22.f232i = Lit0;
+        frame22.i = Lit0;
         return frame22.lambda$Fn11;
     }
 
@@ -3005,10 +2857,127 @@ public class testing extends ModuleBody {
         }
     }
 
+    /* compiled from: testing.scm */
+    public class frame2 extends ModuleBody {
+        Object count;
+        Object i;
+        final ModuleMethod lambda$Fn11;
+        Object n;
+
+        public frame2() {
+            ModuleMethod moduleMethod = new ModuleMethod(this, 8, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm:903");
+            this.lambda$Fn11 = moduleMethod;
+        }
+
+        public Object apply1(ModuleMethod moduleMethod, Object obj) {
+            if (moduleMethod.selector == 8) {
+                return lambda12(obj) ? Boolean.TRUE : Boolean.FALSE;
+            }
+            return super.apply1(moduleMethod, obj);
+        }
+
+        /* access modifiers changed from: package-private */
+        public boolean lambda12(Object runner) {
+            this.i = AddOp.$Pl.apply2(this.i, testing.Lit13);
+            Object apply2 = Scheme.numGEq.apply2(this.i, this.n);
+            try {
+                boolean x = ((Boolean) apply2).booleanValue();
+                return x ? ((Boolean) Scheme.numLss.apply2(this.i, AddOp.$Pl.apply2(this.n, this.count))).booleanValue() : x;
+            } catch (ClassCastException e) {
+                throw new WrongType(e, "x", -2, apply2);
+            }
+        }
+
+        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
+            if (moduleMethod.selector != 8) {
+                return super.match1(moduleMethod, obj, callContext);
+            }
+            callContext.value1 = obj;
+            callContext.proc = moduleMethod;
+            callContext.pc = 1;
+            return 0;
+        }
+    }
+
+    /* compiled from: testing.scm */
+    public class frame3 extends ModuleBody {
+        final ModuleMethod lambda$Fn12;
+        LList pred$Mnlist;
+
+        public frame3() {
+            ModuleMethod moduleMethod = new ModuleMethod(this, 9, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm:915");
+            this.lambda$Fn12 = moduleMethod;
+        }
+
+        public Object apply1(ModuleMethod moduleMethod, Object obj) {
+            return moduleMethod.selector == 9 ? lambda13(obj) : super.apply1(moduleMethod, obj);
+        }
+
+        /* access modifiers changed from: package-private */
+        public Object lambda13(Object runner) {
+            Boolean result = Boolean.TRUE;
+            for (Object obj = this.pred$Mnlist; !lists.isNull(obj); obj = lists.cdr.apply1(obj)) {
+                if (Scheme.applyToArgs.apply2(lists.car.apply1(obj), runner) == Boolean.FALSE) {
+                    result = Boolean.FALSE;
+                }
+            }
+            return result;
+        }
+
+        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
+            if (moduleMethod.selector != 9) {
+                return super.match1(moduleMethod, obj, callContext);
+            }
+            callContext.value1 = obj;
+            callContext.proc = moduleMethod;
+            callContext.pc = 1;
+            return 0;
+        }
+    }
+
     public static Procedure $PcTestMatchAll$V(Object[] argsArray) {
         frame3 frame32 = new frame3();
         frame32.pred$Mnlist = LList.makeList(argsArray, 0);
         return frame32.lambda$Fn12;
+    }
+
+    /* compiled from: testing.scm */
+    public class frame4 extends ModuleBody {
+        final ModuleMethod lambda$Fn13;
+        LList pred$Mnlist;
+
+        public frame4() {
+            ModuleMethod moduleMethod = new ModuleMethod(this, 10, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm:931");
+            this.lambda$Fn13 = moduleMethod;
+        }
+
+        public Object apply1(ModuleMethod moduleMethod, Object obj) {
+            return moduleMethod.selector == 10 ? lambda14(obj) : super.apply1(moduleMethod, obj);
+        }
+
+        /* access modifiers changed from: package-private */
+        public Object lambda14(Object runner) {
+            Boolean result = Boolean.FALSE;
+            for (Object obj = this.pred$Mnlist; !lists.isNull(obj); obj = lists.cdr.apply1(obj)) {
+                if (Scheme.applyToArgs.apply2(lists.car.apply1(obj), runner) != Boolean.FALSE) {
+                    result = Boolean.TRUE;
+                }
+            }
+            return result;
+        }
+
+        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
+            if (moduleMethod.selector != 10) {
+                return super.match1(moduleMethod, obj, callContext);
+            }
+            callContext.value1 = obj;
+            callContext.proc = moduleMethod;
+            callContext.pc = 1;
+            return 0;
+        }
     }
 
     public static Procedure $PcTestMatchAny$V(Object[] argsArray) {
@@ -3054,6 +3023,40 @@ public class testing extends ModuleBody {
             return testMatchName(specifier);
         }
         return misc.error$V("not a valid test specifier", new Object[0]);
+    }
+
+    /* compiled from: testing.scm */
+    public class frame5 extends ModuleBody {
+        final ModuleMethod lambda$Fn14;
+        Object name;
+
+        public frame5() {
+            ModuleMethod moduleMethod = new ModuleMethod(this, 11, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/testing.scm:971");
+            this.lambda$Fn14 = moduleMethod;
+        }
+
+        public Object apply1(ModuleMethod moduleMethod, Object obj) {
+            if (moduleMethod.selector == 11) {
+                return lambda15(obj) ? Boolean.TRUE : Boolean.FALSE;
+            }
+            return super.apply1(moduleMethod, obj);
+        }
+
+        /* access modifiers changed from: package-private */
+        public boolean lambda15(Object runner) {
+            return IsEqual.apply(this.name, testing.testRunnerTestName(runner));
+        }
+
+        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
+            if (moduleMethod.selector != 11) {
+                return super.match1(moduleMethod, obj, callContext);
+            }
+            callContext.value1 = obj;
+            callContext.proc = moduleMethod;
+            callContext.pc = 1;
+            return 0;
+        }
     }
 
     public static Procedure testMatchName(Object name) {

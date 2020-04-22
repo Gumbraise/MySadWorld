@@ -3,8 +3,11 @@ package gnu.expr;
 import gnu.bytecode.ClassType;
 import gnu.bytecode.CodeAttr;
 import gnu.bytecode.Field;
+import gnu.bytecode.Member;
 import gnu.bytecode.Method;
+import gnu.bytecode.ObjectType;
 import gnu.bytecode.Type;
+import gnu.bytecode.Variable;
 import gnu.mapping.OutPort;
 import java.util.Hashtable;
 import java.util.Vector;
@@ -118,6 +121,7 @@ public class ClassExp extends LambdaExp {
     public void setTypes(Compilation comp) {
         ClassType[] interfaces;
         String name;
+        int nlen;
         String name2;
         int modifiers;
         int j;
@@ -188,11 +192,8 @@ public class ClassExp extends LambdaExp {
                 name = this.classNameSpecifier;
             } else {
                 name = getName();
-                if (name != null) {
-                    int nlen = name.length();
-                    if (nlen > 2 && name.charAt(0) == '<' && name.charAt(nlen - 1) == '>') {
-                        name = name.substring(1, nlen - 1);
-                    }
+                if (name != null && (nlen = name.length()) > 2 && name.charAt(0) == '<' && name.charAt(nlen - 1) == '>') {
+                    name = name.substring(1, nlen - 1);
                 }
             }
             if (name == null) {
@@ -273,7 +274,7 @@ public class ClassExp extends LambdaExp {
                         String fname = Compilation.mangleNameIfNeeded(decl.getName());
                         decl.field = this.instanceType.addField(fname, decl.getType(), flags);
                         decl.setSimple(false);
-                        Declaration old = (Declaration) seenFields.get(fname);
+                        Declaration old = seenFields.get(fname);
                         if (old != null) {
                             duplicateDeclarationError(old, decl, comp);
                         }
@@ -296,7 +297,7 @@ public class ClassExp extends LambdaExp {
                 }
                 child.outer = this;
                 if (!(child == this.initMethod || child == this.clinitMethod || child.nameDecl == null || child.nameDecl.getFlag(2048)) || !isMakingClassPair()) {
-                    child.addMethodFor(this.type, comp, null);
+                    child.addMethodFor(this.type, comp, (ObjectType) null);
                 }
                 if (isMakingClassPair()) {
                     child.addMethodFor(this.instanceType, comp, this.type);
@@ -368,611 +369,188 @@ public class ClassExp extends LambdaExp {
         }
     }
 
-    /* JADX WARNING: type inference failed for: r0v3, types: [gnu.bytecode.Method] */
-    /* JADX WARNING: type inference failed for: r38v0 */
-    /* JADX WARNING: type inference failed for: r13v2 */
-    /* JADX WARNING: Multi-variable type inference failed */
-    /* JADX WARNING: Unknown variable types count: 2 */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public gnu.bytecode.ClassType compileMembers(gnu.expr.Compilation r49) {
-        /*
-            r48 = this;
-            r0 = r49
-            gnu.bytecode.ClassType r0 = r0.curClass
-            r33 = r0
-            r0 = r49
-            gnu.bytecode.Method r0 = r0.method
-            r38 = r0
-            gnu.bytecode.ClassType r27 = r48.getCompiledClassType(r49)     // Catch:{ all -> 0x0272 }
-            r0 = r27
-            r1 = r49
-            r1.curClass = r0     // Catch:{ all -> 0x0272 }
-            gnu.expr.LambdaExp r29 = r48.outerLambda()     // Catch:{ all -> 0x0272 }
-            r13 = 0
-            r0 = r29
-            boolean r0 = r0 instanceof gnu.expr.ClassExp     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            if (r45 == 0) goto L_0x00ba
-            r0 = r29
-            gnu.bytecode.ClassType r13 = r0.type     // Catch:{ all -> 0x0272 }
-        L_0x0027:
-            if (r13 == 0) goto L_0x003b
-            r0 = r27
-            r0.setEnclosingMember(r13)     // Catch:{ all -> 0x0272 }
-            boolean r0 = r13 instanceof gnu.bytecode.ClassType     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            if (r45 == 0) goto L_0x003b
-            gnu.bytecode.ClassType r13 = (gnu.bytecode.ClassType) r13     // Catch:{ all -> 0x0272 }
-            r0 = r27
-            r13.addMemberClass(r0)     // Catch:{ all -> 0x0272 }
-        L_0x003b:
-            r0 = r48
-            gnu.bytecode.ClassType r0 = r0.instanceType     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            r0 = r45
-            r1 = r27
-            if (r0 == r1) goto L_0x0065
-            r0 = r48
-            gnu.bytecode.ClassType r0 = r0.instanceType     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            r0 = r48
-            gnu.bytecode.ClassType r0 = r0.type     // Catch:{ all -> 0x0272 }
-            r46 = r0
-            r45.setEnclosingMember(r46)     // Catch:{ all -> 0x0272 }
-            r0 = r48
-            gnu.bytecode.ClassType r0 = r0.type     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            r0 = r48
-            gnu.bytecode.ClassType r0 = r0.instanceType     // Catch:{ all -> 0x0272 }
-            r46 = r0
-            r45.addMemberClass(r46)     // Catch:{ all -> 0x0272 }
-        L_0x0065:
-            r0 = r48
-            gnu.bytecode.ClassType r0 = r0.type     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            r0 = r45
-            r1 = r49
-            usedSuperClasses(r0, r1)     // Catch:{ all -> 0x0272 }
-            r0 = r48
-            gnu.bytecode.ClassType r0 = r0.type     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            r0 = r48
-            gnu.bytecode.ClassType r0 = r0.instanceType     // Catch:{ all -> 0x0272 }
-            r46 = r0
-            r0 = r45
-            r1 = r46
-            if (r0 == r1) goto L_0x0091
-            r0 = r48
-            gnu.bytecode.ClassType r0 = r0.instanceType     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            r0 = r45
-            r1 = r49
-            usedSuperClasses(r0, r1)     // Catch:{ all -> 0x0272 }
-        L_0x0091:
-            java.lang.String r15 = r48.getFileName()     // Catch:{ all -> 0x0272 }
-            if (r15 == 0) goto L_0x009c
-            r0 = r27
-            r0.setSourceFile(r15)     // Catch:{ all -> 0x0272 }
-        L_0x009c:
-            r0 = r49
-            gnu.expr.LambdaExp r0 = r0.curLambda     // Catch:{ all -> 0x0272 }
-            r36 = r0
-            r0 = r48
-            r1 = r49
-            r1.curLambda = r0     // Catch:{ all -> 0x0272 }
-            r48.allocFrame(r49)     // Catch:{ all -> 0x0272 }
-            r0 = r48
-            gnu.expr.LambdaExp r10 = r0.firstChild     // Catch:{ all -> 0x0272 }
-        L_0x00af:
-            if (r10 == 0) goto L_0x029d
-            boolean r45 = r10.isAbstract()     // Catch:{ all -> 0x0272 }
-            if (r45 == 0) goto L_0x00e8
-        L_0x00b7:
-            gnu.expr.LambdaExp r10 = r10.nextSibling     // Catch:{ all -> 0x0272 }
-            goto L_0x00af
-        L_0x00ba:
-            if (r29 == 0) goto L_0x00c8
-            r0 = r29
-            boolean r0 = r0 instanceof gnu.expr.ModuleExp     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            if (r45 != 0) goto L_0x00c8
-            r13 = r38
-            goto L_0x0027
-        L_0x00c8:
-            r0 = r29
-            boolean r0 = r0 instanceof gnu.expr.ModuleExp     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            if (r45 == 0) goto L_0x0027
-            r0 = r48
-            gnu.bytecode.ClassType r0 = r0.type     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            java.lang.String r45 = r45.getName()     // Catch:{ all -> 0x0272 }
-            r46 = 36
-            int r45 = r45.indexOf(r46)     // Catch:{ all -> 0x0272 }
-            if (r45 <= 0) goto L_0x0027
-            r0 = r29
-            gnu.bytecode.ClassType r13 = r0.type     // Catch:{ all -> 0x0272 }
-            goto L_0x0027
-        L_0x00e8:
-            r0 = r49
-            gnu.bytecode.Method r0 = r0.method     // Catch:{ all -> 0x0272 }
-            r40 = r0
-            r0 = r49
-            gnu.expr.LambdaExp r0 = r0.curLambda     // Catch:{ all -> 0x0272 }
-            r39 = r0
-            java.lang.String r35 = r49.getFileName()     // Catch:{ all -> 0x0272 }
-            int r37 = r49.getLineNumber()     // Catch:{ all -> 0x0272 }
-            int r34 = r49.getColumnNumber()     // Catch:{ all -> 0x0272 }
-            r0 = r49
-            r0.setLine(r10)     // Catch:{ all -> 0x0272 }
-            gnu.bytecode.Method r45 = r10.getMainMethod()     // Catch:{ all -> 0x0272 }
-            r0 = r45
-            r1 = r49
-            r1.method = r0     // Catch:{ all -> 0x0272 }
-            gnu.expr.Declaration r11 = r10.nameDecl     // Catch:{ all -> 0x0272 }
-            if (r11 == 0) goto L_0x011d
-            r46 = 2048(0x800, double:1.0118E-320)
-            r0 = r46
-            boolean r45 = r11.getFlag(r0)     // Catch:{ all -> 0x0272 }
-            if (r45 != 0) goto L_0x0128
-        L_0x011d:
-            r0 = r49
-            gnu.bytecode.ClassType r0 = r0.curClass     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            r0 = r45
-            r10.declareThis(r0)     // Catch:{ all -> 0x0272 }
-        L_0x0128:
-            r0 = r48
-            gnu.bytecode.ClassType r0 = r0.instanceType     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            r0 = r45
-            r1 = r49
-            r1.curClass = r0     // Catch:{ all -> 0x0272 }
-            r0 = r49
-            r0.curLambda = r10     // Catch:{ all -> 0x0272 }
-            r0 = r49
-            gnu.bytecode.Method r0 = r0.method     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            r45.initCode()     // Catch:{ all -> 0x0272 }
-            r0 = r49
-            r10.allocChildClasses(r0)     // Catch:{ all -> 0x0272 }
-            r0 = r49
-            r10.allocParameters(r0)     // Catch:{ all -> 0x0272 }
-            java.lang.String r45 = "*init*"
-            java.lang.String r46 = r10.getName()     // Catch:{ all -> 0x0272 }
-            boolean r45 = r45.equals(r46)     // Catch:{ all -> 0x0272 }
-            if (r45 == 0) goto L_0x0292
-            gnu.bytecode.CodeAttr r12 = r49.getCode()     // Catch:{ all -> 0x0272 }
-            r0 = r48
-            gnu.bytecode.Field r0 = r0.staticLinkField     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            if (r45 == 0) goto L_0x0180
-            r12.emitPushThis()     // Catch:{ all -> 0x0272 }
-            gnu.bytecode.Scope r45 = r12.getCurrentScope()     // Catch:{ all -> 0x0272 }
-            r46 = 1
-            gnu.bytecode.Variable r45 = r45.getVariable(r46)     // Catch:{ all -> 0x0272 }
-            r0 = r45
-            r12.emitLoad(r0)     // Catch:{ all -> 0x0272 }
-            r0 = r48
-            gnu.bytecode.Field r0 = r0.staticLinkField     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            r0 = r45
-            r12.emitPutField(r0)     // Catch:{ all -> 0x0272 }
-        L_0x0180:
-            gnu.expr.Expression r7 = r10.body     // Catch:{ all -> 0x0272 }
-        L_0x0182:
-            boolean r0 = r7 instanceof gnu.expr.BeginExp     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            if (r45 == 0) goto L_0x019d
-            r0 = r7
-            gnu.expr.BeginExp r0 = (gnu.expr.BeginExp) r0     // Catch:{ all -> 0x0272 }
-            r6 = r0
-            int r0 = r6.length     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            if (r45 != 0) goto L_0x0194
-            r7 = 0
-            goto L_0x0182
-        L_0x0194:
-            gnu.expr.Expression[] r0 = r6.exps     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            r46 = 0
-            r7 = r45[r46]     // Catch:{ all -> 0x0272 }
-            goto L_0x0182
-        L_0x019d:
-            r8 = 0
-            boolean r0 = r7 instanceof gnu.expr.ApplyExp     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            if (r45 == 0) goto L_0x01e9
-            r0 = r7
-            gnu.expr.ApplyExp r0 = (gnu.expr.ApplyExp) r0     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            r0 = r45
-            gnu.expr.Expression r14 = r0.func     // Catch:{ all -> 0x0272 }
-            boolean r0 = r14 instanceof gnu.expr.QuoteExp     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            if (r45 == 0) goto L_0x01e9
-            gnu.expr.QuoteExp r14 = (gnu.expr.QuoteExp) r14     // Catch:{ all -> 0x0272 }
-            java.lang.Object r42 = r14.getValue()     // Catch:{ all -> 0x0272 }
-            r0 = r42
-            boolean r0 = r0 instanceof gnu.expr.PrimProcedure     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            if (r45 == 0) goto L_0x01e9
-            r0 = r42
-            gnu.expr.PrimProcedure r0 = (gnu.expr.PrimProcedure) r0     // Catch:{ all -> 0x0272 }
-            r30 = r0
-            boolean r45 = r30.isSpecial()     // Catch:{ all -> 0x0272 }
-            if (r45 == 0) goto L_0x01e9
-            java.lang.String r45 = "<init>"
-            r0 = r30
-            gnu.bytecode.Method r0 = r0.method     // Catch:{ all -> 0x0272 }
-            r46 = r0
-            java.lang.String r46 = r46.getName()     // Catch:{ all -> 0x0272 }
-            boolean r45 = r45.equals(r46)     // Catch:{ all -> 0x0272 }
-            if (r45 == 0) goto L_0x01e9
-            r0 = r30
-            gnu.bytecode.Method r0 = r0.method     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            gnu.bytecode.ClassType r8 = r45.getDeclaringClass()     // Catch:{ all -> 0x0272 }
-        L_0x01e9:
-            r0 = r48
-            gnu.bytecode.ClassType r0 = r0.instanceType     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            gnu.bytecode.ClassType r41 = r45.getSuperclass()     // Catch:{ all -> 0x0272 }
-            if (r8 == 0) goto L_0x0280
-            gnu.expr.Target r45 = gnu.expr.Target.Ignore     // Catch:{ all -> 0x0272 }
-            r0 = r49
-            r1 = r45
-            r7.compileWithPosition(r0, r1)     // Catch:{ all -> 0x0272 }
-            r0 = r48
-            gnu.bytecode.ClassType r0 = r0.instanceType     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            r0 = r45
-            if (r8 == r0) goto L_0x0219
-            r0 = r41
-            if (r8 == r0) goto L_0x0219
-            r45 = 101(0x65, float:1.42E-43)
-            java.lang.String r46 = "call to <init> for not this or super class"
-            r0 = r49
-            r1 = r45
-            r2 = r46
-            r0.error(r1, r2)     // Catch:{ all -> 0x0272 }
-        L_0x0219:
-            r0 = r49
-            r10.enterFunction(r0)     // Catch:{ all -> 0x0272 }
-            r0 = r48
-            gnu.bytecode.ClassType r0 = r0.instanceType     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            r0 = r45
-            if (r8 == r0) goto L_0x023c
-            gnu.bytecode.ClassType r45 = r48.getCompiledClassType(r49)     // Catch:{ all -> 0x0272 }
-            java.util.Vector r46 = new java.util.Vector     // Catch:{ all -> 0x0272 }
-            r47 = 10
-            r46.<init>(r47)     // Catch:{ all -> 0x0272 }
-            r0 = r49
-            r1 = r45
-            r2 = r46
-            r0.callInitMethods(r1, r2)     // Catch:{ all -> 0x0272 }
-        L_0x023c:
-            if (r8 == 0) goto L_0x028c
-            gnu.expr.Expression r0 = r10.body     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            r0 = r45
-            r1 = r49
-            gnu.expr.Expression.compileButFirst(r0, r1)     // Catch:{ all -> 0x0272 }
-        L_0x0249:
-            r0 = r49
-            r10.compileEnd(r0)     // Catch:{ all -> 0x0272 }
-            r0 = r49
-            r10.generateApplyMethods(r0)     // Catch:{ all -> 0x0272 }
-            r0 = r40
-            r1 = r49
-            r1.method = r0     // Catch:{ all -> 0x0272 }
-            r0 = r27
-            r1 = r49
-            r1.curClass = r0     // Catch:{ all -> 0x0272 }
-            r0 = r39
-            r1 = r49
-            r1.curLambda = r0     // Catch:{ all -> 0x0272 }
-            r0 = r49
-            r1 = r35
-            r2 = r37
-            r3 = r34
-            r0.setLine(r1, r2, r3)     // Catch:{ all -> 0x0272 }
-            goto L_0x00b7
-        L_0x0272:
-            r45 = move-exception
-            r0 = r33
-            r1 = r49
-            r1.curClass = r0
-            r0 = r38
-            r1 = r49
-            r1.method = r0
-            throw r45
-        L_0x0280:
-            if (r41 == 0) goto L_0x0219
-            r0 = r41
-            r1 = r49
-            r2 = r48
-            invokeDefaultSuperConstructor(r0, r1, r2)     // Catch:{ all -> 0x0272 }
-            goto L_0x0219
-        L_0x028c:
-            r0 = r49
-            r10.compileBody(r0)     // Catch:{ all -> 0x0272 }
-            goto L_0x0249
-        L_0x0292:
-            r0 = r49
-            r10.enterFunction(r0)     // Catch:{ all -> 0x0272 }
-            r0 = r49
-            r10.compileBody(r0)     // Catch:{ all -> 0x0272 }
-            goto L_0x0249
-        L_0x029d:
-            r0 = r48
-            boolean r0 = r0.explicitInit     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            if (r45 != 0) goto L_0x02fb
-            r0 = r48
-            gnu.bytecode.ClassType r0 = r0.instanceType     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            boolean r45 = r45.isInterface()     // Catch:{ all -> 0x0272 }
-            if (r45 != 0) goto L_0x02fb
-            r0 = r48
-            gnu.bytecode.ClassType r0 = r0.instanceType     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            r0 = r49
-            r1 = r45
-            r2 = r48
-            r0.generateConstructor(r1, r2)     // Catch:{ all -> 0x0272 }
-        L_0x02c0:
-            boolean r45 = r48.isAbstract()     // Catch:{ all -> 0x0272 }
-            if (r45 == 0) goto L_0x0315
-            r23 = 0
-            r28 = 0
-        L_0x02ca:
-            r19 = 0
-        L_0x02cc:
-            r0 = r19
-            r1 = r28
-            if (r0 >= r1) goto L_0x04b9
-            r22 = r23[r19]     // Catch:{ all -> 0x0272 }
-            java.lang.String r25 = r22.getName()     // Catch:{ all -> 0x0272 }
-            gnu.bytecode.Type[] r31 = r22.getParameterTypes()     // Catch:{ all -> 0x0272 }
-            gnu.bytecode.Type r32 = r22.getReturnType()     // Catch:{ all -> 0x0272 }
-            r0 = r48
-            gnu.bytecode.ClassType r0 = r0.instanceType     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            r0 = r45
-            r1 = r25
-            r2 = r31
-            gnu.bytecode.Method r24 = r0.getMethod(r1, r2)     // Catch:{ all -> 0x0272 }
-            if (r24 == 0) goto L_0x0325
-            boolean r45 = r24.isAbstract()     // Catch:{ all -> 0x0272 }
-            if (r45 != 0) goto L_0x0325
-        L_0x02f8:
-            int r19 = r19 + 1
-            goto L_0x02cc
-        L_0x02fb:
-            r0 = r48
-            gnu.expr.Initializer r0 = r0.initChain     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            if (r45 == 0) goto L_0x02c0
-            r0 = r48
-            gnu.expr.Initializer r0 = r0.initChain     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            java.lang.String r46 = "unimplemented: explicit constructor cannot initialize "
-            r0 = r45
-            r1 = r46
-            r2 = r49
-            r0.reportError(r1, r2)     // Catch:{ all -> 0x0272 }
-            goto L_0x02c0
-        L_0x0315:
-            r0 = r48
-            gnu.bytecode.ClassType r0 = r0.type     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            gnu.bytecode.Method[] r23 = r45.getAbstractMethods()     // Catch:{ all -> 0x0272 }
-            r0 = r23
-            int r0 = r0.length     // Catch:{ all -> 0x0272 }
-            r28 = r0
-            goto L_0x02ca
-        L_0x0325:
-            int r45 = r25.length()     // Catch:{ all -> 0x0272 }
-            r46 = 3
-            r0 = r45
-            r1 = r46
-            if (r0 <= r1) goto L_0x0426
-            r45 = 2
-            r0 = r25
-            r1 = r45
-            char r45 = r0.charAt(r1)     // Catch:{ all -> 0x0272 }
-            r46 = 116(0x74, float:1.63E-43)
-            r0 = r45
-            r1 = r46
-            if (r0 != r1) goto L_0x0426
-            r45 = 1
-            r0 = r25
-            r1 = r45
-            char r45 = r0.charAt(r1)     // Catch:{ all -> 0x0272 }
-            r46 = 101(0x65, float:1.42E-43)
-            r0 = r45
-            r1 = r46
-            if (r0 != r1) goto L_0x0426
-            r45 = 0
-            r0 = r25
-            r1 = r45
-            char r9 = r0.charAt(r1)     // Catch:{ all -> 0x0272 }
-            r45 = 103(0x67, float:1.44E-43)
-            r0 = r45
-            if (r9 == r0) goto L_0x036b
-            r45 = 115(0x73, float:1.61E-43)
-            r0 = r45
-            if (r9 != r0) goto L_0x0426
-        L_0x036b:
-            r45 = 115(0x73, float:1.61E-43)
-            r0 = r45
-            if (r9 != r0) goto L_0x0402
-            boolean r45 = r32.isVoid()     // Catch:{ all -> 0x0272 }
-            if (r45 == 0) goto L_0x0402
-            r0 = r31
-            int r0 = r0.length     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            r46 = 1
-            r0 = r45
-            r1 = r46
-            if (r0 != r1) goto L_0x0402
-            r45 = 0
-            r18 = r31[r45]     // Catch:{ all -> 0x0272 }
-        L_0x0388:
-            java.lang.StringBuilder r45 = new java.lang.StringBuilder     // Catch:{ all -> 0x0272 }
-            r45.<init>()     // Catch:{ all -> 0x0272 }
-            r46 = 3
-            r0 = r25
-            r1 = r46
-            char r46 = r0.charAt(r1)     // Catch:{ all -> 0x0272 }
-            char r46 = java.lang.Character.toLowerCase(r46)     // Catch:{ all -> 0x0272 }
-            java.lang.StringBuilder r45 = r45.append(r46)     // Catch:{ all -> 0x0272 }
-            r46 = 4
-            r0 = r25
-            r1 = r46
-            java.lang.String r46 = r0.substring(r1)     // Catch:{ all -> 0x0272 }
-            java.lang.StringBuilder r45 = r45.append(r46)     // Catch:{ all -> 0x0272 }
-            java.lang.String r17 = r45.toString()     // Catch:{ all -> 0x0272 }
-            r0 = r48
-            gnu.bytecode.ClassType r0 = r0.instanceType     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            r0 = r45
-            r1 = r17
-            gnu.bytecode.Field r16 = r0.getField(r1)     // Catch:{ all -> 0x0272 }
-            if (r16 != 0) goto L_0x03d5
-            r0 = r48
-            gnu.bytecode.ClassType r0 = r0.instanceType     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            r46 = 1
-            r0 = r45
-            r1 = r17
-            r2 = r18
-            r3 = r46
-            gnu.bytecode.Field r16 = r0.addField(r1, r2, r3)     // Catch:{ all -> 0x0272 }
-        L_0x03d5:
-            r0 = r48
-            gnu.bytecode.ClassType r0 = r0.instanceType     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            r46 = 1
-            r0 = r45
-            r1 = r25
-            r2 = r46
-            r3 = r31
-            r4 = r32
-            gnu.bytecode.Method r21 = r0.addMethod(r1, r2, r3, r4)     // Catch:{ all -> 0x0272 }
-            gnu.bytecode.CodeAttr r12 = r21.startCode()     // Catch:{ all -> 0x0272 }
-            r12.emitPushThis()     // Catch:{ all -> 0x0272 }
-            r45 = 103(0x67, float:1.44E-43)
-            r0 = r45
-            if (r9 != r0) goto L_0x0413
-            r0 = r16
-            r12.emitGetField(r0)     // Catch:{ all -> 0x0272 }
-        L_0x03fd:
-            r12.emitReturn()     // Catch:{ all -> 0x0272 }
-            goto L_0x02f8
-        L_0x0402:
-            r45 = 103(0x67, float:1.44E-43)
-            r0 = r45
-            if (r9 != r0) goto L_0x02f8
-            r0 = r31
-            int r0 = r0.length     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            if (r45 != 0) goto L_0x02f8
-            r18 = r32
-            goto L_0x0388
-        L_0x0413:
-            r45 = 1
-            r0 = r45
-            gnu.bytecode.Variable r45 = r12.getArg(r0)     // Catch:{ all -> 0x0272 }
-            r0 = r45
-            r12.emitLoad(r0)     // Catch:{ all -> 0x0272 }
-            r0 = r16
-            r12.emitPutField(r0)     // Catch:{ all -> 0x0272 }
-            goto L_0x03fd
-        L_0x0426:
-            java.util.Vector r44 = new java.util.Vector     // Catch:{ all -> 0x0272 }
-            r44.<init>()     // Catch:{ all -> 0x0272 }
-            r0 = r48
-            gnu.bytecode.ClassType r0 = r0.type     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            r0 = r45
-            r1 = r25
-            r2 = r31
-            r3 = r44
-            getImplMethods(r0, r1, r2, r3)     // Catch:{ all -> 0x0272 }
-            int r45 = r44.size()     // Catch:{ all -> 0x0272 }
-            r46 = 1
-            r0 = r45
-            r1 = r46
-            if (r0 == r1) goto L_0x0479
-            int r45 = r44.size()     // Catch:{ all -> 0x0272 }
-            if (r45 != 0) goto L_0x0476
-            java.lang.String r26 = "missing implementation for "
-        L_0x0450:
-            r45 = 101(0x65, float:1.42E-43)
-            java.lang.StringBuilder r46 = new java.lang.StringBuilder     // Catch:{ all -> 0x0272 }
-            r46.<init>()     // Catch:{ all -> 0x0272 }
-            r0 = r46
-            r1 = r26
-            java.lang.StringBuilder r46 = r0.append(r1)     // Catch:{ all -> 0x0272 }
-            r0 = r46
-            r1 = r22
-            java.lang.StringBuilder r46 = r0.append(r1)     // Catch:{ all -> 0x0272 }
-            java.lang.String r46 = r46.toString()     // Catch:{ all -> 0x0272 }
-            r0 = r49
-            r1 = r45
-            r2 = r46
-            r0.error(r1, r2)     // Catch:{ all -> 0x0272 }
-            goto L_0x02f8
-        L_0x0476:
-            java.lang.String r26 = "ambiguous implementation for "
-            goto L_0x0450
-        L_0x0479:
-            r0 = r48
-            gnu.bytecode.ClassType r0 = r0.instanceType     // Catch:{ all -> 0x0272 }
-            r45 = r0
-            r46 = 1
-            r0 = r45
-            r1 = r25
-            r2 = r46
-            r3 = r31
-            r4 = r32
-            gnu.bytecode.Method r21 = r0.addMethod(r1, r2, r3, r4)     // Catch:{ all -> 0x0272 }
-            gnu.bytecode.CodeAttr r12 = r21.startCode()     // Catch:{ all -> 0x0272 }
-            gnu.bytecode.Scope r45 = r12.getCurrentScope()     // Catch:{ all -> 0x0272 }
-            gnu.bytecode.Variable r43 = r45.firstVar()     // Catch:{ all -> 0x0272 }
-        L_0x049b:
-            if (r43 == 0) goto L_0x04a7
-            r0 = r43
-            r12.emitLoad(r0)     // Catch:{ all -> 0x0272 }
-            gnu.bytecode.Variable r43 = r43.nextVar()     // Catch:{ all -> 0x0272 }
-            goto L_0x049b
-        L_0x04a7:
-            r45 = 0
-            java.lang.Object r20 = r44.elementAt(r45)     // Catch:{ all -> 0x0272 }
-            gnu.bytecode.Method r20 = (gnu.bytecode.Method) r20     // Catch:{ all -> 0x0272 }
-            r0 = r20
-            r12.emitInvokeStatic(r0)     // Catch:{ all -> 0x0272 }
-            r12.emitReturn()     // Catch:{ all -> 0x0272 }
-            goto L_0x02f8
-        L_0x04b9:
-            r48.generateApplyMethods(r49)     // Catch:{ all -> 0x0272 }
-            r0 = r36
-            r1 = r49
-            r1.curLambda = r0     // Catch:{ all -> 0x0272 }
-            r0 = r33
-            r1 = r49
-            r1.curClass = r0
-            r0 = r38
-            r1 = r49
-            r1.method = r0
-            return r27
-        */
-        throw new UnsupportedOperationException("Method not decompiled: gnu.expr.ClassExp.compileMembers(gnu.expr.Compilation):gnu.bytecode.ClassType");
+    public ClassType compileMembers(Compilation comp) {
+        Method[] methods;
+        int nmethods;
+        char ch;
+        Type ftype;
+        ClassType saveClass = comp.curClass;
+        Method saveMethod = comp.method;
+        try {
+            ClassType new_class = getCompiledClassType(comp);
+            comp.curClass = new_class;
+            LambdaExp outer = outerLambda();
+            Member enclosing = null;
+            if (outer instanceof ClassExp) {
+                enclosing = outer.type;
+            } else if (outer != null && !(outer instanceof ModuleExp)) {
+                enclosing = saveMethod;
+            } else if ((outer instanceof ModuleExp) && this.type.getName().indexOf(36) > 0) {
+                enclosing = outer.type;
+            }
+            if (enclosing != null) {
+                new_class.setEnclosingMember(enclosing);
+                if (enclosing instanceof ClassType) {
+                    ((ClassType) enclosing).addMemberClass(new_class);
+                }
+            }
+            if (this.instanceType != new_class) {
+                this.instanceType.setEnclosingMember(this.type);
+                this.type.addMemberClass(this.instanceType);
+            }
+            usedSuperClasses(this.type, comp);
+            if (this.type != this.instanceType) {
+                usedSuperClasses(this.instanceType, comp);
+            }
+            String filename = getFileName();
+            if (filename != null) {
+                new_class.setSourceFile(filename);
+            }
+            LambdaExp saveLambda = comp.curLambda;
+            comp.curLambda = this;
+            allocFrame(comp);
+            for (LambdaExp child = this.firstChild; child != null; child = child.nextSibling) {
+                if (!child.isAbstract()) {
+                    Method save_method = comp.method;
+                    LambdaExp save_lambda = comp.curLambda;
+                    String saveFilename = comp.getFileName();
+                    int saveLine = comp.getLineNumber();
+                    int saveColumn = comp.getColumnNumber();
+                    comp.setLine((Expression) child);
+                    comp.method = child.getMainMethod();
+                    Declaration childDecl = child.nameDecl;
+                    if (childDecl == null || !childDecl.getFlag(2048)) {
+                        child.declareThis(comp.curClass);
+                    }
+                    comp.curClass = this.instanceType;
+                    comp.curLambda = child;
+                    comp.method.initCode();
+                    child.allocChildClasses(comp);
+                    child.allocParameters(comp);
+                    if ("*init*".equals(child.getName())) {
+                        CodeAttr code = comp.getCode();
+                        if (this.staticLinkField != null) {
+                            code.emitPushThis();
+                            code.emitLoad(code.getCurrentScope().getVariable(1));
+                            code.emitPutField(this.staticLinkField);
+                        }
+                        Expression bodyFirst = child.body;
+                        while (bodyFirst instanceof BeginExp) {
+                            BeginExp bbody = (BeginExp) bodyFirst;
+                            if (bbody.length == 0) {
+                                bodyFirst = null;
+                            } else {
+                                bodyFirst = bbody.exps[0];
+                            }
+                        }
+                        ClassType calledInit = null;
+                        if (bodyFirst instanceof ApplyExp) {
+                            Expression exp = ((ApplyExp) bodyFirst).func;
+                            if (exp instanceof QuoteExp) {
+                                Object value = ((QuoteExp) exp).getValue();
+                                if (value instanceof PrimProcedure) {
+                                    PrimProcedure pproc = (PrimProcedure) value;
+                                    if (pproc.isSpecial() && "<init>".equals(pproc.method.getName())) {
+                                        calledInit = pproc.method.getDeclaringClass();
+                                    }
+                                }
+                            }
+                        }
+                        ClassType superClass = this.instanceType.getSuperclass();
+                        if (calledInit != null) {
+                            bodyFirst.compileWithPosition(comp, Target.Ignore);
+                            if (!(calledInit == this.instanceType || calledInit == superClass)) {
+                                comp.error('e', "call to <init> for not this or super class");
+                            }
+                        } else if (superClass != null) {
+                            invokeDefaultSuperConstructor(superClass, comp, this);
+                        }
+                        child.enterFunction(comp);
+                        if (calledInit != this.instanceType) {
+                            comp.callInitMethods(getCompiledClassType(comp), new Vector(10));
+                        }
+                        if (calledInit != null) {
+                            Expression.compileButFirst(child.body, comp);
+                        } else {
+                            child.compileBody(comp);
+                        }
+                    } else {
+                        child.enterFunction(comp);
+                        child.compileBody(comp);
+                    }
+                    child.compileEnd(comp);
+                    child.generateApplyMethods(comp);
+                    comp.method = save_method;
+                    comp.curClass = new_class;
+                    comp.curLambda = save_lambda;
+                    comp.setLine(saveFilename, saveLine, saveColumn);
+                }
+            }
+            if (!this.explicitInit && !this.instanceType.isInterface()) {
+                comp.generateConstructor(this.instanceType, this);
+            } else if (this.initChain != null) {
+                this.initChain.reportError("unimplemented: explicit constructor cannot initialize ", comp);
+            }
+            if (isAbstract()) {
+                methods = null;
+                nmethods = 0;
+            } else {
+                methods = this.type.getAbstractMethods();
+                nmethods = methods.length;
+            }
+            for (int i = 0; i < nmethods; i++) {
+                Method meth = methods[i];
+                String mname = meth.getName();
+                Type[] ptypes = meth.getParameterTypes();
+                Type rtype = meth.getReturnType();
+                Method mimpl = this.instanceType.getMethod(mname, ptypes);
+                if (mimpl == null || mimpl.isAbstract()) {
+                    if (mname.length() > 3 && mname.charAt(2) == 't' && mname.charAt(1) == 'e' && ((ch = mname.charAt(0)) == 'g' || ch == 's')) {
+                        if (ch == 's' && rtype.isVoid() && ptypes.length == 1) {
+                            ftype = ptypes[0];
+                        } else if (ch == 'g' && ptypes.length == 0) {
+                            ftype = rtype;
+                        }
+                        String fname = Character.toLowerCase(mname.charAt(3)) + mname.substring(4);
+                        Field fld = this.instanceType.getField(fname);
+                        if (fld == null) {
+                            fld = this.instanceType.addField(fname, ftype, 1);
+                        }
+                        CodeAttr code2 = this.instanceType.addMethod(mname, 1, ptypes, rtype).startCode();
+                        code2.emitPushThis();
+                        if (ch == 'g') {
+                            code2.emitGetField(fld);
+                        } else {
+                            code2.emitLoad(code2.getArg(1));
+                            code2.emitPutField(fld);
+                        }
+                        code2.emitReturn();
+                    } else {
+                        Vector vec = new Vector();
+                        getImplMethods(this.type, mname, ptypes, vec);
+                        if (vec.size() != 1) {
+                            comp.error('e', (vec.size() == 0 ? "missing implementation for " : "ambiguous implementation for ") + meth);
+                        } else {
+                            CodeAttr code3 = this.instanceType.addMethod(mname, 1, ptypes, rtype).startCode();
+                            for (Variable var = code3.getCurrentScope().firstVar(); var != null; var = var.nextVar()) {
+                                code3.emitLoad(var);
+                            }
+                            code3.emitInvokeStatic((Method) vec.elementAt(0));
+                            code3.emitReturn();
+                        }
+                    }
+                }
+            }
+            generateApplyMethods(comp);
+            comp.curLambda = saveLambda;
+            return new_class;
+        } finally {
+            comp.curClass = saveClass;
+            comp.method = saveMethod;
+        }
     }
 
+    /* JADX INFO: finally extract failed */
     /* access modifiers changed from: protected */
     public <R, D> R visit(ExpVisitor<R, D> visitor, D d) {
         Compilation comp = visitor.getCompilation();
@@ -982,24 +560,25 @@ public class ClassExp extends LambdaExp {
         ClassType saveClass = comp.curClass;
         try {
             comp.curClass = this.type;
-            return visitor.visitClassExp(this, d);
-        } finally {
+            R visitClassExp = visitor.visitClassExp(this, d);
             comp.curClass = saveClass;
+            return visitClassExp;
+        } catch (Throwable th) {
+            comp.curClass = saveClass;
+            throw th;
         }
     }
 
     /* access modifiers changed from: protected */
     public <R, D> void visitChildren(ExpVisitor<R, D> visitor, D d) {
+        Declaration firstParam;
         LambdaExp save = visitor.currentLambda;
         visitor.currentLambda = this;
         this.supers = visitor.visitExps(this.supers, this.supers.length, d);
         try {
             for (LambdaExp child = this.firstChild; child != null && visitor.exitValue == null; child = child.nextSibling) {
-                if (this.instanceType != null) {
-                    Declaration firstParam = child.firstDecl();
-                    if (firstParam != null && firstParam.isThisParameter()) {
-                        firstParam.setType(this.type);
-                    }
+                if (!(this.instanceType == null || (firstParam = child.firstDecl()) == null || !firstParam.isThisParameter())) {
+                    firstParam.setType(this.type);
                 }
                 visitor.visitLambdaExp(child, d);
             }
@@ -1037,7 +616,7 @@ public class ClassExp extends LambdaExp {
             out.print(name);
             out.print('/');
         }
-        out.print(this.f57id);
+        out.print(this.id);
         out.print("/fl:");
         out.print(Integer.toHexString(this.flags));
         if (this.supers.length > 0) {

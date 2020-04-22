@@ -22,7 +22,7 @@ import java.io.IOException;
 
 public class XSLT extends XQuery {
     public static XSLT instance;
-    public static Symbol nullMode = Symbol.make(null, "");
+    public static Symbol nullMode = Symbol.make((Object) null, "");
 
     public String getName() {
         return "XSLT";
@@ -48,7 +48,7 @@ public class XSLT extends XQuery {
         Compilation.defaultCallConvention = 2;
         ((XslTranslator) comp.lexer).parse(comp);
         comp.setState(4);
-        XQParser xqparser = new XQParser(null, comp.getMessages(), this);
+        XQParser xqparser = new XQParser((InPort) null, comp.getMessages(), this);
         XQResolveNames resolver = new XQResolveNames(comp);
         resolver.functionNamespacePath = xqparser.functionNamespacePath;
         resolver.parser = xqparser;
@@ -79,6 +79,7 @@ public class XSLT extends XQuery {
         }
     }
 
+    /* JADX WARNING: Can't fix incorrect switch cases order */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public static void process(gnu.lists.TreeList r12, gnu.kawa.xml.Focus r13, gnu.mapping.CallContext r14) throws java.lang.Throwable {
         /*

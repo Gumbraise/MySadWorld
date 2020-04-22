@@ -7,52 +7,44 @@ import com.google.appinventor.components.annotations.SimpleFunction;
 import com.google.appinventor.components.annotations.SimpleObject;
 import com.google.appinventor.components.annotations.SimpleProperty;
 import com.google.appinventor.components.runtime.util.GeometryUtil;
-import com.google.appinventor.components.runtime.util.MapFactory.HasStroke;
-import com.google.appinventor.components.runtime.util.MapFactory.MapCircle;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeature;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeatureContainer;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeatureVisitor;
-import com.google.appinventor.components.runtime.util.MapFactory.MapLineString;
-import com.google.appinventor.components.runtime.util.MapFactory.MapMarker;
-import com.google.appinventor.components.runtime.util.MapFactory.MapPolygon;
-import com.google.appinventor.components.runtime.util.MapFactory.MapRectangle;
+import com.google.appinventor.components.runtime.util.MapFactory;
 import com.google.appinventor.components.runtime.util.YailList;
 import org.locationtech.jts.geom.Geometry;
 import org.osmdroid.util.GeoPoint;
 
 @SimpleObject
-public abstract class MapFeatureBase implements MapFeature, HasStroke {
+public abstract class MapFeatureBase implements MapFactory.MapFeature, MapFactory.HasStroke {
     private GeoPoint centroid = null;
-    protected MapFeatureContainer container = null;
+    protected MapFactory.MapFeatureContainer container = null;
     private String description = "";
-    private final MapFeatureVisitor<Double> distanceComputation;
-    private MapFeatureVisitor<Double> distanceToPoint = new MapFeatureVisitor<Double>() {
-        public Double visit(MapMarker marker, Object... arguments) {
+    private final MapFactory.MapFeatureVisitor<Double> distanceComputation;
+    private MapFactory.MapFeatureVisitor<Double> distanceToPoint = new MapFactory.MapFeatureVisitor<Double>() {
+        public Double visit(MapFactory.MapMarker marker, Object... arguments) {
             return Double.valueOf(GeometryUtil.distanceBetween(marker, arguments[0]));
         }
 
-        public Double visit(MapLineString lineString, Object... arguments) {
+        public Double visit(MapFactory.MapLineString lineString, Object... arguments) {
             if (arguments[1].booleanValue()) {
                 return Double.valueOf(GeometryUtil.distanceBetweenCentroids(lineString, arguments[0]));
             }
             return Double.valueOf(GeometryUtil.distanceBetweenEdges(lineString, arguments[0]));
         }
 
-        public Double visit(MapPolygon polygon, Object... arguments) {
+        public Double visit(MapFactory.MapPolygon polygon, Object... arguments) {
             if (arguments[1].booleanValue()) {
                 return Double.valueOf(GeometryUtil.distanceBetweenCentroids(polygon, arguments[0]));
             }
             return Double.valueOf(GeometryUtil.distanceBetweenEdges(polygon, arguments[0]));
         }
 
-        public Double visit(MapCircle circle, Object... arguments) {
+        public Double visit(MapFactory.MapCircle circle, Object... arguments) {
             if (arguments[1].booleanValue()) {
                 return Double.valueOf(GeometryUtil.distanceBetweenCentroids(circle, arguments[0]));
             }
             return Double.valueOf(GeometryUtil.distanceBetweenEdges(circle, arguments[0]));
         }
 
-        public Double visit(MapRectangle rectangle, Object... arguments) {
+        public Double visit(MapFactory.MapRectangle rectangle, Object... arguments) {
             if (arguments[1].booleanValue()) {
                 return Double.valueOf(GeometryUtil.distanceBetweenCentroids(rectangle, arguments[0]));
             }
@@ -72,7 +64,7 @@ public abstract class MapFeatureBase implements MapFeature, HasStroke {
     /* access modifiers changed from: protected */
     public abstract Geometry computeGeometry();
 
-    protected MapFeatureBase(MapFeatureContainer container2, MapFeatureVisitor<Double> distanceComputation2) {
+    protected MapFeatureBase(MapFactory.MapFeatureContainer container2, MapFactory.MapFeatureVisitor<Double> distanceComputation2) {
         this.container = container2;
         this.map = container2.getMap();
         this.distanceComputation = distanceComputation2;
@@ -86,7 +78,7 @@ public abstract class MapFeatureBase implements MapFeature, HasStroke {
         Visible(true);
     }
 
-    public void setMap(MapFeatureContainer container2) {
+    public void setMap(MapFactory.MapFeatureContainer container2) {
         this.map = container2.getMap();
     }
 
@@ -218,7 +210,7 @@ public abstract class MapFeatureBase implements MapFeature, HasStroke {
     }
 
     @SimpleFunction(description = "Compute the distance, in meters, between two map features.")
-    public double DistanceToFeature(MapFeature mapFeature, boolean centroids) {
+    public double DistanceToFeature(MapFactory.MapFeature mapFeature, boolean centroids) {
         if (mapFeature == null) {
             return -1.0d;
         }

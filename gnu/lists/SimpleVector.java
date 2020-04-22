@@ -47,10 +47,9 @@ public abstract class SimpleVector extends AbstractSequence implements Sequence,
 
     /* access modifiers changed from: protected */
     public void resizeShift(int oldGapStart, int oldGapEnd, int newGapStart, int newGapEnd) {
-        int oldGapSize = oldGapEnd - oldGapStart;
         int newGapSize = newGapEnd - newGapStart;
         int oldLength = getBufferLength();
-        int newLength = (oldLength - oldGapSize) + newGapSize;
+        int newLength = (oldLength - (oldGapEnd - oldGapStart)) + newGapSize;
         if (newLength > oldLength) {
             setBufferLength(newLength);
             this.size = newLength;
@@ -85,14 +84,11 @@ public abstract class SimpleVector extends AbstractSequence implements Sequence,
     }
 
     public int nextPos(int ipos) {
-        if (ipos == -1) {
+        int index;
+        if (ipos == -1 || (index = ipos >>> 1) == this.size) {
             return 0;
         }
-        int index = ipos >>> 1;
-        if (index != this.size) {
-            return (index << 1) + 3;
-        }
-        return 0;
+        return (index << 1) + 3;
     }
 
     public Object get(int index) {
@@ -205,35 +201,17 @@ public abstract class SimpleVector extends AbstractSequence implements Sequence,
         set(index, o);
     }
 
-    /* JADX WARNING: Incorrect type for immutable var: ssa=java.util.Collection, code=java.util.Collection<java.lang.Object>, for r8v0, types: [java.util.Collection<java.lang.Object>, java.util.Collection] */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public boolean addAll(int r7, java.util.Collection<java.lang.Object> r8) {
-        /*
-            r6 = this;
-            r0 = 0
-            int r1 = r8.size()
-            int r4 = r6.size
-            int r4 = r4 + r1
-            r6.setSize(r4)
-            int r4 = r7 + r1
-            int r5 = r6.size
-            int r5 = r5 - r1
-            int r5 = r5 - r7
-            r6.shift(r7, r4, r5)
-            java.util.Iterator r3 = r8.iterator()
-        L_0x0018:
-            boolean r4 = r3.hasNext()
-            if (r4 == 0) goto L_0x002a
-            int r2 = r7 + 1
-            java.lang.Object r4 = r3.next()
-            r6.set(r7, r4)
-            r0 = 1
-            r7 = r2
-            goto L_0x0018
-        L_0x002a:
-            return r0
-        */
-        throw new UnsupportedOperationException("Method not decompiled: gnu.lists.SimpleVector.addAll(int, java.util.Collection):boolean");
+    public boolean addAll(int index, Collection c) {
+        boolean changed = false;
+        int count = c.size();
+        setSize(this.size + count);
+        shift(index, index + count, (this.size - count) - index);
+        for (Object obj : c) {
+            set(index, obj);
+            changed = true;
+            index++;
+        }
+        return changed;
     }
 
     /* access modifiers changed from: protected */

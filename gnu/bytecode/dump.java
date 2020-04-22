@@ -36,12 +36,9 @@ public class dump extends ClassFileInput {
     }
 
     static int readMagic(InputStream in) throws IOException {
+        int b;
         int magic = 0;
-        for (int j = 0; j < 4; j++) {
-            int b = in.read();
-            if (b < 0) {
-                break;
-            }
+        for (int j = 0; j < 4 && (b = in.read()) >= 0; j++) {
             magic = (magic << 8) | (b & 255);
         }
         return magic;
@@ -154,7 +151,7 @@ public class dump extends ClassFileInput {
             r1 = r24
             r2 = r25
             r3 = r26
-            r0.<init>(r1, r2, r3)
+            r0.<init>((gnu.bytecode.ClassType) r1, (java.io.OutputStream) r2, (int) r3)
             if (r4 != 0) goto L_0x001d
             java.io.PrintStream r24 = java.lang.System.err
             usage(r24)

@@ -51,10 +51,10 @@ public class AutoloadProcedure extends Procedure implements Externalizable {
         throw new RuntimeException(prefix + this.className + " while autoloading " + (name == null ? "" : name.toString()));
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void load() {
         Symbol sym;
-        Object mod;
+        Object newInstance;
         Object property = null;
         Object name = getSymbol();
         Language lang = this.language;
@@ -72,16 +72,16 @@ public class AutoloadProcedure extends Procedure implements Externalizable {
             if (classModuleBody.isAssignableFrom(procClass)) {
                 if (ModuleContext.getContext().searchInstance(procClass) == null) {
                     try {
-                        mod = procClass.getDeclaredField("$instance").get(null);
+                        newInstance = procClass.getDeclaredField("$instance").get((Object) null);
                     } catch (NoSuchFieldException e) {
-                        mod = procClass.newInstance();
+                        newInstance = procClass.newInstance();
                     }
-                    ClassMemberLocation.defineAll(mod, lang, env);
-                    if (mod instanceof ModuleBody) {
-                        ((ModuleBody) mod).run();
+                    ClassMemberLocation.defineAll(newInstance, lang, env);
+                    if (newInstance instanceof ModuleBody) {
+                        ((ModuleBody) newInstance).run();
                     }
                 }
-                Object value = env.getFunction(sym, null);
+                Object value = env.getFunction(sym, (Object) null);
                 if (value == null || !(value instanceof Procedure)) {
                     throw_error("invalid ModuleBody class - does not define " + name);
                 }
@@ -175,7 +175,7 @@ public class AutoloadProcedure extends Procedure implements Externalizable {
     }
 
     public Object getProperty(Object key, Object defaultValue) {
-        Object value = super.getProperty(key, null);
+        Object value = super.getProperty(key, (Object) null);
         return value != null ? value : getLoaded().getProperty(key, defaultValue);
     }
 }

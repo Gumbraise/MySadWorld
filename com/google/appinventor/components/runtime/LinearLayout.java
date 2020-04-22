@@ -1,9 +1,9 @@
 package com.google.appinventor.components.runtime;
 
 import android.content.Context;
-import android.view.View.MeasureSpec;
+import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout.LayoutParams;
+import android.widget.LinearLayout;
 import com.google.appinventor.components.annotations.SimpleObject;
 
 @SimpleObject
@@ -11,7 +11,7 @@ public final class LinearLayout implements Layout {
     private final android.widget.LinearLayout layoutManager;
 
     LinearLayout(Context context, int orientation) {
-        this(context, orientation, null, null);
+        this(context, orientation, (Integer) null, (Integer) null);
     }
 
     LinearLayout(Context context, int orientation, final Integer preferredEmptyWidth, final Integer preferredEmptyHeight) {
@@ -29,8 +29,8 @@ public final class LinearLayout implements Layout {
                 }
 
                 private int getSize(int measureSpec, int preferredSize) {
-                    int specMode = MeasureSpec.getMode(measureSpec);
-                    int specSize = MeasureSpec.getSize(measureSpec);
+                    int specMode = View.MeasureSpec.getMode(measureSpec);
+                    int specSize = View.MeasureSpec.getSize(measureSpec);
                     if (specMode == 1073741824) {
                         return specSize;
                     }
@@ -52,7 +52,7 @@ public final class LinearLayout implements Layout {
     }
 
     public void add(AndroidViewComponent component) {
-        this.layoutManager.addView(component.getView(), new LayoutParams(-2, -2, 0.0f));
+        this.layoutManager.addView(component.getView(), new LinearLayout.LayoutParams(-2, -2, 0.0f));
     }
 
     public void setHorizontalGravity(int gravity) {

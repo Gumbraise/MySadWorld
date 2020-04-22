@@ -37,46 +37,45 @@ public class LetExp extends ScopeExp {
         setIndexes();
         int i = ScopeExp.nesting(this);
         Object[][] evalFrames = new Object[this.frameSize];
-        Object[][] evalFrames2 = ctx.evalFrames;
-        if (evalFrames2 == null) {
+        evalFrames = ctx.evalFrames;
+        if (evalFrames == null) {
             evalFrames = new Object[(i + 10)][];
             ctx.evalFrames = evalFrames;
-            evalFrames2 = evalFrames;
-        } else if (i >= evalFrames2.length) {
+        } else if (i >= evalFrames.length) {
             Object[][] newFrames = new Object[(i + 10)][];
-            System.arraycopy(evalFrames2, 0, newFrames, 0, evalFrames2.length);
-            evalFrames2 = newFrames;
+            System.arraycopy(evalFrames, 0, newFrames, 0, evalFrames.length);
+            evalFrames = newFrames;
             ctx.evalFrames = newFrames;
         }
-        Object[] oldFrame = evalFrames2[i];
-        evalFrames2[i] = evalFrames;
+        Object[] value = evalFrames[i];
+        evalFrames[i] = evalFrames;
         int i2 = 0;
         try {
             Declaration decl = firstDecl();
             while (decl != null) {
                 if (this.inits[i] != QuoteExp.undefined_exp) {
-                    Object value = evalVariable(i, ctx);
+                    Object value2 = evalVariable(i, ctx);
                     Type type = decl.type;
                     if (!(type == null || type == Type.pointer_type)) {
-                        value = type.coerceFromObject(value);
+                        value2 = type.coerceFromObject(value2);
                     }
                     if (decl.isIndirectBinding()) {
                         Location loc = decl.makeIndirectLocationFor();
-                        loc.set(value);
-                        value = loc;
+                        loc.set(value2);
+                        value2 = loc;
                     }
                 }
                 decl = decl.nextDecl();
                 i2 = i + 1;
             }
             this.body.apply(ctx);
-            evalFrames2[i] = oldFrame;
+            evalFrames[i] = value;
         } finally {
-            evalFrames2[i] = oldFrame;
+            evalFrames[i] = value;
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void store_rest(Compilation comp, int i, Declaration decl) {
         if (decl != null) {
             store_rest(comp, i + 1, decl.nextDecl());
@@ -114,7 +113,7 @@ public class LetExp extends ScopeExp {
                 varTarget = CheckedTarget.getInstance(decl);
                 if (init == QuoteExp.undefined_exp) {
                     if (varType instanceof PrimType) {
-                        init = new QuoteExp(new Byte(0));
+                        init = new QuoteExp(new Byte((byte) 0));
                     } else if (!(varType == null || varType == Type.pointer_type)) {
                         init = QuoteExp.nullExp;
                     }
@@ -173,7 +172,7 @@ public class LetExp extends ScopeExp {
     }
 
     public void print(OutPort out, String startTag, String endTag) {
-        out.startLogicalBlock(startTag + "#" + this.f57id, endTag, 2);
+        out.startLogicalBlock(startTag + "#" + this.id, endTag, 2);
         out.writeSpaceFill();
         printLineColumn(out);
         out.startLogicalBlock("(", false, ")");

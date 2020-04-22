@@ -54,9 +54,8 @@ public class ValuesMap extends MethodProc implements Inlineable {
                 if (ipos != 0) {
                     Object v = values.getPosPrevious(ipos);
                     if (this.startCounter >= 0) {
-                        int count2 = count + 1;
                         proc.check2(v, IntNum.make(count), ctx);
-                        count = count2;
+                        count++;
                     } else {
                         proc.check1(v, ctx);
                     }
@@ -104,7 +103,7 @@ public class ValuesMap extends MethodProc implements Inlineable {
         }
         Expression[] args = exp.getArgs();
         if ((target instanceof IgnoreTarget) || (target instanceof ConsumerTarget)) {
-            compileInlined(lambda, args[1], this.startCounter, null, comp, target);
+            compileInlined(lambda, args[1], this.startCounter, (Method) null, comp, target);
         } else {
             ConsumerTarget.compileUsingConsumer(exp, comp, target);
         }
@@ -113,7 +112,6 @@ public class ValuesMap extends MethodProc implements Inlineable {
     public static void compileInlined(LambdaExp lambda, Expression vals, int startCounter2, Method matchesMethod, Compilation comp, Target target) {
         Variable counter;
         Declaration counterDecl;
-        Expression[] args;
         Declaration param = lambda.firstDecl();
         CodeAttr code = comp.getCode();
         Scope scope = code.pushScope();
@@ -132,22 +130,12 @@ public class ValuesMap extends MethodProc implements Inlineable {
         } else {
             param.allocateVariable(code);
         }
-        if (startCounter2 >= 0) {
-            ReferenceExp referenceExp = new ReferenceExp(param);
-            ReferenceExp referenceExp2 = new ReferenceExp(counterDecl);
-            args = new Expression[]{referenceExp, referenceExp2};
-        } else {
-            ReferenceExp referenceExp3 = new ReferenceExp(param);
-            args = new Expression[]{referenceExp3};
-        }
-        Expression app = new ApplyExp((Expression) lambda, args);
+        Expression app = new ApplyExp((Expression) lambda, startCounter2 >= 0 ? new Expression[]{new ReferenceExp(param), new ReferenceExp(counterDecl)} : new Expression[]{new ReferenceExp(param)});
         if (matchesMethod != null) {
             if (app.getType().getImplementationType() != Type.booleanType) {
-                ReferenceExp referenceExp4 = new ReferenceExp(counterDecl);
-                app = new ApplyExp(matchesMethod, app, referenceExp4);
+                app = new ApplyExp(matchesMethod, app, new ReferenceExp(counterDecl));
             }
-            ReferenceExp referenceExp5 = new ReferenceExp(param);
-            app = new IfExp(app, referenceExp5, QuoteExp.voidExp);
+            app = new IfExp(app, new ReferenceExp(param), QuoteExp.voidExp);
         }
         Variable indexVar = code.addLocal(Type.intType);
         Variable valuesVar = code.addLocal(Type.pointer_type);

@@ -1,6 +1,6 @@
 package android.support.constraint.solver;
 
-import android.support.constraint.solver.SolverVariable.Type;
+import android.support.constraint.solver.SolverVariable;
 import java.util.Arrays;
 
 public class ArrayLinkedVariables {
@@ -30,7 +30,7 @@ public class ArrayLinkedVariables {
         } else if (this.mHead == -1) {
             this.mHead = 0;
             this.mArrayValues[this.mHead] = value;
-            this.mArrayIndices[this.mHead] = variable.f3id;
+            this.mArrayIndices[this.mHead] = variable.id;
             this.mArrayNextIndices[this.mHead] = -1;
             variable.usageInRowCount++;
             variable.addToRow(this.mRow);
@@ -47,11 +47,11 @@ public class ArrayLinkedVariables {
             int previous = -1;
             int counter = 0;
             while (current != -1 && counter < this.currentSize) {
-                if (this.mArrayIndices[current] == variable.f3id) {
+                if (this.mArrayIndices[current] == variable.id) {
                     this.mArrayValues[current] = value;
                     return;
                 }
-                if (this.mArrayIndices[current] < variable.f3id) {
+                if (this.mArrayIndices[current] < variable.id) {
                     previous = current;
                 }
                 current = this.mArrayNextIndices[current];
@@ -87,7 +87,7 @@ public class ArrayLinkedVariables {
                 this.mArrayIndices = Arrays.copyOf(this.mArrayIndices, this.ROW_SIZE);
                 this.mArrayNextIndices = Arrays.copyOf(this.mArrayNextIndices, this.ROW_SIZE);
             }
-            this.mArrayIndices[availableIndice] = variable.f3id;
+            this.mArrayIndices[availableIndice] = variable.id;
             this.mArrayValues[availableIndice] = value;
             if (previous != -1) {
                 this.mArrayNextIndices[availableIndice] = this.mArrayNextIndices[previous];
@@ -112,13 +112,13 @@ public class ArrayLinkedVariables {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public final void add(SolverVariable variable, float value, boolean removeFromDefinition) {
         if (value != 0.0f) {
             if (this.mHead == -1) {
                 this.mHead = 0;
                 this.mArrayValues[this.mHead] = value;
-                this.mArrayIndices[this.mHead] = variable.f3id;
+                this.mArrayIndices[this.mHead] = variable.id;
                 this.mArrayNextIndices[this.mHead] = -1;
                 variable.usageInRowCount++;
                 variable.addToRow(this.mRow);
@@ -138,7 +138,7 @@ public class ArrayLinkedVariables {
             int previous = -1;
             int counter = 0;
             while (current != -1 && counter < this.currentSize) {
-                if (this.mArrayIndices[current] == variable.f3id) {
+                if (this.mArrayIndices[current] == variable.id) {
                     float[] fArr = this.mArrayValues;
                     fArr[current] = fArr[current] + value;
                     if (this.mArrayValues[current] == 0.0f) {
@@ -159,7 +159,7 @@ public class ArrayLinkedVariables {
                     }
                     return;
                 }
-                if (this.mArrayIndices[current] < variable.f3id) {
+                if (this.mArrayIndices[current] < variable.id) {
                     previous = current;
                 }
                 current = this.mArrayNextIndices[current];
@@ -195,7 +195,7 @@ public class ArrayLinkedVariables {
                 this.mArrayIndices = Arrays.copyOf(this.mArrayIndices, this.ROW_SIZE);
                 this.mArrayNextIndices = Arrays.copyOf(this.mArrayNextIndices, this.ROW_SIZE);
             }
-            this.mArrayIndices[availableIndice] = variable.f3id;
+            this.mArrayIndices[availableIndice] = variable.id;
             this.mArrayValues[availableIndice] = value;
             if (previous != -1) {
                 this.mArrayNextIndices[availableIndice] = this.mArrayNextIndices[previous];
@@ -228,7 +228,7 @@ public class ArrayLinkedVariables {
         int previous = -1;
         int counter = 0;
         while (current != -1 && counter < this.currentSize) {
-            if (this.mArrayIndices[current] == variable.f3id) {
+            if (this.mArrayIndices[current] == variable.id) {
                 if (current == this.mHead) {
                     this.mHead = this.mArrayNextIndices[current];
                 } else {
@@ -269,7 +269,7 @@ public class ArrayLinkedVariables {
         this.currentSize = 0;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public final boolean containsKey(SolverVariable variable) {
         if (this.mHead == -1) {
             return false;
@@ -277,7 +277,7 @@ public class ArrayLinkedVariables {
         int current = this.mHead;
         int counter = 0;
         while (current != -1 && counter < this.currentSize) {
-            if (this.mArrayIndices[current] == variable.f3id) {
+            if (this.mArrayIndices[current] == variable.id) {
                 return true;
             }
             current = this.mArrayNextIndices[current];
@@ -286,7 +286,7 @@ public class ArrayLinkedVariables {
         return false;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public boolean hasAtLeastOnePositiveVariable() {
         int current = this.mHead;
         int counter = 0;
@@ -300,7 +300,7 @@ public class ArrayLinkedVariables {
         return false;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void invert() {
         int current = this.mHead;
         int counter = 0;
@@ -312,7 +312,7 @@ public class ArrayLinkedVariables {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void divideByAmount(float amount) {
         int current = this.mHead;
         int counter = 0;
@@ -328,7 +328,7 @@ public class ArrayLinkedVariables {
         return variable.usageInRowCount <= 1;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public SolverVariable chooseSubject(LinearSystem system) {
         SolverVariable restrictedCandidate = null;
         SolverVariable unrestrictedCandidate = null;
@@ -353,7 +353,7 @@ public class ArrayLinkedVariables {
                 variable.removeFromRow(this.mRow);
             }
             if (amount != 0.0f) {
-                if (variable.mType == Type.UNRESTRICTED) {
+                if (variable.mType == SolverVariable.Type.UNRESTRICTED) {
                     if (unrestrictedCandidate == null) {
                         unrestrictedCandidate = variable;
                         unrestrictedCandidateAmount = amount;
@@ -389,12 +389,12 @@ public class ArrayLinkedVariables {
         return unrestrictedCandidate != null ? unrestrictedCandidate : restrictedCandidate;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public final void updateFromRow(ArrayRow self, ArrayRow definition, boolean removeFromDefinition) {
         int current = this.mHead;
         int counter = 0;
         while (current != -1 && counter < this.currentSize) {
-            if (this.mArrayIndices[current] == definition.variable.f3id) {
+            if (this.mArrayIndices[current] == definition.variable.id) {
                 float value = this.mArrayValues[current];
                 remove(definition.variable, removeFromDefinition);
                 ArrayLinkedVariables definitionVariables = definition.variables;
@@ -418,7 +418,7 @@ public class ArrayLinkedVariables {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void updateFromSystem(ArrayRow self, ArrayRow[] rows) {
         int current = this.mHead;
         int counter = 0;
@@ -449,7 +449,7 @@ public class ArrayLinkedVariables {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public SolverVariable getPivotCandidate() {
         if (this.candidate != null) {
             return this.candidate;
@@ -470,7 +470,7 @@ public class ArrayLinkedVariables {
         return pivot;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public SolverVariable getPivotCandidate(boolean[] avoid, SolverVariable exclude) {
         int current = this.mHead;
         int counter = 0;
@@ -479,7 +479,7 @@ public class ArrayLinkedVariables {
         while (current != -1 && counter < this.currentSize) {
             if (this.mArrayValues[current] < 0.0f) {
                 SolverVariable v = this.mCache.mIndexedVariables[this.mArrayIndices[current]];
-                if ((avoid == null || !avoid[v.f3id]) && v != exclude && (v.mType == Type.SLACK || v.mType == Type.ERROR)) {
+                if ((avoid == null || !avoid[v.id]) && v != exclude && (v.mType == SolverVariable.Type.SLACK || v.mType == SolverVariable.Type.ERROR)) {
                     float currentValue = this.mArrayValues[current];
                     if (currentValue < value) {
                         value = currentValue;
@@ -493,7 +493,7 @@ public class ArrayLinkedVariables {
         return pivot;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public final SolverVariable getVariable(int index) {
         int current = this.mHead;
         int counter = 0;
@@ -507,7 +507,7 @@ public class ArrayLinkedVariables {
         return null;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public final float getVariableValue(int index) {
         int current = this.mHead;
         int counter = 0;
@@ -525,7 +525,7 @@ public class ArrayLinkedVariables {
         int current = this.mHead;
         int counter = 0;
         while (current != -1 && counter < this.currentSize) {
-            if (this.mArrayIndices[current] == v.f3id) {
+            if (this.mArrayIndices[current] == v.id) {
                 return this.mArrayValues[current];
             }
             current = this.mArrayNextIndices[current];
@@ -534,7 +534,7 @@ public class ArrayLinkedVariables {
         return 0.0f;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public int sizeInBytes() {
         return 0 + (this.mArrayIndices.length * 4 * 3) + 36;
     }

@@ -215,6 +215,7 @@ public class StableVector extends GapVector {
 
     /* access modifiers changed from: protected */
     public void adjustPositions(int low, int high, int delta) {
+        int index;
         if (this.free >= -1) {
             unchainFreelist();
         }
@@ -225,11 +226,8 @@ public class StableVector extends GapVector {
             i--;
             if (i > 0) {
                 int pos = this.positions[i];
-                if (pos != -2) {
-                    int index = pos ^ Integer.MIN_VALUE;
-                    if (index >= low2 && index <= high2) {
-                        this.positions[i] = pos + delta;
-                    }
+                if (pos != -2 && (index = pos ^ Integer.MIN_VALUE) >= low2 && index <= high2) {
+                    this.positions[i] = pos + delta;
                 }
             } else {
                 return;

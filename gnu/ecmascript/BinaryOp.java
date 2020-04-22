@@ -3,24 +3,22 @@ package gnu.ecmascript;
 import gnu.mapping.Procedure2;
 
 public class BinaryOp extends Procedure2 {
+    int op;
 
-    /* renamed from: op */
-    int f54op;
-
-    public BinaryOp(String name, int op) {
+    public BinaryOp(String name, int op2) {
         setName(name);
-        this.f54op = op;
+        this.op = op2;
     }
 
     public Object apply2(Object arg1, Object arg2) {
-        if (this.f54op == 5) {
+        if (this.op == 5) {
             return Convert.toNumber(arg1) < Convert.toNumber(arg2) ? Boolean.TRUE : Boolean.FALSE;
         }
         return new Double(apply(Convert.toNumber(arg1), Convert.toNumber(arg2)));
     }
 
     public double apply(double arg1, double arg2) {
-        switch (this.f54op) {
+        switch (this.op) {
             case 1:
                 return arg1 + arg2;
             case 2:

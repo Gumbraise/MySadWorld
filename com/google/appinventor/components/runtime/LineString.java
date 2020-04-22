@@ -11,14 +11,7 @@ import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.runtime.errors.DispatchableError;
 import com.google.appinventor.components.runtime.util.ErrorMessages;
 import com.google.appinventor.components.runtime.util.GeometryUtil;
-import com.google.appinventor.components.runtime.util.MapFactory.MapCircle;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeatureContainer;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeatureType;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeatureVisitor;
-import com.google.appinventor.components.runtime.util.MapFactory.MapLineString;
-import com.google.appinventor.components.runtime.util.MapFactory.MapMarker;
-import com.google.appinventor.components.runtime.util.MapFactory.MapPolygon;
-import com.google.appinventor.components.runtime.util.MapFactory.MapRectangle;
+import com.google.appinventor.components.runtime.util.MapFactory;
 import com.google.appinventor.components.runtime.util.YailList;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,47 +22,47 @@ import org.osmdroid.util.GeoPoint;
 
 @SimpleObject
 @DesignerComponent(category = ComponentCategory.MAPS, description = "LineString", version = 2)
-public class LineString extends MapFeatureBase implements MapLineString {
+public class LineString extends MapFeatureBase implements MapFactory.MapLineString {
     private static final String TAG = LineString.class.getSimpleName();
-    private static final MapFeatureVisitor<Double> distanceComputation = new MapFeatureVisitor<Double>() {
-        public Double visit(MapMarker marker, Object... arguments) {
+    private static final MapFactory.MapFeatureVisitor<Double> distanceComputation = new MapFactory.MapFeatureVisitor<Double>() {
+        public Double visit(MapFactory.MapMarker marker, Object... arguments) {
             if (arguments[1].booleanValue()) {
-                return Double.valueOf(GeometryUtil.distanceBetweenCentroids(marker, (MapLineString) arguments[0]));
+                return Double.valueOf(GeometryUtil.distanceBetweenCentroids(marker, (MapFactory.MapLineString) arguments[0]));
             }
-            return Double.valueOf(GeometryUtil.distanceBetweenEdges(marker, (MapLineString) arguments[0]));
+            return Double.valueOf(GeometryUtil.distanceBetweenEdges(marker, (MapFactory.MapLineString) arguments[0]));
         }
 
-        public Double visit(MapLineString lineString, Object... arguments) {
+        public Double visit(MapFactory.MapLineString lineString, Object... arguments) {
             if (arguments[1].booleanValue()) {
-                return Double.valueOf(GeometryUtil.distanceBetweenCentroids(lineString, (MapLineString) arguments[0]));
+                return Double.valueOf(GeometryUtil.distanceBetweenCentroids(lineString, (MapFactory.MapLineString) arguments[0]));
             }
-            return Double.valueOf(GeometryUtil.distanceBetweenEdges(lineString, (MapLineString) arguments[0]));
+            return Double.valueOf(GeometryUtil.distanceBetweenEdges(lineString, (MapFactory.MapLineString) arguments[0]));
         }
 
-        public Double visit(MapPolygon polygon, Object... arguments) {
+        public Double visit(MapFactory.MapPolygon polygon, Object... arguments) {
             if (arguments[1].booleanValue()) {
-                return Double.valueOf(GeometryUtil.distanceBetweenCentroids((MapLineString) arguments[0], polygon));
+                return Double.valueOf(GeometryUtil.distanceBetweenCentroids((MapFactory.MapLineString) arguments[0], polygon));
             }
-            return Double.valueOf(GeometryUtil.distanceBetweenEdges((MapLineString) arguments[0], polygon));
+            return Double.valueOf(GeometryUtil.distanceBetweenEdges((MapFactory.MapLineString) arguments[0], polygon));
         }
 
-        public Double visit(MapCircle circle, Object... arguments) {
+        public Double visit(MapFactory.MapCircle circle, Object... arguments) {
             if (arguments[1].booleanValue()) {
-                return Double.valueOf(GeometryUtil.distanceBetweenCentroids((MapLineString) arguments[0], circle));
+                return Double.valueOf(GeometryUtil.distanceBetweenCentroids((MapFactory.MapLineString) arguments[0], circle));
             }
-            return Double.valueOf(GeometryUtil.distanceBetweenEdges((MapLineString) arguments[0], circle));
+            return Double.valueOf(GeometryUtil.distanceBetweenEdges((MapFactory.MapLineString) arguments[0], circle));
         }
 
-        public Double visit(MapRectangle rectangle, Object... arguments) {
+        public Double visit(MapFactory.MapRectangle rectangle, Object... arguments) {
             if (arguments[1].booleanValue()) {
-                return Double.valueOf(GeometryUtil.distanceBetweenCentroids((MapLineString) arguments[0], rectangle));
+                return Double.valueOf(GeometryUtil.distanceBetweenCentroids((MapFactory.MapLineString) arguments[0], rectangle));
             }
-            return Double.valueOf(GeometryUtil.distanceBetweenEdges((MapLineString) arguments[0], rectangle));
+            return Double.valueOf(GeometryUtil.distanceBetweenEdges((MapFactory.MapLineString) arguments[0], rectangle));
         }
     };
     private List<GeoPoint> points = new ArrayList();
 
-    public LineString(MapFeatureContainer container) {
+    public LineString(MapFactory.MapFeatureContainer container) {
         super(container, distanceComputation);
         StrokeWidth(3);
         container.addFeature(this);
@@ -77,7 +70,7 @@ public class LineString extends MapFeatureBase implements MapLineString {
 
     @SimpleProperty(category = PropertyCategory.BEHAVIOR, description = "Returns the type of the map feature. For LineString, this returns the text \"LineString\".")
     public String Type() {
-        return MapFeatureType.TYPE_LINESTRING;
+        return MapFactory.MapFeatureType.TYPE_LINESTRING;
     }
 
     @SimpleProperty(category = PropertyCategory.APPEARANCE, description = "A list of latitude and longitude pairs that represent the line segments of the polyline.")
@@ -94,7 +87,7 @@ public class LineString extends MapFeatureBase implements MapLineString {
         try {
             this.points = GeometryUtil.pointsFromYailList(points2);
             clearGeometry();
-            this.map.getController().updateFeaturePosition((MapLineString) this);
+            this.map.getController().updateFeaturePosition((MapFactory.MapLineString) this);
         } catch (DispatchableError e) {
             this.container.$form().dispatchErrorOccurredEvent(this, "Points", e.getErrorCode(), e.getArguments());
         }
@@ -103,7 +96,6 @@ public class LineString extends MapFeatureBase implements MapLineString {
     @DesignerProperty(editorType = "textArea")
     @SimpleProperty
     public void PointsFromString(String points2) {
-        String str = "PointsFromString";
         try {
             List<GeoPoint> geopoints = new ArrayList<>();
             JSONArray array = new JSONArray(points2);
@@ -133,7 +125,7 @@ public class LineString extends MapFeatureBase implements MapLineString {
             }
             this.points = geopoints;
             clearGeometry();
-            this.map.getController().updateFeaturePosition((MapLineString) this);
+            this.map.getController().updateFeaturePosition((MapFactory.MapLineString) this);
         } catch (JSONException e) {
             Log.e(TAG, "Malformed string to LineString.PointsFromString", e);
             this.container.$form().dispatchErrorOccurredEvent(this, "PointsFromString", ErrorMessages.ERROR_LINESTRING_PARSE_ERROR, e.getMessage());
@@ -152,8 +144,8 @@ public class LineString extends MapFeatureBase implements MapLineString {
         return this.points;
     }
 
-    public <T> T accept(MapFeatureVisitor<T> visitor, Object... arguments) {
-        return visitor.visit((MapLineString) this, arguments);
+    public <T> T accept(MapFactory.MapFeatureVisitor<T> visitor, Object... arguments) {
+        return visitor.visit((MapFactory.MapLineString) this, arguments);
     }
 
     /* access modifiers changed from: protected */

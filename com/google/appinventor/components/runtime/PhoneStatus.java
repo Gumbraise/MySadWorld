@@ -2,14 +2,13 @@ package com.google.appinventor.components.runtime;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Build;
-import android.os.Build.VERSION;
-import android.support.p000v4.p002os.EnvironmentCompat;
+import android.support.v4.os.EnvironmentCompat;
 import android.util.Log;
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.DesignerProperty;
@@ -100,8 +99,9 @@ public class PhoneStatus extends AndroidNonvisibleComponent implements Component
             byte[] result = Sha1.digest();
             StringBuffer sb = new StringBuffer(result.length * 2);
             Formatter formatter = new Formatter(sb);
-            for (byte b : result) {
-                formatter.format("%02x", new Object[]{Byte.valueOf(b)});
+            int length = result.length;
+            for (int i = 0; i < length; i++) {
+                formatter.format("%02x", new Object[]{Byte.valueOf(result[i])});
             }
             Log.d(LOG_TAG, "Seed = " + seed);
             Log.d(LOG_TAG, "Code = " + sb.toString());
@@ -115,7 +115,7 @@ public class PhoneStatus extends AndroidNonvisibleComponent implements Component
 
     @SimpleFunction(description = "Returns true if we are running in the emulator or USB Connection")
     public boolean isDirect() {
-        Log.d(LOG_TAG, "android.os.Build.VERSION.RELEASE = " + VERSION.RELEASE);
+        Log.d(LOG_TAG, "android.os.Build.VERSION.RELEASE = " + Build.VERSION.RELEASE);
         Log.d(LOG_TAG, "android.os.Build.PRODUCT = " + Build.PRODUCT);
         if (ReplForm.isEmulator()) {
             return true;
@@ -192,7 +192,7 @@ public class PhoneStatus extends AndroidNonvisibleComponent implements Component
     public String GetVersionName() {
         try {
             return this.form.getPackageManager().getPackageInfo(this.form.getPackageName(), 0).versionName;
-        } catch (NameNotFoundException e) {
+        } catch (PackageManager.NameNotFoundException e) {
             Log.e(LOG_TAG, "Unable to get VersionName", e);
             return "UNKNOWN";
         }
@@ -212,7 +212,7 @@ public class PhoneStatus extends AndroidNonvisibleComponent implements Component
 
     @SimpleFunction(description = "Return the ACRA Installation ID")
     public String InstallationId() {
-        return Installation.m56id(Form.getActiveForm());
+        return Installation.id(Form.getActiveForm());
     }
 
     public static boolean getUseWebRTC() {

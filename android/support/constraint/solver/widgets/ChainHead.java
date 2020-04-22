@@ -1,6 +1,6 @@
 package android.support.constraint.solver.widgets;
 
-import android.support.constraint.solver.widgets.ConstraintWidget.DimensionBehaviour;
+import android.support.constraint.solver.widgets.ConstraintWidget;
 import java.util.ArrayList;
 
 public class ChainHead {
@@ -29,7 +29,7 @@ public class ChainHead {
     }
 
     private static boolean isMatchConstraintEqualityCandidate(ConstraintWidget widget, int orientation) {
-        return widget.getVisibility() != 8 && widget.mListDimensionBehaviors[orientation] == DimensionBehaviour.MATCH_CONSTRAINT && (widget.mResolvedMatchConstraintDefault[orientation] == 0 || widget.mResolvedMatchConstraintDefault[orientation] == 3);
+        return widget.getVisibility() != 8 && widget.mListDimensionBehaviors[orientation] == ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT && (widget.mResolvedMatchConstraintDefault[orientation] == 0 || widget.mResolvedMatchConstraintDefault[orientation] == 3);
     }
 
     private void defineChainProperties() {
@@ -49,7 +49,7 @@ public class ChainHead {
                     this.mFirstVisibleWidget = widget;
                 }
                 this.mLastVisibleWidget = widget;
-                if (widget.mListDimensionBehaviors[this.mOrientation] == DimensionBehaviour.MATCH_CONSTRAINT && (widget.mResolvedMatchConstraintDefault[this.mOrientation] == 0 || widget.mResolvedMatchConstraintDefault[this.mOrientation] == 3 || widget.mResolvedMatchConstraintDefault[this.mOrientation] == 2)) {
+                if (widget.mListDimensionBehaviors[this.mOrientation] == ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT && (widget.mResolvedMatchConstraintDefault[this.mOrientation] == 0 || widget.mResolvedMatchConstraintDefault[this.mOrientation] == 3 || widget.mResolvedMatchConstraintDefault[this.mOrientation] == 2)) {
                     this.mWidgetsMatchCount++;
                     float weight = widget.mWeight[this.mOrientation];
                     if (weight > 0.0f) {

@@ -17,7 +17,7 @@ public class StaticFieldLocation extends FieldLocation {
     }
 
     public StaticFieldLocation(Field field) {
-        super(null, field);
+        super((Object) null, field);
     }
 
     public Object get(Object defaultValue) {

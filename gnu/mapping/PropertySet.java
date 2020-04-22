@@ -5,7 +5,7 @@ public abstract class PropertySet implements Named {
     private Object[] properties;
 
     public String getName() {
-        Object symbol = getProperty(nameKey, null);
+        Object symbol = getProperty(nameKey, (Object) null);
         if (symbol == null) {
             return null;
         }
@@ -13,7 +13,7 @@ public abstract class PropertySet implements Named {
     }
 
     public Object getSymbol() {
-        return getProperty(nameKey, null);
+        return getProperty(nameKey, (Object) null);
     }
 
     public final void setSymbol(Object name) {

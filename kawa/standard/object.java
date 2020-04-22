@@ -1,24 +1,21 @@
 package kawa.standard;
 
 import gnu.bytecode.Type;
-import gnu.expr.BeginExp;
 import gnu.expr.ClassExp;
-import gnu.expr.Compilation;
 import gnu.expr.Declaration;
 import gnu.expr.Expression;
 import gnu.expr.Keyword;
 import gnu.expr.LambdaExp;
 import gnu.expr.ObjectExp;
-import gnu.expr.QuoteExp;
+import gnu.expr.ReferenceExp;
 import gnu.expr.ScopeExp;
-import gnu.expr.SetExp;
-import gnu.expr.ThisExp;
 import gnu.lists.FString;
 import gnu.lists.LList;
 import gnu.lists.Pair;
 import gnu.mapping.Namespace;
 import gnu.mapping.SimpleSymbol;
 import gnu.mapping.Symbol;
+import java.util.Vector;
 import kawa.lang.Lambda;
 import kawa.lang.Syntax;
 import kawa.lang.SyntaxForm;
@@ -68,92 +65,9 @@ public class object extends Syntax {
         return oexp;
     }
 
-    /* JADX WARNING: type inference failed for: r43v4, types: [gnu.lists.Pair] */
-    /* JADX WARNING: type inference failed for: r19v0, types: [gnu.expr.Declaration] */
-    /* JADX WARNING: type inference failed for: r0v17, types: [gnu.expr.Declaration] */
-    /* JADX WARNING: type inference failed for: r0v18, types: [gnu.expr.Declaration] */
-    /* JADX WARNING: type inference failed for: r0v19, types: [gnu.expr.Declaration] */
-    /* JADX WARNING: type inference failed for: r1v3, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r16v0, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r19v1 */
-    /* JADX WARNING: type inference failed for: r16v1 */
-    /* JADX WARNING: type inference failed for: r16v2 */
-    /* JADX WARNING: type inference failed for: r0v20 */
-    /* JADX WARNING: type inference failed for: r16v3, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r0v21 */
-    /* JADX WARNING: type inference failed for: r0v24, types: [gnu.expr.Declaration] */
-    /* JADX WARNING: type inference failed for: r0v25, types: [gnu.expr.Declaration] */
-    /* JADX WARNING: type inference failed for: r0v26, types: [gnu.expr.Declaration] */
-    /* JADX WARNING: type inference failed for: r0v27, types: [gnu.expr.Declaration] */
-    /* JADX WARNING: type inference failed for: r0v29, types: [gnu.expr.Declaration] */
-    /* JADX WARNING: type inference failed for: r5v40, types: [java.lang.Boolean] */
-    /* JADX WARNING: type inference failed for: r5v41, types: [java.lang.Boolean] */
-    /* JADX WARNING: type inference failed for: r5v42, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r5v43 */
-    /* JADX WARNING: type inference failed for: r16v4 */
-    /* JADX WARNING: type inference failed for: r5v44 */
-    /* JADX WARNING: type inference failed for: r43v5 */
-    /* JADX WARNING: type inference failed for: r16v5, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r0v36 */
-    /* JADX WARNING: type inference failed for: r0v37 */
-    /* JADX WARNING: type inference failed for: r16v6 */
-    /* JADX WARNING: type inference failed for: r43v7 */
-    /* JADX WARNING: type inference failed for: r16v7, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r16v8 */
-    /* JADX WARNING: type inference failed for: r0v39 */
-    /* JADX WARNING: type inference failed for: r43v9 */
-    /* JADX WARNING: type inference failed for: r16v9, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r16v10, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r19v2 */
-    /* JADX WARNING: type inference failed for: r16v11 */
-    /* JADX WARNING: type inference failed for: r19v4 */
-    /* JADX WARNING: type inference failed for: r16v12 */
-    /* JADX WARNING: type inference failed for: r16v13 */
-    /* JADX WARNING: type inference failed for: r5v98 */
-    /* JADX WARNING: type inference failed for: r5v99 */
-    /* JADX WARNING: type inference failed for: r16v14 */
-    /* JADX WARNING: type inference failed for: r16v15 */
-    /* JADX WARNING: type inference failed for: r16v16 */
-    /* JADX WARNING: type inference failed for: r16v17 */
-    /* JADX WARNING: type inference failed for: r16v18 */
-    /* JADX WARNING: type inference failed for: r16v19 */
-    /* JADX WARNING: type inference failed for: r16v20 */
-    /* JADX WARNING: type inference failed for: r16v21 */
-    /* JADX WARNING: type inference failed for: r16v22 */
-    /* JADX WARNING: type inference failed for: r16v23 */
-    /* JADX WARNING: type inference failed for: r16v24 */
-    /* JADX WARNING: type inference failed for: r16v25 */
-    /* JADX WARNING: type inference failed for: r16v26 */
-    /* JADX WARNING: type inference failed for: r16v27 */
-    /* JADX WARNING: type inference failed for: r16v28 */
-    /* JADX WARNING: type inference failed for: r16v29 */
-    /* JADX WARNING: type inference failed for: r19v5 */
     /* JADX WARNING: Code restructure failed: missing block: B:127:0x0327, code lost:
-        r16 = 0;
+        r16 = null;
      */
-    /* JADX WARNING: Multi-variable type inference failed. Error: jadx.core.utils.exceptions.JadxRuntimeException: No candidate types for var: r16v1
-      assigns: []
-      uses: []
-      mth insns count: 436
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.fillTypeCandidates(TypeSearch.java:237)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.run(TypeSearch.java:53)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.runMultiVariableSearch(TypeInferenceVisitor.java:99)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.visit(TypeInferenceVisitor.java:92)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:27)
-    	at jadx.core.dex.visitors.DepthTraversal.lambda$visit$1(DepthTraversal.java:14)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:14)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:30)
-    	at jadx.core.ProcessClass.lambda$processDependencies$0(ProcessClass.java:49)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.ProcessClass.processDependencies(ProcessClass.java:49)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:35)
-    	at jadx.api.JadxDecompiler.processClass(JadxDecompiler.java:311)
-    	at jadx.api.JavaClass.decompile(JavaClass.java:62)
-    	at jadx.api.JadxDecompiler.lambda$appendSourcesSave$0(JadxDecompiler.java:217)
-     */
-    /* JADX WARNING: Unknown variable types count: 33 */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public java.lang.Object[] scanClassDef(gnu.lists.Pair r43, gnu.expr.ClassExp r44, kawa.lang.Translator r45) {
         /*
@@ -354,7 +268,7 @@ public class object extends Syntax {
         L_0x0180:
             r0 = r44
             r1 = r38
-            gnu.expr.Declaration r19 = r0.addDeclaration(r1)
+            gnu.expr.Declaration r19 = r0.addDeclaration((java.lang.Object) r1)
             r5 = 0
             r0 = r19
             r0.setSimple(r5)
@@ -363,7 +277,7 @@ public class object extends Syntax {
             r0.setFlag(r12)
             r0 = r19
             r1 = r43
-            kawa.lang.Translator.setLine(r0, r1)
+            kawa.lang.Translator.setLine((gnu.expr.Declaration) r0, (java.lang.Object) r1)
             java.lang.Object r16 = r43.getCdr()
             goto L_0x0165
         L_0x01a2:
@@ -674,7 +588,7 @@ public class object extends Syntax {
             gnu.expr.Declaration r19 = r0.addMethod(r1, r2)
             r0 = r19
             r1 = r29
-            kawa.lang.Translator.setLine(r0, r1)
+            kawa.lang.Translator.setLine((gnu.expr.Declaration) r0, (java.lang.Object) r1)
             if (r25 != 0) goto L_0x041b
             r27 = r26
         L_0x0418:
@@ -719,547 +633,279 @@ public class object extends Syntax {
         throw new UnsupportedOperationException("Method not decompiled: kawa.standard.object.scanClassDef(gnu.lists.Pair, gnu.expr.ClassExp, kawa.lang.Translator):java.lang.Object[]");
     }
 
-    /* JADX WARNING: type inference failed for: r0v23, types: [gnu.lists.Pair] */
-    /* JADX WARNING: type inference failed for: r39v2, types: [gnu.lists.Pair] */
-    /* JADX WARNING: type inference failed for: r12v0, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r12v1 */
-    /* JADX WARNING: type inference failed for: r12v2 */
-    /* JADX WARNING: type inference failed for: r12v3 */
-    /* JADX WARNING: type inference failed for: r0v35 */
-    /* JADX WARNING: type inference failed for: r12v4, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r0v40 */
-    /* JADX WARNING: type inference failed for: r12v6, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r12v7 */
-    /* JADX WARNING: type inference failed for: r0v43 */
-    /* JADX WARNING: type inference failed for: r12v8, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r0v52 */
-    /* JADX WARNING: type inference failed for: r12v9, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r12v10 */
-    /* JADX WARNING: type inference failed for: r0v58, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r12v11 */
-    /* JADX WARNING: type inference failed for: r12v12 */
-    /* JADX WARNING: type inference failed for: r12v13 */
-    /* JADX WARNING: type inference failed for: r12v14 */
-    /* JADX WARNING: type inference failed for: r12v15 */
-    /* JADX WARNING: type inference failed for: r12v16 */
-    /* JADX WARNING: type inference failed for: r12v17 */
-    /* JADX WARNING: type inference failed for: r12v18 */
-    /* JADX WARNING: type inference failed for: r12v19 */
-    /* JADX WARNING: Multi-variable type inference failed. Error: jadx.core.utils.exceptions.JadxRuntimeException: No candidate types for var: r12v1
-      assigns: []
-      uses: []
-      mth insns count: 374
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.fillTypeCandidates(TypeSearch.java:237)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.run(TypeSearch.java:53)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.runMultiVariableSearch(TypeInferenceVisitor.java:99)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.visit(TypeInferenceVisitor.java:92)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:27)
-    	at jadx.core.dex.visitors.DepthTraversal.lambda$visit$1(DepthTraversal.java:14)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:14)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:30)
-    	at jadx.core.ProcessClass.lambda$processDependencies$0(ProcessClass.java:49)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.ProcessClass.processDependencies(ProcessClass.java:49)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:35)
-    	at jadx.api.JadxDecompiler.processClass(JadxDecompiler.java:311)
-    	at jadx.api.JavaClass.decompile(JavaClass.java:62)
-    	at jadx.api.JadxDecompiler.lambda$appendSourcesSave$0(JadxDecompiler.java:217)
-     */
-    /* JADX WARNING: Unknown variable types count: 15 */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public void rewriteClassDef(java.lang.Object[] r53, kawa.lang.Translator r54) {
-        /*
-            r52 = this;
-            r6 = 0
-            r38 = r53[r6]
-            gnu.expr.ClassExp r38 = (gnu.expr.ClassExp) r38
-            r6 = 1
-            r17 = r53[r6]
-            r6 = 2
-            r27 = r53[r6]
-            java.util.Vector r27 = (java.util.Vector) r27
-            r6 = 3
-            r34 = r53[r6]
-            gnu.expr.LambdaExp r34 = (gnu.expr.LambdaExp) r34
-            r6 = 4
-            r46 = r53[r6]
-            r6 = 5
-            r14 = r53[r6]
-            r0 = r34
-            r1 = r38
-            r1.firstChild = r0
-            int r36 = kawa.lang.Translator.listLength(r46)
-            if (r36 >= 0) goto L_0x002f
-            r6 = 101(0x65, float:1.42E-43)
-            java.lang.String r8 = "object superclass specification not a list"
-            r0 = r54
-            r0.error(r6, r8)
-            r36 = 0
-        L_0x002f:
-            r0 = r36
-            gnu.expr.Expression[] r0 = new gnu.expr.Expression[r0]
-            r48 = r0
-            r21 = 0
-        L_0x0037:
-            r0 = r21
-            r1 = r36
-            if (r0 >= r1) goto L_0x0087
-        L_0x003d:
-            r0 = r46
-            boolean r6 = r0 instanceof kawa.lang.SyntaxForm
-            if (r6 == 0) goto L_0x004a
-            kawa.lang.SyntaxForm r46 = (kawa.lang.SyntaxForm) r46
-            java.lang.Object r46 = r46.getDatum()
-            goto L_0x003d
-        L_0x004a:
-            r47 = r46
-            gnu.lists.Pair r47 = (gnu.lists.Pair) r47
-            r6 = 0
-            r0 = r54
-            r1 = r47
-            gnu.expr.Expression r6 = r0.rewrite_car(r1, r6)
-            r48[r21] = r6
-            r6 = r48[r21]
-            boolean r6 = r6 instanceof gnu.expr.ReferenceExp
-            if (r6 == 0) goto L_0x0080
-            r6 = r48[r21]
-            gnu.expr.ReferenceExp r6 = (gnu.expr.ReferenceExp) r6
-            gnu.expr.Declaration r6 = r6.getBinding()
-            gnu.expr.Declaration r20 = gnu.expr.Declaration.followAliases(r6)
-            if (r20 == 0) goto L_0x0080
-            gnu.expr.Expression r49 = r20.getValue()
-            r0 = r49
-            boolean r6 = r0 instanceof gnu.expr.ClassExp
-            if (r6 == 0) goto L_0x0080
-            gnu.expr.ClassExp r49 = (gnu.expr.ClassExp) r49
-            r6 = 131072(0x20000, float:1.83671E-40)
-            r0 = r49
-            r0.setFlag(r6)
-        L_0x0080:
-            java.lang.Object r46 = r47.getCdr()
-            int r21 = r21 + 1
-            goto L_0x0037
-        L_0x0087:
-            if (r14 == 0) goto L_0x00ad
-            r6 = r14
-            gnu.lists.Pair r6 = (gnu.lists.Pair) r6
-            r8 = 0
-            r0 = r54
-            gnu.expr.Expression r13 = r0.rewrite_car(r6, r8)
-            java.lang.Object r16 = r13.valueIfConstant()
-            r0 = r16
-            boolean r0 = r0 instanceof java.lang.CharSequence
-            r29 = r0
-            if (r29 == 0) goto L_0x00e7
-            java.lang.String r15 = r16.toString()
-            int r6 = r15.length()
-            if (r6 <= 0) goto L_0x00e7
-            r0 = r38
-            r0.classNameSpecifier = r15
-        L_0x00ad:
-            r0 = r48
-            r1 = r38
-            r1.supers = r0
-            r0 = r38
-            r1 = r54
-            r0.setTypes(r1)
-            int r31 = r27.size()
-            r21 = 0
-        L_0x00c0:
-            r0 = r21
-            r1 = r31
-            if (r0 >= r1) goto L_0x00fe
-            int r6 = r21 + 1
-            r0 = r27
-            java.lang.Object r22 = r0.elementAt(r6)
-            if (r22 == 0) goto L_0x00e4
-            r0 = r27
-            r1 = r21
-            java.lang.Object r6 = r0.elementAt(r1)
-            gnu.lists.Pair r22 = (gnu.lists.Pair) r22
-            r8 = 0
-            r0 = r38
-            r1 = r22
-            r2 = r54
-            rewriteInit(r6, r0, r1, r2, r8)
-        L_0x00e4:
-            int r21 = r21 + 2
-            goto L_0x00c0
-        L_0x00e7:
-            r0 = r54
-            java.lang.Object r43 = r0.pushPositionOf(r14)
-            r6 = 101(0x65, float:1.42E-43)
-            java.lang.String r8 = "class-name specifier must be a non-empty string literal"
-            r0 = r54
-            r0.error(r6, r8)
-            r0 = r54
-            r1 = r43
-            r0.popPositionOf(r1)
-            goto L_0x00ad
-        L_0x00fe:
-            r0 = r54
-            r1 = r38
-            r0.push(r1)
-            r7 = r34
-            r25 = 0
-            r18 = 0
-            r37 = r17
-        L_0x010d:
-            gnu.lists.LList r6 = gnu.lists.LList.Empty
-            r0 = r37
-            if (r0 == r6) goto L_0x032b
-        L_0x0113:
-            r0 = r37
-            boolean r6 = r0 instanceof kawa.lang.SyntaxForm
-            if (r6 == 0) goto L_0x0122
-            r18 = r37
-            kawa.lang.SyntaxForm r18 = (kawa.lang.SyntaxForm) r18
-            java.lang.Object r37 = r18.getDatum()
-            goto L_0x0113
-        L_0x0122:
-            r39 = r37
-            gnu.lists.Pair r39 = (gnu.lists.Pair) r39
-            r0 = r54
-            r1 = r39
-            java.lang.Object r44 = r0.pushPositionOf(r1)
-            java.lang.Object r40 = r39.getCar()
-            r33 = r18
-        L_0x0134:
-            r0 = r40
-            boolean r6 = r0 instanceof kawa.lang.SyntaxForm
-            if (r6 == 0) goto L_0x0143
-            r33 = r40
-            kawa.lang.SyntaxForm r33 = (kawa.lang.SyntaxForm) r33
-            java.lang.Object r40 = r33.getDatum()
-            goto L_0x0134
-        L_0x0143:
-            java.lang.Object r37 = r39.getCdr()     // Catch:{ all -> 0x0211 }
-            r0 = r40
-            boolean r6 = r0 instanceof gnu.expr.Keyword     // Catch:{ all -> 0x0211 }
-            if (r6 == 0) goto L_0x0164
-            r0 = r37
-            boolean r6 = r0 instanceof gnu.lists.Pair     // Catch:{ all -> 0x0211 }
-            if (r6 == 0) goto L_0x0164
-            r0 = r37
-            gnu.lists.Pair r0 = (gnu.lists.Pair) r0     // Catch:{ all -> 0x0211 }
-            r6 = r0
-            java.lang.Object r37 = r6.getCdr()     // Catch:{ all -> 0x0211 }
-            r0 = r54
-            r1 = r44
-            r0.popPositionOf(r1)
-            goto L_0x010d
-        L_0x0164:
-            r0 = r40
-            gnu.lists.Pair r0 = (gnu.lists.Pair) r0     // Catch:{ all -> 0x0211 }
-            r39 = r0
-            java.lang.Object r40 = r39.getCar()     // Catch:{ all -> 0x0211 }
-            r32 = r33
-        L_0x0170:
-            r0 = r40
-            boolean r6 = r0 instanceof kawa.lang.SyntaxForm     // Catch:{ all -> 0x0211 }
-            if (r6 == 0) goto L_0x0181
-            r0 = r40
-            kawa.lang.SyntaxForm r0 = (kawa.lang.SyntaxForm) r0     // Catch:{ all -> 0x0211 }
-            r32 = r0
-            java.lang.Object r40 = r32.getDatum()     // Catch:{ all -> 0x0211 }
-            goto L_0x0170
-        L_0x0181:
-            r0 = r40
-            boolean r6 = r0 instanceof java.lang.String     // Catch:{ all -> 0x0211 }
-            if (r6 != 0) goto L_0x0193
-            r0 = r40
-            boolean r6 = r0 instanceof gnu.mapping.Symbol     // Catch:{ all -> 0x0211 }
-            if (r6 != 0) goto L_0x0193
-            r0 = r40
-            boolean r6 = r0 instanceof gnu.expr.Keyword     // Catch:{ all -> 0x0211 }
-            if (r6 == 0) goto L_0x02b0
-        L_0x0193:
-            r50 = 0
-            r35 = 0
-            r0 = r40
-            boolean r6 = r0 instanceof gnu.expr.Keyword     // Catch:{ all -> 0x0211 }
-            if (r6 == 0) goto L_0x01b5
-            r12 = r39
-        L_0x019f:
-            r23 = 0
-            r24 = 0
-        L_0x01a3:
-            gnu.lists.LList r6 = gnu.lists.LList.Empty     // Catch:{ all -> 0x0211 }
-            if (r12 == r6) goto L_0x0265
-        L_0x01a7:
-            boolean r6 = r12 instanceof kawa.lang.SyntaxForm     // Catch:{ all -> 0x0211 }
-            if (r6 == 0) goto L_0x01ba
-            r0 = r12
-            kawa.lang.SyntaxForm r0 = (kawa.lang.SyntaxForm) r0     // Catch:{ all -> 0x0211 }
-            r33 = r0
-            java.lang.Object r12 = r33.getDatum()     // Catch:{ all -> 0x0211 }
-            goto L_0x01a7
-        L_0x01b5:
-            java.lang.Object r12 = r39.getCdr()     // Catch:{ all -> 0x0211 }
-            goto L_0x019f
-        L_0x01ba:
-            r0 = r12
-            gnu.lists.Pair r0 = (gnu.lists.Pair) r0     // Catch:{ all -> 0x0211 }
-            r39 = r0
-            java.lang.Object r30 = r39.getCar()     // Catch:{ all -> 0x0211 }
-        L_0x01c3:
-            r0 = r30
-            boolean r6 = r0 instanceof kawa.lang.SyntaxForm     // Catch:{ all -> 0x0211 }
-            if (r6 == 0) goto L_0x01d0
-            kawa.lang.SyntaxForm r30 = (kawa.lang.SyntaxForm) r30     // Catch:{ all -> 0x0211 }
-            java.lang.Object r30 = r30.getDatum()     // Catch:{ all -> 0x0211 }
-            goto L_0x01c3
-        L_0x01d0:
-            r0 = r54
-            r1 = r39
-            java.lang.Object r45 = r0.pushPositionOf(r1)     // Catch:{ all -> 0x0211 }
-            java.lang.Object r12 = r39.getCdr()     // Catch:{ all -> 0x0211 }
-            gnu.mapping.Symbol r6 = coloncolon     // Catch:{ all -> 0x0211 }
-            r0 = r30
-            if (r0 == r6) goto L_0x01e8
-            r0 = r30
-            boolean r6 = r0 instanceof gnu.expr.Keyword     // Catch:{ all -> 0x0211 }
-            if (r6 == 0) goto L_0x0237
-        L_0x01e8:
-            boolean r6 = r12 instanceof gnu.lists.Pair     // Catch:{ all -> 0x0211 }
-            if (r6 == 0) goto L_0x0237
-            int r35 = r35 + 1
-            r0 = r12
-            gnu.lists.Pair r0 = (gnu.lists.Pair) r0     // Catch:{ all -> 0x0211 }
-            r39 = r0
-            java.lang.Object r51 = r39.getCar()     // Catch:{ all -> 0x0211 }
-            java.lang.Object r12 = r39.getCdr()     // Catch:{ all -> 0x0211 }
-            gnu.mapping.Symbol r6 = coloncolon     // Catch:{ all -> 0x0211 }
-            r0 = r30
-            if (r0 == r6) goto L_0x0207
-            gnu.expr.Keyword r6 = typeKeyword     // Catch:{ all -> 0x0211 }
-            r0 = r30
-            if (r0 != r6) goto L_0x021a
-        L_0x0207:
-            r50 = r51
-        L_0x0209:
-            r0 = r54
-            r1 = r45
-            r0.popPositionOf(r1)     // Catch:{ all -> 0x0211 }
-            goto L_0x01a3
-        L_0x0211:
-            r6 = move-exception
-        L_0x0212:
-            r0 = r54
-            r1 = r44
-            r0.popPositionOf(r1)
-            throw r6
-        L_0x021a:
-            gnu.expr.Keyword r6 = initKeyword     // Catch:{ all -> 0x0211 }
-            r0 = r30
-            if (r0 == r6) goto L_0x0232
-            gnu.expr.Keyword r6 = initformKeyword     // Catch:{ all -> 0x0211 }
-            r0 = r30
-            if (r0 == r6) goto L_0x0232
-            gnu.expr.Keyword r6 = init_formKeyword     // Catch:{ all -> 0x0211 }
-            r0 = r30
-            if (r0 == r6) goto L_0x0232
-            gnu.expr.Keyword r6 = init_valueKeyword     // Catch:{ all -> 0x0211 }
-            r0 = r30
-            if (r0 != r6) goto L_0x0209
-        L_0x0232:
-            r23 = r39
-            r24 = r33
-            goto L_0x0209
-        L_0x0237:
-            gnu.lists.LList r6 = gnu.lists.LList.Empty     // Catch:{ all -> 0x0211 }
-            if (r12 != r6) goto L_0x0242
-            if (r23 != 0) goto L_0x0242
-            r23 = r39
-            r24 = r33
-            goto L_0x0209
-        L_0x0242:
-            boolean r6 = r12 instanceof gnu.lists.Pair     // Catch:{ all -> 0x0211 }
-            if (r6 == 0) goto L_0x0264
-            if (r35 != 0) goto L_0x0264
-            if (r23 != 0) goto L_0x0264
-            if (r50 != 0) goto L_0x0264
-            r0 = r12
-            gnu.lists.Pair r0 = (gnu.lists.Pair) r0     // Catch:{ all -> 0x0211 }
-            r39 = r0
-            java.lang.Object r6 = r39.getCdr()     // Catch:{ all -> 0x0211 }
-            gnu.lists.LList r8 = gnu.lists.LList.Empty     // Catch:{ all -> 0x0211 }
-            if (r6 != r8) goto L_0x0264
-            r50 = r30
-            r23 = r39
-            r24 = r33
-            java.lang.Object r12 = r39.getCdr()     // Catch:{ all -> 0x0211 }
-            goto L_0x0209
-        L_0x0264:
-            r12 = 0
-        L_0x0265:
-            if (r23 == 0) goto L_0x029b
-            int r26 = r25 + 1
-            r0 = r27
-            r1 = r25
-            java.lang.Object r19 = r0.elementAt(r1)     // Catch:{ all -> 0x0356 }
-            r0 = r19
-            boolean r6 = r0 instanceof gnu.expr.Declaration     // Catch:{ all -> 0x0356 }
-            if (r6 == 0) goto L_0x02a4
-            r0 = r19
-            gnu.expr.Declaration r0 = (gnu.expr.Declaration) r0     // Catch:{ all -> 0x0356 }
-            r6 = r0
-            r8 = 2048(0x800, double:1.0118E-320)
-            boolean r28 = r6.getFlag(r8)     // Catch:{ all -> 0x0356 }
-        L_0x0282:
-            int r25 = r26 + 1
-            r0 = r27
-            r1 = r26
-            java.lang.Object r6 = r0.elementAt(r1)     // Catch:{ all -> 0x0211 }
-            if (r6 != 0) goto L_0x029b
-            r0 = r19
-            r1 = r38
-            r2 = r23
-            r3 = r54
-            r4 = r24
-            rewriteInit(r0, r1, r2, r3, r4)     // Catch:{ all -> 0x0211 }
-        L_0x029b:
-            r0 = r54
-            r1 = r44
-            r0.popPositionOf(r1)
-            goto L_0x010d
-        L_0x02a4:
-            java.lang.Boolean r6 = java.lang.Boolean.TRUE     // Catch:{ all -> 0x0356 }
-            r0 = r19
-            if (r0 != r6) goto L_0x02ad
-            r28 = 1
-            goto L_0x0282
-        L_0x02ad:
-            r28 = 0
-            goto L_0x0282
-        L_0x02b0:
-            r0 = r40
-            boolean r6 = r0 instanceof gnu.lists.Pair     // Catch:{ all -> 0x0211 }
-            if (r6 == 0) goto L_0x0322
-            gnu.expr.ScopeExp r42 = r54.currentScope()     // Catch:{ all -> 0x0211 }
-            if (r33 == 0) goto L_0x02c5
-            kawa.lang.TemplateScope r6 = r33.getScope()     // Catch:{ all -> 0x0211 }
-            r0 = r54
-            r0.setCurrentScope(r6)     // Catch:{ all -> 0x0211 }
-        L_0x02c5:
-            java.lang.String r6 = "*init*"
-            java.lang.String r8 = r7.getName()     // Catch:{ all -> 0x0211 }
-            boolean r6 = r6.equals(r8)     // Catch:{ all -> 0x0211 }
-            if (r6 == 0) goto L_0x02d6
-            gnu.bytecode.PrimType r6 = gnu.bytecode.Type.voidType     // Catch:{ all -> 0x0211 }
-            r7.setReturnType(r6)     // Catch:{ all -> 0x0211 }
-        L_0x02d6:
-            r0 = r39
-            kawa.lang.Translator.setLine(r7, r0)     // Catch:{ all -> 0x0211 }
-            r0 = r54
-            gnu.expr.LambdaExp r0 = r0.curMethodLambda     // Catch:{ all -> 0x0211 }
-            r41 = r0
-            r0 = r54
-            r0.curMethodLambda = r7     // Catch:{ all -> 0x0211 }
-            r0 = r52
-            kawa.lang.Lambda r6 = r0.lambda     // Catch:{ all -> 0x0211 }
-            r0 = r40
-            gnu.lists.Pair r0 = (gnu.lists.Pair) r0     // Catch:{ all -> 0x0211 }
-            r8 = r0
-            java.lang.Object r8 = r8.getCdr()     // Catch:{ all -> 0x0211 }
-            java.lang.Object r9 = r39.getCdr()     // Catch:{ all -> 0x0211 }
-            if (r32 == 0) goto L_0x0320
-            if (r33 == 0) goto L_0x0304
-            kawa.lang.TemplateScope r10 = r32.getScope()     // Catch:{ all -> 0x0211 }
-            kawa.lang.TemplateScope r11 = r33.getScope()     // Catch:{ all -> 0x0211 }
-            if (r10 == r11) goto L_0x0320
-        L_0x0304:
-            kawa.lang.TemplateScope r11 = r32.getScope()     // Catch:{ all -> 0x0211 }
-        L_0x0308:
-            r10 = r54
-            r6.rewrite(r7, r8, r9, r10, r11)     // Catch:{ all -> 0x0211 }
-            r0 = r41
-            r1 = r54
-            r1.curMethodLambda = r0     // Catch:{ all -> 0x0211 }
-            if (r33 == 0) goto L_0x031c
-            r0 = r54
-            r1 = r42
-            r0.setCurrentScope(r1)     // Catch:{ all -> 0x0211 }
-        L_0x031c:
-            gnu.expr.LambdaExp r7 = r7.nextSibling     // Catch:{ all -> 0x0211 }
-            goto L_0x029b
-        L_0x0320:
-            r11 = 0
-            goto L_0x0308
-        L_0x0322:
-            java.lang.String r6 = "invalid field/method definition"
-            r0 = r54
-            r0.syntaxError(r6)     // Catch:{ all -> 0x0211 }
-            goto L_0x029b
-        L_0x032b:
-            r0 = r38
-            gnu.expr.LambdaExp r6 = r0.initMethod
-            if (r6 == 0) goto L_0x0339
-            r0 = r38
-            gnu.expr.LambdaExp r6 = r0.initMethod
-            r0 = r38
-            r6.outer = r0
-        L_0x0339:
-            r0 = r38
-            gnu.expr.LambdaExp r6 = r0.clinitMethod
-            if (r6 == 0) goto L_0x0347
-            r0 = r38
-            gnu.expr.LambdaExp r6 = r0.clinitMethod
-            r0 = r38
-            r6.outer = r0
-        L_0x0347:
-            r0 = r54
-            r1 = r38
-            r0.pop(r1)
-            r0 = r38
-            r1 = r54
-            r0.declareParts(r1)
-            return
-        L_0x0356:
-            r6 = move-exception
-            r25 = r26
-            goto L_0x0212
-        */
-        throw new UnsupportedOperationException("Method not decompiled: kawa.standard.object.rewriteClassDef(java.lang.Object[], kawa.lang.Translator):void");
+    public void rewriteClassDef(Object[] saved, Translator tr) {
+        Declaration decl;
+        ClassExp oexp = saved[0];
+        Object components = saved[1];
+        Vector inits = saved[2];
+        LambdaExp method_list = saved[3];
+        Object superlist = saved[4];
+        Object classNamePair = saved[5];
+        oexp.firstChild = method_list;
+        int num_supers = Translator.listLength(superlist);
+        if (num_supers < 0) {
+            tr.error('e', "object superclass specification not a list");
+            num_supers = 0;
+        }
+        Expression[] supers = new Expression[num_supers];
+        for (int i = 0; i < num_supers; i++) {
+            while (superlist instanceof SyntaxForm) {
+                superlist = ((SyntaxForm) superlist).getDatum();
+            }
+            Pair superpair = (Pair) superlist;
+            supers[i] = tr.rewrite_car(superpair, false);
+            if ((supers[i] instanceof ReferenceExp) && (decl = Declaration.followAliases(((ReferenceExp) supers[i]).getBinding())) != null) {
+                Expression svalue = decl.getValue();
+                if (svalue instanceof ClassExp) {
+                    ((ClassExp) svalue).setFlag(131072);
+                }
+            }
+            superlist = superpair.getCdr();
+        }
+        if (classNamePair != null) {
+            Object classNameVal = tr.rewrite_car((Pair) classNamePair, false).valueIfConstant();
+            if (classNameVal instanceof CharSequence) {
+                String classNameSpecifier = classNameVal.toString();
+                if (classNameSpecifier.length() > 0) {
+                    oexp.classNameSpecifier = classNameSpecifier;
+                }
+            }
+            Object savedPos = tr.pushPositionOf(classNamePair);
+            tr.error('e', "class-name specifier must be a non-empty string literal");
+            tr.popPositionOf(savedPos);
+        }
+        oexp.supers = supers;
+        oexp.setTypes(tr);
+        int len = inits.size();
+        for (int i2 = 0; i2 < len; i2 += 2) {
+            Object init = inits.elementAt(i2 + 1);
+            if (init != null) {
+                rewriteInit(inits.elementAt(i2), oexp, (Pair) init, tr, (SyntaxForm) null);
+            }
+        }
+        tr.push((ScopeExp) oexp);
+        LambdaExp meth = method_list;
+        int init_index = 0;
+        SyntaxForm componentsSyntax = null;
+        Object obj = components;
+        while (obj != LList.Empty) {
+            while (obj instanceof SyntaxForm) {
+                componentsSyntax = (SyntaxForm) obj;
+                obj = componentsSyntax.getDatum();
+            }
+            Pair pair = (Pair) obj;
+            Object savedPos1 = tr.pushPositionOf(pair);
+            Object pair_car = pair.getCar();
+            SyntaxForm memberSyntax = componentsSyntax;
+            while (pair_car instanceof SyntaxForm) {
+                memberSyntax = (SyntaxForm) pair_car;
+                pair_car = memberSyntax.getDatum();
+            }
+            try {
+                obj = pair.getCdr();
+                if (!(pair_car instanceof Keyword) || !(obj instanceof Pair)) {
+                    Pair pair2 = (Pair) pair_car;
+                    Object pair_car2 = pair2.getCar();
+                    SyntaxForm memberCarSyntax = memberSyntax;
+                    while (pair_car2 instanceof SyntaxForm) {
+                        memberCarSyntax = (SyntaxForm) pair_car2;
+                        pair_car2 = memberCarSyntax.getDatum();
+                    }
+                    if ((pair_car2 instanceof String) || (pair_car2 instanceof Symbol) || (pair_car2 instanceof Keyword)) {
+                        Object type = null;
+                        int nKeywords = 0;
+                        Object args = pair_car2 instanceof Keyword ? pair2 : pair2.getCdr();
+                        Pair initPair = null;
+                        SyntaxForm initSyntax = null;
+                        while (true) {
+                            if (args == LList.Empty) {
+                                break;
+                            }
+                            while (args instanceof SyntaxForm) {
+                                memberSyntax = (SyntaxForm) args;
+                                args = memberSyntax.getDatum();
+                            }
+                            Pair pair3 = (Pair) args;
+                            Object key = pair3.getCar();
+                            while (key instanceof SyntaxForm) {
+                                key = ((SyntaxForm) key).getDatum();
+                            }
+                            Object savedPos2 = tr.pushPositionOf(pair3);
+                            args = pair3.getCdr();
+                            if ((key == coloncolon || (key instanceof Keyword)) && (args instanceof Pair)) {
+                                nKeywords++;
+                                Pair pair4 = (Pair) args;
+                                Object value = pair4.getCar();
+                                args = pair4.getCdr();
+                                if (key == coloncolon || key == typeKeyword) {
+                                    type = value;
+                                } else if (key == initKeyword || key == initformKeyword || key == init_formKeyword || key == init_valueKeyword) {
+                                    initPair = pair4;
+                                    initSyntax = memberSyntax;
+                                }
+                            } else if (args != LList.Empty || initPair != null) {
+                                if (!(args instanceof Pair) || nKeywords != 0 || initPair != null || type != null) {
+                                    break;
+                                }
+                                Pair pair5 = (Pair) args;
+                                if (pair5.getCdr() != LList.Empty) {
+                                    break;
+                                }
+                                type = key;
+                                initPair = pair5;
+                                initSyntax = memberSyntax;
+                                args = pair5.getCdr();
+                            } else {
+                                initPair = pair3;
+                                initSyntax = memberSyntax;
+                            }
+                            tr.popPositionOf(savedPos2);
+                        }
+                        if (initPair != null) {
+                            int init_index2 = init_index + 1;
+                            try {
+                                Object d = inits.elementAt(init_index);
+                                if (d instanceof Declaration) {
+                                    boolean flag = ((Declaration) d).getFlag(2048);
+                                } else if (d == Boolean.TRUE) {
+                                }
+                                init_index = init_index2 + 1;
+                                if (inits.elementAt(init_index2) == null) {
+                                    rewriteInit(d, oexp, initPair, tr, initSyntax);
+                                }
+                            } catch (Throwable th) {
+                                th = th;
+                                int i3 = init_index2;
+                                tr.popPositionOf(savedPos1);
+                                throw th;
+                            }
+                        }
+                    } else if (pair_car2 instanceof Pair) {
+                        ScopeExp save_scope = tr.currentScope();
+                        if (memberSyntax != null) {
+                            tr.setCurrentScope(memberSyntax.getScope());
+                        }
+                        if ("*init*".equals(meth.getName())) {
+                            meth.setReturnType(Type.voidType);
+                        }
+                        Translator.setLine((Expression) meth, (Object) pair2);
+                        LambdaExp saveLambda = tr.curMethodLambda;
+                        tr.curMethodLambda = meth;
+                        this.lambda.rewrite(meth, ((Pair) pair_car2).getCdr(), pair2.getCdr(), tr, (memberCarSyntax == null || (memberSyntax != null && memberCarSyntax.getScope() == memberSyntax.getScope())) ? null : memberCarSyntax.getScope());
+                        tr.curMethodLambda = saveLambda;
+                        if (memberSyntax != null) {
+                            tr.setCurrentScope(save_scope);
+                        }
+                        meth = meth.nextSibling;
+                    } else {
+                        tr.syntaxError("invalid field/method definition");
+                    }
+                    tr.popPositionOf(savedPos1);
+                } else {
+                    obj = ((Pair) obj).getCdr();
+                    tr.popPositionOf(savedPos1);
+                }
+            } catch (Throwable th2) {
+                th = th2;
+                tr.popPositionOf(savedPos1);
+                throw th;
+            }
+        }
+        if (oexp.initMethod != null) {
+            oexp.initMethod.outer = oexp;
+        }
+        if (oexp.clinitMethod != null) {
+            oexp.clinitMethod.outer = oexp;
+        }
+        tr.pop(oexp);
+        oexp.declareParts(tr);
     }
 
-    private static void rewriteInit(Object d, ClassExp oexp, Pair initPair, Translator tr, SyntaxForm initSyntax) {
-        Expression initValue;
-        boolean isStatic = d instanceof Declaration ? ((Declaration) d).getFlag(2048) : d == Boolean.TRUE;
-        LambdaExp initMethod = isStatic ? oexp.clinitMethod : oexp.initMethod;
-        if (initMethod == null) {
-            initMethod = new LambdaExp((Expression) new BeginExp());
-            initMethod.setClassMethod(true);
-            initMethod.setReturnType(Type.voidType);
-            if (isStatic) {
-                initMethod.setName("$clinit$");
-                oexp.clinitMethod = initMethod;
-            } else {
-                initMethod.setName("$finit$");
-                oexp.initMethod = initMethod;
-                initMethod.add(null, new Declaration((Object) ThisExp.THIS_NAME));
-            }
-            initMethod.nextSibling = oexp.firstChild;
-            oexp.firstChild = initMethod;
-        }
-        tr.push((ScopeExp) initMethod);
-        LambdaExp saveLambda = tr.curMethodLambda;
-        tr.curMethodLambda = initMethod;
-        Expression initValue2 = tr.rewrite_car(initPair, initSyntax);
-        if (d instanceof Declaration) {
-            Declaration decl = (Declaration) d;
-            SetExp sexp = new SetExp(decl, initValue2);
-            sexp.setLocation(decl);
-            decl.noteValue(null);
-            initValue = sexp;
-        } else {
-            initValue = Compilation.makeCoercion(initValue2, (Expression) new QuoteExp(Type.voidType));
-        }
-        ((BeginExp) initMethod.body).add(initValue);
-        tr.curMethodLambda = saveLambda;
-        tr.pop(initMethod);
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r2v1, resolved type: gnu.expr.ApplyExp} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r2v2, resolved type: gnu.expr.ApplyExp} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r5v0, resolved type: gnu.expr.SetExp} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r2v3, resolved type: gnu.expr.ApplyExp} */
+    /* JADX WARNING: Multi-variable type inference failed */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    private static void rewriteInit(java.lang.Object r11, gnu.expr.ClassExp r12, gnu.lists.Pair r13, kawa.lang.Translator r14, kawa.lang.SyntaxForm r15) {
+        /*
+            r10 = 0
+            r7 = 1
+            boolean r6 = r11 instanceof gnu.expr.Declaration
+            if (r6 == 0) goto L_0x0061
+            r6 = r11
+            gnu.expr.Declaration r6 = (gnu.expr.Declaration) r6
+            r8 = 2048(0x800, double:1.0118E-320)
+            boolean r3 = r6.getFlag(r8)
+        L_0x000f:
+            if (r3 == 0) goto L_0x0069
+            gnu.expr.LambdaExp r1 = r12.clinitMethod
+        L_0x0013:
+            if (r1 != 0) goto L_0x0036
+            gnu.expr.LambdaExp r1 = new gnu.expr.LambdaExp
+            gnu.expr.BeginExp r6 = new gnu.expr.BeginExp
+            r6.<init>()
+            r1.<init>((gnu.expr.Expression) r6)
+            r1.setClassMethod(r7)
+            gnu.bytecode.PrimType r6 = gnu.bytecode.Type.voidType
+            r1.setReturnType(r6)
+            if (r3 == 0) goto L_0x006c
+            java.lang.String r6 = "$clinit$"
+            r1.setName(r6)
+            r12.clinitMethod = r1
+        L_0x0030:
+            gnu.expr.LambdaExp r6 = r12.firstChild
+            r1.nextSibling = r6
+            r12.firstChild = r1
+        L_0x0036:
+            r14.push((gnu.expr.ScopeExp) r1)
+            gnu.expr.LambdaExp r4 = r14.curMethodLambda
+            r14.curMethodLambda = r1
+            gnu.expr.Expression r2 = r14.rewrite_car((gnu.lists.Pair) r13, (kawa.lang.SyntaxForm) r15)
+            boolean r6 = r11 instanceof gnu.expr.Declaration
+            if (r6 == 0) goto L_0x007e
+            r0 = r11
+            gnu.expr.Declaration r0 = (gnu.expr.Declaration) r0
+            gnu.expr.SetExp r5 = new gnu.expr.SetExp
+            r5.<init>((gnu.expr.Declaration) r0, (gnu.expr.Expression) r2)
+            r5.setLocation(r0)
+            r0.noteValue(r10)
+            r2 = r5
+        L_0x0054:
+            gnu.expr.Expression r6 = r1.body
+            gnu.expr.BeginExp r6 = (gnu.expr.BeginExp) r6
+            r6.add(r2)
+            r14.curMethodLambda = r4
+            r14.pop(r1)
+            return
+        L_0x0061:
+            java.lang.Boolean r6 = java.lang.Boolean.TRUE
+            if (r11 != r6) goto L_0x0067
+            r3 = r7
+            goto L_0x000f
+        L_0x0067:
+            r3 = 0
+            goto L_0x000f
+        L_0x0069:
+            gnu.expr.LambdaExp r1 = r12.initMethod
+            goto L_0x0013
+        L_0x006c:
+            java.lang.String r6 = "$finit$"
+            r1.setName(r6)
+            r12.initMethod = r1
+            gnu.expr.Declaration r6 = new gnu.expr.Declaration
+            java.lang.String r7 = gnu.expr.ThisExp.THIS_NAME
+            r6.<init>((java.lang.Object) r7)
+            r1.add(r10, r6)
+            goto L_0x0030
+        L_0x007e:
+            gnu.expr.QuoteExp r6 = new gnu.expr.QuoteExp
+            gnu.bytecode.PrimType r7 = gnu.bytecode.Type.voidType
+            r6.<init>(r7)
+            gnu.expr.ApplyExp r2 = gnu.expr.Compilation.makeCoercion((gnu.expr.Expression) r2, (gnu.expr.Expression) r6)
+            goto L_0x0054
+        */
+        throw new UnsupportedOperationException("Method not decompiled: kawa.standard.object.rewriteInit(java.lang.Object, gnu.expr.ClassExp, gnu.lists.Pair, kawa.lang.Translator, kawa.lang.SyntaxForm):void");
     }
 
     static boolean matches(Object exp, String tag, Translator tr) {

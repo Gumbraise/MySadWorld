@@ -29,6 +29,87 @@ public class PhoneCall extends AndroidNonvisibleComponent implements Component, 
     public boolean havePermission = false;
     private String phoneNumber;
 
+    public PhoneCall(ComponentContainer container) {
+        super(container.$form());
+        this.context = container.$context();
+        this.form.registerForOnDestroy(this);
+        this.form.registerForActivityResult(this, PHONECALL_REQUEST_CODE);
+        PhoneNumber("");
+        this.callStateReceiver = new CallStateReceiver();
+    }
+
+    public void Initialize() {
+        if (this.form.doesAppDeclarePermission("android.permission.READ_CALL_LOG")) {
+            this.form.askPermission(new BulkPermissionRequest(this, "Initialize", "android.permission.PROCESS_OUTGOING_CALLS", "android.permission.READ_PHONE_STATE", "android.permission.READ_CALL_LOG") {
+                public void onGranted() {
+                    PhoneCall.this.registerCallStateMonitor();
+                }
+            });
+        }
+    }
+
+    @SimpleProperty(category = PropertyCategory.BEHAVIOR)
+    public String PhoneNumber() {
+        return this.phoneNumber;
+    }
+
+    @DesignerProperty(editorType = "string")
+    @SimpleProperty
+    public void PhoneNumber(String phoneNumber2) {
+        this.phoneNumber = phoneNumber2;
+    }
+
+    @SimpleFunction(description = "Launches the default dialer app set to start a phone call usingthe number in the PhoneNumber property.")
+    public void MakePhoneCall() {
+        Intent i = new Intent("android.intent.action.DIAL", Uri.fromParts("tel", this.phoneNumber, (String) null));
+        if (i.resolveActivity(this.form.getPackageManager()) != null) {
+            this.form.startActivityForResult(i, PHONECALL_REQUEST_CODE);
+        }
+    }
+
+    @UsesPermissions({"android.permission.CALL_PHONE"})
+    @SimpleFunction(description = "Directly initiates a phone call using the number in the PhoneNumber property.")
+    public void MakePhoneCallDirect() {
+        if (!this.havePermission) {
+            this.form.askPermission("android.permission.CALL_PHONE", new PermissionResultHandler() {
+                public void HandlePermissionResponse(String permission, boolean granted) {
+                    if (granted) {
+                        boolean unused = PhoneCall.this.havePermission = true;
+                        PhoneCall.this.MakePhoneCallDirect();
+                        return;
+                    }
+                    PhoneCall.this.form.dispatchPermissionDeniedEvent((Component) PhoneCall.this, "MakePhoneCall", "android.permission.CALL_PHONE");
+                }
+            });
+        } else {
+            PhoneCallUtil.makePhoneCall(this.context, this.phoneNumber);
+        }
+    }
+
+    @SimpleEvent(description = "Event indicating that a phonecall has started. If status is 1, incoming call is ringing; if status is 2, outgoing call is dialled. phoneNumber is the incoming/outgoing phone number.")
+    @UsesPermissions({"android.permission.PROCESS_OUTGOING_CALLS", "android.permission.READ_CALL_LOG", "android.permission.READ_PHONE_STATE"})
+    public void PhoneCallStarted(int status, String phoneNumber2) {
+        EventDispatcher.dispatchEvent(this, "PhoneCallStarted", Integer.valueOf(status), phoneNumber2);
+    }
+
+    @SimpleEvent(description = "Event indicating that a phone call has ended. If status is 1, incoming call is missed or rejected; if status is 2, incoming call is answered before hanging up; if status is 3, outgoing call is hung up. phoneNumber is the ended call phone number.")
+    @UsesPermissions({"android.permission.PROCESS_OUTGOING_CALLS", "android.permission.READ_CALL_LOG", "android.permission.READ_PHONE_STATE"})
+    public void PhoneCallEnded(int status, String phoneNumber2) {
+        EventDispatcher.dispatchEvent(this, "PhoneCallEnded", Integer.valueOf(status), phoneNumber2);
+    }
+
+    @SimpleEvent(description = "Event indicating that an incoming phone call is answered. phoneNumber is the incoming call phone number.")
+    @UsesPermissions({"android.permission.PROCESS_OUTGOING_CALLS", "android.permission.READ_CALL_LOG", "android.permission.READ_PHONE_STATE"})
+    public void IncomingCallAnswered(String phoneNumber2) {
+        EventDispatcher.dispatchEvent(this, "IncomingCallAnswered", phoneNumber2);
+    }
+
+    public void resultReturned(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PHONECALL_REQUEST_CODE) {
+            PhoneCallStarted(2, "");
+        }
+    }
+
     private class CallStateReceiver extends BroadcastReceiver {
         private String number = "";
         private int status = 0;
@@ -67,87 +148,6 @@ public class PhoneCall extends AndroidNonvisibleComponent implements Component, 
                 this.number = intent.getStringExtra("android.intent.extra.PHONE_NUMBER");
                 PhoneCall.this.PhoneCallStarted(2, this.number);
             }
-        }
-    }
-
-    public PhoneCall(ComponentContainer container) {
-        super(container.$form());
-        this.context = container.$context();
-        this.form.registerForOnDestroy(this);
-        this.form.registerForActivityResult(this, PHONECALL_REQUEST_CODE);
-        PhoneNumber("");
-        this.callStateReceiver = new CallStateReceiver();
-    }
-
-    public void Initialize() {
-        if (this.form.doesAppDeclarePermission("android.permission.READ_CALL_LOG")) {
-            this.form.askPermission(new BulkPermissionRequest(this, "Initialize", "android.permission.PROCESS_OUTGOING_CALLS", "android.permission.READ_PHONE_STATE", "android.permission.READ_CALL_LOG") {
-                public void onGranted() {
-                    PhoneCall.this.registerCallStateMonitor();
-                }
-            });
-        }
-    }
-
-    @SimpleProperty(category = PropertyCategory.BEHAVIOR)
-    public String PhoneNumber() {
-        return this.phoneNumber;
-    }
-
-    @DesignerProperty(editorType = "string")
-    @SimpleProperty
-    public void PhoneNumber(String phoneNumber2) {
-        this.phoneNumber = phoneNumber2;
-    }
-
-    @SimpleFunction(description = "Launches the default dialer app set to start a phone call usingthe number in the PhoneNumber property.")
-    public void MakePhoneCall() {
-        Intent i = new Intent("android.intent.action.DIAL", Uri.fromParts("tel", this.phoneNumber, null));
-        if (i.resolveActivity(this.form.getPackageManager()) != null) {
-            this.form.startActivityForResult(i, PHONECALL_REQUEST_CODE);
-        }
-    }
-
-    @UsesPermissions({"android.permission.CALL_PHONE"})
-    @SimpleFunction(description = "Directly initiates a phone call using the number in the PhoneNumber property.")
-    public void MakePhoneCallDirect() {
-        if (!this.havePermission) {
-            this.form.askPermission("android.permission.CALL_PHONE", new PermissionResultHandler() {
-                public void HandlePermissionResponse(String permission, boolean granted) {
-                    if (granted) {
-                        PhoneCall.this.havePermission = true;
-                        PhoneCall.this.MakePhoneCallDirect();
-                        return;
-                    }
-                    PhoneCall.this.form.dispatchPermissionDeniedEvent((Component) PhoneCall.this, "MakePhoneCall", "android.permission.CALL_PHONE");
-                }
-            });
-        } else {
-            PhoneCallUtil.makePhoneCall(this.context, this.phoneNumber);
-        }
-    }
-
-    @SimpleEvent(description = "Event indicating that a phonecall has started. If status is 1, incoming call is ringing; if status is 2, outgoing call is dialled. phoneNumber is the incoming/outgoing phone number.")
-    @UsesPermissions({"android.permission.PROCESS_OUTGOING_CALLS", "android.permission.READ_CALL_LOG", "android.permission.READ_PHONE_STATE"})
-    public void PhoneCallStarted(int status, String phoneNumber2) {
-        EventDispatcher.dispatchEvent(this, "PhoneCallStarted", Integer.valueOf(status), phoneNumber2);
-    }
-
-    @SimpleEvent(description = "Event indicating that a phone call has ended. If status is 1, incoming call is missed or rejected; if status is 2, incoming call is answered before hanging up; if status is 3, outgoing call is hung up. phoneNumber is the ended call phone number.")
-    @UsesPermissions({"android.permission.PROCESS_OUTGOING_CALLS", "android.permission.READ_CALL_LOG", "android.permission.READ_PHONE_STATE"})
-    public void PhoneCallEnded(int status, String phoneNumber2) {
-        EventDispatcher.dispatchEvent(this, "PhoneCallEnded", Integer.valueOf(status), phoneNumber2);
-    }
-
-    @SimpleEvent(description = "Event indicating that an incoming phone call is answered. phoneNumber is the incoming call phone number.")
-    @UsesPermissions({"android.permission.PROCESS_OUTGOING_CALLS", "android.permission.READ_CALL_LOG", "android.permission.READ_PHONE_STATE"})
-    public void IncomingCallAnswered(String phoneNumber2) {
-        EventDispatcher.dispatchEvent(this, "IncomingCallAnswered", phoneNumber2);
-    }
-
-    public void resultReturned(int requestCode, int resultCode, Intent data) {
-        if (requestCode == PHONECALL_REQUEST_CODE) {
-            PhoneCallStarted(2, "");
         }
     }
 

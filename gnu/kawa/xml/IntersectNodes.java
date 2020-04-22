@@ -49,10 +49,9 @@ public class IntersectNodes extends Procedure2 {
                     cmp = -2;
                     break;
                 }
-                int i23 = i2 + 1;
                 ipos2 = nodes2.getPos(i2);
                 cmp = AbstractSequence.compare(seq1, ipos1, seq2, ipos2);
-                i2 = i23;
+                i2++;
             }
             if ((cmp == 0) != this.isExcept) {
                 result.writePosition(seq1, ipos1);

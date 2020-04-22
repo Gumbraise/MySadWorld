@@ -35,66 +35,63 @@ public class BindingInitializer extends Initializer {
 
     public void emit(Compilation comp) {
         Type type;
+        Object val;
         if (!this.decl.ignorable()) {
             CodeAttr code = comp.getCode();
-            if (this.value instanceof QuoteExp) {
-                Object val = ((QuoteExp) this.value).getValue();
-                if (val != null && !(val instanceof String) && comp.litTable.findLiteral(val).field == this.field) {
-                    return;
+            if (!(this.value instanceof QuoteExp) || (val = ((QuoteExp) this.value).getValue()) == null || (val instanceof String) || comp.litTable.findLiteral(val).field != this.field) {
+                int line = this.decl.getLineNumber();
+                SourceMessages messages = comp.getMessages();
+                SourceLocator saveLoc = messages.swapSourceLocator(this.decl);
+                if (line > 0) {
+                    code.putLineNumber(this.decl.getFileName(), line);
                 }
-            }
-            int line = this.decl.getLineNumber();
-            SourceMessages messages = comp.getMessages();
-            SourceLocator saveLoc = messages.swapSourceLocator(this.decl);
-            if (line > 0) {
-                code.putLineNumber(this.decl.getFileName(), line);
-            }
-            if (this.field != null && !this.field.getStaticFlag()) {
-                code.emitPushThis();
-            }
-            if (this.value == null) {
-                Object property = (!comp.getLanguage().hasSeparateFunctionNamespace() || !this.decl.isProcedureDecl()) ? null : EnvironmentKey.FUNCTION;
-                Object name = this.decl.getSymbol();
-                if (this.decl.getFlag(268500992)) {
-                    if (name instanceof String) {
-                        name = Namespace.EmptyNamespace.getSymbol((String) name);
-                    }
-                    comp.compileConstant(name, Target.pushObject);
-                    if (property == null) {
-                        code.emitPushNull();
+                if (this.field != null && !this.field.getStaticFlag()) {
+                    code.emitPushThis();
+                }
+                if (this.value == null) {
+                    Object property = (!comp.getLanguage().hasSeparateFunctionNamespace() || !this.decl.isProcedureDecl()) ? null : EnvironmentKey.FUNCTION;
+                    Object name = this.decl.getSymbol();
+                    if (this.decl.getFlag(268500992)) {
+                        if (name instanceof String) {
+                            name = Namespace.EmptyNamespace.getSymbol((String) name);
+                        }
+                        comp.compileConstant(name, Target.pushObject);
+                        if (property == null) {
+                            code.emitPushNull();
+                        } else {
+                            comp.compileConstant(property, Target.pushObject);
+                        }
+                        code.emitInvokeStatic(typeThreadLocation.getDeclaredMethod("getInstance", 2));
+                    } else if (this.decl.isFluid()) {
+                        Type[] atypes = new Type[1];
+                        atypes[0] = name instanceof Symbol ? Compilation.typeSymbol : Type.toStringType;
+                        comp.compileConstant(name, Target.pushObject);
+                        code.emitInvokeStatic(typeThreadLocation.getDeclaredMethod("makeAnonymous", atypes));
                     } else {
-                        comp.compileConstant(property, Target.pushObject);
+                        comp.compileConstant(name, Target.pushObject);
+                        code.emitInvokeStatic(makeLocationMethod(name));
                     }
-                    code.emitInvokeStatic(typeThreadLocation.getDeclaredMethod("getInstance", 2));
-                } else if (this.decl.isFluid()) {
-                    Type[] atypes = new Type[1];
-                    atypes[0] = name instanceof Symbol ? Compilation.typeSymbol : Type.toStringType;
-                    comp.compileConstant(name, Target.pushObject);
-                    code.emitInvokeStatic(typeThreadLocation.getDeclaredMethod("makeAnonymous", atypes));
                 } else {
-                    comp.compileConstant(name, Target.pushObject);
-                    code.emitInvokeStatic(makeLocationMethod(name));
+                    if (this.field == null) {
+                        type = this.decl.getType();
+                    } else {
+                        type = this.field.getType();
+                    }
+                    this.value.compileWithPosition(comp, StackTarget.getInstance(type));
                 }
-            } else {
                 if (this.field == null) {
-                    type = this.decl.getType();
+                    Variable var = this.decl.getVariable();
+                    if (var == null) {
+                        var = this.decl.allocateVariable(code);
+                    }
+                    code.emitStore(var);
+                } else if (this.field.getStaticFlag()) {
+                    code.emitPutStatic(this.field);
                 } else {
-                    type = this.field.getType();
+                    code.emitPutField(this.field);
                 }
-                this.value.compileWithPosition(comp, StackTarget.getInstance(type));
+                messages.swapSourceLocator(saveLoc);
             }
-            if (this.field == null) {
-                Variable var = this.decl.getVariable();
-                if (var == null) {
-                    var = this.decl.allocateVariable(code);
-                }
-                code.emitStore(var);
-            } else if (this.field.getStaticFlag()) {
-                code.emitPutStatic(this.field);
-            } else {
-                code.emitPutField(this.field);
-            }
-            messages.swapSourceLocator(saveLoc);
         } else if (this.value != null) {
             this.value.compile(comp, Target.Ignore);
         }

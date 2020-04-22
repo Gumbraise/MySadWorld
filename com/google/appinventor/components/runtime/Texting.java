@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.telephony.SmsManager;
@@ -47,6 +46,7 @@ import java.io.OutputStreamWriter;
 import java.net.CookieManager;
 import java.net.HttpCookie;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -108,234 +108,6 @@ public class Texting extends AndroidNonvisibleComponent implements Component, On
     private Queue<String> pendingQueue = new ConcurrentLinkedQueue();
     private String phoneNumber;
     private SmsManager smsManager;
-
-    class AsyncAuthenticate extends AsyncTask<Void, Void, String> {
-        AsyncAuthenticate() {
-        }
-
-        /* access modifiers changed from: protected */
-        public String doInBackground(Void... arg0) {
-            Log.i(Texting.TAG, "Authenticating");
-            return new OAuth2Helper().getRefreshedAuthToken(Texting.activity, Texting.GV_SERVICE);
-        }
-
-        /* access modifiers changed from: protected */
-        public void onPostExecute(String result) {
-            Log.i(Texting.TAG, "authToken = " + result);
-            Texting.this.authToken = result;
-            Toast.makeText(Texting.activity, "Finished authentication", 0).show();
-            Texting.this.processPendingQueue();
-        }
-    }
-
-    class AsyncSendMessage extends AsyncTask<String, Void, String> {
-        AsyncSendMessage() {
-        }
-
-        /* access modifiers changed from: protected */
-        public String doInBackground(String... args) {
-            String phoneNumber = args[0];
-            String message = args[1];
-            String response = "";
-            String str = "";
-            Log.i(Texting.TAG, "Async sending phoneNumber = " + phoneNumber + " message = " + message);
-            try {
-                String smsData = URLEncoder.encode("phoneNumber", Texting.UTF8) + "=" + URLEncoder.encode(phoneNumber, Texting.UTF8) + "&" + URLEncoder.encode(PropertyTypeConstants.PROPERTY_TYPE_TEXT, Texting.UTF8) + "=" + URLEncoder.encode(message, Texting.UTF8);
-                if (Texting.this.gvHelper == null) {
-                    Texting.this.gvHelper = new GoogleVoiceUtil(Texting.this.authToken);
-                }
-                if (!Texting.this.gvHelper.isInitialized()) {
-                    return "IO Error: unable to create GvHelper";
-                }
-                response = Texting.this.gvHelper.sendGvSms(smsData);
-                Log.i(Texting.TAG, "Sent SMS, response = " + response);
-                return response;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        /* access modifiers changed from: protected */
-        public void onPostExecute(String result) {
-            super.onPostExecute(result);
-            boolean ok = false;
-            int code = 0;
-            try {
-                JSONObject json = new JSONObject(result);
-                ok = json.getBoolean("ok");
-                code = json.getJSONObject("data").getInt("code");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            if (ok) {
-                Toast.makeText(Texting.activity, "Message sent", 0).show();
-            } else if (code == 58) {
-                Toast.makeText(Texting.activity, "Errcode 58: SMS limit reached", 0).show();
-            } else if (result.contains("IO Error")) {
-                Toast.makeText(Texting.activity, result, 0).show();
-            }
-        }
-    }
-
-    class GoogleVoiceUtil {
-        private static final String COOKIES_HEADER = "Set-Cookie";
-        private final int MAX_REDIRECTS = 5;
-        String authToken;
-        CookieManager cookies = new CookieManager();
-        String general;
-        private boolean isInitialized;
-        int redirectCounter;
-        String rnrSEE;
-
-        public GoogleVoiceUtil(String authToken2) {
-            Log.i(Texting.TAG, "Creating GV Util");
-            this.authToken = authToken2;
-            try {
-                this.general = getGeneral();
-                Log.i(Texting.TAG, "general = " + this.general);
-                setRNRSEE();
-                this.isInitialized = true;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        public boolean isInitialized() {
-            return this.isInitialized;
-        }
-
-        /* access modifiers changed from: private */
-        public String sendGvSms(String smsData) {
-            Log.i(Texting.TAG, "sendGvSms()");
-            StringBuilder response = new StringBuilder();
-            try {
-                String smsData2 = smsData + "&" + URLEncoder.encode("_rnr_se", Texting.UTF8) + "=" + URLEncoder.encode(this.rnrSEE, Texting.UTF8);
-                Log.i(Texting.TAG, "smsData = " + smsData2);
-                HttpURLConnection smsConn = (HttpURLConnection) new URL(Texting.GV_SMS_SEND_URL).openConnection();
-                smsConn.setRequestProperty("Authorization", "GoogleLogin auth=" + this.authToken);
-                smsConn.setRequestProperty("User-agent", Texting.USER_AGENT);
-                setCookies(smsConn);
-                smsConn.setDoOutput(true);
-                smsConn.setConnectTimeout(Texting.SERVER_TIMEOUT_MS);
-                Log.i(Texting.TAG, "sms request = " + smsConn);
-                OutputStreamWriter callwr = new OutputStreamWriter(smsConn.getOutputStream());
-                callwr.write(smsData2);
-                callwr.flush();
-                processCookies(smsConn);
-                BufferedReader callrd = new BufferedReader(new InputStreamReader(smsConn.getInputStream()));
-                while (true) {
-                    String line = callrd.readLine();
-                    if (line == null) {
-                        break;
-                    }
-                    response.append(line);
-                    response.append("\n");
-                }
-                Log.i(Texting.TAG, "sendGvSms:  Sent SMS, response = " + response);
-                callwr.close();
-                callrd.close();
-                if (response.length() != 0) {
-                    return response.toString();
-                }
-                throw new IOException("No Response Data Received.");
-            } catch (IOException e) {
-                Log.i(Texting.TAG, "IO Error on Send " + e.getMessage(), e);
-                return "IO Error Message not sent";
-            }
-        }
-
-        public String getGeneral() throws IOException {
-            Log.i(Texting.TAG, "getGeneral()");
-            return get(Texting.GV_URL);
-        }
-
-        private void setRNRSEE() throws IOException {
-            Log.i(Texting.TAG, "setRNRSEE()");
-            if (this.general == null) {
-                Log.i(Texting.TAG, "setRNRSEE(): Answer was null!");
-                throw new IOException("setRNRSEE(): Answer was null!");
-            } else if (this.general.contains("'_rnr_se': '")) {
-                this.rnrSEE = this.general.split("'_rnr_se': '", 2)[1].split("',", 2)[0];
-                Log.i(Texting.TAG, "Successfully Received rnr_se.");
-            } else {
-                Log.i(Texting.TAG, "Answer did not contain rnr_se! " + this.general);
-                throw new IOException("Answer did not contain rnr_se! " + this.general);
-            }
-        }
-
-        /* access modifiers changed from: 0000 */
-        public void setCookies(HttpURLConnection conn) {
-            if (this.cookies.getCookieStore().getCookies().size() > 0) {
-                conn.setRequestProperty("Cookie", TextUtils.join(";", this.cookies.getCookieStore().getCookies()));
-            }
-        }
-
-        /* access modifiers changed from: 0000 */
-        public void processCookies(HttpURLConnection conn) {
-            List<String> cookiesHeader = (List) conn.getHeaderFields().get(COOKIES_HEADER);
-            if (cookiesHeader != null) {
-                for (String cookie : cookiesHeader) {
-                    this.cookies.getCookieStore().add(null, (HttpCookie) HttpCookie.parse(cookie).get(0));
-                }
-            }
-        }
-
-        /* access modifiers changed from: 0000 */
-        public String get(String urlString) throws IOException {
-            InputStream is;
-            HttpURLConnection conn = (HttpURLConnection) new URL(urlString).openConnection();
-            int responseCode = 0;
-            try {
-                conn.setRequestProperty("Authorization", "GoogleLogin auth=" + this.authToken);
-                conn.setRequestProperty("User-agent", Texting.USER_AGENT);
-                conn.setInstanceFollowRedirects(false);
-                setCookies(conn);
-                conn.connect();
-                responseCode = conn.getResponseCode();
-                Log.i(Texting.TAG, urlString + " - " + conn.getResponseMessage());
-                processCookies(conn);
-                if (responseCode == 200) {
-                    is = conn.getInputStream();
-                } else if (responseCode == 301 || responseCode == 302 || responseCode == 303 || responseCode == 307) {
-                    this.redirectCounter++;
-                    if (this.redirectCounter > 5) {
-                        this.redirectCounter = 0;
-                        throw new IOException(urlString + " : " + conn.getResponseMessage() + "(" + responseCode + ") : Too many redirects. exiting.");
-                    }
-                    String location = conn.getHeaderField("Location");
-                    if (location == null || location.equals("")) {
-                        throw new IOException(urlString + " : " + conn.getResponseMessage() + "(" + responseCode + ") : Received moved answer but no Location. exiting.");
-                    }
-                    System.out.println(urlString + " - " + responseCode + " - new URL: " + location);
-                    return get(location);
-                } else {
-                    is = conn.getErrorStream();
-                }
-                this.redirectCounter = 0;
-                if (is == null) {
-                    throw new IOException(urlString + " : " + conn.getResponseMessage() + "(" + responseCode + ") : InputStream was null : exiting.");
-                }
-                String str = "";
-                try {
-                    BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-                    StringBuffer sb = new StringBuffer();
-                    while (true) {
-                        String line = rd.readLine();
-                        if (line != null) {
-                            sb.append(line + "\n\r");
-                        } else {
-                            rd.close();
-                            return sb.toString();
-                        }
-                    }
-                } catch (Exception e) {
-                    throw new IOException(urlString + " - " + conn.getResponseMessage() + "(" + responseCode + ") - " + e.getLocalizedMessage());
-                }
-            } catch (Exception e2) {
-                throw new IOException(urlString + " : " + conn.getResponseMessage() + "(" + responseCode + ") : IO Error.");
-            }
-        }
-    }
 
     public Texting(ComponentContainer container2) {
         super(container2.$form());
@@ -447,7 +219,7 @@ public class Texting extends AndroidNonvisibleComponent implements Component, On
     /* access modifiers changed from: private */
     public void processPendingQueue() {
         while (this.pendingQueue.size() != 0) {
-            String entry = (String) this.pendingQueue.remove();
+            String entry = this.pendingQueue.remove();
             String phoneNumber2 = entry.substring(0, entry.indexOf(":::"));
             String message2 = entry.substring(entry.indexOf(":::") + 3);
             Log.i(TAG, "Sending queued message " + phoneNumber2 + " " + message2);
@@ -481,7 +253,7 @@ public class Texting extends AndroidNonvisibleComponent implements Component, On
     public void GoogleVoiceEnabled(boolean enabled) {
         if (SdkLevel.getLevel() >= 5) {
             this.googleVoiceEnabled = enabled;
-            Editor editor = activity.getSharedPreferences(PREF_FILE, 0).edit();
+            SharedPreferences.Editor editor = activity.getSharedPreferences(PREF_FILE, 0).edit();
             editor.putBoolean(PREF_GVENABLED, enabled);
             editor.commit();
             return;
@@ -504,7 +276,7 @@ public class Texting extends AndroidNonvisibleComponent implements Component, On
             return;
         }
         receivingEnabled = enabled;
-        Editor editor = activity.getSharedPreferences(PREF_FILE, 0).edit();
+        SharedPreferences.Editor editor = activity.getSharedPreferences(PREF_FILE, 0).edit();
         editor.putInt(PREF_RCVENABLED, enabled);
         editor.remove(PREF_RCVENABLED_LEGACY);
         editor.commit();
@@ -561,22 +333,21 @@ public class Texting extends AndroidNonvisibleComponent implements Component, On
 
     private String[] retrieveCachedMessages() {
         Log.i(TAG, "Retrieving cached messages");
-        String str = "";
         try {
             String cache = new String(FileUtil.readFile(CACHE_FILE));
             try {
                 activity.deleteFile(CACHE_FILE);
                 messagesCached = 0;
                 Log.i(TAG, "Retrieved cache " + cache);
-                String str2 = cache;
+                String str = cache;
                 return cache.split(MESSAGE_DELIMITER);
             } catch (FileNotFoundException e) {
-                String str3 = cache;
+                String str2 = cache;
                 Log.e(TAG, "No Cache file found -- this is not (usually) an error");
                 return null;
             } catch (IOException e2) {
                 e = e2;
-                String str4 = cache;
+                String str3 = cache;
                 Log.e(TAG, "I/O Error reading from cache file");
                 e.printStackTrace();
                 return null;
@@ -651,8 +422,167 @@ public class Texting extends AndroidNonvisibleComponent implements Component, On
             } else {
                 stringExtra = data.getStringExtra("sms_body");
             }
-            handleSentMessage(form, null, resultCode, stringExtra);
+            handleSentMessage(form, (BroadcastReceiver) null, resultCode, stringExtra);
             this.form.unregisterForActivityResult(this);
+        }
+    }
+
+    class GoogleVoiceUtil {
+        private static final String COOKIES_HEADER = "Set-Cookie";
+        private final int MAX_REDIRECTS = 5;
+        String authToken;
+        CookieManager cookies = new CookieManager();
+        String general;
+        private boolean isInitialized;
+        int redirectCounter;
+        String rnrSEE;
+
+        public GoogleVoiceUtil(String authToken2) {
+            Log.i(Texting.TAG, "Creating GV Util");
+            this.authToken = authToken2;
+            try {
+                this.general = getGeneral();
+                Log.i(Texting.TAG, "general = " + this.general);
+                setRNRSEE();
+                this.isInitialized = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public boolean isInitialized() {
+            return this.isInitialized;
+        }
+
+        /* access modifiers changed from: private */
+        public String sendGvSms(String smsData) {
+            Log.i(Texting.TAG, "sendGvSms()");
+            StringBuilder response = new StringBuilder();
+            try {
+                String smsData2 = smsData + "&" + URLEncoder.encode("_rnr_se", Texting.UTF8) + "=" + URLEncoder.encode(this.rnrSEE, Texting.UTF8);
+                Log.i(Texting.TAG, "smsData = " + smsData2);
+                HttpURLConnection smsConn = (HttpURLConnection) new URL(Texting.GV_SMS_SEND_URL).openConnection();
+                smsConn.setRequestProperty("Authorization", "GoogleLogin auth=" + this.authToken);
+                smsConn.setRequestProperty("User-agent", Texting.USER_AGENT);
+                setCookies(smsConn);
+                smsConn.setDoOutput(true);
+                smsConn.setConnectTimeout(Texting.SERVER_TIMEOUT_MS);
+                Log.i(Texting.TAG, "sms request = " + smsConn);
+                OutputStreamWriter callwr = new OutputStreamWriter(smsConn.getOutputStream());
+                callwr.write(smsData2);
+                callwr.flush();
+                processCookies(smsConn);
+                BufferedReader callrd = new BufferedReader(new InputStreamReader(smsConn.getInputStream()));
+                while (true) {
+                    String line = callrd.readLine();
+                    if (line == null) {
+                        break;
+                    }
+                    response.append(line);
+                    response.append("\n");
+                }
+                Log.i(Texting.TAG, "sendGvSms:  Sent SMS, response = " + response);
+                callwr.close();
+                callrd.close();
+                if (response.length() != 0) {
+                    return response.toString();
+                }
+                throw new IOException("No Response Data Received.");
+            } catch (IOException e) {
+                Log.i(Texting.TAG, "IO Error on Send " + e.getMessage(), e);
+                return "IO Error Message not sent";
+            }
+        }
+
+        public String getGeneral() throws IOException {
+            Log.i(Texting.TAG, "getGeneral()");
+            return get(Texting.GV_URL);
+        }
+
+        private void setRNRSEE() throws IOException {
+            Log.i(Texting.TAG, "setRNRSEE()");
+            if (this.general == null) {
+                Log.i(Texting.TAG, "setRNRSEE(): Answer was null!");
+                throw new IOException("setRNRSEE(): Answer was null!");
+            } else if (this.general.contains("'_rnr_se': '")) {
+                this.rnrSEE = this.general.split("'_rnr_se': '", 2)[1].split("',", 2)[0];
+                Log.i(Texting.TAG, "Successfully Received rnr_se.");
+            } else {
+                Log.i(Texting.TAG, "Answer did not contain rnr_se! " + this.general);
+                throw new IOException("Answer did not contain rnr_se! " + this.general);
+            }
+        }
+
+        /* access modifiers changed from: package-private */
+        public void setCookies(HttpURLConnection conn) {
+            if (this.cookies.getCookieStore().getCookies().size() > 0) {
+                conn.setRequestProperty("Cookie", TextUtils.join(";", this.cookies.getCookieStore().getCookies()));
+            }
+        }
+
+        /* access modifiers changed from: package-private */
+        public void processCookies(HttpURLConnection conn) {
+            List<String> cookiesHeader = (List) conn.getHeaderFields().get(COOKIES_HEADER);
+            if (cookiesHeader != null) {
+                for (String cookie : cookiesHeader) {
+                    this.cookies.getCookieStore().add((URI) null, HttpCookie.parse(cookie).get(0));
+                }
+            }
+        }
+
+        /* access modifiers changed from: package-private */
+        public String get(String urlString) throws IOException {
+            InputStream is;
+            HttpURLConnection conn = (HttpURLConnection) new URL(urlString).openConnection();
+            int responseCode = 0;
+            try {
+                conn.setRequestProperty("Authorization", "GoogleLogin auth=" + this.authToken);
+                conn.setRequestProperty("User-agent", Texting.USER_AGENT);
+                conn.setInstanceFollowRedirects(false);
+                setCookies(conn);
+                conn.connect();
+                responseCode = conn.getResponseCode();
+                Log.i(Texting.TAG, urlString + " - " + conn.getResponseMessage());
+                processCookies(conn);
+                if (responseCode == 200) {
+                    is = conn.getInputStream();
+                } else if (responseCode == 301 || responseCode == 302 || responseCode == 303 || responseCode == 307) {
+                    this.redirectCounter++;
+                    if (this.redirectCounter > 5) {
+                        this.redirectCounter = 0;
+                        throw new IOException(urlString + " : " + conn.getResponseMessage() + "(" + responseCode + ") : Too many redirects. exiting.");
+                    }
+                    String location = conn.getHeaderField("Location");
+                    if (location == null || location.equals("")) {
+                        throw new IOException(urlString + " : " + conn.getResponseMessage() + "(" + responseCode + ") : Received moved answer but no Location. exiting.");
+                    }
+                    System.out.println(urlString + " - " + responseCode + " - new URL: " + location);
+                    return get(location);
+                } else {
+                    is = conn.getErrorStream();
+                }
+                this.redirectCounter = 0;
+                if (is == null) {
+                    throw new IOException(urlString + " : " + conn.getResponseMessage() + "(" + responseCode + ") : InputStream was null : exiting.");
+                }
+                try {
+                    BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+                    StringBuffer sb = new StringBuffer();
+                    while (true) {
+                        String line = rd.readLine();
+                        if (line != null) {
+                            sb.append(line + "\n\r");
+                        } else {
+                            rd.close();
+                            return sb.toString();
+                        }
+                    }
+                } catch (Exception e) {
+                    throw new IOException(urlString + " - " + conn.getResponseMessage() + "(" + responseCode + ") - " + e.getLocalizedMessage());
+                }
+            } catch (Exception e2) {
+                throw new IOException(urlString + " : " + conn.getResponseMessage() + "(" + responseCode + ") : IO Error.");
+            }
         }
     }
 
@@ -692,7 +622,7 @@ public class Texting extends AndroidNonvisibleComponent implements Component, On
                     form.askPermission("android.permission.SEND_SMS", new PermissionResultHandler() {
                         public void HandlePermissionResponse(String permission, boolean granted) {
                             if (granted) {
-                                this.havePermission = true;
+                                boolean unused = this.havePermission = true;
                                 this.sendViaSms(caller);
                                 return;
                             }
@@ -712,7 +642,7 @@ public class Texting extends AndroidNonvisibleComponent implements Component, On
         activity.registerReceiver(new BroadcastReceiver() {
             public synchronized void onReceive(Context arg0, Intent arg1) {
                 try {
-                    Texting.this.handleSentMessage(arg0, null, getResultCode(), Texting.this.message);
+                    Texting.this.handleSentMessage(arg0, (BroadcastReceiver) null, getResultCode(), Texting.this.message);
                     Texting.activity.unregisterReceiver(this);
                 } catch (Exception e) {
                     Log.e("BroadcastReceiver", "Error in onReceive for msgId " + arg1.getAction());
@@ -722,7 +652,7 @@ public class Texting extends AndroidNonvisibleComponent implements Component, On
                 return;
             }
         }, new IntentFilter(SENT));
-        this.smsManager.sendMultipartTextMessage(this.phoneNumber, null, parts, pendingIntents, null);
+        this.smsManager.sendMultipartTextMessage(this.phoneNumber, (String) null, parts, pendingIntents, (ArrayList) null);
     }
 
     private void requestReceiveSmsPermission(final String caller) {
@@ -731,7 +661,7 @@ public class Texting extends AndroidNonvisibleComponent implements Component, On
                 Texting.this.form.askPermission("android.permission.RECEIVE_SMS", new PermissionResultHandler() {
                     public void HandlePermissionResponse(String permission, boolean granted) {
                         if (granted) {
-                            Texting.this.haveReceivePermission = true;
+                            boolean unused = Texting.this.haveReceivePermission = true;
                         } else {
                             Texting.this.form.dispatchPermissionDeniedEvent((Component) Texting.this, caller, "android.permission.RECEIVE_SMS");
                         }
@@ -741,8 +671,75 @@ public class Texting extends AndroidNonvisibleComponent implements Component, On
         });
     }
 
+    class AsyncAuthenticate extends AsyncTask<Void, Void, String> {
+        AsyncAuthenticate() {
+        }
+
+        /* access modifiers changed from: protected */
+        public String doInBackground(Void... arg0) {
+            Log.i(Texting.TAG, "Authenticating");
+            return new OAuth2Helper().getRefreshedAuthToken(Texting.activity, Texting.GV_SERVICE);
+        }
+
+        /* access modifiers changed from: protected */
+        public void onPostExecute(String result) {
+            Log.i(Texting.TAG, "authToken = " + result);
+            String unused = Texting.this.authToken = result;
+            Toast.makeText(Texting.activity, "Finished authentication", 0).show();
+            Texting.this.processPendingQueue();
+        }
+    }
+
+    class AsyncSendMessage extends AsyncTask<String, Void, String> {
+        AsyncSendMessage() {
+        }
+
+        /* access modifiers changed from: protected */
+        public String doInBackground(String... args) {
+            String phoneNumber = args[0];
+            String message = args[1];
+            String response = "";
+            Log.i(Texting.TAG, "Async sending phoneNumber = " + phoneNumber + " message = " + message);
+            try {
+                String smsData = URLEncoder.encode("phoneNumber", Texting.UTF8) + "=" + URLEncoder.encode(phoneNumber, Texting.UTF8) + "&" + URLEncoder.encode(PropertyTypeConstants.PROPERTY_TYPE_TEXT, Texting.UTF8) + "=" + URLEncoder.encode(message, Texting.UTF8);
+                if (Texting.this.gvHelper == null) {
+                    GoogleVoiceUtil unused = Texting.this.gvHelper = new GoogleVoiceUtil(Texting.this.authToken);
+                }
+                if (!Texting.this.gvHelper.isInitialized()) {
+                    return "IO Error: unable to create GvHelper";
+                }
+                response = Texting.this.gvHelper.sendGvSms(smsData);
+                Log.i(Texting.TAG, "Sent SMS, response = " + response);
+                return response;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        /* access modifiers changed from: protected */
+        public void onPostExecute(String result) {
+            super.onPostExecute(result);
+            boolean ok = false;
+            int code = 0;
+            try {
+                JSONObject json = new JSONObject(result);
+                ok = json.getBoolean("ok");
+                code = json.getJSONObject("data").getInt("code");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            if (ok) {
+                Toast.makeText(Texting.activity, "Message sent", 0).show();
+            } else if (code == 58) {
+                Toast.makeText(Texting.activity, "Errcode 58: SMS limit reached", 0).show();
+            } else if (result.contains("IO Error")) {
+                Toast.makeText(Texting.activity, result, 0).show();
+            }
+        }
+    }
+
     public void onStop() {
-        Editor editor = activity.getSharedPreferences(PREF_FILE, 0).edit();
+        SharedPreferences.Editor editor = activity.getSharedPreferences(PREF_FILE, 0).edit();
         editor.putInt(PREF_RCVENABLED, receivingEnabled);
         editor.putBoolean(PREF_GVENABLED, this.googleVoiceEnabled);
         editor.commit();

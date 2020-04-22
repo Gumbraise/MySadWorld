@@ -1,8 +1,7 @@
 package android.support.constraint.solver.widgets;
 
 import android.support.constraint.solver.LinearSystem;
-import android.support.constraint.solver.Metrics;
-import android.support.constraint.solver.widgets.ConstraintWidget.DimensionBehaviour;
+import android.support.constraint.solver.widgets.ConstraintWidget;
 
 public class Optimizer {
     static final int FLAG_CHAIN_DANGLING = 1;
@@ -19,7 +18,7 @@ public class Optimizer {
     static boolean[] flags = new boolean[3];
 
     static void checkMatchParent(ConstraintWidgetContainer container, LinearSystem system, ConstraintWidget widget) {
-        if (container.mListDimensionBehaviors[0] != DimensionBehaviour.WRAP_CONTENT && widget.mListDimensionBehaviors[0] == DimensionBehaviour.MATCH_PARENT) {
+        if (container.mListDimensionBehaviors[0] != ConstraintWidget.DimensionBehaviour.WRAP_CONTENT && widget.mListDimensionBehaviors[0] == ConstraintWidget.DimensionBehaviour.MATCH_PARENT) {
             int left = widget.mLeft.mMargin;
             int right = container.getWidth() - widget.mRight.mMargin;
             widget.mLeft.mSolverVariable = system.createObjectVariable(widget.mLeft);
@@ -29,7 +28,7 @@ public class Optimizer {
             widget.mHorizontalResolution = 2;
             widget.setHorizontalDimension(left, right);
         }
-        if (container.mListDimensionBehaviors[1] != DimensionBehaviour.WRAP_CONTENT && widget.mListDimensionBehaviors[1] == DimensionBehaviour.MATCH_PARENT) {
+        if (container.mListDimensionBehaviors[1] != ConstraintWidget.DimensionBehaviour.WRAP_CONTENT && widget.mListDimensionBehaviors[1] == ConstraintWidget.DimensionBehaviour.MATCH_PARENT) {
             int top = widget.mTop.mMargin;
             int bottom = container.getHeight() - widget.mBottom.mMargin;
             widget.mTop.mSolverVariable = system.createObjectVariable(widget.mTop);
@@ -47,15 +46,15 @@ public class Optimizer {
 
     private static boolean optimizableMatchConstraint(ConstraintWidget constraintWidget, int orientation) {
         char c = 1;
-        if (constraintWidget.mListDimensionBehaviors[orientation] != DimensionBehaviour.MATCH_CONSTRAINT) {
+        if (constraintWidget.mListDimensionBehaviors[orientation] != ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT) {
             return false;
         }
         if (constraintWidget.mDimensionRatio != 0.0f) {
-            DimensionBehaviour[] dimensionBehaviourArr = constraintWidget.mListDimensionBehaviors;
+            ConstraintWidget.DimensionBehaviour[] dimensionBehaviourArr = constraintWidget.mListDimensionBehaviors;
             if (orientation != 0) {
                 c = 0;
             }
-            if (dimensionBehaviourArr[c] == DimensionBehaviour.MATCH_CONSTRAINT) {
+            if (dimensionBehaviourArr[c] == ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT) {
             }
             return false;
         }
@@ -76,9 +75,9 @@ public class Optimizer {
         ResolutionAnchor rightNode = widget.mRight.getResolutionNode();
         ResolutionAnchor bottomNode = widget.mBottom.getResolutionNode();
         boolean optimiseDimensions = (optimisationLevel & 8) == 8;
-        boolean isOptimizableHorizontalMatch = widget.mListDimensionBehaviors[0] == DimensionBehaviour.MATCH_CONSTRAINT && optimizableMatchConstraint(widget, 0);
+        boolean isOptimizableHorizontalMatch = widget.mListDimensionBehaviors[0] == ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT && optimizableMatchConstraint(widget, 0);
         if (!(leftNode.type == 4 || rightNode.type == 4)) {
-            if (widget.mListDimensionBehaviors[0] == DimensionBehaviour.FIXED || (isOptimizableHorizontalMatch && widget.getVisibility() == 8)) {
+            if (widget.mListDimensionBehaviors[0] == ConstraintWidget.DimensionBehaviour.FIXED || (isOptimizableHorizontalMatch && widget.getVisibility() == 8)) {
                 if (widget.mLeft.mTarget == null && widget.mRight.mTarget == null) {
                     leftNode.setType(1);
                     rightNode.setType(1);
@@ -159,9 +158,9 @@ public class Optimizer {
                 }
             }
         }
-        boolean isOptimizableVerticalMatch = widget.mListDimensionBehaviors[1] == DimensionBehaviour.MATCH_CONSTRAINT && optimizableMatchConstraint(widget, 1);
+        boolean isOptimizableVerticalMatch = widget.mListDimensionBehaviors[1] == ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT && optimizableMatchConstraint(widget, 1);
         if (topNode.type != 4 && bottomNode.type != 4) {
-            if (widget.mListDimensionBehaviors[1] == DimensionBehaviour.FIXED || (isOptimizableVerticalMatch && widget.getVisibility() == 8)) {
+            if (widget.mListDimensionBehaviors[1] == ConstraintWidget.DimensionBehaviour.FIXED || (isOptimizableVerticalMatch && widget.getVisibility() == 8)) {
                 if (widget.mTop.mTarget == null && widget.mBottom.mTarget == null) {
                     topNode.setType(1);
                     bottomNode.setType(1);
@@ -278,7 +277,7 @@ public class Optimizer {
         float totalWeights = chainHead.mTotalWeight;
         ConstraintWidget constraintWidget = chainHead.mFirstMatchConstraintWidget;
         ConstraintWidget constraintWidget2 = chainHead.mLastMatchConstraintWidget;
-        if (container.mListDimensionBehaviors[orientation] == DimensionBehaviour.WRAP_CONTENT) {
+        if (container.mListDimensionBehaviors[orientation] == ConstraintWidget.DimensionBehaviour.WRAP_CONTENT) {
         }
         if (orientation == 0) {
             isChainSpread = head.mHorizontalChainStyle == 0;
@@ -309,21 +308,14 @@ public class Optimizer {
                 totalMargins = totalMargins + ((float) widget.mListAnchors[offset].getMargin()) + ((float) widget.mListAnchors[offset + 1].getMargin());
             }
             ConstraintAnchor constraintAnchor = widget.mListAnchors[offset];
-            if (widget.getVisibility() != 8 && widget.mListDimensionBehaviors[orientation] == DimensionBehaviour.MATCH_CONSTRAINT) {
+            if (widget.getVisibility() != 8 && widget.mListDimensionBehaviors[orientation] == ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT) {
                 numMatchConstraints++;
                 if (orientation == 0) {
-                    if (widget.mMatchConstraintDefaultWidth != 0) {
+                    if (!(widget.mMatchConstraintDefaultWidth == 0 && widget.mMatchConstraintMinWidth == 0 && widget.mMatchConstraintMaxWidth == 0)) {
                         return false;
                     }
-                    if (!(widget.mMatchConstraintMinWidth == 0 && widget.mMatchConstraintMaxWidth == 0)) {
-                        return false;
-                    }
-                } else if (widget.mMatchConstraintDefaultHeight != 0) {
+                } else if (!(widget.mMatchConstraintDefaultHeight == 0 && widget.mMatchConstraintMinHeight == 0 && widget.mMatchConstraintMaxHeight == 0)) {
                     return false;
-                } else {
-                    if (!(widget.mMatchConstraintMinHeight == 0 && widget.mMatchConstraintMaxHeight == 0)) {
-                        return false;
-                    }
                 }
                 if (widget.mDimensionRatio != 0.0f) {
                     return false;
@@ -346,10 +338,7 @@ public class Optimizer {
         }
         ResolutionAnchor firstNode = first.mListAnchors[offset].getResolutionNode();
         ResolutionAnchor lastNode = last.mListAnchors[offset + 1].getResolutionNode();
-        if (firstNode.target == null || lastNode.target == null) {
-            return false;
-        }
-        if (firstNode.target.state != 1 || lastNode.target.state != 1) {
+        if (firstNode.target == null || lastNode.target == null || firstNode.target.state != 1 || lastNode.target.state != 1) {
             return false;
         }
         if (numMatchConstraints > 0 && numMatchConstraints != numVisibleWidgets) {
@@ -382,12 +371,9 @@ public class Optimizer {
                 float distance2 = firstOffset + (first.getBiasPercent(orientation) * (distance - extraMargin));
                 while (widget2 != null) {
                     if (LinearSystem.sMetrics != null) {
-                        Metrics metrics = LinearSystem.sMetrics;
-                        metrics.nonresolvedWidgets--;
-                        Metrics metrics2 = LinearSystem.sMetrics;
-                        metrics2.resolvedWidgets++;
-                        Metrics metrics3 = LinearSystem.sMetrics;
-                        metrics3.chainConnectionResolved++;
+                        LinearSystem.sMetrics.nonresolvedWidgets--;
+                        LinearSystem.sMetrics.resolvedWidgets++;
+                        LinearSystem.sMetrics.chainConnectionResolved++;
                     }
                     ConstraintWidget next2 = widget2.mNextChainWidget[orientation];
                     if (next2 != null || widget2 == last) {
@@ -432,12 +418,9 @@ public class Optimizer {
                 }
                 while (widget3 != null) {
                     if (LinearSystem.sMetrics != null) {
-                        Metrics metrics4 = LinearSystem.sMetrics;
-                        metrics4.nonresolvedWidgets--;
-                        Metrics metrics5 = LinearSystem.sMetrics;
-                        metrics5.resolvedWidgets++;
-                        Metrics metrics6 = LinearSystem.sMetrics;
-                        metrics6.chainConnectionResolved++;
+                        LinearSystem.sMetrics.nonresolvedWidgets--;
+                        LinearSystem.sMetrics.resolvedWidgets++;
+                        LinearSystem.sMetrics.chainConnectionResolved++;
                     }
                     ConstraintWidget next3 = widget3.mNextChainWidget[orientation];
                     if (next3 != null || widget3 == last) {
@@ -462,7 +445,7 @@ public class Optimizer {
                 }
             }
             return true;
-        } else if (widget.getParent() != null && widget.getParent().mListDimensionBehaviors[orientation] == DimensionBehaviour.WRAP_CONTENT) {
+        } else if (widget.getParent() != null && widget.getParent().mListDimensionBehaviors[orientation] == ConstraintWidget.DimensionBehaviour.WRAP_CONTENT) {
             return false;
         } else {
             float distance5 = (distance + totalSize) - totalMargins;
@@ -470,12 +453,9 @@ public class Optimizer {
             float position = firstOffset;
             while (widget4 != null) {
                 if (LinearSystem.sMetrics != null) {
-                    Metrics metrics7 = LinearSystem.sMetrics;
-                    metrics7.nonresolvedWidgets--;
-                    Metrics metrics8 = LinearSystem.sMetrics;
-                    metrics8.resolvedWidgets++;
-                    Metrics metrics9 = LinearSystem.sMetrics;
-                    metrics9.chainConnectionResolved++;
+                    LinearSystem.sMetrics.nonresolvedWidgets--;
+                    LinearSystem.sMetrics.resolvedWidgets++;
+                    LinearSystem.sMetrics.chainConnectionResolved++;
                 }
                 ConstraintWidget next4 = widget4.mNextChainWidget[orientation];
                 if (next4 != null || widget4 == last) {

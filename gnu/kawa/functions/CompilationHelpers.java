@@ -65,7 +65,7 @@ public class CompilationHelpers {
                 System.arraycopy(args, 1, rargs2, 0, nargs);
                 ApplyExp nexp = new ApplyExp(proc, rargs2);
                 nexp.setLine((Expression) exp);
-                return proc.validateApply(nexp, visitor, required, null);
+                return proc.validateApply(nexp, visitor, required, (Declaration) null);
             }
             ApplyExp result = null;
             if (CompileReflect.checkKnownClass(ptype, comp) >= 0) {
@@ -90,6 +90,7 @@ public class CompilationHelpers {
     }
 
     public static Expression validateSetter(ApplyExp exp, InlineCalls visitor, Type required, Procedure proc) {
+        Declaration decl;
         exp.visitArgs(visitor);
         Expression[] args = exp.getArgs();
         if (args.length != 1) {
@@ -101,11 +102,8 @@ public class CompilationHelpers {
             return new SetArrayExp(arg, (ArrayType) argType);
         }
         if (!(argType instanceof ClassType) || !((ClassType) argType).isSubclass(typeList)) {
-            if (arg instanceof ReferenceExp) {
-                Declaration decl = ((ReferenceExp) arg).getBinding();
-                if (decl != null) {
-                    arg = decl.getValue();
-                }
+            if ((arg instanceof ReferenceExp) && (decl = ((ReferenceExp) arg).getBinding()) != null) {
+                arg = decl.getValue();
             }
             if (!(arg instanceof QuoteExp)) {
                 return exp;

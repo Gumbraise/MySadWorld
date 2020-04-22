@@ -1,7 +1,6 @@
 package com.google.appinventor.components.runtime;
 
 import android.app.TimePickerDialog;
-import android.app.TimePickerDialog.OnTimeSetListener;
 import android.os.Handler;
 import android.text.format.DateFormat;
 import com.google.appinventor.components.annotations.DesignerComponent;
@@ -29,12 +28,12 @@ public class TimePicker extends ButtonBase {
     /* access modifiers changed from: private */
     public int minute = 0;
     private TimePickerDialog time;
-    private OnTimeSetListener timePickerListener = new OnTimeSetListener() {
+    private TimePickerDialog.OnTimeSetListener timePickerListener = new TimePickerDialog.OnTimeSetListener() {
         public void onTimeSet(android.widget.TimePicker view, int selectedHour, int selectedMinute) {
             if (view.isShown()) {
-                TimePicker.this.hour = selectedHour;
-                TimePicker.this.minute = selectedMinute;
-                TimePicker.this.instant = Dates.TimeInstant(TimePicker.this.hour, TimePicker.this.minute);
+                int unused = TimePicker.this.hour = selectedHour;
+                int unused2 = TimePicker.this.minute = selectedMinute;
+                Calendar unused3 = TimePicker.this.instant = Dates.TimeInstant(TimePicker.this.hour, TimePicker.this.minute);
                 TimePicker.this.androidUIHandler.post(new Runnable() {
                     public void run() {
                         TimePicker.this.AfterTimeSet();

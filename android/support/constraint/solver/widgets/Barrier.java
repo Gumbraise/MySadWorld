@@ -1,9 +1,8 @@
 package android.support.constraint.solver.widgets;
 
 import android.support.constraint.solver.LinearSystem;
-import android.support.constraint.solver.Metrics;
 import android.support.constraint.solver.SolverVariable;
-import android.support.constraint.solver.widgets.ConstraintWidget.DimensionBehaviour;
+import android.support.constraint.solver.widgets.ConstraintWidget;
 import java.util.ArrayList;
 
 public class Barrier extends Helper {
@@ -57,11 +56,11 @@ public class Barrier extends Helper {
             }
             node.setType(5);
             if (this.mBarrierType == 0 || this.mBarrierType == 1) {
-                this.mTop.getResolutionNode().resolve(null, 0.0f);
-                this.mBottom.getResolutionNode().resolve(null, 0.0f);
+                this.mTop.getResolutionNode().resolve((ResolutionAnchor) null, 0.0f);
+                this.mBottom.getResolutionNode().resolve((ResolutionAnchor) null, 0.0f);
             } else {
-                this.mLeft.getResolutionNode().resolve(null, 0.0f);
-                this.mRight.getResolutionNode().resolve(null, 0.0f);
+                this.mLeft.getResolutionNode().resolve((ResolutionAnchor) null, 0.0f);
+                this.mRight.getResolutionNode().resolve((ResolutionAnchor) null, 0.0f);
             }
             this.mNodes.clear();
             for (int i = 0; i < this.mWidgetsCount; i++) {
@@ -116,7 +115,7 @@ public class Barrier extends Helper {
         ResolutionAnchor resolvedTarget = null;
         int i = 0;
         while (i < count) {
-            ResolutionAnchor n = (ResolutionAnchor) this.mNodes.get(i);
+            ResolutionAnchor n = this.mNodes.get(i);
             if (n.state == 1) {
                 if (this.mBarrierType == 0 || this.mBarrierType == 2) {
                     if (n.resolvedOffset < value) {
@@ -133,8 +132,7 @@ public class Barrier extends Helper {
             }
         }
         if (LinearSystem.getMetrics() != null) {
-            Metrics metrics = LinearSystem.getMetrics();
-            metrics.barrierConnectionResolved++;
+            LinearSystem.getMetrics().barrierConnectionResolved++;
         }
         node.resolvedTarget = resolvedTarget;
         node.resolvedOffset = value;
@@ -175,8 +173,8 @@ public class Barrier extends Helper {
                 }
                 ConstraintWidget widget = this.mWidgets[i2];
                 if (this.mAllowsGoneWidget || widget.allowedInBarrier()) {
-                    if ((this.mBarrierType != 0 && this.mBarrierType != 1) || widget.getHorizontalDimensionBehaviour() != DimensionBehaviour.MATCH_CONSTRAINT) {
-                        if ((this.mBarrierType == 2 || this.mBarrierType == 3) && widget.getVerticalDimensionBehaviour() == DimensionBehaviour.MATCH_CONSTRAINT) {
+                    if ((this.mBarrierType != 0 && this.mBarrierType != 1) || widget.getHorizontalDimensionBehaviour() != ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT) {
+                        if ((this.mBarrierType == 2 || this.mBarrierType == 3) && widget.getVerticalDimensionBehaviour() == ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT) {
                             hasMatchConstraintWidgets = true;
                             break;
                         }
@@ -188,10 +186,10 @@ public class Barrier extends Helper {
                 i2++;
             }
             if (this.mBarrierType == 0 || this.mBarrierType == 1) {
-                if (getParent().getHorizontalDimensionBehaviour() == DimensionBehaviour.WRAP_CONTENT) {
+                if (getParent().getHorizontalDimensionBehaviour() == ConstraintWidget.DimensionBehaviour.WRAP_CONTENT) {
                     hasMatchConstraintWidgets = false;
                 }
-            } else if (getParent().getVerticalDimensionBehaviour() == DimensionBehaviour.WRAP_CONTENT) {
+            } else if (getParent().getVerticalDimensionBehaviour() == ConstraintWidget.DimensionBehaviour.WRAP_CONTENT) {
                 hasMatchConstraintWidgets = false;
             }
             for (int i3 = 0; i3 < this.mWidgetsCount; i3++) {

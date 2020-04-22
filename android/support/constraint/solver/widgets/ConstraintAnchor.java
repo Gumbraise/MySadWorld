@@ -60,7 +60,7 @@ public class ConstraintAnchor {
 
     public void resetSolverVariable(Cache cache) {
         if (this.mSolverVariable == null) {
-            this.mSolverVariable = new SolverVariable(android.support.constraint.solver.SolverVariable.Type.UNRESTRICTED, (String) null);
+            this.mSolverVariable = new SolverVariable(SolverVariable.Type.UNRESTRICTED, (String) null);
         } else {
             this.mSolverVariable.reset();
         }
@@ -456,7 +456,7 @@ public class ConstraintAnchor {
         ArrayList<ConstraintAnchor> targetAnchors = target.getAnchors();
         int targetAnchorsSize = targetAnchors.size();
         for (int i = 0; i < targetAnchorsSize; i++) {
-            ConstraintAnchor anchor = (ConstraintAnchor) targetAnchors.get(i);
+            ConstraintAnchor anchor = targetAnchors.get(i);
             if (anchor.isSimilarDimensionConnection(this) && anchor.isConnected() && isConnectionToMe(anchor.getTarget().getOwner(), checked)) {
                 return true;
             }

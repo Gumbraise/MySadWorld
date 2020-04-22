@@ -2,38 +2,10 @@ package gnu.kawa.util;
 
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
-import java.util.Map.Entry;
+import java.util.Map;
 
 public abstract class AbstractWeakHashTable<K, V> extends AbstractHashTable<WEntry<K, V>, K, V> {
     ReferenceQueue<V> rqueue = new ReferenceQueue<>();
-
-    public static class WEntry<K, V> extends WeakReference<V> implements Entry<K, V> {
-        public int hash;
-        AbstractWeakHashTable<K, V> htable;
-        public WEntry next;
-
-        public WEntry(V value, AbstractWeakHashTable<K, V> htable2, int hash2) {
-            super(value, htable2.rqueue);
-            this.htable = htable2;
-            this.hash = hash2;
-        }
-
-        public K getKey() {
-            V v = get();
-            if (v == null) {
-                return null;
-            }
-            return this.htable.getKeyFromValue(v);
-        }
-
-        public V getValue() {
-            return get();
-        }
-
-        public V setValue(V v) {
-            throw new UnsupportedOperationException();
-        }
-    }
 
     /* access modifiers changed from: protected */
     public abstract K getKeyFromValue(V v);
@@ -100,7 +72,7 @@ public abstract class AbstractWeakHashTable<K, V> extends AbstractHashTable<WEnt
         int index = hashToIndex(hash);
         WEntry<K, V> first = ((WEntry[]) this.table)[index];
         WEntry<K, V> node = first;
-        WEntry wEntry = null;
+        WEntry<K, V> prev = null;
         V v = null;
         while (node != null) {
             V curValue = node.getValue();
@@ -109,12 +81,12 @@ public abstract class AbstractWeakHashTable<K, V> extends AbstractHashTable<WEnt
             }
             WEntry<K, V> next = node.next;
             if (curValue == null || !valuesEqual(curValue, value)) {
-                wEntry = node;
+                prev = node;
             } else {
-                if (wEntry == null) {
+                if (prev == null) {
                     ((WEntry[]) this.table)[index] = next;
                 } else {
-                    wEntry.next = next;
+                    prev.next = next;
                 }
                 v = curValue;
             }
@@ -127,7 +99,7 @@ public abstract class AbstractWeakHashTable<K, V> extends AbstractHashTable<WEnt
             index = hashToIndex(hash);
             first = ((WEntry[]) this.table)[index];
         }
-        WEntry<K, V> node2 = makeEntry((K) null, hash, value);
+        WEntry<K, V> node2 = makeEntry((Object) null, hash, value);
         node2.next = first;
         ((WEntry[]) this.table)[index] = node2;
         return v;
@@ -138,9 +110,9 @@ public abstract class AbstractWeakHashTable<K, V> extends AbstractHashTable<WEnt
         cleanup(this, this.rqueue);
     }
 
-    static <Entry extends Entry<K, V>, K, V> void cleanup(AbstractHashTable<Entry, ?, ?> map, ReferenceQueue<?> rqueue2) {
+    static <Entry extends Map.Entry<K, V>, K, V> void cleanup(AbstractHashTable<Entry, ?, ?> map, ReferenceQueue<?> rqueue2) {
         while (true) {
-            Entry oldref = (Entry) rqueue2.poll();
+            Entry oldref = (Map.Entry) rqueue2.poll();
             if (oldref != null) {
                 int index = map.hashToIndex(map.getEntryHashCode(oldref));
                 Entry prev = null;
@@ -163,6 +135,34 @@ public abstract class AbstractWeakHashTable<K, V> extends AbstractHashTable<WEnt
             } else {
                 return;
             }
+        }
+    }
+
+    public static class WEntry<K, V> extends WeakReference<V> implements Map.Entry<K, V> {
+        public int hash;
+        AbstractWeakHashTable<K, V> htable;
+        public WEntry next;
+
+        public WEntry(V value, AbstractWeakHashTable<K, V> htable2, int hash2) {
+            super(value, htable2.rqueue);
+            this.htable = htable2;
+            this.hash = hash2;
+        }
+
+        public K getKey() {
+            V v = get();
+            if (v == null) {
+                return null;
+            }
+            return this.htable.getKeyFromValue(v);
+        }
+
+        public V getValue() {
+            return get();
+        }
+
+        public V setValue(V v) {
+            throw new UnsupportedOperationException();
         }
     }
 }

@@ -35,64 +35,6 @@ public class DivideOp extends ArithOp {
         Procedure.compilerKey.set(this, "*gnu.kawa.functions.CompileArith:forDiv");
     }
 
-    /* JADX WARNING: type inference failed for: r27v1, types: [java.lang.Object, java.lang.Number] */
-    /* JADX WARNING: type inference failed for: r27v2, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r24v0, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r27v3, types: [gnu.math.DFloNum] */
-    /* JADX WARNING: type inference failed for: r27v4, types: [gnu.math.IntNum] */
-    /* JADX WARNING: type inference failed for: r27v5, types: [java.lang.Double] */
-    /* JADX WARNING: type inference failed for: r27v6, types: [gnu.math.DFloNum] */
-    /* JADX WARNING: type inference failed for: r27v7, types: [java.math.BigDecimal] */
-    /* JADX WARNING: type inference failed for: r27v8, types: [java.math.BigInteger] */
-    /* JADX WARNING: type inference failed for: r27v9, types: [java.math.BigDecimal] */
-    /* JADX WARNING: type inference failed for: r27v10, types: [java.math.BigDecimal] */
-    /* JADX WARNING: type inference failed for: r27v11, types: [gnu.math.IntNum] */
-    /* JADX WARNING: type inference failed for: r27v12, types: [gnu.math.IntNum] */
-    /* JADX WARNING: type inference failed for: r27v13, types: [gnu.math.RatNum] */
-    /* JADX WARNING: type inference failed for: r0v25 */
-    /* JADX WARNING: type inference failed for: r27v14, types: [java.lang.Long] */
-    /* JADX WARNING: type inference failed for: r27v15, types: [java.lang.Object, java.lang.Number] */
-    /* JADX WARNING: type inference failed for: r27v16 */
-    /* JADX WARNING: type inference failed for: r27v17, types: [java.math.BigInteger] */
-    /* JADX WARNING: type inference failed for: r27v18, types: [java.lang.Double] */
-    /* JADX WARNING: type inference failed for: r27v19, types: [java.lang.Float] */
-    /* JADX WARNING: type inference failed for: r27v20, types: [java.lang.Long] */
-    /* JADX WARNING: type inference failed for: r27v21, types: [java.lang.Integer] */
-    /* JADX WARNING: type inference failed for: r27v22, types: [java.lang.Integer] */
-    /* JADX WARNING: type inference failed for: r26v0, types: [gnu.math.Numeric] */
-    /* JADX WARNING: type inference failed for: r26v1, types: [gnu.math.Numeric] */
-    /* JADX WARNING: type inference failed for: r27v23, types: [gnu.math.Numeric] */
-    /* JADX WARNING: type inference failed for: r27v24, types: [gnu.math.RealNum] */
-    /* JADX WARNING: type inference failed for: r27v25, types: [gnu.math.IntNum] */
-    /* JADX WARNING: type inference failed for: r27v26 */
-    /* JADX WARNING: type inference failed for: r26v5, types: [gnu.math.Numeric] */
-    /* JADX WARNING: type inference failed for: r2v3, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r27v27 */
-    /* JADX WARNING: type inference failed for: r27v28 */
-    /* JADX WARNING: type inference failed for: r27v29 */
-    /* JADX WARNING: type inference failed for: r27v30 */
-    /* JADX WARNING: type inference failed for: r27v31 */
-    /* JADX WARNING: type inference failed for: r27v32 */
-    /* JADX WARNING: type inference failed for: r27v33 */
-    /* JADX WARNING: type inference failed for: r27v34 */
-    /* JADX WARNING: type inference failed for: r27v35 */
-    /* JADX WARNING: type inference failed for: r27v36 */
-    /* JADX WARNING: type inference failed for: r27v37 */
-    /* JADX WARNING: type inference failed for: r27v38 */
-    /* JADX WARNING: type inference failed for: r27v39 */
-    /* JADX WARNING: type inference failed for: r27v40 */
-    /* JADX WARNING: type inference failed for: r27v41 */
-    /* JADX WARNING: type inference failed for: r27v42 */
-    /* JADX WARNING: type inference failed for: r27v43 */
-    /* JADX WARNING: type inference failed for: r27v44 */
-    /* JADX WARNING: type inference failed for: r27v45 */
-    /* JADX WARNING: type inference failed for: r27v46 */
-    /* JADX WARNING: type inference failed for: r27v47 */
-    /* JADX WARNING: type inference failed for: r27v48 */
-    /* JADX WARNING: type inference failed for: r27v49 */
-    /* JADX WARNING: type inference failed for: r27v50 */
-    /* JADX WARNING: type inference failed for: r27v51 */
-    /* JADX WARNING: type inference failed for: r26v6 */
     /* JADX WARNING: Code restructure failed: missing block: B:73:0x0174, code lost:
         r23 = java.math.RoundingMode.HALF_EVEN;
      */
@@ -100,7 +42,7 @@ public class DivideOp extends ArithOp {
         r21 = new java.math.MathContext(0, r23);
      */
     /* JADX WARNING: Code restructure failed: missing block: B:75:0x0181, code lost:
-        switch(r32.f58op) {
+        switch(r32.op) {
             case 4: goto L_0x0186;
             case 5: goto L_0x0184;
             case 6: goto L_0x01a1;
@@ -116,36 +58,13 @@ public class DivideOp extends ArithOp {
         r27 = r5.divideToIntegralValue(r6, r21);
      */
     /* JADX WARNING: Code restructure failed: missing block: B:85:0x01a9, code lost:
+        r27 = r5.divideToIntegralValue(r6, r21).toBigInteger();
         r28 = 3;
         r7 = 3;
-        r27 = r5.divideToIntegralValue(r6, r21).toBigInteger();
      */
     /* JADX WARNING: Code restructure failed: missing block: B:86:0x01b9, code lost:
         r27 = r5.remainder(r6, r21);
      */
-    /* JADX WARNING: Multi-variable type inference failed. Error: jadx.core.utils.exceptions.JadxRuntimeException: No candidate types for var: r27v16
-      assigns: []
-      uses: []
-      mth insns count: 254
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.fillTypeCandidates(TypeSearch.java:237)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.run(TypeSearch.java:53)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.runMultiVariableSearch(TypeInferenceVisitor.java:99)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.visit(TypeInferenceVisitor.java:92)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:27)
-    	at jadx.core.dex.visitors.DepthTraversal.lambda$visit$1(DepthTraversal.java:14)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:14)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:30)
-    	at jadx.core.ProcessClass.lambda$processDependencies$0(ProcessClass.java:49)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.ProcessClass.processDependencies(ProcessClass.java:49)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:35)
-    	at jadx.api.JadxDecompiler.processClass(JadxDecompiler.java:311)
-    	at jadx.api.JavaClass.decompile(JavaClass.java:62)
-    	at jadx.api.JadxDecompiler.lambda$appendSourcesSave$0(JadxDecompiler.java:217)
-     */
-    /* JADX WARNING: Unknown variable types count: 29 */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public java.lang.Object applyN(java.lang.Object[] r33) throws java.lang.Throwable {
         /*
@@ -187,7 +106,7 @@ public class DivideOp extends ArithOp {
             r0 = r29
             if (r7 >= r0) goto L_0x0066
             r0 = r32
-            int r0 = r0.f58op
+            int r0 = r0.op
             r29 = r0
             switch(r29) {
                 case 4: goto L_0x00b5;
@@ -210,7 +129,7 @@ public class DivideOp extends ArithOp {
             if (r7 != r0) goto L_0x00b9
         L_0x0066:
             r0 = r32
-            int r0 = r0.f58op
+            int r0 = r0.op
             r29 = r0
             r30 = 5
             r0 = r29
@@ -244,7 +163,7 @@ public class DivideOp extends ArithOp {
             gnu.math.Numeric r24 = gnu.kawa.functions.Arithmetic.asNumeric(r27)
             gnu.math.Numeric r25 = gnu.kawa.functions.Arithmetic.asNumeric(r4)
             r0 = r32
-            int r0 = r0.f58op
+            int r0 = r0.op
             r29 = r0
             r30 = 8
             r0 = r29
@@ -275,7 +194,7 @@ public class DivideOp extends ArithOp {
         L_0x00cc:
             r28 = 9
             r0 = r32
-            int r0 = r0.f58op
+            int r0 = r0.op
             r29 = r0
             r30 = 7
             r0 = r29
@@ -287,7 +206,7 @@ public class DivideOp extends ArithOp {
             int r14 = gnu.kawa.functions.Arithmetic.asInt(r27)
             int r15 = gnu.kawa.functions.Arithmetic.asInt(r4)
             r0 = r32
-            int r0 = r0.f58op
+            int r0 = r0.op
             r29 = r0
             switch(r29) {
                 case 8: goto L_0x0100;
@@ -321,7 +240,7 @@ public class DivideOp extends ArithOp {
             long r16 = gnu.kawa.functions.Arithmetic.asLong(r27)
             long r18 = gnu.kawa.functions.Arithmetic.asLong(r4)
             r0 = r32
-            int r0 = r0.f58op
+            int r0 = r0.op
             r29 = r0
             switch(r29) {
                 case 8: goto L_0x011a;
@@ -337,7 +256,7 @@ public class DivideOp extends ArithOp {
             goto L_0x0115
         L_0x011d:
             r0 = r32
-            int r0 = r0.f58op
+            int r0 = r0.op
             r29 = r0
             switch(r29) {
                 case 4: goto L_0x0127;
@@ -350,8 +269,8 @@ public class DivideOp extends ArithOp {
         L_0x0126:
             goto L_0x00f5
         L_0x0127:
-            gnu.math.IntNum r29 = gnu.kawa.functions.Arithmetic.asIntNum(r27)
-            gnu.math.IntNum r30 = gnu.kawa.functions.Arithmetic.asIntNum(r4)
+            gnu.math.IntNum r29 = gnu.kawa.functions.Arithmetic.asIntNum((java.lang.Object) r27)
+            gnu.math.IntNum r30 = gnu.kawa.functions.Arithmetic.asIntNum((java.lang.Object) r4)
             gnu.math.RatNum r27 = gnu.math.RatNum.make(r29, r30)
             r0 = r27
             boolean r0 = r0 instanceof gnu.math.IntNum
@@ -362,14 +281,14 @@ public class DivideOp extends ArithOp {
             r28 = r7
             goto L_0x00f5
         L_0x013f:
-            gnu.math.IntNum r29 = gnu.kawa.functions.Arithmetic.asIntNum(r27)
-            gnu.math.IntNum r30 = gnu.kawa.functions.Arithmetic.asIntNum(r4)
+            gnu.math.IntNum r29 = gnu.kawa.functions.Arithmetic.asIntNum((java.lang.Object) r27)
+            gnu.math.IntNum r30 = gnu.kawa.functions.Arithmetic.asIntNum((java.lang.Object) r4)
             int r31 = r32.getRoundingMode()
             gnu.math.IntNum r27 = gnu.math.IntNum.quotient(r29, r30, r31)
             goto L_0x00f5
         L_0x0150:
-            gnu.math.IntNum r29 = gnu.kawa.functions.Arithmetic.asIntNum(r27)
-            gnu.math.IntNum r30 = gnu.kawa.functions.Arithmetic.asIntNum(r4)
+            gnu.math.IntNum r29 = gnu.kawa.functions.Arithmetic.asIntNum((java.lang.Object) r27)
+            gnu.math.IntNum r30 = gnu.kawa.functions.Arithmetic.asIntNum((java.lang.Object) r4)
             int r31 = r32.getRoundingMode()
             gnu.math.IntNum r27 = gnu.math.IntNum.remainder(r29, r30, r31)
             goto L_0x00f5
@@ -395,7 +314,7 @@ public class DivideOp extends ArithOp {
             java.math.MathContext r21 = new java.math.MathContext
             r21.<init>(r22, r23)
             r0 = r32
-            int r0 = r0.f58op
+            int r0 = r0.op
             r29 = r0
             switch(r29) {
                 case 4: goto L_0x0186;
@@ -447,7 +366,7 @@ public class DivideOp extends ArithOp {
             double r10 = gnu.kawa.functions.Arithmetic.asDouble(r27)
             double r12 = gnu.kawa.functions.Arithmetic.asDouble(r4)
             r0 = r32
-            int r0 = r0.f58op
+            int r0 = r0.op
             r29 = r0
             switch(r29) {
                 case 4: goto L_0x01d4;
@@ -497,7 +416,7 @@ public class DivideOp extends ArithOp {
         L_0x0222:
             gnu.math.Numeric r26 = r24.div(r25)
             r0 = r32
-            int r0 = r0.f58op
+            int r0 = r0.op
             r29 = r0
             r30 = 8
             r0 = r29
@@ -516,7 +435,7 @@ public class DivideOp extends ArithOp {
             gnu.math.Numeric r26 = r0.sub(r1)
         L_0x0252:
             r0 = r32
-            int r0 = r0.f58op
+            int r0 = r0.op
             r29 = r0
             switch(r29) {
                 case 5: goto L_0x0286;
@@ -534,7 +453,7 @@ public class DivideOp extends ArithOp {
             r29 = r0
             r0 = r26
             r1 = r29
-            gnu.math.IntNum r27 = r0.toExactInt(r1)
+            gnu.math.IntNum r27 = r0.toExactInt((int) r1)
             r7 = 4
             r28 = r7
             goto L_0x00f5
@@ -577,6 +496,6 @@ public class DivideOp extends ArithOp {
     }
 
     public int numArgs() {
-        return this.f58op == 4 ? -4095 : 8194;
+        return this.op == 4 ? -4095 : 8194;
     }
 }

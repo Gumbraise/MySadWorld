@@ -7,6 +7,23 @@ import com.google.appinventor.components.annotations.SimpleObject;
 public abstract class BufferedSingleValueSensor extends SingleValueSensor {
     private AveragingBuffer buffer;
 
+    public BufferedSingleValueSensor(ComponentContainer container, int sensorType, int bufferSize) {
+        super(container.$form(), sensorType);
+        this.buffer = new AveragingBuffer(bufferSize);
+    }
+
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        if (this.enabled && sensorEvent.sensor.getType() == this.sensorType) {
+            this.buffer.insert(Float.valueOf(sensorEvent.values[0]));
+            super.onSensorChanged(sensorEvent);
+        }
+    }
+
+    /* access modifiers changed from: protected */
+    public float getAverageValue() {
+        return this.buffer.getAverage();
+    }
+
     private class AveragingBuffer {
         private Float[] data;
         private int next;
@@ -42,22 +59,5 @@ public abstract class BufferedSingleValueSensor extends SingleValueSensor {
             }
             return (float) sum;
         }
-    }
-
-    public BufferedSingleValueSensor(ComponentContainer container, int sensorType, int bufferSize) {
-        super(container.$form(), sensorType);
-        this.buffer = new AveragingBuffer(bufferSize);
-    }
-
-    public void onSensorChanged(SensorEvent sensorEvent) {
-        if (this.enabled && sensorEvent.sensor.getType() == this.sensorType) {
-            this.buffer.insert(Float.valueOf(sensorEvent.values[0]));
-            super.onSensorChanged(sensorEvent);
-        }
-    }
-
-    /* access modifiers changed from: protected */
-    public float getAverageValue() {
-        return this.buffer.getAverage();
     }
 }

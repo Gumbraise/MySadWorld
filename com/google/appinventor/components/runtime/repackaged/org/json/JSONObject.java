@@ -3,7 +3,6 @@ package com.google.appinventor.components.runtime.repackaged.org.json;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Collection;
@@ -12,23 +11,22 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.Set;
 
 public class JSONObject {
-    public static final Object NULL = new Null(null);
+    public static final Object NULL = new Null((AnonymousClass1) null);
     private final Map map;
 
-    /* renamed from: com.google.appinventor.components.runtime.repackaged.org.json.JSONObject$1 */
-    static class C05341 {
+    /* renamed from: com.google.appinventor.components.runtime.repackaged.org.json.JSONObject$1  reason: invalid class name */
+    static class AnonymousClass1 {
     }
 
     private static final class Null {
         private Null() {
         }
 
-        Null(C05341 x0) {
+        Null(AnonymousClass1 x0) {
             this();
         }
 
@@ -98,7 +96,7 @@ public class JSONObject {
     public JSONObject(Map map2) {
         this.map = new HashMap();
         if (map2 != null) {
-            for (Entry e : map2.entrySet()) {
+            for (Map.Entry e : map2.entrySet()) {
                 Object value = e.getValue();
                 if (value != null) {
                     this.map.put(e.getKey(), wrap(value));
@@ -132,9 +130,9 @@ public class JSONObject {
         ResourceBundle bundle = ResourceBundle.getBundle(baseName, locale, Thread.currentThread().getContextClassLoader());
         Enumeration keys = bundle.getKeys();
         while (keys.hasMoreElements()) {
-            Object key = keys.nextElement();
-            if (key instanceof String) {
-                String[] path = ((String) key).split("\\.");
+            String nextElement = keys.nextElement();
+            if (nextElement instanceof String) {
+                String[] path = nextElement.split("\\.");
                 int last = path.length - 1;
                 JSONObject target = this;
                 for (int i = 0; i < last; i++) {
@@ -146,7 +144,7 @@ public class JSONObject {
                     }
                     target = nextTarget;
                 }
-                target.put(path[last], (Object) bundle.getString((String) key));
+                target.put(path[last], (Object) bundle.getString(nextElement));
             }
         }
     }
@@ -277,19 +275,32 @@ public class JSONObject {
         return names;
     }
 
-    public static String[] getNames(Object object) {
-        String[] names = null;
-        if (object != null) {
-            Field[] fields = object.getClass().getFields();
-            int length = fields.length;
-            if (length != 0) {
-                names = new String[length];
-                for (int i = 0; i < length; i++) {
-                    names[i] = fields[i].getName();
-                }
-            }
-        }
-        return names;
+    /* JADX WARNING: Code restructure failed: missing block: B:3:0x0004, code lost:
+        r0 = r6.getClass().getFields();
+     */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public static java.lang.String[] getNames(java.lang.Object r6) {
+        /*
+            r4 = 0
+            if (r6 != 0) goto L_0x0004
+        L_0x0003:
+            return r4
+        L_0x0004:
+            java.lang.Class r2 = r6.getClass()
+            java.lang.reflect.Field[] r0 = r2.getFields()
+            int r3 = r0.length
+            if (r3 == 0) goto L_0x0003
+            java.lang.String[] r4 = new java.lang.String[r3]
+            r1 = 0
+        L_0x0012:
+            if (r1 >= r3) goto L_0x0003
+            r5 = r0[r1]
+            java.lang.String r5 = r5.getName()
+            r4[r1] = r5
+            int r1 = r1 + 1
+            goto L_0x0012
+        */
+        throw new UnsupportedOperationException("Method not decompiled: com.google.appinventor.components.runtime.repackaged.org.json.JSONObject.getNames(java.lang.Object):java.lang.String[]");
     }
 
     public String getString(String key) throws JSONException {
@@ -476,7 +487,7 @@ public class JSONObject {
                         } else if (!Character.isUpperCase(key.charAt(1))) {
                             key = new StringBuffer().append(key.substring(0, 1).toLowerCase()).append(key.substring(1)).toString();
                         }
-                        Object result = method.invoke(bean, null);
+                        Object result = method.invoke(bean, (Object[]) null);
                         if (result != null) {
                             this.map.put(key, wrap(result));
                         }
@@ -699,7 +710,7 @@ public class JSONObject {
     }
 
     public static String valueToString(Object value) throws JSONException {
-        if (value == null || value.equals(null)) {
+        if (value == null || value.equals((Object) null)) {
             return "null";
         }
         if (value instanceof JSONString) {
@@ -764,7 +775,7 @@ public class JSONObject {
     }
 
     static final Writer writeValue(Writer writer, Object value, int indentFactor, int indent) throws JSONException, IOException {
-        if (value == null || value.equals(null)) {
+        if (value == null || value.equals((Object) null)) {
             writer.write("null");
         } else if (value instanceof JSONObject) {
             ((JSONObject) value).write(writer, indentFactor, indent);
@@ -799,7 +810,7 @@ public class JSONObject {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Writer write(Writer writer, int indentFactor, int indent) throws JSONException {
         boolean commanate = false;
         try {

@@ -1,9 +1,7 @@
 package com.google.appinventor.components.runtime;
 
 import android.view.View;
-import android.view.View.OnFocusChangeListener;
 import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import com.google.appinventor.components.annotations.DesignerProperty;
 import com.google.appinventor.components.annotations.PropertyCategory;
 import com.google.appinventor.components.annotations.SimpleEvent;
@@ -12,7 +10,7 @@ import com.google.appinventor.components.annotations.SimpleProperty;
 import com.google.appinventor.components.runtime.util.TextViewUtil;
 
 @SimpleObject
-public abstract class ToggleBase<T extends CompoundButton> extends AndroidViewComponent implements OnCheckedChangeListener, OnFocusChangeListener {
+public abstract class ToggleBase<T extends CompoundButton> extends AndroidViewComponent implements CompoundButton.OnCheckedChangeListener, View.OnFocusChangeListener {
     private int backgroundColor;
     private boolean bold;
     private int fontTypeface;

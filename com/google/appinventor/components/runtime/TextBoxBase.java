@@ -1,9 +1,8 @@
 package com.google.appinventor.components.runtime;
 
 import android.graphics.drawable.Drawable;
-import android.os.Build.VERSION;
+import android.os.Build;
 import android.view.View;
-import android.view.View.OnFocusChangeListener;
 import android.widget.EditText;
 import com.google.appinventor.components.annotations.DesignerProperty;
 import com.google.appinventor.components.annotations.PropertyCategory;
@@ -17,7 +16,7 @@ import com.google.appinventor.components.runtime.util.TextViewUtil;
 import com.google.appinventor.components.runtime.util.ViewUtil;
 
 @SimpleObject
-public abstract class TextBoxBase extends AndroidViewComponent implements OnFocusChangeListener {
+public abstract class TextBoxBase extends AndroidViewComponent implements View.OnFocusChangeListener {
     private int backgroundColor;
     private boolean bold;
     private Drawable defaultTextBoxDrawable;
@@ -31,7 +30,7 @@ public abstract class TextBoxBase extends AndroidViewComponent implements OnFocu
     public TextBoxBase(ComponentContainer container, EditText textview) {
         super(container);
         this.view = textview;
-        if (VERSION.SDK_INT >= 24) {
+        if (Build.VERSION.SDK_INT >= 24) {
             EclairUtil.disableSuggestions(textview);
         }
         this.view.setOnFocusChangeListener(this);

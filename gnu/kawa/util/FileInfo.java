@@ -28,9 +28,7 @@ class FileInfo {
     OutPort cout;
     File file;
     FileInputStream fin;
-
-    /* renamed from: in */
-    InPort f234in;
+    InPort in;
     int nchildren;
     StringBuffer newNavbarText;
     StringBuffer oldNavbarText;
@@ -59,7 +57,7 @@ class FileInfo {
         if (!this.scanned) {
             this.scanned = true;
             this.fin = new FileInputStream(this.file);
-            this.f234in = new InPort((InputStream) new BufferedInputStream(this.fin));
+            this.in = new InPort((InputStream) new BufferedInputStream(this.fin));
             this.oldNavbarText = new StringBuffer();
             this.newNavbarText = new StringBuffer();
             if (this.writeNeeded) {
@@ -70,7 +68,7 @@ class FileInfo {
             boolean inChildList = false;
             Vector chvec = new Vector();
             while (true) {
-                String line = this.f234in.readLine();
+                String line = this.in.readLine();
                 if (line == null) {
                     break;
                 }
@@ -109,7 +107,7 @@ class FileInfo {
             chvec.copyInto(charr);
             this.childLinkText = charr;
             if (!this.writeNeeded) {
-                this.f234in.close();
+                this.in.close();
             }
             if (this.parentName != null) {
                 FileInfo parentInfo = find(new File(this.file.toURI().resolve(this.parentName)));
@@ -185,14 +183,14 @@ class FileInfo {
         this.cout.print((Object) this.newNavbarText);
         this.cout.println("<!--end-generated-navbar-->");
         while (true) {
-            String line = this.f234in.readLine();
+            String line = this.in.readLine();
             if (line == null) {
                 break;
             }
             this.cout.println(line);
         }
         new StringBuffer();
-        this.f234in.close();
+        this.in.close();
         if (this.oldNavbarText.toString().equals(this.newNavbarText.toString())) {
             System.err.println("fixup " + this.file + " - no change");
             return;

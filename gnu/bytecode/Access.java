@@ -33,7 +33,12 @@ public class Access {
     }
 
     public static String toString(int flags, char kind) {
-        short mask = kind == 'C' ? CLASS_MODIFIERS : kind == 'I' ? INNERCLASS_MODIFIERS : kind == 'F' ? FIELD_MODIFIERS : kind == 'M' ? METHOD_MODIFIERS : Short.MAX_VALUE;
+        short mask;
+        if (kind == 'C') {
+            mask = CLASS_MODIFIERS;
+        } else {
+            mask = kind == 'I' ? INNERCLASS_MODIFIERS : kind == 'F' ? FIELD_MODIFIERS : kind == 'M' ? METHOD_MODIFIERS : Short.MAX_VALUE;
+        }
         short bad_flags = (short) ((mask ^ -1) & flags);
         short flags2 = flags & mask;
         StringBuffer buf = new StringBuffer();

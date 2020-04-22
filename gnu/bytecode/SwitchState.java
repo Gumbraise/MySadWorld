@@ -148,35 +148,34 @@ public class SwitchState {
             }
         } else if (this.numCases * 2 >= this.maxValue - this.minValue) {
             code.reserve((((this.maxValue - this.minValue) + 1) * 4) + 13);
-            code.fixupAdd(2, null);
+            code.fixupAdd(2, (Label) null);
             code.put1(170);
             code.fixupAdd(3, this.defaultLabel);
-            code.f52PC += 4;
+            code.PC += 4;
             code.put4(this.minValue);
             code.put4(this.maxValue);
             int index = 0;
             for (int i = this.minValue; i <= this.maxValue; i++) {
                 if (this.values[index] == i) {
-                    int index2 = index + 1;
                     lab = this.labels[index];
-                    index = index2;
+                    index++;
                 } else {
                     lab = this.defaultLabel;
                 }
                 code.fixupAdd(3, lab);
-                code.f52PC += 4;
+                code.PC += 4;
             }
         } else {
             code.reserve((this.numCases * 8) + 9);
-            code.fixupAdd(2, null);
+            code.fixupAdd(2, (Label) null);
             code.put1(171);
             code.fixupAdd(3, this.defaultLabel);
-            code.f52PC += 4;
+            code.PC += 4;
             code.put4(this.numCases);
-            for (int index3 = 0; index3 < this.numCases; index3++) {
-                code.put4(this.values[index3]);
-                code.fixupAdd(3, this.labels[index3]);
-                code.f52PC += 4;
+            for (int index2 = 0; index2 < this.numCases; index2++) {
+                code.put4(this.values[index2]);
+                code.fixupAdd(3, this.labels[index2]);
+                code.PC += 4;
             }
         }
         code.fixupChain(this.after_label, this.cases_label);

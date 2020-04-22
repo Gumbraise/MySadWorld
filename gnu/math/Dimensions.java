@@ -77,9 +77,8 @@ public class Dimensions {
                 throw new ArithmeticException("overflow in dimensions");
             }
             this.bases[t_i2] = a_base;
-            int t_i3 = t_i2 + 1;
             this.powers[t_i2] = (short) pow;
-            t_i2 = t_i3;
+            t_i2++;
         }
     }
 

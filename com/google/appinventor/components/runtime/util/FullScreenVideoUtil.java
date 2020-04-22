@@ -2,17 +2,13 @@ package com.google.appinventor.components.runtime.util;
 
 import android.app.Dialog;
 import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
-import android.media.MediaPlayer.OnPreparedListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.FrameLayout.LayoutParams;
 import android.widget.VideoView;
 import com.google.appinventor.components.runtime.Component;
 import com.google.appinventor.components.runtime.Form;
@@ -20,7 +16,7 @@ import com.google.appinventor.components.runtime.VideoPlayer;
 import com.google.appinventor.components.runtime.errors.PermissionException;
 import java.io.IOException;
 
-public class FullScreenVideoUtil implements OnCompletionListener, OnPreparedListener {
+public class FullScreenVideoUtil implements MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener {
     public static final String ACTION_DATA = "ActionData";
     public static final String ACTION_SUCESS = "ActionSuccess";
     public static final int FULLSCREEN_VIDEO_ACTION_DURATION = 196;
@@ -46,7 +42,7 @@ public class FullScreenVideoUtil implements OnCompletionListener, OnPreparedList
     /* access modifiers changed from: private */
     public VideoView mFullScreenVideoView;
     private Handler mHandler;
-    private LayoutParams mMediaControllerParams = new LayoutParams(-1, -2, 80);
+    private FrameLayout.LayoutParams mMediaControllerParams = new FrameLayout.LayoutParams(-1, -2, 80);
 
     public FullScreenVideoUtil(Form form, Handler handler) {
         this.mForm = form;
@@ -177,7 +173,7 @@ public class FullScreenVideoUtil implements OnCompletionListener, OnPreparedList
         this.mFullScreenVideoView.setId(this.mFullScreenVideoView.hashCode());
         this.mFullScreenVideoHolder.setId(this.mFullScreenVideoHolder.hashCode());
         this.mFullScreenVideoView.setMediaController(this.mFullScreenVideoController);
-        this.mFullScreenVideoView.setOnTouchListener(new OnTouchListener() {
+        this.mFullScreenVideoView.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View arg0, MotionEvent arg1) {
                 Log.i("FullScreenVideoUtil..onTouch", "Video Touched!!");
                 return false;
@@ -186,9 +182,9 @@ public class FullScreenVideoUtil implements OnCompletionListener, OnPreparedList
         this.mFullScreenVideoController.setAnchorView(this.mFullScreenVideoView);
         String orientation = this.mForm.ScreenOrientation();
         if (orientation.equals("landscape") || orientation.equals("sensorLandscape") || orientation.equals("reverseLandscape")) {
-            this.mFullScreenVideoView.setLayoutParams(new LayoutParams(-2, -1, 17));
+            this.mFullScreenVideoView.setLayoutParams(new FrameLayout.LayoutParams(-2, -1, 17));
         } else {
-            this.mFullScreenVideoView.setLayoutParams(new LayoutParams(-1, -2, 17));
+            this.mFullScreenVideoView.setLayoutParams(new FrameLayout.LayoutParams(-1, -2, 17));
         }
         this.mFullScreenVideoHolder.setLayoutParams(new ViewGroup.LayoutParams(-1, -1));
         this.mFullScreenVideoHolder.addView(this.mFullScreenVideoView);

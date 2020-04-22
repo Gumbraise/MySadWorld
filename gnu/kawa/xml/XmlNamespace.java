@@ -10,7 +10,7 @@ import java.io.ObjectStreamException;
 
 public class XmlNamespace extends Namespace implements Externalizable {
     public static final XmlNamespace HTML = valueOf("http://www.w3.org/1999/xhtml", "");
-    public static final NamespaceBinding HTML_BINDINGS = new NamespaceBinding(null, "http://www.w3.org/1999/xhtml", NamespaceBinding.predefinedXML);
+    public static final NamespaceBinding HTML_BINDINGS = new NamespaceBinding((String) null, "http://www.w3.org/1999/xhtml", NamespaceBinding.predefinedXML);
     public static final String XHTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
 
     public static XmlNamespace getInstance(String prefix, String uri) {

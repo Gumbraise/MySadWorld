@@ -6,9 +6,7 @@ import gnu.mapping.Values;
 
 public class Continuation extends MethodProc {
     static int counter;
-
-    /* renamed from: id */
-    int f256id;
+    int id;
     public boolean invoked;
 
     public Continuation(CallContext ctx) {
@@ -47,6 +45,6 @@ public class Continuation extends MethodProc {
     }
 
     public final String toString() {
-        return "#<continuation " + this.f256id + (this.invoked ? " (invoked)>" : ">");
+        return "#<continuation " + this.id + (this.invoked ? " (invoked)>" : ">");
     }
 }

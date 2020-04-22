@@ -78,12 +78,11 @@ public class Base64Binary extends BinaryObject {
             case 1:
                 int blen6 = blen3 + 1;
                 bytes[blen3] = (byte) (value << 10);
-                int blen7 = blen6 + 1;
                 bytes[blen6] = (byte) (value >> 2);
-                int i3 = blen7;
+                int i3 = blen6 + 1;
                 break;
             case 2:
-                int blen8 = blen3 + 1;
+                int blen7 = blen3 + 1;
                 bytes[blen3] = (byte) (value >> 4);
                 break;
             default:

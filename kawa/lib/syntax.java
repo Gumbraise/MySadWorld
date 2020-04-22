@@ -1,6 +1,6 @@
 package kawa.lib;
 
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import gnu.expr.ModuleBody;
 import gnu.expr.ModuleInfo;
 import gnu.expr.ModuleMethod;
@@ -142,7 +142,7 @@ public class syntax extends ModuleBody {
     static final SyntaxTemplate Lit75 = new SyntaxTemplate("\u0001\u0001\u0001", "\u0013", new Object[0], 0);
     static final SyntaxTemplate Lit76 = new SyntaxTemplate("\u0001\u0001\u0001", "\u0010", new Object[0], 0);
     static final SimpleSymbol Lit77;
-    static final SyntaxRules Lit78;
+    static final SyntaxRules Lit78 = new SyntaxRules(new Object[]{Lit77}, new SyntaxRule[]{new SyntaxRule(new SyntaxPattern("\f\u0018,\r\u0007\u0000\b\b\f\u000f\r\u0017\u0010\b\b", new Object[0], 3), "\u0003\u0001\u0003", "\u0011\u0018\u0004\u0011\u0018\f\u0019\b\u0005\u0003\t\u0010\b\u0011\u0018\u0014\t\u000b\b\u0015\u0013", new Object[]{Lit77, "bind", Lit110}, 1), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0002\f\b\f\u0007\f\u000f\b", new Object[]{"bind"}, 2), "\u0001\u0001", "\u0011\u0018\u0004\t\u0003\b\u000b", new Object[]{Lit115}, 0), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0002\\,\f\u0007\f\u000f\b\r\u0017\u0010\b\b\f\u001f\f'\b", new Object[]{"bind"}, 5), "\u0001\u0001\u0003\u0001\u0001", "\u0011\u0018\u0004\u0011\u0018\f\t\u0003\t\u000b\t\u0010\u0019\b\u0015\u0013\t\u001b\b#", new Object[]{Lit77, "mktmp"}, 1), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0002\f\b\f\u0007\f\u000f\f\u0017\f\u001f\f'\b", new Object[]{"mktmp"}, 5), "\u0001\u0001\u0001\u0001\u0001", "\u0011\u0018\u00049\u0011\u0018\f\t\u0010\b\u0003\b\u0011\u0018\f\t\u000b\b\u0011\u0018\u0014\u0011\u0018\u001c\t\u0013\t\u001b\b#", new Object[]{Lit116, Lit109, Lit77, "bind"}, 0), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0002\u001c\f\u0007\u000b\f\u0017,\r\u001f\u0018\b\b\f',\r/(\b\b\f7\b", new Object[]{"mktmp"}, 7), "\u0001\u0000\u0001\u0003\u0001\u0003\u0001", "\u0011\u0018\u0004\u0011\u0018\f\t\n\t\u0013)\u0011\u001d\u001b\u0018\u0014\t#A\u0011-+\b\t\u0003\u0018\u001c\b3", new Object[]{Lit77, "mktmp", PairWithPosition.make(Lit117, LList.Empty, "/u2/home/jis/ai2-kawa/kawa/lib/syntax.scm", 569387), PairWithPosition.make(Lit117, LList.Empty, "/u2/home/jis/ai2-kawa/kawa/lib/syntax.scm", 569414)}, 1), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0002\f\u0007\f\u000f,\r\u0017\u0010\b\b\f\u001f,\r' \b\b\f/\b", new Object[]{"mktmp"}, 6), "\u0001\u0001\u0003\u0001\u0003\u0001", "\u0011\u0018\u00049\u0011\u0018\f\t\u0010\b\u000b\b\u0011\u0018\f)\u0011\u0015\u0013\u0018\u0014\b\u0011\u0018\u001c\u0011\u0018$\t\u001bA\u0011%#\b\t\u0003\u0018,\b+", new Object[]{Lit116, Lit109, Lit117, Lit77, "bind", PairWithPosition.make(Lit117, LList.Empty, "/u2/home/jis/ai2-kawa/kawa/lib/syntax.scm", 593973)}, 1)}, 7);
     static final SimpleSymbol Lit79;
     static final SyntaxTemplate Lit8 = new SyntaxTemplate("\u0001\u0001\u0000", "\u0012", new Object[0], 0);
     static final SyntaxRules Lit80;
@@ -158,7 +158,7 @@ public class syntax extends ModuleBody {
     static final SyntaxPattern Lit9 = new SyntaxPattern("\b", new Object[0], 0);
     static final SyntaxTemplate Lit90 = new SyntaxTemplate("\u0001\u0000\u0000", "\u0012", new Object[0], 0);
     static final SimpleSymbol Lit91;
-    static final SyntaxRules Lit92;
+    static final SyntaxRules Lit92 = new SyntaxRules(new Object[]{Lit91, Lit112, Lit113, Lit114, Lit111}, new SyntaxRule[]{new SyntaxRule(new SyntaxPattern("\f\u0018\b", new Object[0], 0), "", "\u0018\u0004", new Object[]{PairWithPosition.make((SimpleSymbol) new SimpleSymbol("%syntax-error").readResolve(), PairWithPosition.make("Unfulfilled cond-expand", LList.Empty, "/u2/home/jis/ai2-kawa/kawa/lib/syntax.scm", 802851), "/u2/home/jis/ai2-kawa/kawa/lib/syntax.scm", 802836)}, 0), new SyntaxRule(new SyntaxPattern("\f\u0018<\f\u0002\r\u0007\u0000\b\b\b", new Object[]{Lit111}, 1), "\u0003", "\u0011\u0018\u0004\b\u0005\u0003", new Object[]{Lit110}, 1), new SyntaxRule(new SyntaxPattern("\f\u0018L\u001c\f\u0002\b\r\u0007\u0000\b\b\r\u000f\b\b\b", new Object[]{Lit112}, 2), "\u0003\u0003", "\u0011\u0018\u0004\b\u0005\u0003", new Object[]{Lit110}, 1), new SyntaxRule(new SyntaxPattern("\f\u0018|L\f\u0002\f\u0007\r\u000f\b\b\b\r\u0017\u0010\b\b\r\u001f\u0018\b\b", new Object[]{Lit112}, 4), "\u0001\u0003\u0003\u0003", "\u0011\u0018\u0004¡\t\u0003\b\u0011\u0018\u0004Q1\u0011\u0018\f\b\r\u000b\b\u0015\u0013\b\u001d\u001b\b\u001d\u001b", new Object[]{Lit91, Lit112}, 1), new SyntaxRule(new SyntaxPattern("\f\u0018L\u001c\f\u0002\b\r\u0007\u0000\b\b\r\u000f\b\b\b", new Object[]{Lit113}, 2), "\u0003\u0003", "\u0011\u0018\u0004\b\r\u000b", new Object[]{Lit91}, 1), new SyntaxRule(new SyntaxPattern("\f\u0018|L\f\u0002\f\u0007\r\u000f\b\b\b\r\u0017\u0010\b\b\r\u001f\u0018\b\b", new Object[]{Lit113}, 4), "\u0001\u0003\u0003\u0003", "\u0011\u0018\u0004I\t\u0003\b\u0011\u0018\f\b\u0015\u0013\b\u0011\u0018\u0014\b\u0011\u0018\u0004Q1\u0011\u0018\u001c\b\r\u000b\b\u0015\u0013\b\u001d\u001b", new Object[]{Lit91, Lit110, Lit111, Lit113}, 1), new SyntaxRule(new SyntaxPattern("\f\u0018\\,\f\u0002\f\u0007\b\r\u000f\b\b\b\r\u0017\u0010\b\b", new Object[]{Lit114}, 3), "\u0001\u0003\u0003", "\u0011\u0018\u0004I\t\u0003\b\u0011\u0018\u0004\b\u0015\u0013\b\u0011\u0018\f\b\r\u000b", new Object[]{Lit91, Lit111}, 1), new SyntaxRule(new SyntaxPattern("\f\u0018\u001c\f\u0007\u000b\u0013", new Object[0], 3), "\u0001\u0000\u0000", "\u0011\u0018\u0004\u0019\t\u0003\n\u0012", new Object[]{Lit93}, 0)}, 4);
     static final SimpleSymbol Lit93 = ((SimpleSymbol) new SimpleSymbol("%cond-expand").readResolve());
     static final SyntaxPattern Lit94 = new SyntaxPattern("\f\u0007\u001c\f\u000f\u0013\u001b", new Object[0], 4);
     static final SyntaxTemplate Lit95 = new SyntaxTemplate("\u0001\u0001\u0000\u0000", "\u000b", new Object[0], 0);
@@ -175,8 +175,8 @@ public class syntax extends ModuleBody {
     public static final ModuleMethod identifier$Mnlist$Qu;
     public static final ModuleMethod identifier$Mnpair$Mnlist$Qu;
 
-    /* renamed from: import reason: not valid java name */
-    public static final Macro f268import = Macro.make(Lit36, Lit37, $instance);
+    /* renamed from: import  reason: not valid java name */
+    public static final Macro f7import = Macro.make(Lit36, Lit37, $instance);
     public static final ModuleMethod import$Mnhandle$Mnexcept;
     public static final ModuleMethod import$Mnhandle$Mnonly;
     public static final ModuleMethod import$Mnhandle$Mnprefix;
@@ -186,88 +186,11 @@ public class syntax extends ModuleBody {
     public static final Macro let$St$Mnvalues = Macro.make(Lit79, Lit80, $instance);
     public static final Macro receive = Macro.make(Lit98, Lit99, $instance);
 
-    /* renamed from: synchronized reason: not valid java name */
-    public static final Macro f269synchronized;
+    /* renamed from: synchronized  reason: not valid java name */
+    public static final Macro f8synchronized;
     public static final Macro try$Mnfinally;
     public static final Macro unless = Macro.make(Lit19, Lit20, $instance);
     public static final Macro when = Macro.make(Lit17, Lit18, $instance);
-
-    /* compiled from: syntax.scm */
-    public class frame extends ModuleBody {
-        final ModuleMethod lambda$Fn1;
-        Object list;
-
-        public frame() {
-            ModuleMethod moduleMethod = new ModuleMethod(this, 1, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/kawa/lib/syntax.scm:83");
-            this.lambda$Fn1 = moduleMethod;
-        }
-
-        public Object apply1(ModuleMethod moduleMethod, Object obj) {
-            return moduleMethod.selector == 1 ? lambda1(obj) : super.apply1(moduleMethod, obj);
-        }
-
-        /* access modifiers changed from: 0000 */
-        public Object lambda1(Object name) {
-            Object l = this.list;
-            while (true) {
-                boolean x = name == null;
-                if (!x) {
-                    if (C0620lists.isNull(l)) {
-                        break;
-                    }
-                    Object l2 = C0620lists.cdr.apply1(l);
-                    name = Scheme.applyToArgs.apply3(C0620lists.caar.apply1(l), name, C0620lists.cdar.apply1(l));
-                    l = l2;
-                } else if (x) {
-                    break;
-                } else {
-                    Object l22 = C0620lists.cdr.apply1(l);
-                    name = Scheme.applyToArgs.apply3(C0620lists.caar.apply1(l), name, C0620lists.cdar.apply1(l));
-                    l = l22;
-                }
-            }
-            return name;
-        }
-
-        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
-            if (moduleMethod.selector != 1) {
-                return super.match1(moduleMethod, obj, callContext);
-            }
-            callContext.value1 = obj;
-            callContext.proc = moduleMethod;
-            callContext.f236pc = 1;
-            return 0;
-        }
-    }
-
-    /* compiled from: syntax.scm */
-    public class frame0 extends ModuleBody {
-        TemplateScope $unnamed$0;
-        Object[] $unnamed$1;
-
-        public Object lambda6loop(Object clauses) {
-            Object[] objArr;
-            Object[] allocVars = SyntaxPattern.allocVars(5, this.$unnamed$1);
-            if (syntax.Lit85.match(clauses, allocVars, 0)) {
-                return Pair.make(syntax.Lit86.execute(allocVars, this.$unnamed$0), lambda6loop(syntax.Lit87.execute(allocVars, this.$unnamed$0)));
-            }
-            if (syntax.Lit88.match(clauses, allocVars, 0)) {
-                return LList.Empty;
-            }
-            if (!syntax.Lit89.match(clauses, allocVars, 0)) {
-                return syntax_case.error("syntax-case", clauses);
-            }
-            Object execute = syntax.Lit90.execute(allocVars, this.$unnamed$0);
-            String str = "invalid case-lambda clause";
-            if (str instanceof Object[]) {
-                objArr = (Object[]) str;
-            } else {
-                objArr = new Object[]{str};
-            }
-            return LList.list1(prim_syntax.syntaxError(execute, objArr));
-        }
-    }
 
     static {
         SimpleSymbol simpleSymbol = (SimpleSymbol) new SimpleSymbol("define-alias-parameter").readResolve();
@@ -279,26 +202,14 @@ public class syntax extends ModuleBody {
         SimpleSymbol simpleSymbol3 = (SimpleSymbol) new SimpleSymbol("cond-expand").readResolve();
         Lit91 = simpleSymbol3;
         Lit97 = new SyntaxTemplate("\u0001\u0001\u0000\u0000", "\u0011\u0018\u0004\u001a", new Object[]{simpleSymbol3}, 0);
-        Object[] objArr = {Lit110};
-        Object[] objArr2 = {Lit110};
-        Object[] objArr3 = {Lit91, Lit112};
-        Object[] objArr4 = {Lit91};
-        Object[] objArr5 = {Lit91, Lit110, Lit111, Lit113};
-        Object[] objArr6 = {Lit91, Lit111};
-        Lit92 = new SyntaxRules(new Object[]{Lit91, Lit112, Lit113, Lit114, Lit111}, new SyntaxRule[]{new SyntaxRule(new SyntaxPattern("\f\u0018\b", new Object[0], 0), "", "\u0018\u0004", new Object[]{PairWithPosition.make((SimpleSymbol) new SimpleSymbol("%syntax-error").readResolve(), PairWithPosition.make("Unfulfilled cond-expand", LList.Empty, "/u2/home/jis/ai2-kawa/kawa/lib/syntax.scm", 802851), "/u2/home/jis/ai2-kawa/kawa/lib/syntax.scm", 802836)}, 0), new SyntaxRule(new SyntaxPattern("\f\u0018<\f\u0002\r\u0007\u0000\b\b\b", new Object[]{Lit111}, 1), "\u0003", "\u0011\u0018\u0004\b\u0005\u0003", objArr, 1), new SyntaxRule(new SyntaxPattern("\f\u0018L\u001c\f\u0002\b\r\u0007\u0000\b\b\r\u000f\b\b\b", new Object[]{Lit112}, 2), "\u0003\u0003", "\u0011\u0018\u0004\b\u0005\u0003", objArr2, 1), new SyntaxRule(new SyntaxPattern("\f\u0018|L\f\u0002\f\u0007\r\u000f\b\b\b\r\u0017\u0010\b\b\r\u001f\u0018\b\b", new Object[]{Lit112}, 4), "\u0001\u0003\u0003\u0003", "\u0011\u0018\u0004¡\t\u0003\b\u0011\u0018\u0004Q1\u0011\u0018\f\b\r\u000b\b\u0015\u0013\b\u001d\u001b\b\u001d\u001b", objArr3, 1), new SyntaxRule(new SyntaxPattern("\f\u0018L\u001c\f\u0002\b\r\u0007\u0000\b\b\r\u000f\b\b\b", new Object[]{Lit113}, 2), "\u0003\u0003", "\u0011\u0018\u0004\b\r\u000b", objArr4, 1), new SyntaxRule(new SyntaxPattern("\f\u0018|L\f\u0002\f\u0007\r\u000f\b\b\b\r\u0017\u0010\b\b\r\u001f\u0018\b\b", new Object[]{Lit113}, 4), "\u0001\u0003\u0003\u0003", "\u0011\u0018\u0004I\t\u0003\b\u0011\u0018\f\b\u0015\u0013\b\u0011\u0018\u0014\b\u0011\u0018\u0004Q1\u0011\u0018\u001c\b\r\u000b\b\u0015\u0013\b\u001d\u001b", objArr5, 1), new SyntaxRule(new SyntaxPattern("\f\u0018\\,\f\u0002\f\u0007\b\r\u000f\b\b\b\r\u0017\u0010\b\b", new Object[]{Lit114}, 3), "\u0001\u0003\u0003", "\u0011\u0018\u0004I\t\u0003\b\u0011\u0018\u0004\b\u0015\u0013\b\u0011\u0018\f\b\r\u000b", objArr6, 1), new SyntaxRule(new SyntaxPattern("\f\u0018\u001c\f\u0007\u000b\u0013", new Object[0], 3), "\u0001\u0000\u0000", "\u0011\u0018\u0004\u0019\t\u0003\n\u0012", new Object[]{Lit93}, 0)}, 4);
         SimpleSymbol simpleSymbol4 = (SimpleSymbol) new SimpleSymbol("let*-values").readResolve();
         Lit79 = simpleSymbol4;
-        Object[] objArr7 = {simpleSymbol4};
-        Object[] objArr8 = {Lit110};
+        SyntaxPattern syntaxPattern = new SyntaxPattern("\f\u0018\f\b\f\u0007\r\u000f\b\b\b", new Object[0], 2);
+        Object[] objArr = {Lit110};
+        SyntaxPattern syntaxPattern2 = new SyntaxPattern("\f\u0018<\f\u0007\r\u000f\b\b\b\f\u0017\r\u001f\u0018\b\b", new Object[0], 4);
         SimpleSymbol simpleSymbol5 = (SimpleSymbol) new SimpleSymbol("let-values").readResolve();
         Lit77 = simpleSymbol5;
-        Lit80 = new SyntaxRules(objArr7, new SyntaxRule[]{new SyntaxRule(new SyntaxPattern("\f\u0018\f\b\f\u0007\r\u000f\b\b\b", new Object[0], 2), "\u0001\u0003", "\u0011\u0018\u0004\t\u0003\b\r\u000b", objArr8, 1), new SyntaxRule(new SyntaxPattern("\f\u0018<\f\u0007\r\u000f\b\b\b\f\u0017\r\u001f\u0018\b\b", new Object[0], 4), "\u0001\u0003\u0001\u0003", "\u0011\u0018\u0004\u0011\b\u0003\b\u0011\u0018\f\u0019\b\r\u000b\t\u0013\b\u001d\u001b", new Object[]{simpleSymbol5, Lit79}, 1)}, 4);
-        Object[] objArr9 = {Lit115};
-        Object[] objArr10 = {Lit77, "mktmp"};
-        Object[] objArr11 = {Lit116, Lit109, Lit77, "bind"};
-        Object[] objArr12 = {Lit77, "mktmp", PairWithPosition.make(Lit117, LList.Empty, "/u2/home/jis/ai2-kawa/kawa/lib/syntax.scm", 569387), PairWithPosition.make(Lit117, LList.Empty, "/u2/home/jis/ai2-kawa/kawa/lib/syntax.scm", 569414)};
-        Object[] objArr13 = {Lit116, Lit109, Lit117, Lit77, "bind", PairWithPosition.make(Lit117, LList.Empty, "/u2/home/jis/ai2-kawa/kawa/lib/syntax.scm", 593973)};
-        Lit78 = new SyntaxRules(new Object[]{Lit77}, new SyntaxRule[]{new SyntaxRule(new SyntaxPattern("\f\u0018,\r\u0007\u0000\b\b\f\u000f\r\u0017\u0010\b\b", new Object[0], 3), "\u0003\u0001\u0003", "\u0011\u0018\u0004\u0011\u0018\f\u0019\b\u0005\u0003\t\u0010\b\u0011\u0018\u0014\t\u000b\b\u0015\u0013", new Object[]{Lit77, "bind", Lit110}, 1), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0002\f\b\f\u0007\f\u000f\b", new Object[]{"bind"}, 2), "\u0001\u0001", "\u0011\u0018\u0004\t\u0003\b\u000b", objArr9, 0), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0002\\,\f\u0007\f\u000f\b\r\u0017\u0010\b\b\f\u001f\f'\b", new Object[]{"bind"}, 5), "\u0001\u0001\u0003\u0001\u0001", "\u0011\u0018\u0004\u0011\u0018\f\t\u0003\t\u000b\t\u0010\u0019\b\u0015\u0013\t\u001b\b#", objArr10, 1), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0002\f\b\f\u0007\f\u000f\f\u0017\f\u001f\f'\b", new Object[]{"mktmp"}, 5), "\u0001\u0001\u0001\u0001\u0001", "\u0011\u0018\u00049\u0011\u0018\f\t\u0010\b\u0003\b\u0011\u0018\f\t\u000b\b\u0011\u0018\u0014\u0011\u0018\u001c\t\u0013\t\u001b\b#", objArr11, 0), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0002\u001c\f\u0007\u000b\f\u0017,\r\u001f\u0018\b\b\f',\r/(\b\b\f7\b", new Object[]{"mktmp"}, 7), "\u0001\u0000\u0001\u0003\u0001\u0003\u0001", "\u0011\u0018\u0004\u0011\u0018\f\t\n\t\u0013)\u0011\u001d\u001b\u0018\u0014\t#A\u0011-+\b\t\u0003\u0018\u001c\b3", objArr12, 1), new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0002\f\u0007\f\u000f,\r\u0017\u0010\b\b\f\u001f,\r' \b\b\f/\b", new Object[]{"mktmp"}, 6), "\u0001\u0001\u0003\u0001\u0003\u0001", "\u0011\u0018\u00049\u0011\u0018\f\t\u0010\b\u000b\b\u0011\u0018\f)\u0011\u0015\u0013\u0018\u0014\b\u0011\u0018\u001c\u0011\u0018$\t\u001bA\u0011%#\b\t\u0003\u0018,\b+", objArr13, 1)}, 7);
+        Lit80 = new SyntaxRules(new Object[]{simpleSymbol4}, new SyntaxRule[]{new SyntaxRule(syntaxPattern, "\u0001\u0003", "\u0011\u0018\u0004\t\u0003\b\r\u000b", objArr, 1), new SyntaxRule(syntaxPattern2, "\u0001\u0003\u0001\u0003", "\u0011\u0018\u0004\u0011\b\u0003\b\u0011\u0018\f\u0019\b\r\u000b\t\u0013\b\u001d\u001b", new Object[]{simpleSymbol5, Lit79}, 1)}, 4);
         SimpleSymbol simpleSymbol6 = (SimpleSymbol) new SimpleSymbol("%import").readResolve();
         Lit38 = simpleSymbol6;
         Lit61 = new SyntaxTemplate("\u0001\u0001\u0001\u0001", "\u0011\u0018\u0004\b\u000b", new Object[]{simpleSymbol6}, 0);
@@ -319,8 +230,8 @@ public class syntax extends ModuleBody {
         Lit12 = new SyntaxRules(new Object[]{simpleSymbol11}, new SyntaxRule[]{new SyntaxRule(new SyntaxPattern("\f\u0018\f\u0007\f\u000f\u0013", new Object[0], 3), "\u0001\u0001\u0000", "\u0011\u0018\u0004\t\u0003\b\u0011\u0018\f\t\u000b\u0012", new Object[]{Lit123, Lit109}, 0)}, 3);
         SimpleSymbol simpleSymbol12 = Lit21;
         syntax syntax = $instance;
-        try$Mnfinally = Macro.make(simpleSymbol12, new ModuleMethod(syntax, 2, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN), $instance);
-        f269synchronized = Macro.make(Lit25, new ModuleMethod(syntax, 3, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN), $instance);
+        try$Mnfinally = Macro.make(simpleSymbol12, new ModuleMethod(syntax, 2, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN), $instance);
+        f8synchronized = Macro.make(Lit25, new ModuleMethod(syntax, 3, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN), $instance);
         identifier$Mnlist$Qu = new ModuleMethod(syntax, 4, Lit29, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         identifier$Mnpair$Mnlist$Qu = new ModuleMethod(syntax, 5, Lit30, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         import$Mnhandle$Mnonly = new ModuleMethod(syntax, 6, Lit31, 8194);
@@ -328,10 +239,10 @@ public class syntax extends ModuleBody {
         import$Mnhandle$Mnprefix = new ModuleMethod(syntax, 8, Lit33, 8194);
         import$Mnhandle$Mnrename = new ModuleMethod(syntax, 9, Lit34, 8194);
         import$Mnmapper = new ModuleMethod(syntax, 10, Lit35, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        $Pcimport = Macro.make(Lit38, new ModuleMethod(syntax, 11, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN), $instance);
-        case$Mnlambda = Macro.make(Lit81, new ModuleMethod(syntax, 12, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN), $instance);
+        $Pcimport = Macro.make(Lit38, new ModuleMethod(syntax, 11, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN), $instance);
+        case$Mnlambda = Macro.make(Lit81, new ModuleMethod(syntax, 12, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN), $instance);
         SimpleSymbol simpleSymbol13 = Lit93;
-        ModuleMethod moduleMethod = new ModuleMethod(syntax, 13, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ModuleMethod moduleMethod = new ModuleMethod(syntax, 13, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/kawa/lib/syntax.scm:227");
         $Pccond$Mnexpand = Macro.make(simpleSymbol13, moduleMethod, $instance);
         $instance.run();
@@ -346,7 +257,7 @@ public class syntax extends ModuleBody {
     }
 
     static Object lambda2(Object x) {
-        Object[] allocVars = SyntaxPattern.allocVars(3, null);
+        Object[] allocVars = SyntaxPattern.allocVars(3, (Object[]) null);
         if (!Lit22.match(x, allocVars, 0)) {
             return syntax_case.error("syntax-case", x);
         }
@@ -354,7 +265,7 @@ public class syntax extends ModuleBody {
     }
 
     static Object lambda3(Object x) {
-        Object[] allocVars = SyntaxPattern.allocVars(3, null);
+        Object[] allocVars = SyntaxPattern.allocVars(3, (Object[]) null);
         if (!Lit26.match(x, allocVars, 0)) {
             return syntax_case.error("syntax-case", x);
         }
@@ -372,7 +283,7 @@ public class syntax extends ModuleBody {
             return x;
         }
         while (true) {
-            Object[] allocVars = SyntaxPattern.allocVars(2, null);
+            Object[] allocVars = SyntaxPattern.allocVars(2, (Object[]) null);
             if (Lit0.match(obj, allocVars, 0)) {
                 boolean x2 = std_syntax.isIdentifier(Lit1.execute(allocVars, TemplateScope.make()));
                 if (!x2) {
@@ -395,42 +306,42 @@ public class syntax extends ModuleBody {
             case 2:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 3:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 4:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 5:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 10:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 11:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 12:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 13:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             default:
                 return super.match1(moduleMethod, obj, callContext);
@@ -448,7 +359,7 @@ public class syntax extends ModuleBody {
             return x;
         }
         while (true) {
-            Object[] allocVars = SyntaxPattern.allocVars(3, null);
+            Object[] allocVars = SyntaxPattern.allocVars(3, (Object[]) null);
             if (Lit5.match(obj, allocVars, 0)) {
                 boolean x2 = std_syntax.isIdentifier(Lit6.execute(allocVars, TemplateScope.make()));
                 if (!x2) {
@@ -471,7 +382,7 @@ public class syntax extends ModuleBody {
     }
 
     public static Object importHandleOnly(Object name, Object list) {
-        if (C0620lists.memq(name, list) != Boolean.FALSE) {
+        if (lists.memq(name, list) != Boolean.FALSE) {
             return name;
         }
         return null;
@@ -483,25 +394,25 @@ public class syntax extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 7:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 8:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 9:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             default:
                 return super.match2(moduleMethod, obj, obj2, callContext);
@@ -509,7 +420,7 @@ public class syntax extends ModuleBody {
     }
 
     public static Object importHandleExcept(Object name, Object list) {
-        if (C0620lists.memq(name, list) != Boolean.FALSE) {
+        if (lists.memq(name, list) != Boolean.FALSE) {
             return null;
         }
         return name;
@@ -522,13 +433,13 @@ public class syntax extends ModuleBody {
     }
 
     public static Object importHandleRename(Object name, Object rename$Mnpairs) {
-        if (!C0620lists.isPair(rename$Mnpairs)) {
+        if (!lists.isPair(rename$Mnpairs)) {
             return name;
         }
-        if (name == C0620lists.caar.apply1(rename$Mnpairs)) {
-            return C0620lists.cadar.apply1(rename$Mnpairs);
+        if (name == lists.caar.apply1(rename$Mnpairs)) {
+            return lists.cadar.apply1(rename$Mnpairs);
         }
-        return importHandleRename(name, C0620lists.cdr.apply1(rename$Mnpairs));
+        return importHandleRename(name, lists.cdr.apply1(rename$Mnpairs));
     }
 
     public Object apply2(ModuleMethod moduleMethod, Object obj, Object obj2) {
@@ -546,6 +457,55 @@ public class syntax extends ModuleBody {
         }
     }
 
+    /* compiled from: syntax.scm */
+    public class frame extends ModuleBody {
+        final ModuleMethod lambda$Fn1;
+        Object list;
+
+        public frame() {
+            ModuleMethod moduleMethod = new ModuleMethod(this, 1, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/kawa/lib/syntax.scm:83");
+            this.lambda$Fn1 = moduleMethod;
+        }
+
+        public Object apply1(ModuleMethod moduleMethod, Object obj) {
+            return moduleMethod.selector == 1 ? lambda1(obj) : super.apply1(moduleMethod, obj);
+        }
+
+        /* access modifiers changed from: package-private */
+        public Object lambda1(Object name) {
+            Object l = this.list;
+            while (true) {
+                boolean x = name == null;
+                if (!x) {
+                    if (lists.isNull(l)) {
+                        break;
+                    }
+                    Object l2 = lists.cdr.apply1(l);
+                    name = Scheme.applyToArgs.apply3(lists.caar.apply1(l), name, lists.cdar.apply1(l));
+                    l = l2;
+                } else if (x) {
+                    break;
+                } else {
+                    Object l22 = lists.cdr.apply1(l);
+                    name = Scheme.applyToArgs.apply3(lists.caar.apply1(l), name, lists.cdar.apply1(l));
+                    l = l22;
+                }
+            }
+            return name;
+        }
+
+        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
+            if (moduleMethod.selector != 1) {
+                return super.match1(moduleMethod, obj, callContext);
+            }
+            callContext.value1 = obj;
+            callContext.proc = moduleMethod;
+            callContext.pc = 1;
+            return 0;
+        }
+    }
+
     public static Procedure importMapper(Object list) {
         frame frame2 = new frame();
         frame2.list = list;
@@ -557,56 +517,44 @@ public class syntax extends ModuleBody {
         Object[] objArr2;
         Object[] objArr3;
         Object[] objArr4;
-        Object[] allocVars = SyntaxPattern.allocVars(4, null);
+        Object[] allocVars = SyntaxPattern.allocVars(4, (Object[]) null);
         if (Lit39.match(form, allocVars, 0)) {
             if (isIdentifierPairList(Lit40.execute(allocVars, TemplateScope.make()))) {
                 TemplateScope make = TemplateScope.make();
-                return Quote.append$V(new Object[]{Lit41.execute(allocVars, make), Quote.consX$V(new Object[]{C0620lists.cons(C0620lists.cons(import$Mnhandle$Mnrename, Lit42.execute(allocVars, make)), Lit43.execute(allocVars, make)), Lit44.execute(allocVars, make)})});
+                return Quote.append$V(new Object[]{Lit41.execute(allocVars, make), Quote.consX$V(new Object[]{lists.cons(lists.cons(import$Mnhandle$Mnrename, Lit42.execute(allocVars, make)), Lit43.execute(allocVars, make)), Lit44.execute(allocVars, make)})});
             }
             Object execute = Lit45.execute(allocVars, TemplateScope.make());
-            String str = "invalid 'rename' clause in import";
-            if (str instanceof Object[]) {
-                objArr4 = (Object[]) str;
-            } else {
-                objArr4 = new Object[]{str};
+            if (!("invalid 'rename' clause in import" instanceof Object[])) {
+                objArr4 = new Object[]{"invalid 'rename' clause in import"};
             }
             return prim_syntax.syntaxError(execute, objArr4);
         } else if (Lit46.match(form, allocVars, 0)) {
             if (isIdentifierList(Lit47.execute(allocVars, TemplateScope.make()))) {
                 TemplateScope make2 = TemplateScope.make();
-                return Quote.append$V(new Object[]{Lit48.execute(allocVars, make2), Quote.consX$V(new Object[]{C0620lists.cons(C0620lists.cons(import$Mnhandle$Mnonly, Lit49.execute(allocVars, make2)), Lit50.execute(allocVars, make2)), Lit51.execute(allocVars, make2)})});
+                return Quote.append$V(new Object[]{Lit48.execute(allocVars, make2), Quote.consX$V(new Object[]{lists.cons(lists.cons(import$Mnhandle$Mnonly, Lit49.execute(allocVars, make2)), Lit50.execute(allocVars, make2)), Lit51.execute(allocVars, make2)})});
             }
             Object execute2 = Lit52.execute(allocVars, TemplateScope.make());
-            String str2 = "invalid 'only' identifier list";
-            if (str2 instanceof Object[]) {
-                objArr3 = (Object[]) str2;
-            } else {
-                objArr3 = new Object[]{str2};
+            if (!("invalid 'only' identifier list" instanceof Object[])) {
+                objArr3 = new Object[]{"invalid 'only' identifier list"};
             }
             return prim_syntax.syntaxError(execute2, objArr3);
         } else if (Lit53.match(form, allocVars, 0)) {
             if (isIdentifierList(Lit54.execute(allocVars, TemplateScope.make()))) {
                 TemplateScope make3 = TemplateScope.make();
-                return Quote.append$V(new Object[]{Lit55.execute(allocVars, make3), Quote.consX$V(new Object[]{C0620lists.cons(C0620lists.cons(import$Mnhandle$Mnexcept, Lit56.execute(allocVars, make3)), Lit57.execute(allocVars, make3)), Lit58.execute(allocVars, make3)})});
+                return Quote.append$V(new Object[]{Lit55.execute(allocVars, make3), Quote.consX$V(new Object[]{lists.cons(lists.cons(import$Mnhandle$Mnexcept, Lit56.execute(allocVars, make3)), Lit57.execute(allocVars, make3)), Lit58.execute(allocVars, make3)})});
             }
             Object execute3 = Lit59.execute(allocVars, TemplateScope.make());
-            String str3 = "invalid 'except' identifier list";
-            if (str3 instanceof Object[]) {
-                objArr2 = (Object[]) str3;
-            } else {
-                objArr2 = new Object[]{str3};
+            if (!("invalid 'except' identifier list" instanceof Object[])) {
+                objArr2 = new Object[]{"invalid 'except' identifier list"};
             }
             return prim_syntax.syntaxError(execute3, objArr2);
         } else if (Lit60.match(form, allocVars, 0)) {
             TemplateScope make4 = TemplateScope.make();
-            return Quote.append$V(new Object[]{Lit61.execute(allocVars, make4), Quote.consX$V(new Object[]{C0620lists.cons(C0620lists.cons(import$Mnhandle$Mnprefix, Lit62.execute(allocVars, make4)), Lit63.execute(allocVars, make4)), Lit64.execute(allocVars, make4)})});
+            return Quote.append$V(new Object[]{Lit61.execute(allocVars, make4), Quote.consX$V(new Object[]{lists.cons(lists.cons(import$Mnhandle$Mnprefix, Lit62.execute(allocVars, make4)), Lit63.execute(allocVars, make4)), Lit64.execute(allocVars, make4)})});
         } else if (Lit65.match(form, allocVars, 0)) {
             Object execute4 = Lit66.execute(allocVars, TemplateScope.make());
-            String str4 = "invalid prefix clause in import";
-            if (str4 instanceof Object[]) {
-                objArr = (Object[]) str4;
-            } else {
-                objArr = new Object[]{str4};
+            if (!("invalid prefix clause in import" instanceof Object[])) {
+                objArr = new Object[]{"invalid prefix clause in import"};
             }
             return prim_syntax.syntaxError(execute4, objArr);
         } else if (Lit67.match(form, allocVars, 0)) {
@@ -622,7 +570,7 @@ public class syntax extends ModuleBody {
 
     static Object lambda5(Object form) {
         frame0 frame02 = new frame0();
-        frame02.$unnamed$1 = SyntaxPattern.allocVars(2, null);
+        frame02.$unnamed$1 = SyntaxPattern.allocVars(2, (Object[]) null);
         if (!Lit82.match(form, frame02.$unnamed$1, 0)) {
             return syntax_case.error("syntax-case", form);
         }
@@ -630,8 +578,33 @@ public class syntax extends ModuleBody {
         return Pair.make(Lit83.execute(frame02.$unnamed$1, frame02.$unnamed$0), frame02.lambda6loop(Lit84.execute(frame02.$unnamed$1, frame02.$unnamed$0)));
     }
 
+    /* compiled from: syntax.scm */
+    public class frame0 extends ModuleBody {
+        TemplateScope $unnamed$0;
+        Object[] $unnamed$1;
+
+        public Object lambda6loop(Object clauses) {
+            Object[] objArr;
+            Object[] allocVars = SyntaxPattern.allocVars(5, this.$unnamed$1);
+            if (syntax.Lit85.match(clauses, allocVars, 0)) {
+                return Pair.make(syntax.Lit86.execute(allocVars, this.$unnamed$0), lambda6loop(syntax.Lit87.execute(allocVars, this.$unnamed$0)));
+            }
+            if (syntax.Lit88.match(clauses, allocVars, 0)) {
+                return LList.Empty;
+            }
+            if (!syntax.Lit89.match(clauses, allocVars, 0)) {
+                return syntax_case.error("syntax-case", clauses);
+            }
+            Object execute = syntax.Lit90.execute(allocVars, this.$unnamed$0);
+            if (!("invalid case-lambda clause" instanceof Object[])) {
+                objArr = new Object[]{"invalid case-lambda clause"};
+            }
+            return LList.list1(prim_syntax.syntaxError(execute, objArr));
+        }
+    }
+
     static Object lambda7(Object x) {
-        Object[] allocVars = SyntaxPattern.allocVars(4, null);
+        Object[] allocVars = SyntaxPattern.allocVars(4, (Object[]) null);
         if (!Lit94.match(x, allocVars, 0)) {
             return syntax_case.error("syntax-case", x);
         }

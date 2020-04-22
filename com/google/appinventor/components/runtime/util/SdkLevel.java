@@ -1,6 +1,6 @@
 package com.google.appinventor.components.runtime.util;
 
-import android.os.Build.VERSION;
+import android.os.Build;
 
 public class SdkLevel {
     public static final int LEVEL_CUPCAKE = 3;
@@ -26,6 +26,6 @@ public class SdkLevel {
     }
 
     public static int getLevel() {
-        return Integer.parseInt(VERSION.SDK);
+        return Integer.parseInt(Build.VERSION.SDK);
     }
 }

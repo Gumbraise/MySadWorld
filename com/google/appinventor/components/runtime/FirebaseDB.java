@@ -8,12 +8,9 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.Config;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
-import com.firebase.client.Firebase.AuthResultHandler;
-import com.firebase.client.Firebase.AuthStateListener;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.MutableData;
 import com.firebase.client.Transaction;
-import com.firebase.client.Transaction.Result;
 import com.firebase.client.ValueEventListener;
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.DesignerProperty;
@@ -46,7 +43,7 @@ public class FirebaseDB extends AndroidNonvisibleComponent implements Component 
     private final Activity activity;
     /* access modifiers changed from: private */
     public Handler androidUIHandler = new Handler();
-    private AuthStateListener authListener;
+    private Firebase.AuthStateListener authListener;
     private ChildEventListener childListener;
     private String defaultURL = null;
     private String developerBucket;
@@ -65,7 +62,7 @@ public class FirebaseDB extends AndroidNonvisibleComponent implements Component 
         private ReturnVal() {
         }
 
-        /* access modifiers changed from: 0000 */
+        /* access modifiers changed from: package-private */
         public Object getRetval() {
             return this.retval;
         }
@@ -76,8 +73,8 @@ public class FirebaseDB extends AndroidNonvisibleComponent implements Component 
         final Object arg2;
         final ReturnVal retv;
 
-        /* access modifiers changed from: 0000 */
-        public abstract Result run(MutableData mutableData);
+        /* access modifiers changed from: package-private */
+        public abstract Transaction.Result run(MutableData mutableData);
 
         Transactional(Object arg12, Object arg22, ReturnVal retv2) {
             this.arg1 = arg12;
@@ -85,7 +82,7 @@ public class FirebaseDB extends AndroidNonvisibleComponent implements Component 
             this.retv = retv2;
         }
 
-        /* access modifiers changed from: 0000 */
+        /* access modifiers changed from: package-private */
         public ReturnVal getResult() {
             return this.retv;
         }
@@ -130,11 +127,11 @@ public class FirebaseDB extends AndroidNonvisibleComponent implements Component 
                 Log.i(FirebaseDB.LOG_TAG, "onChildRemoved: " + snapshot.getKey() + " removed.");
             }
         };
-        this.authListener = new AuthStateListener() {
+        this.authListener = new Firebase.AuthStateListener() {
             public void onAuthStateChanged(AuthData data) {
                 Log.i(FirebaseDB.LOG_TAG, "onAuthStateChanged: data = " + data);
                 if (data == null) {
-                    FirebaseDB.this.myFirebase.authWithCustomToken(FirebaseDB.this.firebaseToken, new AuthResultHandler() {
+                    FirebaseDB.this.myFirebase.authWithCustomToken(FirebaseDB.this.firebaseToken, new Firebase.AuthResultHandler() {
                         public void onAuthenticated(AuthData authData) {
                             Log.i(FirebaseDB.LOG_TAG, "Auth Successful.");
                         }
@@ -372,9 +369,9 @@ public class FirebaseDB extends AndroidNonvisibleComponent implements Component 
     public void RemoveFirst(String tag) {
         final ReturnVal result = new ReturnVal();
         final ReturnVal returnVal = result;
-        firebaseTransaction(new Transactional(null, null, result) {
-            /* access modifiers changed from: 0000 */
-            public Result run(MutableData currentData) {
+        firebaseTransaction(new Transactional((Object) null, (Object) null, result) {
+            /* access modifiers changed from: package-private */
+            public Transaction.Result run(MutableData currentData) {
                 Object value = currentData.getValue();
                 if (value == null) {
                     returnVal.err = "Previous value was empty.";
@@ -450,9 +447,9 @@ public class FirebaseDB extends AndroidNonvisibleComponent implements Component 
         ReturnVal result = new ReturnVal();
         final ReturnVal returnVal = result;
         final Object obj = valueToAdd;
-        firebaseTransaction(new Transactional(null, null, result) {
-            /* access modifiers changed from: 0000 */
-            public Result run(MutableData currentData) {
+        firebaseTransaction(new Transactional((Object) null, (Object) null, result) {
+            /* access modifiers changed from: package-private */
+            public Transaction.Result run(MutableData currentData) {
                 Object value = currentData.getValue();
                 if (value == null) {
                     returnVal.err = "Previous value was empty.";
@@ -483,13 +480,13 @@ public class FirebaseDB extends AndroidNonvisibleComponent implements Component 
                     return Transaction.abort();
                 }
             }
-        }, this.myFirebase.child(tag), null);
+        }, this.myFirebase.child(tag), (Runnable) null);
     }
 
     private void firebaseTransaction(final Transactional toRun, Firebase firebase, final Runnable whenDone) {
         final ReturnVal result = toRun.getResult();
         firebase.runTransaction(new Transaction.Handler() {
-            public Result doTransaction(MutableData currentData) {
+            public Transaction.Result doTransaction(MutableData currentData) {
                 return toRun.run(currentData);
             }
 

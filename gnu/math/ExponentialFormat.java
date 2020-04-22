@@ -40,7 +40,7 @@ public class ExponentialFormat extends Format {
         return format(value, this.fracDigits < 0 ? Double.toString(value) : null, sbuf, fpos);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public StringBuffer format(double value, String dstr, StringBuffer sbuf, FieldPosition fpos) {
         int scale;
         int exponent;

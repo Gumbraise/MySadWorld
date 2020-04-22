@@ -15,7 +15,6 @@ import gnu.expr.ModuleBody;
 import gnu.expr.ModuleExp;
 import gnu.expr.NameLookup;
 import gnu.expr.QuoteExp;
-import gnu.expr.ReferenceExp;
 import gnu.expr.ScopeExp;
 import gnu.kawa.functions.ConstantFunction0;
 import gnu.kawa.reflect.ClassMethods;
@@ -30,6 +29,7 @@ import gnu.mapping.Environment;
 import gnu.mapping.EnvironmentKey;
 import gnu.mapping.InPort;
 import gnu.mapping.Namespace;
+import gnu.mapping.OutPort;
 import gnu.mapping.Procedure;
 import gnu.mapping.Symbol;
 import gnu.mapping.Values;
@@ -47,6 +47,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+import java.net.URL;
 import java.util.Vector;
 import kawa.standard.Scheme;
 
@@ -76,7 +77,7 @@ public class XQuery extends Language {
     static Object[] typeMap = {PropertyTypeConstants.PROPERTY_TYPE_STRING, XDataType.stringType, "untypedAtomic", XDataType.untypedAtomicType, PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN, XDataType.booleanType, PropertyTypeConstants.PROPERTY_TYPE_INTEGER, XIntegerType.integerType, "long", XIntegerType.longType, "int", XIntegerType.intType, "short", XIntegerType.shortType, "byte", XIntegerType.byteType, "unsignedLong", XIntegerType.unsignedLongType, "unsignedInt", XIntegerType.unsignedIntType, "unsignedShort", XIntegerType.unsignedShortType, "unsignedByte", XIntegerType.unsignedByteType, "positiveInteger", XIntegerType.positiveIntegerType, "nonPositiveInteger", XIntegerType.nonPositiveIntegerType, "negativeInteger", XIntegerType.negativeIntegerType, "nonNegativeInteger", XIntegerType.nonNegativeIntegerType, "date", XTimeType.dateType, "dateTime", XTimeType.dateTimeType, "time", XTimeType.timeType, "duration", XTimeType.durationType, "yearMonthDuration", XTimeType.yearMonthDurationType, "dayTimeDuration", XTimeType.dayTimeDurationType, "gYearMonth", XTimeType.gYearMonthType, "gYear", XTimeType.gYearType, "gMonthDay", XTimeType.gMonthDayType, "gDay", XTimeType.gDayType, "gMonth", XTimeType.gMonthType, "decimal", XDataType.decimalType, PropertyTypeConstants.PROPERTY_TYPE_FLOAT, XDataType.floatType, "double", XDataType.doubleType, "anyURI", XDataType.anyURIType, "hexBinary", XDataType.hexBinaryType, "base64Binary", XDataType.base64BinaryType, "NOTATION", XDataType.NotationType, "QName", "gnu.mapping.Symbol", "normalizedString", XStringType.normalizedStringType, "token", XStringType.tokenType, "language", XStringType.languageType, "NMTOKEN", XStringType.NMTOKENType, "Name", XStringType.NameType, "NCName", XStringType.NCNameType, "ID", XStringType.IDType, "IDREF", XStringType.IDREFType, "ENTITY", XStringType.ENTITYType, "anyAtomicType", XDataType.anyAtomicType, "anySimpleType", XDataType.anySimpleType, "untyped", XDataType.untypedType, "anyType", Type.objectType};
     public static final Environment xqEnvironment = Environment.make(XQUERY_FUNCTION_NAMESPACE);
     public static final Namespace xqueryFunctionNamespace = Namespace.valueOf(XQUERY_FUNCTION_NAMESPACE);
-    Namespace defaultNamespace;
+    Namespace defaultNamespace = xqueryFunctionNamespace;
 
     static {
         instance.initXQuery();
@@ -136,7 +137,7 @@ public class XQuery extends Language {
             LambdaExp lexp = new LambdaExp(3);
             Declaration dotDecl = lexp.addDeclaration((Object) XQParser.DOT_VARNAME);
             dotDecl.setFlag(262144);
-            dotDecl.noteValue(null);
+            dotDecl.noteValue((Expression) null);
             lexp.addDeclaration(XQParser.POSITION_VARNAME, Type.intType);
             lexp.addDeclaration(XQParser.LAST_VARNAME, Type.intType);
             tr.push((ScopeExp) lexp);
@@ -195,36 +196,58 @@ public class XQuery extends Language {
         return (argCount << 2) | 2;
     }
 
-    public int getNamespaceOf(Declaration decl) {
-        if (!decl.isProcedureDecl()) {
-            return 1;
-        }
-        if (decl.getCode() < 0) {
-            return -2;
-        }
-        Expression value = decl.getValue();
-        if (value instanceof LambdaExp) {
-            LambdaExp lexp = (LambdaExp) value;
-            if (lexp.min_args == lexp.max_args) {
-                return namespaceForFunctions(lexp.min_args);
-            }
-            return -2;
-        } else if (value instanceof QuoteExp) {
-            Object val = ((QuoteExp) value).getValue();
-            if (!(val instanceof Procedure)) {
-                return -2;
-            }
-            Procedure proc = (Procedure) val;
-            int min = proc.minArgs();
-            if (min == proc.maxArgs()) {
-                return namespaceForFunctions(min);
-            }
-            return -2;
-        } else if (value instanceof ReferenceExp) {
-            return getNamespaceOf(((ReferenceExp) value).getBinding());
-        } else {
-            return -2;
-        }
+    /* JADX WARNING: Code restructure failed: missing block: B:13:0x0034, code lost:
+        r3 = (gnu.mapping.Procedure) r4;
+     */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public int getNamespaceOf(gnu.expr.Declaration r10) {
+        /*
+            r9 = this;
+            r6 = -2
+            boolean r7 = r10.isProcedureDecl()
+            if (r7 == 0) goto L_0x0055
+            int r7 = r10.getCode()
+            if (r7 >= 0) goto L_0x000e
+        L_0x000d:
+            return r6
+        L_0x000e:
+            gnu.expr.Expression r5 = r10.getValue()
+            boolean r7 = r5 instanceof gnu.expr.LambdaExp
+            if (r7 == 0) goto L_0x0026
+            r0 = r5
+            gnu.expr.LambdaExp r0 = (gnu.expr.LambdaExp) r0
+            int r7 = r0.min_args
+            int r8 = r0.max_args
+            if (r7 != r8) goto L_0x000d
+            int r6 = r0.min_args
+            int r6 = namespaceForFunctions(r6)
+            goto L_0x000d
+        L_0x0026:
+            boolean r7 = r5 instanceof gnu.expr.QuoteExp
+            if (r7 == 0) goto L_0x0046
+            gnu.expr.QuoteExp r5 = (gnu.expr.QuoteExp) r5
+            java.lang.Object r4 = r5.getValue()
+            boolean r7 = r4 instanceof gnu.mapping.Procedure
+            if (r7 == 0) goto L_0x000d
+            r3 = r4
+            gnu.mapping.Procedure r3 = (gnu.mapping.Procedure) r3
+            int r2 = r3.minArgs()
+            int r1 = r3.maxArgs()
+            if (r2 != r1) goto L_0x000d
+            int r6 = namespaceForFunctions(r2)
+            goto L_0x000d
+        L_0x0046:
+            boolean r7 = r5 instanceof gnu.expr.ReferenceExp
+            if (r7 == 0) goto L_0x000d
+            gnu.expr.ReferenceExp r5 = (gnu.expr.ReferenceExp) r5
+            gnu.expr.Declaration r6 = r5.getBinding()
+            int r6 = r9.getNamespaceOf(r6)
+            goto L_0x000d
+        L_0x0055:
+            r6 = 1
+            goto L_0x000d
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.xquery.lang.XQuery.getNamespaceOf(gnu.expr.Declaration):int");
     }
 
     public boolean hasNamespace(Declaration decl, int namespace) {
@@ -252,6 +275,7 @@ public class XQuery extends Language {
         return "XQuery";
     }
 
+    /* JADX INFO: finally extract failed */
     public void applyWithFocus(Procedure proc, Object item, int position, int size, Consumer out) throws Throwable {
         CallContext ctx = CallContext.getInstance();
         proc.check3(item, IntNum.make(position), IntNum.make(size), ctx);
@@ -259,8 +283,10 @@ public class XQuery extends Language {
         try {
             ctx.consumer = out;
             ctx.runUntilDone();
-        } finally {
             ctx.consumer = save;
+        } catch (Throwable th) {
+            ctx.consumer = save;
+            throw th;
         }
     }
 
@@ -276,14 +302,17 @@ public class XQuery extends Language {
         }
     }
 
+    /* JADX INFO: finally extract failed */
     public void applyWithFocus(Procedure proc, Object values, Consumer out) throws Throwable {
         CallContext ctx = CallContext.getInstance();
         Consumer save = ctx.consumer;
         try {
             ctx.consumer = out;
             applyWithFocus$X(proc, values, ctx);
-        } finally {
             ctx.consumer = save;
+        } catch (Throwable th) {
+            ctx.consumer = save;
+            throw th;
         }
     }
 
@@ -339,7 +368,7 @@ public class XQuery extends Language {
         CallContext ctx = CallContext.getInstance();
         int oldIndex = ctx.startFromContext();
         try {
-            ModuleExp.evalModule(Environment.getCurrent(), ctx, comp, null, null);
+            ModuleExp.evalModule(Environment.getCurrent(), ctx, comp, (URL) null, (OutPort) null);
             return (Procedure) ctx.getFromContext(oldIndex);
         } catch (Throwable ex) {
             ctx.cleanupFromContext(oldIndex);
@@ -373,7 +402,6 @@ public class XQuery extends Language {
 
     public XQuery() {
         this.environ = xqEnvironment;
-        this.defaultNamespace = xqueryFunctionNamespace;
     }
 
     private void initXQuery() {
@@ -524,8 +552,7 @@ public class XQuery extends Language {
     }
 
     public Type getTypeFor(String name) {
-        String core = name.startsWith("xs:") ? name.substring(3) : name.startsWith("xdt:") ? name.substring(4) : name;
-        Type t = getStandardType(core);
+        Type t = getStandardType(name.startsWith("xs:") ? name.substring(3) : name.startsWith("xdt:") ? name.substring(4) : name);
         return t != null ? t : Scheme.string2Type(name);
     }
 
@@ -663,9 +690,9 @@ public class XQuery extends Language {
 
     public static Object getExternal(Symbol name, Object type) {
         Environment env = Environment.getCurrent();
-        Object value = env.get(name, null, null);
+        Object value = env.get(name, (Object) null, (Object) null);
         if (value == null) {
-            value = env.get(Symbol.makeWithUnknownNamespace(name.getLocalName(), name.getPrefix()), null, null);
+            value = env.get(Symbol.makeWithUnknownNamespace(name.getLocalName(), name.getPrefix()), (Object) null, (Object) null);
         }
         if (value == null) {
             throw new RuntimeException("unbound external " + name);

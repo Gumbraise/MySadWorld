@@ -1,16 +1,14 @@
 package com.google.appinventor.components.runtime;
 
 import android.content.res.ColorStateList;
-import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
-import android.os.Build.VERSION;
+import android.os.Build;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.DesignerProperty;
 import com.google.appinventor.components.annotations.PropertyCategory;
@@ -22,7 +20,7 @@ import com.google.appinventor.components.runtime.util.SdkLevel;
 
 @SimpleObject
 @DesignerComponent(category = ComponentCategory.USERINTERFACE, description = "A Slider is a progress bar that adds a draggable thumb. You can touch the thumb and drag left or right to set the slider thumb position. As the Slider thumb is dragged, it will trigger the PositionChanged event, reporting the position of the Slider thumb. The reported position of the Slider thumb can be used to dynamically update another component attribute, such as the font size of a TextBox or the radius of a Ball.", version = 2)
-public class Slider extends AndroidViewComponent implements OnSeekBarChangeListener {
+public class Slider extends AndroidViewComponent implements SeekBar.OnSeekBarChangeListener {
     private static final boolean DEBUG = false;
     private static final String LOG_TAG = "Slider";
     private static final int initialLeftColor = -14336;
@@ -70,25 +68,25 @@ public class Slider extends AndroidViewComponent implements OnSeekBarChangeListe
     }
 
     private void setSliderColors() {
-        if (VERSION.SDK_INT >= 21) {
+        if (Build.VERSION.SDK_INT >= 21) {
             this.seekbar.setProgressTintList(ColorStateList.valueOf(this.leftColor));
-            if (VERSION.SDK_INT >= 22 || !(this.seekbar.getProgressDrawable() instanceof StateListDrawable)) {
+            if (Build.VERSION.SDK_INT >= 22 || !(this.seekbar.getProgressDrawable() instanceof StateListDrawable)) {
                 this.seekbar.setProgressBackgroundTintList(ColorStateList.valueOf(this.rightColor));
-                this.seekbar.setProgressBackgroundTintMode(Mode.MULTIPLY);
+                this.seekbar.setProgressBackgroundTintMode(PorterDuff.Mode.MULTIPLY);
                 return;
             }
             StateListDrawable drawable = (StateListDrawable) this.seekbar.getProgressDrawable();
             if (drawable.getCurrent() instanceof LayerDrawable) {
                 Drawable background = ((LayerDrawable) drawable.getCurrent()).findDrawableByLayerId(16908288);
                 background.setTintList(ColorStateList.valueOf(this.rightColor));
-                background.setTintMode(Mode.MULTIPLY);
+                background.setTintMode(PorterDuff.Mode.MULTIPLY);
                 return;
             }
             return;
         }
         LayerDrawable fullBar = (LayerDrawable) this.seekbar.getProgressDrawable();
-        fullBar.setColorFilter(this.rightColor, Mode.SRC);
-        fullBar.findDrawableByLayerId(16908301).setColorFilter(this.leftColor, Mode.SRC);
+        fullBar.setColorFilter(this.rightColor, PorterDuff.Mode.SRC);
+        fullBar.findDrawableByLayerId(16908301).setColorFilter(this.leftColor, PorterDuff.Mode.SRC);
     }
 
     private void setSeekbarPosition() {
@@ -103,7 +101,7 @@ public class Slider extends AndroidViewComponent implements OnSeekBarChangeListe
         if (this.referenceGetThumb) {
             new SeekBarHelper().getThumb(alpha);
         }
-        this.seekbar.setOnTouchListener(new OnTouchListener() {
+        this.seekbar.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 return !Slider.this.thumbEnabled;
             }

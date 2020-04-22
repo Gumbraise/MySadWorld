@@ -44,7 +44,7 @@ public final class BluetoothClient extends BluetoothConnectionBase {
         this.disconnectOnError = disconnectOnError;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public boolean attachComponent(Component component, Set<Integer> acceptableDeviceClasses2) {
         HashSet hashSet;
         if (this.attachedComponents.isEmpty()) {
@@ -65,7 +65,7 @@ public final class BluetoothClient extends BluetoothConnectionBase {
         return true;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void detachComponent(Component component) {
         this.attachedComponents.remove(component);
         if (this.attachedComponents.isEmpty()) {
@@ -75,13 +75,12 @@ public final class BluetoothClient extends BluetoothConnectionBase {
 
     @SimpleFunction(description = "Checks whether the Bluetooth device with the specified address is paired.")
     public boolean IsDevicePaired(String address) {
-        String functionName = "IsDevicePaired";
         Object bluetoothAdapter = BluetoothReflection.getBluetoothAdapter();
         if (bluetoothAdapter == null) {
-            this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_BLUETOOTH_NOT_AVAILABLE, new Object[0]);
+            this.form.dispatchErrorOccurredEvent(this, "IsDevicePaired", ErrorMessages.ERROR_BLUETOOTH_NOT_AVAILABLE, new Object[0]);
             return false;
         } else if (!BluetoothReflection.isBluetoothEnabled(bluetoothAdapter)) {
-            this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_BLUETOOTH_NOT_ENABLED, new Object[0]);
+            this.form.dispatchErrorOccurredEvent(this, "IsDevicePaired", ErrorMessages.ERROR_BLUETOOTH_NOT_ENABLED, new Object[0]);
             return false;
         } else {
             int firstSpace = address.indexOf(" ");
@@ -91,7 +90,7 @@ public final class BluetoothClient extends BluetoothConnectionBase {
             if (BluetoothReflection.checkBluetoothAddress(bluetoothAdapter, address)) {
                 return BluetoothReflection.isBonded(BluetoothReflection.getRemoteDevice(bluetoothAdapter, address));
             }
-            this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_BLUETOOTH_INVALID_ADDRESS, new Object[0]);
+            this.form.dispatchErrorOccurredEvent(this, "IsDevicePaired", ErrorMessages.ERROR_BLUETOOTH_INVALID_ADDRESS, new Object[0]);
             return false;
         }
     }

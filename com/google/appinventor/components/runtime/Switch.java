@@ -2,8 +2,8 @@ package com.google.appinventor.components.runtime;
 
 import android.app.Activity;
 import android.content.res.ColorStateList;
-import android.support.p000v4.graphics.drawable.DrawableCompat;
-import android.support.p003v7.widget.SwitchCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.widget.SwitchCompat;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import com.google.appinventor.components.annotations.DesignerComponent;
@@ -35,7 +35,7 @@ public final class Switch extends ToggleBase<CompoundButton> {
             this.switchView = new SwitchCompat(this.activity);
             this.view = this.switchView;
         }
-        mo7968On(false);
+        On(false);
         ThumbColorActive(-1);
         ThumbColorInactive(Component.COLOR_LTGRAY);
         TrackColorActive(Component.COLOR_GREEN);
@@ -108,15 +108,13 @@ public final class Switch extends ToggleBase<CompoundButton> {
     }
 
     @SimpleProperty(category = PropertyCategory.BEHAVIOR)
-    /* renamed from: On */
-    public boolean mo7969On() {
+    public boolean On() {
         return this.view.isChecked();
     }
 
     @DesignerProperty(defaultValue = "False", editorType = "boolean")
     @SimpleProperty
-    /* renamed from: On */
-    public void mo7968On(boolean value) {
+    public void On(boolean value) {
         this.view.setChecked(value);
         this.view.invalidate();
     }

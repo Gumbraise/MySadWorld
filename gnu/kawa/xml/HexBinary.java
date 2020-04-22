@@ -39,7 +39,6 @@ public class HexBinary extends BinaryObject {
     }
 
     public StringBuffer toString(StringBuffer sbuf) {
-        byte[] bb;
         for (byte b : this.data) {
             sbuf.append(forHexDigit((b >> 4) & 15));
             sbuf.append(forHexDigit(b & 15));

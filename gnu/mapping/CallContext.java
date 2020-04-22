@@ -1,7 +1,9 @@
 package gnu.mapping;
 
-import android.support.p000v4.internal.view.SupportMenu;
+import android.support.v4.internal.view.SupportMenu;
 import gnu.lists.Consumer;
+import gnu.lists.LList;
+import gnu.lists.Pair;
 import gnu.math.IntNum;
 
 public class CallContext {
@@ -19,9 +21,7 @@ public class CallContext {
     public int ivalue1;
     public int ivalue2;
     public int next;
-
-    /* renamed from: pc */
-    public int f236pc;
+    public int pc;
     public Procedure proc;
     public Object value1;
     public Object value2;
@@ -50,7 +50,7 @@ public class CallContext {
         return ctx2;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Object getArgAsObject(int i) {
         if (i < 8) {
             switch ((this.where >> (i * 4)) & 15) {
@@ -77,7 +77,7 @@ public class CallContext {
 
     public Object getNextArg() {
         if (this.next >= this.count) {
-            throw new WrongArguments(null, this.count);
+            throw new WrongArguments((Procedure) null, this.count);
         }
         int i = this.next;
         this.next = i + 1;
@@ -86,7 +86,7 @@ public class CallContext {
 
     public int getNextIntArg() {
         if (this.next >= this.count) {
-            throw new WrongArguments(null, this.count);
+            throw new WrongArguments((Procedure) null, this.count);
         }
         int i = this.next;
         this.next = i + 1;
@@ -115,82 +115,34 @@ public class CallContext {
         Object[] args = new Object[(this.count - next2)];
         int i = 0;
         while (next2 < this.count) {
-            int i2 = i + 1;
-            int next3 = next2 + 1;
             args[i] = getArgAsObject(next2);
-            i = i2;
-            next2 = next3;
+            i++;
+            next2++;
         }
         return args;
     }
 
-    /* JADX WARNING: type inference failed for: r3v0, types: [gnu.lists.LList, java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r1v0 */
-    /* JADX WARNING: type inference failed for: r0v0 */
-    /* JADX WARNING: type inference failed for: r1v1, types: [gnu.lists.LList] */
-    /* JADX WARNING: type inference failed for: r0v1, types: [gnu.lists.Pair] */
-    /* JADX WARNING: type inference failed for: r4v0, types: [gnu.lists.Pair, java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r1v2 */
-    /* JADX WARNING: type inference failed for: r0v2 */
-    /* JADX WARNING: type inference failed for: r1v3 */
-    /* JADX WARNING: type inference failed for: r0v3 */
-    /* JADX WARNING: type inference failed for: r1v4 */
-    /* JADX WARNING: type inference failed for: r1v5 */
-    /* JADX WARNING: Multi-variable type inference failed. Error: jadx.core.utils.exceptions.JadxRuntimeException: No candidate types for var: r1v2
-      assigns: []
-      uses: []
-      mth insns count: 17
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.fillTypeCandidates(TypeSearch.java:237)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.run(TypeSearch.java:53)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.runMultiVariableSearch(TypeInferenceVisitor.java:99)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.visit(TypeInferenceVisitor.java:92)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:27)
-    	at jadx.core.dex.visitors.DepthTraversal.lambda$visit$1(DepthTraversal.java:14)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:14)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:30)
-    	at jadx.core.ProcessClass.lambda$processDependencies$0(ProcessClass.java:49)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.ProcessClass.processDependencies(ProcessClass.java:49)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:35)
-    	at jadx.api.JadxDecompiler.processClass(JadxDecompiler.java:311)
-    	at jadx.api.JavaClass.decompile(JavaClass.java:62)
-    	at jadx.api.JadxDecompiler.lambda$appendSourcesSave$0(JadxDecompiler.java:217)
-     */
-    /* JADX WARNING: Unknown variable types count: 6 */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public final gnu.lists.LList getRestArgsList(int r7) {
-        /*
-            r6 = this;
-            gnu.lists.LList r3 = gnu.lists.LList.Empty
-            r1 = r3
-            r0 = 0
-        L_0x0004:
-            int r5 = r6.count
-            if (r7 >= r5) goto L_0x001d
-            gnu.lists.Pair r4 = new gnu.lists.Pair
-            int r2 = r7 + 1
-            java.lang.Object r5 = r6.getArgAsObject(r7)
-            r4.<init>(r5, r3)
-            if (r0 != 0) goto L_0x0019
-            r1 = r4
-        L_0x0016:
-            r0 = r4
-            r7 = r2
-            goto L_0x0004
-        L_0x0019:
-            r0.setCdr(r4)
-            goto L_0x0016
-        L_0x001d:
-            return r1
-        */
-        throw new UnsupportedOperationException("Method not decompiled: gnu.mapping.CallContext.getRestArgsList(int):gnu.lists.LList");
+    public final LList getRestArgsList(int next2) {
+        LList nil = LList.Empty;
+        LList list = nil;
+        Pair last = null;
+        while (next2 < this.count) {
+            int next3 = next2 + 1;
+            LList pair = new Pair(getArgAsObject(next2), nil);
+            if (last == null) {
+                list = pair;
+            } else {
+                last.setCdr(pair);
+            }
+            last = pair;
+            next2 = next3;
+        }
+        return list;
     }
 
     public void lastArg() {
         if (this.next < this.count) {
-            throw new WrongArguments(null, this.count);
+            throw new WrongArguments((Procedure) null, this.count);
         }
         this.values = null;
     }

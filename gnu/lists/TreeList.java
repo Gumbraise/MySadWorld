@@ -1,5 +1,6 @@
 package gnu.lists;
 
+import android.support.v7.widget.ActivityChooserView;
 import gnu.kawa.lispexpr.LispReader;
 import gnu.kawa.servlet.HttpRequestContext;
 import gnu.text.Char;
@@ -914,7 +915,7 @@ public class TreeList extends AbstractSequence implements Appendable, XConsumer,
             return false;
         }
         int start = posToDataIndex(ipos);
-        int end = nextNodeIndex(start, ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED);
+        int end = nextNodeIndex(start, ActivityChooserView.ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED);
         if (end == start) {
             end = nextDataIndex(start);
         }
@@ -1116,297 +1117,287 @@ public class TreeList extends AbstractSequence implements Appendable, XConsumer,
         boolean seen = false;
         boolean inStartTag = false;
         while (true) {
-            if (pos2 >= limit) {
-                if (pos2 == this.gapStart) {
-                    pos2 = this.gapEnd;
-                    limit = this.data.length;
-                    if (pos2 == limit) {
-                        return;
+            if (pos2 < limit || (pos2 == this.gapStart && (pos2 = this.gapEnd) != (limit = this.data.length))) {
+                int pos3 = pos2 + 1;
+                char datum = this.data[pos2];
+                if (datum <= 40959) {
+                    int start = pos3 - 1;
+                    int lim = limit;
+                    while (true) {
+                        if (pos3 >= lim) {
+                            pos2 = pos3;
+                        } else {
+                            int pos4 = pos3 + 1;
+                            if (this.data[pos3] > 40959) {
+                                pos2 = pos4 - 1;
+                            } else {
+                                pos3 = pos4;
+                            }
+                        }
                     }
-                } else {
-                    return;
-                }
-            }
-            int pos3 = pos2 + 1;
-            char datum = this.data[pos2];
-            if (datum <= 40959) {
-                int start = pos3 - 1;
-                int lim = limit;
-                while (true) {
-                    if (pos3 >= lim) {
-                        pos2 = pos3;
+                    if (inStartTag) {
+                        sbuf.append('>');
+                        inStartTag = false;
+                    }
+                    sbuf.append(this.data, start, pos2 - start);
+                    seen = false;
+                } else if (datum >= OBJECT_REF_SHORT && datum <= 61439) {
+                    if (inStartTag) {
+                        sbuf.append('>');
+                        inStartTag = false;
+                    }
+                    if (seen) {
+                        sbuf.append(sep);
                     } else {
-                        int pos4 = pos3 + 1;
-                        if (this.data[pos3] > 40959) {
-                            pos2 = pos4 - 1;
-                        } else {
-                            pos3 = pos4;
-                        }
-                    }
-                }
-                if (inStartTag) {
-                    sbuf.append('>');
-                    inStartTag = false;
-                }
-                sbuf.append(this.data, start, pos2 - start);
-                seen = false;
-            } else if (datum >= OBJECT_REF_SHORT && datum <= 61439) {
-                if (inStartTag) {
-                    sbuf.append('>');
-                    inStartTag = false;
-                }
-                if (seen) {
-                    sbuf.append(sep);
-                } else {
-                    seen = true;
-                }
-                sbuf.append(this.objects[datum - OBJECT_REF_SHORT]);
-                pos2 = pos3;
-            } else if (datum >= BEGIN_ELEMENT_SHORT && datum <= 45055) {
-                if (inStartTag) {
-                    sbuf.append('>');
-                }
-                int index2 = datum - BEGIN_ELEMENT_SHORT;
-                if (seen) {
-                    sbuf.append(sep);
-                }
-                sbuf.append('<');
-                sbuf.append(this.objects[index2].toString());
-                pos2 = pos3 + 2;
-                seen = false;
-                inStartTag = true;
-            } else if (datum < 45056 || datum > 57343) {
-                switch (datum) {
-                    case 61696:
-                    case 61697:
-                        if (inStartTag) {
-                            sbuf.append('>');
-                            inStartTag = false;
-                        }
-                        if (seen) {
-                            sbuf.append(sep);
-                        } else {
-                            seen = true;
-                        }
-                        sbuf.append(datum != 61696);
-                        pos2 = pos3;
-                        break;
-                    case INT_FOLLOWS /*61698*/:
-                        if (inStartTag) {
-                            sbuf.append('>');
-                            inStartTag = false;
-                        }
-                        if (seen) {
-                            sbuf.append(sep);
-                        } else {
-                            seen = true;
-                        }
-                        sbuf.append(getIntN(pos3));
-                        pos2 = pos3 + 2;
-                        break;
-                    case LONG_FOLLOWS /*61699*/:
-                        if (inStartTag) {
-                            sbuf.append('>');
-                            inStartTag = false;
-                        }
-                        if (seen) {
-                            sbuf.append(sep);
-                        } else {
-                            seen = true;
-                        }
-                        sbuf.append(getLongN(pos3));
-                        pos2 = pos3 + 4;
-                        break;
-                    case FLOAT_FOLLOWS /*61700*/:
-                        if (inStartTag) {
-                            sbuf.append('>');
-                            inStartTag = false;
-                        }
-                        if (seen) {
-                            sbuf.append(sep);
-                        } else {
-                            seen = true;
-                        }
-                        sbuf.append(Float.intBitsToFloat(getIntN(pos3)));
-                        pos2 = pos3 + 2;
-                        break;
-                    case DOUBLE_FOLLOWS /*61701*/:
-                        if (inStartTag) {
-                            sbuf.append('>');
-                            inStartTag = false;
-                        }
-                        if (seen) {
-                            sbuf.append(sep);
-                        } else {
-                            seen = true;
-                        }
-                        sbuf.append(Double.longBitsToDouble(getLongN(pos3)));
-                        pos2 = pos3 + 4;
-                        break;
-                    case CHAR_FOLLOWS /*61702*/:
-                        if (inStartTag) {
-                            sbuf.append('>');
-                            inStartTag = false;
-                        }
-                        sbuf.append(this.data, pos3, (datum + 1) - CHAR_FOLLOWS);
-                        seen = false;
-                        pos2 = pos3 + 1;
-                        break;
-                    case BEGIN_ELEMENT_LONG /*61704*/:
-                        int index3 = getIntN(pos3);
-                        pos2 = pos3 + 2;
-                        int index4 = getIntN(index3 + (index3 >= 0 ? pos3 - 1 : this.data.length) + 1);
-                        if (inStartTag) {
-                            sbuf.append('>');
-                        } else if (seen) {
-                            sbuf.append(sep);
-                        }
-                        sbuf.append('<');
-                        sbuf.append(this.objects[index4]);
-                        seen = false;
-                        inStartTag = true;
-                        break;
-                    case BEGIN_ATTRIBUTE_LONG /*61705*/:
-                        int index5 = getIntN(pos3);
-                        sbuf.append(' ');
-                        sbuf.append(this.objects[index5]);
-                        sbuf.append("=\"");
-                        inStartTag = false;
-                        pos2 = pos3 + 4;
-                        break;
-                    case END_ATTRIBUTE /*61706*/:
-                        sbuf.append('\"');
-                        inStartTag = true;
-                        seen = false;
-                        pos2 = pos3;
-                        break;
-                    case END_ELEMENT_SHORT /*61707*/:
-                    case END_ELEMENT_LONG /*61708*/:
-                        if (datum == END_ELEMENT_SHORT) {
-                            pos = pos3 + 1;
-                            index = this.data[(pos - 2) - this.data[pos3]] - BEGIN_ELEMENT_SHORT;
-                        } else {
-                            index = getIntN(pos3);
-                            pos = pos3 + 6;
-                        }
-                        if (inStartTag) {
-                            sbuf.append("/>");
-                        } else {
-                            sbuf.append("</");
-                            sbuf.append(this.objects[index]);
-                            sbuf.append('>');
-                        }
-                        inStartTag = false;
                         seen = true;
-                        break;
-                    case 61709:
-                    case 61710:
-                        if (inStartTag) {
-                            sbuf.append('>');
-                            inStartTag = false;
-                        }
-                        if (seen) {
-                            sbuf.append(sep);
-                        } else {
-                            seen = true;
-                        }
-                        sbuf.append(this.objects[getIntN(pos3)]);
-                        pos2 = pos3 + 2;
-                        break;
-                    case 61711:
-                        if (inStartTag) {
-                            sbuf.append('>');
-                            inStartTag = false;
-                        }
-                        if (seen) {
-                            sbuf.append(sep);
-                        } else {
-                            seen = true;
-                        }
-                        sbuf.append(((AbstractSequence) this.objects[getIntN(pos3)]).getIteratorAtPos(getIntN(pos3 + 2)));
-                        pos2 = pos3 + 4;
-                        break;
-                    case BEGIN_DOCUMENT /*61712*/:
-                    case BEGIN_ENTITY /*61714*/:
-                        pos2 = pos3 + 4;
-                        break;
-                    case END_DOCUMENT /*61713*/:
-                    case END_ENTITY /*61715*/:
-                        pos2 = pos3;
-                        break;
-                    case PROCESSING_INSTRUCTION /*61716*/:
-                        if (inStartTag) {
-                            sbuf.append('>');
-                            inStartTag = false;
-                        }
-                        sbuf.append("<?");
-                        int pos5 = pos3 + 2;
-                        sbuf.append(this.objects[getIntN(pos3)]);
-                        int index6 = getIntN(pos5);
-                        int pos6 = pos5 + 2;
-                        if (index6 > 0) {
+                    }
+                    sbuf.append(this.objects[datum - OBJECT_REF_SHORT]);
+                    pos2 = pos3;
+                } else if (datum >= BEGIN_ELEMENT_SHORT && datum <= 45055) {
+                    if (inStartTag) {
+                        sbuf.append('>');
+                    }
+                    int index2 = datum - BEGIN_ELEMENT_SHORT;
+                    if (seen) {
+                        sbuf.append(sep);
+                    }
+                    sbuf.append('<');
+                    sbuf.append(this.objects[index2].toString());
+                    pos2 = pos3 + 2;
+                    seen = false;
+                    inStartTag = true;
+                } else if (datum < 45056 || datum > 57343) {
+                    switch (datum) {
+                        case 61696:
+                        case 61697:
+                            if (inStartTag) {
+                                sbuf.append('>');
+                                inStartTag = false;
+                            }
+                            if (seen) {
+                                sbuf.append(sep);
+                            } else {
+                                seen = true;
+                            }
+                            sbuf.append(datum != 61696);
+                            pos2 = pos3;
+                            break;
+                        case INT_FOLLOWS /*61698*/:
+                            if (inStartTag) {
+                                sbuf.append('>');
+                                inStartTag = false;
+                            }
+                            if (seen) {
+                                sbuf.append(sep);
+                            } else {
+                                seen = true;
+                            }
+                            sbuf.append(getIntN(pos3));
+                            pos2 = pos3 + 2;
+                            break;
+                        case LONG_FOLLOWS /*61699*/:
+                            if (inStartTag) {
+                                sbuf.append('>');
+                                inStartTag = false;
+                            }
+                            if (seen) {
+                                sbuf.append(sep);
+                            } else {
+                                seen = true;
+                            }
+                            sbuf.append(getLongN(pos3));
+                            pos2 = pos3 + 4;
+                            break;
+                        case FLOAT_FOLLOWS /*61700*/:
+                            if (inStartTag) {
+                                sbuf.append('>');
+                                inStartTag = false;
+                            }
+                            if (seen) {
+                                sbuf.append(sep);
+                            } else {
+                                seen = true;
+                            }
+                            sbuf.append(Float.intBitsToFloat(getIntN(pos3)));
+                            pos2 = pos3 + 2;
+                            break;
+                        case DOUBLE_FOLLOWS /*61701*/:
+                            if (inStartTag) {
+                                sbuf.append('>');
+                                inStartTag = false;
+                            }
+                            if (seen) {
+                                sbuf.append(sep);
+                            } else {
+                                seen = true;
+                            }
+                            sbuf.append(Double.longBitsToDouble(getLongN(pos3)));
+                            pos2 = pos3 + 4;
+                            break;
+                        case CHAR_FOLLOWS /*61702*/:
+                            if (inStartTag) {
+                                sbuf.append('>');
+                                inStartTag = false;
+                            }
+                            sbuf.append(this.data, pos3, (datum + 1) - CHAR_FOLLOWS);
+                            seen = false;
+                            pos2 = pos3 + 1;
+                            break;
+                        case BEGIN_ELEMENT_LONG /*61704*/:
+                            int index3 = getIntN(pos3);
+                            pos2 = pos3 + 2;
+                            int index4 = getIntN(index3 + (index3 >= 0 ? pos3 - 1 : this.data.length) + 1);
+                            if (inStartTag) {
+                                sbuf.append('>');
+                            } else if (seen) {
+                                sbuf.append(sep);
+                            }
+                            sbuf.append('<');
+                            sbuf.append(this.objects[index4]);
+                            seen = false;
+                            inStartTag = true;
+                            break;
+                        case BEGIN_ATTRIBUTE_LONG /*61705*/:
+                            int index5 = getIntN(pos3);
                             sbuf.append(' ');
-                            sbuf.append(this.data, pos6, index6);
-                            pos6 += index6;
-                        }
-                        sbuf.append("?>");
-                        break;
-                    case CDATA_SECTION /*61717*/:
-                        if (inStartTag) {
-                            sbuf.append('>');
+                            sbuf.append(this.objects[index5]);
+                            sbuf.append("=\"");
                             inStartTag = false;
-                        }
-                        int index7 = getIntN(pos3);
-                        int pos7 = pos3 + 2;
-                        sbuf.append("<![CDATA[");
-                        sbuf.append(this.data, pos7, index7);
-                        sbuf.append("]]>");
-                        pos2 = pos7 + index7;
-                        break;
-                    case JOINER /*61718*/:
-                        pos2 = pos3;
-                        break;
-                    case COMMENT /*61719*/:
-                        if (inStartTag) {
-                            sbuf.append('>');
+                            pos2 = pos3 + 4;
+                            break;
+                        case END_ATTRIBUTE /*61706*/:
+                            sbuf.append('\"');
+                            inStartTag = true;
+                            seen = false;
+                            pos2 = pos3;
+                            break;
+                        case END_ELEMENT_SHORT /*61707*/:
+                        case END_ELEMENT_LONG /*61708*/:
+                            if (datum == END_ELEMENT_SHORT) {
+                                pos = pos3 + 1;
+                                index = this.data[(pos - 2) - this.data[pos3]] - BEGIN_ELEMENT_SHORT;
+                            } else {
+                                index = getIntN(pos3);
+                                pos = pos3 + 6;
+                            }
+                            if (inStartTag) {
+                                sbuf.append("/>");
+                            } else {
+                                sbuf.append("</");
+                                sbuf.append(this.objects[index]);
+                                sbuf.append('>');
+                            }
                             inStartTag = false;
-                        }
-                        int index8 = getIntN(pos3);
-                        int pos8 = pos3 + 2;
-                        sbuf.append("<!--");
-                        sbuf.append(this.data, pos8, index8);
-                        sbuf.append("-->");
-                        pos2 = pos8 + index8;
-                        break;
-                    case DOCUMENT_URI /*61720*/:
-                        pos2 = pos3 + 2;
-                        break;
-                    default:
-                        throw new Error("unknown code:" + datum);
+                            seen = true;
+                            break;
+                        case 61709:
+                        case 61710:
+                            if (inStartTag) {
+                                sbuf.append('>');
+                                inStartTag = false;
+                            }
+                            if (seen) {
+                                sbuf.append(sep);
+                            } else {
+                                seen = true;
+                            }
+                            sbuf.append(this.objects[getIntN(pos3)]);
+                            pos2 = pos3 + 2;
+                            break;
+                        case 61711:
+                            if (inStartTag) {
+                                sbuf.append('>');
+                                inStartTag = false;
+                            }
+                            if (seen) {
+                                sbuf.append(sep);
+                            } else {
+                                seen = true;
+                            }
+                            sbuf.append(((AbstractSequence) this.objects[getIntN(pos3)]).getIteratorAtPos(getIntN(pos3 + 2)));
+                            pos2 = pos3 + 4;
+                            break;
+                        case BEGIN_DOCUMENT /*61712*/:
+                        case BEGIN_ENTITY /*61714*/:
+                            pos2 = pos3 + 4;
+                            break;
+                        case END_DOCUMENT /*61713*/:
+                        case END_ENTITY /*61715*/:
+                            pos2 = pos3;
+                            break;
+                        case PROCESSING_INSTRUCTION /*61716*/:
+                            if (inStartTag) {
+                                sbuf.append('>');
+                                inStartTag = false;
+                            }
+                            sbuf.append("<?");
+                            int pos5 = pos3 + 2;
+                            sbuf.append(this.objects[getIntN(pos3)]);
+                            int index6 = getIntN(pos5);
+                            int pos6 = pos5 + 2;
+                            if (index6 > 0) {
+                                sbuf.append(' ');
+                                sbuf.append(this.data, pos6, index6);
+                                pos6 += index6;
+                            }
+                            sbuf.append("?>");
+                            break;
+                        case CDATA_SECTION /*61717*/:
+                            if (inStartTag) {
+                                sbuf.append('>');
+                                inStartTag = false;
+                            }
+                            int index7 = getIntN(pos3);
+                            int pos7 = pos3 + 2;
+                            sbuf.append("<![CDATA[");
+                            sbuf.append(this.data, pos7, index7);
+                            sbuf.append("]]>");
+                            pos2 = pos7 + index7;
+                            break;
+                        case JOINER /*61718*/:
+                            pos2 = pos3;
+                            break;
+                        case COMMENT /*61719*/:
+                            if (inStartTag) {
+                                sbuf.append('>');
+                                inStartTag = false;
+                            }
+                            int index8 = getIntN(pos3);
+                            int pos8 = pos3 + 2;
+                            sbuf.append("<!--");
+                            sbuf.append(this.data, pos8, index8);
+                            sbuf.append("-->");
+                            pos2 = pos8 + index8;
+                            break;
+                        case DOCUMENT_URI /*61720*/:
+                            pos2 = pos3 + 2;
+                            break;
+                        default:
+                            throw new Error("unknown code:" + datum);
+                    }
+                } else {
+                    if (inStartTag) {
+                        sbuf.append('>');
+                        inStartTag = false;
+                    }
+                    if (seen) {
+                        sbuf.append(sep);
+                    } else {
+                        seen = true;
+                    }
+                    sbuf.append(datum - INT_SHORT_ZERO);
+                    pos2 = pos3;
                 }
             } else {
-                if (inStartTag) {
-                    sbuf.append('>');
-                    inStartTag = false;
-                }
-                if (seen) {
-                    sbuf.append(sep);
-                } else {
-                    seen = true;
-                }
-                sbuf.append(datum - INT_SHORT_ZERO);
-                pos2 = pos3;
+                return;
             }
         }
     }
 
     public boolean hasNext(int ipos) {
+        char ch;
         int index = posToDataIndex(ipos);
-        if (index == this.data.length) {
-            return false;
-        }
-        char ch = this.data[index];
-        if (ch == END_ATTRIBUTE || ch == END_ELEMENT_SHORT || ch == END_ELEMENT_LONG || ch == END_DOCUMENT) {
+        if (index == this.data.length || (ch = this.data[index]) == END_ATTRIBUTE || ch == END_ELEMENT_SHORT || ch == END_ELEMENT_LONG || ch == END_DOCUMENT) {
             return false;
         }
         return true;
@@ -1616,7 +1607,7 @@ public class TreeList extends AbstractSequence implements Appendable, XConsumer,
     }
 
     public int stringValue(int index, StringBuffer sbuf) {
-        int next = nextNodeIndex(index, ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED);
+        int next = nextNodeIndex(index, ActivityChooserView.ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED);
         if (next <= index) {
             return stringValue(false, index, sbuf);
         }
@@ -1637,7 +1628,7 @@ public class TreeList extends AbstractSequence implements Appendable, XConsumer,
     /* JADX WARNING: Code restructure failed: missing block: B:44:0x00c4, code lost:
         r15.append(r12.data, r14, r5);
      */
-    /* JADX WARNING: Code restructure failed: missing block: B:88:?, code lost:
+    /* JADX WARNING: Code restructure failed: missing block: B:87:?, code lost:
         return r14 + r5;
      */
     /* Code decompiled incorrectly, please refer to instructions dump. */
@@ -1690,7 +1681,7 @@ public class TreeList extends AbstractSequence implements Appendable, XConsumer,
             if (r1 <= 0) goto L_0x004d
         L_0x0046:
             r9 = 1
-            int r1 = r12.stringValue(r9, r1, r15)
+            int r1 = r12.stringValue((boolean) r9, (int) r1, (java.lang.StringBuffer) r15)
             if (r1 >= 0) goto L_0x0046
         L_0x004d:
             r9 = r14
@@ -1897,7 +1888,7 @@ public class TreeList extends AbstractSequence implements Appendable, XConsumer,
             int r3 = r12.getIntN(r9)
             gnu.lists.TreeList r6 = (gnu.lists.TreeList) r6
             int r9 = r3 >> 1
-            r6.stringValue(r13, r9, r15)
+            r6.stringValue((boolean) r13, (int) r9, (java.lang.StringBuffer) r15)
             int r14 = r14 + 4
             goto L_0x003f
         */
@@ -1978,6 +1969,7 @@ public class TreeList extends AbstractSequence implements Appendable, XConsumer,
         return pos;
     }
 
+    /* JADX WARNING: Can't fix incorrect switch cases order */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public int nextMatching(int r15, gnu.lists.ItemPredicate r16, int r17, boolean r18) {
         /*
@@ -2551,9 +2543,9 @@ public class TreeList extends AbstractSequence implements Appendable, XConsumer,
                                 break;
                             case BEGIN_DOCUMENT /*61712*/:
                                 int j12 = getIntN(i2 + 1);
-                                int j13 = j12 + (j12 < 0 ? this.data.length : i2);
+                                int length = j12 < 0 ? this.data.length : i2;
                                 out.print("=BEGIN_DOCUMENT end:");
-                                out.print(j13);
+                                out.print(j12 + length);
                                 out.print(" parent:");
                                 out.print(getIntN(i2 + 3));
                                 toskip = 4;
@@ -2562,9 +2554,9 @@ public class TreeList extends AbstractSequence implements Appendable, XConsumer,
                                 out.print("=END_DOCUMENT");
                                 break;
                             case BEGIN_ENTITY /*61714*/:
-                                int j14 = getIntN(i2 + 1);
+                                int j13 = getIntN(i2 + 1);
                                 out.print("=BEGIN_ENTITY base:");
-                                out.print(j14);
+                                out.print(j13);
                                 out.print(" parent:");
                                 out.print(getIntN(i2 + 3));
                                 toskip = 4;
@@ -2576,27 +2568,27 @@ public class TreeList extends AbstractSequence implements Appendable, XConsumer,
                                 out.print("=PROCESSING_INSTRUCTION: ");
                                 out.print(this.objects[getIntN(i2 + 1)]);
                                 out.print(" '");
-                                int j15 = getIntN(i2 + 3);
-                                out.write(this.data, i2 + 5, j15);
+                                int j14 = getIntN(i2 + 3);
+                                out.write(this.data, i2 + 5, j14);
                                 out.print('\'');
-                                toskip = j15 + 4;
+                                toskip = j14 + 4;
                                 break;
                             case CDATA_SECTION /*61717*/:
                                 out.print("=CDATA: '");
-                                int j16 = getIntN(i2 + 1);
-                                out.write(this.data, i2 + 3, j16);
+                                int j15 = getIntN(i2 + 1);
+                                out.write(this.data, i2 + 3, j15);
                                 out.print('\'');
-                                toskip = j16 + 2;
+                                toskip = j15 + 2;
                                 break;
                             case JOINER /*61718*/:
                                 out.print("= joiner");
                                 break;
                             case COMMENT /*61719*/:
                                 out.print("=COMMENT: '");
-                                int j17 = getIntN(i2 + 1);
-                                out.write(this.data, i2 + 3, j17);
+                                int j16 = getIntN(i2 + 1);
+                                out.write(this.data, i2 + 3, j16);
                                 out.print('\'');
-                                toskip = j17 + 2;
+                                toskip = j16 + 2;
                                 break;
                             case DOCUMENT_URI /*61720*/:
                                 out.print("=DOCUMENT_URI: ");

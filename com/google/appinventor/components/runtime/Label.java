@@ -3,7 +3,7 @@ package com.google.appinventor.components.runtime;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout.LayoutParams;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.DesignerProperty;
@@ -25,7 +25,7 @@ public final class Label extends AndroidViewComponent {
     private String htmlContent;
     private boolean htmlFormat;
     private boolean italic;
-    private final LayoutParams linearLayoutParams;
+    private final LinearLayout.LayoutParams linearLayoutParams;
     private int textAlignment;
     private int textColor;
     private final TextView view;
@@ -35,8 +35,8 @@ public final class Label extends AndroidViewComponent {
         this.view = new TextView(container.$context());
         container.$add(this);
         ViewGroup.LayoutParams lp = this.view.getLayoutParams();
-        if (lp instanceof LayoutParams) {
-            this.linearLayoutParams = (LayoutParams) lp;
+        if (lp instanceof LinearLayout.LayoutParams) {
+            this.linearLayoutParams = (LinearLayout.LayoutParams) lp;
             this.defaultLabelMarginInDp = dpToPx(this.view, 2);
         } else {
             this.defaultLabelMarginInDp = 0;

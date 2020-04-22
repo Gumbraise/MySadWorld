@@ -6,14 +6,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.p003v7.app.ActionBar;
-import android.support.p003v7.app.AppCompatCallback;
-import android.support.p003v7.app.AppCompatDelegate;
-import android.support.p003v7.view.ActionMode;
-import android.support.p003v7.view.ActionMode.Callback;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatCallback;
+import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.view.ActionMode;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -77,7 +76,7 @@ public class AppInventorCompatActivity extends Activity implements AppCompatCall
             this.titleBar.setSingleLine();
             this.titleBar.setShadowLayer(2.0f, 0.0f, 0.0f, -1157627904);
             if (!isClassicMode() || SdkLevel.getLevel() < 11) {
-                this.frameWithTitle.addView(this.titleBar, new LayoutParams(-1, -2));
+                this.frameWithTitle.addView(this.titleBar, new ViewGroup.LayoutParams(-1, -2));
                 return;
             }
             return;
@@ -145,7 +144,7 @@ public class AppInventorCompatActivity extends Activity implements AppCompatCall
     }
 
     @Nullable
-    public ActionMode onWindowStartingSupportActionMode(Callback callback) {
+    public ActionMode onWindowStartingSupportActionMode(ActionMode.Callback callback) {
         return null;
     }
 

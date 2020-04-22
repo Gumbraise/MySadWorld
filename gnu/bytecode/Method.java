@@ -9,7 +9,7 @@ public class Method implements AttrContainer, Member {
     Type[] arg_types;
     Attribute attributes;
     ClassType classfile;
-    CodeAttr code = this;
+    CodeAttr code;
     ExceptionsAttr exceptions;
     private String name;
     int name_index;
@@ -146,12 +146,12 @@ public class Method implements AttrContainer, Member {
         return this.code;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void kill_local(Variable var) {
         var.freeLocal(this.code);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void prepareCode(int max_size) {
         if (this.code == null) {
             this.code = new CodeAttr(this);
@@ -159,17 +159,17 @@ public class Method implements AttrContainer, Member {
         this.code.reserve(max_size);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void instruction_start_hook(int max_size) {
         prepareCode(max_size);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public final Type pop_stack_type() {
         return this.code.popType();
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public final void push_stack_type(Type type) {
         this.code.pushType(type);
     }
@@ -200,7 +200,7 @@ public class Method implements AttrContainer, Member {
         this.code.emitPushThis();
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void write(DataOutputStream dstr, ClassType classfile2) throws IOException {
         dstr.writeShort(this.access_flags);
         dstr.writeShort(this.name_index);
@@ -249,7 +249,7 @@ public class Method implements AttrContainer, Member {
         while (true) {
             i--;
             if (i >= 0) {
-                this.arg_types[i] = (Type) types.pop();
+                this.arg_types[i] = types.pop();
             } else {
                 this.return_type = Type.signatureToType(signature2, pos + 1, (len - pos) - 1);
                 return;
@@ -258,12 +258,11 @@ public class Method implements AttrContainer, Member {
     }
 
     public void setSignature(int signature_index2) {
-        CpoolUtf8 sigConstant = (CpoolUtf8) getConstants().getForced(signature_index2, 1);
         this.signature_index = signature_index2;
-        setSignature(sigConstant.string);
+        setSignature(((CpoolUtf8) getConstants().getForced(signature_index2, 1)).string);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void assignConstants() {
         ConstantPool constants = getConstants();
         if (this.name_index == 0 && this.name != null) {

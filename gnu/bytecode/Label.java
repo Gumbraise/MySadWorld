@@ -27,7 +27,7 @@ public class Label {
         this.position = position2;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public Type mergeTypes(Type t1, Type t2) {
         if ((t1 instanceof PrimType) != (t2 instanceof PrimType)) {
             return null;
@@ -35,7 +35,7 @@ public class Label {
         return Type.lowestCommonSuperType(t1, t2);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void setTypes(Type[] locals, int usedLocals, Type[] stack, int usedStack) {
         while (usedLocals > 0 && locals[usedLocals - 1] == null) {
             usedLocals--;
@@ -73,8 +73,8 @@ public class Label {
 
     public void setTypes(CodeAttr code) {
         addTypeChangeListeners(code);
-        if (this.stackTypes == null || code.f53SP == this.stackTypes.length) {
-            setTypes(code.local_types, code.local_types == null ? 0 : code.local_types.length, code.stack_types, code.f53SP);
+        if (this.stackTypes == null || code.SP == this.stackTypes.length) {
+            setTypes(code.local_types, code.local_types == null ? 0 : code.local_types.length, code.stack_types, code.SP);
             return;
         }
         throw new InternalError();
@@ -94,36 +94,41 @@ public class Label {
     }
 
     private void notifyTypeChangeListeners(int varnum, Type newType) {
+        Object listeners;
         Object[] arr = this.typeChangeListeners;
-        if (arr != null && arr.length > varnum) {
-            Object listeners = arr[varnum];
-            if (listeners != null) {
-                if (listeners instanceof Label) {
-                    ((Label) listeners).mergeLocalType(varnum, newType);
-                } else {
-                    Iterator i$ = ((ArrayList) listeners).iterator();
-                    while (i$.hasNext()) {
-                        ((Label) i$.next()).mergeLocalType(varnum, newType);
-                    }
+        if (arr != null && arr.length > varnum && (listeners = arr[varnum]) != null) {
+            if (listeners instanceof Label) {
+                ((Label) listeners).mergeLocalType(varnum, newType);
+            } else {
+                Iterator i$ = ((ArrayList) listeners).iterator();
+                while (i$.hasNext()) {
+                    ((Label) i$.next()).mergeLocalType(varnum, newType);
                 }
-                if (newType == null) {
-                    arr[varnum] = null;
-                }
+            }
+            if (newType == null) {
+                arr[varnum] = null;
             }
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void addTypeChangeListener(int varnum, Label listener) {
+        Object[] arr;
         ArrayList<Label> list;
-        Object[] arr = this.typeChangeListeners;
-        if (arr == null) {
-            arr = new Object[(varnum + 10)];
-            this.typeChangeListeners = arr;
-        } else if (arr.length <= varnum) {
-            arr = new Object[(varnum + 10)];
-            System.arraycopy(this.typeChangeListeners, 0, arr, 0, this.typeChangeListeners.length);
-            this.typeChangeListeners = arr;
+        Object[] arr2 = this.typeChangeListeners;
+        if (arr2 == null) {
+            Object[] arr3 = new Object[(varnum + 10)];
+            this.typeChangeListeners = arr3;
+            arr = arr3;
+        } else {
+            int length = arr2.length;
+            arr = arr2;
+            if (length <= varnum) {
+                Object[] arr4 = new Object[(varnum + 10)];
+                System.arraycopy(this.typeChangeListeners, 0, arr4, 0, this.typeChangeListeners.length);
+                this.typeChangeListeners = arr4;
+                arr = arr4;
+            }
         }
         Object set = arr[varnum];
         if (set == null) {
@@ -135,12 +140,12 @@ public class Label {
             list.add((Label) set);
             arr[varnum] = list;
         } else {
-            list = (ArrayList) set;
+            list = set;
         }
         list.add(listener);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void addTypeChangeListeners(CodeAttr code) {
         if (code.local_types != null && code.previousLabel != null) {
             int len = code.local_types.length;
@@ -156,7 +161,7 @@ public class Label {
         if (this.position >= 0) {
             throw new Error("label definition more than once");
         }
-        this.position = code.f52PC;
+        this.position = code.PC;
         this.first_fixup = code.fixup_count;
         if (this.first_fixup >= 0) {
             code.fixupAdd(1, this);

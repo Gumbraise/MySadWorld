@@ -53,14 +53,26 @@ public class WrongArguments extends IllegalArgumentException {
         return buf.toString();
     }
 
-    public String getMessage() {
-        if (this.proc != null) {
-            String msg = checkArgCount(this.proc, this.number);
-            if (msg != null) {
-                return msg;
-            }
-        }
-        return super.getMessage();
+    /* JADX WARNING: Code restructure failed: missing block: B:2:0x0004, code lost:
+        r0 = checkArgCount(r3.proc, r3.number);
+     */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public java.lang.String getMessage() {
+        /*
+            r3 = this;
+            gnu.mapping.Procedure r1 = r3.proc
+            if (r1 == 0) goto L_0x000f
+            gnu.mapping.Procedure r1 = r3.proc
+            int r2 = r3.number
+            java.lang.String r0 = checkArgCount(r1, r2)
+            if (r0 == 0) goto L_0x000f
+        L_0x000e:
+            return r0
+        L_0x000f:
+            java.lang.String r0 = super.getMessage()
+            goto L_0x000e
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.mapping.WrongArguments.getMessage():java.lang.String");
     }
 
     public WrongArguments(Procedure proc2, int argCount) {

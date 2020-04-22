@@ -1,6 +1,6 @@
 package gnu.kawa.slib;
 
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import gnu.expr.Keyword;
 import gnu.expr.ModuleBody;
 import gnu.expr.ModuleInfo;
@@ -82,10 +82,10 @@ public class swing extends ModuleBody {
     public static final Location image$Mnheight = StaticFieldLocation.make("gnu.kawa.slib.gui", "image$Mnheight");
     public static final Location image$Mnread = StaticFieldLocation.make("gnu.kawa.slib.gui", "image$Mnread");
     public static final Location image$Mnwidth = StaticFieldLocation.make("gnu.kawa.slib.gui", "image$Mnwidth");
-    static final Location loc$$Lsgnu$Dtkawa$Dtmodels$DtDrawShape$Gr = ThreadLocation.getInstance(Lit10, null);
-    static final Location loc$$Lsgnu$Dtkawa$Dtmodels$DtFillShape$Gr = ThreadLocation.getInstance(Lit9, null);
-    static final Location loc$$Lsgnu$Dtkawa$Dtmodels$DtWithPaint$Gr = ThreadLocation.getInstance(Lit11, null);
-    static final Location loc$gnu$Dtkawa$Dtmodels$DtWithComposite = ThreadLocation.getInstance(Lit12, null);
+    static final Location loc$$Lsgnu$Dtkawa$Dtmodels$DtDrawShape$Gr = ThreadLocation.getInstance(Lit10, (Object) null);
+    static final Location loc$$Lsgnu$Dtkawa$Dtmodels$DtFillShape$Gr = ThreadLocation.getInstance(Lit9, (Object) null);
+    static final Location loc$$Lsgnu$Dtkawa$Dtmodels$DtWithPaint$Gr = ThreadLocation.getInstance(Lit11, (Object) null);
+    static final Location loc$gnu$Dtkawa$Dtmodels$DtWithComposite = ThreadLocation.getInstance(Lit12, (Object) null);
     public static final ModuleMethod make$Mnaction$Mnlistener;
     public static final ModuleMethod menu;
     public static final ModuleMethod menubar;
@@ -144,7 +144,7 @@ public class swing extends ModuleBody {
             case 1:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 2:
                 if (!(obj instanceof Shape)) {
@@ -152,7 +152,7 @@ public class swing extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 3:
                 if (!(obj instanceof Shape)) {
@@ -160,22 +160,22 @@ public class swing extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 6:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 8:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 10:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             default:
                 return super.match1(moduleMethod, obj, callContext);
@@ -221,7 +221,7 @@ public class swing extends ModuleBody {
                 }
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 11:
                 if (!(obj instanceof AffineTransform)) {
@@ -233,7 +233,7 @@ public class swing extends ModuleBody {
                 }
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             default:
                 return super.match2(moduleMethod, obj, obj2, callContext);
@@ -254,32 +254,32 @@ public class swing extends ModuleBody {
             case 5:
                 callContext.values = objArr;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 5;
+                callContext.pc = 5;
                 return 0;
             case 12:
                 callContext.values = objArr;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 5;
+                callContext.pc = 5;
                 return 0;
             case 13:
                 callContext.values = objArr;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 5;
+                callContext.pc = 5;
                 return 0;
             case 14:
                 callContext.values = objArr;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 5;
+                callContext.pc = 5;
                 return 0;
             case 15:
                 callContext.values = objArr;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 5;
+                callContext.pc = 5;
                 return 0;
             case 16:
                 callContext.values = objArr;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 5;
+                callContext.pc = 5;
                 return 0;
             default:
                 return super.matchN(moduleMethod, objArr, callContext);
@@ -294,11 +294,11 @@ public class swing extends ModuleBody {
         switch (moduleMethod.selector) {
             case 6:
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 0;
+                callContext.pc = 0;
                 return 0;
             case 8:
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 0;
+                callContext.pc = 0;
                 return 0;
             default:
                 return super.match0(moduleMethod, callContext);
@@ -422,13 +422,13 @@ public class swing extends ModuleBody {
     }
 
     public static JMenuItem menuitem$V(Object[] argsArray) {
-        Object searchForKeyword = Keyword.searchForKeyword(argsArray, 0, Lit1, null);
+        Object searchForKeyword = Keyword.searchForKeyword(argsArray, 0, Lit1, (Object) null);
         String label = searchForKeyword == null ? null : searchForKeyword.toString();
-        Object searchForKeyword2 = Keyword.searchForKeyword(argsArray, 0, Lit2, null);
-        Object searchForKeyword3 = Keyword.searchForKeyword(argsArray, 0, Lit3, null);
-        Object oncommand = Keyword.searchForKeyword(argsArray, 0, Lit4, null);
+        Object searchForKeyword2 = Keyword.searchForKeyword(argsArray, 0, Lit2, (Object) null);
+        Object searchForKeyword3 = Keyword.searchForKeyword(argsArray, 0, Lit3, (Object) null);
+        Object oncommand = Keyword.searchForKeyword(argsArray, 0, Lit4, (Object) null);
         Object disabled = Keyword.searchForKeyword(argsArray, 0, Lit5, Boolean.FALSE);
-        Object searchForKeyword4 = Keyword.searchForKeyword(argsArray, 0, Lit6, null);
+        Object searchForKeyword4 = Keyword.searchForKeyword(argsArray, 0, Lit6, (Object) null);
         JMenuItem menuitem2 = new JMenuItem();
         if (disabled != Boolean.FALSE) {
             menuitem2.setEnabled(false);

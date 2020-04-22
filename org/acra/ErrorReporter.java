@@ -7,7 +7,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.os.Looper;
 import android.os.Process;
@@ -15,10 +14,11 @@ import android.text.format.Time;
 import android.util.Log;
 import gnu.expr.Declaration;
 import java.io.File;
-import java.lang.Thread.UncaughtExceptionHandler;
+import java.lang.Thread;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import org.acra.annotation.ReportsCrashes;
 import org.acra.collector.ConfigurationCollector;
 import org.acra.collector.CrashReportData;
@@ -30,7 +30,7 @@ import org.acra.sender.ReportSender;
 import org.acra.util.PackageManagerWrapper;
 import org.acra.util.ToastSender;
 
-public class ErrorReporter implements UncaughtExceptionHandler {
+public class ErrorReporter implements Thread.UncaughtExceptionHandler {
     /* access modifiers changed from: private */
     public static boolean toastWaitEnded = true;
     private Thread brokenThread;
@@ -39,7 +39,7 @@ public class ErrorReporter implements UncaughtExceptionHandler {
     private final CrashReportFileNameParser fileNameParser = new CrashReportFileNameParser();
     /* access modifiers changed from: private */
     public final Context mContext;
-    private final UncaughtExceptionHandler mDfltExceptionHandler;
+    private final Thread.UncaughtExceptionHandler mDfltExceptionHandler;
     private final List<ReportSender> mReportSenders = new ArrayList();
     private final SharedPreferences prefs;
     private Throwable unhandledThrowable;
@@ -150,14 +150,14 @@ public class ErrorReporter implements UncaughtExceptionHandler {
         this.enabled = enabled2;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public SendWorker startSendingReports(boolean onlySendSilentReports, boolean approveReportsFirst) {
         SendWorker worker = new SendWorker(this.mContext, this.mReportSenders, onlySendSilentReports, approveReportsFirst);
         worker.start();
         return worker;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void deletePendingReports() {
         deletePendingReports(true, true, 0);
     }
@@ -175,7 +175,7 @@ public class ErrorReporter implements UncaughtExceptionHandler {
             if (ACRA.getConfig().deleteOldUnsentReportsOnApplicationStart()) {
                 deletePendingReports();
             }
-            Editor prefsEditor = this.prefs.edit();
+            SharedPreferences.Editor prefsEditor = this.prefs.edit();
             prefsEditor.putInt(ACRA.PREF_LAST_VERSION_NR, packageInfo.versionCode);
             prefsEditor.commit();
         }
@@ -202,7 +202,7 @@ public class ErrorReporter implements UncaughtExceptionHandler {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void deletePendingNonApprovedReports(boolean keepOne) {
         int nbReportsToKeep;
         if (keepOne) {
@@ -275,7 +275,7 @@ public class ErrorReporter implements UncaughtExceptionHandler {
                             }
                             currentTime.setToNow();
                         }
-                        ErrorReporter.toastWaitEnded = true;
+                        boolean unused = ErrorReporter.toastWaitEnded = true;
                     }
                 }.start();
             }
@@ -309,7 +309,7 @@ public class ErrorReporter implements UncaughtExceptionHandler {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void notifyDialog(String reportFileName) {
         Log.d(ACRA.LOG_TAG, "Creating Dialog for " + reportFileName);
         Intent dialogIntent = new Intent(this.mContext, CrashReportDialog.class);
@@ -395,7 +395,7 @@ public class ErrorReporter implements UncaughtExceptionHandler {
         } else if (!new PackageManagerWrapper(mApplication).hasPermission("android.permission.INTERNET")) {
             Log.e(ACRA.LOG_TAG, mApplication.getPackageName() + " should be granted permission " + "android.permission.INTERNET" + " if you want your crash reports to be sent. If you don't want to add this permission to your application you can also enable sending reports by email. If this is your will then provide your email address in @ReportsCrashes(mailTo=\"your.account@domain.com\"");
         } else if (conf.formUri() != null && !"".equals(conf.formUri())) {
-            setReportSender(new HttpPostSender(null));
+            setReportSender(new HttpPostSender((Map<ReportField, String>) null));
         } else if (conf.formKey() != null && !"".equals(conf.formKey().trim())) {
             addReportSender(new GoogleFormSender());
         }

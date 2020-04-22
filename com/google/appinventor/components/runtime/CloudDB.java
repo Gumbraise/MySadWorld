@@ -24,7 +24,9 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.KeyStore;
+import java.security.SecureRandom;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
@@ -34,7 +36,10 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicReference;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLParameters;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
@@ -69,9 +74,7 @@ public final class CloudDB extends AndroidNonvisibleComponent implements Compone
     public Handler androidUIHandler = new Handler();
     /* access modifiers changed from: private */
     public volatile ExecutorService background = Executors.newSingleThreadExecutor();
-
-    /* renamed from: cm */
-    private ConnectivityManager f35cm;
+    private ConnectivityManager cm;
     /* access modifiers changed from: private */
     public volatile CloudDBJedisListener currentListener;
     /* access modifiers changed from: private */
@@ -117,7 +120,7 @@ public final class CloudDB extends AndroidNonvisibleComponent implements Compone
         this.projectID = "";
         this.token = "";
         this.redisPort = 6381;
-        this.f35cm = (ConnectivityManager) this.form.$context().getSystemService("connectivity");
+        this.cm = (ConnectivityManager) this.form.$context().getSystemService("connectivity");
     }
 
     public void Initialize() {
@@ -154,7 +157,7 @@ public final class CloudDB extends AndroidNonvisibleComponent implements Compone
                     Jedis jedis = CloudDB.this.getJedis(true);
                     if (jedis != null) {
                         try {
-                            CloudDB.this.currentListener = new CloudDBJedisListener(CloudDB.this);
+                            CloudDBJedisListener unused = CloudDB.this.currentListener = new CloudDBJedisListener(CloudDB.this);
                             jedis.subscribe(CloudDB.this.currentListener, new String[]{CloudDB.this.projectID});
                         } catch (Exception e) {
                             Log.e(CloudDB.LOG_TAG, "Error in listener thread", e);
@@ -173,7 +176,7 @@ public final class CloudDB extends AndroidNonvisibleComponent implements Compone
                         } catch (InterruptedException e4) {
                         }
                     }
-                    CloudDB.this.listenerRunning = false;
+                    boolean unused2 = CloudDB.this.listenerRunning = false;
                     if (!CloudDB.this.dead && !CloudDB.this.shutdown) {
                         CloudDB.this.startListener();
                     }
@@ -279,7 +282,7 @@ public final class CloudDB extends AndroidNonvisibleComponent implements Compone
         String value;
         boolean isConnected = false;
         checkProjectIDNotBlank();
-        NetworkInfo networkInfo = this.f35cm.getActiveNetworkInfo();
+        NetworkInfo networkInfo = this.cm.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             isConnected = true;
         }
@@ -468,7 +471,7 @@ public final class CloudDB extends AndroidNonvisibleComponent implements Compone
                                     r10.clear()     // Catch:{ Exception -> 0x005d }
                                     goto L_0x0049
                                 */
-                                throw new UnsupportedOperationException("Method not decompiled: com.google.appinventor.components.runtime.CloudDB.C02882.run():void");
+                                throw new UnsupportedOperationException("Method not decompiled: com.google.appinventor.components.runtime.CloudDB.AnonymousClass2.run():void");
                             }
                         });
                     }
@@ -485,7 +488,7 @@ public final class CloudDB extends AndroidNonvisibleComponent implements Compone
     public void GetValue(final String tag, final Object valueIfTagNotThere) {
         checkProjectIDNotBlank();
         final AtomicReference<Object> value = new AtomicReference<>();
-        NetworkInfo networkInfo = this.f35cm.getActiveNetworkInfo();
+        NetworkInfo networkInfo = this.cm.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             this.background.submit(new Runnable() {
                 public void run() {
@@ -525,7 +528,7 @@ public final class CloudDB extends AndroidNonvisibleComponent implements Compone
 
     @SimpleFunction(description = "returns True if we are on the network and will likely be able to connect to the CloudDB server.")
     public boolean CloudConnected() {
-        NetworkInfo networkInfo = this.f35cm.getActiveNetworkInfo();
+        NetworkInfo networkInfo = this.cm.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
     }
 
@@ -630,14 +633,14 @@ public final class CloudDB extends AndroidNonvisibleComponent implements Compone
     @SimpleFunction(description = "Get the list of tags for this application. When complete a \"TagList\" event will be triggered with the list of known tags.")
     public void GetTagList() {
         checkProjectIDNotBlank();
-        NetworkInfo networkInfo = this.f35cm.getActiveNetworkInfo();
+        NetworkInfo networkInfo = this.cm.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             this.background.submit(new Runnable() {
                 public void run() {
                     try {
                         final List<String> listValue = new ArrayList<>(CloudDB.this.getJedis().keys(CloudDB.this.projectID + ":*"));
                         for (int i = 0; i < listValue.size(); i++) {
-                            listValue.set(i, ((String) listValue.get(i)).substring((CloudDB.this.projectID + ":").length()));
+                            listValue.set(i, listValue.get(i).substring((CloudDB.this.projectID + ":").length()));
                         }
                         CloudDB.this.androidUIHandler.post(new Runnable() {
                             public void run() {
@@ -664,7 +667,6 @@ public final class CloudDB extends AndroidNonvisibleComponent implements Compone
     @SimpleEvent
     public void DataChanged(final String tag, Object value) {
         final Object finalTagValue;
-        String tagValue = "";
         if (value != null) {
             try {
                 if (value instanceof String) {
@@ -679,7 +681,7 @@ public final class CloudDB extends AndroidNonvisibleComponent implements Compone
                 throw new YailRuntimeError("Value failed to convert from JSON.", "JSON Retrieval Error.");
             }
         }
-        finalTagValue = tagValue;
+        finalTagValue = "";
         this.androidUIHandler.post(new Runnable() {
             public void run() {
                 EventDispatcher.dispatchEvent(CloudDB.this, "DataChanged", tag, finalTagValue);
@@ -715,7 +717,7 @@ public final class CloudDB extends AndroidNonvisibleComponent implements Compone
         try {
             if (this.useSSL) {
                 ensureSslSockFactory();
-                jedis = new Jedis(this.redisServer, this.redisPort, true, this.SslSockFactory, null, null);
+                jedis = new Jedis(this.redisServer, this.redisPort, true, this.SslSockFactory, (SSLParameters) null, (HostnameVerifier) null);
             } else {
                 jedis = new Jedis(this.redisServer, this.redisPort, false);
             }
@@ -754,8 +756,8 @@ public final class CloudDB extends AndroidNonvisibleComponent implements Compone
             this.INSTANCE = null;
             this.androidUIHandler.post(new Runnable() {
                 public void run() {
-                    List shutdownNow = CloudDB.this.background.shutdownNow();
-                    CloudDB.this.background = Executors.newSingleThreadExecutor();
+                    List<Runnable> shutdownNow = CloudDB.this.background.shutdownNow();
+                    ExecutorService unused = CloudDB.this.background = Executors.newSingleThreadExecutor();
                 }
             });
             stopListener();
@@ -819,10 +821,12 @@ public final class CloudDB extends AndroidNonvisibleComponent implements Compone
                 Certificate mitca = cf.generateCertificate(caInput4);
                 caInput4.close();
                 KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
-                keyStore.load(null, null);
+                keyStore.load((InputStream) null, (char[]) null);
                 int count = 1;
-                for (X509Certificate cert : getSystemCertificates()) {
-                    keyStore.setCertificateEntry("root" + count, cert);
+                X509Certificate[] systemCertificates = getSystemCertificates();
+                int length = systemCertificates.length;
+                for (int i = 0; i < length; i++) {
+                    keyStore.setCertificateEntry("root" + count, systemCertificates[i]);
                     count++;
                 }
                 keyStore.setCertificateEntry("comodo", ca);
@@ -832,7 +836,7 @@ public final class CloudDB extends AndroidNonvisibleComponent implements Compone
                 TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
                 tmf.init(keyStore);
                 SSLContext ctx = SSLContext.getInstance("TLS");
-                ctx.init(null, tmf.getTrustManagers(), null);
+                ctx.init((KeyManager[]) null, tmf.getTrustManagers(), (SecureRandom) null);
                 this.SslSockFactory = ctx.getSocketFactory();
             } catch (Exception e) {
                 Log.e(LOG_TAG, "Could not setup SSL Trust Store for CloudDB", e);
@@ -844,7 +848,7 @@ public final class CloudDB extends AndroidNonvisibleComponent implements Compone
     private X509Certificate[] getSystemCertificates() {
         try {
             TrustManagerFactory otmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-            otmf.init(null);
+            otmf.init((KeyStore) null);
             return ((X509TrustManager) otmf.getTrustManagers()[0]).getAcceptedIssuers();
         } catch (Exception e) {
             Log.e(LOG_TAG, "Getting System Certificates", e);

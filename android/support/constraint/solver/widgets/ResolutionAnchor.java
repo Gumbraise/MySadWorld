@@ -1,9 +1,8 @@
 package android.support.constraint.solver.widgets;
 
 import android.support.constraint.solver.LinearSystem;
-import android.support.constraint.solver.Metrics;
 import android.support.constraint.solver.SolverVariable;
-import android.support.constraint.solver.widgets.ConstraintAnchor.Type;
+import android.support.constraint.solver.widgets.ConstraintAnchor;
 
 public class ResolutionAnchor extends ResolutionNode {
     public static final int BARRIER_CONNECTION = 5;
@@ -62,7 +61,7 @@ public class ResolutionAnchor extends ResolutionNode {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public String sType(int type2) {
         if (type2 == 1) {
             return "DIRECT";
@@ -113,12 +112,11 @@ public class ResolutionAnchor extends ResolutionNode {
                 didResolve();
             } else if (this.type == 2 && this.target != null && this.target.state == 1 && this.opposite != null && this.opposite.target != null && this.opposite.target.state == 1) {
                 if (LinearSystem.getMetrics() != null) {
-                    Metrics metrics = LinearSystem.getMetrics();
-                    metrics.centerConnectionResolved++;
+                    LinearSystem.getMetrics().centerConnectionResolved++;
                 }
                 this.resolvedTarget = this.target.resolvedTarget;
                 this.opposite.resolvedTarget = this.opposite.target.resolvedTarget;
-                if (!(this.myAnchor.mType == Type.RIGHT || this.myAnchor.mType == Type.BOTTOM)) {
+                if (!(this.myAnchor.mType == ConstraintAnchor.Type.RIGHT || this.myAnchor.mType == ConstraintAnchor.Type.BOTTOM)) {
                     isEndAnchor = false;
                 }
                 if (isEndAnchor) {
@@ -126,7 +124,7 @@ public class ResolutionAnchor extends ResolutionNode {
                 } else {
                     distance = this.opposite.target.resolvedOffset - this.target.resolvedOffset;
                 }
-                if (this.myAnchor.mType == Type.LEFT || this.myAnchor.mType == Type.RIGHT) {
+                if (this.myAnchor.mType == ConstraintAnchor.Type.LEFT || this.myAnchor.mType == ConstraintAnchor.Type.RIGHT) {
                     distance2 = distance - ((float) this.myAnchor.mOwner.getWidth());
                     percent = this.myAnchor.mOwner.mHorizontalBiasPercent;
                 } else {
@@ -152,8 +150,7 @@ public class ResolutionAnchor extends ResolutionNode {
                 this.opposite.didResolve();
             } else if (this.type == 3 && this.target != null && this.target.state == 1 && this.opposite != null && this.opposite.target != null && this.opposite.target.state == 1) {
                 if (LinearSystem.getMetrics() != null) {
-                    Metrics metrics2 = LinearSystem.getMetrics();
-                    metrics2.matchConnectionResolved++;
+                    LinearSystem.getMetrics().matchConnectionResolved++;
                 }
                 this.resolvedTarget = this.target.resolvedTarget;
                 this.opposite.resolvedTarget = this.opposite.target.resolvedTarget;
@@ -195,7 +192,7 @@ public class ResolutionAnchor extends ResolutionNode {
                 targetAnchor.getResolutionNode().type = 4;
             }
             int margin = this.myAnchor.getMargin();
-            if (this.myAnchor.mType == Type.RIGHT || this.myAnchor.mType == Type.BOTTOM) {
+            if (this.myAnchor.mType == ConstraintAnchor.Type.RIGHT || this.myAnchor.mType == ConstraintAnchor.Type.BOTTOM) {
                 margin = -margin;
             }
             dependsOn(targetAnchor.getResolutionNode(), margin);
@@ -234,7 +231,7 @@ public class ResolutionAnchor extends ResolutionNode {
         this.oppositeDimensionMultiplier = multiplier;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void addResolvedValue(LinearSystem system) {
         SolverVariable sv = this.myAnchor.getSolverVariable();
         if (this.resolvedTarget == null) {

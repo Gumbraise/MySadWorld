@@ -1,7 +1,6 @@
 package com.google.appinventor.components.runtime.repackaged.org.json;
 
-import com.google.appinventor.components.runtime.util.Ev3Constants.Opcode;
-import java.util.Arrays;
+import com.google.appinventor.components.runtime.util.Ev3Constants;
 
 public class Kim {
     private byte[] bytes;
@@ -148,23 +147,38 @@ public class Kim {
         return this.length + at;
     }
 
-    public boolean equals(Object obj) {
-        if (!(obj instanceof Kim)) {
-            return false;
-        }
-        Kim that = (Kim) obj;
-        if (this == that) {
-            return true;
-        }
-        if (this.hashcode == that.hashcode) {
-            return Arrays.equals(this.bytes, that.bytes);
-        }
-        return false;
+    /* JADX WARNING: type inference failed for: r5v0, types: [java.lang.Object] */
+    /* JADX WARNING: Unknown variable types count: 1 */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public boolean equals(java.lang.Object r5) {
+        /*
+            r4 = this;
+            r1 = 0
+            boolean r2 = r5 instanceof com.google.appinventor.components.runtime.repackaged.org.json.Kim
+            if (r2 != 0) goto L_0x0006
+        L_0x0005:
+            return r1
+        L_0x0006:
+            r0 = r5
+            com.google.appinventor.components.runtime.repackaged.org.json.Kim r0 = (com.google.appinventor.components.runtime.repackaged.org.json.Kim) r0
+            if (r4 != r0) goto L_0x000d
+            r1 = 1
+            goto L_0x0005
+        L_0x000d:
+            int r2 = r4.hashcode
+            int r3 = r0.hashcode
+            if (r2 != r3) goto L_0x0005
+            byte[] r1 = r4.bytes
+            byte[] r2 = r0.bytes
+            boolean r1 = java.util.Arrays.equals(r1, r2)
+            goto L_0x0005
+        */
+        throw new UnsupportedOperationException("Method not decompiled: com.google.appinventor.components.runtime.repackaged.org.json.Kim.equals(java.lang.Object):boolean");
     }
 
     public int get(int at) throws JSONException {
         if (at >= 0 && at <= this.length) {
-            return this.bytes[at] & Opcode.TST;
+            return this.bytes[at] & Ev3Constants.Opcode.TST;
         }
         throw new JSONException(new StringBuffer().append("Bad character at ").append(at).toString());
     }

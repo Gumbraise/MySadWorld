@@ -54,7 +54,7 @@ public class LispPackage extends Namespace {
         } else {
             super.remove(symbol);
         }
-        symbol.setNamespace(null);
+        symbol.setNamespace((Namespace) null);
         if (removeFromShadowingSymbols(symbol)) {
         }
         return true;

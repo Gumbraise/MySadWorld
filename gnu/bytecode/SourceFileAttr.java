@@ -17,15 +17,12 @@ public class SourceFileAttr extends Attribute {
     }
 
     public static String fixSourceFile(String fname) {
+        char fsep0;
         String fsep = System.getProperty("file.separator", "/");
-        if (fsep == null || fsep.length() != 1) {
+        if (fsep == null || fsep.length() != 1 || (fsep0 = fsep.charAt(0)) == '/') {
             return fname;
         }
-        char fsep0 = fsep.charAt(0);
-        if (fsep0 != '/') {
-            return fname.replace(fsep0, '/');
-        }
-        return fname;
+        return fname.replace(fsep0, '/');
     }
 
     public static void setSourceFile(ClassType cl, String filename2) {

@@ -73,7 +73,7 @@ public class TranslationContainer {
 
     public String getCorrespondingString(String key) {
         if (this.CompTransMap.containsKey(key)) {
-            return (String) this.CompTransMap.get(key);
+            return this.CompTransMap.get(key);
         }
         return "Missing name";
     }

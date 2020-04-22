@@ -11,6 +11,7 @@ import gnu.lists.LList;
 import gnu.lists.Pair;
 import kawa.lang.PatternScope;
 import kawa.lang.Quote;
+import kawa.lang.SyntaxForm;
 import kawa.lang.SyntaxTemplate;
 import kawa.lang.Translator;
 
@@ -36,7 +37,7 @@ public class syntax extends Quote {
                 Declaration saveTemplateScopeDecl = tr.templateScopeDecl;
                 if (saveTemplateScopeDecl == null) {
                     tr.letStart();
-                    Declaration templateScopeDecl = tr.letVariable(null, typeTemplateScope, new ApplyExp(makeTemplateScopeMethod, Expression.noExpressions));
+                    Declaration templateScopeDecl = tr.letVariable((Object) null, typeTemplateScope, new ApplyExp(makeTemplateScopeMethod, Expression.noExpressions));
                     templateScopeDecl.setCanRead();
                     tr.templateScopeDecl = templateScopeDecl;
                     tr.letEnter();
@@ -61,7 +62,7 @@ public class syntax extends Quote {
     }
 
     static Expression makeSyntax(Object form, Translator tr) {
-        SyntaxTemplate template = new SyntaxTemplate(form, null, tr);
+        SyntaxTemplate template = new SyntaxTemplate(form, (SyntaxForm) null, tr);
         Expression matchArray = QuoteExp.nullExp;
         PatternScope patternScope = tr.patternScope;
         if (!(patternScope == null || patternScope.matchArray == null)) {

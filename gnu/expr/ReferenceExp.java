@@ -18,9 +18,7 @@ public class ReferenceExp extends AccessExp {
     public static final int PROCEDURE_NAME = 4;
     public static final int TYPE_NAME = 16;
     static int counter;
-
-    /* renamed from: id */
-    int f56id;
+    int id;
 
     public final boolean getDontDereference() {
         return (this.flags & 2) != 0;
@@ -45,14 +43,14 @@ public class ReferenceExp extends AccessExp {
     public ReferenceExp(Object symbol) {
         int i = counter + 1;
         counter = i;
-        this.f56id = i;
+        this.id = i;
         this.symbol = symbol;
     }
 
     public ReferenceExp(Object symbol, Declaration binding) {
         int i = counter + 1;
         counter = i;
-        this.f56id = i;
+        this.id = i;
         this.symbol = symbol;
         this.binding = binding;
     }
@@ -67,13 +65,11 @@ public class ReferenceExp extends AccessExp {
     }
 
     public final Object valueIfConstant() {
-        if (this.binding != null) {
-            Expression dvalue = this.binding.getValue();
-            if (dvalue != null) {
-                return dvalue.valueIfConstant();
-            }
+        Expression dvalue;
+        if (this.binding == null || (dvalue = this.binding.getValue()) == null) {
+            return null;
         }
-        return null;
+        return dvalue.valueIfConstant();
     }
 
     public void apply(CallContext ctx) throws Throwable {
@@ -143,19 +139,17 @@ public class ReferenceExp extends AccessExp {
     }
 
     public Expression validateApply(ApplyExp exp, InlineCalls visitor, Type required, Declaration decl) {
+        Expression dval;
         Declaration decl2 = this.binding;
         if (decl2 != null && !decl2.getFlag(65536)) {
             Declaration decl3 = Declaration.followAliases(decl2);
-            if (!decl3.isIndirectBinding()) {
-                Expression dval = decl3.getValue();
-                if (dval != null) {
-                    return dval.validateApply(exp, visitor, required, decl3);
-                }
+            if (!decl3.isIndirectBinding() && (dval = decl3.getValue()) != null) {
+                return dval.validateApply(exp, visitor, required, decl3);
             }
         } else if (getSymbol() instanceof Symbol) {
-            Object fval = Environment.getCurrent().getFunction((Symbol) getSymbol(), null);
+            Object fval = Environment.getCurrent().getFunction((Symbol) getSymbol(), (Object) null);
             if (fval instanceof Procedure) {
-                return new QuoteExp(fval).validateApply(exp, visitor, required, null);
+                return new QuoteExp(fval).validateApply(exp, visitor, required, (Declaration) null);
             }
         }
         exp.visitArgs(visitor);
@@ -164,7 +158,7 @@ public class ReferenceExp extends AccessExp {
 
     public void print(OutPort ps) {
         ps.print("(Ref/");
-        ps.print(this.f56id);
+        ps.print(this.id);
         if (this.symbol != null && (this.binding == null || this.symbol.toString() != this.binding.getName())) {
             ps.print('/');
             ps.print(this.symbol);
@@ -177,6 +171,7 @@ public class ReferenceExp extends AccessExp {
     }
 
     public Type getType() {
+        Expression value;
         Declaration decl = this.binding;
         if (decl == null || decl.isFluid()) {
             return Type.pointer_type;
@@ -186,14 +181,11 @@ public class ReferenceExp extends AccessExp {
         }
         Declaration decl2 = Declaration.followAliases(decl);
         Type type = decl2.getType();
-        if (type == null || type == Type.pointer_type) {
-            Expression value = decl2.getValue();
-            if (!(value == null || value == QuoteExp.undefined_exp)) {
-                Expression save = decl2.value;
-                decl2.value = null;
-                type = value.getType();
-                decl2.value = save;
-            }
+        if (!((type != null && type != Type.pointer_type) || (value = decl2.getValue()) == null || value == QuoteExp.undefined_exp)) {
+            Expression save = decl2.value;
+            decl2.value = null;
+            type = value.getType();
+            decl2.value = save;
         }
         if (type == Type.toStringType) {
             return Type.javalangStringType;
@@ -213,6 +205,6 @@ public class ReferenceExp extends AccessExp {
     }
 
     public String toString() {
-        return "RefExp/" + this.symbol + '/' + this.f56id + '/';
+        return "RefExp/" + this.symbol + '/' + this.id + '/';
     }
 }

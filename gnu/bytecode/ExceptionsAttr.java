@@ -1,6 +1,6 @@
 package gnu.bytecode;
 
-import android.support.p000v4.internal.view.SupportMenu;
+import android.support.v4.internal.view.SupportMenu;
 import java.io.DataOutputStream;
 import java.io.IOException;
 

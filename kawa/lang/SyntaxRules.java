@@ -57,7 +57,7 @@ public class SyntaxRules extends Procedure1 implements Printable, Externalizable
             }
             SyntaxForm pattern_syntax = rule_syntax;
             Pair syntax_rule_pair = (Pair) syntax_rule;
-            Object pattern = syntax_rule_pair.getCar();
+            Object car = syntax_rule_pair.getCar();
             String save_filename = tr.getFileName();
             int save_line = tr.getLineNumber();
             int save_column = tr.getColumnNumber();
@@ -82,6 +82,7 @@ public class SyntaxRules extends Procedure1 implements Printable, Externalizable
                 }
                 Object template = syntax_rule_pair2.getCar();
                 tr.push((ScopeExp) PatternScope.push(tr));
+                Object pattern = car;
                 while (pattern instanceof SyntaxForm) {
                     pattern_syntax = (SyntaxForm) pattern;
                     pattern = pattern_syntax.getDatum();
@@ -89,10 +90,9 @@ public class SyntaxRules extends Procedure1 implements Printable, Externalizable
                 StringBuffer programbuf = new StringBuffer();
                 if (pattern instanceof Pair) {
                     literal_identifiers2[0] = ((Pair) pattern).getCar();
-                    Pair p = (Pair) pattern;
                     programbuf.append(12);
                     programbuf.append(24);
-                    this.rules[i] = new SyntaxRule(new SyntaxPattern(programbuf, p.getCdr(), pattern_syntax, literal_identifiers2, tr), template, template_syntax, tr);
+                    this.rules[i] = new SyntaxRule(new SyntaxPattern(programbuf, ((Pair) pattern).getCdr(), pattern_syntax, literal_identifiers2, tr), template, template_syntax, tr);
                     PatternScope.pop(tr);
                     tr.pop();
                     tr.setLine(save_filename, save_line, save_column);

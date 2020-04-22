@@ -1,5 +1,6 @@
 package gnu.lists;
 
+import android.support.v7.widget.ActivityChooserView;
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
@@ -44,7 +45,7 @@ public class Pair extends LList implements Externalizable {
             return n;
         }
         if (n == -1) {
-            return ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED;
+            return ActivityChooserView.ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED;
         }
         throw new RuntimeException("not a true list");
     }
@@ -56,26 +57,26 @@ public class Pair extends LList implements Externalizable {
     public int length() {
         int n = 0;
         Object obj = this;
-        Object obj2 = this;
+        Pair pair = this;
         while (obj != Empty) {
             if (obj instanceof Pair) {
                 Pair fast_pair = (Pair) obj;
                 if (fast_pair.cdr == Empty) {
                     return n + 1;
                 }
-                if (obj == obj2 && n > 0) {
+                if (obj == pair && n > 0) {
                     return -1;
                 }
                 if (!(fast_pair.cdr instanceof Pair)) {
                     n++;
                     obj = fast_pair.cdr;
-                } else if (!(obj2 instanceof Pair)) {
+                } else if (!(pair instanceof Pair)) {
                     return -2;
                 } else {
-                    Object slow = ((Pair) obj2).cdr;
+                    Object slow = ((Pair) pair).cdr;
                     obj = ((Pair) fast_pair.cdr).cdr;
                     n += 2;
-                    obj2 = slow;
+                    pair = slow;
                 }
             } else if (!(obj instanceof Sequence)) {
                 return -2;
@@ -124,15 +125,25 @@ public class Pair extends LList implements Externalizable {
         return PositionManager.getPositionObject(ipos).getPrevious();
     }
 
-    public final Pair lastPair() {
-        Pair pair = this;
-        while (true) {
-            Object next = pair.cdr;
-            if (!(next instanceof Pair)) {
-                return pair;
-            }
-            pair = (Pair) next;
-        }
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v0, resolved type: java.lang.Object} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r1v2, resolved type: gnu.lists.Pair} */
+    /* JADX WARNING: Multi-variable type inference failed */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public final gnu.lists.Pair lastPair() {
+        /*
+            r3 = this;
+            r1 = r3
+        L_0x0001:
+            java.lang.Object r0 = r1.cdr
+            boolean r2 = r0 instanceof gnu.lists.Pair
+            if (r2 == 0) goto L_0x000b
+            r1 = r0
+            gnu.lists.Pair r1 = (gnu.lists.Pair) r1
+            goto L_0x0001
+        L_0x000b:
+            return r1
+        */
+        throw new UnsupportedOperationException("Method not decompiled: gnu.lists.Pair.lastPair():gnu.lists.Pair");
     }
 
     public int hashCode() {
@@ -288,8 +299,8 @@ public class Pair extends LList implements Externalizable {
         while (i < len && (rest instanceof Pair)) {
             Pair pair = (Pair) rest;
             arr[i] = pair.car;
-            i++;
             rest = (Sequence) pair.cdr;
+            i++;
         }
         int prefix = i;
         while (i < len) {
@@ -311,8 +322,8 @@ public class Pair extends LList implements Externalizable {
         while (i < len && (rest instanceof Pair)) {
             Pair pair = (Pair) rest;
             arr[i] = pair.car;
-            i++;
             rest = (Sequence) pair.cdr;
+            i++;
         }
         int prefix = i;
         while (i < len) {

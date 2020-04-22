@@ -1,22 +1,18 @@
 package kawa;
 
-import com.google.appinventor.components.runtime.util.Ev3Constants.Opcode;
+import com.google.appinventor.components.runtime.util.Ev3Constants;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
 public class Telnet implements Runnable {
-
-    /* renamed from: DO */
-    public static final int f250DO = 253;
+    public static final int DO = 253;
     public static final int DONT = 254;
     public static final int ECHO = 1;
     static final int EOF = 236;
     static final int IAC = 255;
-
-    /* renamed from: IP */
-    static final int f251IP = 244;
+    static final int IP = 244;
     static final int LINEMODE = 34;
     static final int NAWS = 31;
     static final int NOP = 241;
@@ -26,22 +22,14 @@ public class Telnet implements Runnable {
     static final int OPTION_WANTYES = 3;
     static final int OPTION_WANTYES_OPPOSITE = 4;
     static final int OPTION_YES = 5;
-
-    /* renamed from: SB */
-    static final int f252SB = 250;
-
-    /* renamed from: SE */
-    static final int f253SE = 240;
+    static final int SB = 250;
+    static final int SE = 240;
     public static final int SUPPRESS_GO_AHEAD = 3;
-
-    /* renamed from: TM */
-    static final int f254TM = 6;
+    static final int TM = 6;
     static final int TTYPE = 24;
     public static final int WILL = 251;
     public static final int WONT = 252;
-
-    /* renamed from: in */
-    TelnetInputStream f255in;
+    TelnetInputStream in;
     boolean isServer;
     final byte[] optionsState = new byte[256];
     TelnetOutputStream out;
@@ -53,14 +41,14 @@ public class Telnet implements Runnable {
     public short windowWidth;
 
     public TelnetInputStream getInputStream() {
-        return this.f255in;
+        return this.in;
     }
 
     public TelnetOutputStream getOutputStream() {
         return this.out;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public boolean change(int command, int option) {
         if (option == 6) {
             return true;
@@ -105,8 +93,8 @@ public class Telnet implements Runnable {
                 return;
             case 31:
                 if (len == 5) {
-                    this.windowWidth = (short) ((buf[1] << 8) + (buf[2] & Opcode.TST));
-                    this.windowHeight = (short) ((buf[3] << 8) + (buf[4] & Opcode.TST));
+                    this.windowWidth = (short) ((buf[1] << 8) + (buf[2] & Ev3Constants.Opcode.TST));
+                    this.windowHeight = (short) ((buf[3] << 8) + (buf[4] & Ev3Constants.Opcode.TST));
                     return;
                 }
                 return;
@@ -124,13 +112,13 @@ public class Telnet implements Runnable {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void handle(int command, int option) throws IOException {
         boolean otherSide;
         byte state;
         boolean wantOn = true;
         int i = DONT;
-        int i2 = f250DO;
+        int i2 = DO;
         if (command < 253) {
             otherSide = true;
         } else {
@@ -321,7 +309,7 @@ public class Telnet implements Runnable {
         this.sin = socket.getInputStream();
         this.sout = socket.getOutputStream();
         this.out = new TelnetOutputStream(this.sout);
-        this.f255in = new TelnetInputStream(this.sin, this);
+        this.in = new TelnetInputStream(this.sin, this);
         this.isServer = isServer2;
     }
 

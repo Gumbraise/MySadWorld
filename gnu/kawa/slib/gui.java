@@ -1,6 +1,6 @@
 package gnu.kawa.slib;
 
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import com.google.appinventor.components.common.PropertyTypeConstants;
 import gnu.expr.Keyword;
 import gnu.expr.ModuleBody;
@@ -102,10 +102,10 @@ public class gui extends ModuleBody {
     public static final ModuleMethod image$Mnheight;
     public static final ModuleMethod image$Mnread;
     public static final ModuleMethod image$Mnwidth;
-    static final Location loc$$Lsgnu$Dtkawa$Dtmodels$DtColumn$Gr = ThreadLocation.getInstance(Lit6, null);
-    static final Location loc$$Lsgnu$Dtkawa$Dtmodels$DtRow$Gr = ThreadLocation.getInstance(Lit5, null);
-    static final Location loc$$St$DtgetHeight = ThreadLocation.getInstance(Lit4, null);
-    static final Location loc$$St$DtgetWidth = ThreadLocation.getInstance(Lit3, null);
+    static final Location loc$$Lsgnu$Dtkawa$Dtmodels$DtColumn$Gr = ThreadLocation.getInstance(Lit6, (Object) null);
+    static final Location loc$$Lsgnu$Dtkawa$Dtmodels$DtRow$Gr = ThreadLocation.getInstance(Lit5, (Object) null);
+    static final Location loc$$St$DtgetHeight = ThreadLocation.getInstance(Lit4, (Object) null);
+    static final Location loc$$St$DtgetWidth = ThreadLocation.getInstance(Lit3, (Object) null);
     public static final Macro process$Mnkeywords = Macro.make(Lit7, Lit8, $instance);
     public static final Macro run$Mnapplication = Macro.make(Lit23, Lit24, $instance);
     public static final ModuleMethod set$Mncontent;
@@ -163,7 +163,7 @@ public class gui extends ModuleBody {
             case 1:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 4:
                 if (Path.coerceToPathOrNull(obj) == null) {
@@ -171,7 +171,7 @@ public class gui extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 5:
                 if (!(obj instanceof BufferedImage)) {
@@ -179,7 +179,7 @@ public class gui extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 6:
                 if (!(obj instanceof BufferedImage)) {
@@ -187,7 +187,7 @@ public class gui extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             default:
                 return super.match1(moduleMethod, obj, callContext);
@@ -232,24 +232,24 @@ public class gui extends ModuleBody {
         int num$Mnargs = args.length;
         int i = 0;
         while (i < num$Mnargs) {
-            Object arg = args[i];
-            if (arg instanceof Keyword) {
+            Keyword keyword = args[i];
+            if (keyword instanceof Keyword) {
                 try {
-                    buttonKeyword(button2, ((Keyword) arg).getName(), args[i + 1]);
+                    buttonKeyword(button2, keyword.getName(), args[i + 1]);
                     i += 2;
                 } catch (ClassCastException e) {
-                    throw new WrongType(e, "gnu.expr.Keyword.getName()", 1, arg);
+                    throw new WrongType(e, "gnu.expr.Keyword.getName()", 1, (Object) keyword);
                 }
-            } else if (arg instanceof KAttr) {
+            } else if (keyword instanceof KAttr) {
                 try {
-                    KAttr attr = (KAttr) arg;
+                    KAttr attr = (KAttr) keyword;
                     buttonKeyword(button2, attr.getName(), attr.getObjectValue());
                     i++;
                 } catch (ClassCastException e2) {
-                    throw new WrongType(e2, "attr", -2, arg);
+                    throw new WrongType(e2, "attr", -2, (Object) keyword);
                 }
             } else {
-                buttonNonKeyword(button2, arg);
+                buttonNonKeyword(button2, keyword);
                 i++;
             }
         }
@@ -261,37 +261,37 @@ public class gui extends ModuleBody {
             case 2:
                 callContext.values = objArr;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 5;
+                callContext.pc = 5;
                 return 0;
             case 3:
                 callContext.values = objArr;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 5;
+                callContext.pc = 5;
                 return 0;
             case 7:
                 callContext.values = objArr;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 5;
+                callContext.pc = 5;
                 return 0;
             case 8:
                 callContext.values = objArr;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 5;
+                callContext.pc = 5;
                 return 0;
             case 9:
                 callContext.values = objArr;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 5;
+                callContext.pc = 5;
                 return 0;
             case 10:
                 callContext.values = objArr;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 5;
+                callContext.pc = 5;
                 return 0;
             case 12:
                 callContext.values = objArr;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 5;
+                callContext.pc = 5;
                 return 0;
             default:
                 return super.matchN(moduleMethod, objArr, callContext);
@@ -303,24 +303,24 @@ public class gui extends ModuleBody {
         int num$Mnargs = args.length;
         int i = 0;
         while (i < num$Mnargs) {
-            Object arg = args[i];
-            if (arg instanceof Keyword) {
+            Keyword keyword = args[i];
+            if (keyword instanceof Keyword) {
                 try {
-                    buttonKeyword(button2, ((Keyword) arg).getName(), args[i + 1]);
+                    buttonKeyword(button2, keyword.getName(), args[i + 1]);
                     i += 2;
                 } catch (ClassCastException e) {
-                    throw new WrongType(e, "gnu.expr.Keyword.getName()", 1, arg);
+                    throw new WrongType(e, "gnu.expr.Keyword.getName()", 1, (Object) keyword);
                 }
-            } else if (arg instanceof KAttr) {
+            } else if (keyword instanceof KAttr) {
                 try {
-                    KAttr attr = (KAttr) arg;
+                    KAttr attr = (KAttr) keyword;
                     buttonKeyword(button2, attr.getName(), attr.getObjectValue());
                     i++;
                 } catch (ClassCastException e2) {
-                    throw new WrongType(e2, "attr", -2, arg);
+                    throw new WrongType(e2, "attr", -2, (Object) keyword);
                 }
             } else {
-                buttonNonKeyword(button2, arg);
+                buttonNonKeyword(button2, keyword);
                 i++;
             }
         }
@@ -399,24 +399,24 @@ public class gui extends ModuleBody {
         int num$Mnargs = args.length;
         int i = 0;
         while (i < num$Mnargs) {
-            Object arg = args[i];
-            if (arg instanceof Keyword) {
+            Keyword keyword = args[i];
+            if (keyword instanceof Keyword) {
                 try {
-                    labelKeyword(instance, ((Keyword) arg).getName(), args[i + 1]);
+                    labelKeyword(instance, keyword.getName(), args[i + 1]);
                     i += 2;
                 } catch (ClassCastException e) {
-                    throw new WrongType(e, "gnu.expr.Keyword.getName()", 1, arg);
+                    throw new WrongType(e, "gnu.expr.Keyword.getName()", 1, (Object) keyword);
                 }
-            } else if (arg instanceof KAttr) {
+            } else if (keyword instanceof KAttr) {
                 try {
-                    KAttr attr = (KAttr) arg;
+                    KAttr attr = (KAttr) keyword;
                     labelKeyword(instance, attr.getName(), attr.getObjectValue());
                     i++;
                 } catch (ClassCastException e2) {
-                    throw new WrongType(e2, "attr", -2, arg);
+                    throw new WrongType(e2, "attr", -2, (Object) keyword);
                 }
             } else {
-                labelNonKeyword(instance, arg);
+                labelNonKeyword(instance, keyword);
                 i++;
             }
         }
@@ -446,24 +446,24 @@ public class gui extends ModuleBody {
         int num$Mnargs = args.length;
         int i = 0;
         while (i < num$Mnargs) {
-            Object arg = args[i];
-            if (arg instanceof Keyword) {
+            Keyword keyword = args[i];
+            if (keyword instanceof Keyword) {
                 try {
-                    textKeyword(instance, ((Keyword) arg).getName(), args[i + 1]);
+                    textKeyword(instance, keyword.getName(), args[i + 1]);
                     i += 2;
                 } catch (ClassCastException e) {
-                    throw new WrongType(e, "gnu.expr.Keyword.getName()", 1, arg);
+                    throw new WrongType(e, "gnu.expr.Keyword.getName()", 1, (Object) keyword);
                 }
-            } else if (arg instanceof KAttr) {
+            } else if (keyword instanceof KAttr) {
                 try {
-                    KAttr attr = (KAttr) arg;
+                    KAttr attr = (KAttr) keyword;
                     textKeyword(instance, attr.getName(), attr.getObjectValue());
                     i++;
                 } catch (ClassCastException e2) {
-                    throw new WrongType(e2, "attr", -2, arg);
+                    throw new WrongType(e2, "attr", -2, (Object) keyword);
                 }
             } else {
-                textNonKeyword(instance, arg);
+                textNonKeyword(instance, keyword);
                 i++;
             }
         }
@@ -492,21 +492,21 @@ public class gui extends ModuleBody {
             int num$Mnargs = args.length;
             int i = 0;
             while (i < num$Mnargs) {
-                Object arg = args[i];
-                if (arg instanceof Keyword) {
+                Keyword keyword = args[i];
+                if (keyword instanceof Keyword) {
                     try {
                         try {
-                            boxKeyword((Box) instance, ((Keyword) arg).getName(), args[i + 1]);
+                            boxKeyword((Box) instance, keyword.getName(), args[i + 1]);
                             i += 2;
                         } catch (ClassCastException e) {
-                            throw new WrongType(e, "gnu.expr.Keyword.getName()", 1, arg);
+                            throw new WrongType(e, "gnu.expr.Keyword.getName()", 1, (Object) keyword);
                         }
                     } catch (ClassCastException e2) {
                         throw new WrongType(e2, "box-keyword", 0, instance);
                     }
-                } else if (arg instanceof KAttr) {
+                } else if (keyword instanceof KAttr) {
                     try {
-                        KAttr attr = (KAttr) arg;
+                        KAttr attr = (KAttr) keyword;
                         try {
                             boxKeyword((Box) instance, attr.getName(), attr.getObjectValue());
                             i++;
@@ -514,11 +514,11 @@ public class gui extends ModuleBody {
                             throw new WrongType(e3, "box-keyword", 0, instance);
                         }
                     } catch (ClassCastException e4) {
-                        throw new WrongType(e4, "attr", -2, arg);
+                        throw new WrongType(e4, "attr", -2, (Object) keyword);
                     }
                 } else {
                     try {
-                        boxNonKeyword((Box) instance, arg);
+                        boxNonKeyword((Box) instance, keyword);
                         i++;
                     } catch (ClassCastException e5) {
                         throw new WrongType(e5, "box-non-keyword", 0, instance);
@@ -538,21 +538,21 @@ public class gui extends ModuleBody {
             int num$Mnargs = args.length;
             int i = 0;
             while (i < num$Mnargs) {
-                Object arg = args[i];
-                if (arg instanceof Keyword) {
+                Keyword keyword = args[i];
+                if (keyword instanceof Keyword) {
                     try {
                         try {
-                            boxKeyword((Box) instance, ((Keyword) arg).getName(), args[i + 1]);
+                            boxKeyword((Box) instance, keyword.getName(), args[i + 1]);
                             i += 2;
                         } catch (ClassCastException e) {
-                            throw new WrongType(e, "gnu.expr.Keyword.getName()", 1, arg);
+                            throw new WrongType(e, "gnu.expr.Keyword.getName()", 1, (Object) keyword);
                         }
                     } catch (ClassCastException e2) {
                         throw new WrongType(e2, "box-keyword", 0, instance);
                     }
-                } else if (arg instanceof KAttr) {
+                } else if (keyword instanceof KAttr) {
                     try {
-                        KAttr attr = (KAttr) arg;
+                        KAttr attr = (KAttr) keyword;
                         try {
                             boxKeyword((Box) instance, attr.getName(), attr.getObjectValue());
                             i++;
@@ -560,11 +560,11 @@ public class gui extends ModuleBody {
                             throw new WrongType(e3, "box-keyword", 0, instance);
                         }
                     } catch (ClassCastException e4) {
-                        throw new WrongType(e4, "attr", -2, arg);
+                        throw new WrongType(e4, "attr", -2, (Object) keyword);
                     }
                 } else {
                     try {
-                        boxNonKeyword((Box) instance, arg);
+                        boxNonKeyword((Box) instance, keyword);
                         i++;
                     } catch (ClassCastException e5) {
                         throw new WrongType(e5, "box-non-keyword", 0, instance);
@@ -604,7 +604,7 @@ public class gui extends ModuleBody {
         callContext.value1 = obj;
         callContext.value2 = obj2;
         callContext.proc = moduleMethod;
-        callContext.f236pc = 2;
+        callContext.pc = 2;
         return 0;
     }
 
@@ -632,24 +632,24 @@ public class gui extends ModuleBody {
         int num$Mnargs = args.length;
         int i = 0;
         while (i < num$Mnargs) {
-            Object arg = args[i];
-            if (arg instanceof Keyword) {
+            Keyword keyword = args[i];
+            if (keyword instanceof Keyword) {
                 try {
-                    windowKeyword(instance, ((Keyword) arg).getName(), args[i + 1]);
+                    windowKeyword(instance, keyword.getName(), args[i + 1]);
                     i += 2;
                 } catch (ClassCastException e) {
-                    throw new WrongType(e, "gnu.expr.Keyword.getName()", 1, arg);
+                    throw new WrongType(e, "gnu.expr.Keyword.getName()", 1, (Object) keyword);
                 }
-            } else if (arg instanceof KAttr) {
+            } else if (keyword instanceof KAttr) {
                 try {
-                    KAttr attr = (KAttr) arg;
+                    KAttr attr = (KAttr) keyword;
                     windowKeyword(instance, attr.getName(), attr.getObjectValue());
                     i++;
                 } catch (ClassCastException e2) {
-                    throw new WrongType(e2, "attr", -2, arg);
+                    throw new WrongType(e2, "attr", -2, (Object) keyword);
                 }
             } else {
-                windowNonKeyword(instance, arg);
+                windowNonKeyword(instance, keyword);
                 i++;
             }
         }

@@ -1,6 +1,6 @@
 package gnu.kawa.slib;
 
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import gnu.expr.ModuleBody;
 import gnu.expr.ModuleInfo;
 import gnu.expr.ModuleMethod;
@@ -14,11 +14,12 @@ import gnu.lists.LList;
 import gnu.mapping.CallContext;
 import gnu.mapping.Procedure;
 import gnu.mapping.SimpleSymbol;
+import gnu.mapping.Symbol;
 import gnu.mapping.Values;
 import gnu.mapping.WrongType;
 import gnu.math.IntNum;
 import gnu.text.Char;
-import kawa.lib.C0620lists;
+import kawa.lib.lists;
 import kawa.lib.misc;
 import kawa.lib.numbers;
 import kawa.lib.strings;
@@ -67,91 +68,99 @@ public class genwrite extends ModuleBody {
     public static final ModuleMethod generic$Mnwrite;
     public static final ModuleMethod reverse$Mnstring$Mnappend;
 
+    static {
+        genwrite genwrite = $instance;
+        generic$Mnwrite = new ModuleMethod(genwrite, 12, Lit34, 16388);
+        reverse$Mnstring$Mnappend = new ModuleMethod(genwrite, 13, Lit35, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        $instance.run();
+    }
+
+    public genwrite() {
+        ModuleInfo.register(this);
+    }
+
+    public static Object genericWrite(Object obj, Object isDisplay, Object width, Object output) {
+        frame closureEnv = new frame();
+        closureEnv.display$Qu = isDisplay;
+        closureEnv.width = width;
+        closureEnv.output = output;
+        if (closureEnv.width == Boolean.FALSE) {
+            return closureEnv.lambda5wr(obj, Lit1);
+        }
+        CharSequence makeString = strings.makeString(1, Lit0);
+        IntNum intNum = Lit1;
+        frame0 frame02 = new frame0();
+        frame02.staticLink = closureEnv;
+        Procedure procedure = frame02.pp$Mnexpr;
+        Procedure procedure2 = frame02.pp$Mnexpr$Mnlist;
+        Procedure procedure3 = frame02.pp$MnLAMBDA;
+        Procedure procedure4 = frame02.pp$MnIF;
+        Procedure procedure5 = frame02.pp$MnCOND;
+        Procedure procedure6 = frame02.pp$MnCASE;
+        Procedure procedure7 = frame02.pp$MnAND;
+        Procedure procedure8 = frame02.pp$MnLET;
+        Procedure procedure9 = frame02.pp$MnBEGIN;
+        frame02.pp$MnDO = frame02.pp$MnDO;
+        frame02.pp$MnBEGIN = procedure9;
+        frame02.pp$MnLET = procedure8;
+        frame02.pp$MnAND = procedure7;
+        frame02.pp$MnCASE = procedure6;
+        frame02.pp$MnCOND = procedure5;
+        frame02.pp$MnIF = procedure4;
+        frame02.pp$MnLAMBDA = procedure3;
+        frame02.pp$Mnexpr$Mnlist = procedure2;
+        frame02.pp$Mnexpr = procedure;
+        return closureEnv.lambda4out(makeString, frame02.lambda7pr(obj, intNum, Lit1, frame02.pp$Mnexpr));
+    }
+
+    public Object apply4(ModuleMethod moduleMethod, Object obj, Object obj2, Object obj3, Object obj4) {
+        return moduleMethod.selector == 12 ? genericWrite(obj, obj2, obj3, obj4) : super.apply4(moduleMethod, obj, obj2, obj3, obj4);
+    }
+
+    public int match4(ModuleMethod moduleMethod, Object obj, Object obj2, Object obj3, Object obj4, CallContext callContext) {
+        if (moduleMethod.selector != 12) {
+            return super.match4(moduleMethod, obj, obj2, obj3, obj4, callContext);
+        }
+        callContext.value1 = obj;
+        callContext.value2 = obj2;
+        callContext.value3 = obj3;
+        callContext.value4 = obj4;
+        callContext.proc = moduleMethod;
+        callContext.pc = 4;
+        return 0;
+    }
+
+    public final void run(CallContext $ctx) {
+        Consumer consumer = $ctx.consumer;
+    }
+
     /* compiled from: genwrite.scm */
     public class frame extends ModuleBody {
         Object display$Qu;
         Object output;
         Object width;
 
-        /* JADX WARNING: Code restructure failed: missing block: B:12:0x0040, code lost:
-            if (r2 == java.lang.Boolean.FALSE) goto L_0x0042;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:3:0x001a, code lost:
-            if (r2 != java.lang.Boolean.FALSE) goto L_0x001c;
-         */
-        /* Code decompiled incorrectly, please refer to instructions dump. */
-        public static java.lang.Object lambda1isReadMacro(java.lang.Object r5) {
-            /*
-                gnu.expr.GenericProc r3 = kawa.lib.C0620lists.car
-                java.lang.Object r0 = r3.apply1(r5)
-                gnu.expr.GenericProc r3 = kawa.lib.C0620lists.cdr
-                java.lang.Object r1 = r3.apply1(r5)
-                gnu.kawa.functions.IsEqv r3 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r4 = gnu.kawa.slib.genwrite.Lit30
-                java.lang.Object r2 = r3.apply2(r0, r4)
-                java.lang.Boolean r3 = java.lang.Boolean.FALSE
-                if (r2 == r3) goto L_0x0032
-                java.lang.Boolean r3 = java.lang.Boolean.FALSE
-                if (r2 == r3) goto L_0x0042
-            L_0x001c:
-                r5 = r1
-                boolean r2 = kawa.lib.C0620lists.isPair(r5)
-                if (r2 == 0) goto L_0x0066
-                gnu.expr.GenericProc r3 = kawa.lib.C0620lists.cdr
-                java.lang.Object r3 = r3.apply1(r5)
-                boolean r3 = kawa.lib.C0620lists.isNull(r3)
-                if (r3 == 0) goto L_0x0063
-                java.lang.Boolean r3 = java.lang.Boolean.TRUE
-            L_0x0031:
-                return r3
-            L_0x0032:
-                gnu.kawa.functions.IsEqv r3 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r4 = gnu.kawa.slib.genwrite.Lit31
-                java.lang.Object r2 = r3.apply2(r0, r4)
-                java.lang.Boolean r3 = java.lang.Boolean.FALSE
-                if (r2 == r3) goto L_0x0045
-                java.lang.Boolean r3 = java.lang.Boolean.FALSE
-                if (r2 != r3) goto L_0x001c
-            L_0x0042:
-                java.lang.Boolean r3 = java.lang.Boolean.FALSE
-                goto L_0x0031
-            L_0x0045:
-                gnu.kawa.functions.IsEqv r3 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r4 = gnu.kawa.slib.genwrite.Lit32
-                java.lang.Object r2 = r3.apply2(r0, r4)
-                java.lang.Boolean r3 = java.lang.Boolean.FALSE
-                if (r2 == r3) goto L_0x0056
-                java.lang.Boolean r3 = java.lang.Boolean.FALSE
-                if (r2 == r3) goto L_0x0042
-                goto L_0x001c
-            L_0x0056:
-                gnu.kawa.functions.IsEqv r3 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r4 = gnu.kawa.slib.genwrite.Lit33
-                java.lang.Object r3 = r3.apply2(r0, r4)
-                java.lang.Boolean r4 = java.lang.Boolean.FALSE
-                if (r3 == r4) goto L_0x0042
-                goto L_0x001c
-            L_0x0063:
-                java.lang.Boolean r3 = java.lang.Boolean.FALSE
-                goto L_0x0031
-            L_0x0066:
-                if (r2 == 0) goto L_0x006b
-                java.lang.Boolean r3 = java.lang.Boolean.TRUE
-                goto L_0x0031
-            L_0x006b:
-                java.lang.Boolean r3 = java.lang.Boolean.FALSE
-                goto L_0x0031
-            */
-            throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.slib.genwrite.frame.lambda1isReadMacro(java.lang.Object):java.lang.Object");
+        public static Object lambda1isReadMacro(Object l) {
+            Object x;
+            Object x2;
+            Object head = lists.car.apply1(l);
+            Object tail = lists.cdr.apply1(l);
+            Object x3 = Scheme.isEqv.apply2(head, genwrite.Lit30);
+            if (x3 == Boolean.FALSE ? (x = Scheme.isEqv.apply2(head, genwrite.Lit31)) == Boolean.FALSE ? (x2 = Scheme.isEqv.apply2(head, genwrite.Lit32)) == Boolean.FALSE ? Scheme.isEqv.apply2(head, genwrite.Lit33) == Boolean.FALSE : x2 == Boolean.FALSE : x == Boolean.FALSE : x3 == Boolean.FALSE) {
+                return Boolean.FALSE;
+            }
+            Object l2 = tail;
+            boolean x4 = lists.isPair(l2);
+            return x4 ? lists.isNull(lists.cdr.apply1(l2)) ? Boolean.TRUE : Boolean.FALSE : x4 ? Boolean.TRUE : Boolean.FALSE;
         }
 
         public static Object lambda2readMacroBody(Object l) {
-            return C0620lists.cadr.apply1(l);
+            return lists.cadr.apply1(l);
         }
 
         public static Object lambda3readMacroPrefix(Object l) {
-            Object head = C0620lists.car.apply1(l);
-            C0620lists.cdr.apply1(l);
+            Object head = lists.car.apply1(l);
+            lists.cdr.apply1(l);
             if (Scheme.isEqv.apply2(head, genwrite.Lit30) != Boolean.FALSE) {
                 return "'";
             }
@@ -180,16 +189,16 @@ public class genwrite extends ModuleBody {
         }
 
         public Object lambda5wr(Object obj, Object col) {
-            if (C0620lists.isPair(obj)) {
+            if (lists.isPair(obj)) {
                 Object expr = obj;
                 if (lambda1isReadMacro(expr) != Boolean.FALSE) {
                     return lambda5wr(lambda2readMacroBody(expr), lambda4out(lambda3readMacroPrefix(expr), col));
                 }
                 obj = expr;
-            } else if (!C0620lists.isNull(obj)) {
+            } else if (!lists.isNull(obj)) {
                 if (vectors.isVector(obj)) {
                     try {
-                        Object vector$To$List = vectors.vector$To$List((FVector) obj);
+                        LList vector$To$List = vectors.vector$To$List((FVector) obj);
                         col = lambda4out("#", col);
                         obj = vector$To$List;
                     } catch (ClassCastException e) {
@@ -202,19 +211,19 @@ public class genwrite extends ModuleBody {
                     return lambda4out(Format.formatToString(0, objArr), col);
                 }
             }
-            if (!C0620lists.isPair(obj)) {
+            if (!lists.isPair(obj)) {
                 return lambda4out("()", col);
             }
-            Object l = C0620lists.cdr.apply1(obj);
+            Object l = lists.cdr.apply1(obj);
             if (col != Boolean.FALSE) {
-                col = lambda5wr(C0620lists.car.apply1(obj), lambda4out("(", col));
+                col = lambda5wr(lists.car.apply1(obj), lambda4out("(", col));
             }
             while (col != Boolean.FALSE) {
-                if (C0620lists.isPair(l)) {
-                    Object l2 = C0620lists.cdr.apply1(l);
-                    col = lambda5wr(C0620lists.car.apply1(l), lambda4out(" ", col));
+                if (lists.isPair(l)) {
+                    Object l2 = lists.cdr.apply1(l);
+                    col = lambda5wr(lists.car.apply1(l), lambda4out(" ", col));
                     l = l2;
-                } else if (C0620lists.isNull(l)) {
+                } else if (lists.isNull(l)) {
                     return lambda4out(")", col);
                 } else {
                     return lambda4out(")", lambda5wr(l, lambda4out(" . ", col)));
@@ -275,7 +284,7 @@ public class genwrite extends ModuleBody {
         public Object lambda7pr(Object obj, Object col, Object extra, Object pp$Mnpair) {
             frame1 frame1 = new frame1();
             frame1.staticLink = this;
-            boolean x = C0620lists.isPair(obj);
+            boolean x = lists.isPair(obj);
             if (!x ? !vectors.isVector(obj) : !x) {
                 return this.staticLink.lambda5wr(obj, col);
             }
@@ -286,7 +295,7 @@ public class genwrite extends ModuleBody {
             if (Scheme.numGrt.apply2(frame1.left, genwrite.Lit1) != Boolean.FALSE) {
                 return this.staticLink.lambda4out(genwrite.reverseStringAppend(frame1.result), col);
             }
-            if (C0620lists.isPair(obj)) {
+            if (lists.isPair(obj)) {
                 return Scheme.applyToArgs.apply4(pp$Mnpair, obj, col, extra);
             }
             try {
@@ -296,183 +305,54 @@ public class genwrite extends ModuleBody {
             }
         }
 
-        /* JADX WARNING: Code restructure failed: missing block: B:16:0x0054, code lost:
-            if (r10 == java.lang.Boolean.FALSE) goto L_0x0056;
-         */
-        /* JADX WARNING: Code restructure failed: missing block: B:8:0x0037, code lost:
-            if (r10 != java.lang.Boolean.FALSE) goto L_0x0039;
-         */
-        /* JADX WARNING: Removed duplicated region for block: B:12:0x003f  */
-        /* JADX WARNING: Removed duplicated region for block: B:53:0x0105 A[SYNTHETIC, Splitter:B:53:0x0105] */
-        /* Code decompiled incorrectly, please refer to instructions dump. */
-        public java.lang.Object lambda8ppExpr(java.lang.Object r12, java.lang.Object r13, java.lang.Object r14) {
-            /*
-                r11 = this;
-                java.lang.Object r0 = gnu.kawa.slib.genwrite.frame.lambda1isReadMacro(r12)
-                java.lang.Boolean r1 = java.lang.Boolean.FALSE
-                if (r0 == r1) goto L_0x001d
-                java.lang.Object r0 = gnu.kawa.slib.genwrite.frame.lambda2readMacroBody(r12)
-                gnu.kawa.slib.genwrite$frame r1 = r11.staticLink
-                java.lang.Object r2 = gnu.kawa.slib.genwrite.frame.lambda3readMacroPrefix(r12)
-                java.lang.Object r1 = r1.lambda4out(r2, r13)
-                gnu.mapping.Procedure r2 = r11.pp$Mnexpr
-                java.lang.Object r0 = r11.lambda7pr(r0, r1, r14, r2)
-            L_0x001c:
-                return r0
-            L_0x001d:
-                gnu.expr.GenericProc r0 = kawa.lib.C0620lists.car
-                java.lang.Object r8 = r0.apply1(r12)
-                boolean r0 = kawa.lib.misc.isSymbol(r8)
-                if (r0 == 0) goto L_0x012c
-                gnu.kawa.functions.IsEqv r0 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r1 = gnu.kawa.slib.genwrite.Lit2
-                java.lang.Object r10 = r0.apply2(r8, r1)
-                java.lang.Boolean r0 = java.lang.Boolean.FALSE
-                if (r10 == r0) goto L_0x0046
-                java.lang.Boolean r0 = java.lang.Boolean.FALSE
-                if (r10 == r0) goto L_0x0056
-            L_0x0039:
-                gnu.mapping.Procedure r9 = r11.pp$MnLAMBDA
-            L_0x003b:
-                java.lang.Boolean r0 = java.lang.Boolean.FALSE
-                if (r9 == r0) goto L_0x0105
-                gnu.kawa.functions.ApplyToArgs r0 = kawa.standard.Scheme.applyToArgs
-                java.lang.Object r0 = r0.apply4(r9, r12, r13, r14)
-                goto L_0x001c
-            L_0x0046:
-                gnu.kawa.functions.IsEqv r0 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r1 = gnu.kawa.slib.genwrite.Lit3
-                java.lang.Object r10 = r0.apply2(r8, r1)
-                java.lang.Boolean r0 = java.lang.Boolean.FALSE
-                if (r10 == r0) goto L_0x0069
-                java.lang.Boolean r0 = java.lang.Boolean.FALSE
-                if (r10 != r0) goto L_0x0039
-            L_0x0056:
-                gnu.kawa.functions.IsEqv r0 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r1 = gnu.kawa.slib.genwrite.Lit6
-                java.lang.Object r10 = r0.apply2(r8, r1)
-                java.lang.Boolean r0 = java.lang.Boolean.FALSE
-                if (r10 == r0) goto L_0x0087
-                java.lang.Boolean r0 = java.lang.Boolean.FALSE
-                if (r10 == r0) goto L_0x0093
-            L_0x0066:
-                gnu.mapping.Procedure r9 = r11.pp$MnIF
-                goto L_0x003b
-            L_0x0069:
-                gnu.kawa.functions.IsEqv r0 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r1 = gnu.kawa.slib.genwrite.Lit4
-                java.lang.Object r10 = r0.apply2(r8, r1)
-                java.lang.Boolean r0 = java.lang.Boolean.FALSE
-                if (r10 == r0) goto L_0x007a
-                java.lang.Boolean r0 = java.lang.Boolean.FALSE
-                if (r10 == r0) goto L_0x0056
-                goto L_0x0039
-            L_0x007a:
-                gnu.kawa.functions.IsEqv r0 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r1 = gnu.kawa.slib.genwrite.Lit5
-                java.lang.Object r0 = r0.apply2(r8, r1)
-                java.lang.Boolean r1 = java.lang.Boolean.FALSE
-                if (r0 == r1) goto L_0x0056
-                goto L_0x0039
-            L_0x0087:
-                gnu.kawa.functions.IsEqv r0 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r1 = gnu.kawa.slib.genwrite.Lit7
-                java.lang.Object r0 = r0.apply2(r8, r1)
-                java.lang.Boolean r1 = java.lang.Boolean.FALSE
-                if (r0 != r1) goto L_0x0066
-            L_0x0093:
-                gnu.kawa.functions.IsEqv r0 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r1 = gnu.kawa.slib.genwrite.Lit8
-                java.lang.Object r0 = r0.apply2(r8, r1)
-                java.lang.Boolean r1 = java.lang.Boolean.FALSE
-                if (r0 == r1) goto L_0x00a2
-                gnu.mapping.Procedure r9 = r11.pp$MnCOND
-                goto L_0x003b
-            L_0x00a2:
-                gnu.kawa.functions.IsEqv r0 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r1 = gnu.kawa.slib.genwrite.Lit9
-                java.lang.Object r0 = r0.apply2(r8, r1)
-                java.lang.Boolean r1 = java.lang.Boolean.FALSE
-                if (r0 == r1) goto L_0x00b1
-                gnu.mapping.Procedure r9 = r11.pp$MnCASE
-                goto L_0x003b
-            L_0x00b1:
-                gnu.kawa.functions.IsEqv r0 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r1 = gnu.kawa.slib.genwrite.Lit10
-                java.lang.Object r10 = r0.apply2(r8, r1)
-                java.lang.Boolean r0 = java.lang.Boolean.FALSE
-                if (r10 == r0) goto L_0x00c5
-                java.lang.Boolean r0 = java.lang.Boolean.FALSE
-                if (r10 == r0) goto L_0x00d1
-            L_0x00c1:
-                gnu.mapping.Procedure r9 = r11.pp$MnAND
-                goto L_0x003b
-            L_0x00c5:
-                gnu.kawa.functions.IsEqv r0 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r1 = gnu.kawa.slib.genwrite.Lit11
-                java.lang.Object r0 = r0.apply2(r8, r1)
-                java.lang.Boolean r1 = java.lang.Boolean.FALSE
-                if (r0 != r1) goto L_0x00c1
-            L_0x00d1:
-                gnu.kawa.functions.IsEqv r0 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r1 = gnu.kawa.slib.genwrite.Lit12
-                java.lang.Object r0 = r0.apply2(r8, r1)
-                java.lang.Boolean r1 = java.lang.Boolean.FALSE
-                if (r0 == r1) goto L_0x00e1
-                gnu.mapping.Procedure r9 = r11.pp$MnLET
-                goto L_0x003b
-            L_0x00e1:
-                gnu.kawa.functions.IsEqv r0 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r1 = gnu.kawa.slib.genwrite.Lit13
-                java.lang.Object r0 = r0.apply2(r8, r1)
-                java.lang.Boolean r1 = java.lang.Boolean.FALSE
-                if (r0 == r1) goto L_0x00f1
-                gnu.mapping.Procedure r9 = r11.pp$MnBEGIN
-                goto L_0x003b
-            L_0x00f1:
-                gnu.kawa.functions.IsEqv r0 = kawa.standard.Scheme.isEqv
-                gnu.mapping.SimpleSymbol r1 = gnu.kawa.slib.genwrite.Lit14
-                java.lang.Object r0 = r0.apply2(r8, r1)
-                java.lang.Boolean r1 = java.lang.Boolean.FALSE
-                if (r0 == r1) goto L_0x0101
-                gnu.mapping.Procedure r9 = r11.pp$MnDO
-                goto L_0x003b
-            L_0x0101:
-                java.lang.Boolean r9 = java.lang.Boolean.FALSE
-                goto L_0x003b
-            L_0x0105:
-                gnu.mapping.Symbol r8 = (gnu.mapping.Symbol) r8     // Catch:{ ClassCastException -> 0x0134 }
-                java.lang.String r0 = kawa.lib.misc.symbol$To$String(r8)
-                int r0 = kawa.lib.strings.stringLength(r0)
-                r1 = 5
-                if (r0 <= r1) goto L_0x0124
-                java.lang.Boolean r4 = java.lang.Boolean.FALSE
-                java.lang.Boolean r5 = java.lang.Boolean.FALSE
-                java.lang.Boolean r6 = java.lang.Boolean.FALSE
-                gnu.mapping.Procedure r7 = r11.pp$Mnexpr
-                r0 = r11
-                r1 = r12
-                r2 = r13
-                r3 = r14
-                java.lang.Object r0 = r0.lambda12ppGeneral(r1, r2, r3, r4, r5, r6, r7)
-                goto L_0x001c
-            L_0x0124:
-                gnu.mapping.Procedure r0 = r11.pp$Mnexpr
-                java.lang.Object r0 = r11.lambda9ppCall(r12, r13, r14, r0)
-                goto L_0x001c
-            L_0x012c:
-                gnu.mapping.Procedure r0 = r11.pp$Mnexpr
-                java.lang.Object r0 = r11.lambda10ppList(r12, r13, r14, r0)
-                goto L_0x001c
-            L_0x0134:
-                r0 = move-exception
-                gnu.mapping.WrongType r1 = new gnu.mapping.WrongType
-                java.lang.String r2 = "symbol->string"
-                r3 = 1
-                r1.<init>(r0, r2, r3, r8)
-                throw r1
-            */
-            throw new UnsupportedOperationException("Method not decompiled: gnu.kawa.slib.genwrite.frame0.lambda8ppExpr(java.lang.Object, java.lang.Object, java.lang.Object):java.lang.Object");
+        public Object lambda8ppExpr(Object expr, Object col, Object extra) {
+            Object proc;
+            Object x;
+            Object x2;
+            if (frame.lambda1isReadMacro(expr) != Boolean.FALSE) {
+                return lambda7pr(frame.lambda2readMacroBody(expr), this.staticLink.lambda4out(frame.lambda3readMacroPrefix(expr), col), extra, this.pp$Mnexpr);
+            }
+            Object head = lists.car.apply1(expr);
+            if (!misc.isSymbol(head)) {
+                return lambda10ppList(expr, col, extra, this.pp$Mnexpr);
+            }
+            Object x3 = Scheme.isEqv.apply2(head, genwrite.Lit2);
+            if (x3 == Boolean.FALSE ? (x = Scheme.isEqv.apply2(head, genwrite.Lit3)) == Boolean.FALSE ? (x2 = Scheme.isEqv.apply2(head, genwrite.Lit4)) == Boolean.FALSE ? Scheme.isEqv.apply2(head, genwrite.Lit5) == Boolean.FALSE : x2 == Boolean.FALSE : x == Boolean.FALSE : x3 == Boolean.FALSE) {
+                Object x4 = Scheme.isEqv.apply2(head, genwrite.Lit6);
+                if (x4 == Boolean.FALSE ? Scheme.isEqv.apply2(head, genwrite.Lit7) != Boolean.FALSE : x4 != Boolean.FALSE) {
+                    proc = this.pp$MnIF;
+                } else if (Scheme.isEqv.apply2(head, genwrite.Lit8) != Boolean.FALSE) {
+                    proc = this.pp$MnCOND;
+                } else if (Scheme.isEqv.apply2(head, genwrite.Lit9) != Boolean.FALSE) {
+                    proc = this.pp$MnCASE;
+                } else {
+                    Object x5 = Scheme.isEqv.apply2(head, genwrite.Lit10);
+                    if (x5 == Boolean.FALSE ? Scheme.isEqv.apply2(head, genwrite.Lit11) != Boolean.FALSE : x5 != Boolean.FALSE) {
+                        proc = this.pp$MnAND;
+                    } else if (Scheme.isEqv.apply2(head, genwrite.Lit12) != Boolean.FALSE) {
+                        proc = this.pp$MnLET;
+                    } else if (Scheme.isEqv.apply2(head, genwrite.Lit13) != Boolean.FALSE) {
+                        proc = this.pp$MnBEGIN;
+                    } else if (Scheme.isEqv.apply2(head, genwrite.Lit14) != Boolean.FALSE) {
+                        proc = this.pp$MnDO;
+                    } else {
+                        proc = Boolean.FALSE;
+                    }
+                }
+            } else {
+                proc = this.pp$MnLAMBDA;
+            }
+            if (proc != Boolean.FALSE) {
+                return Scheme.applyToArgs.apply4(proc, expr, col, extra);
+            }
+            try {
+                if (strings.stringLength(misc.symbol$To$String((Symbol) head)) <= 5) {
+                    return lambda9ppCall(expr, col, extra, this.pp$Mnexpr);
+                }
+                return lambda12ppGeneral(expr, col, extra, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, this.pp$Mnexpr);
+            } catch (ClassCastException e) {
+                throw new WrongType(e, "symbol->string", 1, head);
+            }
         }
 
         public int match3(ModuleMethod moduleMethod, Object obj, Object obj2, Object obj3, CallContext callContext) {
@@ -482,70 +362,70 @@ public class genwrite extends ModuleBody {
                     callContext.value2 = obj2;
                     callContext.value3 = obj3;
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 3;
+                    callContext.pc = 3;
                     return 0;
                 case 3:
                     callContext.value1 = obj;
                     callContext.value2 = obj2;
                     callContext.value3 = obj3;
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 3;
+                    callContext.pc = 3;
                     return 0;
                 case 4:
                     callContext.value1 = obj;
                     callContext.value2 = obj2;
                     callContext.value3 = obj3;
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 3;
+                    callContext.pc = 3;
                     return 0;
                 case 5:
                     callContext.value1 = obj;
                     callContext.value2 = obj2;
                     callContext.value3 = obj3;
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 3;
+                    callContext.pc = 3;
                     return 0;
                 case 6:
                     callContext.value1 = obj;
                     callContext.value2 = obj2;
                     callContext.value3 = obj3;
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 3;
+                    callContext.pc = 3;
                     return 0;
                 case 7:
                     callContext.value1 = obj;
                     callContext.value2 = obj2;
                     callContext.value3 = obj3;
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 3;
+                    callContext.pc = 3;
                     return 0;
                 case 8:
                     callContext.value1 = obj;
                     callContext.value2 = obj2;
                     callContext.value3 = obj3;
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 3;
+                    callContext.pc = 3;
                     return 0;
                 case 9:
                     callContext.value1 = obj;
                     callContext.value2 = obj2;
                     callContext.value3 = obj3;
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 3;
+                    callContext.pc = 3;
                     return 0;
                 case 10:
                     callContext.value1 = obj;
                     callContext.value2 = obj2;
                     callContext.value3 = obj3;
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 3;
+                    callContext.pc = 3;
                     return 0;
                 case 11:
                     callContext.value1 = obj;
                     callContext.value2 = obj2;
                     callContext.value3 = obj3;
                     callContext.proc = moduleMethod;
-                    callContext.f236pc = 3;
+                    callContext.pc = 3;
                     return 0;
                 default:
                     return super.match3(moduleMethod, obj, obj2, obj3, callContext);
@@ -553,11 +433,11 @@ public class genwrite extends ModuleBody {
         }
 
         public Object lambda9ppCall(Object expr, Object col, Object extra, Object pp$Mnitem) {
-            Object col$St = this.staticLink.lambda5wr(C0620lists.car.apply1(expr), this.staticLink.lambda4out("(", col));
+            Object col$St = this.staticLink.lambda5wr(lists.car.apply1(expr), this.staticLink.lambda4out("(", col));
             if (col == Boolean.FALSE) {
                 return col;
             }
-            return lambda11ppDown(C0620lists.cdr.apply1(expr), col$St, AddOp.$Pl.apply2(col$St, genwrite.Lit17), extra, pp$Mnitem);
+            return lambda11ppDown(lists.cdr.apply1(expr), col$St, AddOp.$Pl.apply2(col$St, genwrite.Lit17), extra, pp$Mnitem);
         }
 
         public Object lambda10ppList(Object l, Object col, Object extra, Object pp$Mnitem) {
@@ -570,12 +450,12 @@ public class genwrite extends ModuleBody {
                 if (obj == Boolean.FALSE) {
                     return obj;
                 }
-                if (!C0620lists.isPair(l)) {
-                    return C0620lists.isNull(l) ? this.staticLink.lambda4out(")", obj) : this.staticLink.lambda4out(")", lambda7pr(l, lambda6indent(col2, this.staticLink.lambda4out(".", lambda6indent(col2, obj))), AddOp.$Pl.apply2(obj2, genwrite.Lit17), pp$Mnitem));
+                if (!lists.isPair(l)) {
+                    return lists.isNull(l) ? this.staticLink.lambda4out(")", obj) : this.staticLink.lambda4out(")", lambda7pr(l, lambda6indent(col2, this.staticLink.lambda4out(".", lambda6indent(col2, obj))), AddOp.$Pl.apply2(obj2, genwrite.Lit17), pp$Mnitem));
                 }
-                Object rest = C0620lists.cdr.apply1(l);
+                Object rest = lists.cdr.apply1(l);
                 l = rest;
-                obj = lambda7pr(C0620lists.car.apply1(l), lambda6indent(col2, obj), C0620lists.isNull(rest) ? AddOp.$Pl.apply2(obj2, genwrite.Lit17) : genwrite.Lit1, pp$Mnitem);
+                obj = lambda7pr(lists.car.apply1(l), lambda6indent(col2, obj), lists.isNull(rest) ? AddOp.$Pl.apply2(obj2, genwrite.Lit17) : genwrite.Lit1, pp$Mnitem);
             }
         }
 
@@ -588,12 +468,12 @@ public class genwrite extends ModuleBody {
             Object obj3;
             Object extra2;
             Object extra3;
-            Object head = C0620lists.car.apply1(expr);
-            Object rest = C0620lists.cdr.apply1(expr);
+            Object head = lists.car.apply1(expr);
+            Object rest = lists.cdr.apply1(expr);
             Object col$St = this.staticLink.lambda5wr(head, this.staticLink.lambda4out("(", col));
-            if (named$Qu == Boolean.FALSE ? named$Qu != Boolean.FALSE : C0620lists.isPair(rest)) {
-                Object name = C0620lists.car.apply1(rest);
-                rest = C0620lists.cdr.apply1(rest);
+            if (named$Qu == Boolean.FALSE ? named$Qu != Boolean.FALSE : lists.isPair(rest)) {
+                Object name = lists.car.apply1(rest);
+                rest = lists.cdr.apply1(rest);
                 col$St$St = this.staticLink.lambda5wr(name, this.staticLink.lambda4out(" ", col$St));
                 apply2 = AddOp.$Pl.apply2(col, genwrite.Lit19);
                 apply22 = AddOp.$Pl.apply2(col$St$St, genwrite.Lit17);
@@ -602,20 +482,20 @@ public class genwrite extends ModuleBody {
                 apply22 = AddOp.$Pl.apply2(col$St, genwrite.Lit17);
                 col$St$St = col$St;
             }
-            if (pp$Mn1 == Boolean.FALSE ? pp$Mn1 != Boolean.FALSE : C0620lists.isPair(rest)) {
-                Object val1 = C0620lists.car.apply1(rest);
-                rest = C0620lists.cdr.apply1(rest);
-                if (C0620lists.isNull(rest)) {
+            if (pp$Mn1 == Boolean.FALSE ? pp$Mn1 != Boolean.FALSE : lists.isPair(rest)) {
+                Object val1 = lists.car.apply1(rest);
+                rest = lists.cdr.apply1(rest);
+                if (lists.isNull(rest)) {
                     extra3 = AddOp.$Pl.apply2(extra, genwrite.Lit17);
                 } else {
                     extra3 = genwrite.Lit1;
                 }
                 col$St$St = lambda7pr(val1, lambda6indent(apply22, col$St$St), extra3, pp$Mn1);
             }
-            if (pp$Mn2 == Boolean.FALSE ? pp$Mn2 != Boolean.FALSE : C0620lists.isPair(rest)) {
-                Object val12 = C0620lists.car.apply1(rest);
-                Object rest2 = C0620lists.cdr.apply1(rest);
-                if (C0620lists.isNull(rest2)) {
+            if (pp$Mn2 == Boolean.FALSE ? pp$Mn2 != Boolean.FALSE : lists.isPair(rest)) {
+                Object val12 = lists.car.apply1(rest);
+                Object rest2 = lists.cdr.apply1(rest);
+                if (lists.isNull(rest2)) {
                     extra2 = AddOp.$Pl.apply2(extra, genwrite.Lit17);
                 } else {
                     extra2 = genwrite.Lit1;
@@ -657,10 +537,10 @@ public class genwrite extends ModuleBody {
 
         public Object lambda19pp$MnLET(Object expr, Object col, Object extra) {
             boolean named$Qu;
-            Object rest = C0620lists.cdr.apply1(expr);
-            boolean x = C0620lists.isPair(rest);
+            Object rest = lists.cdr.apply1(expr);
+            boolean x = lists.isPair(rest);
             if (x) {
-                named$Qu = misc.isSymbol(C0620lists.car.apply1(rest));
+                named$Qu = misc.isSymbol(lists.car.apply1(rest));
             } else {
                 named$Qu = x;
             }
@@ -711,7 +591,7 @@ public class genwrite extends ModuleBody {
         frame0 staticLink;
 
         public frame1() {
-            ModuleMethod moduleMethod = new ModuleMethod(this, 1, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            ModuleMethod moduleMethod = new ModuleMethod(this, 1, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/gnu/kawa/slib/genwrite.scm:72");
             this.lambda$Fn1 = moduleMethod;
         }
@@ -723,9 +603,9 @@ public class genwrite extends ModuleBody {
             return super.apply1(moduleMethod, obj);
         }
 
-        /* access modifiers changed from: 0000 */
+        /* access modifiers changed from: package-private */
         public boolean lambda22(Object str) {
-            this.result = C0620lists.cons(str, this.result);
+            this.result = lists.cons(str, this.result);
             try {
                 this.left = AddOp.$Mn.apply2(this.left, Integer.valueOf(strings.stringLength((CharSequence) str)));
                 return ((Boolean) Scheme.numGrt.apply2(this.left, genwrite.Lit1)).booleanValue();
@@ -740,75 +620,9 @@ public class genwrite extends ModuleBody {
             }
             callContext.value1 = obj;
             callContext.proc = moduleMethod;
-            callContext.f236pc = 1;
+            callContext.pc = 1;
             return 0;
         }
-    }
-
-    static {
-        genwrite genwrite = $instance;
-        generic$Mnwrite = new ModuleMethod(genwrite, 12, Lit34, 16388);
-        reverse$Mnstring$Mnappend = new ModuleMethod(genwrite, 13, Lit35, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        $instance.run();
-    }
-
-    public genwrite() {
-        ModuleInfo.register(this);
-    }
-
-    public static Object genericWrite(Object obj, Object isDisplay, Object width, Object output) {
-        frame closureEnv = new frame();
-        closureEnv.display$Qu = isDisplay;
-        closureEnv.width = width;
-        closureEnv.output = output;
-        if (closureEnv.width == Boolean.FALSE) {
-            return closureEnv.lambda5wr(obj, Lit1);
-        }
-        CharSequence makeString = strings.makeString(1, Lit0);
-        IntNum intNum = Lit1;
-        frame0 frame02 = new frame0();
-        frame02.staticLink = closureEnv;
-        Procedure procedure = frame02.pp$Mnexpr;
-        Procedure procedure2 = frame02.pp$Mnexpr$Mnlist;
-        Procedure procedure3 = frame02.pp$MnLAMBDA;
-        Procedure procedure4 = frame02.pp$MnIF;
-        Procedure procedure5 = frame02.pp$MnCOND;
-        Procedure procedure6 = frame02.pp$MnCASE;
-        Procedure procedure7 = frame02.pp$MnAND;
-        Procedure procedure8 = frame02.pp$MnLET;
-        Procedure procedure9 = frame02.pp$MnBEGIN;
-        frame02.pp$MnDO = frame02.pp$MnDO;
-        frame02.pp$MnBEGIN = procedure9;
-        frame02.pp$MnLET = procedure8;
-        frame02.pp$MnAND = procedure7;
-        frame02.pp$MnCASE = procedure6;
-        frame02.pp$MnCOND = procedure5;
-        frame02.pp$MnIF = procedure4;
-        frame02.pp$MnLAMBDA = procedure3;
-        frame02.pp$Mnexpr$Mnlist = procedure2;
-        frame02.pp$Mnexpr = procedure;
-        return closureEnv.lambda4out(makeString, frame02.lambda7pr(obj, intNum, Lit1, frame02.pp$Mnexpr));
-    }
-
-    public Object apply4(ModuleMethod moduleMethod, Object obj, Object obj2, Object obj3, Object obj4) {
-        return moduleMethod.selector == 12 ? genericWrite(obj, obj2, obj3, obj4) : super.apply4(moduleMethod, obj, obj2, obj3, obj4);
-    }
-
-    public int match4(ModuleMethod moduleMethod, Object obj, Object obj2, Object obj3, Object obj4, CallContext callContext) {
-        if (moduleMethod.selector != 12) {
-            return super.match4(moduleMethod, obj, obj2, obj3, obj4, callContext);
-        }
-        callContext.value1 = obj;
-        callContext.value2 = obj2;
-        callContext.value3 = obj3;
-        callContext.value4 = obj4;
-        callContext.proc = moduleMethod;
-        callContext.f236pc = 4;
-        return 0;
-    }
-
-    public final void run(CallContext $ctx) {
-        Consumer consumer = $ctx.consumer;
     }
 
     public static Object reverseStringAppend(Object l) {
@@ -825,16 +639,16 @@ public class genwrite extends ModuleBody {
         }
         callContext.value1 = obj;
         callContext.proc = moduleMethod;
-        callContext.f236pc = 1;
+        callContext.pc = 1;
         return 0;
     }
 
     public static Object lambda23revStringAppend(Object l, Object i) {
-        if (C0620lists.isPair(l)) {
-            Object str = C0620lists.car.apply1(l);
+        if (lists.isPair(l)) {
+            Object str = lists.car.apply1(l);
             try {
                 int len = strings.stringLength((CharSequence) str);
-                Object result = lambda23revStringAppend(C0620lists.cdr.apply1(l), AddOp.$Pl.apply2(i, Integer.valueOf(len)));
+                Object result = lambda23revStringAppend(lists.cdr.apply1(l), AddOp.$Pl.apply2(i, Integer.valueOf(len)));
                 Object obj = Lit1;
                 try {
                     Object apply2 = AddOp.$Mn.apply2(AddOp.$Mn.apply2(Integer.valueOf(strings.stringLength((CharSequence) result)), i), Integer.valueOf(len));

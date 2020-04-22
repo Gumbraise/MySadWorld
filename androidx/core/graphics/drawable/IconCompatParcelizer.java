@@ -2,11 +2,10 @@ package androidx.core.graphics.drawable;
 
 import android.content.res.ColorStateList;
 import android.support.annotation.RestrictTo;
-import android.support.annotation.RestrictTo.Scope;
-import android.support.p000v4.graphics.drawable.IconCompat;
+import android.support.v4.graphics.drawable.IconCompat;
 import androidx.versionedparcelable.VersionedParcel;
 
-@RestrictTo({Scope.LIBRARY})
+@RestrictTo({RestrictTo.Scope.LIBRARY})
 public class IconCompatParcelizer {
     public static IconCompat read(VersionedParcel parcel) {
         IconCompat obj = new IconCompat();

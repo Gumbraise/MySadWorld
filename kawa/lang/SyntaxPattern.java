@@ -38,7 +38,7 @@ public class SyntaxPattern extends Pattern implements Externalizable {
     }
 
     public boolean match(Object obj, Object[] vars, int start_vars) {
-        return match(obj, vars, start_vars, 0, null);
+        return match(obj, vars, start_vars, 0, (SyntaxForm) null);
     }
 
     public SyntaxPattern(String program2, Object[] literals2, int varCount2) {
@@ -48,12 +48,12 @@ public class SyntaxPattern extends Pattern implements Externalizable {
     }
 
     public SyntaxPattern(Object pattern, Object[] literal_identifiers, Translator tr) {
-        this(new StringBuffer(), pattern, null, literal_identifiers, tr);
+        this(new StringBuffer(), pattern, (SyntaxForm) null, literal_identifiers, tr);
     }
 
     SyntaxPattern(StringBuffer programbuf, Object pattern, SyntaxForm syntax, Object[] literal_identifiers, Translator tr) {
         Vector literalsbuf = new Vector();
-        translate(pattern, programbuf, literal_identifiers, 0, literalsbuf, null, 0, tr);
+        translate(pattern, programbuf, literal_identifiers, 0, literalsbuf, (SyntaxForm) null, 0, tr);
         this.program = programbuf.toString();
         this.literals = new Object[literalsbuf.size()];
         literalsbuf.copyInto(this.literals);
@@ -68,7 +68,8 @@ public class SyntaxPattern extends Pattern implements Externalizable {
         disassemble(ps, tr, 0, this.program.length());
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
+    /* JADX WARNING: Can't fix incorrect switch cases order */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public void disassemble(java.io.PrintWriter r10, kawa.lang.Translator r11, int r12, int r13) {
         /*
@@ -291,7 +292,7 @@ public class SyntaxPattern extends Pattern implements Externalizable {
         throw new UnsupportedOperationException("Method not decompiled: kawa.lang.SyntaxPattern.disassemble(java.io.PrintWriter, kawa.lang.Translator, int, int):void");
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void translate(Object pattern, StringBuffer program2, Object[] literal_identifiers, int nesting, Vector literals2, SyntaxForm syntax, char context, Translator tr) {
         int i;
         ScopeExp scope1;
@@ -450,18 +451,16 @@ public class SyntaxPattern extends Pattern implements Externalizable {
         return offset + 1;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public boolean match_car(Pair p, Object[] vars, int start_vars, int pc, SyntaxForm syntax) {
         int pc_start = pc;
         int pc2 = pc + 1;
         char ch = this.program.charAt(pc);
         int value = ch >> 3;
         while ((ch & 7) == 1) {
-            int i = value << 13;
-            int pc3 = pc2 + 1;
             ch = this.program.charAt(pc2);
-            value = i | (ch >> 3);
-            pc2 = pc3;
+            value = (value << 13) | (ch >> 3);
+            pc2++;
         }
         if ((ch & 7) == 7) {
             if (syntax != null && !(p.getCar() instanceof SyntaxForm)) {
@@ -473,416 +472,218 @@ public class SyntaxPattern extends Pattern implements Externalizable {
         return match(p.getCar(), vars, start_vars, pc_start, syntax);
     }
 
-    /* JADX WARNING: Code restructure failed: missing block: B:171:?, code lost:
-        return false;
-     */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public boolean match(java.lang.Object r39, java.lang.Object[] r40, int r41, int r42, kawa.lang.SyntaxForm r43) {
-        /*
-            r38 = this;
-            r37 = 0
-        L_0x0002:
-            r0 = r39
-            boolean r4 = r0 instanceof kawa.lang.SyntaxForm
-            if (r4 == 0) goto L_0x0011
-            r43 = r39
-            kawa.lang.SyntaxForm r43 = (kawa.lang.SyntaxForm) r43
-            java.lang.Object r39 = r43.getDatum()
-            goto L_0x0002
-        L_0x0011:
-            r0 = r38
-            java.lang.String r4 = r0.program
-            int r8 = r42 + 1
-            r0 = r42
-            char r16 = r4.charAt(r0)
-            r27 = r16 & 7
-            int r4 = r37 << 13
-            int r6 = r16 >> 3
-            r37 = r4 | r6
-            switch(r27) {
-                case 0: goto L_0x0047;
-                case 1: goto L_0x0044;
-                case 2: goto L_0x022f;
-                case 3: goto L_0x0293;
-                case 4: goto L_0x00e5;
-                case 5: goto L_0x0111;
-                case 6: goto L_0x009e;
-                case 7: goto L_0x0028;
-                case 8: goto L_0x0092;
-                default: goto L_0x0028;
+    public boolean match(Object obj, Object[] vars, int start_vars, int pc, SyntaxForm syntax) {
+        int pc2;
+        Object id1;
+        ScopeExp sc1;
+        Object id2;
+        ScopeExp sc2;
+        boolean z;
+        int pairsRequired;
+        boolean listValue;
+        int value = 0;
+        while (true) {
+            if (obj instanceof SyntaxForm) {
+                syntax = (SyntaxForm) obj;
+                obj = syntax.getDatum();
+            } else {
+                pc2 = pc + 1;
+                int ch = this.program.charAt(pc);
+                value = (value << 13) | (ch >> 3);
+                switch (ch & 7) {
+                    case 0:
+                        if (ch == 8) {
+                            if (obj == LList.Empty) {
+                                z = true;
+                            } else {
+                                z = false;
+                            }
+                            int i = pc2;
+                            return z;
+                        } else if (ch == 16) {
+                            if (!(obj instanceof FVector)) {
+                                int i2 = pc2;
+                                return false;
+                            }
+                            int i3 = pc2;
+                            return match(LList.makeList((FVector) obj), vars, start_vars, pc2, syntax);
+                        } else if (ch == 24) {
+                            int i4 = pc2;
+                            return true;
+                        } else {
+                            throw new Error("unknwon pattern opcode");
+                        }
+                    case 1:
+                        pc = pc2;
+                        break;
+                    case 2:
+                        Object lit = this.literals[value];
+                        Translator tr = (Translator) Compilation.getCurrent();
+                        if (lit instanceof SyntaxForm) {
+                            SyntaxForm sf = (SyntaxForm) lit;
+                            id1 = sf.getDatum();
+                            sc1 = sf.getScope();
+                        } else {
+                            id1 = lit;
+                            Syntax curSyntax = tr.getCurrentSyntax();
+                            sc1 = curSyntax instanceof Macro ? ((Macro) curSyntax).getCapturedScope() : null;
+                        }
+                        if (obj instanceof SyntaxForm) {
+                            SyntaxForm sf2 = (SyntaxForm) obj;
+                            id2 = sf2.getDatum();
+                            sc2 = sf2.getScope();
+                        } else {
+                            id2 = obj;
+                            sc2 = syntax == null ? tr.currentScope() : syntax.getScope();
+                        }
+                        int i5 = pc2;
+                        return literalIdentifierEq(id1, sc1, id2, sc2);
+                    case 3:
+                        if (syntax != null) {
+                            obj = SyntaxForms.fromDatum(obj, syntax);
+                        }
+                        vars[start_vars + value] = obj;
+                        int i6 = pc2;
+                        return true;
+                    case 4:
+                        if (obj instanceof Pair) {
+                            Pair p = (Pair) obj;
+                            if (match_car(p, vars, start_vars, pc2, syntax)) {
+                                pc = pc2 + value;
+                                value = 0;
+                                obj = p.getCdr();
+                                break;
+                            } else {
+                                int i7 = pc2;
+                                return false;
+                            }
+                        } else {
+                            int i8 = pc2;
+                            return false;
+                        }
+                    case 5:
+                        int repeat_pc = pc2;
+                        int pc3 = pc2 + value;
+                        int pc4 = pc3 + 1;
+                        char ch2 = this.program.charAt(pc3);
+                        int subvar0 = ch2 >> 3;
+                        while ((ch2 & 7) == 1) {
+                            ch2 = this.program.charAt(pc4);
+                            subvar0 = (subvar0 << 13) | (ch2 >> 3);
+                            pc4++;
+                        }
+                        int subvar02 = subvar0 + start_vars;
+                        int pc5 = pc4 + 1;
+                        int subvarN = this.program.charAt(pc4) >> 3;
+                        while (true) {
+                            int pc6 = pc5;
+                            if ((ch2 & 7) == 1) {
+                                pc5 = pc6 + 1;
+                                ch2 = this.program.charAt(pc6);
+                                subvarN = (subvarN << 13) | (ch2 >> 3);
+                            } else {
+                                pc = pc6 + 1;
+                                char ch3 = this.program.charAt(pc6);
+                                boolean listRequired = true;
+                                if (ch3 == 8) {
+                                    pairsRequired = 0;
+                                } else {
+                                    int value2 = ch3 >> 3;
+                                    while (true) {
+                                        int pc7 = pc;
+                                        if ((ch3 & 7) == 1) {
+                                            pc = pc7 + 1;
+                                            ch3 = this.program.charAt(pc7);
+                                            value2 = (value2 << 13) | (ch3 >> 3);
+                                        } else {
+                                            if ((value2 & 1) != 0) {
+                                                listRequired = false;
+                                            }
+                                            pairsRequired = value2 >> 1;
+                                            pc = pc7;
+                                        }
+                                    }
+                                }
+                                int pairsValue = Translator.listLength(obj);
+                                if (pairsValue >= 0) {
+                                    listValue = true;
+                                } else {
+                                    listValue = false;
+                                    pairsValue = -1 - pairsValue;
+                                }
+                                if (pairsValue < pairsRequired || (listRequired && !listValue)) {
+                                    return false;
+                                }
+                                int repeat_count = pairsValue - pairsRequired;
+                                Object[][] arrays = new Object[subvarN][];
+                                for (int j = 0; j < subvarN; j++) {
+                                    arrays[j] = new Object[repeat_count];
+                                }
+                                for (int i9 = 0; i9 < repeat_count; i9++) {
+                                    while (obj instanceof SyntaxForm) {
+                                        syntax = (SyntaxForm) obj;
+                                        obj = syntax.getDatum();
+                                    }
+                                    Pair p2 = (Pair) obj;
+                                    if (!match_car(p2, vars, start_vars, repeat_pc, syntax)) {
+                                        return false;
+                                    }
+                                    obj = p2.getCdr();
+                                    for (int j2 = 0; j2 < subvarN; j2++) {
+                                        arrays[j2][i9] = vars[subvar02 + j2];
+                                    }
+                                }
+                                for (int j3 = 0; j3 < subvarN; j3++) {
+                                    vars[subvar02 + j3] = arrays[j3];
+                                }
+                                value = 0;
+                                if (pairsRequired == 0 && listRequired) {
+                                    return true;
+                                }
+                            }
+                        }
+                        break;
+                    case 6:
+                        int npairs = value >> 1;
+                        Object o = obj;
+                        int i10 = 0;
+                        while (true) {
+                            if (o instanceof SyntaxForm) {
+                                o = ((SyntaxForm) o).getDatum();
+                            } else if (i10 == npairs) {
+                                if ((value & 1) == 0) {
+                                    if (o != LList.Empty) {
+                                        break;
+                                    }
+                                    value = 0;
+                                    pc = pc2;
+                                    break;
+                                } else {
+                                    if (o instanceof Pair) {
+                                        break;
+                                    }
+                                    value = 0;
+                                    pc = pc2;
+                                }
+                            } else if (o instanceof Pair) {
+                                o = ((Pair) o).getCdr();
+                                i10++;
+                            } else {
+                                int i11 = pc2;
+                                return false;
+                            }
+                        }
+                    case 8:
+                        int i12 = pc2;
+                        return obj == LList.Empty;
+                    default:
+                        disassemble();
+                        throw new Error("unrecognized pattern opcode @pc:" + pc2);
+                }
             }
-        L_0x0028:
-            r38.disassemble()
-            java.lang.Error r4 = new java.lang.Error
-            java.lang.StringBuilder r6 = new java.lang.StringBuilder
-            r6.<init>()
-            java.lang.String r7 = "unrecognized pattern opcode @pc:"
-            java.lang.StringBuilder r6 = r6.append(r7)
-            java.lang.StringBuilder r6 = r6.append(r8)
-            java.lang.String r6 = r6.toString()
-            r4.<init>(r6)
-            throw r4
-        L_0x0044:
-            r42 = r8
-            goto L_0x0002
-        L_0x0047:
-            r4 = 8
-            r0 = r16
-            if (r0 != r4) goto L_0x0059
-            gnu.lists.LList r4 = gnu.lists.LList.Empty
-            r0 = r39
-            if (r0 != r4) goto L_0x0057
-            r4 = 1
-        L_0x0054:
-            r42 = r8
-        L_0x0056:
-            return r4
-        L_0x0057:
-            r4 = 0
-            goto L_0x0054
-        L_0x0059:
-            r4 = 16
-            r0 = r16
-            if (r0 != r4) goto L_0x0080
-            r0 = r39
-            boolean r4 = r0 instanceof gnu.lists.FVector
-            if (r4 != 0) goto L_0x0069
-            r4 = 0
-            r42 = r8
-            goto L_0x0056
-        L_0x0069:
-            r4 = r39
-            gnu.lists.FVector r4 = (gnu.lists.FVector) r4
-            gnu.lists.LList r5 = gnu.lists.LList.makeList(r4)
-            r4 = r38
-            r6 = r40
-            r7 = r41
-            r9 = r43
-            boolean r4 = r4.match(r5, r6, r7, r8, r9)
-            r42 = r8
-            goto L_0x0056
-        L_0x0080:
-            r4 = 24
-            r0 = r16
-            if (r0 != r4) goto L_0x008a
-            r4 = 1
-            r42 = r8
-            goto L_0x0056
-        L_0x008a:
-            java.lang.Error r4 = new java.lang.Error
-            java.lang.String r6 = "unknwon pattern opcode"
-            r4.<init>(r6)
-            throw r4
-        L_0x0092:
-            gnu.lists.LList r4 = gnu.lists.LList.Empty
-            r0 = r39
-            if (r0 != r4) goto L_0x009c
-            r4 = 1
-        L_0x0099:
-            r42 = r8
-            goto L_0x0056
-        L_0x009c:
-            r4 = 0
-            goto L_0x0099
-        L_0x009e:
-            int r25 = r37 >> 1
-            r26 = r39
-            r18 = 0
-        L_0x00a4:
-            r0 = r26
-            boolean r4 = r0 instanceof kawa.lang.SyntaxForm
-            if (r4 == 0) goto L_0x00b1
-            kawa.lang.SyntaxForm r26 = (kawa.lang.SyntaxForm) r26
-            java.lang.Object r26 = r26.getDatum()
-            goto L_0x00a4
-        L_0x00b1:
-            r0 = r18
-            r1 = r25
-            if (r0 != r1) goto L_0x00d1
-            r4 = r37 & 1
-            if (r4 != 0) goto L_0x00c5
-            gnu.lists.LList r4 = gnu.lists.LList.Empty
-            r0 = r26
-            if (r0 == r4) goto L_0x00cb
-        L_0x00c1:
-            r4 = 0
-            r42 = r8
-            goto L_0x0056
-        L_0x00c5:
-            r0 = r26
-            boolean r4 = r0 instanceof gnu.lists.Pair
-            if (r4 != 0) goto L_0x00c1
-        L_0x00cb:
-            r37 = 0
-            r42 = r8
-            goto L_0x0002
-        L_0x00d1:
-            r0 = r26
-            boolean r4 = r0 instanceof gnu.lists.Pair
-            if (r4 == 0) goto L_0x00e0
-            gnu.lists.Pair r26 = (gnu.lists.Pair) r26
-            java.lang.Object r26 = r26.getCdr()
-            int r18 = r18 + 1
-            goto L_0x00a4
-        L_0x00e0:
-            r4 = 0
-            r42 = r8
-            goto L_0x0056
-        L_0x00e5:
-            r0 = r39
-            boolean r4 = r0 instanceof gnu.lists.Pair
-            if (r4 != 0) goto L_0x00f0
-            r4 = 0
-            r42 = r8
-            goto L_0x0056
-        L_0x00f0:
-            r5 = r39
-            gnu.lists.Pair r5 = (gnu.lists.Pair) r5
-            r4 = r38
-            r6 = r40
-            r7 = r41
-            r9 = r43
-            boolean r4 = r4.match_car(r5, r6, r7, r8, r9)
-            if (r4 != 0) goto L_0x0107
-            r4 = 0
-            r42 = r8
-            goto L_0x0056
-        L_0x0107:
-            int r42 = r8 + r37
-            r37 = 0
-            java.lang.Object r39 = r5.getCdr()
-            goto L_0x0002
-        L_0x0111:
-            r13 = r8
-            int r42 = r8 + r37
-            r0 = r38
-            java.lang.String r4 = r0.program
-            int r8 = r42 + 1
-            r0 = r42
-            char r16 = r4.charAt(r0)
-            int r34 = r16 >> 3
-        L_0x0122:
-            r4 = r16 & 7
-            r6 = 1
-            if (r4 != r6) goto L_0x013a
-            int r4 = r34 << 13
-            r0 = r38
-            java.lang.String r6 = r0.program
-            int r42 = r8 + 1
-            char r16 = r6.charAt(r8)
-            int r6 = r16 >> 3
-            r34 = r4 | r6
-            r8 = r42
-            goto L_0x0122
-        L_0x013a:
-            int r34 = r34 + r41
-            r0 = r38
-            java.lang.String r4 = r0.program
-            int r42 = r8 + 1
-            char r4 = r4.charAt(r8)
-            int r35 = r4 >> 3
-            r8 = r42
-        L_0x014a:
-            r4 = r16 & 7
-            r6 = 1
-            if (r4 != r6) goto L_0x0162
-            int r4 = r35 << 13
-            r0 = r38
-            java.lang.String r6 = r0.program
-            int r42 = r8 + 1
-            char r16 = r6.charAt(r8)
-            int r6 = r16 >> 3
-            r35 = r4 | r6
-            r8 = r42
-            goto L_0x014a
-        L_0x0162:
-            r0 = r38
-            java.lang.String r4 = r0.program
-            int r42 = r8 + 1
-            char r16 = r4.charAt(r8)
-            r22 = 1
-            r4 = 8
-            r0 = r16
-            if (r0 != r4) goto L_0x018b
-            r28 = 0
-        L_0x0176:
-            int r29 = kawa.lang.Translator.listLength(r39)
-            if (r29 < 0) goto L_0x01b2
-            r23 = 1
-        L_0x017e:
-            r0 = r29
-            r1 = r28
-            if (r0 < r1) goto L_0x0188
-            if (r22 == 0) goto L_0x01b7
-            if (r23 != 0) goto L_0x01b7
-        L_0x0188:
-            r4 = 0
-            goto L_0x0056
-        L_0x018b:
-            int r37 = r16 >> 3
-            r8 = r42
-        L_0x018f:
-            r4 = r16 & 7
-            r6 = 1
-            if (r4 != r6) goto L_0x01a7
-            int r4 = r37 << 13
-            r0 = r38
-            java.lang.String r6 = r0.program
-            int r42 = r8 + 1
-            char r16 = r6.charAt(r8)
-            int r6 = r16 >> 3
-            r37 = r4 | r6
-            r8 = r42
-            goto L_0x018f
-        L_0x01a7:
-            r4 = r37 & 1
-            if (r4 == 0) goto L_0x01ad
-            r22 = 0
-        L_0x01ad:
-            int r28 = r37 >> 1
-            r42 = r8
-            goto L_0x0176
-        L_0x01b2:
-            r23 = 0
-            int r29 = -1 - r29
-            goto L_0x017e
-        L_0x01b7:
-            int r30 = r29 - r28
-            r0 = r35
-            java.lang.Object[][] r15 = new java.lang.Object[r0][]
-            r21 = 0
-        L_0x01bf:
-            r0 = r21
-            r1 = r35
-            if (r0 >= r1) goto L_0x01ce
-            r0 = r30
-            java.lang.Object[] r4 = new java.lang.Object[r0]
-            r15[r21] = r4
-            int r21 = r21 + 1
-            goto L_0x01bf
-        L_0x01ce:
-            r18 = 0
-        L_0x01d0:
-            r0 = r18
-            r1 = r30
-            if (r0 >= r1) goto L_0x0215
-        L_0x01d6:
-            r0 = r39
-            boolean r4 = r0 instanceof kawa.lang.SyntaxForm
-            if (r4 == 0) goto L_0x01e5
-            r43 = r39
-            kawa.lang.SyntaxForm r43 = (kawa.lang.SyntaxForm) r43
-            java.lang.Object r39 = r43.getDatum()
-            goto L_0x01d6
-        L_0x01e5:
-            r5 = r39
-            gnu.lists.Pair r5 = (gnu.lists.Pair) r5
-            r9 = r38
-            r10 = r5
-            r11 = r40
-            r12 = r41
-            r14 = r43
-            boolean r4 = r9.match_car(r10, r11, r12, r13, r14)
-            if (r4 != 0) goto L_0x01fb
-            r4 = 0
-            goto L_0x0056
-        L_0x01fb:
-            java.lang.Object r39 = r5.getCdr()
-            r21 = 0
-        L_0x0201:
-            r0 = r21
-            r1 = r35
-            if (r0 >= r1) goto L_0x0212
-            r4 = r15[r21]
-            int r6 = r34 + r21
-            r6 = r40[r6]
-            r4[r18] = r6
-            int r21 = r21 + 1
-            goto L_0x0201
-        L_0x0212:
-            int r18 = r18 + 1
-            goto L_0x01d0
-        L_0x0215:
-            r21 = 0
-        L_0x0217:
-            r0 = r21
-            r1 = r35
-            if (r0 >= r1) goto L_0x0226
-            int r4 = r34 + r21
-            r6 = r15[r21]
-            r40[r4] = r6
-            int r21 = r21 + 1
-            goto L_0x0217
-        L_0x0226:
-            r37 = 0
-            if (r28 != 0) goto L_0x0002
-            if (r22 == 0) goto L_0x0002
-            r4 = 1
-            goto L_0x0056
-        L_0x022f:
-            r0 = r38
-            java.lang.Object[] r4 = r0.literals
-            r24 = r4[r37]
-            gnu.expr.Compilation r36 = gnu.expr.Compilation.getCurrent()
-            kawa.lang.Translator r36 = (kawa.lang.Translator) r36
-            r0 = r24
-            boolean r4 = r0 instanceof kawa.lang.SyntaxForm
-            if (r4 == 0) goto L_0x026f
-            r33 = r24
-            kawa.lang.SyntaxForm r33 = (kawa.lang.SyntaxForm) r33
-            java.lang.Object r19 = r33.getDatum()
-            kawa.lang.TemplateScope r31 = r33.getScope()
-        L_0x024d:
-            r0 = r39
-            boolean r4 = r0 instanceof kawa.lang.SyntaxForm
-            if (r4 == 0) goto L_0x0285
-            r33 = r39
-            kawa.lang.SyntaxForm r33 = (kawa.lang.SyntaxForm) r33
-            java.lang.Object r20 = r33.getDatum()
-            kawa.lang.TemplateScope r32 = r33.getScope()
-        L_0x025f:
-            r0 = r19
-            r1 = r31
-            r2 = r20
-            r3 = r32
-            boolean r4 = literalIdentifierEq(r0, r1, r2, r3)
-            r42 = r8
-            goto L_0x0056
-        L_0x026f:
-            r19 = r24
-            kawa.lang.Syntax r17 = r36.getCurrentSyntax()
-            r0 = r17
-            boolean r4 = r0 instanceof kawa.lang.Macro
-            if (r4 == 0) goto L_0x0282
-            kawa.lang.Macro r17 = (kawa.lang.Macro) r17
-            gnu.expr.ScopeExp r31 = r17.getCapturedScope()
-        L_0x0281:
-            goto L_0x024d
-        L_0x0282:
-            r31 = 0
-            goto L_0x0281
-        L_0x0285:
-            r20 = r39
-            if (r43 != 0) goto L_0x028e
-            gnu.expr.ScopeExp r32 = r36.currentScope()
-        L_0x028d:
-            goto L_0x025f
-        L_0x028e:
-            kawa.lang.TemplateScope r32 = r43.getScope()
-            goto L_0x028d
-        L_0x0293:
-            if (r43 == 0) goto L_0x029d
-            r0 = r39
-            r1 = r43
-            java.lang.Object r39 = kawa.lang.SyntaxForms.fromDatum(r0, r1)
-        L_0x029d:
-            int r4 = r41 + r37
-            r40[r4] = r39
-            r4 = 1
-            r42 = r8
-            goto L_0x0056
-        */
-        throw new UnsupportedOperationException("Method not decompiled: kawa.lang.SyntaxPattern.match(java.lang.Object, java.lang.Object[], int, int, kawa.lang.SyntaxForm):boolean");
+        }
+        int i13 = pc2;
+        return false;
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {

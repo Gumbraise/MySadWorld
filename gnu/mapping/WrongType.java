@@ -14,7 +14,7 @@ public class WrongType extends WrappedException {
     public String procname;
 
     public WrongType(String name, int n, String u) {
-        super(null, null);
+        super((String) null, (Throwable) null);
         this.procname = name;
         this.number = n;
         this.expectedType = u;
@@ -97,6 +97,7 @@ public class WrongType extends WrappedException {
     }
 
     public String getMessage() {
+        String msg;
         StringBuffer sbuf = new StringBuffer(100);
         if (this.number == -3) {
             sbuf.append(this.procname);
@@ -146,13 +147,10 @@ public class WrongType extends WrappedException {
             sbuf.append(")");
         }
         Throwable ex = getCause();
-        if (ex != null) {
-            String msg = ex.getMessage();
-            if (msg != null) {
-                sbuf.append(" (");
-                sbuf.append(msg);
-                sbuf.append(')');
-            }
+        if (!(ex == null || (msg = ex.getMessage()) == null)) {
+            sbuf.append(" (");
+            sbuf.append(msg);
+            sbuf.append(')');
         }
         return sbuf.toString();
     }

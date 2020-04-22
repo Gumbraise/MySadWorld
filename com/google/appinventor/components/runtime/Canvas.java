@@ -3,15 +3,11 @@ package com.google.appinventor.components.runtime;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
-import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Paint.Align;
-import android.graphics.Paint.Style;
 import android.graphics.Path;
-import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
@@ -22,10 +18,8 @@ import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.GestureDetector;
-import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.MeasureSpec;
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.DesignerProperty;
 import com.google.appinventor.components.annotations.PropertyCategory;
@@ -40,7 +34,6 @@ import com.google.appinventor.components.runtime.errors.PermissionException;
 import com.google.appinventor.components.runtime.util.BoundingBox;
 import com.google.appinventor.components.runtime.util.ErrorMessages;
 import com.google.appinventor.components.runtime.util.FileUtil;
-import com.google.appinventor.components.runtime.util.FileUtil.FileException;
 import com.google.appinventor.components.runtime.util.MediaUtil;
 import com.google.appinventor.components.runtime.util.PaintUtil;
 import com.google.appinventor.components.runtime.util.SdkLevel;
@@ -87,270 +80,8 @@ public final class Canvas extends AndroidViewComponent implements ComponentConta
     private int textAlignment;
     private final CanvasView view;
 
-    private final class CanvasView extends View {
-        private BitmapDrawable backgroundDrawable;
-        private Bitmap bitmap = Bitmap.createBitmap(32, 48, Config.ARGB_8888);
-        /* access modifiers changed from: private */
-        public android.graphics.Canvas canvas = new android.graphics.Canvas(this.bitmap);
-        /* access modifiers changed from: private */
-        public Bitmap completeCache;
-        private Bitmap scaledBackgroundBitmap;
-
-        public CanvasView(Context context) {
-            super(context);
-        }
-
-        /* access modifiers changed from: private */
-        public Bitmap buildCache() {
-            setDrawingCacheEnabled(true);
-            destroyDrawingCache();
-            Bitmap cache = getDrawingCache();
-            if (cache != null) {
-                return cache;
-            }
-            int width = getWidth();
-            int height = getHeight();
-            Bitmap cache2 = Bitmap.createBitmap(width, height, Config.ARGB_8888);
-            android.graphics.Canvas c = new android.graphics.Canvas(cache2);
-            layout(0, 0, width, height);
-            draw(c);
-            return cache2;
-        }
-
-        public void onDraw(android.graphics.Canvas canvas0) {
-            this.completeCache = null;
-            super.onDraw(canvas0);
-            canvas0.drawBitmap(this.bitmap, 0.0f, 0.0f, null);
-            for (Sprite sprite : Canvas.this.sprites) {
-                sprite.onDraw(canvas0);
-            }
-            Canvas.this.drawn = true;
-        }
-
-        /* access modifiers changed from: protected */
-        public void onSizeChanged(int w, int h, int oldW, int oldH) {
-            int oldBitmapWidth = this.bitmap.getWidth();
-            int oldBitmapHeight = this.bitmap.getHeight();
-            if (w != oldBitmapWidth || h != oldBitmapHeight) {
-                Bitmap oldBitmap = this.bitmap;
-                try {
-                    Bitmap scaledBitmap = Bitmap.createScaledBitmap(oldBitmap, w, h, false);
-                    if (scaledBitmap.isMutable()) {
-                        this.bitmap = scaledBitmap;
-                        this.canvas = new android.graphics.Canvas(this.bitmap);
-                    } else {
-                        this.bitmap = Bitmap.createBitmap(w, h, Config.ARGB_8888);
-                        this.canvas = new android.graphics.Canvas(this.bitmap);
-                        this.canvas.drawBitmap(oldBitmap, new Rect(0, 0, oldBitmapWidth, oldBitmapHeight), new RectF(0.0f, 0.0f, (float) w, (float) h), null);
-                    }
-                } catch (IllegalArgumentException e) {
-                    Log.e(Canvas.LOG_TAG, "Bad values to createScaledBimap w = " + w + ", h = " + h);
-                }
-                this.scaledBackgroundBitmap = null;
-            }
-        }
-
-        /* access modifiers changed from: protected */
-        public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-            int preferredWidth;
-            int preferredHeight;
-            if (this.backgroundDrawable != null) {
-                Bitmap bitmap2 = this.backgroundDrawable.getBitmap();
-                preferredWidth = bitmap2.getWidth();
-                preferredHeight = bitmap2.getHeight();
-            } else {
-                preferredWidth = 32;
-                preferredHeight = 48;
-            }
-            setMeasuredDimension(getSize(widthMeasureSpec, preferredWidth), getSize(heightMeasureSpec, preferredHeight));
-        }
-
-        private int getSize(int measureSpec, int preferredSize) {
-            int specMode = MeasureSpec.getMode(measureSpec);
-            int specSize = MeasureSpec.getSize(measureSpec);
-            if (specMode == 1073741824) {
-                return specSize;
-            }
-            int result = preferredSize;
-            if (specMode == Integer.MIN_VALUE) {
-                return Math.min(result, specSize);
-            }
-            return result;
-        }
-
-        public boolean onTouchEvent(MotionEvent event) {
-            Canvas.this.container.$form().dontGrabTouchEventsForComponent();
-            Canvas.this.motionEventParser.parse(event);
-            Canvas.this.mGestureDetector.onTouchEvent(event);
-            for (ExtensionGestureDetector g : Canvas.this.extensionGestureDetectors) {
-                g.onTouchEvent(event);
-            }
-            return true;
-        }
-
-        /* access modifiers changed from: 0000 */
-        public void setBackgroundImage(String path) {
-            Canvas canvas2 = Canvas.this;
-            if (path == null) {
-                path = "";
-            }
-            canvas2.backgroundImagePath = path;
-            this.backgroundDrawable = null;
-            this.scaledBackgroundBitmap = null;
-            if (!TextUtils.isEmpty(Canvas.this.backgroundImagePath)) {
-                try {
-                    this.backgroundDrawable = MediaUtil.getBitmapDrawable(Canvas.this.container.$form(), Canvas.this.backgroundImagePath);
-                } catch (IOException e) {
-                    Log.e(Canvas.LOG_TAG, "Unable to load " + Canvas.this.backgroundImagePath);
-                }
-            }
-            setBackground();
-            clearDrawingLayer();
-        }
-
-        /* access modifiers changed from: 0000 */
-        @RequiresApi(api = 8)
-        public void setBackgroundImageBase64(String imageUrl) {
-            Canvas canvas2 = Canvas.this;
-            if (imageUrl == null) {
-                imageUrl = "";
-            }
-            canvas2.backgroundImagePath = imageUrl;
-            this.backgroundDrawable = null;
-            this.scaledBackgroundBitmap = null;
-            if (!TextUtils.isEmpty(Canvas.this.backgroundImagePath)) {
-                byte[] decodedString = Base64.decode(Canvas.this.backgroundImagePath, 0);
-                this.backgroundDrawable = new BitmapDrawable(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
-            }
-            setBackground();
-            clearDrawingLayer();
-        }
-
-        private void setBackground() {
-            Drawable setDraw;
-            int i = -1;
-            BitmapDrawable bitmapDrawable = this.backgroundDrawable;
-            if (Canvas.this.backgroundImagePath == "" || this.backgroundDrawable == null) {
-                if (Canvas.this.backgroundColor != 0) {
-                    i = Canvas.this.backgroundColor;
-                }
-                setDraw = new ColorDrawable(i);
-            } else {
-                setDraw = this.backgroundDrawable.getConstantState().newDrawable();
-                if (Canvas.this.backgroundColor != 0) {
-                    i = Canvas.this.backgroundColor;
-                }
-                setDraw.setColorFilter(i, Mode.DST_OVER);
-            }
-            setBackgroundDrawable(setDraw);
-        }
-
-        /* access modifiers changed from: private */
-        public void clearDrawingLayer() {
-            this.canvas.drawColor(0, Mode.CLEAR);
-            invalidate();
-        }
-
-        public void setBackgroundColor(int color) {
-            Canvas.this.backgroundColor = color;
-            setBackground();
-            clearDrawingLayer();
-        }
-
-        /* access modifiers changed from: private */
-        public void drawTextAtAngle(String text, int x, int y, float angle) {
-            this.canvas.save();
-            this.canvas.rotate(-angle, (float) x, (float) y);
-            this.canvas.drawText(text, (float) x, (float) y, Canvas.this.paint);
-            this.canvas.restore();
-            invalidate();
-        }
-
-        /* access modifiers changed from: private */
-        public int getBackgroundPixelColor(int x, int y) {
-            if (x < 0 || x >= this.bitmap.getWidth() || y < 0 || y >= this.bitmap.getHeight()) {
-                return 16777215;
-            }
-            try {
-                int color = this.bitmap.getPixel(x, y);
-                if (color != 0) {
-                    return color;
-                }
-                if (this.backgroundDrawable != null) {
-                    if (this.scaledBackgroundBitmap == null) {
-                        this.scaledBackgroundBitmap = Bitmap.createScaledBitmap(this.backgroundDrawable.getBitmap(), this.bitmap.getWidth(), this.bitmap.getHeight(), false);
-                    }
-                    return this.scaledBackgroundBitmap.getPixel(x, y);
-                } else if (Color.alpha(Canvas.this.backgroundColor) != 0) {
-                    return Canvas.this.backgroundColor;
-                } else {
-                    return 16777215;
-                }
-            } catch (IllegalArgumentException e) {
-                Log.e(Canvas.LOG_TAG, String.format("Returning COLOR_NONE (exception) from getBackgroundPixelColor.", new Object[0]));
-                return 16777215;
-            }
-        }
-
-        /* access modifiers changed from: private */
-        public int getPixelColor(int x, int y) {
-            int i = 16777215;
-            if (x < 0 || x >= this.bitmap.getWidth() || y < 0 || y >= this.bitmap.getHeight()) {
-                return i;
-            }
-            if (this.completeCache == null) {
-                boolean anySpritesVisible = false;
-                Iterator it = Canvas.this.sprites.iterator();
-                while (true) {
-                    if (it.hasNext()) {
-                        if (((Sprite) it.next()).Visible()) {
-                            anySpritesVisible = true;
-                            break;
-                        }
-                    } else {
-                        break;
-                    }
-                }
-                if (!anySpritesVisible) {
-                    return getBackgroundPixelColor(x, y);
-                }
-                this.completeCache = buildCache();
-            }
-            try {
-                return this.completeCache.getPixel(x, y);
-            } catch (IllegalArgumentException e) {
-                Log.e(Canvas.LOG_TAG, String.format("Returning COLOR_NONE (exception) from getPixelColor.", new Object[0]));
-                return i;
-            }
-        }
-    }
-
     public interface ExtensionGestureDetector {
         boolean onTouchEvent(MotionEvent motionEvent);
-    }
-
-    class FlingGestureListener extends SimpleOnGestureListener {
-        FlingGestureListener() {
-        }
-
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            float x = (float) Math.max(0, (int) (e1.getX() / Canvas.this.$form().deviceDensity()));
-            float y = (float) Math.max(0, (int) (e1.getY() / Canvas.this.$form().deviceDensity()));
-            float vx = velocityX / 1000.0f;
-            float vy = velocityY / 1000.0f;
-            float speed = (float) Math.sqrt((double) ((vx * vx) + (vy * vy)));
-            float heading = (float) (-Math.toDegrees(Math.atan2((double) vy, (double) vx)));
-            BoundingBox rect = new BoundingBox((double) Math.max(0, ((int) x) - 12), (double) Math.max(0, ((int) y) - 12), (double) Math.min(Canvas.this.Width() - 1, ((int) x) + 12), (double) Math.min(Canvas.this.Height() - 1, ((int) y) + 12));
-            boolean spriteHandledFling = false;
-            for (Sprite sprite : Canvas.this.sprites) {
-                if (sprite.Enabled() && sprite.Visible() && sprite.intersectsWith(rect)) {
-                    sprite.Flung(x, y, speed, heading, vx, vy);
-                    spriteHandledFling = true;
-                }
-            }
-            Canvas.this.Flung(x, y, speed, heading, vx, vy, spriteHandledFling);
-            return true;
-        }
     }
 
     class MotionEventParser {
@@ -371,7 +102,7 @@ public final class Canvas extends AndroidViewComponent implements ComponentConta
         MotionEventParser() {
         }
 
-        /* access modifiers changed from: 0000 */
+        /* access modifiers changed from: package-private */
         public void parse(MotionEvent event) {
             int width = Canvas.this.Width();
             int height = Canvas.this.Height();
@@ -455,6 +186,243 @@ public final class Canvas extends AndroidViewComponent implements ComponentConta
         }
     }
 
+    private final class CanvasView extends View {
+        private BitmapDrawable backgroundDrawable;
+        private Bitmap bitmap = Bitmap.createBitmap(32, 48, Bitmap.Config.ARGB_8888);
+        /* access modifiers changed from: private */
+        public android.graphics.Canvas canvas = new android.graphics.Canvas(this.bitmap);
+        /* access modifiers changed from: private */
+        public Bitmap completeCache;
+        private Bitmap scaledBackgroundBitmap;
+
+        public CanvasView(Context context) {
+            super(context);
+        }
+
+        /* access modifiers changed from: private */
+        public Bitmap buildCache() {
+            setDrawingCacheEnabled(true);
+            destroyDrawingCache();
+            Bitmap cache = getDrawingCache();
+            if (cache != null) {
+                return cache;
+            }
+            int width = getWidth();
+            int height = getHeight();
+            Bitmap cache2 = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            android.graphics.Canvas c = new android.graphics.Canvas(cache2);
+            layout(0, 0, width, height);
+            draw(c);
+            return cache2;
+        }
+
+        public void onDraw(android.graphics.Canvas canvas0) {
+            this.completeCache = null;
+            super.onDraw(canvas0);
+            canvas0.drawBitmap(this.bitmap, 0.0f, 0.0f, (Paint) null);
+            for (Sprite sprite : Canvas.this.sprites) {
+                sprite.onDraw(canvas0);
+            }
+            boolean unused = Canvas.this.drawn = true;
+        }
+
+        /* access modifiers changed from: protected */
+        public void onSizeChanged(int w, int h, int oldW, int oldH) {
+            int oldBitmapWidth = this.bitmap.getWidth();
+            int oldBitmapHeight = this.bitmap.getHeight();
+            if (w != oldBitmapWidth || h != oldBitmapHeight) {
+                Bitmap oldBitmap = this.bitmap;
+                try {
+                    Bitmap scaledBitmap = Bitmap.createScaledBitmap(oldBitmap, w, h, false);
+                    if (scaledBitmap.isMutable()) {
+                        this.bitmap = scaledBitmap;
+                        this.canvas = new android.graphics.Canvas(this.bitmap);
+                    } else {
+                        this.bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+                        this.canvas = new android.graphics.Canvas(this.bitmap);
+                        this.canvas.drawBitmap(oldBitmap, new Rect(0, 0, oldBitmapWidth, oldBitmapHeight), new RectF(0.0f, 0.0f, (float) w, (float) h), (Paint) null);
+                    }
+                } catch (IllegalArgumentException e) {
+                    Log.e(Canvas.LOG_TAG, "Bad values to createScaledBimap w = " + w + ", h = " + h);
+                }
+                this.scaledBackgroundBitmap = null;
+            }
+        }
+
+        /* access modifiers changed from: protected */
+        public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+            int preferredWidth;
+            int preferredHeight;
+            if (this.backgroundDrawable != null) {
+                Bitmap bitmap2 = this.backgroundDrawable.getBitmap();
+                preferredWidth = bitmap2.getWidth();
+                preferredHeight = bitmap2.getHeight();
+            } else {
+                preferredWidth = 32;
+                preferredHeight = 48;
+            }
+            setMeasuredDimension(getSize(widthMeasureSpec, preferredWidth), getSize(heightMeasureSpec, preferredHeight));
+        }
+
+        private int getSize(int measureSpec, int preferredSize) {
+            int specMode = View.MeasureSpec.getMode(measureSpec);
+            int specSize = View.MeasureSpec.getSize(measureSpec);
+            if (specMode == 1073741824) {
+                return specSize;
+            }
+            int result = preferredSize;
+            if (specMode == Integer.MIN_VALUE) {
+                return Math.min(result, specSize);
+            }
+            return result;
+        }
+
+        public boolean onTouchEvent(MotionEvent event) {
+            Canvas.this.container.$form().dontGrabTouchEventsForComponent();
+            Canvas.this.motionEventParser.parse(event);
+            Canvas.this.mGestureDetector.onTouchEvent(event);
+            for (ExtensionGestureDetector g : Canvas.this.extensionGestureDetectors) {
+                g.onTouchEvent(event);
+            }
+            return true;
+        }
+
+        /* access modifiers changed from: package-private */
+        public void setBackgroundImage(String path) {
+            Canvas canvas2 = Canvas.this;
+            if (path == null) {
+                path = "";
+            }
+            String unused = canvas2.backgroundImagePath = path;
+            this.backgroundDrawable = null;
+            this.scaledBackgroundBitmap = null;
+            if (!TextUtils.isEmpty(Canvas.this.backgroundImagePath)) {
+                try {
+                    this.backgroundDrawable = MediaUtil.getBitmapDrawable(Canvas.this.container.$form(), Canvas.this.backgroundImagePath);
+                } catch (IOException e) {
+                    Log.e(Canvas.LOG_TAG, "Unable to load " + Canvas.this.backgroundImagePath);
+                }
+            }
+            setBackground();
+            clearDrawingLayer();
+        }
+
+        /* access modifiers changed from: package-private */
+        @RequiresApi(api = 8)
+        public void setBackgroundImageBase64(String imageUrl) {
+            Canvas canvas2 = Canvas.this;
+            if (imageUrl == null) {
+                imageUrl = "";
+            }
+            String unused = canvas2.backgroundImagePath = imageUrl;
+            this.backgroundDrawable = null;
+            this.scaledBackgroundBitmap = null;
+            if (!TextUtils.isEmpty(Canvas.this.backgroundImagePath)) {
+                byte[] decodedString = Base64.decode(Canvas.this.backgroundImagePath, 0);
+                this.backgroundDrawable = new BitmapDrawable(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
+            }
+            setBackground();
+            clearDrawingLayer();
+        }
+
+        private void setBackground() {
+            Drawable setDraw;
+            int i = -1;
+            BitmapDrawable bitmapDrawable = this.backgroundDrawable;
+            if (Canvas.this.backgroundImagePath == "" || this.backgroundDrawable == null) {
+                if (Canvas.this.backgroundColor != 0) {
+                    i = Canvas.this.backgroundColor;
+                }
+                setDraw = new ColorDrawable(i);
+            } else {
+                setDraw = this.backgroundDrawable.getConstantState().newDrawable();
+                if (Canvas.this.backgroundColor != 0) {
+                    i = Canvas.this.backgroundColor;
+                }
+                setDraw.setColorFilter(i, PorterDuff.Mode.DST_OVER);
+            }
+            setBackgroundDrawable(setDraw);
+        }
+
+        /* access modifiers changed from: private */
+        public void clearDrawingLayer() {
+            this.canvas.drawColor(0, PorterDuff.Mode.CLEAR);
+            invalidate();
+        }
+
+        public void setBackgroundColor(int color) {
+            int unused = Canvas.this.backgroundColor = color;
+            setBackground();
+            clearDrawingLayer();
+        }
+
+        /* access modifiers changed from: private */
+        public void drawTextAtAngle(String text, int x, int y, float angle) {
+            this.canvas.save();
+            this.canvas.rotate(-angle, (float) x, (float) y);
+            this.canvas.drawText(text, (float) x, (float) y, Canvas.this.paint);
+            this.canvas.restore();
+            invalidate();
+        }
+
+        /* access modifiers changed from: private */
+        public int getBackgroundPixelColor(int x, int y) {
+            if (x < 0 || x >= this.bitmap.getWidth() || y < 0 || y >= this.bitmap.getHeight()) {
+                return 16777215;
+            }
+            try {
+                int color = this.bitmap.getPixel(x, y);
+                if (color != 0) {
+                    return color;
+                }
+                if (this.backgroundDrawable != null) {
+                    if (this.scaledBackgroundBitmap == null) {
+                        this.scaledBackgroundBitmap = Bitmap.createScaledBitmap(this.backgroundDrawable.getBitmap(), this.bitmap.getWidth(), this.bitmap.getHeight(), false);
+                    }
+                    return this.scaledBackgroundBitmap.getPixel(x, y);
+                } else if (Color.alpha(Canvas.this.backgroundColor) != 0) {
+                    return Canvas.this.backgroundColor;
+                } else {
+                    return 16777215;
+                }
+            } catch (IllegalArgumentException e) {
+                Log.e(Canvas.LOG_TAG, String.format("Returning COLOR_NONE (exception) from getBackgroundPixelColor.", new Object[0]));
+                return 16777215;
+            }
+        }
+
+        /* access modifiers changed from: private */
+        public int getPixelColor(int x, int y) {
+            if (x < 0 || x >= this.bitmap.getWidth() || y < 0 || y >= this.bitmap.getHeight()) {
+                return 16777215;
+            }
+            if (this.completeCache == null) {
+                boolean anySpritesVisible = false;
+                Iterator it = Canvas.this.sprites.iterator();
+                while (true) {
+                    if (it.hasNext()) {
+                        if (((Sprite) it.next()).Visible()) {
+                            anySpritesVisible = true;
+                            break;
+                        }
+                    } else {
+                        break;
+                    }
+                }
+                if (!anySpritesVisible) {
+                    return getBackgroundPixelColor(x, y);
+                }
+                this.completeCache = buildCache();
+            }
+            try {
+                return this.completeCache.getPixel(x, y);
+            } catch (IllegalArgumentException e) {
+                Log.e(Canvas.LOG_TAG, String.format("Returning COLOR_NONE (exception) from getPixelColor.", new Object[0]));
+                return 16777215;
+            }
+        }
+    }
+
     public Canvas(ComponentContainer container) {
         super(container);
         this.context = container.$context();
@@ -492,10 +460,10 @@ public final class Canvas extends AndroidViewComponent implements ComponentConta
         return this.drawn;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void addSprite(Sprite sprite) {
         for (int i = 0; i < this.sprites.size(); i++) {
-            if (((Sprite) this.sprites.get(i)).mo7956Z() > sprite.mo7956Z()) {
+            if (this.sprites.get(i).Z() > sprite.Z()) {
                 this.sprites.add(i, sprite);
                 return;
             }
@@ -503,12 +471,12 @@ public final class Canvas extends AndroidViewComponent implements ComponentConta
         this.sprites.add(sprite);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void removeSprite(Sprite sprite) {
         this.sprites.remove(sprite);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void changeSpriteLayer(Sprite sprite) {
         removeSprite(sprite);
         addSprite(sprite);
@@ -535,7 +503,7 @@ public final class Canvas extends AndroidViewComponent implements ComponentConta
         throw new UnsupportedOperationException("Canvas.setChildHeight() called");
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void registerChange(Sprite sprite) {
         this.view.invalidate();
         findSpriteCollisions(sprite);
@@ -663,13 +631,13 @@ public final class Canvas extends AndroidViewComponent implements ComponentConta
         this.textAlignment = alignment;
         switch (alignment) {
             case 0:
-                this.paint.setTextAlign(Align.LEFT);
+                this.paint.setTextAlign(Paint.Align.LEFT);
                 return;
             case 1:
-                this.paint.setTextAlign(Align.CENTER);
+                this.paint.setTextAlign(Paint.Align.CENTER);
                 return;
             case 2:
-                this.paint.setTextAlign(Align.RIGHT);
+                this.paint.setTextAlign(Paint.Align.RIGHT);
                 return;
             default:
                 return;
@@ -729,7 +697,7 @@ public final class Canvas extends AndroidViewComponent implements ComponentConta
         float correctedY = ((float) centerY) * $form().deviceDensity();
         float correctedR = radius * $form().deviceDensity();
         Paint p = new Paint(this.paint);
-        p.setStyle(fill ? Style.FILL : Style.STROKE);
+        p.setStyle(fill ? Paint.Style.FILL : Paint.Style.STROKE);
         this.view.canvas.drawCircle(correctedX, correctedY, correctedR, p);
         this.view.invalidate();
     }
@@ -746,7 +714,7 @@ public final class Canvas extends AndroidViewComponent implements ComponentConta
             Path path = parsePath(parsePointList(pointList));
             path.close();
             Paint p = new Paint(this.paint);
-            p.setStyle(fill ? Style.FILL : Style.STROKE);
+            p.setStyle(fill ? Paint.Style.FILL : Paint.Style.STROKE);
             this.view.canvas.drawPath(path, p);
             this.view.invalidate();
         } catch (IllegalArgumentException e) {
@@ -805,7 +773,7 @@ public final class Canvas extends AndroidViewComponent implements ComponentConta
     public void DrawArc(int left, int top, int right, int bottom, float startAngle, float sweepAngle, boolean useCenter, boolean fill) {
         float scalingFactor = $form().deviceDensity();
         Paint p = new Paint(this.paint);
-        p.setStyle(fill ? Style.FILL : Style.STROKE);
+        p.setStyle(fill ? Paint.Style.FILL : Paint.Style.STROKE);
         this.view.canvas.drawArc(new RectF(((float) left) * scalingFactor, ((float) top) * scalingFactor, ((float) right) * scalingFactor, ((float) bottom) * scalingFactor), startAngle, sweepAngle, useCenter, p);
         this.view.invalidate();
     }
@@ -843,12 +811,12 @@ public final class Canvas extends AndroidViewComponent implements ComponentConta
     @SimpleFunction(description = "Saves a picture of this Canvas to the device's external storage. If an error occurs, the Screen's ErrorOccurred event will be called.")
     public String Save() {
         try {
-            return saveFile(FileUtil.getPictureFile("png"), CompressFormat.PNG, "Save");
+            return saveFile(FileUtil.getPictureFile("png"), Bitmap.CompressFormat.PNG, "Save");
         } catch (PermissionException e) {
             this.container.$form().dispatchPermissionDeniedEvent((Component) this, "Save", e);
         } catch (IOException e2) {
             this.container.$form().dispatchErrorOccurredEvent(this, "Save", ErrorMessages.ERROR_MEDIA_FILE_ERROR, e2.getMessage());
-        } catch (FileException e3) {
+        } catch (FileUtil.FileException e3) {
             this.container.$form().dispatchErrorOccurredEvent(this, "Save", e3.getErrorMessageNumber(), new Object[0]);
         }
         return "";
@@ -856,14 +824,14 @@ public final class Canvas extends AndroidViewComponent implements ComponentConta
 
     @SimpleFunction(description = "Saves a picture of this Canvas to the device's external storage in the file named fileName. fileName must end with one of .jpg, .jpeg, or .png, which determines the file type.")
     public String SaveAs(String fileName) {
-        CompressFormat format;
+        Bitmap.CompressFormat format;
         if (fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")) {
-            format = CompressFormat.JPEG;
+            format = Bitmap.CompressFormat.JPEG;
         } else if (fileName.endsWith(".png")) {
-            format = CompressFormat.PNG;
+            format = Bitmap.CompressFormat.PNG;
         } else if (!fileName.contains(".")) {
             fileName = fileName + ".png";
-            format = CompressFormat.PNG;
+            format = Bitmap.CompressFormat.PNG;
         } else {
             this.container.$form().dispatchErrorOccurredEvent(this, "SaveAs", ErrorMessages.ERROR_MEDIA_IMAGE_FILE_FORMAT, new Object[0]);
             return "";
@@ -874,7 +842,7 @@ public final class Canvas extends AndroidViewComponent implements ComponentConta
             this.container.$form().dispatchPermissionDeniedEvent((Component) this, "SaveAs", e);
         } catch (IOException e2) {
             this.container.$form().dispatchErrorOccurredEvent(this, "SaveAs", ErrorMessages.ERROR_MEDIA_FILE_ERROR, e2.getMessage());
-        } catch (FileException e3) {
+        } catch (FileUtil.FileException e3) {
             this.container.$form().dispatchErrorOccurredEvent(this, "SaveAs", e3.getErrorMessageNumber(), new Object[0]);
         }
         return "";
@@ -943,5 +911,29 @@ public final class Canvas extends AndroidViewComponent implements ComponentConta
             goto L_0x0046
         */
         throw new UnsupportedOperationException("Method not decompiled: com.google.appinventor.components.runtime.Canvas.saveFile(java.io.File, android.graphics.Bitmap$CompressFormat, java.lang.String):java.lang.String");
+    }
+
+    class FlingGestureListener extends GestureDetector.SimpleOnGestureListener {
+        FlingGestureListener() {
+        }
+
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            float x = (float) Math.max(0, (int) (e1.getX() / Canvas.this.$form().deviceDensity()));
+            float y = (float) Math.max(0, (int) (e1.getY() / Canvas.this.$form().deviceDensity()));
+            float vx = velocityX / 1000.0f;
+            float vy = velocityY / 1000.0f;
+            float speed = (float) Math.sqrt((double) ((vx * vx) + (vy * vy)));
+            float heading = (float) (-Math.toDegrees(Math.atan2((double) vy, (double) vx)));
+            BoundingBox rect = new BoundingBox((double) Math.max(0, ((int) x) - 12), (double) Math.max(0, ((int) y) - 12), (double) Math.min(Canvas.this.Width() - 1, ((int) x) + 12), (double) Math.min(Canvas.this.Height() - 1, ((int) y) + 12));
+            boolean spriteHandledFling = false;
+            for (Sprite sprite : Canvas.this.sprites) {
+                if (sprite.Enabled() && sprite.Visible() && sprite.intersectsWith(rect)) {
+                    sprite.Flung(x, y, speed, heading, vx, vy);
+                    spriteHandledFling = true;
+                }
+            }
+            Canvas.this.Flung(x, y, speed, heading, vx, vy, spriteHandledFling);
+            return true;
+        }
     }
 }

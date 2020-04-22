@@ -44,23 +44,22 @@ public class Ev3ColorSensor extends LegoMindstormsEv3Sensor implements Deleteabl
     public int previousLightLevel = 0;
     private final Runnable sensorValueChecker = new Runnable() {
         public void run() {
-            String functionName = "";
             if (Ev3ColorSensor.this.bluetooth != null && Ev3ColorSensor.this.bluetooth.IsConnected()) {
                 if (Ev3ColorSensor.this.mode == 2) {
-                    int currentColor = Ev3ColorSensor.this.getSensorValue(functionName);
+                    int currentColor = Ev3ColorSensor.this.getSensorValue("");
                     if (Ev3ColorSensor.this.previousColor < 0) {
-                        Ev3ColorSensor.this.previousColor = currentColor;
+                        int unused = Ev3ColorSensor.this.previousColor = currentColor;
                         Ev3ColorSensor.this.eventHandler.postDelayed(this, 50);
                         return;
                     }
                     if (currentColor != Ev3ColorSensor.this.previousColor && Ev3ColorSensor.this.colorChangedEventEnabled) {
-                        Ev3ColorSensor.this.ColorChanged(currentColor, Ev3ColorSensor.this.toColorName(functionName, currentColor));
+                        Ev3ColorSensor.this.ColorChanged(currentColor, Ev3ColorSensor.this.toColorName("", currentColor));
                     }
-                    Ev3ColorSensor.this.previousColor = currentColor;
+                    int unused2 = Ev3ColorSensor.this.previousColor = currentColor;
                 } else {
-                    int currentLightLevel = Ev3ColorSensor.this.getSensorValue(functionName);
+                    int currentLightLevel = Ev3ColorSensor.this.getSensorValue("");
                     if (Ev3ColorSensor.this.previousLightLevel < 0) {
-                        Ev3ColorSensor.this.previousLightLevel = currentLightLevel;
+                        int unused3 = Ev3ColorSensor.this.previousLightLevel = currentLightLevel;
                         Ev3ColorSensor.this.eventHandler.postDelayed(this, 50);
                         return;
                     }
@@ -75,7 +74,7 @@ public class Ev3ColorSensor extends LegoMindstormsEv3Sensor implements Deleteabl
                     } else if (Ev3ColorSensor.this.withinRangeEventEnabled && (Ev3ColorSensor.this.previousLightLevel < Ev3ColorSensor.this.bottomOfRange || Ev3ColorSensor.this.previousLightLevel > Ev3ColorSensor.this.topOfRange)) {
                         Ev3ColorSensor.this.WithinRange();
                     }
-                    Ev3ColorSensor.this.previousLightLevel = currentLightLevel;
+                    int unused4 = Ev3ColorSensor.this.previousLightLevel = currentLightLevel;
                 }
             }
             Ev3ColorSensor.this.eventHandler.postDelayed(this, 50);
@@ -119,8 +118,7 @@ public class Ev3ColorSensor extends LegoMindstormsEv3Sensor implements Deleteabl
         if (this.mode != 2) {
             return "No Color";
         }
-        String functionName = "GetColorName";
-        return toColorName(functionName, getSensorValue(functionName));
+        return toColorName("GetColorName", getSensorValue("GetColorName"));
     }
 
     @SimpleProperty(category = PropertyCategory.BEHAVIOR, description = "The bottom of the range used for the BelowRange, WithinRange, and AboveRange events.")
@@ -265,11 +263,10 @@ public class Ev3ColorSensor extends LegoMindstormsEv3Sensor implements Deleteabl
     @DesignerProperty(defaultValue = "reflected", editorType = "lego_ev3_color_sensor_mode")
     @SimpleProperty
     public void Mode(String modeName) {
-        String functionName = "Mode";
         try {
             setMode(modeName);
         } catch (IllegalArgumentException e) {
-            this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, functionName);
+            this.form.dispatchErrorOccurredEvent(this, "Mode", ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, "Mode");
         }
     }
 
@@ -280,31 +277,28 @@ public class Ev3ColorSensor extends LegoMindstormsEv3Sensor implements Deleteabl
 
     @SimpleFunction(description = "Enter the color detection mode.")
     public void SetColorMode() {
-        String functionName = "SetColorMode";
         try {
             setMode("color");
         } catch (IllegalArgumentException e) {
-            this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, functionName);
+            this.form.dispatchErrorOccurredEvent(this, "SetColorMode", ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, "SetColorMode");
         }
     }
 
     @SimpleFunction(description = "Make the sensor read the light level with reflected light.")
     public void SetReflectedMode() {
-        String functionName = "SetReflectedMode";
         try {
             setMode("reflected");
         } catch (IllegalArgumentException e) {
-            this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, functionName);
+            this.form.dispatchErrorOccurredEvent(this, "SetReflectedMode", ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, "SetReflectedMode");
         }
     }
 
     @SimpleFunction(description = "Make the sensor read the light level without reflected light.")
     public void SetAmbientMode() {
-        String functionName = "SetAmbientMode";
         try {
             setMode(SENSOR_MODE_AMBIENT_STRING);
         } catch (IllegalArgumentException e) {
-            this.form.dispatchErrorOccurredEvent(this, functionName, ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, functionName);
+            this.form.dispatchErrorOccurredEvent(this, "SetAmbientMode", ErrorMessages.ERROR_EV3_ILLEGAL_ARGUMENT, "SetAmbientMode");
         }
     }
 

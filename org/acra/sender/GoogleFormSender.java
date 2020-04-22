@@ -48,7 +48,6 @@ public class GoogleFormSender implements ReportSender {
     }
 
     private Map<String, String> remap(Map<ReportField, String> report) {
-        ReportField[] arr$;
         ReportField[] fields = ACRA.getConfig().customReportContent();
         if (fields.length == 0) {
             fields = ACRA.DEFAULT_REPORT_FIELDS;
@@ -58,10 +57,10 @@ public class GoogleFormSender implements ReportSender {
         for (ReportField originalKey : fields) {
             switch (originalKey) {
                 case APP_VERSION_NAME:
-                    result.put("entry." + inputId + ".single", "'" + ((String) report.get(originalKey)));
+                    result.put("entry." + inputId + ".single", "'" + report.get(originalKey));
                     break;
                 case ANDROID_VERSION:
-                    result.put("entry." + inputId + ".single", "'" + ((String) report.get(originalKey)));
+                    result.put("entry." + inputId + ".single", "'" + report.get(originalKey));
                     break;
                 default:
                     result.put("entry." + inputId + ".single", report.get(originalKey));

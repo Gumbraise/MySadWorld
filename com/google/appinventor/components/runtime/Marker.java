@@ -11,15 +11,7 @@ import com.google.appinventor.components.annotations.UsesLibraries;
 import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.runtime.util.ErrorMessages;
 import com.google.appinventor.components.runtime.util.GeometryUtil;
-import com.google.appinventor.components.runtime.util.MapFactory.MapCircle;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeature;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeatureContainer;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeatureType;
-import com.google.appinventor.components.runtime.util.MapFactory.MapFeatureVisitor;
-import com.google.appinventor.components.runtime.util.MapFactory.MapLineString;
-import com.google.appinventor.components.runtime.util.MapFactory.MapMarker;
-import com.google.appinventor.components.runtime.util.MapFactory.MapPolygon;
-import com.google.appinventor.components.runtime.util.MapFactory.MapRectangle;
+import com.google.appinventor.components.runtime.util.MapFactory;
 import org.locationtech.jts.geom.Geometry;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
@@ -27,72 +19,72 @@ import org.osmdroid.util.GeoPoint;
 @SimpleObject
 @DesignerComponent(category = ComponentCategory.MAPS, description = "<p>An icon positioned at a point to indicate information on a map. Markers can be used to provide an info window, custom fill and stroke colors, and custom images to convey information to the user.</p>", version = 3)
 @UsesLibraries(libraries = "osmdroid.aar, androidsvg.jar")
-public class Marker extends MapFeatureBaseWithFill implements MapMarker {
+public class Marker extends MapFeatureBaseWithFill implements MapFactory.MapMarker {
     private static final String TAG = Marker.class.getSimpleName();
-    private static final MapFeatureVisitor<Double> bearingComputation = new MapFeatureVisitor<Double>() {
-        public Double visit(MapMarker marker, Object... arguments) {
+    private static final MapFactory.MapFeatureVisitor<Double> bearingComputation = new MapFactory.MapFeatureVisitor<Double>() {
+        public Double visit(MapFactory.MapMarker marker, Object... arguments) {
             return Double.valueOf(GeometryUtil.bearingTo(arguments[0], marker));
         }
 
-        public Double visit(MapLineString lineString, Object... arguments) {
+        public Double visit(MapFactory.MapLineString lineString, Object... arguments) {
             if (arguments[1].booleanValue()) {
                 return Double.valueOf(GeometryUtil.bearingToCentroid(arguments[0], lineString));
             }
             return Double.valueOf(GeometryUtil.bearingToEdge(arguments[0], lineString));
         }
 
-        public Double visit(MapPolygon polygon, Object... arguments) {
+        public Double visit(MapFactory.MapPolygon polygon, Object... arguments) {
             if (arguments[1].booleanValue()) {
                 return Double.valueOf(GeometryUtil.bearingToCentroid(arguments[0], polygon));
             }
             return Double.valueOf(GeometryUtil.bearingToEdge(arguments[0], polygon));
         }
 
-        public Double visit(MapCircle circle, Object... arguments) {
+        public Double visit(MapFactory.MapCircle circle, Object... arguments) {
             if (arguments[1].booleanValue()) {
                 return Double.valueOf(GeometryUtil.bearingToCentroid(arguments[0], circle));
             }
             return Double.valueOf(GeometryUtil.bearingToEdge(arguments[0], circle));
         }
 
-        public Double visit(MapRectangle rectangle, Object... arguments) {
+        public Double visit(MapFactory.MapRectangle rectangle, Object... arguments) {
             if (arguments[1].booleanValue()) {
                 return Double.valueOf(GeometryUtil.bearingToCentroid(arguments[0], rectangle));
             }
             return Double.valueOf(GeometryUtil.bearingToEdge(arguments[0], rectangle));
         }
     };
-    private static final MapFeatureVisitor<Double> distanceComputation = new MapFeatureVisitor<Double>() {
-        public Double visit(MapMarker marker, Object... arguments) {
-            return Double.valueOf(GeometryUtil.distanceBetween((MapMarker) arguments[0], marker));
+    private static final MapFactory.MapFeatureVisitor<Double> distanceComputation = new MapFactory.MapFeatureVisitor<Double>() {
+        public Double visit(MapFactory.MapMarker marker, Object... arguments) {
+            return Double.valueOf(GeometryUtil.distanceBetween((MapFactory.MapMarker) arguments[0], marker));
         }
 
-        public Double visit(MapLineString lineString, Object... arguments) {
+        public Double visit(MapFactory.MapLineString lineString, Object... arguments) {
             if (arguments[1].booleanValue()) {
-                return Double.valueOf(GeometryUtil.distanceBetweenCentroids((MapMarker) arguments[0], lineString));
+                return Double.valueOf(GeometryUtil.distanceBetweenCentroids((MapFactory.MapMarker) arguments[0], lineString));
             }
-            return Double.valueOf(GeometryUtil.distanceBetweenEdges((MapMarker) arguments[0], lineString));
+            return Double.valueOf(GeometryUtil.distanceBetweenEdges((MapFactory.MapMarker) arguments[0], lineString));
         }
 
-        public Double visit(MapPolygon polygon, Object... arguments) {
+        public Double visit(MapFactory.MapPolygon polygon, Object... arguments) {
             if (arguments[1].booleanValue()) {
-                return Double.valueOf(GeometryUtil.distanceBetweenCentroids((MapMarker) arguments[0], polygon));
+                return Double.valueOf(GeometryUtil.distanceBetweenCentroids((MapFactory.MapMarker) arguments[0], polygon));
             }
-            return Double.valueOf(GeometryUtil.distanceBetweenEdges((MapMarker) arguments[0], polygon));
+            return Double.valueOf(GeometryUtil.distanceBetweenEdges((MapFactory.MapMarker) arguments[0], polygon));
         }
 
-        public Double visit(MapCircle circle, Object... arguments) {
+        public Double visit(MapFactory.MapCircle circle, Object... arguments) {
             if (arguments[1].booleanValue()) {
-                return Double.valueOf(GeometryUtil.distanceBetweenCentroids((MapMarker) arguments[0], circle));
+                return Double.valueOf(GeometryUtil.distanceBetweenCentroids((MapFactory.MapMarker) arguments[0], circle));
             }
-            return Double.valueOf(GeometryUtil.distanceBetweenEdges((MapMarker) arguments[0], circle));
+            return Double.valueOf(GeometryUtil.distanceBetweenEdges((MapFactory.MapMarker) arguments[0], circle));
         }
 
-        public Double visit(MapRectangle rectangle, Object... arguments) {
+        public Double visit(MapFactory.MapRectangle rectangle, Object... arguments) {
             if (arguments[1].booleanValue()) {
-                return Double.valueOf(GeometryUtil.distanceBetweenCentroids((MapMarker) arguments[0], rectangle));
+                return Double.valueOf(GeometryUtil.distanceBetweenCentroids((MapFactory.MapMarker) arguments[0], rectangle));
             }
-            return Double.valueOf(GeometryUtil.distanceBetweenEdges((MapMarker) arguments[0], rectangle));
+            return Double.valueOf(GeometryUtil.distanceBetweenEdges((MapFactory.MapMarker) arguments[0], rectangle));
         }
     };
     private int anchorHAlign = 3;
@@ -102,7 +94,7 @@ public class Marker extends MapFeatureBaseWithFill implements MapMarker {
     private GeoPoint location = new GeoPoint(0.0d, 0.0d);
     private int width = -1;
 
-    public Marker(MapFeatureContainer container) {
+    public Marker(MapFactory.MapFeatureContainer container) {
         super(container, distanceComputation);
         container.addFeature(this);
         ShowShadow(false);
@@ -117,7 +109,7 @@ public class Marker extends MapFeatureBaseWithFill implements MapMarker {
 
     @SimpleProperty
     public String Type() {
-        return MapFeatureType.TYPE_MARKER;
+        return MapFactory.MapFeatureType.TYPE_MARKER;
     }
 
     @DesignerProperty(defaultValue = "0", editorType = "latitude")
@@ -130,7 +122,7 @@ public class Marker extends MapFeatureBaseWithFill implements MapMarker {
         }
         this.location.setLatitude(latitude);
         clearGeometry();
-        this.map.getController().updateFeaturePosition((MapMarker) this);
+        this.map.getController().updateFeaturePosition((MapFactory.MapMarker) this);
     }
 
     @SimpleProperty
@@ -148,7 +140,7 @@ public class Marker extends MapFeatureBaseWithFill implements MapMarker {
         }
         this.location.setLongitude(longitude);
         clearGeometry();
-        this.map.getController().updateFeaturePosition((MapMarker) this);
+        this.map.getController().updateFeaturePosition((MapFactory.MapMarker) this);
     }
 
     @SimpleProperty
@@ -184,7 +176,7 @@ public class Marker extends MapFeatureBaseWithFill implements MapMarker {
                 return;
             }
             this.anchorHAlign = horizontal;
-            this.map.getController().updateFeaturePosition((MapMarker) this);
+            this.map.getController().updateFeaturePosition((MapFactory.MapMarker) this);
         }
     }
 
@@ -202,7 +194,7 @@ public class Marker extends MapFeatureBaseWithFill implements MapMarker {
                 return;
             }
             this.anchorVAlign = vertical;
-            this.map.getController().updateFeaturePosition((MapMarker) this);
+            this.map.getController().updateFeaturePosition((MapFactory.MapMarker) this);
         }
     }
 
@@ -271,7 +263,7 @@ public class Marker extends MapFeatureBaseWithFill implements MapMarker {
         Log.d(TAG, "SetLocation");
         this.location.setCoords(latitude, longitude);
         clearGeometry();
-        this.map.getController().updateFeaturePosition((MapMarker) this);
+        this.map.getController().updateFeaturePosition((MapFactory.MapMarker) this);
     }
 
     public double DistanceToPoint(double latitude, double longitude, boolean centroid) {
@@ -280,7 +272,7 @@ public class Marker extends MapFeatureBaseWithFill implements MapMarker {
 
     @SimpleFunction(description = "Compute the distance, in meters, between a Marker and a latitude, longitude point.")
     public double DistanceToPoint(double latitude, double longitude) {
-        return GeometryUtil.distanceBetween((MapMarker) this, new GeoPoint(latitude, longitude));
+        return GeometryUtil.distanceBetween((MapFactory.MapMarker) this, new GeoPoint(latitude, longitude));
     }
 
     @SimpleFunction(description = "Returns the bearing from the Marker to the given latitude and longitude, in degrees from due north.")
@@ -289,7 +281,7 @@ public class Marker extends MapFeatureBaseWithFill implements MapMarker {
     }
 
     @SimpleFunction(description = "Returns the bearing from the Marker to the given map feature, in degrees from due north. If the centroids parameter is true, the bearing will be to the center of the map feature. Otherwise, the bearing will be computed to the point in the feature nearest the Marker.")
-    public double BearingToFeature(MapFeature mapFeature, boolean centroids) {
+    public double BearingToFeature(MapFactory.MapFeature mapFeature, boolean centroids) {
         if (mapFeature == null) {
             return -1.0d;
         }
@@ -305,8 +297,8 @@ public class Marker extends MapFeatureBaseWithFill implements MapMarker {
         clearGeometry();
     }
 
-    public <T> T accept(MapFeatureVisitor<T> visitor, Object... arguments) {
-        return visitor.visit((MapMarker) this, arguments);
+    public <T> T accept(MapFactory.MapFeatureVisitor<T> visitor, Object... arguments) {
+        return visitor.visit((MapFactory.MapMarker) this, arguments);
     }
 
     /* access modifiers changed from: protected */

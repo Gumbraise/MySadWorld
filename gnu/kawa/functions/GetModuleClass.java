@@ -1,6 +1,6 @@
 package gnu.kawa.functions;
 
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import gnu.bytecode.ClassType;
 import gnu.bytecode.Method;
 import gnu.bytecode.Type;
@@ -47,7 +47,7 @@ public class GetModuleClass extends ProcedureN implements Inlineable {
             Expression init = decl.getValue();
             if (init != null) {
                 BindingInitializer.create(decl, init, comp);
-                decl.setValue(null);
+                decl.setValue((Expression) null);
                 return;
             }
             return;
@@ -83,7 +83,7 @@ public class GetModuleClass extends ProcedureN implements Inlineable {
                 value = new ApplyExp(maker, clas);
             }
             decl.setValue(value);
-            comp.mainLambda.add(null, decl);
+            comp.mainLambda.add((Declaration) null, decl);
         }
         ReferenceExp ref = new ReferenceExp(decl);
         if (comp.immediate) {

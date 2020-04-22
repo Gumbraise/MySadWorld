@@ -1,8 +1,9 @@
 package android.support.constraint.solver;
 
-import android.support.constraint.solver.SolverVariable.Type;
+import android.support.constraint.solver.LinearSystem;
+import android.support.constraint.solver.SolverVariable;
 
-public class ArrayRow implements Row {
+public class ArrayRow implements LinearSystem.Row {
     private static final boolean DEBUG = false;
     private static final float epsilon = 0.001f;
     float constantValue = 0.0f;
@@ -15,29 +16,28 @@ public class ArrayRow implements Row {
         this.variables = new ArrayLinkedVariables(this, cache);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public boolean hasKeyVariable() {
-        return this.variable != null && (this.variable.mType == Type.UNRESTRICTED || this.constantValue >= 0.0f);
+        return this.variable != null && (this.variable.mType == SolverVariable.Type.UNRESTRICTED || this.constantValue >= 0.0f);
     }
 
     public String toString() {
         return toReadableString();
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public String toReadableString() {
         String s;
         String s2;
-        String s3 = "";
         if (this.variable == null) {
-            s = s3 + "0";
+            s = "" + "0";
         } else {
-            s = s3 + this.variable;
+            s = "" + this.variable;
         }
-        String s4 = s + " = ";
+        String s3 = s + " = ";
         boolean addedVariable = false;
         if (this.constantValue != 0.0f) {
-            s4 = s4 + this.constantValue;
+            s3 = s3 + this.constantValue;
             addedVariable = true;
         }
         int count = this.variables.currentSize;
@@ -80,12 +80,12 @@ public class ArrayRow implements Row {
         this.isSimpleDefinition = false;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public boolean hasVariable(SolverVariable v) {
         return this.variables.containsKey(v);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public ArrayRow createRowDefinition(SolverVariable variable2, int value) {
         this.variable = variable2;
         variable2.computedValue = (float) value;
@@ -125,7 +125,7 @@ public class ArrayRow implements Row {
         return this;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public ArrayRow addSingleError(SolverVariable error, int sign) {
         this.variables.put(error, (float) sign);
         return this;
@@ -222,7 +222,7 @@ public class ArrayRow implements Row {
         return this;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public ArrayRow createRowCentering(SolverVariable variableA, SolverVariable variableB, int marginA, float bias, SolverVariable variableC, SolverVariable variableD, int marginB) {
         if (variableB == variableC) {
             this.variables.put(variableA, 1.0f);
@@ -262,7 +262,7 @@ public class ArrayRow implements Row {
         return this;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public ArrayRow createRowDimensionPercent(SolverVariable variableA, SolverVariable variableB, SolverVariable variableC, float percent) {
         this.variables.put(variableA, -1.0f);
         this.variables.put(variableB, 1.0f - percent);
@@ -287,7 +287,7 @@ public class ArrayRow implements Row {
         return this;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public int sizeInBytes() {
         int size = 0;
         if (this.variable != null) {
@@ -296,7 +296,7 @@ public class ArrayRow implements Row {
         return size + 4 + 4 + this.variables.sizeInBytes();
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void ensurePositiveConstant() {
         if (this.constantValue < 0.0f) {
             this.constantValue *= -1.0f;
@@ -304,7 +304,7 @@ public class ArrayRow implements Row {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public boolean chooseSubject(LinearSystem system) {
         boolean addedExtra = false;
         SolverVariable pivotCandidate = this.variables.chooseSubject(system);
@@ -319,12 +319,12 @@ public class ArrayRow implements Row {
         return addedExtra;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public SolverVariable pickPivot(SolverVariable exclude) {
-        return this.variables.getPivotCandidate(null, exclude);
+        return this.variables.getPivotCandidate((boolean[]) null, exclude);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void pivot(SolverVariable v) {
         if (this.variable != null) {
             this.variables.put(this.variable, -1.0f);
@@ -343,7 +343,7 @@ public class ArrayRow implements Row {
     }
 
     public SolverVariable getPivotCandidate(LinearSystem system, boolean[] avoid) {
-        return this.variables.getPivotCandidate(avoid, null);
+        return this.variables.getPivotCandidate(avoid, (SolverVariable) null);
     }
 
     public void clear() {
@@ -352,7 +352,7 @@ public class ArrayRow implements Row {
         this.constantValue = 0.0f;
     }
 
-    public void initFromRow(Row row) {
+    public void initFromRow(LinearSystem.Row row) {
         if (row instanceof ArrayRow) {
             ArrayRow copiedRow = (ArrayRow) row;
             this.variable = null;

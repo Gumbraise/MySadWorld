@@ -111,7 +111,7 @@ public class URIPath extends Path implements Comparable<URIPath> {
             rstr = rstr.replace(fileSep, '/');
         }
         try {
-            return valueOf(this.uri.resolve(new URI(null, rstr, null)));
+            return valueOf(this.uri.resolve(new URI((String) null, rstr, (String) null)));
         } catch (Throwable ex) {
             throw WrappedException.wrapIfNeeded(ex);
         }

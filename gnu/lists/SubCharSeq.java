@@ -23,10 +23,9 @@ public class SubCharSeq extends SubSequence implements CharSeq {
         int i = srcBegin;
         int dstBegin2 = dstBegin;
         while (i < srcEnd) {
-            int dstBegin3 = dstBegin2 + 1;
             dst[dstBegin2] = charAt(i);
             i++;
-            dstBegin2 = dstBegin3;
+            dstBegin2++;
         }
     }
 

@@ -1,6 +1,6 @@
 package gnu.bytecode;
 
-import android.support.p000v4.internal.view.SupportMenu;
+import android.support.v4.internal.view.SupportMenu;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -30,7 +30,7 @@ public class ConstantPool {
         return this.pool[index];
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void rehash() {
         if (this.hashTab == null && this.count > 0) {
             int i = this.pool.length;
@@ -104,7 +104,7 @@ public class ConstantPool {
         return new CpoolClass(this, h, name);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public CpoolValue1 addValue1(int tag, int val) {
         int h = CpoolValue1.hashCode(val);
         if (this.hashTab == null) {
@@ -121,7 +121,7 @@ public class ConstantPool {
         return new CpoolValue1(this, tag, h, val);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public CpoolValue2 addValue2(int tag, long val) {
         int h = CpoolValue2.hashCode(val);
         if (this.hashTab == null) {
@@ -226,7 +226,7 @@ public class ConstantPool {
         return addRef(9, addClass((ObjectType) field.owner), addNameAndType(field));
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void write(DataOutputStream dstr) throws IOException {
         dstr.writeShort(this.count + 1);
         for (int i = 1; i <= this.count; i++) {
@@ -238,7 +238,7 @@ public class ConstantPool {
         this.locked = true;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public CpoolEntry getForced(int index, int tag) {
         int index2 = index & SupportMenu.USER_MASK;
         CpoolEntry entry = this.pool[index2];
@@ -281,7 +281,7 @@ public class ConstantPool {
         return entry;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public CpoolClass getForcedClass(int index) {
         return (CpoolClass) getForced(index, 7);
     }

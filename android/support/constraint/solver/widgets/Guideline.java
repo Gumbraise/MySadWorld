@@ -2,8 +2,8 @@ package android.support.constraint.solver.widgets;
 
 import android.support.constraint.solver.LinearSystem;
 import android.support.constraint.solver.SolverVariable;
-import android.support.constraint.solver.widgets.ConstraintAnchor.Type;
-import android.support.constraint.solver.widgets.ConstraintWidget.DimensionBehaviour;
+import android.support.constraint.solver.widgets.ConstraintAnchor;
+import android.support.constraint.solver.widgets.ConstraintWidget;
 import java.util.ArrayList;
 
 public class Guideline extends ConstraintWidget {
@@ -96,7 +96,7 @@ public class Guideline extends ConstraintWidget {
         }
     }
 
-    public ConstraintAnchor getAnchor(Type anchorType) {
+    public ConstraintAnchor getAnchor(ConstraintAnchor.Type anchorType) {
         switch (anchorType) {
             case LEFT:
             case RIGHT:
@@ -176,7 +176,7 @@ public class Guideline extends ConstraintWidget {
                 } else if (this.mRelativeEnd != -1) {
                     this.mLeft.getResolutionNode().dependsOn(1, constraintWidgetContainer.mRight.getResolutionNode(), -this.mRelativeEnd);
                     this.mRight.getResolutionNode().dependsOn(1, constraintWidgetContainer.mRight.getResolutionNode(), -this.mRelativeEnd);
-                } else if (this.mRelativePercent != -1.0f && constraintWidgetContainer.getHorizontalDimensionBehaviour() == DimensionBehaviour.FIXED) {
+                } else if (this.mRelativePercent != -1.0f && constraintWidgetContainer.getHorizontalDimensionBehaviour() == ConstraintWidget.DimensionBehaviour.FIXED) {
                     int position = (int) (((float) constraintWidgetContainer.mWidth) * this.mRelativePercent);
                     this.mLeft.getResolutionNode().dependsOn(1, constraintWidgetContainer.mLeft.getResolutionNode(), position);
                     this.mRight.getResolutionNode().dependsOn(1, constraintWidgetContainer.mLeft.getResolutionNode(), position);
@@ -190,7 +190,7 @@ public class Guideline extends ConstraintWidget {
                 } else if (this.mRelativeEnd != -1) {
                     this.mTop.getResolutionNode().dependsOn(1, constraintWidgetContainer.mBottom.getResolutionNode(), -this.mRelativeEnd);
                     this.mBottom.getResolutionNode().dependsOn(1, constraintWidgetContainer.mBottom.getResolutionNode(), -this.mRelativeEnd);
-                } else if (this.mRelativePercent != -1.0f && constraintWidgetContainer.getVerticalDimensionBehaviour() == DimensionBehaviour.FIXED) {
+                } else if (this.mRelativePercent != -1.0f && constraintWidgetContainer.getVerticalDimensionBehaviour() == ConstraintWidget.DimensionBehaviour.FIXED) {
                     int position2 = (int) (((float) constraintWidgetContainer.mHeight) * this.mRelativePercent);
                     this.mTop.getResolutionNode().dependsOn(1, constraintWidgetContainer.mTop.getResolutionNode(), position2);
                     this.mBottom.getResolutionNode().dependsOn(1, constraintWidgetContainer.mTop.getResolutionNode(), position2);
@@ -202,13 +202,13 @@ public class Guideline extends ConstraintWidget {
     public void addToSolver(LinearSystem system) {
         ConstraintWidgetContainer parent = (ConstraintWidgetContainer) getParent();
         if (parent != null) {
-            ConstraintAnchor begin = parent.getAnchor(Type.LEFT);
-            ConstraintAnchor end = parent.getAnchor(Type.RIGHT);
-            boolean parentWrapContent = this.mParent != null ? this.mParent.mListDimensionBehaviors[0] == DimensionBehaviour.WRAP_CONTENT : false;
+            ConstraintAnchor begin = parent.getAnchor(ConstraintAnchor.Type.LEFT);
+            ConstraintAnchor end = parent.getAnchor(ConstraintAnchor.Type.RIGHT);
+            boolean parentWrapContent = this.mParent != null ? this.mParent.mListDimensionBehaviors[0] == ConstraintWidget.DimensionBehaviour.WRAP_CONTENT : false;
             if (this.mOrientation == 0) {
-                begin = parent.getAnchor(Type.TOP);
-                end = parent.getAnchor(Type.BOTTOM);
-                parentWrapContent = this.mParent != null ? this.mParent.mListDimensionBehaviors[1] == DimensionBehaviour.WRAP_CONTENT : false;
+                begin = parent.getAnchor(ConstraintAnchor.Type.TOP);
+                end = parent.getAnchor(ConstraintAnchor.Type.BOTTOM);
+                parentWrapContent = this.mParent != null ? this.mParent.mListDimensionBehaviors[1] == ConstraintWidget.DimensionBehaviour.WRAP_CONTENT : false;
             }
             if (this.mRelativeBegin != -1) {
                 SolverVariable guide = system.createObjectVariable(this.mAnchor);
@@ -269,7 +269,7 @@ public class Guideline extends ConstraintWidget {
         }
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void inferRelativePercentPosition() {
         float percent = ((float) getX()) / ((float) getParent().getWidth());
         if (this.mOrientation == 0) {
@@ -278,7 +278,7 @@ public class Guideline extends ConstraintWidget {
         setGuidePercent(percent);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void inferRelativeBeginPosition() {
         int position = getX();
         if (this.mOrientation == 0) {
@@ -287,7 +287,7 @@ public class Guideline extends ConstraintWidget {
         setGuideBegin(position);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void inferRelativeEndPosition() {
         int position = getParent().getWidth() - getX();
         if (this.mOrientation == 0) {

@@ -33,7 +33,7 @@ public class KElement extends KNode implements Element {
             name = "";
         }
         NodeTree nodes = (NodeTree) this.sequence;
-        int attr = nodes.getAttribute(this.ipos, null, name);
+        int attr = nodes.getAttribute(this.ipos, (String) null, name);
         if (attr == 0) {
             return "";
         }
@@ -65,7 +65,7 @@ public class KElement extends KNode implements Element {
             name = "";
         }
         NodeTree nodes = (NodeTree) this.sequence;
-        int attr = nodes.getAttribute(this.ipos, null, name);
+        int attr = nodes.getAttribute(this.ipos, (String) null, name);
         if (attr == 0) {
             return null;
         }
@@ -132,7 +132,7 @@ public class KElement extends KNode implements Element {
         if (name == null) {
             name = "";
         }
-        return nodeTree.getAttribute(i, null, name) != 0;
+        return nodeTree.getAttribute(i, (String) null, name) != 0;
     }
 
     public boolean hasAttributeNS(String namespaceURI, String localName) {

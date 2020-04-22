@@ -9,6 +9,7 @@ import com.google.appinventor.components.annotations.SimpleFunction;
 import com.google.appinventor.components.annotations.SimpleObject;
 import com.google.appinventor.components.annotations.SimpleProperty;
 import com.google.appinventor.components.common.ComponentCategory;
+import com.google.appinventor.components.runtime.LegoMindstormsNxtSensor;
 
 @SimpleObject
 @DesignerComponent(category = ComponentCategory.LEGOMINDSTORMS, description = "A component that provides a high-level interface to a sound sensor on a LEGO MINDSTORMS NXT robot.", iconName = "images/legoMindstormsNxt.png", nonVisible = true, version = 1)
@@ -31,7 +32,7 @@ public class NxtSoundSensor extends LegoMindstormsNxtSensor implements Deleteabl
         public void run() {
             State currentState;
             if (NxtSoundSensor.this.bluetooth != null && NxtSoundSensor.this.bluetooth.IsConnected()) {
-                SensorValue<Integer> sensorValue = NxtSoundSensor.this.getSoundValue("");
+                LegoMindstormsNxtSensor.SensorValue<Integer> sensorValue = NxtSoundSensor.this.getSoundValue("");
                 if (sensorValue.valid) {
                     if (((Integer) sensorValue.value).intValue() < NxtSoundSensor.this.bottomOfRange) {
                         currentState = State.BELOW_RANGE;
@@ -51,7 +52,7 @@ public class NxtSoundSensor extends LegoMindstormsNxtSensor implements Deleteabl
                             NxtSoundSensor.this.AboveRange();
                         }
                     }
-                    NxtSoundSensor.this.previousState = currentState;
+                    State unused = NxtSoundSensor.this.previousState = currentState;
                 }
             }
             if (NxtSoundSensor.this.isHandlerNeeded()) {
@@ -94,11 +95,10 @@ public class NxtSoundSensor extends LegoMindstormsNxtSensor implements Deleteabl
 
     @SimpleFunction(description = "Returns the current sound level as a value between 0 and 1023, or -1 if the sound level can not be read.")
     public int GetSoundLevel() {
-        String functionName = "GetSoundLevel";
-        if (!checkBluetooth(functionName)) {
+        if (!checkBluetooth("GetSoundLevel")) {
             return -1;
         }
-        SensorValue<Integer> sensorValue = getSoundValue(functionName);
+        LegoMindstormsNxtSensor.SensorValue<Integer> sensorValue = getSoundValue("GetSoundLevel");
         if (sensorValue.valid) {
             return ((Integer) sensorValue.value).intValue();
         }
@@ -106,12 +106,12 @@ public class NxtSoundSensor extends LegoMindstormsNxtSensor implements Deleteabl
     }
 
     /* access modifiers changed from: private */
-    public SensorValue<Integer> getSoundValue(String functionName) {
+    public LegoMindstormsNxtSensor.SensorValue<Integer> getSoundValue(String functionName) {
         byte[] returnPackage = getInputValues(functionName, this.port);
         if (returnPackage == null || !getBooleanValueFromBytes(returnPackage, 4)) {
-            return new SensorValue<>(false, null);
+            return new LegoMindstormsNxtSensor.SensorValue<>(false, null);
         }
-        return new SensorValue<>(true, Integer.valueOf(getUWORDValueFromBytes(returnPackage, 10)));
+        return new LegoMindstormsNxtSensor.SensorValue<>(true, Integer.valueOf(getUWORDValueFromBytes(returnPackage, 10)));
     }
 
     @SimpleProperty(category = PropertyCategory.BEHAVIOR, description = "The bottom of the range used for the BelowRange, WithinRange, and AboveRange events.")

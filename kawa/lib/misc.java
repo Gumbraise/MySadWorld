@@ -1,6 +1,6 @@
 package kawa.lib;
 
-import android.support.p000v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import gnu.expr.GenericProc;
 import gnu.expr.Keyword;
 import gnu.expr.ModuleBody;
@@ -90,85 +90,15 @@ public class misc extends ModuleBody {
     public static final ModuleMethod symbol$Qu;
     public static final ModuleMethod values;
 
-    /* compiled from: misc.scm */
-    public class frame extends ModuleBody {
-        final ModuleMethod lambda$Fn4;
-        Object msg;
-
-        public frame() {
-            ModuleMethod moduleMethod = new ModuleMethod(this, 2, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/kawa/lib/misc.scm:104");
-            this.lambda$Fn4 = moduleMethod;
-        }
-
-        public Object apply1(ModuleMethod moduleMethod, Object obj) {
-            if (moduleMethod.selector != 2) {
-                return super.apply1(moduleMethod, obj);
-            }
-            lambda3(obj);
-            return Values.empty;
-        }
-
-        /* access modifiers changed from: 0000 */
-        public void lambda3(Object port) {
-            ports.display(this.msg, port);
-        }
-
-        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
-            if (moduleMethod.selector != 2) {
-                return super.match1(moduleMethod, obj, callContext);
-            }
-            callContext.value1 = obj;
-            callContext.proc = moduleMethod;
-            callContext.f236pc = 1;
-            return 0;
-        }
-    }
-
-    /* compiled from: misc.scm */
-    public class frame0 extends ModuleBody {
-        Object arg;
-        final ModuleMethod lambda$Fn5;
-
-        public frame0() {
-            ModuleMethod moduleMethod = new ModuleMethod(this, 1, null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/kawa/lib/misc.scm:107");
-            this.lambda$Fn5 = moduleMethod;
-        }
-
-        public Object apply1(ModuleMethod moduleMethod, Object obj) {
-            if (moduleMethod.selector != 1) {
-                return super.apply1(moduleMethod, obj);
-            }
-            lambda4(obj);
-            return Values.empty;
-        }
-
-        /* access modifiers changed from: 0000 */
-        public void lambda4(Object port) {
-            ports.write(this.arg, port);
-        }
-
-        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
-            if (moduleMethod.selector != 1) {
-                return super.match1(moduleMethod, obj, callContext);
-            }
-            callContext.value1 = obj;
-            callContext.proc = moduleMethod;
-            callContext.f236pc = 1;
-            return 0;
-        }
-    }
-
     static {
         misc misc = $instance;
         boolean$Qu = new ModuleMethod(misc, 3, Lit4, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         symbol$Qu = new ModuleMethod(misc, 4, Lit5, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         symbol$Mn$Grstring = new ModuleMethod(misc, 5, Lit6, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        ModuleMethod moduleMethod = new ModuleMethod(misc, 6, null, 8194);
+        ModuleMethod moduleMethod = new ModuleMethod(misc, 6, (Object) null, 8194);
         moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/kawa/lib/misc.scm:25");
         lambda$Fn1 = moduleMethod;
-        ModuleMethod moduleMethod2 = new ModuleMethod(misc, 7, null, -4094);
+        ModuleMethod moduleMethod2 = new ModuleMethod(misc, 7, (Object) null, -4094);
         moduleMethod2.setProperty("source-location", "/u2/home/jis/ai2-kawa/kawa/lib/misc.scm:27");
         lambda$Fn2 = moduleMethod2;
         symbol$Mnlocal$Mnname = new ModuleMethod(misc, 8, Lit7, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -201,7 +131,7 @@ public class misc extends ModuleBody {
     }
 
     public static Object baseUri() {
-        return baseUri(null);
+        return baseUri((Object) null);
     }
 
     public static Environment nullEnvironment() {
@@ -235,12 +165,12 @@ public class misc extends ModuleBody {
             case 3:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 4:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 5:
                 if (!(obj instanceof Symbol)) {
@@ -248,7 +178,7 @@ public class misc extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 8:
                 if (!(obj instanceof Symbol)) {
@@ -256,7 +186,7 @@ public class misc extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 9:
                 if (!(obj instanceof Symbol)) {
@@ -264,7 +194,7 @@ public class misc extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 10:
                 if (!(obj instanceof Symbol)) {
@@ -272,7 +202,7 @@ public class misc extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 11:
                 if (!(obj instanceof Symbol)) {
@@ -280,7 +210,7 @@ public class misc extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 12:
                 if (!(obj instanceof Namespace)) {
@@ -288,7 +218,7 @@ public class misc extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 13:
                 if (!(obj instanceof Namespace)) {
@@ -296,7 +226,7 @@ public class misc extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 14:
                 if (!(obj instanceof CharSequence)) {
@@ -304,32 +234,32 @@ public class misc extends ModuleBody {
                 }
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 15:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 18:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 20:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 27:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             case 29:
                 callContext.value1 = obj;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 1;
+                callContext.pc = 1;
                 return 0;
             default:
                 return super.match1(moduleMethod, obj, callContext);
@@ -360,7 +290,7 @@ public class misc extends ModuleBody {
                 }
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 17:
                 if (!(obj instanceof Environment)) {
@@ -369,7 +299,7 @@ public class misc extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             case 24:
                 if (!(obj instanceof Procedure)) {
@@ -378,7 +308,7 @@ public class misc extends ModuleBody {
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 2;
+                callContext.pc = 2;
                 return 0;
             default:
                 return super.match2(moduleMethod, obj, obj2, callContext);
@@ -402,22 +332,22 @@ public class misc extends ModuleBody {
             case 7:
                 callContext.values = objArr;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 5;
+                callContext.pc = 5;
                 return 0;
             case 16:
                 callContext.values = objArr;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 5;
+                callContext.pc = 5;
                 return 0;
             case 28:
                 callContext.values = objArr;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 5;
+                callContext.pc = 5;
                 return 0;
             case 32:
                 callContext.values = objArr;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 5;
+                callContext.pc = 5;
                 return 0;
             default:
                 return super.matchN(moduleMethod, objArr, callContext);
@@ -473,23 +403,23 @@ public class misc extends ModuleBody {
         switch (moduleMethod.selector) {
             case 18:
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 0;
+                callContext.pc = 0;
                 return 0;
             case 21:
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 0;
+                callContext.pc = 0;
                 return 0;
             case 22:
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 0;
+                callContext.pc = 0;
                 return 0;
             case 29:
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 0;
+                callContext.pc = 0;
                 return 0;
             case 31:
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 0;
+                callContext.pc = 0;
                 return 0;
             default:
                 return super.match0(moduleMethod, callContext);
@@ -528,7 +458,7 @@ public class misc extends ModuleBody {
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 24:
                 if (!(obj instanceof Procedure)) {
@@ -538,14 +468,14 @@ public class misc extends ModuleBody {
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             case 26:
                 callContext.value1 = obj;
                 callContext.value2 = obj2;
                 callContext.value3 = obj3;
                 callContext.proc = moduleMethod;
-                callContext.f236pc = 3;
+                callContext.pc = 3;
                 return 0;
             default:
                 return super.match3(moduleMethod, obj, obj2, obj3, callContext);
@@ -585,12 +515,14 @@ public class misc extends ModuleBody {
         }
     }
 
-    public static Object dynamicWind(Object before, Object thunk, Object after) {
+    public static Object dynamicWind(Object before, Object after, Object after2) {
+        Object apply1;
         Scheme.applyToArgs.apply1(before);
         try {
-            return Scheme.applyToArgs.apply1(thunk);
+            Scheme.applyToArgs.apply1(after2);
+            return apply1;
         } finally {
-            Scheme.applyToArgs.apply1(after);
+            Scheme.applyToArgs.apply1(after2);
         }
     }
 
@@ -620,27 +552,97 @@ public class misc extends ModuleBody {
         return Promise.force(arg);
     }
 
+    /* compiled from: misc.scm */
+    public class frame extends ModuleBody {
+        final ModuleMethod lambda$Fn4;
+        Object msg;
+
+        public frame() {
+            ModuleMethod moduleMethod = new ModuleMethod(this, 2, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/kawa/lib/misc.scm:104");
+            this.lambda$Fn4 = moduleMethod;
+        }
+
+        public Object apply1(ModuleMethod moduleMethod, Object obj) {
+            if (moduleMethod.selector != 2) {
+                return super.apply1(moduleMethod, obj);
+            }
+            lambda3(obj);
+            return Values.empty;
+        }
+
+        /* access modifiers changed from: package-private */
+        public void lambda3(Object port) {
+            ports.display(this.msg, port);
+        }
+
+        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
+            if (moduleMethod.selector != 2) {
+                return super.match1(moduleMethod, obj, callContext);
+            }
+            callContext.value1 = obj;
+            callContext.proc = moduleMethod;
+            callContext.pc = 1;
+            return 0;
+        }
+    }
+
     public static Object error$V(Object msg, Object[] argsArray) {
         frame frame2 = new frame();
         frame2.msg = msg;
         LList args = LList.makeList(argsArray, 0);
         frame2.msg = ports.callWithOutputString(frame2.lambda$Fn4);
         Object obj = LList.Empty;
-        Object obj2 = args;
-        while (obj2 != LList.Empty) {
+        LList lList = args;
+        while (lList != LList.Empty) {
             try {
-                Pair arg0 = (Pair) obj2;
+                Pair arg0 = (Pair) lList;
                 Object arg02 = arg0.getCdr();
                 Object arg = arg0.getCar();
                 frame0 frame02 = new frame0();
                 frame02.arg = arg;
                 obj = Pair.make(ports.callWithOutputString(frame02.lambda$Fn5), obj);
-                obj2 = arg02;
+                lList = arg02;
             } catch (ClassCastException e) {
-                throw new WrongType(e, "arg0", -2, obj2);
+                throw new WrongType(e, "arg0", -2, lList);
             }
         }
         return Scheme.apply.apply4(throw_name.throwName, Lit3, frame2.msg, LList.reverseInPlace(obj));
+    }
+
+    /* compiled from: misc.scm */
+    public class frame0 extends ModuleBody {
+        Object arg;
+        final ModuleMethod lambda$Fn5;
+
+        public frame0() {
+            ModuleMethod moduleMethod = new ModuleMethod(this, 1, (Object) null, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            moduleMethod.setProperty("source-location", "/u2/home/jis/ai2-kawa/kawa/lib/misc.scm:107");
+            this.lambda$Fn5 = moduleMethod;
+        }
+
+        public Object apply1(ModuleMethod moduleMethod, Object obj) {
+            if (moduleMethod.selector != 1) {
+                return super.apply1(moduleMethod, obj);
+            }
+            lambda4(obj);
+            return Values.empty;
+        }
+
+        /* access modifiers changed from: package-private */
+        public void lambda4(Object port) {
+            ports.write(this.arg, port);
+        }
+
+        public int match1(ModuleMethod moduleMethod, Object obj, CallContext callContext) {
+            if (moduleMethod.selector != 1) {
+                return super.match1(moduleMethod, obj, callContext);
+            }
+            callContext.value1 = obj;
+            callContext.proc = moduleMethod;
+            callContext.pc = 1;
+            return 0;
+        }
     }
 
     public static Object baseUri(Object node) {

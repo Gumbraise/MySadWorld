@@ -34,7 +34,7 @@ public class Quote extends Syntax {
 
     /* access modifiers changed from: protected */
     public Object expand(Object template, int depth, Translator tr) {
-        return expand(template, depth, null, new IdentityHashMap(), tr);
+        return expand(template, depth, (SyntaxForm) null, new IdentityHashMap(), tr);
     }
 
     public static Object quote(Object obj, Translator tr) {
@@ -70,28 +70,7 @@ public class Quote extends Syntax {
         return ns.getSymbol(name.intern());
     }
 
-    /* JADX WARNING: type inference failed for: r25v0 */
-    /* JADX WARNING: type inference failed for: r25v1, types: [gnu.lists.Pair] */
-    /* JADX WARNING: type inference failed for: r30v0 */
-    /* JADX WARNING: type inference failed for: r4v0 */
-    /* JADX WARNING: type inference failed for: r4v2 */
-    /* JADX WARNING: type inference failed for: r0v9, types: [gnu.lists.Pair] */
-    /* JADX WARNING: type inference failed for: r4v3 */
-    /* JADX WARNING: type inference failed for: r25v3, types: [gnu.lists.Pair] */
-    /* JADX WARNING: type inference failed for: r4v6 */
-    /* JADX WARNING: type inference failed for: r4v7 */
-    /* JADX WARNING: type inference failed for: r22v2, types: [gnu.lists.Pair] */
-    /* JADX WARNING: type inference failed for: r0v27, types: [gnu.lists.Pair] */
-    /* JADX WARNING: type inference failed for: r0v30 */
-    /* JADX WARNING: type inference failed for: r1v20, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r4v8 */
-    /* JADX WARNING: type inference failed for: r4v9 */
-    /* JADX WARNING: type inference failed for: r4v10 */
-    /* JADX WARNING: type inference failed for: r4v11 */
-    /* JADX WARNING: type inference failed for: r4v12 */
-    /* JADX WARNING: type inference failed for: r4v13 */
-    /* JADX WARNING: type inference failed for: r25v4 */
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     /* JADX WARNING: Code restructure failed: missing block: B:100:0x034b, code lost:
         r19 = r18 + 1;
         r27[r18] = r22;
@@ -119,9 +98,8 @@ public class Quote extends Syntax {
         r31 = kawa.lang.Translator.makePair(r22, r22.getCar(), r31);
      */
     /* JADX WARNING: Code restructure failed: missing block: B:109:0x0370, code lost:
-        r18 = r19;
-        r27 = r27;
         r22 = (gnu.lists.Pair) r22.getCdr();
+        r18 = r19;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:110:0x0379, code lost:
         r31 = r3;
@@ -131,7 +109,7 @@ public class Quote extends Syntax {
      */
     /* JADX WARNING: Code restructure failed: missing block: B:113:0x0380, code lost:
         r11 = new gnu.expr.Expression[2];
-        r11[1] = (gnu.expr.Expression) r3;
+        r11[1] = r3;
      */
     /* JADX WARNING: Code restructure failed: missing block: B:114:0x038b, code lost:
         if (r18 != 1) goto L_0x03a5;
@@ -170,8 +148,6 @@ public class Quote extends Syntax {
         java.lang.System.arraycopy(r27, 0, r36, 0, r18);
         r27 = r36;
      */
-    /* JADX WARNING: Multi-variable type inference failed */
-    /* JADX WARNING: Unknown variable types count: 9 */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public java.lang.Object expand_pair(gnu.lists.Pair r39, int r40, kawa.lang.SyntaxForm r41, java.lang.Object r42, kawa.lang.Translator r43) {
         /*
@@ -188,7 +164,7 @@ public class Quote extends Syntax {
             gnu.mapping.Symbol r5 = gnu.kawa.lispexpr.LispLanguage.lookup_sym
             r0 = r43
             r1 = r41
-            boolean r3 = r0.matches(r3, r1, r5)
+            boolean r3 = r0.matches((java.lang.Object) r3, (kawa.lang.SyntaxForm) r1, (gnu.mapping.Symbol) r5)
             if (r3 == 0) goto L_0x0129
             java.lang.Object r3 = r25.getCdr()
             boolean r3 = r3 instanceof gnu.lists.Pair
@@ -209,18 +185,18 @@ public class Quote extends Syntax {
             r3 = 0
             r0 = r43
             r1 = r23
-            gnu.expr.Expression r28 = r0.rewrite_car(r1, r3)
+            gnu.expr.Expression r28 = r0.rewrite_car((gnu.lists.Pair) r1, (boolean) r3)
             r3 = 0
             r0 = r43
             r1 = r24
-            gnu.expr.Expression r29 = r0.rewrite_car(r1, r3)
+            gnu.expr.Expression r29 = r0.rewrite_car((gnu.lists.Pair) r1, (boolean) r3)
             r0 = r43
             r1 = r28
             gnu.mapping.Namespace r20 = r0.namespaceResolvePrefix(r1)
             r0 = r43
             r1 = r20
             r2 = r29
-            gnu.mapping.Symbol r35 = r0.namespaceResolve(r1, r2)
+            gnu.mapping.Symbol r35 = r0.namespaceResolve((gnu.mapping.Namespace) r1, (gnu.expr.Expression) r2)
             if (r35 == 0) goto L_0x0078
             r13 = r35
             r4 = r30
@@ -239,7 +215,7 @@ public class Quote extends Syntax {
             gnu.bytecode.ClassType r3 = quoteType
             java.lang.String r5 = "makeSymbol"
             r6 = 2
-            gnu.bytecode.Method r3 = r3.getDeclaredMethod(r5, r6)
+            gnu.bytecode.Method r3 = r3.getDeclaredMethod((java.lang.String) r5, (int) r6)
             r5 = 2
             gnu.expr.Expression[] r5 = new gnu.expr.Expression[r5]
             r6 = 0
@@ -247,7 +223,7 @@ public class Quote extends Syntax {
             r5[r6] = r7
             r6 = 1
             r5[r6] = r29
-            r13.<init>(r3, r5)
+            r13.<init>((gnu.bytecode.Method) r3, (gnu.expr.Expression[]) r5)
             r4 = r30
             r3 = r13
             goto L_0x0073
@@ -329,7 +305,7 @@ public class Quote extends Syntax {
             java.lang.String r5 = "quasiquote"
             r0 = r43
             r1 = r41
-            boolean r3 = r0.matches(r3, r1, r5)
+            boolean r3 = r0.matches((java.lang.Object) r3, (kawa.lang.SyntaxForm) r1, (java.lang.String) r5)
             if (r3 == 0) goto L_0x015e
             int r40 = r40 + 1
             goto L_0x012b
@@ -338,7 +314,7 @@ public class Quote extends Syntax {
             java.lang.String r5 = "unquote"
             r0 = r43
             r1 = r41
-            boolean r3 = r0.matches(r3, r1, r5)
+            boolean r3 = r0.matches((java.lang.Object) r3, (kawa.lang.SyntaxForm) r1, (java.lang.String) r5)
             if (r3 == 0) goto L_0x01bc
             int r40 = r40 + -1
             java.lang.Object r3 = r25.getCdr()
@@ -367,7 +343,7 @@ public class Quote extends Syntax {
             r0 = r43
             r1 = r26
             r2 = r41
-            gnu.expr.Expression r13 = r0.rewrite_car(r1, r2)
+            gnu.expr.Expression r13 = r0.rewrite_car((gnu.lists.Pair) r1, (kawa.lang.SyntaxForm) r2)
             r4 = r30
             r3 = r13
             goto L_0x0073
@@ -376,7 +352,7 @@ public class Quote extends Syntax {
             java.lang.String r5 = "unquote-splicing"
             r0 = r43
             r1 = r41
-            boolean r3 = r0.matches(r3, r1, r5)
+            boolean r3 = r0.matches((java.lang.Object) r3, (kawa.lang.SyntaxForm) r1, (java.lang.String) r5)
             if (r3 == 0) goto L_0x012b
             java.lang.StringBuilder r3 = new java.lang.StringBuilder
             r3.<init>()
@@ -401,7 +377,7 @@ public class Quote extends Syntax {
             r0 = r43
             r1 = r21
             r2 = r34
-            boolean r3 = r0.matches(r1, r2, r3)
+            boolean r3 = r0.matches((java.lang.Object) r1, (kawa.lang.SyntaxForm) r2, (java.lang.String) r3)
             if (r3 == 0) goto L_0x026d
             r33 = 0
         L_0x020e:
@@ -446,7 +422,7 @@ public class Quote extends Syntax {
         L_0x0261:
             gnu.expr.ApplyExp r13 = new gnu.expr.ApplyExp
             r0 = r16
-            r13.<init>(r0, r11)
+            r13.<init>((gnu.bytecode.Method) r0, (gnu.expr.Expression[]) r11)
         L_0x0268:
             r4 = r25
             r3 = r13
@@ -456,7 +432,7 @@ public class Quote extends Syntax {
             r0 = r43
             r1 = r21
             r2 = r34
-            boolean r3 = r0.matches(r1, r2, r3)
+            boolean r3 = r0.matches((java.lang.Object) r1, (kawa.lang.SyntaxForm) r2, (java.lang.String) r3)
             if (r3 == 0) goto L_0x020e
             r33 = 1
             goto L_0x020e
@@ -467,7 +443,7 @@ public class Quote extends Syntax {
             gnu.lists.Pair r3 = (gnu.lists.Pair) r3
             r0 = r43
             r1 = r34
-            gnu.expr.Expression r3 = r0.rewrite_car(r3, r1)
+            gnu.expr.Expression r3 = r0.rewrite_car((gnu.lists.Pair) r3, (kawa.lang.SyntaxForm) r1)
             r0 = r37
             r0.addElement(r3)
             gnu.lists.Pair r15 = (gnu.lists.Pair) r15
@@ -533,7 +509,7 @@ public class Quote extends Syntax {
             r11[r3] = r5
             gnu.expr.ApplyExp r13 = new gnu.expr.ApplyExp
             gnu.bytecode.Method r3 = makePairMethod
-            r13.<init>(r3, r11)
+            r13.<init>((gnu.bytecode.Method) r3, (gnu.expr.Expression[]) r11)
             r4 = r30
             r3 = r13
             goto L_0x0073
@@ -610,7 +586,7 @@ public class Quote extends Syntax {
             r11[r3] = r5
             gnu.expr.ApplyExp r3 = new gnu.expr.ApplyExp
             gnu.bytecode.Method r5 = makePairMethod
-            r3.<init>(r5, r11)
+            r3.<init>((gnu.bytecode.Method) r5, (gnu.expr.Expression[]) r11)
             goto L_0x0077
         L_0x03a5:
             r3 = 0
@@ -621,7 +597,7 @@ public class Quote extends Syntax {
             r11[r3] = r5
             gnu.expr.ApplyExp r3 = new gnu.expr.ApplyExp
             gnu.bytecode.Method r5 = appendMethod
-            r3.<init>(r5, r11)
+            r3.<init>((gnu.bytecode.Method) r5, (gnu.expr.Expression[]) r11)
             goto L_0x0077
         L_0x03bb:
             r3 = r31
@@ -630,43 +606,15 @@ public class Quote extends Syntax {
         throw new UnsupportedOperationException("Method not decompiled: kawa.lang.Quote.expand_pair(gnu.lists.Pair, int, kawa.lang.SyntaxForm, java.lang.Object, kawa.lang.Translator):java.lang.Object");
     }
 
-    /* JADX WARNING: type inference failed for: r21v1, types: [gnu.lists.FVector] */
-    /* JADX WARNING: type inference failed for: r0v7, types: [gnu.expr.ApplyExp] */
-    /* JADX WARNING: type inference failed for: r19v2, types: [gnu.expr.ApplyExp] */
-    /* JADX WARNING: type inference failed for: r0v10, types: [gnu.lists.FVector] */
     /* JADX WARNING: type inference failed for: r19v4 */
-    /* JADX WARNING: type inference failed for: r16v2 */
     /* JADX WARNING: type inference failed for: r19v5 */
-    /* JADX WARNING: type inference failed for: r0v11, types: [gnu.lists.FVector] */
     /* JADX WARNING: type inference failed for: r0v21, types: [gnu.expr.ApplyExp] */
     /* JADX WARNING: type inference failed for: r19v8 */
     /* JADX WARNING: type inference failed for: r0v22, types: [gnu.lists.FVector] */
-    /* access modifiers changed from: 0000 */
-    /* JADX WARNING: Multi-variable type inference failed. Error: jadx.core.utils.exceptions.JadxRuntimeException: No candidate types for var: r19v5
-      assigns: [?[OBJECT, ARRAY], gnu.expr.ApplyExp, gnu.lists.FVector]
-      uses: [?[OBJECT, ARRAY], gnu.expr.ApplyExp, gnu.lists.FVector]
-      mth insns count: 173
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.fillTypeCandidates(TypeSearch.java:237)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.run(TypeSearch.java:53)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.runMultiVariableSearch(TypeInferenceVisitor.java:99)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.visit(TypeInferenceVisitor.java:92)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:27)
-    	at jadx.core.dex.visitors.DepthTraversal.lambda$visit$1(DepthTraversal.java:14)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:14)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:30)
-    	at jadx.core.ProcessClass.lambda$processDependencies$0(ProcessClass.java:49)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.ProcessClass.processDependencies(ProcessClass.java:49)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:35)
-    	at jadx.api.JadxDecompiler.processClass(JadxDecompiler.java:311)
-    	at jadx.api.JavaClass.decompile(JavaClass.java:62)
-    	at jadx.api.JadxDecompiler.lambda$appendSourcesSave$0(JadxDecompiler.java:217)
-     */
+    /* access modifiers changed from: package-private */
+    /* JADX WARNING: Multi-variable type inference failed */
     /* JADX WARNING: Removed duplicated region for block: B:38:0x0109  */
     /* JADX WARNING: Removed duplicated region for block: B:75:0x010b A[SYNTHETIC] */
-    /* JADX WARNING: Unknown variable types count: 6 */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     public java.lang.Object expand(java.lang.Object r23, int r24, kawa.lang.SyntaxForm r25, java.lang.Object r26, kawa.lang.Translator r27) {
         /*
@@ -760,7 +708,7 @@ public class Quote extends Syntax {
             java.lang.String r6 = "unquote-splicing"
             r0 = r27
             r1 = r25
-            boolean r3 = r0.matches(r3, r1, r6)
+            boolean r3 = r0.matches((java.lang.Object) r3, (kawa.lang.SyntaxForm) r1, (java.lang.String) r6)
             if (r3 == 0) goto L_0x010e
             int r5 = r5 + -1
             if (r5 != 0) goto L_0x010e
@@ -789,7 +737,7 @@ public class Quote extends Syntax {
             r0 = r27
             r1 = r18
             r2 = r25
-            gnu.expr.Expression r3 = r0.rewrite_car(r1, r2)
+            gnu.expr.Expression r3 = r0.rewrite_car((gnu.lists.Pair) r1, (kawa.lang.SyntaxForm) r2)
             r11[r12] = r3
             r3 = 3
             r20[r12] = r3
@@ -834,7 +782,7 @@ public class Quote extends Syntax {
             if (r14 != r3) goto L_0x0145
             gnu.lists.FVector r19 = new gnu.lists.FVector
             r0 = r19
-            r0.<init>(r11)
+            r0.<init>((java.lang.Object[]) r11)
             goto L_0x0136
         L_0x0145:
             gnu.expr.Expression[] r10 = new gnu.expr.Expression[r15]
@@ -869,7 +817,7 @@ public class Quote extends Syntax {
             r6 = r11[r12]
             r9[r3] = r6
             gnu.lists.FVector r3 = new gnu.lists.FVector
-            r3.<init>(r9)
+            r3.<init>((java.lang.Object[]) r9)
             r0 = r22
             r1 = r27
             gnu.expr.Expression r3 = r0.leaf(r3, r1)
@@ -894,7 +842,7 @@ public class Quote extends Syntax {
             gnu.expr.ApplyExp r19 = new gnu.expr.ApplyExp
             gnu.bytecode.Method r3 = vectorAppendMethod
             r0 = r19
-            r0.<init>(r3, r10)
+            r0.<init>((gnu.bytecode.Method) r3, (gnu.expr.Expression[]) r10)
             goto L_0x0136
         L_0x01a8:
             r19 = r23
@@ -922,131 +870,53 @@ public class Quote extends Syntax {
         return LList.consX(args);
     }
 
-    /* JADX WARNING: type inference failed for: r12v0, types: [java.lang.Object[]] */
-    /* JADX WARNING: type inference failed for: r8v0 */
-    /* JADX WARNING: type inference failed for: r8v1 */
-    /* JADX WARNING: type inference failed for: r10v1, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r5v0 */
-    /* JADX WARNING: type inference failed for: r4v0 */
-    /* JADX WARNING: type inference failed for: r8v2 */
-    /* JADX WARNING: type inference failed for: r8v3 */
-    /* JADX WARNING: type inference failed for: r5v1 */
-    /* JADX WARNING: type inference failed for: r4v1, types: [gnu.lists.Pair] */
-    /* JADX WARNING: type inference failed for: r8v4 */
-    /* JADX WARNING: type inference failed for: r5v2 */
-    /* JADX WARNING: type inference failed for: r4v2 */
-    /* JADX WARNING: type inference failed for: r8v5 */
-    /* JADX WARNING: type inference failed for: r8v6 */
-    /* JADX WARNING: type inference failed for: r6v0 */
-    /* JADX WARNING: type inference failed for: r7v0, types: [gnu.lists.Pair, java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r1v1 */
-    /* JADX WARNING: type inference failed for: r1v2 */
-    /* JADX WARNING: type inference failed for: r4v3 */
-    /* JADX WARNING: type inference failed for: r5v3, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r8v7 */
-    /* JADX WARNING: type inference failed for: r1v3 */
-    /* JADX WARNING: type inference failed for: r9v3 */
-    /* JADX WARNING: type inference failed for: r5v4, types: [java.lang.Object] */
-    /* JADX WARNING: type inference failed for: r8v8 */
-    /* JADX WARNING: type inference failed for: r5v5 */
-    /* JADX WARNING: type inference failed for: r4v4 */
-    /* JADX WARNING: type inference failed for: r8v9 */
-    /* JADX WARNING: type inference failed for: r8v10 */
-    /* JADX WARNING: type inference failed for: r4v5 */
-    /* JADX WARNING: type inference failed for: r8v11 */
-    /* JADX WARNING: type inference failed for: r5v6 */
-    /* JADX WARNING: type inference failed for: r4v6 */
-    /* JADX WARNING: type inference failed for: r8v12 */
-    /* JADX WARNING: type inference failed for: r5v7 */
-    /* JADX WARNING: type inference failed for: r5v8 */
-    /* JADX WARNING: Incorrect type for immutable var: ssa=java.lang.Object[], code=null, for r12v0, types: [java.lang.Object[]] */
-    /* JADX WARNING: Multi-variable type inference failed. Error: jadx.core.utils.exceptions.JadxRuntimeException: No candidate types for var: r8v4
-      assigns: []
-      uses: []
-      mth insns count: 53
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.fillTypeCandidates(TypeSearch.java:237)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.typeinference.TypeSearch.run(TypeSearch.java:53)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.runMultiVariableSearch(TypeInferenceVisitor.java:99)
-    	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.visit(TypeInferenceVisitor.java:92)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:27)
-    	at jadx.core.dex.visitors.DepthTraversal.lambda$visit$1(DepthTraversal.java:14)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:14)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:30)
-    	at jadx.core.ProcessClass.lambda$processDependencies$0(ProcessClass.java:49)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
-    	at jadx.core.ProcessClass.processDependencies(ProcessClass.java:49)
-    	at jadx.core.ProcessClass.process(ProcessClass.java:35)
-    	at jadx.api.JadxDecompiler.processClass(JadxDecompiler.java:311)
-    	at jadx.api.JavaClass.decompile(JavaClass.java:62)
-    	at jadx.api.JadxDecompiler.lambda$appendSourcesSave$0(JadxDecompiler.java:217)
-     */
-    /* JADX WARNING: Unknown variable types count: 18 */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    public static java.lang.Object append$V(java.lang.Object[] r12) {
-        /*
-            int r2 = r12.length
-            if (r2 != 0) goto L_0x0006
-            gnu.lists.LList r10 = gnu.lists.LList.Empty
-        L_0x0005:
-            return r10
-        L_0x0006:
-            int r10 = r2 + -1
-            r8 = r12[r10]
-            int r3 = r2 + -1
-            r10 = r8
-        L_0x000d:
-            int r3 = r3 + -1
-            if (r3 < 0) goto L_0x0005
-            r5 = r12[r3]
-            r1 = 0
-            r4 = 0
-            r9 = 0
-            r8 = r1
-        L_0x0017:
-            boolean r11 = r5 instanceof kawa.lang.SyntaxForm
-            if (r11 == 0) goto L_0x0023
-            r9 = r5
-            kawa.lang.SyntaxForm r9 = (kawa.lang.SyntaxForm) r9
-            java.lang.Object r5 = r9.getDatum()
-            goto L_0x0017
-        L_0x0023:
-            gnu.lists.LList r11 = gnu.lists.LList.Empty
-            if (r5 != r11) goto L_0x002e
-            if (r4 == 0) goto L_0x0058
-            r4.setCdr(r10)
-        L_0x002c:
-            r10 = r8
-            goto L_0x000d
-        L_0x002e:
-            r6 = r5
-            gnu.lists.Pair r6 = (gnu.lists.Pair) r6
-            java.lang.Object r0 = r6.getCar()
-            if (r9 == 0) goto L_0x0043
-            boolean r11 = r0 instanceof kawa.lang.SyntaxForm
-            if (r11 != 0) goto L_0x0043
-            kawa.lang.TemplateScope r11 = r9.getScope()
-            java.lang.Object r0 = kawa.lang.SyntaxForms.makeForm(r0, r11)
-        L_0x0043:
-            gnu.lists.Pair r7 = new gnu.lists.Pair
-            r11 = 0
-            r7.<init>(r0, r11)
-            if (r4 != 0) goto L_0x0053
-            r1 = r7
-        L_0x004c:
-            r4 = r7
-            java.lang.Object r5 = r6.getCdr()
-            r8 = r1
-            goto L_0x0017
-        L_0x0053:
-            r4.setCdr(r7)
-            r1 = r8
-            goto L_0x004c
-        L_0x0058:
-            r8 = r10
-            goto L_0x002c
-        */
-        throw new UnsupportedOperationException("Method not decompiled: kawa.lang.Quote.append$V(java.lang.Object[]):java.lang.Object");
+    public static Object append$V(Object[] args) {
+        Pair pair;
+        int count = args.length;
+        if (count == 0) {
+            return LList.Empty;
+        }
+        Pair result = args[count - 1];
+        int i = count - 1;
+        while (true) {
+            Pair pair2 = result;
+            i--;
+            if (i < 0) {
+                return pair2;
+            }
+            Object list = args[i];
+            Pair last = null;
+            SyntaxForm syntax = null;
+            result = null;
+            while (true) {
+                if (list instanceof SyntaxForm) {
+                    syntax = (SyntaxForm) list;
+                    list = syntax.getDatum();
+                } else if (list == LList.Empty) {
+                    break;
+                } else {
+                    Pair list_pair = (Pair) list;
+                    Object car = list_pair.getCar();
+                    if (syntax != null && !(car instanceof SyntaxForm)) {
+                        car = SyntaxForms.makeForm(car, syntax.getScope());
+                    }
+                    Pair new_pair = new Pair(car, (Object) null);
+                    if (last == null) {
+                        pair = new_pair;
+                    } else {
+                        last.setCdr(new_pair);
+                        pair = result;
+                    }
+                    last = new_pair;
+                    list = list_pair.getCdr();
+                    result = pair;
+                }
+            }
+            if (last != null) {
+                last.setCdr(pair2);
+            } else {
+                result = pair2;
+            }
+        }
     }
 }

@@ -7,7 +7,7 @@ public class LazyPropertyKey<T> extends PropertyKey<T> {
 
     public T get(PropertySet container, T defaultValue) {
         T result;
-        Object raw = container.getProperty(this, defaultValue);
+        T raw = container.getProperty(this, defaultValue);
         if (!(raw instanceof String)) {
             return raw;
         }
@@ -22,9 +22,9 @@ public class LazyPropertyKey<T> extends PropertyKey<T> {
         try {
             Class clas = Class.forName(cname, true, container.getClass().getClassLoader());
             if (cstart == 0) {
-                result = clas.getField(mname).get(null);
+                result = clas.getField(mname).get((Object) null);
             } else {
-                result = clas.getDeclaredMethod(mname, new Class[]{Object.class}).invoke(null, new Object[]{container});
+                result = clas.getDeclaredMethod(mname, new Class[]{Object.class}).invoke((Object) null, new Object[]{container});
             }
             container.setProperty(this, result);
             return result;

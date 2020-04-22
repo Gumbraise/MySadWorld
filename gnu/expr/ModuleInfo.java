@@ -26,21 +26,6 @@ public class ModuleInfo {
     public String sourcePath;
     String uri;
 
-    static class ClassToInfoMap extends AbstractWeakHashTable<Class, ModuleInfo> {
-        ClassToInfoMap() {
-        }
-
-        /* access modifiers changed from: protected */
-        public Class getKeyFromValue(ModuleInfo minfo) {
-            return minfo.moduleClass;
-        }
-
-        /* access modifiers changed from: protected */
-        public boolean matches(Class oldValue, Class newValue) {
-            return oldValue == newValue;
-        }
-    }
-
     public String getNamespaceUri() {
         return this.uri;
     }
@@ -184,7 +169,7 @@ public class ModuleInfo {
                     Object fvalue = rclass.getField(fld.getName()).get(instance);
                     Declaration fdecl = language.declFromField(mod, fvalue, fld);
                     if ((flags & 16) == 0 || ((fvalue instanceof Location) && !(fvalue instanceof FieldLocation))) {
-                        fdecl.noteValue(null);
+                        fdecl.noteValue((Expression) null);
                     } else {
                         fdecl.noteValue(new QuoteExp(fvalue));
                     }
@@ -416,5 +401,20 @@ public class ModuleInfo {
         }
         sbuf.append(']');
         return sbuf.toString();
+    }
+
+    static class ClassToInfoMap extends AbstractWeakHashTable<Class, ModuleInfo> {
+        ClassToInfoMap() {
+        }
+
+        /* access modifiers changed from: protected */
+        public Class getKeyFromValue(ModuleInfo minfo) {
+            return minfo.moduleClass;
+        }
+
+        /* access modifiers changed from: protected */
+        public boolean matches(Class oldValue, Class newValue) {
+            return oldValue == newValue;
+        }
     }
 }

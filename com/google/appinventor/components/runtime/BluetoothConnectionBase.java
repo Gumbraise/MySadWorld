@@ -9,7 +9,7 @@ import com.google.appinventor.components.annotations.SimpleObject;
 import com.google.appinventor.components.annotations.SimpleProperty;
 import com.google.appinventor.components.runtime.util.BluetoothReflection;
 import com.google.appinventor.components.runtime.util.ErrorMessages;
-import com.google.appinventor.components.runtime.util.Ev3Constants.Opcode;
+import com.google.appinventor.components.runtime.util.Ev3Constants;
 import com.google.appinventor.components.runtime.util.SdkLevel;
 import com.google.appinventor.components.runtime.util.YailList;
 import java.io.BufferedInputStream;
@@ -55,18 +55,18 @@ public abstract class BluetoothConnectionBase extends AndroidNonvisibleComponent
     }
 
     protected BluetoothConnectionBase(OutputStream outputStream2, InputStream inputStream2) {
-        this(null, null, 7);
+        this((Form) null, (String) null, 7);
         this.connectedBluetoothSocket = "Not Null";
         this.outputStream = outputStream2;
         this.inputStream = inputStream2;
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void addBluetoothConnectionListener(BluetoothConnectionListener listener) {
         this.bluetoothConnectionListeners.add(listener);
     }
 
-    /* access modifiers changed from: 0000 */
+    /* access modifiers changed from: package-private */
     public void removeBluetoothConnectionListener(BluetoothConnectionListener listener) {
         this.bluetoothConnectionListeners.remove(listener);
     }
@@ -196,7 +196,6 @@ public abstract class BluetoothConnectionBase extends AndroidNonvisibleComponent
     @DesignerProperty(defaultValue = "0", editorType = "non_negative_integer")
     @SimpleProperty
     public void DelimiterByte(int number) {
-        String functionName = "DelimiterByte";
         int n = number;
         byte b = (byte) n;
         int n2 = n >> 8;
@@ -204,7 +203,7 @@ public abstract class BluetoothConnectionBase extends AndroidNonvisibleComponent
             this.delimiter = b;
             return;
         }
-        bluetoothError(functionName, 511, Integer.valueOf(number));
+        bluetoothError("DelimiterByte", 511, Integer.valueOf(number));
     }
 
     @SimpleProperty(category = PropertyCategory.BEHAVIOR)
@@ -226,25 +225,23 @@ public abstract class BluetoothConnectionBase extends AndroidNonvisibleComponent
 
     @SimpleFunction(description = "Send a 1-byte number to the connected Bluetooth device.")
     public void Send1ByteNumber(String number) {
-        String functionName = "Send1ByteNumber";
         try {
             int n = Integer.decode(number).intValue();
             byte b = (byte) n;
             int n2 = n >> 8;
             if (n2 == 0 || n2 == -1) {
-                write(functionName, b);
+                write("Send1ByteNumber", b);
                 return;
             }
-            bluetoothError(functionName, 511, number);
+            bluetoothError("Send1ByteNumber", 511, number);
         } catch (NumberFormatException e) {
-            bluetoothError(functionName, ErrorMessages.ERROR_BLUETOOTH_COULD_NOT_DECODE, number);
+            bluetoothError("Send1ByteNumber", ErrorMessages.ERROR_BLUETOOTH_COULD_NOT_DECODE, number);
         }
     }
 
     @SimpleFunction(description = "Send a 2-byte number to the connected Bluetooth device.")
     public void Send2ByteNumber(String number) {
         int n;
-        String functionName = "Send2ByteNumber";
         try {
             int n2 = Integer.decode(number).intValue();
             byte[] bytes = new byte[2];
@@ -259,19 +256,18 @@ public abstract class BluetoothConnectionBase extends AndroidNonvisibleComponent
             }
             int n3 = n >> 8;
             if (n3 == 0 || n3 == -1) {
-                write(functionName, bytes);
+                write("Send2ByteNumber", bytes);
                 return;
             }
-            bluetoothError(functionName, 512, number, Integer.valueOf(2));
+            bluetoothError("Send2ByteNumber", 512, number, 2);
         } catch (NumberFormatException e) {
-            bluetoothError(functionName, ErrorMessages.ERROR_BLUETOOTH_COULD_NOT_DECODE, number);
+            bluetoothError("Send2ByteNumber", ErrorMessages.ERROR_BLUETOOTH_COULD_NOT_DECODE, number);
         }
     }
 
     @SimpleFunction(description = "Send a 4-byte number to the connected Bluetooth device.")
     public void Send4ByteNumber(String number) {
         long n;
-        String functionName = "Send4ByteNumber";
         try {
             long n2 = Long.decode(number).longValue();
             byte[] bytes = new byte[4];
@@ -294,18 +290,17 @@ public abstract class BluetoothConnectionBase extends AndroidNonvisibleComponent
             }
             long n7 = n >> 8;
             if (n7 == 0 || n7 == -1) {
-                write(functionName, bytes);
+                write("Send4ByteNumber", bytes);
                 return;
             }
-            bluetoothError(functionName, 512, number, Integer.valueOf(4));
+            bluetoothError("Send4ByteNumber", 512, number, 4);
         } catch (NumberFormatException e) {
-            bluetoothError(functionName, ErrorMessages.ERROR_BLUETOOTH_COULD_NOT_DECODE, number);
+            bluetoothError("Send4ByteNumber", ErrorMessages.ERROR_BLUETOOTH_COULD_NOT_DECODE, number);
         }
     }
 
     @SimpleFunction(description = "Send a list of byte values to the connected Bluetooth device.")
     public void SendBytes(YailList list) {
-        String functionName = "SendBytes";
         Object[] array = list.toArray();
         byte[] bytes = new byte[array.length];
         int i = 0;
@@ -317,15 +312,15 @@ public abstract class BluetoothConnectionBase extends AndroidNonvisibleComponent
                 if (n2 == 0 || n2 == -1) {
                     i++;
                 } else {
-                    bluetoothError(functionName, ErrorMessages.ERROR_BLUETOOTH_COULD_NOT_FIT_ELEMENT_IN_BYTE, Integer.valueOf(i + 1));
+                    bluetoothError("SendBytes", ErrorMessages.ERROR_BLUETOOTH_COULD_NOT_FIT_ELEMENT_IN_BYTE, Integer.valueOf(i + 1));
                     return;
                 }
             } catch (NumberFormatException e) {
-                bluetoothError(functionName, 513, Integer.valueOf(i + 1));
+                bluetoothError("SendBytes", 513, Integer.valueOf(i + 1));
                 return;
             }
         }
-        write(functionName, bytes);
+        write("SendBytes", bytes);
     }
 
     /* access modifiers changed from: protected */
@@ -366,11 +361,9 @@ public abstract class BluetoothConnectionBase extends AndroidNonvisibleComponent
 
     @SimpleFunction(description = "Returns an estimate of the number of bytes that can be received without blocking")
     public int BytesAvailableToReceive() {
-        int i = 0;
-        String functionName = "BytesAvailableToReceive";
         if (!IsConnected()) {
-            bluetoothError(functionName, ErrorMessages.ERROR_BLUETOOTH_NOT_CONNECTED_TO_DEVICE, new Object[i]);
-            return i;
+            bluetoothError("BytesAvailableToReceive", ErrorMessages.ERROR_BLUETOOTH_NOT_CONNECTED_TO_DEVICE, new Object[0]);
+            return 0;
         }
         try {
             return this.inputStream.available();
@@ -379,8 +372,8 @@ public abstract class BluetoothConnectionBase extends AndroidNonvisibleComponent
             if (this.disconnectOnError) {
                 Disconnect();
             }
-            bluetoothError(functionName, ErrorMessages.ERROR_BLUETOOTH_UNABLE_TO_READ, e.getMessage());
-            return i;
+            bluetoothError("BytesAvailableToReceive", ErrorMessages.ERROR_BLUETOOTH_UNABLE_TO_READ, e.getMessage());
+            return 0;
         }
     }
 
@@ -413,7 +406,7 @@ public abstract class BluetoothConnectionBase extends AndroidNonvisibleComponent
         if (bytes.length != 1) {
             return 0;
         }
-        return bytes[0] & Opcode.TST;
+        return bytes[0] & Ev3Constants.Opcode.TST;
     }
 
     @SimpleFunction(description = "Receive a signed 2-byte number from the connected Bluetooth device.")
@@ -423,9 +416,9 @@ public abstract class BluetoothConnectionBase extends AndroidNonvisibleComponent
             return 0;
         }
         if (this.byteOrder != ByteOrder.BIG_ENDIAN) {
-            return (bytes[0] & Opcode.TST) | (bytes[1] << 8);
+            return (bytes[0] & Ev3Constants.Opcode.TST) | (bytes[1] << 8);
         }
-        return (bytes[0] << 8) | (bytes[1] & Opcode.TST);
+        return (bytes[0] << 8) | (bytes[1] & Ev3Constants.Opcode.TST);
     }
 
     @SimpleFunction(description = "Receive a unsigned 2-byte number from the connected Bluetooth device.")
@@ -435,9 +428,9 @@ public abstract class BluetoothConnectionBase extends AndroidNonvisibleComponent
             return 0;
         }
         if (this.byteOrder != ByteOrder.BIG_ENDIAN) {
-            return (bytes[0] & Opcode.TST) | ((bytes[1] & Opcode.TST) << 8);
+            return (bytes[0] & Ev3Constants.Opcode.TST) | ((bytes[1] & Ev3Constants.Opcode.TST) << 8);
         }
-        return ((bytes[0] & Opcode.TST) << 8) | (bytes[1] & Opcode.TST);
+        return ((bytes[0] & Ev3Constants.Opcode.TST) << 8) | (bytes[1] & Ev3Constants.Opcode.TST);
     }
 
     @SimpleFunction(description = "Receive a signed 4-byte number from the connected Bluetooth device.")
@@ -447,9 +440,9 @@ public abstract class BluetoothConnectionBase extends AndroidNonvisibleComponent
             return 0;
         }
         if (this.byteOrder == ByteOrder.BIG_ENDIAN) {
-            return (long) ((bytes[3] & Opcode.TST) | ((bytes[2] & Opcode.TST) << 8) | ((bytes[1] & Opcode.TST) << 16) | (bytes[0] << 24));
+            return (long) ((bytes[3] & Ev3Constants.Opcode.TST) | ((bytes[2] & Ev3Constants.Opcode.TST) << 8) | ((bytes[1] & Ev3Constants.Opcode.TST) << 16) | (bytes[0] << 24));
         }
-        return (long) ((bytes[0] & Opcode.TST) | ((bytes[1] & Opcode.TST) << 8) | ((bytes[2] & Opcode.TST) << 16) | (bytes[3] << 24));
+        return (long) ((bytes[0] & Ev3Constants.Opcode.TST) | ((bytes[1] & Ev3Constants.Opcode.TST) << 8) | ((bytes[2] & Ev3Constants.Opcode.TST) << 16) | (bytes[3] << 24));
     }
 
     @SimpleFunction(description = "Receive a unsigned 4-byte number from the connected Bluetooth device.")

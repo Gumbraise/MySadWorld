@@ -9,6 +9,7 @@ import com.google.appinventor.components.annotations.SimpleFunction;
 import com.google.appinventor.components.annotations.SimpleObject;
 import com.google.appinventor.components.annotations.SimpleProperty;
 import com.google.appinventor.components.common.ComponentCategory;
+import com.google.appinventor.components.runtime.LegoMindstormsNxtSensor;
 
 @SimpleObject
 @DesignerComponent(category = ComponentCategory.LEGOMINDSTORMS, description = "A component that provides a high-level interface to a touch sensor on a LEGO MINDSTORMS NXT robot.", iconName = "images/legoMindstormsNxt.png", nonVisible = true, version = 1)
@@ -26,7 +27,7 @@ public class NxtTouchSensor extends LegoMindstormsNxtSensor implements Deleteabl
     public final Runnable sensorReader = new Runnable() {
         public void run() {
             if (NxtTouchSensor.this.bluetooth != null && NxtTouchSensor.this.bluetooth.IsConnected()) {
-                SensorValue<Boolean> sensorValue = NxtTouchSensor.this.getPressedValue("");
+                LegoMindstormsNxtSensor.SensorValue<Boolean> sensorValue = NxtTouchSensor.this.getPressedValue("");
                 if (sensorValue.valid) {
                     State currentState = ((Boolean) sensorValue.value).booleanValue() ? State.PRESSED : State.RELEASED;
                     if (currentState != NxtTouchSensor.this.previousState) {
@@ -37,7 +38,7 @@ public class NxtTouchSensor extends LegoMindstormsNxtSensor implements Deleteabl
                             NxtTouchSensor.this.Released();
                         }
                     }
-                    NxtTouchSensor.this.previousState = currentState;
+                    State unused = NxtTouchSensor.this.previousState = currentState;
                 }
             }
             if (NxtTouchSensor.this.isHandlerNeeded()) {
@@ -72,11 +73,10 @@ public class NxtTouchSensor extends LegoMindstormsNxtSensor implements Deleteabl
 
     @SimpleFunction(description = "Returns true if the touch sensor is pressed.")
     public boolean IsPressed() {
-        String functionName = "IsPressed";
-        if (!checkBluetooth(functionName)) {
+        if (!checkBluetooth("IsPressed")) {
             return false;
         }
-        SensorValue<Boolean> sensorValue = getPressedValue(functionName);
+        LegoMindstormsNxtSensor.SensorValue<Boolean> sensorValue = getPressedValue("IsPressed");
         if (sensorValue.valid) {
             return ((Boolean) sensorValue.value).booleanValue();
         }
@@ -84,16 +84,16 @@ public class NxtTouchSensor extends LegoMindstormsNxtSensor implements Deleteabl
     }
 
     /* access modifiers changed from: private */
-    public SensorValue<Boolean> getPressedValue(String functionName) {
+    public LegoMindstormsNxtSensor.SensorValue<Boolean> getPressedValue(String functionName) {
         boolean z = false;
         byte[] returnPackage = getInputValues(functionName, this.port);
         if (returnPackage == null || !getBooleanValueFromBytes(returnPackage, 4)) {
-            return new SensorValue(false, null);
+            return new LegoMindstormsNxtSensor.SensorValue<>(false, null);
         }
         if (getSWORDValueFromBytes(returnPackage, 12) != 0) {
             z = true;
         }
-        return new SensorValue(true, Boolean.valueOf(z));
+        return new LegoMindstormsNxtSensor.SensorValue<>(true, Boolean.valueOf(z));
     }
 
     @SimpleProperty(category = PropertyCategory.BEHAVIOR, description = "Whether the Pressed event should fire when the touch sensor is pressed.")

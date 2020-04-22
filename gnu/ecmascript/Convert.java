@@ -2,7 +2,6 @@ package gnu.ecmascript;
 
 public class Convert {
     public static double toNumber(Object x) {
-        double d = Double.NaN;
         if (x instanceof Number) {
             return ((Number) x).doubleValue();
         }
@@ -10,12 +9,12 @@ public class Convert {
             return ((Boolean) x).booleanValue() ? 1.0d : 0.0d;
         }
         if (!(x instanceof String)) {
-            return d;
+            return Double.NaN;
         }
         try {
             return Double.valueOf((String) x).doubleValue();
         } catch (NumberFormatException e) {
-            return d;
+            return Double.NaN;
         }
     }
 

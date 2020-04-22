@@ -29,12 +29,8 @@ public class SubList extends MethodProc {
                         endPosition = i;
                         int n2 = n;
                         n = n2 + 1;
-                        if (((double) n2) >= end) {
-                            break;
-                        }
-                        i = vals.nextDataIndex(i);
-                        if (i < 0) {
-                            break;
+                        if (((double) n2) >= end || (i = vals.nextDataIndex(i)) < 0) {
+                            vals.consumeIRange(startPosition, endPosition, out);
                         }
                     }
                     vals.consumeIRange(startPosition, endPosition, out);

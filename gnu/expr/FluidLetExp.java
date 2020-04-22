@@ -29,7 +29,7 @@ public class FluidLetExp extends LetExp {
         }
         Scope scope = getVarScope();
         code.enterScope(scope);
-        Variable ctx = scope.addVariable(code, Compilation.typeCallContext, null);
+        Variable ctx = scope.addVariable(code, Compilation.typeCallContext, (String) null);
         comp.loadCallContext();
         code.emitStore(ctx);
         Variable[] save = new Variable[this.inits.length];
@@ -40,7 +40,7 @@ public class FluidLetExp extends LetExp {
         code.emitFinallyStart();
         int i = 0;
         while (i < this.inits.length) {
-            decl.load(null, 2, comp, Target.pushObject);
+            decl.load((AccessExp) null, 2, comp, Target.pushObject);
             code.emitLoad(save[i]);
             code.emitInvokeVirtual(Compilation.typeLocation.getDeclaredMethod("setRestore", 1));
             i++;
@@ -58,7 +58,7 @@ public class FluidLetExp extends LetExp {
             CodeAttr code = comp.getCode();
             save[i] = code.addLocal(Type.pointer_type);
             decl.allocateVariable(code);
-            decl.base.load(null, 2, comp, Target.pushObject);
+            decl.base.load((AccessExp) null, 2, comp, Target.pushObject);
             code.emitDup();
             code.emitStore(decl.getVariable());
             this.inits[i].compile(comp, Target.pushObject);
