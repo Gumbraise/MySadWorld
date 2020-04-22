@@ -145,11 +145,11 @@ public class Etape1 extends Form implements Runnable {
     static final IntNum Lit74 = IntNum.make(14);
     static final SimpleSymbol Lit75 = ((SimpleSymbol) new SimpleSymbol("Image").readResolve());
     static final FString Lit76 = new FString("com.google.appinventor.components.runtime.Button");
-    static final PairWithPosition Lit77 = PairWithPosition.make(Lit116, PairWithPosition.make(Lit116, LList.Empty, "/tmp/1587573145105_0.18160129936130687-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape1.yail", 565355), "/tmp/1587573145105_0.18160129936130687-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape1.yail", 565350);
+    static final PairWithPosition Lit77 = PairWithPosition.make(Lit116, PairWithPosition.make(Lit116, LList.Empty, "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape1.yail", 565355), "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape1.yail", 565350);
     static final SimpleSymbol Lit78 = ((SimpleSymbol) new SimpleSymbol(TinyDB.DEFAULT_NAMESPACE).readResolve());
     static final SimpleSymbol Lit79 = ((SimpleSymbol) new SimpleSymbol("StoreValue").readResolve());
     static final SimpleSymbol Lit8 = ((SimpleSymbol) new SimpleSymbol("AppName").readResolve());
-    static final PairWithPosition Lit80 = PairWithPosition.make(Lit9, PairWithPosition.make(Lit116, LList.Empty, "/tmp/1587573145105_0.18160129936130687-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape1.yail", 565485), "/tmp/1587573145105_0.18160129936130687-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape1.yail", 565479);
+    static final PairWithPosition Lit80 = PairWithPosition.make(Lit9, PairWithPosition.make(Lit116, LList.Empty, "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape1.yail", 565485), "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape1.yail", 565479);
     static final PairWithPosition Lit81;
     static final SimpleSymbol Lit82 = ((SimpleSymbol) new SimpleSymbol("Button1$Click").readResolve());
     static final SimpleSymbol Lit83 = ((SimpleSymbol) new SimpleSymbol("Click").readResolve());
@@ -248,7 +248,7 @@ public class Etape1 extends Form implements Runnable {
         Lit89 = IntNum.make(iArr);
         SimpleSymbol simpleSymbol = (SimpleSymbol) new SimpleSymbol(PropertyTypeConstants.PROPERTY_TYPE_TEXT).readResolve();
         Lit9 = simpleSymbol;
-        Lit81 = PairWithPosition.make(simpleSymbol, LList.Empty, "/tmp/1587573145105_0.18160129936130687-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape1.yail", 565562);
+        Lit81 = PairWithPosition.make(simpleSymbol, LList.Empty, "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape1.yail", 565562);
         int[] iArr2 = new int[2];
         iArr2[0] = -14671580;
         Lit63 = IntNum.make(iArr2);
@@ -281,7 +281,7 @@ public class Etape1 extends Form implements Runnable {
         this.dispatchGenericEvent = new ModuleMethod(frame2, 16, Lit114, 16388);
         this.lookup$Mnhandler = new ModuleMethod(frame2, 17, Lit115, 8194);
         ModuleMethod moduleMethod = new ModuleMethod(frame2, 18, (Object) null, 0);
-        moduleMethod.setProperty("source-location", "/tmp/runtime6870800576779939148.scm:622");
+        moduleMethod.setProperty("source-location", "/tmp/runtime4614685546883446523.scm:622");
         lambda$Fn1 = moduleMethod;
         this.$define = new ModuleMethod(frame2, 19, "$define", 0);
         lambda$Fn2 = new ModuleMethod(frame2, 20, (Object) null, 0);

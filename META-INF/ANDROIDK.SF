@@ -1,10 +1,10 @@
 Signature-Version: 1.0
 Created-By: 1.0 (Android)
-SHA1-Digest-Manifest: 9WRlQHE0hIOyQhf9TCjYsU9gR5g=
+SHA1-Digest-Manifest: jyMhbdUP2HTh3gcToC5Da8y21mE=
 X-Android-APK-Signed: 2, 3
 
 Name: AndroidManifest.xml
-SHA1-Digest: 2XiQBd/f4/WqJrKYAn9sBc6IOMY=
+SHA1-Digest: NF6lIrmOzLdJNrS4Au6vXq6CV6U=
 
 Name: assets/MSW.png
 SHA1-Digest: LKF7u7GtDeDM4C3jfeEVDidhgXE=
@@ -14,6 +14,9 @@ SHA1-Digest: B6LLHv6K7yDnJ2oNo9PL0jjI5H8=
 
 Name: assets/MSW_w.png
 SHA1-Digest: 5tibisLWp8RbH6xrV7oh1tOu0NI=
+
+Name: assets/redo.png
+SHA1-Digest: Nho6Kw+nhS9ECSR1L4jHaWR3/bM=
 
 Name: assets/therare.png
 SHA1-Digest: hqQkDOOqmWP03l/I7KNoW5gb1nM=
@@ -27,11 +30,8 @@ SHA1-Digest: oql1SKzww/+rXsHT8VpSDMW/QFQ=
 Name: assets/user-circle.png
 SHA1-Digest: aGfsgBwCUdTI/uffs1B+U8miJcE=
 
-Name: assets/user-circle.svg
-SHA1-Digest: tj2ZiJbNAxgciImv+2z/Berd1cA=
-
 Name: classes.dex
-SHA1-Digest: CEZZo88xh+gySc8px65vBjhqcyc=
+SHA1-Digest: iKNV4T3i0AWqJLR5SSCGzGyId0g=
 
 Name: res/anim/abc_fade_in.xml
 SHA1-Digest: xuSWnlSNBpBW5KZZ6AqoycVG4bY=

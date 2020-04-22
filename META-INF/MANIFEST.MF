@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 
 Name: AndroidManifest.xml
-SHA1-Digest: qnUtniW6VPcxhsAvbNZLfuWzTxY=
+SHA1-Digest: 6KLBSbJxmNxB3S2VRgTru+gCoYk=
 
 Name: assets/MSW.png
 SHA1-Digest: QCznUzTi7nG3XcBmIEKlw4iJUII=
@@ -11,6 +11,9 @@ SHA1-Digest: 5g17PFwztGsm93KVaAcuuu5DBBk=
 
 Name: assets/MSW_w.png
 SHA1-Digest: 91n4pes4gzTFpmH9O1NNVu3FyHU=
+
+Name: assets/redo.png
+SHA1-Digest: sHInWGBYx79gLI1s1kd8/Nx8Wwk=
 
 Name: assets/therare.png
 SHA1-Digest: 7arGkAqRR4CbLHyKroq79WoT3/c=
@@ -24,11 +27,8 @@ SHA1-Digest: 6hoLDYJxZaZMjuG0JsBvpX3Wzs0=
 Name: assets/user-circle.png
 SHA1-Digest: Wpziuop0oJFB0Mrqz0YKIlbaM9E=
 
-Name: assets/user-circle.svg
-SHA1-Digest: wDQhdhNx2OuxvHS1eJahg2Z+7YM=
-
 Name: classes.dex
-SHA1-Digest: AUlJzcxrRDlcXImHsh2JENq7pC8=
+SHA1-Digest: lv4PDdFt9FGtIsgibHdY4DaBFSo=
 
 Name: res/anim/abc_fade_in.xml
 SHA1-Digest: AcuBNEx7Jg8K6XCieCSQfQAJk5Q=
