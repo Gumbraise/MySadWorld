@@ -62,14 +62,14 @@ public class Happiness extends Form implements Runnable {
     static final FString Lit101 = new FString("com.google.appinventor.components.runtime.Web");
     static final FString Lit102 = new FString("com.google.appinventor.components.runtime.Web");
     static final SimpleSymbol Lit103 = ((SimpleSymbol) new SimpleSymbol("$responseCode").readResolve());
-    static final PairWithPosition Lit104 = PairWithPosition.make(Lit132, PairWithPosition.make(Lit132, LList.Empty, "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 602217), "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 602212);
+    static final PairWithPosition Lit104 = PairWithPosition.make(Lit132, PairWithPosition.make(Lit132, LList.Empty, "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 602217), "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 602212);
     static final SimpleSymbol Lit105 = ((SimpleSymbol) new SimpleSymbol("$responseContent").readResolve());
-    static final PairWithPosition Lit106 = PairWithPosition.make(Lit132, PairWithPosition.make(Lit132, LList.Empty, "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 602339), "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 602334);
-    static final PairWithPosition Lit107 = PairWithPosition.make(Lit10, LList.Empty, "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 602431);
+    static final PairWithPosition Lit106 = PairWithPosition.make(Lit132, PairWithPosition.make(Lit132, LList.Empty, "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 602339), "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 602334);
+    static final PairWithPosition Lit107 = PairWithPosition.make(Lit10, LList.Empty, "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 602431);
     static final SimpleSymbol Lit108 = ((SimpleSymbol) new SimpleSymbol("Notifier1").readResolve());
     static final SimpleSymbol Lit109 = ((SimpleSymbol) new SimpleSymbol("ShowChooseDialog").readResolve());
     static final SimpleSymbol Lit11 = ((SimpleSymbol) new SimpleSymbol("BackgroundColor").readResolve());
-    static final PairWithPosition Lit110 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit10, PairWithPosition.make(Lit10, PairWithPosition.make(Lit10, PairWithPosition.make(Lit8, LList.Empty, "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 602621), "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 602616), "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 602611), "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 602606), "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 602600);
+    static final PairWithPosition Lit110 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit10, PairWithPosition.make(Lit10, PairWithPosition.make(Lit10, PairWithPosition.make(Lit8, LList.Empty, "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 602621), "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 602616), "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 602611), "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 602606), "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 602600);
     static final PairWithPosition Lit111;
     static final SimpleSymbol Lit112 = ((SimpleSymbol) new SimpleSymbol("Web1$GotText").readResolve());
     static final SimpleSymbol Lit113 = ((SimpleSymbol) new SimpleSymbol("GotText").readResolve());
@@ -95,9 +95,9 @@ public class Happiness extends Form implements Runnable {
     static final SimpleSymbol Lit131 = ((SimpleSymbol) new SimpleSymbol("lookup-handler").readResolve());
     static final SimpleSymbol Lit132 = ((SimpleSymbol) new SimpleSymbol("any").readResolve());
     static final SimpleSymbol Lit14 = ((SimpleSymbol) new SimpleSymbol("PrimaryColor").readResolve());
-    static final IntNum Lit15 = IntNum.make(16777215);
+    static final IntNum Lit15;
     static final SimpleSymbol Lit16 = ((SimpleSymbol) new SimpleSymbol("PrimaryColorDark").readResolve());
-    static final IntNum Lit17 = IntNum.make(16777215);
+    static final IntNum Lit17;
     static final SimpleSymbol Lit18 = ((SimpleSymbol) new SimpleSymbol("ScreenOrientation").readResolve());
     static final SimpleSymbol Lit19 = ((SimpleSymbol) new SimpleSymbol("ShowListsAsJson").readResolve());
     static final SimpleSymbol Lit2 = ((SimpleSymbol) new SimpleSymbol("*the-null-value*").readResolve());
@@ -109,8 +109,8 @@ public class Happiness extends Form implements Runnable {
     static final SimpleSymbol Lit25 = ((SimpleSymbol) new SimpleSymbol("Text").readResolve());
     static final SimpleSymbol Lit26 = ((SimpleSymbol) new SimpleSymbol(TinyDB.DEFAULT_NAMESPACE).readResolve());
     static final SimpleSymbol Lit27 = ((SimpleSymbol) new SimpleSymbol("GetValue").readResolve());
-    static final PairWithPosition Lit28 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit132, LList.Empty, "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 110788), "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 110782);
-    static final PairWithPosition Lit29 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit10, PairWithPosition.make(Lit10, LList.Empty, "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 110858), "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 110853), "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 110847);
+    static final PairWithPosition Lit28 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit132, LList.Empty, "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 110788), "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 110782);
+    static final PairWithPosition Lit29 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit10, PairWithPosition.make(Lit10, LList.Empty, "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 110858), "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 110853), "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 110847);
     static final SimpleSymbol Lit3 = ((SimpleSymbol) new SimpleSymbol("g$variable").readResolve());
     static final SimpleSymbol Lit30 = ((SimpleSymbol) new SimpleSymbol("Happiness$Initialize").readResolve());
     static final SimpleSymbol Lit31 = ((SimpleSymbol) new SimpleSymbol("Initialize").readResolve());
@@ -133,7 +133,7 @@ public class Happiness extends Form implements Runnable {
     static final SimpleSymbol Lit47 = ((SimpleSymbol) new SimpleSymbol("FontSize").readResolve());
     static final IntNum Lit48 = IntNum.make(15);
     static final SimpleSymbol Lit49 = ((SimpleSymbol) new SimpleSymbol("FontTypeface").readResolve());
-    static final IntNum Lit5 = IntNum.make(16777215);
+    static final IntNum Lit5;
     static final IntNum Lit50 = IntNum.make(1);
     static final SimpleSymbol Lit51 = ((SimpleSymbol) new SimpleSymbol("TextAlignment").readResolve());
     static final SimpleSymbol Lit52 = ((SimpleSymbol) new SimpleSymbol("TextColor").readResolve());
@@ -161,7 +161,7 @@ public class Happiness extends Form implements Runnable {
     static final FString Lit72 = new FString("com.google.appinventor.components.runtime.Slider");
     static final SimpleSymbol Lit73 = ((SimpleSymbol) new SimpleSymbol("$thumbPosition").readResolve());
     static final SimpleSymbol Lit74 = ((SimpleSymbol) new SimpleSymbol("Label2").readResolve());
-    static final PairWithPosition Lit75 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit10, LList.Empty, "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 377020), "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 377014);
+    static final PairWithPosition Lit75 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit10, LList.Empty, "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 377020), "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 377014);
     static final SimpleSymbol Lit76 = ((SimpleSymbol) new SimpleSymbol("Button1").readResolve());
     static final SimpleSymbol Lit77 = ((SimpleSymbol) new SimpleSymbol("Enabled").readResolve());
     static final SimpleSymbol Lit78 = ((SimpleSymbol) new SimpleSymbol("Image").readResolve());
@@ -182,8 +182,8 @@ public class Happiness extends Form implements Runnable {
     static final FString Lit91 = new FString("com.google.appinventor.components.runtime.Button");
     static final SimpleSymbol Lit92 = ((SimpleSymbol) new SimpleSymbol("Web1").readResolve());
     static final SimpleSymbol Lit93 = ((SimpleSymbol) new SimpleSymbol("Url").readResolve());
-    static final PairWithPosition Lit94 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit132, LList.Empty, "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 553202), "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 553196);
-    static final PairWithPosition Lit95 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit10, PairWithPosition.make(Lit10, PairWithPosition.make(Lit10, LList.Empty, "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 553262), "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 553257), "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 553252), "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 553246);
+    static final PairWithPosition Lit94 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit132, LList.Empty, "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 553202), "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 553196);
+    static final PairWithPosition Lit95 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit10, PairWithPosition.make(Lit10, PairWithPosition.make(Lit10, LList.Empty, "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 553262), "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 553257), "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 553252), "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 553246);
     static final SimpleSymbol Lit96 = ((SimpleSymbol) new SimpleSymbol("Get").readResolve());
     static final SimpleSymbol Lit97 = ((SimpleSymbol) new SimpleSymbol("Button1$Click").readResolve());
     static final SimpleSymbol Lit98 = ((SimpleSymbol) new SimpleSymbol("Click").readResolve());
@@ -257,7 +257,7 @@ public class Happiness extends Form implements Runnable {
         SimpleSymbol simpleSymbol4 = Lit10;
         SimpleSymbol simpleSymbol5 = (SimpleSymbol) new SimpleSymbol(PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN).readResolve();
         Lit8 = simpleSymbol5;
-        Lit111 = PairWithPosition.make(simpleSymbol, PairWithPosition.make(simpleSymbol2, PairWithPosition.make(simpleSymbol3, PairWithPosition.make(simpleSymbol4, PairWithPosition.make(simpleSymbol5, LList.Empty, "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 602793), "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 602788), "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 602783), "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 602778), "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 602772);
+        Lit111 = PairWithPosition.make(simpleSymbol, PairWithPosition.make(simpleSymbol2, PairWithPosition.make(simpleSymbol3, PairWithPosition.make(simpleSymbol4, PairWithPosition.make(simpleSymbol5, LList.Empty, "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 602793), "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 602788), "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 602783), "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 602778), "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Happiness.yail", 602772);
         int[] iArr = new int[2];
         iArr[0] = -1;
         Lit82 = IntNum.make(iArr);
@@ -272,7 +272,16 @@ public class Happiness extends Form implements Runnable {
         Lit53 = IntNum.make(iArr4);
         int[] iArr5 = new int[2];
         iArr5[0] = -16777216;
-        Lit12 = IntNum.make(iArr5);
+        Lit17 = IntNum.make(iArr5);
+        int[] iArr6 = new int[2];
+        iArr6[0] = -16777216;
+        Lit15 = IntNum.make(iArr6);
+        int[] iArr7 = new int[2];
+        iArr7[0] = -16777216;
+        Lit12 = IntNum.make(iArr7);
+        int[] iArr8 = new int[2];
+        iArr8[0] = -6019137;
+        Lit5 = IntNum.make(iArr8);
     }
 
     public Happiness() {
@@ -296,7 +305,7 @@ public class Happiness extends Form implements Runnable {
         this.dispatchGenericEvent = new ModuleMethod(frame2, 16, Lit130, 16388);
         this.lookup$Mnhandler = new ModuleMethod(frame2, 17, Lit131, 8194);
         ModuleMethod moduleMethod = new ModuleMethod(frame2, 18, (Object) null, 0);
-        moduleMethod.setProperty("source-location", "/tmp/runtime4614685546883446523.scm:622");
+        moduleMethod.setProperty("source-location", "/tmp/runtime8949535697318280206.scm:622");
         lambda$Fn1 = moduleMethod;
         this.$define = new ModuleMethod(frame2, 19, "$define", 0);
         lambda$Fn2 = new ModuleMethod(frame2, 20, (Object) null, 0);
@@ -376,7 +385,7 @@ public class Happiness extends Form implements Runnable {
             runtime.setAndCoerceProperty$Ex(Lit0, Lit16, Lit17, Lit6);
             runtime.setAndCoerceProperty$Ex(Lit0, Lit18, "portrait", Lit10);
             runtime.setAndCoerceProperty$Ex(Lit0, Lit19, Boolean.TRUE, Lit8);
-            runtime.setAndCoerceProperty$Ex(Lit0, Lit20, "Fixed", Lit10);
+            runtime.setAndCoerceProperty$Ex(Lit0, Lit20, "Responsive", Lit10);
             runtime.setAndCoerceProperty$Ex(Lit0, Lit21, "AppTheme", Lit10);
             runtime.setAndCoerceProperty$Ex(Lit0, Lit22, "Happiness", Lit10);
             Values.writeValues(runtime.setAndCoerceProperty$Ex(Lit0, Lit23, Boolean.FALSE, Lit8), $result);
@@ -516,7 +525,7 @@ public class Happiness extends Form implements Runnable {
         runtime.setAndCoerceProperty$Ex(Lit0, Lit16, Lit17, Lit6);
         runtime.setAndCoerceProperty$Ex(Lit0, Lit18, "portrait", Lit10);
         runtime.setAndCoerceProperty$Ex(Lit0, Lit19, Boolean.TRUE, Lit8);
-        runtime.setAndCoerceProperty$Ex(Lit0, Lit20, "Fixed", Lit10);
+        runtime.setAndCoerceProperty$Ex(Lit0, Lit20, "Responsive", Lit10);
         runtime.setAndCoerceProperty$Ex(Lit0, Lit21, "AppTheme", Lit10);
         runtime.setAndCoerceProperty$Ex(Lit0, Lit22, "Happiness", Lit10);
         return runtime.setAndCoerceProperty$Ex(Lit0, Lit23, Boolean.FALSE, Lit8);

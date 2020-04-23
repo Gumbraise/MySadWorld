@@ -60,7 +60,7 @@ public class Etape3 extends Form implements Runnable {
     static final IntNum Lit101 = IntNum.make(40);
     static final SimpleSymbol Lit102 = ((SimpleSymbol) new SimpleSymbol("Image").readResolve());
     static final FString Lit103 = new FString("com.google.appinventor.components.runtime.Button");
-    static final PairWithPosition Lit104 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit142, LList.Empty, "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 630892), "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 630886);
+    static final PairWithPosition Lit104 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit142, LList.Empty, "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 630892), "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 630886);
     static final PairWithPosition Lit105;
     static final SimpleSymbol Lit106 = ((SimpleSymbol) new SimpleSymbol("Button1$Click").readResolve());
     static final SimpleSymbol Lit107 = ((SimpleSymbol) new SimpleSymbol("Click").readResolve());
@@ -104,9 +104,9 @@ public class Etape3 extends Form implements Runnable {
     static final SimpleSymbol Lit141 = ((SimpleSymbol) new SimpleSymbol("lookup-handler").readResolve());
     static final SimpleSymbol Lit142 = ((SimpleSymbol) new SimpleSymbol("any").readResolve());
     static final SimpleSymbol Lit15 = ((SimpleSymbol) new SimpleSymbol("PrimaryColor").readResolve());
-    static final IntNum Lit16 = IntNum.make(16777215);
+    static final IntNum Lit16;
     static final SimpleSymbol Lit17 = ((SimpleSymbol) new SimpleSymbol("PrimaryColorDark").readResolve());
-    static final IntNum Lit18 = IntNum.make(16777215);
+    static final IntNum Lit18;
     static final SimpleSymbol Lit19 = ((SimpleSymbol) new SimpleSymbol("ScreenOrientation").readResolve());
     static final SimpleSymbol Lit2 = ((SimpleSymbol) new SimpleSymbol("*the-null-value*").readResolve());
     static final SimpleSymbol Lit20 = ((SimpleSymbol) new SimpleSymbol("ShowListsAsJson").readResolve());
@@ -116,15 +116,15 @@ public class Etape3 extends Form implements Runnable {
     static final SimpleSymbol Lit24 = ((SimpleSymbol) new SimpleSymbol("TitleVisible").readResolve());
     static final SimpleSymbol Lit25 = ((SimpleSymbol) new SimpleSymbol(TinyDB.DEFAULT_NAMESPACE).readResolve());
     static final SimpleSymbol Lit26 = ((SimpleSymbol) new SimpleSymbol("StoreValue").readResolve());
-    static final PairWithPosition Lit27 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit142, LList.Empty, "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 114782), "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 114776);
+    static final PairWithPosition Lit27 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit142, LList.Empty, "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 114782), "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 114776);
     static final SimpleSymbol Lit28 = ((SimpleSymbol) new SimpleSymbol("GetValue").readResolve());
-    static final PairWithPosition Lit29 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit142, LList.Empty, "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 114943), "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 114937);
+    static final PairWithPosition Lit29 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit142, LList.Empty, "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 114943), "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 114937);
     static final SimpleSymbol Lit3 = ((SimpleSymbol) new SimpleSymbol("g$happy").readResolve());
-    static final PairWithPosition Lit30 = PairWithPosition.make(Lit142, PairWithPosition.make(Lit142, LList.Empty, "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 114974), "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 114969);
-    static final PairWithPosition Lit31 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit142, LList.Empty, "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 115094), "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 115088);
+    static final PairWithPosition Lit30 = PairWithPosition.make(Lit142, PairWithPosition.make(Lit142, LList.Empty, "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 114974), "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 114969);
+    static final PairWithPosition Lit31 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit142, LList.Empty, "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 115094), "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 115088);
     static final SimpleSymbol Lit32 = ((SimpleSymbol) new SimpleSymbol("Image1").readResolve());
     static final SimpleSymbol Lit33 = ((SimpleSymbol) new SimpleSymbol("Picture").readResolve());
-    static final PairWithPosition Lit34 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit142, LList.Empty, "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 115243), "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 115237);
+    static final PairWithPosition Lit34 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit142, LList.Empty, "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 115243), "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 115237);
     static final SimpleSymbol Lit35 = ((SimpleSymbol) new SimpleSymbol("Etape3$Initialize").readResolve());
     static final SimpleSymbol Lit36 = ((SimpleSymbol) new SimpleSymbol("Initialize").readResolve());
     static final FString Lit37 = new FString("com.google.appinventor.components.runtime.HorizontalArrangement");
@@ -141,7 +141,7 @@ public class Etape3 extends Form implements Runnable {
     static final SimpleSymbol Lit47 = ((SimpleSymbol) new SimpleSymbol("AlignVertical").readResolve());
     static final IntNum Lit48 = IntNum.make(2);
     static final FString Lit49 = new FString("com.google.appinventor.components.runtime.VerticalArrangement");
-    static final IntNum Lit5 = IntNum.make(16777215);
+    static final IntNum Lit5;
     static final FString Lit50 = new FString("com.google.appinventor.components.runtime.Image");
     static final IntNum Lit51 = IntNum.make(100);
     static final SimpleSymbol Lit52 = ((SimpleSymbol) new SimpleSymbol("ScalePictureToFit").readResolve());
@@ -187,7 +187,7 @@ public class Etape3 extends Form implements Runnable {
     static final SimpleSymbol Lit89 = ((SimpleSymbol) new SimpleSymbol("$thumbPosition").readResolve());
     static final SimpleSymbol Lit9 = ((SimpleSymbol) new SimpleSymbol("AppName").readResolve());
     static final SimpleSymbol Lit90 = ((SimpleSymbol) new SimpleSymbol("Label2").readResolve());
-    static final PairWithPosition Lit91 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit10, LList.Empty, "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 487606), "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 487600);
+    static final PairWithPosition Lit91 = PairWithPosition.make(Lit10, PairWithPosition.make(Lit10, LList.Empty, "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 487606), "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 487600);
     static final SimpleSymbol Lit92 = ((SimpleSymbol) new SimpleSymbol("Slider1$PositionChanged").readResolve());
     static final SimpleSymbol Lit93 = ((SimpleSymbol) new SimpleSymbol("PositionChanged").readResolve());
     static final FString Lit94 = new FString("com.google.appinventor.components.runtime.Label");
@@ -286,7 +286,7 @@ public class Etape3 extends Form implements Runnable {
         Lit113 = IntNum.make(iArr3);
         SimpleSymbol simpleSymbol = (SimpleSymbol) new SimpleSymbol(PropertyTypeConstants.PROPERTY_TYPE_TEXT).readResolve();
         Lit10 = simpleSymbol;
-        Lit105 = PairWithPosition.make(simpleSymbol, LList.Empty, "/tmp/1587589086324_0.21485239854188265-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 630969);
+        Lit105 = PairWithPosition.make(simpleSymbol, LList.Empty, "/tmp/1587666908834_0.2914019953505874-0/youngandroidproject/../src/appinventor/ai_gumbraise/MySadWorld/Etape3.yail", 630969);
         int[] iArr4 = new int[2];
         iArr4[0] = -1154152;
         Lit80 = IntNum.make(iArr4);
@@ -298,7 +298,16 @@ public class Etape3 extends Form implements Runnable {
         Lit69 = IntNum.make(iArr6);
         int[] iArr7 = new int[2];
         iArr7[0] = -16777216;
-        Lit12 = IntNum.make(iArr7);
+        Lit18 = IntNum.make(iArr7);
+        int[] iArr8 = new int[2];
+        iArr8[0] = -16777216;
+        Lit16 = IntNum.make(iArr8);
+        int[] iArr9 = new int[2];
+        iArr9[0] = -16777216;
+        Lit12 = IntNum.make(iArr9);
+        int[] iArr10 = new int[2];
+        iArr10[0] = -6019137;
+        Lit5 = IntNum.make(iArr10);
     }
 
     public Etape3() {
@@ -322,7 +331,7 @@ public class Etape3 extends Form implements Runnable {
         this.dispatchGenericEvent = new ModuleMethod(frame2, 16, Lit140, 16388);
         this.lookup$Mnhandler = new ModuleMethod(frame2, 17, Lit141, 8194);
         ModuleMethod moduleMethod = new ModuleMethod(frame2, 18, (Object) null, 0);
-        moduleMethod.setProperty("source-location", "/tmp/runtime4614685546883446523.scm:622");
+        moduleMethod.setProperty("source-location", "/tmp/runtime8949535697318280206.scm:622");
         lambda$Fn1 = moduleMethod;
         this.$define = new ModuleMethod(frame2, 19, "$define", 0);
         lambda$Fn2 = new ModuleMethod(frame2, 20, (Object) null, 0);
@@ -415,7 +424,7 @@ public class Etape3 extends Form implements Runnable {
             runtime.setAndCoerceProperty$Ex(Lit0, Lit17, Lit18, Lit6);
             runtime.setAndCoerceProperty$Ex(Lit0, Lit19, "portrait", Lit10);
             runtime.setAndCoerceProperty$Ex(Lit0, Lit20, Boolean.TRUE, Lit8);
-            runtime.setAndCoerceProperty$Ex(Lit0, Lit21, "Fixed", Lit10);
+            runtime.setAndCoerceProperty$Ex(Lit0, Lit21, "Responsive", Lit10);
             runtime.setAndCoerceProperty$Ex(Lit0, Lit22, "AppTheme", Lit10);
             runtime.setAndCoerceProperty$Ex(Lit0, Lit23, "Etape3", Lit10);
             Values.writeValues(runtime.setAndCoerceProperty$Ex(Lit0, Lit24, Boolean.FALSE, Lit8), $result);
@@ -566,7 +575,7 @@ public class Etape3 extends Form implements Runnable {
         runtime.setAndCoerceProperty$Ex(Lit0, Lit17, Lit18, Lit6);
         runtime.setAndCoerceProperty$Ex(Lit0, Lit19, "portrait", Lit10);
         runtime.setAndCoerceProperty$Ex(Lit0, Lit20, Boolean.TRUE, Lit8);
-        runtime.setAndCoerceProperty$Ex(Lit0, Lit21, "Fixed", Lit10);
+        runtime.setAndCoerceProperty$Ex(Lit0, Lit21, "Responsive", Lit10);
         runtime.setAndCoerceProperty$Ex(Lit0, Lit22, "AppTheme", Lit10);
         runtime.setAndCoerceProperty$Ex(Lit0, Lit23, "Etape3", Lit10);
         return runtime.setAndCoerceProperty$Ex(Lit0, Lit24, Boolean.FALSE, Lit8);

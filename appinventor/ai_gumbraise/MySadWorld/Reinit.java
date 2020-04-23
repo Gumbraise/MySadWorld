@@ -48,9 +48,9 @@ public class Reinit extends Form implements Runnable {
     static final SimpleSymbol Lit0 = ((SimpleSymbol) new SimpleSymbol("Reinit").readResolve());
     static final SimpleSymbol Lit1 = ((SimpleSymbol) new SimpleSymbol("getMessage").readResolve());
     static final SimpleSymbol Lit10 = ((SimpleSymbol) new SimpleSymbol("PrimaryColor").readResolve());
-    static final IntNum Lit11 = IntNum.make(16777215);
+    static final IntNum Lit11;
     static final SimpleSymbol Lit12 = ((SimpleSymbol) new SimpleSymbol("PrimaryColorDark").readResolve());
-    static final IntNum Lit13 = IntNum.make(16777215);
+    static final IntNum Lit13;
     static final SimpleSymbol Lit14 = ((SimpleSymbol) new SimpleSymbol("ShowListsAsJson").readResolve());
     static final SimpleSymbol Lit15 = ((SimpleSymbol) new SimpleSymbol("Sizing").readResolve());
     static final SimpleSymbol Lit16 = ((SimpleSymbol) new SimpleSymbol("Theme").readResolve());
@@ -77,7 +77,7 @@ public class Reinit extends Form implements Runnable {
     static final SimpleSymbol Lit35 = ((SimpleSymbol) new SimpleSymbol("dispatchEvent").readResolve());
     static final SimpleSymbol Lit36 = ((SimpleSymbol) new SimpleSymbol("dispatchGenericEvent").readResolve());
     static final SimpleSymbol Lit37 = ((SimpleSymbol) new SimpleSymbol("lookup-handler").readResolve());
-    static final IntNum Lit4 = IntNum.make(16777215);
+    static final IntNum Lit4;
     static final SimpleSymbol Lit5 = ((SimpleSymbol) new SimpleSymbol("number").readResolve());
     static final SimpleSymbol Lit6 = ((SimpleSymbol) new SimpleSymbol("ActionBar").readResolve());
     static final SimpleSymbol Lit7 = ((SimpleSymbol) new SimpleSymbol(PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN).readResolve());
@@ -114,6 +114,18 @@ public class Reinit extends Form implements Runnable {
     public final ModuleMethod process$Mnexception;
     public final ModuleMethod send$Mnerror;
 
+    static {
+        int[] iArr = new int[2];
+        iArr[0] = -16777216;
+        Lit13 = IntNum.make(iArr);
+        int[] iArr2 = new int[2];
+        iArr2[0] = -16777216;
+        Lit11 = IntNum.make(iArr2);
+        int[] iArr3 = new int[2];
+        iArr3[0] = -6019137;
+        Lit4 = IntNum.make(iArr3);
+    }
+
     public Reinit() {
         ModuleInfo.register(this);
         frame frame2 = new frame();
@@ -135,7 +147,7 @@ public class Reinit extends Form implements Runnable {
         this.dispatchGenericEvent = new ModuleMethod(frame2, 16, Lit36, 16388);
         this.lookup$Mnhandler = new ModuleMethod(frame2, 17, Lit37, 8194);
         ModuleMethod moduleMethod = new ModuleMethod(frame2, 18, (Object) null, 0);
-        moduleMethod.setProperty("source-location", "/tmp/runtime4614685546883446523.scm:622");
+        moduleMethod.setProperty("source-location", "/tmp/runtime8949535697318280206.scm:622");
         lambda$Fn1 = moduleMethod;
         this.$define = new ModuleMethod(frame2, 19, "$define", 0);
         lambda$Fn2 = new ModuleMethod(frame2, 20, (Object) null, 0);
@@ -186,7 +198,7 @@ public class Reinit extends Form implements Runnable {
             runtime.setAndCoerceProperty$Ex(Lit0, Lit10, Lit11, Lit5);
             runtime.setAndCoerceProperty$Ex(Lit0, Lit12, Lit13, Lit5);
             runtime.setAndCoerceProperty$Ex(Lit0, Lit14, Boolean.TRUE, Lit7);
-            runtime.setAndCoerceProperty$Ex(Lit0, Lit15, "Fixed", Lit9);
+            runtime.setAndCoerceProperty$Ex(Lit0, Lit15, "Responsive", Lit9);
             runtime.setAndCoerceProperty$Ex(Lit0, Lit16, "AppTheme", Lit9);
             Values.writeValues(runtime.setAndCoerceProperty$Ex(Lit0, Lit17, "Reinit", Lit9), $result);
         } else {
@@ -218,7 +230,7 @@ public class Reinit extends Form implements Runnable {
         runtime.setAndCoerceProperty$Ex(Lit0, Lit10, Lit11, Lit5);
         runtime.setAndCoerceProperty$Ex(Lit0, Lit12, Lit13, Lit5);
         runtime.setAndCoerceProperty$Ex(Lit0, Lit14, Boolean.TRUE, Lit7);
-        runtime.setAndCoerceProperty$Ex(Lit0, Lit15, "Fixed", Lit9);
+        runtime.setAndCoerceProperty$Ex(Lit0, Lit15, "Responsive", Lit9);
         runtime.setAndCoerceProperty$Ex(Lit0, Lit16, "AppTheme", Lit9);
         return runtime.setAndCoerceProperty$Ex(Lit0, Lit17, "Reinit", Lit9);
     }
